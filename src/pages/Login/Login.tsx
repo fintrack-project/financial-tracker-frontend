@@ -9,13 +9,31 @@ const Login: React.FC = () => {
   const [password, setPassword] = useState('');
   const navigate = useNavigate();
 
-  const handleLogin = () => {
-    // For now, allow login with any user ID and password
-    if (userId && password) {
-      console.log('User logged in:', { userId, password });
-      navigate('/dashboard'); // Redirect to the dashboard
-    } else {
+  const handleLogin = async () => {
+    if (!userId || !password) {
       alert('Please enter both user ID and password.');
+      return;
+    }
+  
+    try {
+      const response = await fetch('http://localhost:8080/api/login', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ userId, password }),
+      });
+  
+      if (response.ok) {
+        alert('Login successful!');
+        navigate('/dashboard'); // Redirect to the dashboard
+      } else {
+        const errorMessage = await response.text();
+        alert(errorMessage || 'Login failed.');
+      }
+    } catch (err) {
+      console.error('Error during login:', err);
+      alert('An error occurred. Please try again.');
     }
   };
 
