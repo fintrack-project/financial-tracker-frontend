@@ -1,10 +1,78 @@
-import React from 'react';
+import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import InputField from '../../components/InputField/InputField';
+import './Register.css';
 
 const Register: React.FC = () => {
+  const [userId, setUserId] = useState('');
+  const [password, setPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
+  const [email, setEmail] = useState('');
+  const [phone, setPhone] = useState('');
+  const [address, setAddress] = useState('');
+  const [error, setError] = useState('');
+  const navigate = useNavigate();
+
+  const handleRegister = () => {
+    if (!userId || !password || !email) {
+      setError('User ID, Password, and Email are required.');
+      return;
+    }
+
+    if (password !== confirmPassword) {
+      setError('Passwords do not match.');
+      return;
+    }
+
+    console.log('User registered:', { userId, email, phone, address });
+    alert('Registration successful!');
+    navigate('/'); // Redirect to login page
+  };
+
   return (
-    <div style={{ textAlign: 'center', padding: '20px' }}>
+    <div className="register-container">
       <h1>Register</h1>
-      <p>This is a placeholder for the registration page.</p>
+      {error && <p className="error-message">{error}</p>}
+      <InputField
+        type="text"
+        placeholder="User ID"
+        value={userId}
+        onChange={(e) => setUserId(e.target.value)}
+      />
+      <InputField
+        type="password"
+        placeholder="Password"
+        value={password}
+        onChange={(e) => setPassword(e.target.value)}
+      />
+      <InputField
+        type="password"
+        placeholder="Confirm Password"
+        value={confirmPassword}
+        onChange={(e) => setConfirmPassword(e.target.value)}
+      />
+      <InputField
+        type="email"
+        placeholder="Email"
+        value={email}
+        onChange={(e) => setEmail(e.target.value)}
+      />
+      <InputField
+        type="tel"
+        placeholder="Phone Number (Optional)"
+        value={phone}
+        onChange={(e) => setPhone(e.target.value)}
+      />
+      <InputField
+        type="text"
+        placeholder="Address (Optional)"
+        value={address}
+        onChange={(e) => setAddress(e.target.value)}
+        isTextArea={true}
+      />
+      <button className="register-button" onClick={handleRegister}>
+        Register
+      </button>
     </div>
   );
 };
