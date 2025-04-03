@@ -38,21 +38,14 @@ const Login: React.FC = () => {
           onChange={(e) => setPassword(e.target.value)}
         />
       </div>
+      <div className="button-container">
       <Button onClick={handleLogin} className="login-button">
         Login
       </Button>
       <Button onClick={() => navigate('/register')} className="register-button">
         Register
       </Button>
-      {/* <button className="login-button" onClick={handleLogin}>
-        Login
-      </button>
-      <p
-        className="register-link"
-        onClick={() => navigate('/register')}
-      >
-        Don't have an account? Register here
-      </p> */}
+      </div>
     </div>
   );
 };

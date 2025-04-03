@@ -25,6 +25,13 @@
   margin: 10px 0; /* Add spacing between fields */
 }
 
+.button-container {
+  display: flex;
+  justify-content: center; /* Center the buttons horizontally */
+  gap: 20px; /* Add spacing between the buttons */
+  margin-top: 20px; /* Add spacing above the button container */
+}
+
 .button {
   padding: 10px 20px;
   background-color: #007bff;
@@ -34,7 +41,6 @@
   font-size: 1rem;
   cursor: pointer;
   transition: background-color 0.3s ease;
-  margin-top: 20px; /* Add spacing above the button */
 }
 
 .button:hover {
