@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import InputField from '../../components/InputField/InputField';
 import './Login.css';
 import Button from 'components/Button/Button';
-import { loginUser } from '../../services/authServices'; // Import the login service
+import { loginUser } from '../../services/authService'; // Import the login service
 
 const Login: React.FC = () => {
   const [userId, setUserId] = useState('');

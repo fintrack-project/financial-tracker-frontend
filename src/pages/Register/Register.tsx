@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import InputField from '../../components/InputField/InputField';
 import './Register.css';
 import Button from 'components/Button/Button';
+import { registerUser } from 'services/registerService';
 
 const Register: React.FC = () => {
   const [userId, setUserId] = useState('');
@@ -26,23 +27,11 @@ const Register: React.FC = () => {
     }
 
     try {
-      const response = await fetch('http://localhost:8080/api/register', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ userId, password, email, phone, address }),
-      });
-  
-      if (response.ok) {
-        alert('Registration successful!');
-        navigate('/'); // Redirect to login page
-      } else {
-        const errorData = await response.json();
-        setError(errorData || 'Registration failed.');
-      }
-    } catch (err) {
-      setError('An error occurred. Please try again.');
+      const message = await registerUser({ userId, password, email, phone, address }); // Use the register service
+      alert(message);
+      navigate('/'); // Redirect to login page
+    } catch (err: any) {
+      setError(err.message);
     }
   };
 
