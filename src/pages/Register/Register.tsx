@@ -2,9 +2,9 @@ import React from 'react';
 
 const Register: React.FC = () => {
   return (
-    <div>
+    <div style={{ textAlign: 'center', padding: '20px' }}>
       <h1>Register</h1>
-      <p>Register page content goes here.</p>
+      <p>This is a placeholder for the registration page.</p>
     </div>
   );
 };
