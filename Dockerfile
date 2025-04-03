@@ -1,4 +1,5 @@
-FROM node:14
+# Stage 1: Build the application
+FROM node:16 AS builder
 
 # Set the working directory
 WORKDIR /app
@@ -15,8 +16,17 @@ COPY . .
 # Build the application
 RUN npm run build
 
-# Expose the port the app runs on
-EXPOSE 3000
+# Stage 2: Serve the application using a lightweight web server
+FROM nginx:alpine
 
-# Command to run the application
-CMD ["npm", "start"]
+# Copy the build output from the builder stage to the Nginx web server
+COPY --from=builder /app/build /usr/share/nginx/html
+
+# Copy the custom Nginx configuration file
+COPY nginx.conf /etc/nginx/conf.d/default.conf
+
+# Expose the port Nginx will serve on
+EXPOSE 80
+
+# Start Nginx
+CMD ["nginx", "-g", "daemon off;"]
