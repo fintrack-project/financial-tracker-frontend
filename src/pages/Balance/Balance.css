@@ -1,3 +1,11 @@
+.top-bar {
+  display: flex;
+  justify-content: flex-end; /* Aligns content to the right */
+  padding: 10px 20px;
+  background-color: #f8f9fa; /* Optional: Background color for the top bar */
+  border-bottom: 1px solid #ddd; /* Optional: Adds a bottom border */
+}
+
 .balance-container {
   text-align: center;
   padding: 20px;
