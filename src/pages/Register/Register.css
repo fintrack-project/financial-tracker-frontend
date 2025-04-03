@@ -1,7 +1,13 @@
 .register-container {
+  display: flex;
+  flex-direction: column; /* Stack elements vertically */
+  align-items: center; /* Center elements horizontally */
+  justify-content: center; /* Center elements vertically */
   text-align: center;
   padding: 20px;
   font-family: Arial, sans-serif;
+  min-height: 100vh; /* Ensure the container takes up the full viewport height */
+  box-sizing: border-box;
 }
 
 .register-container h1 {
@@ -12,16 +18,11 @@
 
 .input-field {
   padding: 10px;
-  width: 250px;
+  width: 300px; /* Adjust width for consistency */
   border: 1px solid #ccc;
   border-radius: 5px;
   font-size: 1rem;
-  margin: 10px 0;
-}
-
-.input-field.textarea {
-  resize: none;
-  height: 80px;
+  margin: 10px 0; /* Add spacing between fields */
 }
 
 .register-button {
@@ -33,6 +34,7 @@
   font-size: 1rem;
   cursor: pointer;
   transition: background-color 0.3s ease;
+  margin-top: 20px; /* Add spacing above the button */
 }
 
 .register-button:hover {
