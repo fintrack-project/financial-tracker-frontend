@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import InputField from '../../components/InputField/InputField';
+import './Login.css';
 
 const Login: React.FC = () => {
   const [userId, setUserId] = useState('');
@@ -17,37 +19,32 @@ const Login: React.FC = () => {
   };
 
   return (
-    <div style={{ textAlign: 'center', padding: '20px' }}>
+    <div className="login-container">
       <h1>Login</h1>
-      <div>
-        <input
+      <div className="input-container">
+        <InputField
           type="text"
           placeholder="User ID"
           value={userId}
           onChange={(e) => setUserId(e.target.value)}
-          style={{ margin: '10px', padding: '10px', width: '200px' }}
         />
       </div>
-      <div>
-        <input
+      <div className="input-container">
+        <InputField
           type="password"
           placeholder="Password"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
-          style={{ margin: '10px', padding: '10px', width: '200px' }}
         />
       </div>
-      <button onClick={handleLogin} style={{ padding: '10px 20px', margin: '10px' }}>
+      <button className="login-button" onClick={handleLogin}>
         Login
       </button>
-      <p>
-        Don't have an account?{' '}
-        <span
-          style={{ color: 'blue', cursor: 'pointer' }}
-          onClick={() => navigate('/register')}
-        >
-          Register here
-        </span>
+      <p
+        className="register-link"
+        onClick={() => navigate('/register')}
+      >
+        Don't have an account? Register here
       </p>
     </div>
   );
