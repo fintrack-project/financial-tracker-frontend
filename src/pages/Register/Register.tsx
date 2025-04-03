@@ -13,7 +13,7 @@ const Register: React.FC = () => {
   const [error, setError] = useState('');
   const navigate = useNavigate();
 
-  const handleRegister = () => {
+  const handleRegister = async () => {
     if (!userId || !password || !email) {
       setError('User ID, Password, and Email are required.');
       return;
@@ -24,9 +24,25 @@ const Register: React.FC = () => {
       return;
     }
 
-    console.log('User registered:', { userId, email, phone, address });
-    alert('Registration successful!');
-    navigate('/'); // Redirect to login page
+    try {
+      const response = await fetch('http://localhost:8080/api/register', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ userId, password, email, phone, address }),
+      });
+  
+      if (response.ok) {
+        alert('Registration successful!');
+        navigate('/'); // Redirect to login page
+      } else {
+        const errorData = await response.json();
+        setError(errorData || 'Registration failed.');
+      }
+    } catch (err) {
+      setError('An error occurred. Please try again.');
+    }
   };
 
   return (
