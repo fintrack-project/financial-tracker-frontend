@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import InputField from '../../components/InputField/InputField';
 import './Login.css';
 import Button from 'components/Button/Button';
+import { loginUser } from '../../services/authServices'; // Import the login service
 
 const Login: React.FC = () => {
   const [userId, setUserId] = useState('');
@@ -16,24 +17,11 @@ const Login: React.FC = () => {
     }
   
     try {
-      const response = await fetch('http://localhost:8080/api/login', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ userId, password }),
-      });
-  
-      if (response.ok) {
-        alert('Login successful!');
-        navigate('/dashboard'); // Redirect to the dashboard
-      } else {
-        const errorMessage = await response.text();
-        alert(errorMessage || 'Login failed.');
-      }
-    } catch (err) {
-      console.error('Error during login:', err);
-      alert('An error occurred. Please try again.');
+      const message = await loginUser({ userId, password }); // Use the login service
+      alert(message);
+      navigate('/dashboard'); // Redirect to the dashboard
+    } catch (error: any) {
+      alert(error.message);
     }
   };
 
