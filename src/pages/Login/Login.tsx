@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import InputField from '../../components/InputField/InputField';
 import './Login.css';
+import Button from 'components/Button/Button';
 
 const Login: React.FC = () => {
   const [userId, setUserId] = useState('');
@@ -37,7 +38,13 @@ const Login: React.FC = () => {
           onChange={(e) => setPassword(e.target.value)}
         />
       </div>
-      <button className="login-button" onClick={handleLogin}>
+      <Button onClick={handleLogin} className="login-button">
+        Login
+      </Button>
+      <Button onClick={() => navigate('/register')} className="register-button">
+        Register
+      </Button>
+      {/* <button className="login-button" onClick={handleLogin}>
         Login
       </button>
       <p
@@ -45,7 +52,7 @@ const Login: React.FC = () => {
         onClick={() => navigate('/register')}
       >
         Don't have an account? Register here
-      </p>
+      </p> */}
     </div>
   );
 };

@@ -25,7 +25,7 @@
   margin: 10px 0; /* Add spacing between fields */
 }
 
-.register-button {
+.button {
   padding: 10px 20px;
   background-color: #007bff;
   color: white;
@@ -37,7 +37,7 @@
   margin-top: 20px; /* Add spacing above the button */
 }
 
-.register-button:hover {
+.button:hover {
   background-color: #0056b3;
 }
 

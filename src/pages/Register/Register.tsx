@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import InputField from '../../components/InputField/InputField';
 import './Register.css';
+import Button from 'components/Button/Button';
 
 const Register: React.FC = () => {
   const [userId, setUserId] = useState('');
@@ -86,9 +87,12 @@ const Register: React.FC = () => {
         onChange={(e) => setAddress(e.target.value)}
         isTextArea={true}
       />
-      <button className="register-button" onClick={handleRegister}>
-        Register
-      </button>
+      <div className="button-container">
+        <Button onClick={handleRegister}>Register</Button>
+        <Button onClick={() => navigate('/')} className="secondary-button">
+          Back to Login
+        </Button>
+      </div>
     </div>
   );
 };
