@@ -1,7 +1,6 @@
 import React from 'react';
 import AccountMenu from '../../components/AccountMenu/AccountMenu';
 import NavigationBar from 'components/NavigationBar/NavigationBar';
-import { Link } from 'react-router-dom';
 import './Dashboard.css'; // Import the CSS file
 
 const Dashboard: React.FC = () => {
