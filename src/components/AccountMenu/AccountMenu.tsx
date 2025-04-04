@@ -1,10 +1,18 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import UserSession from '../../utils/UserSession';
 import './AccountMenu.css';
 
 const AccountMenu: React.FC = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [userId, setUserId] = useState<string | null>(null);
   const navigate = useNavigate();
+
+  useEffect(() => {
+    // Retrieve the user ID from the UserSession singleton
+    const session = UserSession.getInstance();
+    setUserId(session.getUserId());
+  }, []);
 
   const handleLogout = () => {
     console.log('User logged out');
@@ -21,7 +29,7 @@ const AccountMenu: React.FC = () => {
       </button>
       {isMenuOpen && (
         <div className="dropdown-menu">
-          <p>User ID: user123</p> {/* Replace with dynamic user ID if needed */}
+          <p>User ID: {userId || 'Guest'}</p>
           <button className="logout-button" onClick={handleLogout}>
             Logout
           </button>

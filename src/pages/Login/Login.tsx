@@ -3,7 +3,8 @@ import { useNavigate } from 'react-router-dom';
 import InputField from '../../components/InputField/InputField';
 import './Login.css';
 import Button from 'components/Button/Button';
-import { loginUser } from '../../services/authService'; // Import the login service
+import { loginUser } from '../../services/authService';
+import UserSession from '../../utils/UserSession';
 
 const Login: React.FC = () => {
   const [userId, setUserId] = useState('');
@@ -17,9 +18,23 @@ const Login: React.FC = () => {
     }
   
     try {
+      const session = UserSession.getInstance();
+
+      // Prevent multiple users from logging in
+      if (session.isLoggedIn()) {
+        alert('A user is already logged in. Please log out first.');
+        return;
+      }
+
       const message = await loginUser({ userId, password }); // Use the login service
-      alert(message);
-      navigate('/dashboard'); // Redirect to the dashboard
+      const loginSuccess = session.login(userId); // Log in the user in the singleton
+
+      if (loginSuccess) {
+        alert(message);
+        navigate('/dashboard'); // Redirect to the dashboard
+      } else {
+        alert('Failed to log in. Another user is already logged in.');
+      }
     } catch (error: any) {
       alert(error.message);
     }
