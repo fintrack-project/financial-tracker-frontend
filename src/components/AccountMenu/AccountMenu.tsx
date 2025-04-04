@@ -16,7 +16,10 @@ const AccountMenu: React.FC = () => {
 
   const handleLogout = () => {
     console.log('User logged out');
-    navigate('/'); // Navigate to the login page
+    const session = UserSession.getInstance();
+    session.logout();
+    setUserId(null);
+    navigate('/');
   };
 
   return (
