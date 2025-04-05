@@ -19,6 +19,7 @@
   flex-wrap: wrap;
   gap: 10px;
   margin-bottom: 20px;
+  margin-top: 20px;
 }
 
 .file-actions input[type="file"] {
@@ -41,6 +42,48 @@
 
 .file-actions button:hover {
   background-color: #0056b3;
+}
+
+.dropdown-container {
+  position: relative;
+}
+
+.dropdown-selector {
+  padding: 8px 12px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  background-color: #f9f9f9;
+  cursor: pointer;
+  color: #333;
+  display: inline-block;
+  min-width: 100px;
+  text-align: center;
+}
+
+.dropdown-selector:hover {
+  background-color: #f1f1f1;
+}
+
+.dropdown-menu {
+  position: absolute;
+  top: 100%;
+  right: 0;
+  background-color: #fff;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  z-index: 10;
+  width: 100px;
+}
+
+.dropdown-item {
+  padding: 8px 12px;
+  cursor: pointer;
+  color: #333;
+}
+
+.dropdown-item:hover {
+  background-color: #f1f1f1;
 }
 
 .balance-table {

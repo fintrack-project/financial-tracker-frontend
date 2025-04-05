@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { exportToCSV, exportToXLSX } from '../../services/fileService';
 import TransactionTable from '../BalanceTable/TransactionTable';
 import './BalanceOverviewTable.css';
@@ -18,8 +18,11 @@ interface BalanceOverviewTableProps {
 }
 
 const BalanceOverviewTable: React.FC<BalanceOverviewTableProps> = ({ transactions }) => {
+  const [format, setFormat] = useState<'xlsx' | 'csv'>('xlsx'); // Default format is .xlsx
+  const [dropdownOpen, setDropdownOpen] = useState(false); // Dropdown visibility state
+
   // Handle file download
-  const handleFileDownload = (format: 'csv' | 'xlsx') => {
+  const handleFileDownload = () => {
     if (transactions.length === 0) {
       alert('No data available to download.');
       return;
@@ -41,8 +44,37 @@ const BalanceOverviewTable: React.FC<BalanceOverviewTableProps> = ({ transaction
         <p>No transactions available to display.</p>
       )}
       <div className="file-actions">
-        <button onClick={() => handleFileDownload('csv')}>Download CSV</button>
-        <button onClick={() => handleFileDownload('xlsx')}>Download XLSX</button>
+        <button onClick={handleFileDownload}>Download Balance Overview</button>
+        <div className="dropdown-container">
+          <div
+            className="dropdown-selector"
+            onClick={() => setDropdownOpen((prev) => !prev)}
+          >
+          .{format.toLowerCase()} ▼
+          </div>
+          {dropdownOpen && (
+            <div className="dropdown-menu">
+              <div
+                className="dropdown-item"
+                onClick={() => {
+                  setFormat('xlsx');
+                  setDropdownOpen(false);
+                }}
+              >
+                .xlsx
+              </div>
+              <div
+                className="dropdown-item"
+                onClick={() => {
+                  setFormat('csv');
+                  setDropdownOpen(false);
+                }}
+              >
+                .csv
+              </div>
+            </div>
+          )}
+        </div>
       </div>
     </div>
   );
