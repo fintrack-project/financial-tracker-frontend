@@ -16,8 +16,8 @@ const App: React.FC = () => {
         <Route path="/register" element={<Register />} />
         <Route path="/dashboard" element={<Dashboard />} />
         <Route path="/holdings" element={<Holdings />} />
-        <Route path="/balance" element={<Balance />} />
         <Route path="/assetmanagement" element={<AssetManagement />} />
+        <Route path="/balance" element={<Balance />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
     </Router>

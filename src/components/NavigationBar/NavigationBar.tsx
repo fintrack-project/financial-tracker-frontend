@@ -18,16 +18,16 @@ const NavigationBar: React.FC = () => {
         Holdings
       </NavLink>
       <NavLink
-        to="/balance"
-        className={({ isActive }) => (isActive ? 'nav-link active-link' : 'nav-link')}
-      >
-        Balance
-      </NavLink>
-      <NavLink
         to="/assetmanagement"
         className={({ isActive }) => (isActive ? 'nav-link active-link' : 'nav-link')}
       >
         Asset Management
+      </NavLink>
+      <NavLink
+        to="/balance"
+        className={({ isActive }) => (isActive ? 'nav-link active-link' : 'nav-link')}
+      >
+        Balance
       </NavLink>
     </nav>
   );
