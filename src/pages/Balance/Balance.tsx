@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import AccountMenu from '../../components/AccountMenu/AccountMenu';
 import NavigationBar from 'components/NavigationBar/NavigationBar';
-import AddAssetForm from 'components/AddAssetForm/AddAssetForm';
+import BalanceTable from 'components/BalanceTable/BalanceTable';
 import './Balance.css';
 
 interface Asset {
@@ -12,16 +12,6 @@ interface Asset {
 }
 
 const Balance: React.FC = () => {
-  const [assets, setAssets] = useState<Asset[]>([]);
-
-  const handleAddAsset = (asset: Asset) => {
-    setAssets([...assets, asset]);
-  };
-
-  const handleBulkAddAssets = (bulkAssets: Asset[]) => {
-    setAssets([...assets, ...bulkAssets]);
-  };
-
   return (
     <div className="balance-container">
       <NavigationBar />
@@ -30,6 +20,7 @@ const Balance: React.FC = () => {
       </div>
       <h1>Balance</h1>
       <div className="content">
+        <BalanceTable />
       </div>
     </div>
   );

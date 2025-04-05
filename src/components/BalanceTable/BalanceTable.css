@@ -1,0 +1,35 @@
+.balance-table-container {
+  max-height: 500px; /* Limit the height of the table */
+  overflow-y: auto; /* Enable vertical scrolling */
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  background-color: #fff;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  width: 100%;
+  max-width: 800px;
+}
+
+.balance-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.balance-table th,
+.balance-table td {
+  border: 1px solid #ddd;
+  padding: 8px;
+  text-align: left;
+}
+
+.balance-table th {
+  background-color: #f4f4f4;
+  font-weight: bold;
+}
+
+.balance-table tr:nth-child(even) {
+  background-color: #f9f9f9;
+}
+
+.balance-table tr:hover {
+  background-color: #f1f1f1;
+}
