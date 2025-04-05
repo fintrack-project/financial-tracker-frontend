@@ -62,12 +62,12 @@ const UploadBalanceTable: React.FC = () => {
   return (
     <div className="upload-balance-container">
       <h2>Upload Balance Table</h2>
+      <TransactionTable transactions={transactions} />
       <div className="file-actions">
         <input type="file" accept=".csv, .xlsx" onChange={handleFileUpload} />
         <button onClick={() => handleDownloadTemplate('csv')}>Download CSV Template</button>
         <button onClick={() => handleDownloadTemplate('xlsx')}>Download XLSX Template</button>
       </div>
-      <TransactionTable transactions={transactions} />
     </div>
   );
 };

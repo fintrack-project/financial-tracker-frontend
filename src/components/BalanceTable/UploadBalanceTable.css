@@ -3,4 +3,76 @@
   border: 1px solid #ddd;
   border-radius: 8px;
   background-color: #fff;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  margin-top: 20px;
+}
+
+.upload-balance-container h2 {
+  font-size: 20px;
+  margin-bottom: 15px;
+  color: #333;
+}
+
+.file-actions {
+  display: flex;
+  justify-content: flex-end;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.file-actions input[type="file"] {
+  padding: 5px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  background-color: #f9f9f9;
+  cursor: pointer;
+}
+
+.file-actions button {
+  padding: 8px 12px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.file-actions button:hover {
+  background-color: #0056b3;
+}
+
+.balance-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+}
+
+.balance-table th,
+.balance-table td {
+  border: 1px solid #ddd;
+  padding: 10px;
+  text-align: left;
+}
+
+.balance-table th {
+  background-color: #f4f4f4;
+  font-weight: bold;
+  color: #333;
+}
+
+.balance-table tr:nth-child(even) {
+  background-color: #f9f9f9;
+}
+
+.balance-table tr:hover {
+  background-color: #f1f1f1;
+}
+
+.no-transactions-message {
+  text-align: center;
+  color: #666;
+  font-size: 14px;
+  margin-top: 20px;
 }

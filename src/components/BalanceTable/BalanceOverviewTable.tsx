@@ -35,15 +35,15 @@ const BalanceOverviewTable: React.FC<BalanceOverviewTableProps> = ({ transaction
   return (
     <div className="balance-overview-container">
       <h2>Balance Overview</h2>
-      <div className="file-actions">
-        <button onClick={() => handleFileDownload('csv')}>Download CSV</button>
-        <button onClick={() => handleFileDownload('xlsx')}>Download XLSX</button>
-      </div>
       {transactions.length > 0 ? (
         <TransactionTable transactions={transactions} />
       ) : (
         <p>No transactions available to display.</p>
       )}
+      <div className="file-actions">
+        <button onClick={() => handleFileDownload('csv')}>Download CSV</button>
+        <button onClick={() => handleFileDownload('xlsx')}>Download XLSX</button>
+      </div>
     </div>
   );
 };

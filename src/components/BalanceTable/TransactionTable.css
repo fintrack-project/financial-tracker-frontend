@@ -1,16 +1,40 @@
 .transaction-table {
   width: 100%;
   border-collapse: collapse;
+  margin-top: 20px;
+  font-size: 14px;
+  color: #333;
 }
 
 .transaction-table th,
 .transaction-table td {
   border: 1px solid #ddd;
-  padding: 8px;
+  padding: 10px;
   text-align: left;
 }
 
 .transaction-table th {
   background-color: #f4f4f4;
   font-weight: bold;
+  color: #333;
+  text-transform: uppercase;
+}
+
+.transaction-table tr:nth-child(even) {
+  background-color: #f9f9f9;
+}
+
+.transaction-table tr:hover {
+  background-color: #f1f1f1;
+}
+
+.transaction-table td {
+  vertical-align: middle;
+}
+
+.transaction-table-empty {
+  text-align: center;
+  color: #666;
+  font-size: 14px;
+  padding: 20px;
 }
