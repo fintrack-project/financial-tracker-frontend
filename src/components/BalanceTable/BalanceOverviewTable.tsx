@@ -20,7 +20,7 @@ interface BalanceOverviewTableProps {
 const BalanceOverviewTable: React.FC<BalanceOverviewTableProps> = ({ transactions }) => {
   const [format, setFormat] = useState<'xlsx' | 'csv'>('xlsx'); // Default format is .xlsx
   const [dropdownOpen, setDropdownOpen] = useState(false); // Dropdown visibility state
-
+  
   // Handle file download
   const handleFileDownload = () => {
     if (transactions.length === 0) {

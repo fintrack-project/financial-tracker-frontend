@@ -35,7 +35,9 @@ const TransactionTable: React.FC<TransactionTableProps> = ({ transactions }) => 
             <td>{transaction.date}</td>
             <td>{transaction.assetName}</td>
             <td>{transaction.credit}</td>
-            <td>{transaction.debit}</td>
+            <td className={transaction.debit !== 0 ? 'debit-column' : ''}>
+              {transaction.debit !== 0 ? `(${transaction.debit})` : transaction.debit}
+            </td>
             <td>{transaction.totalBalanceBefore}</td>
             <td>{transaction.totalBalanceAfter}</td>
             <td>{transaction.unit}</td>

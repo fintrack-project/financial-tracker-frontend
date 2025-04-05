@@ -28,6 +28,11 @@
   background-color: #f1f1f1;
 }
 
+.transaction-table td.debit-column {
+  color: red; /* Make debit text red */
+  font-weight: bold;
+}
+
 .transaction-table td {
   vertical-align: middle;
 }
