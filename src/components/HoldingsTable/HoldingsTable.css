@@ -1,0 +1,33 @@
+.holdings-table-container {
+  max-height: 400px; /* Limit the height of the table */
+  overflow-y: auto; /* Enable vertical scrolling */
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  background-color: #fff;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.holdings-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.holdings-table th,
+.holdings-table td {
+  border: 1px solid #ddd;
+  padding: 8px;
+  text-align: left;
+}
+
+.holdings-table th {
+  background-color: #f4f4f4;
+  font-weight: bold;
+}
+
+.holdings-table tr:nth-child(even) {
+  background-color: #f9f9f9;
+}
+
+.holdings-table tr:hover {
+  background-color: #f1f1f1;
+}

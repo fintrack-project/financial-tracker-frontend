@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import AccountMenu from '../../components/AccountMenu/AccountMenu';
 import NavigationBar from 'components/NavigationBar/NavigationBar';
 import AddAssetForm from 'components/AddAssetForm/AddAssetForm';
+import HoldingsTable from 'components/HoldingsTable/HoldingsTable';
 import './AssetManagement.css'; // Import the CSS file
 
 interface Asset {
@@ -31,7 +32,8 @@ const AssetManagement: React.FC = () => {
       <h1>Asset Management</h1>
       <div className="content">
         <div className="left-section"> 
-          
+          <h2>Holdings</h2>
+          <HoldingsTable />
         </div>
         <div className="right-section">
           <h2>Assets</h2>
