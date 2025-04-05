@@ -28,9 +28,15 @@ const AssetManagement: React.FC = () => {
       <div className="top-bar">
         <AccountMenu />
       </div>
+      <h1>Asset Management</h1>
       <div className="content">
-        <h1>Asset Management</h1>
-        <AddAssetForm onAddAsset={handleAddAsset} onBulkAddAssets={handleBulkAddAssets} />
+        <div className="left-section"> 
+          
+        </div>
+        <div className="right-section">
+          <h2>Assets</h2>
+          <AddAssetForm onAddAsset={handleAddAsset} onBulkAddAssets={handleBulkAddAssets} />
+        </div>
       </div>
     </div>
   );

@@ -23,3 +23,30 @@
   font-size: 1.2rem;
   margin: 10px 0;
 }
+
+.content {
+  display: flex;
+  flex: 1;
+  padding: 20px;
+}
+  
+.left-section {
+  flex: 1; /* Take up half the page */
+  padding: 20px;
+}
+  
+.right-section {
+  flex: 1; /* Take up half the page */
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  padding: 20px;
+  background-color: #fff;
+  box-shadow: -2px 0 4px rgba(0, 0, 0, 0.1);
+  border-left: 1px solid #ddd;
+}
+  
+.right-section form {
+  width: 100%;
+  max-width: 400px; /* Limit the width of the form */
+}
