@@ -2,7 +2,10 @@ class UserSession {
   private static instance: UserSession;
   private userId: string | null = null;
 
-  private constructor() {}
+  private constructor() {
+    // Load userId from localStorage when the session is initialized
+    this.userId = localStorage.getItem('userId');
+  }
 
   // Get the singleton instance
   public static getInstance(): UserSession {
@@ -25,11 +28,18 @@ class UserSession {
   // Log out the current user
   public logout(): void {
     this.userId = null;
+    localStorage.removeItem('userId'); // Remove from localStorage
   }
 
   // Get the current logged-in user ID
   public getUserId(): string | null {
     return this.userId;
+  }
+
+  // Set the user ID (e.g., after registration)
+  public setUserId(userId: string): void {
+    this.userId = userId;
+    localStorage.setItem('userId', userId); // Save to localStorage
   }
 
   // Check if a user is logged in

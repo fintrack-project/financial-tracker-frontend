@@ -26,7 +26,7 @@ const Login: React.FC = () => {
         return;
       }
 
-      const message = await loginUser({ userId, password }); // Use the login service
+      const message = await loginUser({ userId, password }); // Use the auth service
       const loginSuccess = session.login(userId); // Log in the user in the singleton
 
       if (loginSuccess) {
