@@ -43,10 +43,13 @@ const BalanceOverviewTable: React.FC<BalanceOverviewTableProps> = ({ accountId }
       return;
     }
 
+    // Exclude `transactionId` and `accountId` from the exported data
+    const processedTransactions = transactions.map(({ transactionId, accountId, ...rest }) => rest);
+
     if (format === 'csv') {
-      exportToCSV(transactions, 'balance_overview.csv');
+      exportToCSV(processedTransactions, 'balance_overview.csv');
     } else if (format === 'xlsx') {
-      exportToXLSX(transactions, 'balance_overview.xlsx');
+      exportToXLSX(processedTransactions, 'balance_overview.xlsx');
     }
   };
 
