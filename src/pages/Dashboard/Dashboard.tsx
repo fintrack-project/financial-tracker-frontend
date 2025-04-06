@@ -1,27 +1,24 @@
 import React, { useState , useEffect } from 'react';
 import AccountMenu from '../../components/Menu/AccountMenu';
 import NavigationBar from '../../components/NavigationBar/NavigationBar';
-import { fetchMarketData } from '../../services/marketDataService';
+import { fetchAlphaVantageMarketData, fetchRapidApiMarketData } from '../../services/marketDataService';
 import './Dashboard.css'; // Import the CSS file
 
 const Dashboard: React.FC = () => {
   const [accountId, setAccountId] = useState<string | null>(null); // Store the currently logged-in account ID
-  const [sp500Data, setSp500Data] = useState<{ price: string; change: string } | null>(null);
-  const [nasdaqData, setNasdaqData] = useState<{ price: string; change: string } | null>(null);
+  const [marketData, setMarketData] = useState<{ [key: string]: { price: string; change: string } } | null>(null);
 
   // Callback to get the accountId from AccountMenu
   const handleAccountChange = (newAccountId: string) => {
     setAccountId(newAccountId);
   };
 
-  // Fetch market data for S&P 500 and Nasdaq
+  // Fetch market data for S&P 500 and Nasdaq ETFs
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const sp500 = await fetchMarketData('^GSPC');
-        const nasdaq = await fetchMarketData('^IXIC');
-        setSp500Data(sp500);
-        setNasdaqData(nasdaq);
+        // const data = await fetchRapidApiMarketData(['SPY', 'QQQ']);
+        // setMarketData(data);
       } catch (error) {
         console.error('Error fetching market data:', error);
       }
@@ -42,10 +39,10 @@ const Dashboard: React.FC = () => {
           <h2>Market Average</h2>
           <div className="market-item">
             <h3>S&P 500</h3>
-            {sp500Data ? (
+            {marketData && marketData['SPY'] ? (
               <p>
-                Price: ${sp500Data.price} <br />
-                Change: {sp500Data.change}
+                Price: ${marketData['SPY'].price} <br />
+                Change: {marketData['SPY'].change}
               </p>
             ) : (
               <p>Loading...</p>
@@ -53,10 +50,10 @@ const Dashboard: React.FC = () => {
           </div>
           <div className="market-item">
             <h3>Nasdaq</h3>
-            {nasdaqData ? (
+            {marketData && marketData['QQQ'] ? (
               <p>
-                Price: ${nasdaqData.price} <br />
-                Change: {nasdaqData.change}
+                Price: ${marketData['QQQ'].price} <br />
+                Change: {marketData['QQQ'].change}
               </p>
             ) : (
               <p>Loading...</p>
