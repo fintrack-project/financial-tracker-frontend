@@ -1,4 +1,5 @@
 import React from 'react';
+import { format } from 'date-fns';
 import './TransactionTable.css';
 import { Transaction } from 'types/Transaction';
 
@@ -23,7 +24,7 @@ const TransactionTable: React.FC<TransactionTableProps> = ({ transactions }) => 
       <tbody>
         {transactions.map((transaction, index) => (
           <tr key={index}>
-            <td>{transaction.date}</td>
+            <td>{format(new Date(transaction.date), 'yyyy-MM-dd')}</td>
             <td>{transaction.assetName}</td>
             <td>{transaction.credit}</td>
             <td className={transaction.debit !== 0 ? 'debit-column' : ''}>

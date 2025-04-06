@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { format } from 'date-fns';
 import { exportToCSV, exportToXLSX } from '../../services/fileService';
 import { fetchTransactions } from 'services/transactionService';
 import TransactionTable from '../BalanceTable/TransactionTable';
@@ -12,7 +13,7 @@ interface BalanceOverviewTableProps {
 const BalanceOverviewTable: React.FC<BalanceOverviewTableProps> = ({ accountId }) => {
   const [transactions, setTransactions] = useState<Transaction[]>([]);
   const [loading, setLoading] = useState(true);
-  const [format, setFormat] = useState<'xlsx' | 'csv'>('xlsx'); // Default format is .xlsx
+  const [fileFormat, setFileFormat] = useState<'xlsx' | 'csv'>('xlsx'); // Default format is .xlsx
   const [dropdownOpen, setDropdownOpen] = useState(false); // Dropdown visibility state
 
   // Fetch transactions from the backend
@@ -44,11 +45,14 @@ const BalanceOverviewTable: React.FC<BalanceOverviewTableProps> = ({ accountId }
     }
 
     // Exclude `transactionId` and `accountId` from the exported data
-    const processedTransactions = transactions.map(({ transactionId, accountId, ...rest }) => rest);
+    const processedTransactions = transactions.map(({ transactionId, accountId, date, ...rest }) => ({
+      date: format(new Date(date), 'yyyy-MM-dd'), // Format the date as YYYY-MM-DD
+      ...rest,
+    }));
 
-    if (format === 'csv') {
+    if (fileFormat === 'csv') {
       exportToCSV(processedTransactions, 'balance_overview.csv');
-    } else if (format === 'xlsx') {
+    } else if (fileFormat === 'xlsx') {
       exportToXLSX(processedTransactions, 'balance_overview.xlsx');
     }
   };
@@ -68,14 +72,14 @@ const BalanceOverviewTable: React.FC<BalanceOverviewTableProps> = ({ accountId }
             className="dropdown-selector"
             onClick={() => setDropdownOpen((prev) => !prev)}
           >
-          .{format.toLowerCase()} ▼
+          .{fileFormat.toLowerCase()} ▼
           </div>
           {dropdownOpen && (
             <div className="dropdown-menu">
               <div
                 className="dropdown-item"
                 onClick={() => {
-                  setFormat('xlsx');
+                  setFileFormat('xlsx');
                   setDropdownOpen(false);
                 }}
               >
@@ -84,7 +88,7 @@ const BalanceOverviewTable: React.FC<BalanceOverviewTableProps> = ({ accountId }
               <div
                 className="dropdown-item"
                 onClick={() => {
-                  setFormat('csv');
+                  setFileFormat('csv');
                   setDropdownOpen(false);
                 }}
               >
