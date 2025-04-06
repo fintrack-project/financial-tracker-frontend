@@ -44,6 +44,27 @@
   background-color: #0056b3;
 }
 
+.upload-button-container {
+  display: flex;
+  justify-content: flex-start; /* Align button to the bottom left */
+  margin-top: 20px;
+}
+
+.upload-button {
+  background-color: #007bff;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  font-size: 14px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.upload-button:hover {
+  background-color: #0056b3;
+}
+
 .dropdown-container {
   position: relative;
 }

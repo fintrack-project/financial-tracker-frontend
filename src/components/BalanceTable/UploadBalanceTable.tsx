@@ -61,6 +61,34 @@ const UploadBalanceTable: React.FC = () => {
     }
   };
 
+  // Handle upload to backend
+  const handleUploadToBackend = async () => {
+    if (transactions.length === 0) {
+      alert('No transactions to upload. Please upload a file first.');
+      return;
+    }
+
+    try {
+      const response = await fetch('/api/accounts/upload-transactions', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(transactions),
+      });
+
+      if (!response.ok) {
+        throw new Error('Failed to upload transactions');
+      }
+
+      alert('Transactions uploaded successfully.');
+      setTransactions([]); // Clear the table after successful upload
+    } catch (error) {
+      console.error('Error uploading transactions:', error);
+      alert('Error uploading transactions. Please try again.');
+    }
+  };
+
   return (
     <div className="upload-balance-container">
       <h2>Upload Balance Table</h2>
@@ -98,6 +126,11 @@ const UploadBalanceTable: React.FC = () => {
             </div>
           )}
         </div>
+      </div>
+      <div className="upload-button-container">
+        <button className="upload-button" onClick={handleUploadToBackend}>
+          Upload Transactions
+        </button>
       </div>
     </div>
   );

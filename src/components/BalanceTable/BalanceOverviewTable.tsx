@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { exportToCSV, exportToXLSX } from '../../services/fileService';
 import TransactionTable from '../BalanceTable/TransactionTable';
 import './BalanceOverviewTable.css';
@@ -14,12 +14,34 @@ interface Transaction {
 }
 
 interface BalanceOverviewTableProps {
-  transactions: Transaction[];
+  accountId: string;
 }
 
-const BalanceOverviewTable: React.FC<BalanceOverviewTableProps> = ({ transactions }) => {
+const BalanceOverviewTable: React.FC<BalanceOverviewTableProps> = ({ accountId }) => {
+  const [transactions, setTransactions] = useState<Transaction[]>([]);
+  const [loading, setLoading] = useState(true);
   const [format, setFormat] = useState<'xlsx' | 'csv'>('xlsx'); // Default format is .xlsx
   const [dropdownOpen, setDropdownOpen] = useState(false); // Dropdown visibility state
+
+  // Fetch transactions from the backend
+  useEffect(() => {
+    const fetchTransactions = async () => {
+      try {
+        const response = await fetch(`/api/accounts/${accountId}/transactions`);
+        if (!response.ok) {
+          throw new Error('Failed to fetch transactions');
+        }
+        const data = await response.json();
+        setTransactions(data);
+      } catch (error) {
+        console.error('Error fetching transactions:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchTransactions();
+  }, [accountId]);
   
   // Handle file download
   const handleFileDownload = () => {
@@ -34,6 +56,10 @@ const BalanceOverviewTable: React.FC<BalanceOverviewTableProps> = ({ transaction
       exportToXLSX(transactions, 'balance_overview.xlsx');
     }
   };
+
+  if (loading) {
+    return <p>Loading transactions...</p>;
+  }
 
   return (
     <div className="balance-overview-container">

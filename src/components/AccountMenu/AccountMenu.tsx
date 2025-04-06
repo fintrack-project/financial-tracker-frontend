@@ -3,7 +3,11 @@ import { useNavigate } from 'react-router-dom';
 import UserSession from '../../utils/UserSession';
 import './AccountMenu.css';
 
-const AccountMenu: React.FC = () => {
+interface AccountMenuProps {
+  onAccountChange: (accountId: string) => void; // Callback to pass the accountId
+}
+
+const AccountMenu: React.FC<AccountMenuProps> = ({ onAccountChange }) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [userId, setUserId] = useState<string | null>(null);
   const navigate = useNavigate();
@@ -13,6 +17,25 @@ const AccountMenu: React.FC = () => {
     const session = UserSession.getInstance();
     setUserId(session.getUserId());
   }, []);
+
+  useEffect(() => {
+    // Fetch the currently logged-in account ID dynamically
+    const fetchAccountId = async () => {
+      try {
+        const response = await fetch('/api/accounts/current'); // Replace with your actual API endpoint
+        if (!response.ok) {
+          throw new Error('Failed to fetch account ID');
+        }
+        const data = await response.json();
+        const accountId = data.accountId; // Assume the API returns { accountId: 'rndusr1' }
+        onAccountChange(accountId); // Pass the accountId to the parent component
+      } catch (error) {
+        console.error('Error fetching account ID:', error);
+      }
+    };
+
+    fetchAccountId();
+  }, [onAccountChange]);
 
   const handleLogout = () => {
     console.log('User logged out');

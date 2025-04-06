@@ -16,22 +16,26 @@ interface Transaction {
 }
 
 const Balance: React.FC = () => {
-  const [transactions, setTransactions] = useState<Transaction[]>([]);
+  const [accountId, setAccountId] = useState<string | null>(null); // Store the currently logged-in account ID
 
-  // Handle adding transactions from UploadBalanceTable
-  const handleAddTransactions = (newTransactions: Transaction[]) => {
-    setTransactions((prevTransactions) => [...prevTransactions, ...newTransactions]);
+  // Callback to get the accountId from AccountMenu
+  const handleAccountChange = (newAccountId: string) => {
+    setAccountId(newAccountId);
   };
 
   return (
     <div className="balance-container">
       <NavigationBar />
       <div className="top-bar">
-        <AccountMenu />
+        <AccountMenu onAccountChange={handleAccountChange} />
       </div>
       <div className="balance-content">
         <div className="balance-overview">
-          <BalanceOverviewTable transactions={transactions} />
+          {accountId ? (
+            <BalanceOverviewTable accountId={accountId} />
+          ) : (
+            <p>Loading account information...</p>
+          )}
         </div>
         <div className="upload-balance">
           <UploadBalanceTable />

@@ -1,16 +1,22 @@
-import React from 'react';
+import React, { useState } from 'react';
 import AccountMenu from '../../components/AccountMenu/AccountMenu';
 import NavigationBar from 'components/NavigationBar/NavigationBar';
 import HoldingsTable from 'components/HoldingsTable/HoldingsTable';
 import './AssetManagement.css'; // Import the CSS file
 
 const AssetManagement: React.FC = () => {
+  const [accountId, setAccountId] = useState<string | null>(null); // Store the currently logged-in account ID
+
+  // Callback to get the accountId from AccountMenu
+  const handleAccountChange = (newAccountId: string) => {
+    setAccountId(newAccountId);
+  };
 
   return (
     <div className="asset-management-container">
       <NavigationBar />
       <div className="top-bar">
-        <AccountMenu />
+        <AccountMenu onAccountChange={handleAccountChange} />
       </div>
       <h1>Asset Management</h1>
       <div className="content">
