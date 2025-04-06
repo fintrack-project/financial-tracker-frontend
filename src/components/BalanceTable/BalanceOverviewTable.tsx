@@ -25,9 +25,16 @@ const BalanceOverviewTable: React.FC<BalanceOverviewTableProps> = ({ accountId }
 
   // Fetch transactions from the backend
   useEffect(() => {
+    if (!accountId) {
+      console.warn('Account ID is null, skipping fetch'); // Debug log
+      return;
+    }
+    
     const fetchTransactions = async () => {
       try {
         const response = await fetch(`/api/accounts/${accountId}/transactions`);
+        console.log('Fetched transactions:', response); // Debug log
+        console.log('Account ID received in BalanceOverviewTable:', accountId); // Debug log
         if (!response.ok) {
           throw new Error('Failed to fetch transactions');
         }

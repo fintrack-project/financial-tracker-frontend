@@ -19,8 +19,9 @@ const Balance: React.FC = () => {
   const [accountId, setAccountId] = useState<string | null>(null); // Store the currently logged-in account ID
 
   // Callback to get the accountId from AccountMenu
-  const handleAccountChange = (newAccountId: string) => {
-    setAccountId(newAccountId);
+  const handleAccountChange = (accountId: string) => {
+    console.log('Account ID received in Balance:', accountId); // Debug log
+    setAccountId(accountId);
   };
 
   return (

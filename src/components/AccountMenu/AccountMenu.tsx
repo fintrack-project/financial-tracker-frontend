@@ -15,22 +15,22 @@ const AccountMenu: React.FC<AccountMenuProps> = ({ onAccountChange }) => {
   useEffect(() => {
     // Retrieve the user ID from the UserSession singleton
     const session = UserSession.getInstance();
-    setUserId(session.getUserId());
-  }, []);
+    const storedUserId = session.getUserId();
+    setUserId(storedUserId);
 
-  useEffect(() => {
     // Fetch the currently logged-in account ID dynamically
     const fetchAccountId = async () => {
       try {
         const response = await fetch('/api/accounts/current', {
           credentials: 'include', // Include cookies for session-based authentication
         });
-        
+
         if (!response.ok) {
           throw new Error('Failed to fetch account ID');
         }
 
         const data = await response.json();
+        console.log('Fetched accountId in AccountMenu:', data.accountId); // Debug log
         onAccountChange(data.accountId);
       } catch (error) {
         console.error('Error fetching account ID:', error);
