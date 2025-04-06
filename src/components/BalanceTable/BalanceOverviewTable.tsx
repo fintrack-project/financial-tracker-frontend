@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { exportToCSV, exportToXLSX } from '../../services/fileService';
+import { fetchTransactions } from 'services/transactionService';
 import TransactionTable from '../BalanceTable/TransactionTable';
 import './BalanceOverviewTable.css';
 
@@ -29,16 +30,10 @@ const BalanceOverviewTable: React.FC<BalanceOverviewTableProps> = ({ accountId }
       console.warn('Account ID is null, skipping fetch'); // Debug log
       return;
     }
-    
-    const fetchTransactions = async () => {
+
+    const fetchData = async () => {
       try {
-        const response = await fetch(`/api/accounts/${accountId}/transactions`);
-        console.log('Fetched transactions:', response); // Debug log
-        console.log('Account ID received in BalanceOverviewTable:', accountId); // Debug log
-        if (!response.ok) {
-          throw new Error('Failed to fetch transactions');
-        }
-        const data = await response.json();
+        const data = await fetchTransactions(accountId);
         setTransactions(data);
       } catch (error) {
         console.error('Error fetching transactions:', error);
@@ -47,7 +42,7 @@ const BalanceOverviewTable: React.FC<BalanceOverviewTableProps> = ({ accountId }
       }
     };
 
-    fetchTransactions();
+    fetchData();
   }, [accountId]);
   
   // Handle file download
