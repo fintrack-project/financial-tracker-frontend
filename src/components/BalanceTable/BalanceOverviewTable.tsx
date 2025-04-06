@@ -2,17 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { exportToCSV, exportToXLSX } from '../../services/fileService';
 import { fetchTransactions } from 'services/transactionService';
 import TransactionTable from '../BalanceTable/TransactionTable';
+import { Transaction } from 'types/Transaction';
 import './BalanceOverviewTable.css';
-
-interface Transaction {
-  date: string;
-  assetName: string;
-  credit: number;
-  debit: number;
-  totalBalanceBefore: number;
-  totalBalanceAfter: number;
-  unit: string;
-}
 
 interface BalanceOverviewTableProps {
   accountId: string | null;

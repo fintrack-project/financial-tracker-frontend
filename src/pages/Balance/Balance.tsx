@@ -1,19 +1,10 @@
 import React, { useState } from 'react';
-import AccountMenu from '../../components/AccountMenu/AccountMenu';
+import AccountMenu from '../../components/Menu/AccountMenu';
 import NavigationBar from 'components/NavigationBar/NavigationBar';
 import BalanceOverviewTable from 'components/BalanceTable/BalanceOverviewTable';
 import UploadBalanceTable from 'components/BalanceTable/UploadBalanceTable';
+import { Transaction } from 'types/Transaction';
 import './Balance.css';
-
-interface Transaction {
-  date: string;
-  assetName: string;
-  credit: number;
-  debit: number;
-  totalBalanceBefore: number;
-  totalBalanceAfter: number;
-  unit: string;
-}
 
 const Balance: React.FC = () => {
   const [accountId, setAccountId] = useState<string | null>(null); // Store the currently logged-in account ID

@@ -1,15 +1,6 @@
 import React from 'react';
 import './TransactionTable.css';
-
-interface Transaction {
-  date: string;
-  assetName: string;
-  credit: number;
-  debit: number;
-  totalBalanceBefore: number;
-  totalBalanceAfter: number;
-  unit: string;
-}
+import { Transaction } from 'types/Transaction';
 
 interface TransactionTableProps {
   transactions: Transaction[];

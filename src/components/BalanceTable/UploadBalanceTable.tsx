@@ -1,17 +1,9 @@
 import React, { useState } from 'react';
 import { parseCSVFile, parseXLSXFile, exportToCSV, exportToXLSX } from '../../services/fileService';
 import TransactionTable from '../BalanceTable/TransactionTable';
+import { Transaction } from 'types/Transaction';
 import './UploadBalanceTable.css';
 
-interface Transaction {
-  date: string;
-  assetName: string;
-  credit: number;
-  debit: number;
-  totalBalanceBefore: number;
-  totalBalanceAfter: number;
-  unit: string;
-}
 
 const UploadBalanceTable: React.FC = () => {
   const [transactions, setTransactions] = useState<Transaction[]>([]);

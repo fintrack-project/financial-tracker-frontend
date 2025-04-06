@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import AccountMenu from '../../components/AccountMenu/AccountMenu';
+import AccountMenu from '../../components/Menu/AccountMenu';
 import NavigationBar from 'components/NavigationBar/NavigationBar';
 import HoldingsTable from '../../components/HoldingsTable/HoldingsTable'; // Import the HoldingsTable componen
 import './Holdings.css'; // Import the CSS file
