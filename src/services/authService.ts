@@ -1,3 +1,5 @@
+import UserSession from '../utils/UserSession';
+
 export interface LoginRequest {
   userId: string;
   password: string;
@@ -11,6 +13,7 @@ export const loginUser = async (loginData: LoginRequest): Promise<string> => {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify(loginData),
+      credentials: 'include', // Include cookies for session-based authentication
     });
 
     if (!response.ok) {
