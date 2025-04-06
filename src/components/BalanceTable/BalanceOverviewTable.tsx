@@ -14,7 +14,7 @@ interface Transaction {
 }
 
 interface BalanceOverviewTableProps {
-  accountId: string;
+  accountId: string | null;
 }
 
 const BalanceOverviewTable: React.FC<BalanceOverviewTableProps> = ({ accountId }) => {
@@ -64,11 +64,7 @@ const BalanceOverviewTable: React.FC<BalanceOverviewTableProps> = ({ accountId }
   return (
     <div className="balance-overview-container">
       <h2>Balance Overview</h2>
-      {transactions.length > 0 ? (
         <TransactionTable transactions={transactions} />
-      ) : (
-        <p>No transactions available to display.</p>
-      )}
       <div className="file-actions">
         <button onClick={handleFileDownload}>Download Balance Overview</button>
         <div className="dropdown-container">

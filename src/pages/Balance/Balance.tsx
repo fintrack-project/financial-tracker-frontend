@@ -19,8 +19,8 @@ const Balance: React.FC = () => {
   const [accountId, setAccountId] = useState<string | null>(null); // Store the currently logged-in account ID
 
   // Callback to get the accountId from AccountMenu
-  const handleAccountChange = (newAccountId: string) => {
-    setAccountId(newAccountId);
+  const handleAccountChange = (accountId: string) => {
+    setAccountId(accountId);
   };
 
   return (
@@ -31,11 +31,7 @@ const Balance: React.FC = () => {
       </div>
       <div className="balance-content">
         <div className="balance-overview">
-          {accountId ? (
-            <BalanceOverviewTable accountId={accountId} />
-          ) : (
-            <p>Loading account information...</p>
-          )}
+          <BalanceOverviewTable accountId={accountId} />
         </div>
         <div className="upload-balance">
           <UploadBalanceTable />

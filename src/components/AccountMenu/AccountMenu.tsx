@@ -22,13 +22,18 @@ const AccountMenu: React.FC<AccountMenuProps> = ({ onAccountChange }) => {
     // Fetch the currently logged-in account ID dynamically
     const fetchAccountId = async () => {
       try {
-        const response = await fetch('/api/accounts/current'); // Replace with your actual API endpoint
+        const response = await fetch('/api/accounts/current', {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem('token')}`, // Replace with your token logic
+          },
+        });
+        console.log('Raw response:', response); // Debug log
         if (!response.ok) {
           throw new Error('Failed to fetch account ID');
         }
         const data = await response.json();
-        const accountId = data.accountId; // Assume the API returns { accountId: 'rndusr1' }
-        onAccountChange(accountId); // Pass the accountId to the parent component
+        console.log('Fetched accountId:', data.accountId); // Debug log
+        onAccountChange(data.accountId);
       } catch (error) {
         console.error('Error fetching account ID:', error);
       }
