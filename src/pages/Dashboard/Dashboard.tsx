@@ -39,27 +39,33 @@ const Dashboard: React.FC = () => {
       <div className="market-data-container">
         <div className="market-average">
           <h2>Market Average</h2>
-          <div className="market-item">
-            <h3>S&P 500</h3>
-            {marketData && marketData['^GSPC'] ? (
-              <p>
-                Price: ${marketData['^GSPC'].price} <br />
-                Change: {marketData['^GSPC'].percent_change}
-              </p>
-            ) : (
-              <p>Loading...</p>
-            )}
-          </div>
-          <div className="market-item">
-            <h3>Nasdaq 100</h3>
-            {marketData && marketData['^NDX'] ? (
-              <p>
-                Price: ${marketData['^NDX'].price} <br />
-                Change: {marketData['^NDX'].percent_change}
-              </p>
-            ) : (
-              <p>Loading...</p>
-            )}
+          <div className="market-average-items">
+            <div className="market-item">
+              <h3>S&P 500</h3>
+              {marketData && marketData['^GSPC'] ? (
+                <p>
+                  Price: {parseFloat(marketData['^GSPC'].price).toFixed(2)} <br />
+                  Change: <span className={`change ${parseFloat(marketData['^GSPC'].percent_change) >= 0 ? 'positive' : 'negative'}`}>
+                    {parseFloat(marketData['^GSPC'].percent_change).toFixed(2)}%
+                  </span>
+                </p>
+              ) : (
+                <p>Loading...</p>
+              )}
+            </div>
+            <div className="market-item">
+              <h3>Nasdaq 100</h3>
+              {marketData && marketData['^NDX'] ? (
+                <p>
+                  Price: {parseFloat(marketData['^NDX'].price).toFixed(2)} <br />
+                  Change: <span className={`change ${parseFloat(marketData['^NDX'].percent_change) >= 0 ? 'positive' : 'negative'}`}>
+                    {parseFloat(marketData['^NDX'].percent_change).toFixed(2)}%
+                  </span>
+                </p>
+              ) : (
+                <p>Loading...</p>
+              )}
+            </div>
           </div>
         </div>
         <div className="live-price">

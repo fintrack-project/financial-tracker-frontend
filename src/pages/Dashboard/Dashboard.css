@@ -39,14 +39,15 @@
   background-color: #0056b3;
 }
 
-.market-average,
-.live-price {
-  flex: 1;
-  margin: 0 10px;
-  padding: 20px;
-  border: 1px solid #ccc;
-  border-radius: 8px;
-  background-color: #f9f9f9;
+.market-average {
+  margin-bottom: 20px;
+}
+
+.market-average-items {
+  display: flex; /* Display items horizontally */
+  justify-content: center; /* Center items horizontally */
+  align-items: center; /* Center items vertically */
+  gap: 20px; /* Add spacing between items */
 }
 
 .market-item {
@@ -60,4 +61,16 @@
 
 .market-item p {
   margin: 5px 0;
+}
+
+.change {
+  font-weight: bold;
+}
+
+.change.positive {
+  color: green; /* Green for positive change */
+}
+
+.change.negative {
+  color: red; /* Red for negative change */
 }
