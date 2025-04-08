@@ -1,0 +1,39 @@
+.balance-preview-container {
+  margin-top: 20px;
+}
+
+.preview-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 20px;
+}
+
+.preview-table th,
+.preview-table td {
+  border: 1px solid #ddd;
+  padding: 8px;
+  text-align: center;
+}
+
+.preview-table th {
+  background-color: #f4f4f4;
+  font-weight: bold;
+}
+
+.highlight-row {
+  background-color: #ffe6e6; /* Light red for rows added from UploadBalanceTable */
+}
+
+.confirm-button {
+  padding: 10px 20px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.confirm-button:hover {
+  background-color: #0056b3;
+}

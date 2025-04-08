@@ -4,8 +4,12 @@ import TransactionTable from '../BalanceTable/TransactionTable';
 import { Transaction } from 'types/Transaction';
 import './UploadBalanceTable.css';
 
+interface UploadBalanceTableProps {
+  accountId: string | null; // Account ID for the transactions
+  onUpload: (uploadedTransactions: Transaction[]) => void; // Callback to pass uploaded transactions
+}
 
-const UploadBalanceTable: React.FC = () => {
+const UploadBalanceTable: React.FC<UploadBalanceTableProps> = ({ accountId, onUpload }) => {
   const [transactions, setTransactions] = useState<Transaction[]>([]);
   const [templateFormat, setTemplateFormat] = useState<'xlsx' | 'csv'>('xlsx'); // Default format is .xlsx
   const [dropdownOpen, setDropdownOpen] = useState(false); // Dropdown visibility state
@@ -53,15 +57,20 @@ const UploadBalanceTable: React.FC = () => {
     }
   };
 
-  // Handle upload to backend
-  const handleUploadToBackend = async () => {
+  // Handle upload to preview
+  const handleUploadToPreview = async () => {
+    if (!accountId) {
+      alert('Please select an account before uploading transactions.');
+      return;
+    }
+
     if (transactions.length === 0) {
       alert('No transactions to upload. Please upload a file first.');
       return;
     }
 
     try {
-      const response = await fetch('/api/accounts/upload-transactions', {
+      const response = await fetch(`/api/accounts/${accountId}/upload-transactions`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -74,6 +83,7 @@ const UploadBalanceTable: React.FC = () => {
       }
 
       alert('Transactions uploaded successfully.');
+      onUpload(transactions); // Pass uploaded transactions to BalancePreviewTable
       setTransactions([]); // Clear the table after successful upload
     } catch (error) {
       console.error('Error uploading transactions:', error);
@@ -120,7 +130,7 @@ const UploadBalanceTable: React.FC = () => {
         </div>
       </div>
       <div className="upload-button-container">
-        <button className="upload-button" onClick={handleUploadToBackend}>
+        <button className="upload-button" onClick={handleUploadToPreview}>
           Upload Transactions
         </button>
       </div>
