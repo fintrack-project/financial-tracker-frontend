@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { parseCSVFile, parseXLSXFile, exportToCSV, exportToXLSX } from '../../services/fileService';
+import { uploadTransactions } from '../../services/transactionService';
 import TransactionTable from '../BalanceTable/TransactionTable';
 import { Transaction } from 'types/Transaction';
 import './UploadBalanceTable.css';
@@ -70,23 +71,11 @@ const UploadBalanceTable: React.FC<UploadBalanceTableProps> = ({ accountId, onUp
     }
 
     try {
-      const response = await fetch(`/api/accounts/${accountId}/upload-transactions`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(transactions),
-      });
-
-      if (!response.ok) {
-        throw new Error('Failed to upload transactions');
-      }
-
+      await uploadTransactions(accountId, transactions); // Use the new service
       alert('Transactions uploaded successfully.');
       onUpload(transactions); // Pass uploaded transactions to BalancePreviewTable
       setTransactions([]); // Clear the table after successful upload
     } catch (error) {
-      console.error('Error uploading transactions:', error);
       alert('Error uploading transactions. Please try again.');
     }
   };
