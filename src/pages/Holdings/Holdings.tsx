@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import AccountMenu from '../../components/Menu/AccountMenu';
-import NavigationBar from 'components/NavigationBar/NavigationBar';
+import MainNavigationBar from 'components/NavigationBar/MainNavigationBar';
 import HoldingsTable from '../../components/HoldingsTable/HoldingsTable'; // Import the HoldingsTable componen
 import './Holdings.css'; // Import the CSS file
 
@@ -14,7 +14,7 @@ const Holdings: React.FC = () => {
 
   return (
     <div className="holdings-container">
-      <NavigationBar />
+      <MainNavigationBar />
       <div className="top-bar">
         <AccountMenu onAccountChange={handleAccountChange} />
       </div>

@@ -1,6 +1,6 @@
 import React, { useState , useEffect } from 'react';
 import AccountMenu from '../../components/Menu/AccountMenu';
-import NavigationBar from '../../components/NavigationBar/NavigationBar';
+import MainNavigationBar from '../../components/NavigationBar/MainNavigationBar';
 import { fetchMarketAverageData } from '../../services/marketAverageDataService';
 import './Dashboard.css'; // Import the CSS file
 
@@ -31,17 +31,16 @@ const Dashboard: React.FC = () => {
 
   return (
     <div className="dashboard-container">
-      <NavigationBar />
+      <MainNavigationBar />
       <div className="top-bar">
         <AccountMenu onAccountChange={handleAccountChange} />
       </div>
-      <h1>Dashboard Page</h1>
       <div className="market-data-container">
         <div className="market-average">
-          <h2>Market Average</h2>
+          <h1>Market Average</h1>
           <div className="market-average-items">
             <div className="market-item">
-              <h3>S&P 500</h3>
+              <h2>S&P 500</h2>
               {marketData && marketData['^GSPC'] ? (
                 <p>
                   Price: {parseFloat(marketData['^GSPC'].price).toFixed(2)} <br />
@@ -54,7 +53,7 @@ const Dashboard: React.FC = () => {
               )}
             </div>
             <div className="market-item">
-              <h3>Nasdaq 100</h3>
+              <h2>Nasdaq 100</h2>
               {marketData && marketData['^NDX'] ? (
                 <p>
                   Price: {parseFloat(marketData['^NDX'].price).toFixed(2)} <br />
@@ -69,7 +68,7 @@ const Dashboard: React.FC = () => {
           </div>
         </div>
         <div className="live-price">
-          <h2>Live Price of Holdings/Watchlist</h2>
+          <h1>Live Price of Holdings/Watchlist</h1>
           <p>Coming soon...</p>
         </div>
       </div>

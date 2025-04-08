@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import AccountMenu from '../../components/Menu/AccountMenu';
-import NavigationBar from 'components/NavigationBar/NavigationBar';
+import MainNavigationBar from 'components/NavigationBar/MainNavigationBar';
+import BalanceNavigationBar from 'components/NavigationBar/BalanceNavigationBar';
 import BalanceOverviewTable from 'components/BalanceTable/BalanceOverviewTable';
 import UploadBalanceTable from 'components/BalanceTable/UploadBalanceTable';
 import { Transaction } from 'types/Transaction';
@@ -8,6 +9,7 @@ import './Balance.css';
 
 const Balance: React.FC = () => {
   const [accountId, setAccountId] = useState<string | null>(null); // Store the currently logged-in account ID
+  const [activeTab, setActiveTab] = useState<'overview' | 'edit'>('overview'); // State to manage active tab
 
   // Callback to get the accountId from AccountMenu
   const handleAccountChange = (accountId: string) => {
@@ -17,17 +19,25 @@ const Balance: React.FC = () => {
 
   return (
     <div className="balance-container">
-      <NavigationBar />
+      <MainNavigationBar />
       <div className="top-bar">
         <AccountMenu onAccountChange={handleAccountChange} />
       </div>
+      <BalanceNavigationBar
+        activeTab={activeTab}
+        onTabChange={setActiveTab}
+      />
       <div className="balance-content">
-        <div className="balance-overview">
-          <BalanceOverviewTable accountId={accountId} />
-        </div>
-        <div className="upload-balance">
-          <UploadBalanceTable />
-        </div>
+        {activeTab === 'overview' && (
+          <div className="balance-overview">
+            <BalanceOverviewTable accountId={accountId} />
+          </div>
+        )}
+        {activeTab === 'edit' && (
+          <div className="upload-balance">
+            <UploadBalanceTable />
+          </div>
+        )}
       </div>
     </div>
   );
