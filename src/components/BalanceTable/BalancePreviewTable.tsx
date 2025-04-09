@@ -65,6 +65,7 @@ const BalancePreviewTable: React.FC<BalancePreviewTableProps> = ({
     try {
       // Send all previewTransactions (including markDelete) to the backend
       await onConfirm(previewTransactions);
+      alert('Send all previewTransactions (including markDelete) to the backend');
     } catch (error) {
       console.error('Error confirming transactions:', error);
     }
