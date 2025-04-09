@@ -90,7 +90,7 @@ const Balance: React.FC = () => {
             />
             <UploadBalanceTable 
               accountId={accountId}
-              onUpload={setUploadedTransactions}
+              onPreviewUpdate={setUploadedTransactions}
             />
           </div>
         )}
