@@ -63,14 +63,3 @@
   margin: 5px 0;
 }
 
-.change {
-  font-weight: bold;
-}
-
-.change.positive {
-  color: green; /* Green for positive change */
-}
-
-.change.negative {
-  color: red; /* Red for negative change */
-}

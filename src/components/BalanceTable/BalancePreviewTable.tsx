@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { format } from 'date-fns';
 import './BalancePreviewTable.css';
 import { Transaction } from 'types/Transaction';
@@ -20,6 +20,11 @@ const BalancePreviewTable: React.FC<BalancePreviewTableProps> = ({
     ...existingTransactions,
     ...uploadedTransactions,
   ]);
+
+  // Update previewTransactions whenever existingTransactions or uploadedTransactions change
+  useEffect(() => {
+    setPreviewTransactions([...existingTransactions, ...uploadedTransactions]);
+  }, [existingTransactions, uploadedTransactions]);
 
   const handleConfirm = async () => {
     if (!accountId) {

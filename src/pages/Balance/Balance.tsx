@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import AccountMenu from '../../components/Menu/AccountMenu';
 import MainNavigationBar from 'components/NavigationBar/MainNavigationBar';
 import BalanceNavigationBar from 'components/NavigationBar/BalanceNavigationBar';
@@ -13,6 +13,26 @@ const Balance: React.FC = () => {
   const [activeTab, setActiveTab] = useState<'overview' | 'edit'>('overview'); // State to manage active tab
   const [existingTransactions, setExistingTransactions] = useState<Transaction[]>([]); // Data from BalanceOverviewTable
   const [uploadedTransactions, setUploadedTransactions] = useState<Transaction[]>([]); // Data from UploadBalanceTable
+
+  // Fetch existing transactions when accountId changes
+  useEffect(() => {
+    const fetchExistingTransactions = async () => {
+      if (!accountId) return;
+
+      try {
+        const response = await fetch(`/api/accounts/${accountId}/transactions`);
+        if (!response.ok) {
+          throw new Error('Failed to fetch existing transactions');
+        }
+        const data: Transaction[] = await response.json();
+        setExistingTransactions(data);
+      } catch (error) {
+        console.error('Error fetching existing transactions:', error);
+      }
+    };
+
+    fetchExistingTransactions();
+  }, [accountId]);
 
   // Callback to get the accountId from AccountMenu
   const handleAccountChange = (accountId: string) => {

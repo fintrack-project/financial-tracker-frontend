@@ -1,12 +1,13 @@
 import React, { useState , useEffect } from 'react';
 import AccountMenu from '../../components/Menu/AccountMenu';
 import MainNavigationBar from '../../components/NavigationBar/MainNavigationBar';
+import MarketAverageData from 'components/MarketData/MarketAverageData';
 import { fetchMarketAverageData } from '../../services/marketAverageDataService';
 import './Dashboard.css'; // Import the CSS file
 
 const Dashboard: React.FC = () => {
   const [accountId, setAccountId] = useState<string | null>(null); // Store the currently logged-in account ID
-  const [marketData, setMarketData] = useState<{ [key: string]: { price: string; percent_change: string } } | null>(null);
+  const [marketData, setMarketData] = useState<{ [key: string]: any } | null>(null);
 
   // Callback to get the accountId from AccountMenu
   const handleAccountChange = (newAccountId: string) => {
@@ -15,7 +16,7 @@ const Dashboard: React.FC = () => {
 
   // Fetch market data for S&P 500 and Nasdaq ETFs
   useEffect(() => {
-    const fetchData = async () => {
+    const fetchMarketData = async () => {
       try {
         const symbols = ["^GSPC", "^NDX"];
         const encodedSymbols = symbols.map(encodeURIComponent).join(",");
@@ -26,7 +27,7 @@ const Dashboard: React.FC = () => {
       }
     };
 
-    fetchData();
+    fetchMarketData();
   }, []);
 
   return (
@@ -39,30 +40,30 @@ const Dashboard: React.FC = () => {
         <div className="market-average">
           <h1>Market Average</h1>
           <div className="market-average-items">
-            <div className="market-item">
-              <h2>S&P 500</h2>
-              {marketData && marketData['^GSPC'] ? (
-                <p>
-                  Price: {parseFloat(marketData['^GSPC'].price).toFixed(2)} <br />
-                  Change: <span className={`change ${parseFloat(marketData['^GSPC'].percent_change) >= 0 ? 'positive' : 'negative'}`}>
-                    {parseFloat(marketData['^GSPC'].percent_change).toFixed(2)}%
-                  </span>
-                </p>
-              ) : (
-                <p>Loading...</p>
+            <div className="market-average-items">
+              {marketData && marketData['^GSPC'] && (
+                <MarketAverageData
+                  indexName="S&P 500"
+                  marketData={{
+                    price: marketData['^GSPC'].price,
+                    price_change: marketData['^GSPC'].price_change,
+                    percent_change: marketData['^GSPC'].percent_change,
+                    price_high: marketData['^GSPC'].price_high,
+                    price_low: marketData['^GSPC'].price_low,
+                  }}
+                />
               )}
-            </div>
-            <div className="market-item">
-              <h2>Nasdaq 100</h2>
-              {marketData && marketData['^NDX'] ? (
-                <p>
-                  Price: {parseFloat(marketData['^NDX'].price).toFixed(2)} <br />
-                  Change: <span className={`change ${parseFloat(marketData['^NDX'].percent_change) >= 0 ? 'positive' : 'negative'}`}>
-                    {parseFloat(marketData['^NDX'].percent_change).toFixed(2)}%
-                  </span>
-                </p>
-              ) : (
-                <p>Loading...</p>
+              {marketData && marketData['^NDX'] && (
+                <MarketAverageData
+                  indexName="Nasdaq 100"
+                  marketData={{
+                    price: marketData['^NDX'].price,
+                    price_change: marketData['^NDX'].price_change,
+                    percent_change: marketData['^NDX'].percent_change,
+                    price_high: marketData['^NDX'].price_high,
+                    price_low: marketData['^NDX'].price_low,
+                  }}
+                />
               )}
             </div>
           </div>
