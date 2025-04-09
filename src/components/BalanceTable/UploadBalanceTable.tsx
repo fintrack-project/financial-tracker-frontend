@@ -44,7 +44,7 @@ const UploadBalanceTable: React.FC<UploadBalanceTableProps> = ({
   const handleDownloadTemplate = () => {
     const template = [
       {
-        date: 'YYYY/MM/DD',
+        date: 'yyyy-MM-dd',
         assetName: 'ExampleAsset',
         credit: 0,
         debit: 0,
