@@ -1,4 +1,4 @@
-export const fetchMarketAverageData = async (symbols: string[]): Promise<{ [key: string]: { price: string; percent_change: string } }> => {
+export const fetchMarketAverageData = async (symbols: string[]): Promise<{ [key: string]: any }> => {
   try {
     const response = await fetch(`/api/market-average-data?symbols=${symbols.join(',')}`, {
       method: 'GET',

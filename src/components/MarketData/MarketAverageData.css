@@ -1,0 +1,32 @@
+.market-item {
+  padding: 15px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  background-color: #f9f9f9;
+  text-align: center;
+  width: 200px;
+}
+
+.market-item h2 {
+  margin: 0 0 10px;
+  font-size: 1.5rem;
+  color: #333;
+}
+
+.market-item p {
+  margin: 5px 0;
+  font-size: 1rem;
+  color: #555;
+}
+
+.change {
+  font-weight: bold;
+}
+
+.change.positive {
+  color: green; /* Green for positive change */
+}
+
+.change.negative {
+  color: red; /* Red for negative change */
+}
