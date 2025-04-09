@@ -6,6 +6,7 @@ import BalanceOverviewTable from 'components/BalanceTable/BalanceOverviewTable';
 import BalancePreviewTable from 'components/BalanceTable/BalancePreviewTable';
 import UploadBalanceTable from 'components/BalanceTable/UploadBalanceTable';
 import { Transaction } from 'types/Transaction';
+import { fetchTransactions, confirmTransactions } from 'services/transactionService';
 import './Balance.css';
 
 const Balance: React.FC = () => {
@@ -20,12 +21,8 @@ const Balance: React.FC = () => {
       if (!accountId) return;
 
       try {
-        const response = await fetch(`/api/accounts/${accountId}/transactions`);
-        if (!response.ok) {
-          throw new Error('Failed to fetch existing transactions');
-        }
-        const data: Transaction[] = await response.json();
-        setExistingTransactions(data);
+        const transactions = await fetchTransactions(accountId);
+        setExistingTransactions(transactions);
       } catch (error) {
         console.error('Error fetching existing transactions:', error);
       }
@@ -41,26 +38,28 @@ const Balance: React.FC = () => {
   };
 
   // Callback to handle the confirmation of transactions
-  const handleConfirm = async (transactions: Transaction[]) => {
+  const handleConfirm = async () => {
     try {
-      const response = await fetch('/api/accounts/confirm-transactions', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(transactions),
-      });
-
-      if (!response.ok) {
-        throw new Error('Failed to confirm transactions');
+      if (!accountId) {
+        alert('Please select an account before confirming transactions.');
+        return;
       }
 
-      alert('Transactions confirmed and updated successfully.');
-      setExistingTransactions(transactions); // Update the existing transactions
-      setUploadedTransactions([]); // Clear uploaded transactions after confirmation
+      const updatedTransactions : Transaction[] = await confirmTransactions(accountId);
+      alert('Transactions confirmed successfully.');
+      setExistingTransactions(updatedTransactions); // Update the existing transactions
+
+      setUploadedTransactions([]); // Clear the uploaded transactions
+
+      // Fetch the updated transactions after confirmation 
+      try {
+        const transactions = await fetchTransactions(accountId);
+        setExistingTransactions(transactions);
+      } catch (error) {
+        console.error('Error fetching existing transactions:', error);
+      }
     } catch (error) {
       console.error('Error confirming transactions:', error);
-      alert('Error confirming transactions. Please try again.');
     }
   };
 
