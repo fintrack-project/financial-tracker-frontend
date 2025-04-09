@@ -24,14 +24,6 @@ const BalancePreviewTable: React.FC<BalancePreviewTableProps> = ({
 
   // Update previewTransactions whenever existingTransactions or uploadedTransactions change
   useEffect(() => {
-    
-    // Create a Set of unique keys for uploaded transactions
-    const uploadedKeys = new Set(
-      uploadedTransactions.map(
-        (t) => 
-          `${t.date}-${t.assetName}-${t.credit}-${t.debit}-${t.totalBalanceBefore}-${t.totalBalanceAfter}-${t.unit}`
-      )
-    );
 
     const sortedTransactions = [
       ...existingTransactions.map((t) => ({ ...t, markDelete: false })),
@@ -71,9 +63,8 @@ const BalancePreviewTable: React.FC<BalancePreviewTableProps> = ({
     }
     
     try {
-      // Filter out transactions marked for deletion
-      const transactionsToConfirm = previewTransactions.filter((t) => !t.markDelete);
-      await onConfirm(transactionsToConfirm);
+      // Send all previewTransactions (including markDelete) to the backend
+      await onConfirm(previewTransactions);
     } catch (error) {
       console.error('Error confirming transactions:', error);
     }

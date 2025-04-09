@@ -1,3 +1,4 @@
+import { PreviewTransaction } from 'types/PreviewTransaction';
 import { Transaction } from '../types/Transaction';
 
 /**
@@ -68,13 +69,15 @@ export const fetchPreviewTransactions = async (
 };
 
 export const confirmTransactions = async (
-  accountId: string
+  accountId: string,
+  previewTransactions: PreviewTransaction[]
 ): Promise<Transaction[]> => {
   const response = await fetch(`/api/accounts/${accountId}/confirm-transactions`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
     },
+    body: JSON.stringify(previewTransactions), // Send all previewTransactions
   });
 
   if (!response.ok) {

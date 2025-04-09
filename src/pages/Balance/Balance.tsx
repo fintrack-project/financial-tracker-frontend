@@ -8,6 +8,7 @@ import UploadBalanceTable from 'components/BalanceTable/UploadBalanceTable';
 import { Transaction } from 'types/Transaction';
 import { fetchTransactions, confirmTransactions } from 'services/transactionService';
 import './Balance.css';
+import { PreviewTransaction } from 'types/PreviewTransaction';
 
 const Balance: React.FC = () => {
   const [accountId, setAccountId] = useState<string | null>(null); // Store the currently logged-in account ID
@@ -38,14 +39,14 @@ const Balance: React.FC = () => {
   };
 
   // Callback to handle the confirmation of transactions
-  const handleConfirm = async () => {
+  const handleConfirm = async (PreviewTransaction: PreviewTransaction[]) => {
     try {
       if (!accountId) {
         alert('Please select an account before confirming transactions.');
         return;
       }
 
-      const updatedTransactions : Transaction[] = await confirmTransactions(accountId);
+      const updatedTransactions : Transaction[] = await confirmTransactions(accountId, PreviewTransaction);
       alert('Transactions confirmed successfully.');
       setExistingTransactions(updatedTransactions); // Update the existing transactions
 
