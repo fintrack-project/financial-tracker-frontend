@@ -3,6 +3,7 @@ import { format } from 'date-fns';
 import './BalancePreviewTable.css';
 import { Transaction } from 'types/Transaction';
 import { PreviewTransaction } from 'types/PreviewTransaction';
+import TransactionRow from './TransactionRow';
 
 interface BalancePreviewTableProps {
   accountId: string | null; // Account ID for the transactions
@@ -88,32 +89,18 @@ const BalancePreviewTable: React.FC<BalancePreviewTableProps> = ({
         </thead>
         <tbody>
           {previewTransactions.map((transaction, index) => (
-            <tr
-              key={index}
-              className={
-                `${isUploadedTransaction(transaction) ? 'highlight-row' : ''} 
-                ${transaction.markDelete ? 'marked-for-deletion' : ''}`
-              }
-            >
-              <td>{format(new Date(transaction.date), 'yyyy-MM-dd')}</td>
-              <td>{transaction.assetName}</td>
-              <td>{transaction.credit}</td>
-              <td className={transaction.debit !== 0 ? 'debit-column' : ''}>
-                {transaction.debit !== 0 ? `(${transaction.debit})` : transaction.debit}
-              </td>
-              <td>{transaction.totalBalanceBefore}</td>
-              <td>{transaction.totalBalanceAfter}</td>
-              <td>{transaction.unit}</td>
-              <td>
-                <button
-                  className="delete-button"
-                  onClick={() => toggleMarkDelete(index)}
-                >
-                  x
-                </button>
-              </td>
-            </tr>
-          ))}
+              <TransactionRow
+                key={index}
+                transaction={transaction}
+                isHighlighted={uploadedTransactions.some(
+                  (uploaded) =>
+                    uploaded.date === transaction.date &&
+                    uploaded.assetName === transaction.assetName
+                )}
+                isMarkedForDeletion={transaction.markDelete}
+                onDeleteClick={() => toggleMarkDelete(index)}
+              />
+            ))}
         </tbody>
       </table>
       <button className="confirm-button" onClick={handleConfirm}>
