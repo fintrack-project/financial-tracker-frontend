@@ -79,7 +79,6 @@ export const confirmTransactions = async (
     },
     body: JSON.stringify(previewTransactions), // Send all previewTransactions
   });
-
   if (!response.ok) {
     throw new Error('Failed to confirm transactions');
   }
