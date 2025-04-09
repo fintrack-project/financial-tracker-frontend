@@ -35,10 +35,8 @@ const BalancePreviewTable: React.FC<BalancePreviewTableProps> = ({
     try {
       // Call the onConfirm callback to update the database
       await onConfirm(previewTransactions);
-      alert('Transactions confirmed and updated successfully.');
     } catch (error) {
       console.error('Error confirming transactions:', error);
-      alert('Error confirming transactions. Please try again.');
     }
   };
 

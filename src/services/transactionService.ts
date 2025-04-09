@@ -46,7 +46,7 @@ export const uploadPreviewTransactions = async (
     }
 
     return response.json();
-    
+
   } catch (error) {
     console.error('Error uploading transactions:', error);
     throw error; // Re-throw the error to handle it in the calling component
@@ -69,12 +69,17 @@ export const fetchPreviewTransactions = async (
 
 export const confirmTransactions = async (
   accountId: string
-): Promise<void> => {
-  const response = await fetch(`/api/accounts/${accountId}/api/confirm-transactions`, {
+): Promise<Transaction[]> => {
+  const response = await fetch(`/api/accounts/${accountId}/confirm-transactions`, {
     method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
   });
 
   if (!response.ok) {
     throw new Error('Failed to confirm transactions');
   }
+
+  return response.json();
 };
