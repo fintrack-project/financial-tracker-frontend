@@ -2,12 +2,13 @@ import React, { useState, useEffect } from 'react';
 import { format } from 'date-fns';
 import './BalancePreviewTable.css';
 import { Transaction } from 'types/Transaction';
+import { PreviewTransaction } from 'types/PreviewTransaction';
 
 interface BalancePreviewTableProps {
   accountId: string | null; // Account ID for the transactions
   existingTransactions: Transaction[]; // Data from BalanceOverviewTable
   uploadedTransactions: Transaction[]; // Data from UploadBalanceTable
-  onConfirm: (transactions: Transaction[]) => void; // Callback to confirm changes
+  onConfirm: (transactions: PreviewTransaction[]) => void; // Callback to confirm changes
 }
 
 const BalancePreviewTable: React.FC<BalancePreviewTableProps> = ({
@@ -16,15 +17,41 @@ const BalancePreviewTable: React.FC<BalancePreviewTableProps> = ({
   uploadedTransactions,
   onConfirm,
 }) => {
-  const [previewTransactions, setPreviewTransactions] = useState<Transaction[]>([
-    ...existingTransactions,
-    ...uploadedTransactions,
+  const [previewTransactions, setPreviewTransactions] = useState<PreviewTransaction[]>([
+    ...existingTransactions.map((t) => ({ ...t, markDelete: false })),
+    ...uploadedTransactions.map((t) => ({ ...t, markDelete: false })),
   ]);
 
   // Update previewTransactions whenever existingTransactions or uploadedTransactions change
   useEffect(() => {
-    setPreviewTransactions([...existingTransactions, ...uploadedTransactions]);
+    setPreviewTransactions([
+      ...existingTransactions.map((t) => ({ ...t, markDelete: false })),
+      ...uploadedTransactions.map((t) => ({ ...t, markDelete: false })),
+    ]);
   }, [existingTransactions, uploadedTransactions]);
+
+  // Check if a transaction is in the uploadedTransactions list
+  const isUploadedTransaction = (transaction: PreviewTransaction) => {
+    return uploadedTransactions.some(
+      (uploaded) =>
+        uploaded.date === transaction.date &&
+        uploaded.assetName === transaction.assetName &&
+        uploaded.credit === transaction.credit &&
+        uploaded.debit === transaction.debit &&
+        uploaded.totalBalanceBefore === transaction.totalBalanceBefore &&
+        uploaded.totalBalanceAfter === transaction.totalBalanceAfter &&
+        uploaded.unit === transaction.unit
+    );
+  };
+
+  // Toggle the markDelete field for a transaction
+  const toggleMarkDelete = (index: number) => {
+    setPreviewTransactions((prev) =>
+      prev.map((transaction, i) =>
+        i === index ? { ...transaction, markDelete: !transaction.markDelete } : transaction
+      )
+    );
+  };
 
   const handleConfirm = async () => {
     if (!accountId) {
@@ -33,8 +60,9 @@ const BalancePreviewTable: React.FC<BalancePreviewTableProps> = ({
     }
     
     try {
-      // Call the onConfirm callback to update the database
-      await onConfirm(previewTransactions);
+      // Filter out transactions marked for deletion
+      const transactionsToConfirm = previewTransactions.filter((t) => !t.markDelete);
+      await onConfirm(transactionsToConfirm);
     } catch (error) {
       console.error('Error confirming transactions:', error);
     }
@@ -53,6 +81,7 @@ const BalancePreviewTable: React.FC<BalancePreviewTableProps> = ({
             <th>Total Balance Before</th>
             <th>Total Balance After</th>
             <th>Unit</th>
+            <th>Delete</th>
           </tr>
         </thead>
         <tbody>
@@ -60,7 +89,8 @@ const BalancePreviewTable: React.FC<BalancePreviewTableProps> = ({
             <tr
               key={index}
               className={
-                uploadedTransactions.includes(transaction) ? 'highlight-row' : ''
+                `${isUploadedTransaction(transaction) ? 'highlight-row' : ''} 
+                ${transaction.markDelete ? 'marked-for-deletion' : ''}`
               }
             >
               <td>{format(new Date(transaction.date), 'yyyy-MM-dd')}</td>
@@ -72,6 +102,14 @@ const BalancePreviewTable: React.FC<BalancePreviewTableProps> = ({
               <td>{transaction.totalBalanceBefore}</td>
               <td>{transaction.totalBalanceAfter}</td>
               <td>{transaction.unit}</td>
+              <td>
+                <button
+                  className="delete-button"
+                  onClick={() => toggleMarkDelete(index)}
+                >
+                  x
+                </button>
+              </td>
             </tr>
           ))}
         </tbody>
