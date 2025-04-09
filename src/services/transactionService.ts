@@ -28,12 +28,12 @@ export const fetchTransactions = async (accountId: string): Promise<Transaction[
  * @param transactions - The list of transactions to upload.
  * @returns A promise that resolves when the upload is successful.
  */
-export const uploadTransactions = async (
+export const uploadPreviewTransactions = async (
   accountId: string,
   transactions: Transaction[]
-): Promise<void> => {
+) : Promise <Transaction[]> => {
   try {
-    const response = await fetch(`/api/accounts/${accountId}/upload-transactions`, {
+    const response = await fetch(`/api/accounts/${accountId}/upload-preview-transactions`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -44,8 +44,37 @@ export const uploadTransactions = async (
     if (!response.ok) {
       throw new Error('Failed to upload transactions');
     }
+
+    return response.json();
+    
   } catch (error) {
     console.error('Error uploading transactions:', error);
     throw error; // Re-throw the error to handle it in the calling component
+  }
+};
+
+export const fetchPreviewTransactions = async (
+  accountId: string
+): Promise<Transaction[]> => {
+  const response = await fetch(`/api/accounts/${accountId}/preview-transactions`, {
+    method: 'GET',
+  });
+
+  if (!response.ok) {
+    throw new Error('Failed to fetch preview transactions');
+  }
+
+  return response.json();
+};
+
+export const confirmTransactions = async (
+  accountId: string
+): Promise<void> => {
+  const response = await fetch(`/api/accounts/${accountId}/api/confirm-transactions`, {
+    method: 'POST',
+  });
+
+  if (!response.ok) {
+    throw new Error('Failed to confirm transactions');
   }
 };

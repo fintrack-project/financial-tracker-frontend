@@ -1,16 +1,19 @@
 import React, { useState } from 'react';
 import { parseCSVFile, parseXLSXFile, exportToCSV, exportToXLSX } from '../../services/fileService';
-import { uploadTransactions } from '../../services/transactionService';
+import { uploadPreviewTransactions } from '../../services/transactionService';
 import TransactionTable from '../BalanceTable/TransactionTable';
 import { Transaction } from 'types/Transaction';
 import './UploadBalanceTable.css';
 
 interface UploadBalanceTableProps {
   accountId: string | null; // Account ID for the transactions
-  onUpload: (uploadedTransactions: Transaction[]) => void; // Callback to pass uploaded transactions
+  onPreviewUpdate: (previewTransactions: Transaction[]) => void; // Callback to update preview table
 }
 
-const UploadBalanceTable: React.FC<UploadBalanceTableProps> = ({ accountId, onUpload }) => {
+const UploadBalanceTable: React.FC<UploadBalanceTableProps> = ({ 
+  accountId, 
+  onPreviewUpdate 
+}) => {
   const [transactions, setTransactions] = useState<Transaction[]>([]);
   const [templateFormat, setTemplateFormat] = useState<'xlsx' | 'csv'>('xlsx'); // Default format is .xlsx
   const [dropdownOpen, setDropdownOpen] = useState(false); // Dropdown visibility state
@@ -71,11 +74,11 @@ const UploadBalanceTable: React.FC<UploadBalanceTableProps> = ({ accountId, onUp
     }
 
     try {
-      await uploadTransactions(accountId, transactions); // Use the new service
-      alert('Transactions uploaded successfully.');
-      onUpload(transactions); // Pass uploaded transactions to BalancePreviewTable
-      setTransactions([]); // Clear the table after successful upload
+      const previewData = await uploadPreviewTransactions(accountId, transactions); // Send transactions to backend
+      onPreviewUpdate(previewData); // Update the preview table with the response
+      alert('Transactions uploaded to preview successfully.');
     } catch (error) {
+      console.error('Error uploading transactions to preview:', error);
       alert('Error uploading transactions. Please try again.');
     }
   };
