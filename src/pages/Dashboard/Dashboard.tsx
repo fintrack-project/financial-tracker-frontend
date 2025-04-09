@@ -70,7 +70,7 @@ const Dashboard: React.FC = () => {
         </div>
         <div className="live-price">
           <h1>Live Price of Holdings/Watchlist</h1>
-          <p>Coming soon...</p>
+          <p>Coming soooooooooon...</p>
         </div>
       </div>
     </div>
