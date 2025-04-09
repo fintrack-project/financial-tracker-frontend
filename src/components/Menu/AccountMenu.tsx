@@ -30,7 +30,6 @@ const AccountMenu: React.FC<AccountMenuProps> = ({ onAccountChange }) => {
         }
 
         const data = await response.json();
-        console.log('Fetched accountId in AccountMenu:', data.accountId); // Debug log
         onAccountChange(data.accountId);
       } catch (error) {
         console.error('Error fetching account ID:', error);

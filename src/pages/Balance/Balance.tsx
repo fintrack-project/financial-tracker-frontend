@@ -34,7 +34,6 @@ const Balance: React.FC = () => {
 
   // Callback to get the accountId from AccountMenu
   const handleAccountChange = (accountId: string) => {
-    console.log('Account ID received in Balance:', accountId); // Debug log
     setAccountId(accountId);
   };
 
