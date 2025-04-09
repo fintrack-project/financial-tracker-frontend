@@ -146,44 +146,46 @@ const UploadBalanceTable: React.FC<UploadBalanceTableProps> = ({
           <BlankTransactionRow onAddRow={addRow} />
         </tbody>
       </table>
-      <div className="file-actions">
-        <input type="file" accept=".csv, .xlsx" onChange={handleFileUpload} />
-        <button onClick={handleDownloadTemplate}>Download Template</button>
-        <div className="dropdown-container">
-          <div
-            className="dropdown-selector"
-            onClick={() => setDropdownOpen((prev) => !prev)}
-          >
-          .{templateFormat.toLowerCase()} ▼
-          </div>
-          {dropdownOpen && (
-            <div className="dropdown-menu">
-              <div
-                className="dropdown-item"
-                onClick={() => {
-                  setTemplateFormat('xlsx');
-                  setDropdownOpen(false);
-                }}
-              >
-                .xlsx
-              </div>
-              <div
-                className="dropdown-item"
-                onClick={() => {
-                  setTemplateFormat('csv');
-                  setDropdownOpen(false);
-                }}
-              >
-                .csv
-              </div>
-            </div>
-          )}
+      <div className="actions-row">
+        <div className="upload-button-container">
+          <button className="upload-button" onClick={handleUploadToPreview}>
+            Upload Transactions
+          </button>
         </div>
-      </div>
-      <div className="upload-button-container">
-        <button className="upload-button" onClick={handleUploadToPreview}>
-          Upload Transactions
-        </button>
+        <div className="file-actions">
+          <input type="file" accept=".csv, .xlsx" onChange={handleFileUpload} />
+          <button onClick={handleDownloadTemplate}>Download Template</button>
+          <div className="dropdown-container">
+            <div
+              className="dropdown-selector"
+              onClick={() => setDropdownOpen((prev) => !prev)}
+            >
+            .{templateFormat.toLowerCase()} ▼
+            </div>
+            {dropdownOpen && (
+              <div className="dropdown-menu">
+                <div
+                  className="dropdown-item"
+                  onClick={() => {
+                    setTemplateFormat('xlsx');
+                    setDropdownOpen(false);
+                  }}
+                >
+                  .xlsx
+                </div>
+                <div
+                  className="dropdown-item"
+                  onClick={() => {
+                    setTemplateFormat('csv');
+                    setDropdownOpen(false);
+                  }}
+                >
+                  .csv
+                </div>
+              </div>
+            )}
+          </div>
+        </div>
       </div>
     </div>
   );

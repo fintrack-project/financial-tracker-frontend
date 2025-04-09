@@ -1,5 +1,6 @@
 import React from 'react';
 import { Transaction } from 'types/Transaction';
+import './TransactionRow.css';
 
 interface InputTransactionRowProps {
   transaction: Transaction; // The transaction data for the row
@@ -17,35 +18,35 @@ const InputTransactionRow: React.FC<InputTransactionRowProps> = ({
       <td>
         <input
           type="date"
-          value={transaction.date}
+          value={transaction.date || ''}
           onChange={(e) => onInputChange('date', e.target.value)}
         />
       </td>
       <td>
         <input
           type="text"
-          value={transaction.assetName}
+          value={transaction.assetName || ''}
           onChange={(e) => onInputChange('assetName', e.target.value)}
         />
       </td>
       <td>
         <input
           type="number"
-          value={transaction.credit}
+          value={transaction.credit || 0}
           onChange={(e) => onInputChange('credit', parseFloat(e.target.value))}
         />
       </td>
       <td>
         <input
           type="number"
-          value={transaction.debit}
+          value={transaction.debit || 0}
           onChange={(e) => onInputChange('debit', parseFloat(e.target.value))}
         />
       </td>
       <td>
         <input
           type="number"
-          value={transaction.totalBalanceBefore}
+          value={transaction.totalBalanceBefore || 0}
           onChange={(e) =>
             onInputChange('totalBalanceBefore', parseFloat(e.target.value))
           }
@@ -54,7 +55,7 @@ const InputTransactionRow: React.FC<InputTransactionRowProps> = ({
       <td>
         <input
           type="number"
-          value={transaction.totalBalanceAfter}
+          value={transaction.totalBalanceAfter || 0}
           onChange={(e) =>
             onInputChange('totalBalanceAfter', parseFloat(e.target.value))
           }
@@ -63,7 +64,7 @@ const InputTransactionRow: React.FC<InputTransactionRowProps> = ({
       <td>
         <input
           type="text"
-          value={transaction.unit}
+          value={transaction.unit || ''}
           onChange={(e) => onInputChange('unit', e.target.value)}
         />
       </td>

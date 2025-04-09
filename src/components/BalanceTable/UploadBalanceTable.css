@@ -13,6 +13,14 @@
   color: #333;
 }
 
+/* Parent container for file actions and upload button */
+.actions-row {
+  display: flex;
+  justify-content: space-between; /* Space between the two sections */
+  align-items: center; /* Vertically align items */
+  margin-top: 16px; /* Add spacing above the row */
+}
+
 .file-actions {
   display: flex;
   justify-content: flex-end;

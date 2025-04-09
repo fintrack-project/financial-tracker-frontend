@@ -1,5 +1,5 @@
 import React from 'react';
-
+import './TransactionRow.css';
 interface BlankTransactionRowProps {
   onAddRow: () => void; // Callback to add a new row
 }
