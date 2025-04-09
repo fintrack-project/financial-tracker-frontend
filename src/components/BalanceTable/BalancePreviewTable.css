@@ -29,6 +29,31 @@
   background-color: #ffe6e6; /* Light red for rows added from UploadBalanceTable */
 }
 
+.marked-for-deletion {
+  text-decoration: line-through;
+  color: gray;
+  opacity: 0.6;
+}
+
+.delete-button {
+  width: 25px;
+  height: 25px;
+  background-color: red;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: bold;
+  text-align: center;
+  line-height: 25px;
+  padding: 0;
+}
+
+.delete-button:hover {
+  background-color: darkred;
+}
+
 .confirm-button {
   padding: 10px 20px;
   background-color: #007bff;
