@@ -45,9 +45,9 @@ const Balance: React.FC = () => {
         return;
       }
 
-      const updatedTransactions : Transaction[] = await confirmTransactions(accountId, PreviewTransaction);
+      await confirmTransactions(accountId, PreviewTransaction);
       alert('Transactions confirmed successfully.');
-      setExistingTransactions(updatedTransactions); // Update the existing transactions
+      // setExistingTransactions(updatedTransactions); // Update the existing transactions
       setUploadedTransactions([]); // Clear the uploaded transactions
       // Fetch the updated transactions after confirmation 
       try {
