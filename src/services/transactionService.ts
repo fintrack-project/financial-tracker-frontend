@@ -71,17 +71,23 @@ export const fetchPreviewTransactions = async (
 export const confirmTransactions = async (
   accountId: string,
   previewTransactions: PreviewTransaction[]
-): Promise<Transaction[]> => {
-  const response = await fetch(`/api/accounts/${accountId}/confirm-transactions`, {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify(previewTransactions), // Send all previewTransactions
-  });
-  if (!response.ok) {
-    throw new Error('Failed to confirm transactions');
-  }
+): Promise<void> => {
+  try {
+    const response = await fetch(`/api/accounts/${accountId}/confirm-transactions`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(previewTransactions), // Send all previewTransactions
+    });
 
-  return response.json();
+    if (!response.ok) {
+      throw new Error('Failed to confirm transactions');
+    }
+
+    // No need to return anything since the backend responds with no content (204 No Content or 200 OK)
+  } catch (error) {
+    console.error('Error confirming transactions:', error);
+    throw error; // Re-throw the error to handle it in the calling component
+  }
 };
