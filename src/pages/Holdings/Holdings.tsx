@@ -20,7 +20,7 @@ const Holdings: React.FC = () => {
       </div>
       <div className="content">
         <h1>Holdings</h1>
-        <HoldingsTable />
+        <HoldingsTable accountId={accountId}/>
       </div>
     </div>
   );

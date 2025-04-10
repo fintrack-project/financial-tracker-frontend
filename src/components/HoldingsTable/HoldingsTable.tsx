@@ -1,26 +1,32 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+import { fetchHoldings } from '../../services/holdingsService';
+import { Holding } from '../../types/Holding';
 import './HoldingsTable.css';
 
-interface Holding {
-  name: string;
-  amount: number;
-  price: number;
-  unit: string;
-  totalValue: number;
+interface HoldingsTableProps {
+  accountId: string | null; // Account ID to filter holdings
 }
 
-const HoldingsTable: React.FC = () => {
-  // Dummy data for holdings
-  const holdings: Holding[] = Array.from({ length: 20 }, (_, index) => ({
-    name: `Asset ${index + 1}`,
-    amount: Math.floor(Math.random() * 100 + 1), // Random total amount
-    price: Math.floor(Math.random() * 1000 + 1), // Random price
-    unit: 'USD',
-    totalValue: 0, // Will be calculated dynamically
-  })).map((holding) => ({
-    ...holding,
-    totalValue: holding.amount * holding.price, // Calculate total value
-  }));
+const HoldingsTable: React.FC<HoldingsTableProps> = ({ accountId }) => {
+  const [holdings, setHoldings] = useState<Holding[]>([]);
+
+  useEffect(() => {
+    if (!accountId) {
+      console.warn('Account ID is null, skipping fetch'); // Debug log
+      return;
+    }
+
+    const loadHoldings = async () => {
+      try {
+        const fetchedHoldings = await fetchHoldings(accountId);
+        setHoldings(fetchedHoldings);
+      } catch (error) {
+        console.error('Error loading holdings:', error);
+      }
+    };
+
+    loadHoldings();
+  }, [accountId]);
 
   return (
     <div className="holdings-table-container">
@@ -28,20 +34,23 @@ const HoldingsTable: React.FC = () => {
         <thead>
           <tr>
             <th>Name</th>
-            <th>Total Amount</th>
+            <th>Quantity</th>
+            <th>Asset Unit</th>
             <th>Price</th>
-            <th>Unit</th>
+            <th>Price Unit</th>
             <th>Total Value</th>
+            <th>Value Unit</th>
           </tr>
         </thead>
         <tbody>
           {holdings.map((holding, index) => (
             <tr key={index}>
-              <td>{holding.name}</td>
-              <td>{holding.amount}</td>
-              <td>{holding.price}</td>
+              <td>{holding.assetName}</td>
+              <td>{holding.totalBalance}</td>
               <td>{holding.unit}</td>
-              <td>{holding.totalValue}</td>
+              <td>{/* Placeholder for Price */}</td>
+              <td>{/* Placeholder for Total Value */}</td>
+              <td>{/* Placeholder for Unit (Value) */}</td>
             </tr>
           ))}
         </tbody>
