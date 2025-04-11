@@ -14,7 +14,7 @@ export interface CreateAccountRequest {
 export const registerUser = async (registerData: RegisterRequest): Promise<string> => {
   try {
     // Step 1: Register the user
-    const registerResponse = await fetch('http://localhost:8080/api/register', {
+    const registerResponse = await fetch('/api/register', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -30,7 +30,7 @@ export const registerUser = async (registerData: RegisterRequest): Promise<strin
 
     // Step 2: Create an account for the registered user
     const createAccountResponse = await fetch(
-      `http://localhost:8080/api/accounts/create?userId=${encodeURIComponent(registerData.userId)}`,
+      `/api/accounts/create?userId=${encodeURIComponent(registerData.userId)}`,
       {
         method: 'POST',
         headers: {
