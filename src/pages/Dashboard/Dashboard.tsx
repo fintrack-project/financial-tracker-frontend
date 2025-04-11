@@ -2,7 +2,7 @@ import React, { useState , useEffect } from 'react';
 import AccountMenu from '../../components/Menu/AccountMenu';
 import MainNavigationBar from '../../components/NavigationBar/MainNavigationBar';
 import MarketAverageData from 'components/MarketData/MarketAverageData';
-import { fetchMarketAverageData } from '../../services/marketAverageDataService';
+import { updateMarketAverageData, fetchMarketAverageData } from '../../services/marketAverageDataService';
 import './Dashboard.css'; // Import the CSS file
 
 const Dashboard: React.FC = () => {
@@ -16,10 +16,15 @@ const Dashboard: React.FC = () => {
 
   // Fetch market data for S&P 500 and Nasdaq ETFs
   useEffect(() => {
-    const fetchMarketData = async () => {
+    const symbols = ["^GSPC", "^NDX"];
+    const fetchAndUpdateMarketData = async () => {
       try {
-        const symbols = ["^GSPC", "^NDX"];
         const encodedSymbols = symbols.map(encodeURIComponent).join(",");
+
+        // Step 1: Send a POST request to update the market average data
+        await updateMarketAverageData(symbols);
+
+        // Step 2: Fetch the updated market average data
         const data = await fetchMarketAverageData([encodedSymbols]);
         setMarketData(data);
       } catch (error) {
@@ -27,7 +32,7 @@ const Dashboard: React.FC = () => {
       }
     };
 
-    fetchMarketData();
+    fetchAndUpdateMarketData();
   }, []);
 
   return (
