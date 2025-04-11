@@ -6,9 +6,15 @@ export interface RegisterRequest {
   address?: string;
 }
 
+export interface CreateAccountRequest {
+  userId: string;
+  accountName: string;
+}
+
 export const registerUser = async (registerData: RegisterRequest): Promise<string> => {
   try {
-    const response = await fetch('http://localhost:8080/api/register', {
+    // Step 1: Register the user
+    const registerResponse = await fetch('http://localhost:8080/api/register', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -16,12 +22,32 @@ export const registerUser = async (registerData: RegisterRequest): Promise<strin
       body: JSON.stringify(registerData),
     });
 
-    if (!response.ok) {
-      const errorData = await response.json();
+    if (!registerResponse.ok) {
+      const errorData = await registerResponse.json();
       throw new Error(errorData.message || 'Registration failed.');
     }
+    console.log('User registered successfully');
 
-    return 'Registration successful!';
+    // Step 2: Create an account for the registered user
+    const createAccountResponse = await fetch(
+      `http://localhost:8080/api/accounts/create?userId=${encodeURIComponent(registerData.userId)}`,
+      {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      }
+    );
+
+    if (!createAccountResponse.ok) {
+      const errorData = await createAccountResponse.json();
+      throw new Error(errorData.error || 'Account creation failed.');
+    }
+
+    const createAccountData = await createAccountResponse.json();
+    console.log('Account created successfully:', createAccountData);
+
+    return `Registration and account creation successful! Account ID: ${createAccountData.accountId}`;
   } catch (error) {
     if (error instanceof Error) {
       throw new Error(error.message || 'An error occurred during registration.');
