@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { fetchHoldings } from '../../services/holdingsService';
 import { Holding } from '../../types/Holding';
+import  { Client } from '@stomp/stompjs';
+import SockJS from 'sockjs-client';
 import './HoldingsTable.css';
 
 interface HoldingsTableProps {
@@ -57,32 +59,36 @@ const HoldingsTable: React.FC<HoldingsTableProps> = ({ accountId }) => {
             console.error('Error sending market data update request:', error);
           });
 
-        // Establish WebSocket connection for real-time updates
-        const socket = new WebSocket('ws://localhost:8080/market-data-updates');
+        // Establish WebSocket connection using STOMP
+        const socket = new SockJS('http://localhost:8080/ws');
+        const stompClient = new Client({
+          webSocketFactory: () => socket,
+          debug: (str) => console.log(str),
+          reconnectDelay: 5000, // Reconnect after 5 seconds if the connection is lost
+        });
 
-        socket.onopen = () => {
-          console.log('WebSocket connection established');
+        stompClient.onConnect = () => {
+          console.log('STOMP connection established');
+
+          // Subscribe to the /topic/market-data topic
+          stompClient.subscribe('/topic/market-data', (message) => {
+            const updatedMarketData: WebSocketMarketData[] = JSON.parse(message.body);
+            console.log('Received updated market data:', updatedMarketData);
+
+            // Update the asset prices in the state
+            setAssetPrices(updatedMarketData);
+          });
         };
 
-        socket.onmessage = (event) => {
-          const updatedMarketData: WebSocketMarketData[] = JSON.parse(event.data);
-          console.log('Received updated market data:', updatedMarketData);
-
-          // Update the asset prices in the state
-          setAssetPrices(updatedMarketData);
+        stompClient.onStompError = (frame) => {
+          console.error('STOMP error:', frame.headers['message']);
         };
 
-        socket.onerror = (error) => {
-          console.error('WebSocket error:', error);
-        };
-
-        socket.onclose = () => {
-          console.log('WebSocket connection closed');
-        };
+        stompClient.activate();
 
         // Cleanup WebSocket connection on component unmount
         return () => {
-          socket.close();
+          stompClient.deactivate();
         };
       } catch (error) {
         console.error('Error loading holdings:', error);
