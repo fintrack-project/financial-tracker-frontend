@@ -97,22 +97,18 @@ const HoldingsTable: React.FC<HoldingsTableProps> = ({ accountId }) => {
               );
 
               const totalValue = assetData
-                ? (assetData.price * holding.totalBalance).toFixed(2)
+                ? parseFloat((assetData.price * holding.totalBalance).toFixed(2)).toLocaleString()
                 : 'Loading...';
 
               return (
                 <tr key={index}>
                   <td>{holding.assetName}</td>
-                  <td>{holding.totalBalance}</td>
+                  <td>{holding.totalBalance.toLocaleString()}</td>
                   <td>{holding.unit}</td>
-                  <td>{assetData?.price || 'Loading...'}</td>
+                  <td>{assetData?.price?.toLocaleString() || 'Loading...'}</td>
                   <td>{assetData?.priceUnit || 'Loading...'}</td>
                   <td>{totalValue}</td>
-                  <td>
-                    {assetData?.percentChange !== undefined
-                      ? `${assetData.percentChange}%`
-                      : 'Loading...'}
-                  </td>
+                  <td>{assetData?.priceUnit || 'Loading...'}</td>
                 </tr>
               );
             })}
