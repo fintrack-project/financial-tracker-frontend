@@ -30,7 +30,7 @@ export const updateMarketAverageData = async (symbols: string[]): Promise<void> 
  */
 export const fetchMarketAverageData = async (symbols: string[]): Promise<{ [key: string]: any }> => {
   try {
-    const queryParams = symbols.map((symbol) => `symbols=${encodeURIComponent(symbol)}`).join('&');
+    const queryParams = symbols.map((symbol) => `indexNames=${encodeURIComponent(symbol)}`).join('&');
     const response = await fetch(`/api/market-average-data/fetch?${queryParams}`, {
       method: 'GET',
       headers: {
