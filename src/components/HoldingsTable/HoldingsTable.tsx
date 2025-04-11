@@ -1,20 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import { fetchHoldings } from '../../services/holdingsService';
+import { updateMarketData, fetchMarketData, MarketDataProps } from 'services/marketDataService';
 import { Holding } from '../../types/Holding';
 import './HoldingsTable.css';
 
 interface HoldingsTableProps {
   accountId: string | null; // Account ID to filter holdings
-}
-
-interface MarketDataProps {
-  id: number;
-  symbol: string;
-  price: number;
-  percentChange: number;
-  timestamp: string;
-  assetName: string;
-  priceUnit: string;
 }
 
 const HoldingsTable: React.FC<HoldingsTableProps> = ({ accountId }) => {
@@ -29,47 +20,23 @@ const HoldingsTable: React.FC<HoldingsTableProps> = ({ accountId }) => {
 
     const loadHoldingsAndMarketData = async () => {
       try {
-        // Fetch holdings from the backend
+        // Step 1: Fetch holdings from the backend
         const fetchedHoldings = await fetchHoldings(accountId);
         setHoldings(fetchedHoldings);
 
-        // Extract asset names from holdings
+        // Step 2: Extract asset names from holdings
         const assetNames = fetchedHoldings.map((holding) => holding.assetName);
 
-        // Send asset names to the backend to initiate market data updates
-        const updateResponse = await fetch('/api/market-data/update', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify(assetNames),
-        });
+        // Step 3: Send asset names to the backend to initiate market data updates
+        await updateMarketData(assetNames);
 
-        if (!updateResponse.ok) {
-          throw new Error('Failed to update market data');
-        }
-
-        console.log('Market data update request sent successfully.');
-
-        // Fetch the updated market data
-        const queryParams = assetNames.map((name) => `assetNames=${encodeURIComponent(name)}`).join('&');
-        const fetchResponse = await fetch(`/api/market-data/fetch?${queryParams}`, {
-          method: 'GET',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-        });
-
-        if (!fetchResponse.ok) {
-          throw new Error('Failed to fetch market data');
-        }
-
-        const marketDataResponse: MarketDataProps[] = await fetchResponse.json();
+        // Step 4: Fetch the updated market data
+        const marketDataResponse = await fetchMarketData(assetNames);
         setMarketData(marketDataResponse);
 
         console.log('Market data fetched successfully:', marketDataResponse);
       } catch (error) {
-        console.error('Error loading holdings:', error);
+        console.error('Error loading holdings or market data:', error);
       }
     };
 
