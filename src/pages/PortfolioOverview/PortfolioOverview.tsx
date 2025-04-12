@@ -24,7 +24,6 @@ const PortfolioOverview: React.FC = () => {
         </div>
         <div className="right-section">
           <h2>Assets</h2>
-
         </div>
       </div>
     </div>

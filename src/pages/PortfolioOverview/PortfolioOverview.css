@@ -7,8 +7,10 @@
 }
 
 .portfolio-overview-container {
+  display: flex;
+  flex-direction: column;
   text-align: center;
-  padding: 20px;
+  padding: 16px;
   font-family: Arial, sans-serif;
 }
 
@@ -25,28 +27,27 @@
 }
 
 .content {
-  display: flex;
-  flex: 1;
-  padding: 20px;
+  display: flex; /* Use flexbox to align sections horizontally */
+  flex-direction: row; /* Ensure sections are placed side by side */
+  justify-content: space-between; /* Add space between left and right sections */
+  align-items: flex-start; /* Align items at the top */
+  gap: 16px; /* Add spacing between sections */
+  width: 100%; /* Ensure the content takes full width */
 }
   
-.left-section {
-  flex: 1; /* Take up half the page */
-  padding: 20px;
-}
-  
+.left-section,
 .right-section {
-  flex: 1; /* Take up half the page */
-  display: flex;
-  justify-content: center;
-  align-items: flex-start;
-  padding: 20px;
-  background-color: #fff;
-  box-shadow: -2px 0 4px rgba(0, 0, 0, 0.1);
-  border-left: 1px solid #ddd;
+  flex: 1; /* Make both sections take equal width */
+  padding: 16px;
+  border: 1px solid #ddd; /* Optional: Add a border for clarity */
+  border-radius: 8px; /* Optional: Add rounded corners */
+  background-color: #f9f9f9; /* Optional: Add a background color */
 }
-  
-.right-section form {
-  width: 100%;
-  max-width: 400px; /* Limit the width of the form */
+
+.left-section {
+  margin-right: 8px; /* Optional: Add spacing to the right of the left section */
+}
+
+.right-section {
+  margin-left: 8px; /* Optional: Add spacing to the left of the right section */
 }
