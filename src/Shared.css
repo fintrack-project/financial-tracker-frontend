@@ -1,0 +1,22 @@
+/* Shared styles for the top bar */
+.top-bar {
+  display: flex; /* Use flexbox for horizontal alignment */
+  flex-direction: row; /* Align items in a row */
+  justify-content: space-between; /* Push navigation bar to the left and account menu to the right */
+  align-items: center; /* Vertically align items */
+  padding: 8px 16px; /* Add padding for spacing */
+  background-color: #f9f9f9; /* Optional: Add a background color */
+  border-bottom: 1px solid #ddd; /* Optional: Add a bottom border for separation */
+  box-sizing: border-box; /* Ensure padding is included in the width */
+  width: 100%; /* Ensure the top-bar spans the full width */
+}
+
+.top-bar .navigation-bar {
+  display: flex; /* Ensure the navigation bar content is aligned properly */
+  align-items: center; /* Vertically align items inside the navigation bar */
+}
+
+.top-bar .account-menu {
+  display: flex; /* Ensure the account menu content is aligned properly */
+  align-items: center; /* Vertically align items inside the account menu */
+}

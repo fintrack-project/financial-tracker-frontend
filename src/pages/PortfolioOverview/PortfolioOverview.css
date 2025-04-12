@@ -1,0 +1,61 @@
+.portfolio-overview-container {
+  text-align: center;
+  padding: 20px;
+}
+
+.portfolio-overview-container h1 {
+  color: #333;
+  font-size: 2.5rem;
+  margin-bottom: 20px;
+}
+
+.portfolio-overview-container p {
+  color: #555;
+  font-size: 1.2rem;
+  margin: 10px 0;
+}
+
+.portfolio-overview-list {
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+  padding: 20px;
+}
+
+.portfolio-overview-list h1 {
+  color: #333;
+  font-size: 2.5rem;
+  margin-bottom: 20px;
+}
+
+.portfolio-overview-list p {
+  color: #555;
+  font-size: 1.2rem;
+  margin: 10px 0;
+}
+
+.content {
+  display: flex; /* Use flexbox to align sections horizontally */
+  flex-direction: row; /* Ensure sections are placed side by side */
+  justify-content: space-between; /* Add space between left and right sections */
+  align-items: flex-start; /* Align items at the top */
+  gap: 16px; /* Add spacing between sections */
+  width: 100%; /* Ensure the content takes full width */
+}
+  
+.left-section,
+.right-section {
+  flex: 1; /* Make both sections take equal width */
+  padding: 16px;
+  border: 1px solid #ddd; /* Optional: Add a border for clarity */
+  border-radius: 8px; /* Optional: Add rounded corners */
+  background-color: #f9f9f9; /* Optional: Add a background color */
+}
+
+.left-section {
+  margin-right: 8px; /* Optional: Add spacing to the right of the left section */
+}
+
+.right-section {
+  margin-left: 8px; /* Optional: Add spacing to the left of the right section */
+}

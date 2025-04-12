@@ -1,6 +1,7 @@
 .account-menu {
   position: relative;
-  display: inline-block;
+  display: flex; /* Ensure the account menu aligns properly */
+  align-items: center; /* Vertically align the button */
 }
 
 .account-button {
@@ -11,6 +12,12 @@
   border-radius: 5px;
   cursor: pointer;
   font-size: 1rem;
+  display: flex; /* Ensure the button content aligns properly */
+  align-items: center; /* Vertically align the button text */
+  justify-content: center; /* Horizontally align the button text */
+  width: 80px; /* Set a fixed width for consistency */
+  height: 30px; /* Set a fixed height for consistency */
+  box-sizing: border-box; /* Include padding and border in the button size */
 }
 
 .account-button:hover {
@@ -36,7 +43,7 @@
   color: #333;
 }
 
-.logout-button {
+.account-menu .logout-button {
   background-color: #dc3545;
   color: white;
   border: none;
@@ -47,6 +54,6 @@
   font-size: 1rem;
 }
 
-.logout-button:hover {
+.account-menu.logout-button:hover {
   background-color: #c82333;
 }

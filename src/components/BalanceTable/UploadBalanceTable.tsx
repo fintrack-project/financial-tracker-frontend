@@ -148,13 +148,11 @@ const UploadBalanceTable: React.FC<UploadBalanceTableProps> = ({
       </table>
       <div className="actions-row">
         <div className="upload-button-container">
-          <button className="upload-button" onClick={handleUploadToPreview}>
-            Upload Transactions
-          </button>
+          <button className="button" onClick={handleUploadToPreview}>Upload Transactions</button>
         </div>
         <div className="file-actions">
           <input type="file" accept=".csv, .xlsx" onChange={handleFileUpload} />
-          <button onClick={handleDownloadTemplate}>Download Template</button>
+          <button className="button" onClick={handleDownloadTemplate}>Download Template</button>
           <div className="dropdown-container">
             <div
               className="dropdown-selector"

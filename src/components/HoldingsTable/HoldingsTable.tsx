@@ -51,10 +51,8 @@ const HoldingsTable: React.FC<HoldingsTableProps> = ({ accountId }) => {
             <th>Name</th>
             <th>Quantity</th>
             <th>Asset Unit</th>
-            <th>Price</th>
-            <th>Price Unit</th>
-            <th>Total Value</th>
-            <th>Value Unit</th>
+            <th>Price (USD)</th>
+            <th>Total Value (USD)</th>
           </tr>
         </thead>
         <tbody>
@@ -73,9 +71,7 @@ const HoldingsTable: React.FC<HoldingsTableProps> = ({ accountId }) => {
                   <td>{holding.totalBalance.toLocaleString()}</td>
                   <td>{holding.unit}</td>
                   <td>{assetData?.price?.toLocaleString() || 'Loading...'}</td>
-                  <td>{assetData?.priceUnit || 'Loading...'}</td>
                   <td>{totalValue}</td>
-                  <td>{assetData?.priceUnit || 'Loading...'}</td>
                 </tr>
               );
             })}

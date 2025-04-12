@@ -1,15 +1,6 @@
-.top-bar {
-  display: flex;
-  justify-content: flex-end; /* Aligns content to the right */
-  padding: 10px 20px;
-  background-color: #f8f9fa; /* Optional: Background color for the top bar */
-  border-bottom: 1px solid #ddd; /* Optional: Adds a bottom border */
-}
-
 .dashboard-container {
   text-align: center;
   padding: 20px;
-  font-family: Arial, sans-serif;
 }
 
 .dashboard-container h1 {
@@ -24,23 +15,37 @@
   margin: 10px 0;
 }
 
-.dashboard-container button {
-  background-color: #007bff;
-  color: white;
-  border: none;
-  padding: 10px 20px;
-  font-size: 1rem;
-  border-radius: 5px;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
+.dashboard-data-container {
+  display: flex;
+  flex-direction: column;
+  gap: 24px; /* Add spacing between sections */
 }
 
-.dashboard-container button:hover {
-  background-color: #0056b3;
+.market-data-container {
+  display: flex; /* Use flexbox to align sections horizontally */
+  flex-direction: row; /* Ensure sections are placed side by side */
+  justify-content: space-between; /* Add space between left and right sections */
+  align-items: flex-start; /* Align items at the top */
+  gap: 16px; /* Add spacing between sections */
+  width: 100%; /* Ensure the content takes full width */
+}
+
+.market-average,
+.currency-section {
+  flex: 1; /* Make both sections take equal width */
+  padding: 16px;
+  border: 1px solid #ddd; /* Optional: Add a border for clarity */
+  border-radius: 8px; /* Optional: Add rounded corners */
+  background-color: #f9f9f9; /* Optional: Add a background color */
+  box-sizing: border-box; /* Ensure padding is included in the width */
 }
 
 .market-average {
-  margin-bottom: 20px;
+  margin-right: 8px; /* Add spacing to the right of the Market Average section */
+}
+
+.currency-section {
+  margin-left: 8px; /* Add spacing to the left of the Currency section */
 }
 
 .market-average-items {
@@ -63,3 +68,14 @@
   margin: 5px 0;
 }
 
+.change {
+  font-weight: bold;
+}
+
+.change.positive {
+  color: green; /* Green for positive change */
+}
+
+.change.negative {
+  color: red; /* Red for negative change */
+}

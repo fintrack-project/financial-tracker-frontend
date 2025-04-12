@@ -2,6 +2,7 @@ import React, { useState , useEffect } from 'react';
 import AccountMenu from '../../components/Menu/AccountMenu';
 import MainNavigationBar from '../../components/NavigationBar/MainNavigationBar';
 import MarketAverageData from 'components/MarketData/MarketAverageData';
+import HoldingsTable from '../../components/HoldingsTable/HoldingsTable';
 import { updateMarketAverageData, fetchMarketAverageData } from '../../services/marketAverageDataService';
 import './Dashboard.css'; // Import the CSS file
 
@@ -37,45 +38,61 @@ const Dashboard: React.FC = () => {
 
   return (
     <div className="dashboard-container">
-      <MainNavigationBar />
       <div className="top-bar">
-        <AccountMenu onAccountChange={handleAccountChange} />
+        <div className="navigation-bar">
+          <MainNavigationBar />
+        </div>
+        <div className="account-menu">
+          <AccountMenu onAccountChange={handleAccountChange} />
+        </div>
       </div>
-      <div className="market-data-container">
-        <div className="market-average">
-          <h1>Market Average</h1>
-          <div className="market-average-items">
+      <div className="dashboard-data-container">
+        <div className="market-data-container">
+          <div className="market-average">
+            <h1>Market Average</h1>
             <div className="market-average-items">
-              {marketData && marketData['^GSPC'] && (
-                <MarketAverageData
-                  indexName="S&P 500"
-                  marketData={{
-                    price: marketData['^GSPC'].price,
-                    price_change: marketData['^GSPC'].price_change,
-                    percent_change: marketData['^GSPC'].percent_change,
-                    price_high: marketData['^GSPC'].price_high,
-                    price_low: marketData['^GSPC'].price_low,
-                  }}
-                />
-              )}
-              {marketData && marketData['^NDX'] && (
-                <MarketAverageData
-                  indexName="Nasdaq 100"
-                  marketData={{
-                    price: marketData['^NDX'].price,
-                    price_change: marketData['^NDX'].price_change,
-                    percent_change: marketData['^NDX'].percent_change,
-                    price_high: marketData['^NDX'].price_high,
-                    price_low: marketData['^NDX'].price_low,
-                  }}
-                />
-              )}
+              <div className="market-average-items">
+                {marketData && marketData['^GSPC'] && (
+                  <MarketAverageData
+                    indexName="S&P 500"
+                    marketData={{
+                      price: marketData['^GSPC'].price,
+                      price_change: marketData['^GSPC'].price_change,
+                      percent_change: marketData['^GSPC'].percent_change,
+                      price_high: marketData['^GSPC'].price_high,
+                      price_low: marketData['^GSPC'].price_low,
+                    }}
+                  />
+                )}
+                {marketData && marketData['^NDX'] && (
+                  <MarketAverageData
+                    indexName="Nasdaq 100"
+                    marketData={{
+                      price: marketData['^NDX'].price,
+                      price_change: marketData['^NDX'].price_change,
+                      percent_change: marketData['^NDX'].percent_change,
+                      price_high: marketData['^NDX'].price_high,
+                      price_low: marketData['^NDX'].price_low,
+                    }}
+                  />
+                )}
+              </div>
             </div>
           </div>
+          <div className="currency-section">
+            <h1>Currency</h1>
+            <p>Coming Soon...</p>
+          </div>
         </div>
-        <div className="live-price">
-          <h1>Live Price of Holdings/Watchlist</h1>
-          <p>Coming soon...</p>
+        <div className="dashboard-data-container">
+          <div className="watchlist">
+            <h1>Watchlist</h1>
+            <p>Coming Soon...</p>
+          </div>
+          <div className="live-price">
+            <h1>My Holdings</h1>
+            <HoldingsTable accountId={accountId}/>
+          </div>
         </div>
       </div>
     </div>
