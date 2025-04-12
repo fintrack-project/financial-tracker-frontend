@@ -1,10 +1,9 @@
 import React, { useState } from 'react';
 import AccountMenu from '../../components/Menu/AccountMenu';
 import MainNavigationBar from 'components/NavigationBar/MainNavigationBar';
-import HoldingsTable from 'components/HoldingsTable/HoldingsTable';
-import './AssetManagement.css'; // Import the CSS file
+import './PortfolioOverview.css'; // Import the CSS file
 
-const AssetManagement: React.FC = () => {
+const PortfolioOverview: React.FC = () => {
   const [accountId, setAccountId] = useState<string | null>(null); // Store the currently logged-in account ID
 
   // Callback to get the accountId from AccountMenu
@@ -13,7 +12,7 @@ const AssetManagement: React.FC = () => {
   };
 
   return (
-    <div className="asset-management-container">
+    <div className="portfolio-overview-container">
       <MainNavigationBar />
       <div className="top-bar">
         <AccountMenu onAccountChange={handleAccountChange} />
@@ -32,4 +31,4 @@ const AssetManagement: React.FC = () => {
   );
 };
 
-export default AssetManagement;
+export default PortfolioOverview;

@@ -6,19 +6,19 @@
   border-bottom: 1px solid #ddd; /* Optional: Adds a bottom border */
 }
 
-.asset-management-container {
+.portfolio-overview-container {
   text-align: center;
   padding: 20px;
   font-family: Arial, sans-serif;
 }
 
-.asset-management-container h1 {
+.portfolio-overview-container h1 {
   color: #333;
   font-size: 2.5rem;
   margin-bottom: 20px;
 }
 
-.asset-management-container p {
+.portfolio-overview-container p {
   color: #555;
   font-size: 1.2rem;
   margin: 10px 0;

@@ -18,7 +18,7 @@ const NavigationBar: React.FC = () => {
         Holdings
       </NavLink>
       <NavLink
-        to="/assetmanagement"
+        to="/portfoliooverview"
         className={({ isActive }) => (isActive ? 'nav-link active-link' : 'nav-link')}
       >
         Asset Management

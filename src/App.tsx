@@ -5,7 +5,7 @@ import Register from './pages/Register/Register';
 import Dashboard from './pages/Dashboard/Dashboard';
 import Holdings from './pages/Holdings/Holdings';
 import Balance from './pages/Balance/Balance';
-import AssetManagement from './pages/AssetManagement/AssetManagement';
+import PortfolioOverview from './pages/PortfolioOverview/PortfolioOverview';
 import NotFound from './pages/NotFound/NotFound';
 
 const App: React.FC = () => {
@@ -16,7 +16,7 @@ const App: React.FC = () => {
         <Route path="/register" element={<Register />} />
         <Route path="/dashboard" element={<Dashboard />} />
         <Route path="/holdings" element={<Holdings />} />
-        <Route path="/assetmanagement" element={<AssetManagement />} />
+        <Route path="/PortfolioOverview" element={<PortfolioOverview />} />
         <Route path="/balance" element={<Balance />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
