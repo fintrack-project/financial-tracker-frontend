@@ -21,13 +21,15 @@ const PortfolioOverview: React.FC = () => {
           <AccountMenu onAccountChange={handleAccountChange} />
         </div>
       </div>
-      <h1>Portfolio Overview</h1>
-      <div className="content">
-        <div className="left-section">
-          <h2>Balance</h2>
-        </div>
-        <div className="right-section">
-          <h2>Assets</h2>
+      <div className='portfolio-overview-content-container'>
+        <h1>Portfolio Overview</h1>
+        <div className="content">
+          <div className="left-section">
+            <h2>Balance</h2>
+          </div>
+          <div className="right-section">
+            <h2>Assets</h2>
+          </div>
         </div>
       </div>
     </div>

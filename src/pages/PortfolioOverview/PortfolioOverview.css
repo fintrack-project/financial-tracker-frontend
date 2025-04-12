@@ -1,8 +1,6 @@
 .portfolio-overview-container {
-  display: flex;
-  flex-direction: column;
   text-align: center;
-  padding: 16px;
+  padding: 20px;
   font-family: Arial, sans-serif;
 }
 
@@ -13,6 +11,26 @@
 }
 
 .portfolio-overview-container p {
+  color: #555;
+  font-size: 1.2rem;
+  margin: 10px 0;
+}
+
+.portfolio-overview-content-container {
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+  padding: 20px;
+  font-family: Arial, sans-serif;
+}
+
+.portfolio-overview-content-container h1 {
+  color: #333;
+  font-size: 2.5rem;
+  margin-bottom: 20px;
+}
+
+.portfolio-overview-content-container p {
   color: #555;
   font-size: 1.2rem;
   margin: 10px 0;
