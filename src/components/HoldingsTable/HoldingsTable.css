@@ -31,3 +31,16 @@
 .holdings-table tr:hover {
   background-color: #f1f1f1;
 }
+
+/* Additional styles for EditableHoldingsTable */
+.holdings-table td input {
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.holdings-table td button {
+  background: none;
+  border: none;
+  color: red;
+  cursor: pointer;
+}

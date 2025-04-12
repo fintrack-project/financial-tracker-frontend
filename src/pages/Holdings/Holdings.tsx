@@ -3,6 +3,7 @@ import AccountMenu from '../../components/Menu/AccountMenu';
 import MainNavigationBar from 'components/NavigationBar/MainNavigationBar';
 import HoldingsTable from '../../components/HoldingsTable/HoldingsTable'; // Import the HoldingsTable componen
 import './Holdings.css'; // Import the CSS file
+import EditableHoldingsTable from 'components/HoldingsTable/EditableHoldingsTable';
 
 const Holdings: React.FC = () => {
   const [accountId, setAccountId] = useState<string | null>(null); // Store the currently logged-in account ID
@@ -24,7 +25,7 @@ const Holdings: React.FC = () => {
       </div>
       <div className="holdings-list">
         <h1>Holdings</h1>
-        <HoldingsTable accountId={accountId}/>
+        <EditableHoldingsTable accountId={accountId}/>
       </div>
     </div>
   );
