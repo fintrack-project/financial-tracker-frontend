@@ -36,7 +36,7 @@
   color: #333;
 }
 
-.logout-button {
+.account-menu .logout-button {
   background-color: #dc3545;
   color: white;
   border: none;
@@ -47,6 +47,6 @@
   font-size: 1rem;
 }
 
-.logout-button:hover {
+.account-menu .logout-button:hover {
   background-color: #c82333;
 }
