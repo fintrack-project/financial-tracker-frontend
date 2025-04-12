@@ -1,7 +1,6 @@
 .portfolio-overview-container {
   text-align: center;
   padding: 20px;
-  font-family: Arial, sans-serif;
 }
 
 .portfolio-overview-container h1 {
@@ -21,7 +20,6 @@
   flex-direction: column;
   text-align: center;
   padding: 20px;
-  font-family: Arial, sans-serif;
 }
 
 .portfolio-overview-content-container h1 {
