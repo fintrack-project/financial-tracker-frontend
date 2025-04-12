@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useHoldingsData } from '../../hooks/useHoldingsData';
 import IconButton  from '../Button/IconButton';
 import CategoryColumn from './CategoryColumn';
+import { createCategoryService } from '../../services/categoryService';
 import './HoldingsTable.css'; // Reuse the CSS from HoldingsTable
 
 interface EditableHoldingsTableProps {
@@ -10,58 +11,41 @@ interface EditableHoldingsTableProps {
 
 const EditableHoldingsTable: React.FC<EditableHoldingsTableProps> = ({ accountId }) => {
   const { holdings, marketData, loading } = useHoldingsData(accountId);
-  const [categories, setCategories] = useState<string[]>([]);
-  const [subcategories, setSubcategories] = useState<string[][]>([]); // Array of subcategories for each category
+  const [categories, setCategories] = useState<string[]>([]); // Manage categories as state
+  const [subcategories, setSubcategories] = useState<string[][]>([]); // Manage subcategories as state
   const [editMode, setEditMode] = useState<number | null>(null); // Track which category is being edited
-  const [confirmedCategories, setConfirmedCategories] = useState<Set<number>>(new Set()); // Track confirmed categories
+
+  // Initialize the category service
+  const categoryService = createCategoryService(categories, subcategories, setCategories, setSubcategories);
 
   const handleAddCategory = () => {
-    if (categories.length < 3) {
-      setCategories([...categories, '']); // Add an empty category for inline editing
-      setSubcategories([...subcategories, Array(holdings.length).fill('')]); // Add empty subcategories for each asset
-      setEditMode(categories.length); // Automatically enter edit mode for the new category
-    }
+    categoryService.addCategory();
+    setEditMode(categories.length); // Automatically enter edit mode for the new category
   };
 
   const handleRemoveCategory = (index: number) => {
-    const updatedCategories = categories.filter((_, i) => i !== index);
-    const updatedSubcategories = subcategories.filter((_, i) => i !== index);
-    setCategories(updatedCategories);
-    setSubcategories(updatedSubcategories);
-
-    const updatedConfirmedCategories = new Set(confirmedCategories);
-    updatedConfirmedCategories.delete(index); // Remove the category from confirmed state
-    setConfirmedCategories(updatedConfirmedCategories);
-
+    categoryService.removeCategory(index);
     if (editMode === index) {
       setEditMode(null); // Exit edit mode if the removed category was being edited
     }
   };
 
   const handleCategoryNameChange = (index: number, newName: string) => {
-    const updatedCategories = [...categories];
-    updatedCategories[index] = newName; // Update the category name directly
-    setCategories(updatedCategories);
+    categoryService.editCategory(index, newName);
   };
 
   const handleEditCategory = (index: number) => {
     setEditMode(index); // Enable edit mode for the selected category
-    const updatedConfirmedCategories = new Set(confirmedCategories);
-    updatedConfirmedCategories.delete(index); // Allow editing for subcategories
-    setConfirmedCategories(updatedConfirmedCategories);
+    categoryService.confirmedCategories.delete(index); // Allow editing for subcategories
   };
 
   const handleConfirmCategory = (index: number) => {
     setEditMode(null); // Exit edit mode
-    const updatedConfirmedCategories = new Set(confirmedCategories);
-    updatedConfirmedCategories.add(index); // Mark the category as confirmed
-    setConfirmedCategories(updatedConfirmedCategories);
+    categoryService.confirmCategory(index); // Mark the category as confirmed
   };
 
   const handleSubcategoryChange = (categoryIndex: number, assetIndex: number, value: string) => {
-    const updatedSubcategories = [...subcategories];
-    updatedSubcategories[categoryIndex][assetIndex] = value; // Update the subcategory value
-    setSubcategories(updatedSubcategories);
+    categoryService.updateSubcategory(categoryIndex, assetIndex, value);
   };
 
   if (loading) {
@@ -78,11 +62,10 @@ const EditableHoldingsTable: React.FC<EditableHoldingsTableProps> = ({ accountId
             <th>Asset Unit</th>
             <th>Price (USD)</th>
             <th>Total Value (USD)</th>
-            {categories.map((category, index) => (
+            {categoryService.categories.map((category, index) => (
               <CategoryColumn
                 key={index}
                 categoryName={category}
-                subcategories={subcategories[index]}
                 isEditing={editMode === index}
                 onCategoryNameChange={(newName) => handleCategoryNameChange(index, newName)}
                 onConfirm={() => handleConfirmCategory(index)}
@@ -90,7 +73,7 @@ const EditableHoldingsTable: React.FC<EditableHoldingsTableProps> = ({ accountId
                 onRemove={() => handleRemoveCategory(index)}
               />
             ))}
-            {categories.length < 3 && (
+            {categoryService.categories.length < 3 && (
               <th>
                 <IconButton type="add" onClick={handleAddCategory} label="Add Category" />
               </th>
@@ -113,15 +96,18 @@ const EditableHoldingsTable: React.FC<EditableHoldingsTableProps> = ({ accountId
                 <td>{totalValue}</td>
                 {categories.map((_, categoryIndex) => (
                   <td key={`${assetIndex}-${categoryIndex}`}>
-                    <input
-                      type="text"
-                      value={subcategories[categoryIndex][assetIndex]}
-                      onChange={(e) =>
-                        handleSubcategoryChange(categoryIndex, assetIndex, e.target.value)
-                      }
-                      placeholder={`Enter ${categories[categoryIndex]}`}
-                      readOnly={confirmedCategories.has(categoryIndex)} // Disable editing if the category is confirmed
-                    />
+                    {editMode === categoryIndex ? (
+                      <input
+                        type="text"
+                        value={subcategories[categoryIndex][assetIndex]}
+                        onChange={(e) =>
+                          handleSubcategoryChange(categoryIndex, assetIndex, e.target.value)
+                        }
+                        placeholder={`Enter ${categories[categoryIndex]}`}
+                      />
+                    ) : (
+                      <span>{subcategories[categoryIndex][assetIndex] || '—'}</span>
+                    )}
                   </td>
                 ))}
               </tr>

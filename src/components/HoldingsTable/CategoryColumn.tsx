@@ -2,8 +2,7 @@ import React from 'react';
 import IconButton from '../Button/IconButton';
 
 interface CategoryColumnProps {
-  categoryName: string;
-  subcategories: string[];
+  categoryName: string
   isEditing: boolean;
   onCategoryNameChange: (newName: string) => void;
   onConfirm: () => void;
