@@ -1,5 +1,6 @@
 import React from 'react';
-import { Transaction } from 'types/Transaction';
+import { Transaction } from '../../types/Transaction';
+import IconButton from '../Button/IconButton';
 import './TransactionRow.css';
 
 interface InputTransactionRowProps {
@@ -69,9 +70,9 @@ const InputTransactionRow: React.FC<InputTransactionRowProps> = ({
         />
       </td>
       <td>
-        <button className="remove-button" onClick={onRemoveRow}>
-          -
-        </button>
+        <td>
+          <IconButton type="remove" onClick={onRemoveRow} label="Remove Row" />
+        </td>
       </td>
     </tr>
   );

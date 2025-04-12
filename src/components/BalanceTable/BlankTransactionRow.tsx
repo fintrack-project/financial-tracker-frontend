@@ -1,4 +1,5 @@
 import React from 'react';
+import IconButton from '../Button/IconButton';
 import './TransactionRow.css';
 interface BlankTransactionRowProps {
   onAddRow: () => void; // Callback to add a new row
@@ -29,9 +30,9 @@ const BlankTransactionRow: React.FC<BlankTransactionRowProps> = ({ onAddRow }) =
         <input type="text" disabled />
       </td>
       <td>
-        <button className="add-button" onClick={onAddRow}>
-          +
-        </button>
+        <td>
+          <IconButton type="add" onClick={onAddRow} label="Add Row" />
+        </td>
       </td>
     </tr>
   );

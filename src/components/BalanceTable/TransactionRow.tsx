@@ -1,6 +1,7 @@
 import React from 'react';
 import { format } from 'date-fns';
-import { Transaction } from 'types/Transaction';
+import { Transaction } from '../../types/Transaction';
+import IconButton from '../Button/IconButton';
 
 interface TransactionRowProps {
   transaction: Transaction;
@@ -32,9 +33,7 @@ const TransactionRow: React.FC<TransactionRowProps> = ({
       <td>{transaction.unit}</td>
       {onDeleteClick && (
         <td>
-          <button className="delete-button" onClick={onDeleteClick}>
-            x
-          </button>
+          <IconButton type="delete" onClick={onDeleteClick} label="Delete Row" />
         </td>
       )}
     </tr>

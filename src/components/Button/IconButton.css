@@ -1,0 +1,45 @@
+.icon-button {
+  width: 24px; /* Fixed width */
+  height: 24px; /* Fixed height */
+  font-size: 16px; /* Adjust font size for better readability */
+  cursor: pointer;
+  font-weight: bold;
+  border-radius: 4px; /* Rounded corners */
+  transition: background-color 0.3s ease, color 0.3s ease;
+  border: none; /* Remove default border */
+  color: white; /* Ensure the text (x, +, -) is white */
+  align-items: center; /* Vertically center the content */
+  justify-content: center; /* Horizontally center the content */
+}
+
+.icon-button:focus {
+  outline: none;
+  box-shadow: 0 0 4px rgba(0, 0, 0, 0.2);
+}
+
+/* Delete Button (x) */
+.delete-button {
+  background-color: red;
+}
+
+.delete-button:hover {
+  background-color: darkred;
+}
+
+/* Add Button (+) */
+.add-button {
+  background-color: green;
+}
+
+.add-button:hover {
+  background-color: darkgreen;
+}
+
+/* Remove Button (-) */
+.remove-button {
+  background-color: red;
+}
+
+.remove-button:hover {
+  background-color: darkred;
+}
