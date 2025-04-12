@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useHoldingsData } from '../../hooks/useHoldingsData';
+import IconButton  from '../Button/IconButton';
 import './HoldingsTable.css'; // Reuse the CSS from HoldingsTable
 
 interface EditableHoldingsTableProps {
@@ -12,15 +13,19 @@ const EditableHoldingsTable: React.FC<EditableHoldingsTableProps> = ({ accountId
 
   const handleAddCategory = () => {
     if (categories.length < 3) {
-      const newCategory = prompt('Enter category name:');
-      if (newCategory) {
-        setCategories([...categories, newCategory]);
-      }
+      setCategories([...categories, '']); // Add an empty category for inline editing
     }
   };
 
-  const handleRemoveCategory = (category: string) => {
-    setCategories(categories.filter((cat) => cat !== category));
+  const handleRemoveCategory = (index: number) => {
+    const updatedCategories = categories.filter((_, i) => i !== index);
+    setCategories(updatedCategories);
+  };
+
+  const handleCategoryNameChange = (index: number, newName: string) => {
+    const updatedCategories = [...categories];
+    updatedCategories[index] = newName;
+    setCategories(updatedCategories);
   };
 
   if (loading) {
@@ -29,9 +34,6 @@ const EditableHoldingsTable: React.FC<EditableHoldingsTableProps> = ({ accountId
 
   return (
     <div className="holdings-table-container">
-      <div className="controls">
-        <button onClick={handleAddCategory}>Add Category</button>
-      </div>
       <table className="holdings-table">
         <thead>
           <tr>
@@ -40,11 +42,28 @@ const EditableHoldingsTable: React.FC<EditableHoldingsTableProps> = ({ accountId
             <th>Asset Unit</th>
             <th>Price (USD)</th>
             <th>Total Value (USD)</th>
-            {categories.map((category) => (
-              <th key={category}>
-                {category} <button onClick={() => handleRemoveCategory(category)}>X</button>
+            {categories.map((category, index) => (
+              <th key={index}>
+                <div className="category-header">
+                  <input
+                    type="text"
+                    value={category}
+                    onChange={(e) => handleCategoryNameChange(index, e.target.value)}
+                    placeholder="Category Name"
+                  />
+                  <IconButton
+                    type="remove"
+                    onClick={() => handleRemoveCategory(index)}
+                    label="Remove Category"
+                  />
+                </div>
               </th>
             ))}
+            {categories.length < 3 && (
+              <th>
+                <IconButton type="add" onClick={handleAddCategory} label="Add Category" />
+              </th>
+            )}
           </tr>
         </thead>
         <tbody>
