@@ -1,3 +1,4 @@
+/* Shared styles for the top bar */
 .top-bar {
   display: flex; /* Use flexbox for horizontal alignment */
   flex-direction: row; /* Align items in a row */

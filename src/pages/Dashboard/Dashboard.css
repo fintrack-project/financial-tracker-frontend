@@ -15,21 +15,6 @@
   margin: 10px 0;
 }
 
-.dashboard-container button {
-  background-color: #007bff;
-  color: white;
-  border: none;
-  padding: 10px 20px;
-  font-size: 1rem;
-  border-radius: 5px;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
-}
-
-.dashboard-container button:hover {
-  background-color: #0056b3;
-}
-
 .dashboard-data-container {
   display: flex;
   flex-direction: column;
