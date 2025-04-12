@@ -11,13 +11,11 @@
 }
 
 .top-bar .navigation-bar {
-  flex: 1; /* Allow the navigation bar to take up available space */
   display: flex; /* Ensure the navigation bar content is aligned properly */
   align-items: center; /* Vertically align items inside the navigation bar */
 }
 
 .top-bar .account-menu {
-  flex-shrink: 0; /* Prevent the account menu from shrinking */
   display: flex; /* Ensure the account menu content is aligned properly */
   align-items: center; /* Vertically align items inside the account menu */
 }

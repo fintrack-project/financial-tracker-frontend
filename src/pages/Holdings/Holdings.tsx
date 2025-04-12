@@ -22,7 +22,7 @@ const Holdings: React.FC = () => {
           <AccountMenu onAccountChange={handleAccountChange} />
         </div>
       </div>
-      <div className="content">
+      <div className="holdings-list">
         <h1>Holdings</h1>
         <HoldingsTable accountId={accountId}/>
       </div>
