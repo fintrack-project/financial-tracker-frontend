@@ -39,8 +39,37 @@
   background-color: #0056b3;
 }
 
+.dashboard-data-container {
+  display: flex;
+  flex-direction: column;
+  gap: 24px; /* Add spacing between sections */
+}
+
+.market-data-container {
+  display: flex; /* Use flexbox to align sections horizontally */
+  flex-direction: row; /* Ensure sections are placed side by side */
+  justify-content: space-between; /* Add space between left and right sections */
+  align-items: flex-start; /* Align items at the top */
+  gap: 16px; /* Add spacing between sections */
+  width: 100%; /* Ensure the content takes full width */
+}
+
+.market-average,
+.currency-section {
+  flex: 1; /* Make both sections take equal width */
+  padding: 16px;
+  border: 1px solid #ddd; /* Optional: Add a border for clarity */
+  border-radius: 8px; /* Optional: Add rounded corners */
+  background-color: #f9f9f9; /* Optional: Add a background color */
+  box-sizing: border-box; /* Ensure padding is included in the width */
+}
+
 .market-average {
-  margin-bottom: 20px;
+  margin-right: 8px; /* Add spacing to the right of the Market Average section */
+}
+
+.currency-section {
+  margin-left: 8px; /* Add spacing to the left of the Currency section */
 }
 
 .market-average-items {
@@ -63,3 +92,14 @@
   margin: 5px 0;
 }
 
+.change {
+  font-weight: bold;
+}
+
+.change.positive {
+  color: green; /* Green for positive change */
+}
+
+.change.negative {
+  color: red; /* Red for negative change */
+}
