@@ -1,0 +1,30 @@
+.categories-table-container {
+  margin-top: 20px;
+}
+
+.categories-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.categories-table th,
+.categories-table td {
+  border: 1px solid #ddd;
+  padding: 8px;
+  text-align: left;
+}
+
+.categories-table th {
+  background-color: #f4f4f4;
+  font-weight: bold;
+}
+
+.categories-table input {
+  width: 100%;
+  padding: 4px;
+  font-size: 14px;
+}
+
+.categories-table .icon-button {
+  margin-right: 8px;
+}
