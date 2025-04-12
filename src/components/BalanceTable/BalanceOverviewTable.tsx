@@ -66,7 +66,7 @@ const BalanceOverviewTable: React.FC<BalanceOverviewTableProps> = ({ accountId }
       <h2>Balance Overview</h2>
         <TransactionTable transactions={transactions} />
       <div className="file-actions">
-        <button onClick={handleFileDownload}>Download Balance Overview</button>
+        <button className="button" onClick={handleFileDownload}>Download Balance Overview</button>
         <div className="dropdown-container">
           <div
             className="dropdown-selector"
