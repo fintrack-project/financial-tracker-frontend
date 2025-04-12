@@ -2,6 +2,7 @@ import React, { useState , useEffect } from 'react';
 import AccountMenu from '../../components/Menu/AccountMenu';
 import MainNavigationBar from '../../components/NavigationBar/MainNavigationBar';
 import MarketAverageData from 'components/MarketData/MarketAverageData';
+import HoldingsTable from '../../components/HoldingsTable/HoldingsTable';
 import { updateMarketAverageData, fetchMarketAverageData } from '../../services/marketAverageDataService';
 import './Dashboard.css'; // Import the CSS file
 
@@ -75,7 +76,7 @@ const Dashboard: React.FC = () => {
         </div>
         <div className="live-price">
           <h1>Live Price of Holdings/Watchlist</h1>
-          <p>Coming soon...</p>
+          <HoldingsTable accountId={accountId}/>
         </div>
       </div>
     </div>
