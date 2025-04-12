@@ -1,9 +1,18 @@
 .top-bar {
-  display: flex;
-  justify-content: flex-end; /* Aligns content to the right */
-  padding: 10px 20px;
-  background-color: #f8f9fa; /* Optional: Background color for the top bar */
-  border-bottom: 1px solid #ddd; /* Optional: Adds a bottom border */
+  display: flex; /* Use flexbox for horizontal alignment */
+  justify-content: space-between; /* Push navigation bar to the left and account menu to the right */
+  align-items: center; /* Vertically align items */
+  padding: 8px 16px; /* Add padding for spacing */
+  background-color: #f9f9f9; /* Optional: Add a background color */
+  border-bottom: 1px solid #ddd; /* Optional: Add a bottom border for separation */
+}
+
+.top-bar .navigation-bar {
+  flex: 1; /* Allow the navigation bar to take up available space */
+}
+
+.top-bar .account-menu {
+  flex-shrink: 0; /* Prevent the account menu from shrinking */
 }
 
 .balance-container {

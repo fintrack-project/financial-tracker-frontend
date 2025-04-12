@@ -13,9 +13,13 @@ const PortfolioOverview: React.FC = () => {
 
   return (
     <div className="portfolio-overview-container">
-      <MainNavigationBar />
       <div className="top-bar">
-        <AccountMenu onAccountChange={handleAccountChange} />
+        <div className="navigation-bar">
+          <MainNavigationBar />
+        </div>
+        <div className="account-menu">
+          <AccountMenu onAccountChange={handleAccountChange} />
+        </div>
       </div>
       <h1>Portfolio Overview</h1>
       <div className="content">
