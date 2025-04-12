@@ -17,7 +17,7 @@ const PortfolioOverview: React.FC = () => {
       <div className="top-bar">
         <AccountMenu onAccountChange={handleAccountChange} />
       </div>
-      <h1>Asset Management</h1>
+      <h1>Portfolio Overview</h1>
       <div className="content">
         <div className="left-section">
           <h2>Balance</h2>

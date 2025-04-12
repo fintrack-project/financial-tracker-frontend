@@ -12,16 +12,16 @@ const NavigationBar: React.FC = () => {
         Dashboard
       </NavLink>
       <NavLink
+        to="/portfoliooverview"
+        className={({ isActive }) => (isActive ? 'nav-link active-link' : 'nav-link')}
+      >
+        Portfolio Overview
+      </NavLink>
+      <NavLink
         to="/holdings"
         className={({ isActive }) => (isActive ? 'nav-link active-link' : 'nav-link')}
       >
         Holdings
-      </NavLink>
-      <NavLink
-        to="/portfoliooverview"
-        className={({ isActive }) => (isActive ? 'nav-link active-link' : 'nav-link')}
-      >
-        Asset Management
       </NavLink>
       <NavLink
         to="/balance"
