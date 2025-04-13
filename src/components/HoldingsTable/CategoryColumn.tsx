@@ -24,21 +24,27 @@ const CategoryColumn: React.FC<CategoryColumnProps> = ({
         <div className="category-header">
           {isEditing ? (
             <>
-              <input
+              <span>
+                <input
                 type="text"
                 value={categoryName}
                 onChange={(e) => onCategoryNameChange(e.target.value)}
                 placeholder="Category Name"
-              />
-              <IconButton type="confirm" onClick={onConfirm} label="Confirm Category" />
+                />
+                <IconButton type="confirm" onClick={onConfirm} label="Confirm Category" size="small"/>
+                <IconButton type="delete" onClick={onRemove} label="Remove Category" size="small"/>
+              </span>
             </>
           ) : (
             <>
-              <span>{categoryName || 'Unnamed Category'}</span>
-              <IconButton type="edit" onClick={onEdit} label="Edit Category" />
+              <span>
+                {categoryName || 'Unnamed Category'}
+                <IconButton type="edit" onClick={onEdit} label="Edit Category" size="small"/>
+                <IconButton type="delete" onClick={onRemove} label="Remove Category" size="small"/>
+              </span>
             </>
           )}
-          <IconButton type="delete" onClick={onRemove} label="Remove Category" />
+          
         </div>
       </th>
     </>

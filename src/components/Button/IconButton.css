@@ -17,6 +17,14 @@
   box-shadow: 0 0 4px rgba(0, 0, 0, 0.2);
 }
 
+.icon-button-small {
+  width: 20px; /* Smaller size */
+  height: 20px; /* Smaller size */
+  font-size: 12px; /* Smaller font size */
+  align-items: center; /* Vertically center the content */
+  justify-content: center; /* Horizontally center the content */
+}
+
 /* Delete Button (x) */
 .delete-button {
   background-color: red;

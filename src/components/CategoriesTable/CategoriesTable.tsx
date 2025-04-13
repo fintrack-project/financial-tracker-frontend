@@ -97,21 +97,23 @@ const CategoriesTable: React.FC = () => {
             <tr key={index}>
               <td>
                 {editMode === index ? (
-                  <input
-                    type="text"
-                    value={category}
-                    onChange={(e) => handleCategoryNameChange(index, e.target.value)}
-                    placeholder="Enter category name"
-                  />
+                  <span>
+                    <input
+                      type="text"
+                      value={category}
+                      onChange={(e) => handleCategoryNameChange(index, e.target.value)}
+                      placeholder="Enter category name"
+                    />
+                    <IconButton type="confirm" onClick={() => handleConfirmCategory(index)} label="Confirm" size="small"/>
+                    <IconButton type="delete" onClick={() => handleRemoveCategory(index)} label="Remove" size="small"/>
+                  </span>
                 ) : (
-                  <span>{category || 'Unnamed Category'}</span>
+                  <span>
+                    {category || 'Unnamed Category'}
+                    <IconButton type="edit" onClick={() => handleEditCategory(index)} label="Edit"  size="small"/>
+                    <IconButton type="delete" onClick={() => handleRemoveCategory(index)} label="Remove" size="small"/>
+                  </span>
                 )}
-                {editMode === index ? (
-                    <IconButton type="confirm" onClick={() => handleConfirmCategory(index)} label="Confirm" />
-                  ) : (
-                    <IconButton type="edit" onClick={() => handleEditCategory(index)} label="Edit" />
-                  )}
-                  <IconButton type="delete" onClick={() => handleRemoveCategory(index)} label="Remove" />
               </td>
               <td>
                 <ul>
@@ -119,33 +121,46 @@ const CategoriesTable: React.FC = () => {
                     <li key={subIndex}>
                       {subcategoryEditMode[index]?.has(subIndex) ? (
                         <>
-                          <input
-                            type="text"
-                            value={subcategory}
-                            onChange={(e) => handleSubcategoryChange(index, subIndex, e.target.value)}
-                            placeholder="Enter subcategory"
-                          />
-                          <IconButton
-                            type="confirm"
-                            onClick={() => handleConfirmSubcategory(index, subIndex)}
-                            label="Confirm Subcategory"
-                          />
+                          <span>
+                            <input
+                              type="text"
+                              value={subcategory}
+                              onChange={(e) => handleSubcategoryChange(index, subIndex, e.target.value)}
+                              placeholder="Enter subcategory"
+                            />
+                            <IconButton
+                              type="confirm"
+                              onClick={() => handleConfirmSubcategory(index, subIndex)}
+                              label="Confirm Subcategory"
+                              size="small"
+                            />
+                            <IconButton
+                              type="delete"
+                              onClick={() => handleRemoveSubcategory(index, subIndex)}
+                              label="Remove Subcategory"
+                              size="small"
+                            />
+                          </span>
                         </>
                       ) : (
                         <>
-                          <span>{subcategory || 'Unnamed Subcategory'}</span>
-                          <IconButton
-                            type="edit"
-                            onClick={() => handleEditSubcategory(index, subIndex)}
-                            label="Edit Subcategory"
-                          />
+                          <span>
+                            {subcategory || 'Unnamed Subcategory'}
+                            <IconButton
+                              type="edit"
+                              onClick={() => handleEditSubcategory(index, subIndex)}
+                              label="Edit Subcategory"
+                              size="small"
+                            />
+                            <IconButton
+                              type="delete"
+                              onClick={() => handleRemoveSubcategory(index, subIndex)}
+                              label="Remove Subcategory"
+                              size="small"
+                            />
+                          </span>
                         </>
                       )}
-                      <IconButton
-                        type="delete"
-                        onClick={() => handleRemoveSubcategory(index, subIndex)}
-                        label="Remove Subcategory"
-                      />
                     </li>
                   ))}
                 </ul>
@@ -153,6 +168,7 @@ const CategoriesTable: React.FC = () => {
                   type="add"
                   onClick={() => handleAddSubcategory(index)}
                   label="Add Subcategory"
+                  size="small"
                 />
               </td>
             </tr>
