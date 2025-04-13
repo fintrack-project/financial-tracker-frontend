@@ -1,0 +1,10 @@
+/* Hide actions by default */
+.actions {
+  display: none;
+}
+
+/* Show actions when hovering over the parent container */
+span:hover .actions {
+  display: inline-flex;
+  gap: 4px; /* Add spacing between buttons */
+}

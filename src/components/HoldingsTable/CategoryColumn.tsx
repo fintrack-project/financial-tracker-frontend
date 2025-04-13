@@ -1,5 +1,6 @@
 import React from 'react';
 import IconButton from '../Button/IconButton';
+import './CategoryColumn.css';
 
 interface CategoryColumnProps {
   categoryName: string
@@ -31,16 +32,20 @@ const CategoryColumn: React.FC<CategoryColumnProps> = ({
                 onChange={(e) => onCategoryNameChange(e.target.value)}
                 placeholder="Category Name"
                 />
-                <IconButton type="confirm" onClick={onConfirm} label="Confirm Category" size="small"/>
-                <IconButton type="delete" onClick={onRemove} label="Remove Category" size="small"/>
+                <div className="actions">
+                  <IconButton type="confirm" onClick={onConfirm} label="Confirm Category" size="small"/>
+                  <IconButton type="delete" onClick={onRemove} label="Remove Category" size="small"/>
+                </div>
               </span>
             </>
           ) : (
             <>
               <span>
                 {categoryName || 'Unnamed Category'}
-                <IconButton type="edit" onClick={onEdit} label="Edit Category" size="small"/>
-                <IconButton type="delete" onClick={onRemove} label="Remove Category" size="small"/>
+                <div className="actions">
+                  <IconButton type="edit" onClick={onEdit} label="Edit Category" size="small"/>
+                  <IconButton type="delete" onClick={onRemove} label="Remove Category" size="small"/>
+                </div>
               </span>
             </>
           )}

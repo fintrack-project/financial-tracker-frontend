@@ -104,14 +104,18 @@ const CategoriesTable: React.FC = () => {
                       onChange={(e) => handleCategoryNameChange(index, e.target.value)}
                       placeholder="Enter category name"
                     />
-                    <IconButton type="confirm" onClick={() => handleConfirmCategory(index)} label="Confirm" size="small"/>
-                    <IconButton type="delete" onClick={() => handleRemoveCategory(index)} label="Remove" size="small"/>
+                    <div className="actions">
+                      <IconButton type="confirm" onClick={() => handleConfirmCategory(index)} label="Confirm" size="small"/>
+                      <IconButton type="delete" onClick={() => handleRemoveCategory(index)} label="Remove" size="small"/>
+                    </div>
                   </span>
                 ) : (
                   <span>
                     {category || 'Unnamed Category'}
-                    <IconButton type="edit" onClick={() => handleEditCategory(index)} label="Edit"  size="small"/>
-                    <IconButton type="delete" onClick={() => handleRemoveCategory(index)} label="Remove" size="small"/>
+                    <div className="actions">
+                      <IconButton type="edit" onClick={() => handleEditCategory(index)} label="Edit"  size="small"/>
+                      <IconButton type="delete" onClick={() => handleRemoveCategory(index)} label="Remove" size="small"/>
+                    </div>
                   </span>
                 )}
               </td>
@@ -128,36 +132,40 @@ const CategoriesTable: React.FC = () => {
                               onChange={(e) => handleSubcategoryChange(index, subIndex, e.target.value)}
                               placeholder="Enter subcategory"
                             />
-                            <IconButton
-                              type="confirm"
-                              onClick={() => handleConfirmSubcategory(index, subIndex)}
-                              label="Confirm Subcategory"
-                              size="small"
-                            />
-                            <IconButton
-                              type="delete"
-                              onClick={() => handleRemoveSubcategory(index, subIndex)}
-                              label="Remove Subcategory"
-                              size="small"
-                            />
+                            <div className="actions">
+                              <IconButton
+                                type="confirm"
+                                onClick={() => handleConfirmSubcategory(index, subIndex)}
+                                label="Confirm Subcategory"
+                                size="small"
+                              />
+                              <IconButton
+                                type="delete"
+                                onClick={() => handleRemoveSubcategory(index, subIndex)}
+                                label="Remove Subcategory"
+                                size="small"
+                              />
+                            </div>
                           </span>
                         </>
                       ) : (
                         <>
                           <span>
                             {subcategory || 'Unnamed Subcategory'}
-                            <IconButton
-                              type="edit"
-                              onClick={() => handleEditSubcategory(index, subIndex)}
-                              label="Edit Subcategory"
-                              size="small"
-                            />
-                            <IconButton
-                              type="delete"
-                              onClick={() => handleRemoveSubcategory(index, subIndex)}
-                              label="Remove Subcategory"
-                              size="small"
-                            />
+                            <div className="actions">
+                              <IconButton
+                                type="edit"
+                                onClick={() => handleEditSubcategory(index, subIndex)}
+                                label="Edit Subcategory"
+                                size="small"
+                              />
+                              <IconButton
+                                type="delete"
+                                onClick={() => handleRemoveSubcategory(index, subIndex)}
+                                label="Remove Subcategory"
+                                size="small"
+                              />
+                            </div>
                           </span>
                         </>
                       )}
