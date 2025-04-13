@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useHoldingsData } from '../../hooks/useHoldingsData';
 import IconButton  from '../Button/IconButton';
 import CategoryDropdownCell from '../Category/CategoryDropdownCell';
@@ -20,6 +20,18 @@ const EditableHoldingsTable: React.FC<EditableHoldingsTableProps> = ({
   const [subcategoryColumns, setSubcategoryColumns] = useState<string[][]>([]); // Manage subcategories as state
    const [editingColumns, setEditingColumns] = useState<Set<number>>(new Set()); // Track which columns are in edit mode
 
+  // Synchronize categoryColumns and subcategoryColumns with the categories prop
+  useEffect(() => {
+    const updatedCategoryColumns = categoryColumns.filter((category) =>
+      categories.includes(category)
+    );
+    const updatedSubcategoryColumns = subcategoryColumns.filter((_, index) =>
+      categories.includes(categoryColumns[index])
+    );
+
+    setCategoryColumns(updatedCategoryColumns);
+    setSubcategoryColumns(updatedSubcategoryColumns);
+  }, [categories]); // Run whenever categories change
 
   const handleAddCategoryColumns = () => {
     if (categoryColumns.length < categories.length) {
