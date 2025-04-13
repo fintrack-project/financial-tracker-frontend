@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useHoldingsData } from '../../hooks/useHoldingsData';
 import IconButton  from '../Button/IconButton';
-import CategoryColumn from './CategoryColumn';
+import CategoryColumn from '../Category/CategoryColumn';
 import { createCategoryService } from '../../services/categoryService';
 import './HoldingsTable.css'; // Reuse the CSS from HoldingsTable
 

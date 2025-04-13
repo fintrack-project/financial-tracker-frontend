@@ -4,7 +4,7 @@ import MainNavigationBar from 'components/NavigationBar/MainNavigationBar';
 import HoldingsTable from '../../components/HoldingsTable/HoldingsTable'; // Import the HoldingsTable componen
 import './Holdings.css'; // Import the CSS file
 import EditableHoldingsTable from 'components/HoldingsTable/EditableHoldingsTable';
-import CategoriesTable from 'components/CategoriesTable/CategoriesTable';
+import CategoriesTable from 'components/Category/CategoriesTable';
 
 const Holdings: React.FC = () => {
   const [accountId, setAccountId] = useState<string | null>(null); // Store the currently logged-in account ID
