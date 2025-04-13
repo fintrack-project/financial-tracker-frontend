@@ -15,38 +15,38 @@ const EditableHoldingsTable: React.FC<EditableHoldingsTableProps> = ({ accountId
   const [subcategories, setSubcategories] = useState<string[][]>([]); // Manage subcategories as state
   const [editMode, setEditMode] = useState<number | null>(null); // Track which category is being edited
 
-  // Initialize the category service
-  const categoryService = createCategoryService(categories, subcategories, setCategories, setSubcategories);
+  // // Initialize the category service
+  // const categoryService = createCategoryService(categories, subcategories, setCategories, setSubcategories);
 
-  const handleAddCategory = () => {
-    categoryService.addCategory();
-    setEditMode(categories.length); // Automatically enter edit mode for the new category
-  };
+  // const handleAddCategory = () => {
+  //   categoryService.addCategory();
+  //   setEditMode(categories.length); // Automatically enter edit mode for the new category
+  // };
 
-  const handleRemoveCategory = (index: number) => {
-    categoryService.removeCategory(index);
-    if (editMode === index) {
-      setEditMode(null); // Exit edit mode if the removed category was being edited
-    }
-  };
+  // const handleRemoveCategory = (index: number) => {
+  //   categoryService.removeCategory(index);
+  //   if (editMode === index) {
+  //     setEditMode(null); // Exit edit mode if the removed category was being edited
+  //   }
+  // };
 
-  const handleCategoryNameChange = (index: number, newName: string) => {
-    categoryService.editCategory(index, newName);
-  };
+  // const handleCategoryNameChange = (index: number, newName: string) => {
+  //   categoryService.editCategory(index, newName);
+  // };
 
-  const handleEditCategory = (index: number) => {
-    setEditMode(index); // Enable edit mode for the selected category
-    categoryService.confirmedCategories.delete(index); // Allow editing for subcategories
-  };
+  // const handleEditCategory = (index: number) => {
+  //   setEditMode(index); // Enable edit mode for the selected category
+  //   categoryService.confirmedCategories.delete(index); // Allow editing for subcategories
+  // };
 
-  const handleConfirmCategory = (index: number) => {
-    setEditMode(null); // Exit edit mode
-    categoryService.confirmCategory(index); // Mark the category as confirmed
-  };
+  // const handleConfirmCategory = (index: number) => {
+  //   setEditMode(null); // Exit edit mode
+  //   categoryService.confirmCategory(index); // Mark the category as confirmed
+  // };
 
-  const handleSubcategoryChange = (categoryIndex: number, assetIndex: number, value: string) => {
-    categoryService.updateSubcategory(categoryIndex, assetIndex, value);
-  };
+  // const handleSubcategoryChange = (categoryIndex: number, assetIndex: number, value: string) => {
+  //   categoryService.updateSubcategory(categoryIndex, assetIndex, value);
+  // };
 
   if (loading) {
     return <p>Loading...</p>;
@@ -62,7 +62,7 @@ const EditableHoldingsTable: React.FC<EditableHoldingsTableProps> = ({ accountId
             <th>Asset Unit</th>
             <th>Price (USD)</th>
             <th>Total Value (USD)</th>
-            {categoryService.categories.map((category, index) => (
+            {/* {categoryService.categories.map((category, index) => (
               <CategoryColumn
                 key={index}
                 categoryName={category}
@@ -77,7 +77,7 @@ const EditableHoldingsTable: React.FC<EditableHoldingsTableProps> = ({ accountId
               <th>
                 <IconButton type="add" onClick={handleAddCategory} label="Add Category" />
               </th>
-            )}
+            )} */}
           </tr>
         </thead>
         <tbody>
@@ -94,7 +94,7 @@ const EditableHoldingsTable: React.FC<EditableHoldingsTableProps> = ({ accountId
                 <td>{holding.unit}</td>
                 <td>{assetData?.price?.toLocaleString() || 'Loading...'}</td>
                 <td>{totalValue}</td>
-                {categories.map((_, categoryIndex) => (
+                {/* {categories.map((_, categoryIndex) => (
                   <td key={`${assetIndex}-${categoryIndex}`}>
                     {editMode === categoryIndex ? (
                       <input
@@ -109,7 +109,7 @@ const EditableHoldingsTable: React.FC<EditableHoldingsTableProps> = ({ accountId
                       <span>{subcategories[categoryIndex][assetIndex] || '—'}</span>
                     )}
                   </td>
-                ))}
+                ))} */}
               </tr>
             );
           })}

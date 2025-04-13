@@ -2,87 +2,87 @@ import React, { useState } from 'react';
 import IconButton from '../Button/IconButton';
 import CategoryCell from './CategoryCell';
 import { createCategoryService } from '../../services/categoryService';
+import { createSubCategoryService } from '../../services/SubCategoryService';
 import './CategoriesTable.css'; // Add styles for the table
 
 const CategoriesTable: React.FC = () => {
   const [categories, setCategories] = useState<string[]>([]);
   const [subcategories, setSubcategories] = useState<string[][]>([]);
-  const [editMode, setEditMode] = useState<number | null>(null);
-  const [subcategoryEditMode, setSubcategoryEditMode] = useState<{ [key: number]: Set<number> }>({});
 
-  const categoryService = createCategoryService(categories, subcategories, setCategories, setSubcategories);
+  const categoryService = createCategoryService(categories, setCategories);
+  const subCategoryService = createSubCategoryService(subcategories, setSubcategories);
 
-  const handleAddCategory = () => {
-    categoryService.addCategory();
-    setEditMode(categories.length); // Automatically enter edit mode for the new category
-  };
+  // const handleAddCategory = () => {
+  //   categoryService.addCategory();
+  //   setEditMode(categories.length); // Automatically enter edit mode for the new category
+  // };
 
-  const handleRemoveCategory = (index: number) => {
-    categoryService.removeCategory(index);
-    if (editMode === index) {
-      setEditMode(null); // Exit edit mode if the removed category was being edited
-    }
-  };
+  // const handleRemoveCategory = (index: number) => {
+  //   categoryService.removeCategory(index);
+  //   if (editMode === index) {
+  //     setEditMode(null); // Exit edit mode if the removed category was being edited
+  //   }
+  // };
 
-  const handleCategoryNameChange = (index: number, newName: string) => {
-    categoryService.editCategory(index, newName);
-  };
+  // const handleCategoryNameChange = (index: number, newName: string) => {
+  //   categoryService.editCategory(index, newName);
+  // };
 
-  const handleEditCategory = (index: number) => {
-    setEditMode(index); // Enable edit mode for the selected category
-    categoryService.confirmedCategories.delete(index); // Allow editing for subcategories
-  };
+  // const handleEditCategory = (index: number) => {
+  //   setEditMode(index); // Enable edit mode for the selected category
+  //   categoryService.confirmedCategories.delete(index); // Allow editing for subcategories
+  // };
 
-  const handleConfirmCategory = (index: number) => {
-    setEditMode(null); // Exit edit mode
-    categoryService.confirmCategory(index); // Confirm the category
-  };
+  // const handleConfirmCategory = (index: number) => {
+  //   setEditMode(null); // Exit edit mode
+  //   categoryService.confirmCategory(index); // Confirm the category
+  // };
 
-  const handleAddSubcategory = (categoryIndex: number) => {
-    const updatedSubcategories = [...subcategories];
-    updatedSubcategories[categoryIndex].push(''); // Add an empty subcategory
-    setSubcategories(updatedSubcategories);
+  // const handleAddSubcategory = (categoryIndex: number) => {
+  //   const updatedSubcategories = [...subcategories];
+  //   updatedSubcategories[categoryIndex].push(''); // Add an empty subcategory
+  //   setSubcategories(updatedSubcategories);
 
-    // Enable edit mode for the new subcategory
-    setSubcategoryEditMode((prev) => ({
-      ...prev,
-      [categoryIndex]: new Set([...(prev[categoryIndex] || []), updatedSubcategories[categoryIndex].length - 1]),
-    }));
-  };
+  //   // Enable edit mode for the new subcategory
+  //   setSubcategoryEditMode((prev) => ({
+  //     ...prev,
+  //     [categoryIndex]: new Set([...(prev[categoryIndex] || []), updatedSubcategories[categoryIndex].length - 1]),
+  //   }));
+  // };
 
-  const handleSubcategoryChange = (categoryIndex: number, subIndex: number, value: string) => {
-    const updatedSubcategories = [...subcategories];
-    updatedSubcategories[categoryIndex][subIndex] = value; // Update the subcategory value
-    setSubcategories(updatedSubcategories);
-  };
+  // const handleSubcategoryChange = (categoryIndex: number, subIndex: number, value: string) => {
+  //   const updatedSubcategories = [...subcategories];
+  //   updatedSubcategories[categoryIndex][subIndex] = value; // Update the subcategory value
+  //   setSubcategories(updatedSubcategories);
+  // };
 
-  const handleRemoveSubcategory = (categoryIndex: number, subIndex: number) => {
-    const updatedSubcategories = [...subcategories];
-    updatedSubcategories[categoryIndex].splice(subIndex, 1); // Remove the subcategory
-    setSubcategories(updatedSubcategories);
+  // const handleRemoveSubcategory = (categoryIndex: number, subIndex: number) => {
+  //   const updatedSubcategories = [...subcategories];
+  //   updatedSubcategories[categoryIndex].splice(subIndex, 1); // Remove the subcategory
+  //   setSubcategories(updatedSubcategories);
 
-    // Update edit mode for subcategories
-    setSubcategoryEditMode((prev) => {
-      const updatedSet = new Set(prev[categoryIndex]);
-      updatedSet.delete(subIndex);
-      return { ...prev, [categoryIndex]: updatedSet };
-    });
-  };
+  //   // Update edit mode for subcategories
+  //   setSubcategoryEditMode((prev) => {
+  //     const updatedSet = new Set(prev[categoryIndex]);
+  //     updatedSet.delete(subIndex);
+  //     return { ...prev, [categoryIndex]: updatedSet };
+  //   });
+  // };
 
-  const handleEditSubcategory = (categoryIndex: number, subIndex: number) => {
-    setSubcategoryEditMode((prev) => ({
-      ...prev,
-      [categoryIndex]: new Set([...(prev[categoryIndex] || []), subIndex]),
-    }));
-  };
+  // const handleEditSubcategory = (categoryIndex: number, subIndex: number) => {
+  //   setSubcategoryEditMode((prev) => ({
+  //     ...prev,
+  //     [categoryIndex]: new Set([...(prev[categoryIndex] || []), subIndex]),
+  //   }));
+  // };
 
-  const handleConfirmSubcategory = (categoryIndex: number, subIndex: number) => {
-    setSubcategoryEditMode((prev) => {
-      const updatedSet = new Set(prev[categoryIndex]);
-      updatedSet.delete(subIndex); // Remove subIndex from edit mode
-      return { ...prev, [categoryIndex]: updatedSet };
-    });
-  };
+  // const handleConfirmSubcategory = (categoryIndex: number, subIndex: number) => {
+  //   setSubcategoryEditMode((prev) => {
+  //     const updatedSet = new Set(prev[categoryIndex]);
+  //     updatedSet.delete(subIndex); // Remove subIndex from edit mode
+  //     return { ...prev, [categoryIndex]: updatedSet };
+  //   });
+  // };
 
   return (
     <div className="categories-table-container">
@@ -99,13 +99,10 @@ const CategoriesTable: React.FC = () => {
               <td>
                 <CategoryCell
                   value={category}
-                  isEditing={editMode === index}
+                  isEditing={false}
                   onChange={(newValue) => categoryService.editCategory(index, newValue)}
-                  onConfirm={() => {
-                    setEditMode(null);
-                    categoryService.confirmCategory(index);
-                  }}
-                  onEdit={() => setEditMode(index)}
+                  onConfirm={() => {categoryService.confirmCategory(index);}}
+                  onEdit={() => console.log('Edit category')}
                   onRemove={() => categoryService.removeCategory(index)}
                   placeholder="Enter category name"
                 />
@@ -116,22 +113,17 @@ const CategoriesTable: React.FC = () => {
                     <li key={subIndex}>
                       <CategoryCell
                         value={subcategory}
-                        isEditing={subcategoryEditMode[index]?.has(subIndex) || false}
-                        onChange={(newValue) => categoryService.updateSubcategory(index, subIndex, newValue)}
+                        isEditing={false}
+                        onChange={(newValue) =>
+                          subCategoryService.editSubcategory(index, subIndex, newValue)
+                        }
                         onConfirm={() =>
-                          setSubcategoryEditMode((prev) => {
-                            const updatedSet = new Set(prev[index]);
-                            updatedSet.delete(subIndex);
-                            return { ...prev, [index]: updatedSet };
-                          })
+                          subCategoryService.confirmSubcategory(index, subIndex)
                         }
-                        onEdit={() =>
-                          setSubcategoryEditMode((prev) => ({
-                            ...prev,
-                            [index]: new Set([...(prev[index] || []), subIndex]),
-                          }))
+                        onEdit={() => console.log('Edit subcategory')} // Add edit logic
+                        onRemove={() =>
+                          subCategoryService.removeSubcategory(index, subIndex)
                         }
-                        onRemove={() => categoryService.updateSubcategory(index, subIndex, '')}
                         placeholder="Enter subcategory"
                       />
                     </li>
@@ -139,8 +131,9 @@ const CategoriesTable: React.FC = () => {
                 </ul>
                 <IconButton
                   type="add"
-                  onClick={() => handleAddSubcategory(index)}
+                  onClick={() => subCategoryService.addSubcategory(index)}
                   label="Add Subcategory"
+                  size="small"
                 />
               </td>
             </tr>
@@ -148,7 +141,11 @@ const CategoriesTable: React.FC = () => {
           {categories.length < 3 && (
             <tr>
               <td colSpan={2}>
-                <IconButton type="add" onClick={handleAddCategory} label="Add Category" />
+                <IconButton
+                  type="add"
+                  onClick={() => categoryService.addCategory()}
+                  label="Add Category"
+                />
               </td>
             </tr>
           )}
