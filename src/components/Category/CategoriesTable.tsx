@@ -75,7 +75,7 @@ const CategoriesTable: React.FC = () => {
               <td>
                 <ul>
                   {subcategories[index]?.map((subcategory, subIndex) => (
-                    <ul key={subIndex}>
+                    <li key={subIndex}>
                       <CategoryCell
                         value={subcategory}
                         isEditing={isSubcategoryEditing(index, subIndex)}
@@ -89,7 +89,7 @@ const CategoriesTable: React.FC = () => {
                         }
                         placeholder="Enter subcategory"
                       />
-                    </ul>
+                    </li>
                   ))}
                 </ul>
                 <IconButton

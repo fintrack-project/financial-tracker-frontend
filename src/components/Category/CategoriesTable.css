@@ -19,9 +19,25 @@
   position: relative; /* Required for absolute positioning of buttons */
 }
 
+.categories-table td {
+  overflow: visible; /* Allow content to overflow */;
+}
+
 .categories-table th {
   background-color: #f4f4f4;
   font-weight: bold;
+}
+
+/* Ensure the list items do not interfere with the actions container */
+.categories-table ul {
+  list-style: none; /* Remove default list styling */
+  padding: 0;
+  margin: 0;
+}
+
+.categories-table li {
+  position: relative; /* Required for absolute positioning of .actions inside .category-cell */
+  overflow: visible; /* Ensure the .actions container is not clipped */
 }
 
 .categories-table th:first-child, /* Category Name column */
