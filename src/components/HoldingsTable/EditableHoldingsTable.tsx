@@ -7,7 +7,7 @@ import './HoldingsTable.css'; // Reuse the CSS from HoldingsTable
 interface EditableHoldingsTableProps {
   accountId: string | null;
   categories: string[];
-  subcategories: string[][];
+  subcategories: {[category: string]: string[]};
 }
 
 const EditableHoldingsTable: React.FC<EditableHoldingsTableProps> = ({ 
@@ -32,6 +32,11 @@ const EditableHoldingsTable: React.FC<EditableHoldingsTableProps> = ({
     const updatedCategoriesColumns = [...categoryColumns];
     updatedCategoriesColumns[index] = newCategoryColumn;
     setCategoryColumns(updatedCategoriesColumns);
+
+    // Reset subcategories for the column when the category changes
+    const updatedSubcategoryColumns = [...subcategoryColumns];
+    updatedSubcategoryColumns[index] = Array(holdings.length).fill(''); // Reset all subcategories for this column
+    setSubcategoryColumns(updatedSubcategoryColumns);
   };
 
   const handleSubcategoryColumnChange = (categoryColumnIndex: number, rowIndex: number, newSubcategoryColumn: string) => {
@@ -116,12 +121,12 @@ const EditableHoldingsTable: React.FC<EditableHoldingsTableProps> = ({
                 <td>{holding.unit}</td>
                 <td>{assetData?.price?.toLocaleString() || 'Loading...'}</td>
                 <td>{totalValue}</td>
-                {categories.map((_, categoryIndex) => (
+                {categoryColumns.map((category, categoryIndex) => (
                   <td key={`${rowIndex}-${categoryIndex}`}>
                   <CategoryDropdownCell
-                    value={subcategories[categoryIndex]?.[rowIndex] || ''}
+                    value={subcategoryColumns[categoryIndex]?.[rowIndex] || ''}
                     isEditing={editingColumns.has(categoryIndex)} // Always editable for subcategory cells
-                    options={subcategories[categoryIndex] || []}
+                    options={subcategories[category] || []}
                     onChange={(newValue) =>
                       handleSubcategoryColumnChange(categoryIndex, rowIndex, newValue)
                     }

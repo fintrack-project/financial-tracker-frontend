@@ -10,20 +10,28 @@ import './Holdings.css'; // Import the CSS file
 const Holdings: React.FC = () => {
   const [accountId, setAccountId] = useState<string | null>(null); // Store the currently logged-in account ID
   const [categories, setCategories] = useState<string[]>([]);
-  const [subcategories, setSubcategories] = useState<string[][]>([]);
+  const [subcategories, setSubcategories] = useState<{ [category: string]: string[] }>({});
+
+  const categoryService = createCategoryService(categories, setCategories);
+  const subcategoryService = createSubcategoryService(subcategories, setSubcategories);
 
   // Callback to get the accountId from AccountMenu
   const handleAccountChange = (newAccountId: string) => {
     setAccountId(newAccountId);
   };
 
-  const handleUpdateCategories = (updatedCategories: string[], updatedSubcategories: string[][]) => {
+  const handleUpdateCategories = (updatedCategories: string[]) => {
     setCategories(updatedCategories);
+
+    // Reset subcategories for any removed categories
+    const updatedSubcategories = { ...subcategories };
+    Object.keys(updatedSubcategories).forEach((category) => {
+      if (!updatedCategories.includes(category)) {
+        delete updatedSubcategories[category];
+      }
+    });
     setSubcategories(updatedSubcategories);
   };
-
-  const categoryService = createCategoryService(categories, setCategories);
-  const subcategoryService = createSubcategoryService(subcategories, setSubcategories);
 
   return (
     <div className="holdings-container">
