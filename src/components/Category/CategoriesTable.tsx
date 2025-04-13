@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import IconButton from '../Button/IconButton';
+import CategoryCell from './CategoryCell';
 import { createCategoryService } from '../../services/categoryService';
 import './CategoriesTable.css'; // Add styles for the table
 
@@ -96,77 +97,43 @@ const CategoriesTable: React.FC = () => {
           {categories.map((category, index) => (
             <tr key={index}>
               <td>
-                {editMode === index ? (
-                  <div>
-                    <input
-                      type="text"
-                      value={category}
-                      onChange={(e) => handleCategoryNameChange(index, e.target.value)}
-                      placeholder="Enter category name"
-                    />
-                    <div className="actions">
-                      <IconButton type="confirm" onClick={() => handleConfirmCategory(index)} label="Confirm" size="small"/>
-                      <IconButton type="delete" onClick={() => handleRemoveCategory(index)} label="Remove" size="small"/>
-                    </div>
-                  </div>
-                ) : (
-                  <div>
-                    {category || 'Unnamed Category'}
-                    <div className="actions">
-                      <IconButton type="edit" onClick={() => handleEditCategory(index)} label="Edit"  size="small"/>
-                      <IconButton type="delete" onClick={() => handleRemoveCategory(index)} label="Remove" size="small"/>
-                    </div>
-                  </div>
-                )}
+                <CategoryCell
+                  value={category}
+                  isEditing={editMode === index}
+                  onChange={(newValue) => categoryService.editCategory(index, newValue)}
+                  onConfirm={() => {
+                    setEditMode(null);
+                    categoryService.confirmCategory(index);
+                  }}
+                  onEdit={() => setEditMode(index)}
+                  onRemove={() => categoryService.removeCategory(index)}
+                  placeholder="Enter category name"
+                />
               </td>
               <td>
                 <ul>
                   {subcategories[index]?.map((subcategory, subIndex) => (
                     <li key={subIndex}>
-                      {subcategoryEditMode[index]?.has(subIndex) ? (
-                        <div>
-                          <input
-                            type="text"
-                            value={subcategory}
-                            onChange={(e) => handleSubcategoryChange(index, subIndex, e.target.value)}
-                            placeholder="Enter subcategory"
-                          />
-                          <div className="actions">
-                            <IconButton
-                              type="confirm"
-                              onClick={() => handleConfirmSubcategory(index, subIndex)}
-                              label="Confirm Subcategory"
-                              size="small"
-                            />
-                            <IconButton
-                              type="delete"
-                              onClick={() => handleRemoveSubcategory(index, subIndex)}
-                              label="Remove Subcategory"
-                              size="small"
-                            />
-                          </div>
-                        </div>
-                      ) : (
-                        <>
-                          <div>
-                            {subcategory || 'Unnamed Subcategory'}
-                            <div className="actions">
-                              <IconButton
-                                type="edit"
-                                onClick={() => handleEditSubcategory(index, subIndex)}
-                                label="Edit Subcategory"
-                                size="small"
-                              />
-                              <IconButton
-                                type="delete"
-                                onClick={() => handleRemoveSubcategory(index, subIndex)}
-                                label="Remove Subcategory"
-                                size="small"
-                              />
-                            </div>
-                          </div>
-                        </>
-                      )}
+                      <CategoryCell
+                        value={subcategory}
+                        isEditing={subcategoryEditMode[index]?.has(subIndex) || false}
+                        onChange={(newValue) => categoryService.updateSubcategory(index, subIndex, newValue)}
+                        onConfirm={() =>
+                          setSubcategoryEditMode((prev) => {
+                            const updatedSet = new Set(prev[index]);
+                            updatedSet.delete(subIndex);
+                            return { ...prev, [index]: updatedSet };
+                          })
+                        }
+                        onEdit={() =>
+                          setSubcategoryEditMode((prev) => ({
+                            ...prev,
+                            [index]: new Set([...(prev[index] || []), subIndex]),
+                          }))
+                        }
+                        onRemove={() => categoryService.updateSubcategory(index, subIndex, '')}
+                        placeholder="Enter subcategory"
+                      />
                     </li>
                   ))}
                 </ul>
@@ -174,7 +141,6 @@ const CategoriesTable: React.FC = () => {
                   type="add"
                   onClick={() => handleAddSubcategory(index)}
                   label="Add Subcategory"
-                  size="small"
                 />
               </td>
             </tr>
