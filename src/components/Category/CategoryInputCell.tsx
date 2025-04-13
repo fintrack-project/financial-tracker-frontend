@@ -9,6 +9,7 @@ interface CategoryInputCellProps {
   onEdit: () => void;
   onRemove: () => void;
   placeholder?: string;
+  showActions?: boolean; // Optional prop to control action button visibility
 }
 
 const CategoryInputCell: React.FC<CategoryInputCellProps> = ({
@@ -19,6 +20,7 @@ const CategoryInputCell: React.FC<CategoryInputCellProps> = ({
   onEdit,
   onRemove,
   placeholder = 'Enter value',
+  showActions = true, // Default to true if not provided
 }) => {
   return (
     <CategoryCell
@@ -27,6 +29,7 @@ const CategoryInputCell: React.FC<CategoryInputCellProps> = ({
       onConfirm={onConfirm}
       onEdit={onEdit}
       onRemove={onRemove}
+      showActions={showActions} // Pass showActions prop to CategoryCell
     >
       <input
         type="text"

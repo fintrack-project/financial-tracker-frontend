@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useHoldingsData } from '../../hooks/useHoldingsData';
 import IconButton  from '../Button/IconButton';
+import CategoryDropdownCell from '../Category/CategoryDropdownCell';
 import './HoldingsTable.css'; // Reuse the CSS from HoldingsTable
 
 interface EditableHoldingsTableProps {
@@ -31,6 +32,10 @@ const EditableHoldingsTable: React.FC<EditableHoldingsTableProps> = ({ accountId
     setSubcategories(updatedSubcategories);
   };
 
+  if (loading) {
+    return <p>Loading...</p>;
+  }
+
   return (
     <div className="holdings-table-container">
       <table className="holdings-table">
@@ -43,15 +48,16 @@ const EditableHoldingsTable: React.FC<EditableHoldingsTableProps> = ({ accountId
             <th>Total Value (USD)</th>
             {categories.map((category, categoryIndex) => (
               <th key={categoryIndex}>
-                <select
+                <CategoryDropdownCell
                   value={category}
-                  onChange={(e) => handleCategoryChange(categoryIndex, e.target.value)}
-                >
-                  <option value="">Select Category</option>
-                  <option value="Category 1">Category 1</option>
-                  <option value="Category 2">Category 2</option>
-                  <option value="Category 3">Category 3</option>
-                </select>
+                  isEditing={true} // Always editable for the header
+                  options={['Category 1', 'Category 2', 'Category 3']}
+                  onChange={(newValue) => handleCategoryChange(categoryIndex, newValue)}
+                  onConfirm={() => {}}
+                  onEdit={() => {}}
+                  onRemove={() => {}}
+                  showActions={true} // Hide actions in the header
+                />
               </th>
             ))}
             {categories.length < 3 && (
@@ -77,18 +83,19 @@ const EditableHoldingsTable: React.FC<EditableHoldingsTableProps> = ({ accountId
                 <td>{totalValue}</td>
                 {categories.map((_, categoryIndex) => (
                   <td key={`${rowIndex}-${categoryIndex}`}>
-                    <select
-                      value={subcategories[categoryIndex]?.[rowIndex] || ''}
-                      onChange={(e) =>
-                        handleSubcategoryChange(categoryIndex, rowIndex, e.target.value)
-                      }
-                    >
-                      <option value="">Select Subcategory</option>
-                      <option value="Subcategory 1">Subcategory 1</option>
-                      <option value="Subcategory 2">Subcategory 2</option>
-                      <option value="Subcategory 3">Subcategory 3</option>
-                    </select>
-                  </td>
+                  <CategoryDropdownCell
+                    value={subcategories[categoryIndex]?.[rowIndex] || ''}
+                    isEditing={true} // Always editable for subcategory cells
+                    options={['Subcategory 1', 'Subcategory 2', 'Subcategory 3']}
+                    onChange={(newValue) =>
+                      handleSubcategoryChange(categoryIndex, rowIndex, newValue)
+                    }
+                    onConfirm={() => {}}
+                    onEdit={() => {}}
+                    onRemove={() => {}}
+                    showActions={false} // Hide actions in subcategory cells
+                  />
+                </td>
                 ))}
               </tr>
             );

@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import IconButton from '../Button/IconButton';
-import CategoryCell from './CategoryCell';
+import CategoryInputCell from './CategoryInputCell';
 import { createCategoryService } from '../../services/categoryService';
 import { createSubCategoryService } from '../../services/subCategoryService';
 import './CategoriesTable.css'; // Add styles for the table
@@ -62,7 +62,7 @@ const CategoriesTable: React.FC = () => {
           {categories.map((category, index) => (
             <tr key={index}>
               <td>
-                <CategoryCell
+                <CategoryInputCell
                   value={category}
                   isEditing={editCategoryIndex === index}
                   onChange={(newValue) => categoryService.editCategory(index, newValue)}
@@ -76,7 +76,7 @@ const CategoriesTable: React.FC = () => {
                 <ul>
                   {subcategories[index]?.map((subcategory, subIndex) => (
                     <li key={subIndex}>
-                      <CategoryCell
+                      <CategoryInputCell
                         value={subcategory}
                         isEditing={isSubcategoryEditing(index, subIndex)}
                         onChange={(newValue) =>

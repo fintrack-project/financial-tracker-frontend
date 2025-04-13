@@ -9,6 +9,7 @@ interface CategoryDropdownCellProps {
   onConfirm: () => void;
   onEdit: () => void;
   onRemove: () => void;
+  showActions?: boolean; // Optional prop to control action button visibility
 }
 
 const CategoryDropdownCell: React.FC<CategoryDropdownCellProps> = ({
@@ -19,6 +20,7 @@ const CategoryDropdownCell: React.FC<CategoryDropdownCellProps> = ({
   onConfirm,
   onEdit,
   onRemove,
+  showActions = true, // Default to true if not provided
 }) => {
   return (
     <CategoryCell
@@ -27,6 +29,7 @@ const CategoryDropdownCell: React.FC<CategoryDropdownCellProps> = ({
       onConfirm={onConfirm}
       onEdit={onEdit}
       onRemove={onRemove}
+      showActions={showActions} // Pass showActions prop to CategoryCell
     >
       <select value={value} onChange={(e) => onChange(e.target.value)}>
         <option value="">Select an option</option>
