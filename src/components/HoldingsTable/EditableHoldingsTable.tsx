@@ -100,7 +100,7 @@ const EditableHoldingsTable: React.FC<EditableHoldingsTableProps> = ({ accountId
           {holdings.map((holding, rowIndex) => {
             const assetData = marketData.find((data) => data.assetName === holding.assetName);
             const totalValue = assetData
-              ? (assetData.price * holding.totalBalance).toFixed(2)
+              ? parseFloat((assetData.price * holding.totalBalance).toFixed(2)).toLocaleString()
               : 'Loading...';
 
             return (

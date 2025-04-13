@@ -1,4 +1,4 @@
-export interface SubCategoryService {
+export interface SubcategoryService {
   subcategories: string[][];
   addSubcategory: (categoryIndex: number) => void;
   removeSubcategory: (categoryIndex: number, subIndex: number) => void;
@@ -6,10 +6,10 @@ export interface SubCategoryService {
   confirmSubcategory: (categoryIndex: number, subIndex: number) => void;
 }
 
-export const createSubCategoryService = (
+export const createSubcategoryService = (
   subcategories: string[][],
   setSubcategories: React.Dispatch<React.SetStateAction<string[][]>>
-): SubCategoryService => {
+): SubcategoryService => {
   const addSubcategory = (categoryIndex: number) => {
     const updatedSubcategories = [...subcategories];
     updatedSubcategories[categoryIndex] = [

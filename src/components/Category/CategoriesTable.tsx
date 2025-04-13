@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import IconButton from '../Button/IconButton';
 import CategoryInputCell from './CategoryInputCell';
 import { createCategoryService } from '../../services/categoryService';
-import { createSubCategoryService } from '../../services/subCategoryService';
+import { createSubcategoryService } from '../../services/subcategoryService';
 import './CategoriesTable.css'; // Add styles for the table
 
 const CategoriesTable: React.FC = () => {
@@ -12,7 +12,7 @@ const CategoriesTable: React.FC = () => {
   const [subcategoryEditMode, setSubcategoryEditMode] = useState<{ [categoryIndex: number]: { [subIndex: number]: boolean } }>({}); // Tracks which subcategories are being edited
 
   const categoryService = createCategoryService(categories, setCategories);
-  const subCategoryService = createSubCategoryService(subcategories, setSubcategories);
+  const subcategoryService = createSubcategoryService(subcategories, setSubcategories);
 
   const handleEditCategory = (index: number) => {
     setEditCategoryIndex(index); // Enable edit mode for the selected category
@@ -80,12 +80,12 @@ const CategoriesTable: React.FC = () => {
                         value={subcategory}
                         isEditing={isSubcategoryEditing(index, subIndex)}
                         onChange={(newValue) =>
-                          subCategoryService.editSubcategory(index, subIndex, newValue)
+                          subcategoryService.editSubcategory(index, subIndex, newValue)
                         }
                         onConfirm={() => handleConfirmSubcategory(index, subIndex)}
                         onEdit={() => handleEditSubcategory(index, subIndex)}
                         onRemove={() =>
-                          subCategoryService.removeSubcategory(index, subIndex)
+                          subcategoryService.removeSubcategory(index, subIndex)
                         }
                         placeholder="Enter subcategory"
                       />
@@ -94,7 +94,7 @@ const CategoriesTable: React.FC = () => {
                 </ul>
                 <IconButton
                   type="add"
-                  onClick={() => subCategoryService.addSubcategory(index)}
+                  onClick={() => subcategoryService.addSubcategory(index)}
                   label="Add Subcategory"
                   size="small"
                 />
