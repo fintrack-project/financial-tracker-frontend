@@ -97,7 +97,7 @@ const CategoriesTable: React.FC = () => {
             <tr key={index}>
               <td>
                 {editMode === index ? (
-                  <span>
+                  <div>
                     <input
                       type="text"
                       value={category}
@@ -108,15 +108,15 @@ const CategoriesTable: React.FC = () => {
                       <IconButton type="confirm" onClick={() => handleConfirmCategory(index)} label="Confirm" size="small"/>
                       <IconButton type="delete" onClick={() => handleRemoveCategory(index)} label="Remove" size="small"/>
                     </div>
-                  </span>
+                  </div>
                 ) : (
-                  <span>
+                  <div>
                     {category || 'Unnamed Category'}
                     <div className="actions">
                       <IconButton type="edit" onClick={() => handleEditCategory(index)} label="Edit"  size="small"/>
                       <IconButton type="delete" onClick={() => handleRemoveCategory(index)} label="Remove" size="small"/>
                     </div>
-                  </span>
+                  </div>
                 )}
               </td>
               <td>
@@ -124,33 +124,31 @@ const CategoriesTable: React.FC = () => {
                   {subcategories[index]?.map((subcategory, subIndex) => (
                     <li key={subIndex}>
                       {subcategoryEditMode[index]?.has(subIndex) ? (
-                        <>
-                          <span>
-                            <input
-                              type="text"
-                              value={subcategory}
-                              onChange={(e) => handleSubcategoryChange(index, subIndex, e.target.value)}
-                              placeholder="Enter subcategory"
+                        <div>
+                          <input
+                            type="text"
+                            value={subcategory}
+                            onChange={(e) => handleSubcategoryChange(index, subIndex, e.target.value)}
+                            placeholder="Enter subcategory"
+                          />
+                          <div className="actions">
+                            <IconButton
+                              type="confirm"
+                              onClick={() => handleConfirmSubcategory(index, subIndex)}
+                              label="Confirm Subcategory"
+                              size="small"
                             />
-                            <div className="actions">
-                              <IconButton
-                                type="confirm"
-                                onClick={() => handleConfirmSubcategory(index, subIndex)}
-                                label="Confirm Subcategory"
-                                size="small"
-                              />
-                              <IconButton
-                                type="delete"
-                                onClick={() => handleRemoveSubcategory(index, subIndex)}
-                                label="Remove Subcategory"
-                                size="small"
-                              />
-                            </div>
-                          </span>
-                        </>
+                            <IconButton
+                              type="delete"
+                              onClick={() => handleRemoveSubcategory(index, subIndex)}
+                              label="Remove Subcategory"
+                              size="small"
+                            />
+                          </div>
+                        </div>
                       ) : (
                         <>
-                          <span>
+                          <div>
                             {subcategory || 'Unnamed Subcategory'}
                             <div className="actions">
                               <IconButton
@@ -166,7 +164,7 @@ const CategoriesTable: React.FC = () => {
                                 size="small"
                               />
                             </div>
-                          </span>
+                          </div>
                         </>
                       )}
                     </li>

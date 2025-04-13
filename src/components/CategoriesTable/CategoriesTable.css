@@ -1,17 +1,22 @@
 .categories-table-container {
   margin-top: 20px;
+  display: flex;
+  justify-content: center; /* Center the table horizontally */
 }
 
 .categories-table {
   width: 100%;
+  max-width: 600px; /* Set a shorter width for the table */
   border-collapse: collapse;
 }
 
+/* Set a fixed width for table cells */
 .categories-table th,
 .categories-table td {
   border: 1px solid #ddd;
   padding: 8px;
   text-align: left;
+  position: relative; /* Required for absolute positioning of buttons */
 }
 
 .categories-table th {
@@ -19,23 +24,53 @@
   font-weight: bold;
 }
 
+.categories-table th:first-child, /* Category Name column */
+.categories-table td:first-child {
+  width: 150px; /* Shorter width for the "Category Name" column */
+}
+
+.categories-table th:last-child, /* Subcategories column */
+.categories-table td:last-child {
+  width: 300px; /* Adjust width for the "Subcategories" column */
+}
+
+/* Common input field styles */
 .categories-table input {
-  width: 100%;
-  padding: 4px;
   font-size: 14px;
+  box-sizing: border-box;
+  background-color: #fff; /* Default background color */
+  border: 1px solid #ddd; /* Default border */
+  padding: 4px;
+}
+
+/* Input field for the first column (Category Name) */
+.categories-table td:first-child input {
+  width: 65%; /* Narrower input for Category Name */
+  max-width: 200px; /* Optional: Set a maximum width */
+}
+
+/* Input field for the last column (Subcategories) */
+.categories-table td:last-child input {
+  width: 80%; /* Wider input for Subcategories */
+  max-width: 300px; /* Optional: Set a maximum width */
 }
 
 .categories-table .icon-button {
   margin-right: 8px;
 }
 
-/* Hide actions by default */
+/* Ensure the actions container does not affect layout */
 .actions {
   display: none;
+  position: absolute; /* Position buttons absolutely within the cell */
+  right: 8px; /* Align buttons to the right */
+  top: 50%; /* Vertically center buttons */
+  transform: translateY(-50%); /* Adjust for vertical centering */
+  gap: 4px; /* Add spacing between buttons */
 }
 
-/* Show actions when hovering over the parent container */
-span:hover .actions {
+/* Show actions on hover */
+td:hover .actions,
+li:hover .actions {
   display: inline-flex;
-  gap: 4px; /* Add spacing between buttons */
 }
