@@ -30,38 +30,3 @@ input {
   text-align: center;
 }
 
-/* Remove, Add Buttons */
-button {
-  background-color: #007bff;
-  color: white;
-  border: none;
-  border-radius: 4px;
-  padding: 4px 8px;
-  cursor: pointer;
-}
-
-button:hover {
-  background-color: #0056b3;
-}
-
-.remove-button {
-  width: 24px; /* Fixed width */
-  height: 24px; /* Fixed height */
-  font-size: 16px; /* Adjust font size for better readability */
-  background-color: #dc3545;
-}
-
-.remove-button:hover {
-  background-color: #a71d2a;
-}
-
-.add-button {
-  width: 24px; /* Fixed width */
-  height: 24px; /* Fixed height */
-  font-size: 16px; /* Adjust font size for better readability */
-  background-color: #28a745;
-}
-
-.add-button:hover {
-  background-color: #218838;
-}

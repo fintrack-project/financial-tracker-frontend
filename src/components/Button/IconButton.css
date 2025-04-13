@@ -1,53 +1,34 @@
 .icon-button {
-  width: 24px; /* Fixed width */
-  height: 24px; /* Fixed height */
-  font-size: 16px; /* Adjust font size for better readability */
+  background: none;
+  border: none;
   cursor: pointer;
-  font-weight: bold;
-  border-radius: 4px; /* Rounded corners */
-  transition: background-color 0.3s ease, color 0.3s ease;
-  border: none; /* Remove default border */
-  color: white; /* Ensure the text (x, +, -) is white */
-  align-items: center; /* Vertically center the content */
-  justify-content: center; /* Horizontally center the content */
-}
-
-.icon-button:focus {
-  outline: none;
-  box-shadow: 0 0 4px rgba(0, 0, 0, 0.2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 8px;
 }
 
 .icon-button-small {
-  width: 20px; /* Smaller size */
-  height: 20px; /* Smaller size */
-  font-size: 12px; /* Smaller font size */
-  align-items: center; /* Vertically center the content */
-  justify-content: center; /* Horizontally center the content */
+  padding: 4px;
 }
 
-/* Delete Button (x) */
-.delete-button {
-  background-color: red;
+.icon-button-large {
+  padding: 16px; /* Larger padding for large buttons */
 }
 
-.delete-button:hover {
-  background-color: darkred;
+.icon-image {
+  width: 16px;
+  height: 16px;
 }
 
-/* Add Button (+) */
-.add-button {
-  background-color: green;
+.icon-button-large .icon-image {
+  width: 32px; /* Larger icon size for large buttons */
+  height: 32px;
 }
 
-.add-button:hover {
-  background-color: darkgreen;
-}
-
-/* Remove Button (-) */
-.remove-button {
-  background-color: red;
-}
-
-.remove-button:hover {
-  background-color: darkred;
+.icon-button:hover {
+  background: none !important; /* Prevent global hover styles */
+  border: none !important; /* Prevent global hover borders */
+  box-shadow: none !important; /* Prevent global hover shadows */
+  opacity: 0.8; /* Add hover effect */
 }
