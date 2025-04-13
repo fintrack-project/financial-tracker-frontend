@@ -22,7 +22,7 @@ const EditableHoldingsTable: React.FC<EditableHoldingsTableProps> = ({
 
 
   const handleAddCategoryColumns = () => {
-    if (categoryColumns.length < 3) {
+    if (categoryColumns.length < categories.length) {
       setCategoryColumns([...categoryColumns, '']); // Add an empty category
       setSubcategoryColumns([...subcategoryColumns, Array(holdings.length).fill('')]); // Add empty subcategories for each row
     }
@@ -86,21 +86,28 @@ const EditableHoldingsTable: React.FC<EditableHoldingsTableProps> = ({
             <th>Asset Unit</th>
             <th>Price (USD)</th>
             <th>Total Value (USD)</th>
-            {categoryColumns.map((category, categoryIndex) => (
-              <th key={categoryIndex}>
-                <CategoryDropdownCell
-                  value={category}
-                  isEditing={editingColumns.has(categoryIndex)} // Always editable for the header
-                  options={categories}
-                  onChange={(newValue) => handleCategoryColumnChange(categoryIndex, newValue)}
-                  onConfirm={() => handleConfirmCategoryColumn(categoryIndex)}
-                  onEdit={() => handleEditCategoryColumn(categoryIndex)}
-                  onRemove={() => handleDeleteCategoryColumn(categoryIndex)}
-                  showActions={true} // Hide actions in the header
-                />
-              </th>
-            ))}
-            {categories.length < 3 && (
+            {categoryColumns.map((category, categoryIndex) => {
+              // Filter categories to exclude already confirmed ones
+              const availableCategories = categories.filter(
+                (cat) => !categoryColumns.includes(cat) || cat === category
+              );
+
+              return (
+                <th key={categoryIndex}>
+                  <CategoryDropdownCell
+                    value={category}
+                    isEditing={editingColumns.has(categoryIndex)} // Editable for the header
+                    options={availableCategories} // Filtered categories
+                    onChange={(newValue) => handleCategoryColumnChange(categoryIndex, newValue)}
+                    onConfirm={() => handleConfirmCategoryColumn(categoryIndex)}
+                    onEdit={() => handleEditCategoryColumn(categoryIndex)}
+                    onRemove={() => handleDeleteCategoryColumn(categoryIndex)}
+                    showActions={true} // Show actions in the header
+                  />
+                </th>
+              );
+            })}
+            {categoryColumns.length < categories.length && (
               <th>
                 <IconButton type="add" onClick={handleAddCategoryColumns} label="Add Column" />
               </th>
