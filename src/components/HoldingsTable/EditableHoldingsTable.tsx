@@ -1,8 +1,6 @@
 import React, { useState } from 'react';
 import { useHoldingsData } from '../../hooks/useHoldingsData';
 import IconButton  from '../Button/IconButton';
-import CategoryColumn from '../Category/CategoryColumn';
-import { createCategoryService } from '../../services/categoryService';
 import './HoldingsTable.css'; // Reuse the CSS from HoldingsTable
 
 interface EditableHoldingsTableProps {
@@ -13,44 +11,25 @@ const EditableHoldingsTable: React.FC<EditableHoldingsTableProps> = ({ accountId
   const { holdings, marketData, loading } = useHoldingsData(accountId);
   const [categories, setCategories] = useState<string[]>([]); // Manage categories as state
   const [subcategories, setSubcategories] = useState<string[][]>([]); // Manage subcategories as state
-  const [editMode, setEditMode] = useState<number | null>(null); // Track which category is being edited
 
-  // // Initialize the category service
-  // const categoryService = createCategoryService(categories, subcategories, setCategories, setSubcategories);
+  const handleAddCategory = () => {
+    if (categories.length < 3) {
+      setCategories([...categories, '']); // Add an empty category
+      setSubcategories([...subcategories, Array(holdings.length).fill('')]); // Add empty subcategories for each row
+    }
+  };
 
-  // const handleAddCategory = () => {
-  //   categoryService.addCategory();
-  //   setEditMode(categories.length); // Automatically enter edit mode for the new category
-  // };
+  const handleCategoryChange = (index: number, newCategory: string) => {
+    const updatedCategories = [...categories];
+    updatedCategories[index] = newCategory;
+    setCategories(updatedCategories);
+  };
 
-  // const handleRemoveCategory = (index: number) => {
-  //   categoryService.removeCategory(index);
-  //   if (editMode === index) {
-  //     setEditMode(null); // Exit edit mode if the removed category was being edited
-  //   }
-  // };
-
-  // const handleCategoryNameChange = (index: number, newName: string) => {
-  //   categoryService.editCategory(index, newName);
-  // };
-
-  // const handleEditCategory = (index: number) => {
-  //   setEditMode(index); // Enable edit mode for the selected category
-  //   categoryService.confirmedCategories.delete(index); // Allow editing for subcategories
-  // };
-
-  // const handleConfirmCategory = (index: number) => {
-  //   setEditMode(null); // Exit edit mode
-  //   categoryService.confirmCategory(index); // Mark the category as confirmed
-  // };
-
-  // const handleSubcategoryChange = (categoryIndex: number, assetIndex: number, value: string) => {
-  //   categoryService.updateSubcategory(categoryIndex, assetIndex, value);
-  // };
-
-  if (loading) {
-    return <p>Loading...</p>;
-  }
+  const handleSubcategoryChange = (categoryIndex: number, rowIndex: number, newSubcategory: string) => {
+    const updatedSubcategories = [...subcategories];
+    updatedSubcategories[categoryIndex][rowIndex] = newSubcategory;
+    setSubcategories(updatedSubcategories);
+  };
 
   return (
     <div className="holdings-table-container">
@@ -62,54 +41,55 @@ const EditableHoldingsTable: React.FC<EditableHoldingsTableProps> = ({ accountId
             <th>Asset Unit</th>
             <th>Price (USD)</th>
             <th>Total Value (USD)</th>
-            {/* {categoryService.categories.map((category, index) => (
-              <CategoryColumn
-                key={index}
-                categoryName={category}
-                isEditing={editMode === index}
-                onCategoryNameChange={(newName) => handleCategoryNameChange(index, newName)}
-                onConfirm={() => handleConfirmCategory(index)}
-                onEdit={() => handleEditCategory(index)}
-                onRemove={() => handleRemoveCategory(index)}
-              />
-            ))}
-            {categoryService.categories.length < 3 && (
-              <th>
-                <IconButton type="add" onClick={handleAddCategory} label="Add Category" />
+            {categories.map((category, categoryIndex) => (
+              <th key={categoryIndex}>
+                <select
+                  value={category}
+                  onChange={(e) => handleCategoryChange(categoryIndex, e.target.value)}
+                >
+                  <option value="">Select Category</option>
+                  <option value="Category 1">Category 1</option>
+                  <option value="Category 2">Category 2</option>
+                  <option value="Category 3">Category 3</option>
+                </select>
               </th>
-            )} */}
+            ))}
+            {categories.length < 3 && (
+              <th>
+                <IconButton type="add" onClick={handleAddCategory} label="Add Column" />
+              </th>
+            )}
           </tr>
         </thead>
         <tbody>
-          {holdings.map((holding, assetIndex) => {
+          {holdings.map((holding, rowIndex) => {
             const assetData = marketData.find((data) => data.assetName === holding.assetName);
             const totalValue = assetData
               ? (assetData.price * holding.totalBalance).toFixed(2)
               : 'Loading...';
 
             return (
-              <tr key={assetIndex}>
+              <tr key={rowIndex}>
                 <td>{holding.assetName}</td>
                 <td>{holding.totalBalance.toLocaleString()}</td>
                 <td>{holding.unit}</td>
                 <td>{assetData?.price?.toLocaleString() || 'Loading...'}</td>
                 <td>{totalValue}</td>
-                {/* {categories.map((_, categoryIndex) => (
-                  <td key={`${assetIndex}-${categoryIndex}`}>
-                    {editMode === categoryIndex ? (
-                      <input
-                        type="text"
-                        value={subcategories[categoryIndex][assetIndex]}
-                        onChange={(e) =>
-                          handleSubcategoryChange(categoryIndex, assetIndex, e.target.value)
-                        }
-                        placeholder={`Enter ${categories[categoryIndex]}`}
-                      />
-                    ) : (
-                      <span>{subcategories[categoryIndex][assetIndex] || '—'}</span>
-                    )}
+                {categories.map((_, categoryIndex) => (
+                  <td key={`${rowIndex}-${categoryIndex}`}>
+                    <select
+                      value={subcategories[categoryIndex]?.[rowIndex] || ''}
+                      onChange={(e) =>
+                        handleSubcategoryChange(categoryIndex, rowIndex, e.target.value)
+                      }
+                    >
+                      <option value="">Select Subcategory</option>
+                      <option value="Subcategory 1">Subcategory 1</option>
+                      <option value="Subcategory 2">Subcategory 2</option>
+                      <option value="Subcategory 3">Subcategory 3</option>
+                    </select>
                   </td>
-                ))} */}
+                ))}
               </tr>
             );
           })}
