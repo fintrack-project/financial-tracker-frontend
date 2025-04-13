@@ -1,18 +1,29 @@
 import React, { useState } from 'react';
 import AccountMenu from '../../components/Menu/AccountMenu';
 import MainNavigationBar from 'components/NavigationBar/MainNavigationBar';
-import HoldingsTable from '../../components/HoldingsTable/HoldingsTable'; // Import the HoldingsTable componen
-import './Holdings.css'; // Import the CSS file
 import EditableHoldingsTable from 'components/HoldingsTable/EditableHoldingsTable';
 import CategoriesTable from 'components/Category/CategoriesTable';
+import { createCategoryService } from '../../services/categoryService';
+import { createSubcategoryService } from '../../services/subcategoryService';
+import './Holdings.css'; // Import the CSS file
 
 const Holdings: React.FC = () => {
   const [accountId, setAccountId] = useState<string | null>(null); // Store the currently logged-in account ID
+  const [categories, setCategories] = useState<string[]>([]);
+  const [subcategories, setSubcategories] = useState<string[][]>([]);
 
   // Callback to get the accountId from AccountMenu
   const handleAccountChange = (newAccountId: string) => {
     setAccountId(newAccountId);
   };
+
+  const handleUpdateCategories = (updatedCategories: string[], updatedSubcategories: string[][]) => {
+    setCategories(updatedCategories);
+    setSubcategories(updatedSubcategories);
+  };
+
+  const categoryService = createCategoryService(categories, setCategories);
+  const subcategoryService = createSubcategoryService(subcategories, setSubcategories);
 
   return (
     <div className="holdings-container">
@@ -26,9 +37,20 @@ const Holdings: React.FC = () => {
       </div>
       <div className="holdings-list">
         <h1>Holdings</h1>
-        <EditableHoldingsTable accountId={accountId}/>
+        <EditableHoldingsTable 
+          accountId={accountId}
+          categories={categories}
+          subcategories={subcategories}
+        />
         <h1>Categories</h1>
-        <CategoriesTable />
+        <CategoriesTable 
+          accountId={accountId}
+          categories={categories}
+          subcategories={subcategories}
+          categoryService={categoryService}
+          subcategoryService={subcategoryService}
+          onUpdateCategories={handleUpdateCategories}
+        />
       </div>
     </div>
   );

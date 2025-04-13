@@ -5,14 +5,25 @@ import { createCategoryService } from '../../services/categoryService';
 import { createSubcategoryService } from '../../services/subcategoryService';
 import './CategoriesTable.css'; // Add styles for the table
 
-const CategoriesTable: React.FC = () => {
-  const [categories, setCategories] = useState<string[]>([]);
-  const [subcategories, setSubcategories] = useState<string[][]>([]);
+interface CategoriesTableProps {
+  accountId: string | null;
+  categories: string[];
+  subcategories: string[][];
+  categoryService: ReturnType<typeof createCategoryService>;
+  subcategoryService: ReturnType<typeof createSubcategoryService>;
+  onUpdateCategories: (categories: string[], subcategories: string[][]) => void;
+}
+
+const CategoriesTable: React.FC<CategoriesTableProps> = ({
+  accountId,
+  categories,
+  subcategories,
+  categoryService,
+  subcategoryService,
+  onUpdateCategories
+}) => {
   const [editCategoryIndex, setEditCategoryIndex] = useState<number | null>(null); // Tracks which category is being edited
   const [subcategoryEditMode, setSubcategoryEditMode] = useState<{ [categoryIndex: number]: { [subIndex: number]: boolean } }>({}); // Tracks which subcategories are being edited
-
-  const categoryService = createCategoryService(categories, setCategories);
-  const subcategoryService = createSubcategoryService(subcategories, setSubcategories);
 
   const handleEditCategory = (index: number) => {
     setEditCategoryIndex(index); // Enable edit mode for the selected category

@@ -6,55 +6,61 @@ import './HoldingsTable.css'; // Reuse the CSS from HoldingsTable
 
 interface EditableHoldingsTableProps {
   accountId: string | null;
+  categories: string[];
+  subcategories: string[][];
 }
 
-const EditableHoldingsTable: React.FC<EditableHoldingsTableProps> = ({ accountId }) => {
+const EditableHoldingsTable: React.FC<EditableHoldingsTableProps> = ({ 
+  accountId,
+  categories,
+  subcategories,
+}) => {
   const { holdings, marketData, loading } = useHoldingsData(accountId);
-  const [categories, setCategories] = useState<string[]>([]); // Manage categories as state
-  const [subcategories, setSubcategories] = useState<string[][]>([]); // Manage subcategories as state
-  const [editingColumns, setEditingColumns] = useState<Set<number>>(new Set()); // Track which columns are in edit mode
+  const [categoryColumns, setCategoryColumns] = useState<string[]>([]); // Manage categories as state
+  const [subcategoryColumns, setSubcategoryColumns] = useState<string[][]>([]); // Manage subcategories as state
+   const [editingColumns, setEditingColumns] = useState<Set<number>>(new Set()); // Track which columns are in edit mode
 
 
-  const handleAddCategory = () => {
-    if (categories.length < 3) {
-      setCategories([...categories, '']); // Add an empty category
-      setSubcategories([...subcategories, Array(holdings.length).fill('')]); // Add empty subcategories for each row
+  const handleAddCategoryColumns = () => {
+    if (categoryColumns.length < 3) {
+      setCategoryColumns([...categoryColumns, '']); // Add an empty category
+      setSubcategoryColumns([...subcategoryColumns, Array(holdings.length).fill('')]); // Add empty subcategories for each row
     }
   };
 
-  const handleCategoryChange = (index: number, newCategory: string) => {
-    const updatedCategories = [...categories];
-    updatedCategories[index] = newCategory;
-    setCategories(updatedCategories);
+  const handleCategoryColumnChange = (index: number, newCategoryColumn: string) => {
+    const updatedCategoriesColumns = [...categoryColumns];
+    updatedCategoriesColumns[index] = newCategoryColumn;
+    setCategoryColumns(updatedCategoriesColumns);
   };
 
-  const handleSubcategoryChange = (categoryIndex: number, rowIndex: number, newSubcategory: string) => {
-    const updatedSubcategories = [...subcategories];
-    updatedSubcategories[categoryIndex][rowIndex] = newSubcategory;
-    setSubcategories(updatedSubcategories);
+  const handleSubcategoryColumnChange = (categoryColumnIndex: number, rowIndex: number, newSubcategoryColumn: string) => {
+    const updatedSubcategoryColumns = [...subcategoryColumns];
+    updatedSubcategoryColumns[categoryColumnIndex][rowIndex] = newSubcategoryColumn;
+    setSubcategoryColumns(updatedSubcategoryColumns);
   };
 
-  const handleConfirmCategory = (index: number) => {
+  const handleConfirmCategoryColumn = (index: number) => {
     const updatedEditingColumns = new Set(editingColumns);
     updatedEditingColumns.delete(index); // Exit edit mode for the column
     setEditingColumns(updatedEditingColumns);
   };
 
-  const handleEditCategory = (index: number) => {
+  const handleEditCategoryColumn = (index: number) => {
     const updatedEditingColumns = new Set(editingColumns);
     updatedEditingColumns.add(index); // Enable edit mode for the column
     setEditingColumns(updatedEditingColumns);
   };
 
-  const handleDeleteCategory = (index: number) => {
-    const updatedCategories = [...categories];
-    const updatedSubcategories = [...subcategories];
+  const handleDeleteCategoryColumn = (index: number) => {
+    const updatedCategoryColumns = [...categoryColumns];
+    const updatedSubcategoryColumns = [...subcategoryColumns];
 
-    updatedCategories.splice(index, 1); // Remove the category
-    updatedSubcategories.splice(index, 1); // Remove the associated subcategories
+    updatedCategoryColumns.splice(index, 1); // Remove the category
+    updatedSubcategoryColumns.splice(index, 1); // Remove the associated subcategories
 
-    setCategories(updatedCategories);
-    setSubcategories(updatedSubcategories);
+    setCategoryColumns(updatedCategoryColumns);
+    setSubcategoryColumns(updatedSubcategoryColumns);
 
     const updatedEditingColumns = new Set(editingColumns);
     updatedEditingColumns.delete(index); // Remove the column from editing state
@@ -75,23 +81,23 @@ const EditableHoldingsTable: React.FC<EditableHoldingsTableProps> = ({ accountId
             <th>Asset Unit</th>
             <th>Price (USD)</th>
             <th>Total Value (USD)</th>
-            {categories.map((category, categoryIndex) => (
+            {categoryColumns.map((category, categoryIndex) => (
               <th key={categoryIndex}>
                 <CategoryDropdownCell
                   value={category}
                   isEditing={editingColumns.has(categoryIndex)} // Always editable for the header
-                  options={['Category 1', 'Category 2', 'Category 3']}
-                  onChange={(newValue) => handleCategoryChange(categoryIndex, newValue)}
-                  onConfirm={() => handleConfirmCategory(categoryIndex)}
-                  onEdit={() => handleEditCategory(categoryIndex)}
-                  onRemove={() => handleDeleteCategory(categoryIndex)}
+                  options={categories}
+                  onChange={(newValue) => handleCategoryColumnChange(categoryIndex, newValue)}
+                  onConfirm={() => handleConfirmCategoryColumn(categoryIndex)}
+                  onEdit={() => handleEditCategoryColumn(categoryIndex)}
+                  onRemove={() => handleDeleteCategoryColumn(categoryIndex)}
                   showActions={true} // Hide actions in the header
                 />
               </th>
             ))}
             {categories.length < 3 && (
               <th>
-                <IconButton type="add" onClick={handleAddCategory} label="Add Column" />
+                <IconButton type="add" onClick={handleAddCategoryColumns} label="Add Column" />
               </th>
             )}
           </tr>
@@ -115,9 +121,9 @@ const EditableHoldingsTable: React.FC<EditableHoldingsTableProps> = ({ accountId
                   <CategoryDropdownCell
                     value={subcategories[categoryIndex]?.[rowIndex] || ''}
                     isEditing={editingColumns.has(categoryIndex)} // Always editable for subcategory cells
-                    options={['Subcategory 1', 'Subcategory 2', 'Subcategory 3']}
+                    options={subcategories[categoryIndex] || []}
                     onChange={(newValue) =>
-                      handleSubcategoryChange(categoryIndex, rowIndex, newValue)
+                      handleSubcategoryColumnChange(categoryIndex, rowIndex, newValue)
                     }
                     onConfirm={() => {}}
                     onEdit={() => {}}
