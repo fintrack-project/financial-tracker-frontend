@@ -60,17 +60,19 @@
 }
 
 /* Ensure the actions container does not affect layout */
+/* 
 .actions {
   display: none;
-  position: absolute; /* Position buttons absolutely within the cell */
-  right: 8px; /* Align buttons to the right */
-  top: 50%; /* Vertically center buttons */
-  transform: translateY(-50%); /* Adjust for vertical centering */
-  gap: 4px; /* Add spacing between buttons */
-}
+  position: absolute;
+  right: 8px;
+  top: 50%;
+  transform: translateY(-50%);
+} */
 
 /* Show actions on hover */
+/*
 td:hover .actions,
 li:hover .actions {
   display: inline-flex;
 }
+*/

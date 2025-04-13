@@ -2,14 +2,14 @@ import React, { useState } from 'react';
 import IconButton from '../Button/IconButton';
 import CategoryCell from './CategoryCell';
 import { createCategoryService } from '../../services/categoryService';
-import { createSubCategoryService } from '../../services/SubCategoryService';
+import { createSubCategoryService } from '../../services/subCategoryService';
 import './CategoriesTable.css'; // Add styles for the table
 
 const CategoriesTable: React.FC = () => {
   const [categories, setCategories] = useState<string[]>([]);
   const [subcategories, setSubcategories] = useState<string[][]>([]);
   const [editCategoryIndex, setEditCategoryIndex] = useState<number | null>(null); // Tracks which category is being edited
-  const [subcategoryEditMode, setSubcategoryEditMode] = useState<{ [key: number]: Set<number> }>({}); // Tracks which subcategories are being edited
+  const [subcategoryEditMode, setSubcategoryEditMode] = useState<{ [categoryIndex: number]: { [subIndex: number]: boolean } }>({}); // Tracks which subcategories are being edited
 
   const categoryService = createCategoryService(categories, setCategories);
   const subCategoryService = createSubCategoryService(subcategories, setSubcategories);
@@ -23,18 +23,29 @@ const CategoriesTable: React.FC = () => {
     categoryService.confirmCategory(index);
   };
 
+  const isSubcategoryEditing = (categoryIndex: number, subIndex: number): boolean => {
+    return subcategoryEditMode[categoryIndex]?.[subIndex] || false;
+  };
+
   const handleEditSubcategory = (categoryIndex: number, subIndex: number) => {
     setSubcategoryEditMode((prev) => ({
       ...prev,
-      [categoryIndex]: new Set([...(prev[categoryIndex] || []), subIndex]),
+      [categoryIndex]: {
+        ...(prev[categoryIndex] || {}),
+        [subIndex]: true, // Set the specific subcategory to edit mode
+      },
     }));
   };
 
   const handleConfirmSubcategory = (categoryIndex: number, subIndex: number) => {
     setSubcategoryEditMode((prev) => {
-      const updatedSet = new Set(prev[categoryIndex]);
-      updatedSet.delete(subIndex); // Remove subIndex from edit mode
-      return { ...prev, [categoryIndex]: updatedSet };
+      const updatedCategory = { ...(prev[categoryIndex] || {}) };
+      delete updatedCategory[subIndex]; // Remove the specific subcategory from edit mode
+
+      return {
+        ...prev,
+        [categoryIndex]: updatedCategory,
+      };
     });
   };
 
@@ -64,10 +75,10 @@ const CategoriesTable: React.FC = () => {
               <td>
                 <ul>
                   {subcategories[index]?.map((subcategory, subIndex) => (
-                    <li key={subIndex}>
+                    <ul key={subIndex}>
                       <CategoryCell
                         value={subcategory}
-                        isEditing={subcategoryEditMode[index]?.has(subIndex) || false}
+                        isEditing={isSubcategoryEditing(index, subIndex)}
                         onChange={(newValue) =>
                           subCategoryService.editSubcategory(index, subIndex, newValue)
                         }
@@ -78,7 +89,7 @@ const CategoriesTable: React.FC = () => {
                         }
                         placeholder="Enter subcategory"
                       />
-                    </li>
+                    </ul>
                   ))}
                 </ul>
                 <IconButton
