@@ -58,21 +58,3 @@
 .categories-table .icon-button {
   margin-right: 8px;
 }
-
-/* Ensure the actions container does not affect layout */
-/* 
-.actions {
-  display: none;
-  position: absolute;
-  right: 8px;
-  top: 50%;
-  transform: translateY(-50%);
-} */
-
-/* Show actions on hover */
-/*
-td:hover .actions,
-li:hover .actions {
-  display: inline-flex;
-}
-*/
