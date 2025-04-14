@@ -5,7 +5,7 @@ import './CategoryCell.css'; // Optional: Add styles for the cell
 interface CategoryCellProps {
   value: string; // The current value of the category or subcategory
   isEditing: boolean; // Whether the cell is in edit mode
-  onChange?: () => void; // Handler for input changes
+  onChange?: (newValue: string) => void; // Handler for input changes
   onConfirm: () => void; // Handler for confirming the value
   onEdit: () => void; // Handler for entering edit mode
   onRemove: () => void; // Handler for removing the category or subcategory
@@ -16,6 +16,7 @@ interface CategoryCellProps {
 const CategoryCell: React.FC<CategoryCellProps> = ({
   value,
   isEditing,
+  onChange,
   onConfirm,
   onEdit,
   onRemove,

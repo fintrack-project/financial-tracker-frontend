@@ -9,6 +9,11 @@ export interface CategoryService {
   removeCategory: (index: number) => void;
   editCategory: (index: number, newName: string) => void;
   confirmCategory: (index: number) => void;
+  updateCategories: (accountId: string, categories: { name: string; subcategories: string[] }[]) => Promise<void>;
+  updateHoldingsCategories: (
+    accountId: string,
+    holdingsCategories: { category: string; subcategories: string[] }[]
+  ) => Promise<void>;
 }
 
 export const createCategoryService = (
@@ -40,36 +45,38 @@ export const createCategoryService = (
     confirmedCategories.add(index); // Mark the category as confirmed
   };
 
+  const updateCategories = async (accountId: string, categories: { name: string; subcategories: string[] }[]) => {
+    try {
+      const response = await axios.post(`api/categories/update`, categories, {
+        params: { accountId },
+      });
+      return response.data;
+    } catch (error) {
+      console.error('Error updating categories:', error);
+      throw error;
+    }
+  };
+
+  const updateHoldingsCategories = async (accountId: string, holdingsCategories: { category: string; subcategories: string[] }[]) => {
+    try {
+      const response = await axios.post(`api/categories/holdings/update`, holdingsCategories, {
+        params: { accountId },
+      });
+      return response.data;
+    } catch (error) {
+      console.error('Error updating holdings categories:', error);
+      throw error;
+    }
+  };
+
   return {
     categories,
     confirmedCategories,
     addCategory,
     removeCategory,
     editCategory,
-    confirmCategory
+    confirmCategory,
+    updateCategories,
+    updateHoldingsCategories,
   };
-};
-
-export const updateCategories = async (accountId: string, categories: { name: string; subcategories: string[] }[]) => {
-  try {
-    const response = await axios.post(`api/categories/update`, categories, {
-      params: { accountId },
-    });
-    return response.data;
-  } catch (error) {
-    console.error('Error updating categories:', error);
-    throw error;
-  }
-};
-
-export const updateHoldingsCategories = async (accountId: string, holdingsCategories: { category: string; subcategories: string[] }[]) => {
-  try {
-    const response = await axios.post(`api/categories/holdings/update`, holdingsCategories, {
-      params: { accountId },
-    });
-    return response.data;
-  } catch (error) {
-    console.error('Error updating holdings categories:', error);
-    throw error;
-  }
 };

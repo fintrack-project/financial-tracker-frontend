@@ -2,18 +2,21 @@ import React, { useState, useEffect } from 'react';
 import { useHoldingsData } from '../../hooks/useHoldingsData';
 import IconButton  from '../Button/IconButton';
 import CategoryDropdownCell from '../Category/CategoryDropdownCell';
+import { createCategoryService } from '../../services/categoryService';
 import './HoldingsTable.css'; // Reuse the CSS from HoldingsTable
 
 interface EditableHoldingsTableProps {
   accountId: string | null;
   categories: string[];
   subcategories: {[category: string]: string[]};
+  categoryService: ReturnType<typeof createCategoryService>;
 }
 
 const EditableHoldingsTable: React.FC<EditableHoldingsTableProps> = ({ 
   accountId,
   categories,
   subcategories,
+  categoryService,
 }) => {
   const { holdings, marketData, loading } = useHoldingsData(accountId);
   const [categoryColumns, setCategoryColumns] = useState<string[]>([]); // Manage categories as state
@@ -51,7 +54,27 @@ const EditableHoldingsTable: React.FC<EditableHoldingsTableProps> = ({
     setSubcategoryColumns(updatedSubcategoryColumns);
   };
 
-  const handleSubcategoryColumnChange = (categoryColumnIndex: number, rowIndex: number, newSubcategoryColumn: string) => {
+  const handleSubcategoryColumnChange = async (categoryColumnIndex: number, rowIndex: number, newSubcategoryColumn: string) => {
+    if (!accountId) {
+      alert('Account ID is required to confirm holdings categories.');
+      return;
+    }
+  
+    const category = categoryColumns[categoryColumnIndex];
+    const subcategory = subcategoryColumns[categoryColumnIndex]?.[rowIndex] || '';
+  
+    const formattedHoldingsCategory = {
+      category,
+      subcategories: subcategoryColumns[categoryColumnIndex] || [],
+    };
+  
+    try {
+      await categoryService.updateHoldingsCategories(accountId, [formattedHoldingsCategory]); // Sync with backend
+      alert(`Subcategory "${subcategory}" under category "${category}" updated successfully.`);
+    } catch (error) {
+      alert(`Failed to update subcategory "${subcategory}" under category "${category}".`);
+    }
+
     const updatedSubcategoryColumns = [...subcategoryColumns];
     updatedSubcategoryColumns[categoryColumnIndex][rowIndex] = newSubcategoryColumn;
     setSubcategoryColumns(updatedSubcategoryColumns);

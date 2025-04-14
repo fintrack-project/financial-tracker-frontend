@@ -29,7 +29,25 @@ const CategoriesTable: React.FC<CategoriesTableProps> = ({
     setEditCategoryIndex(index); // Enable edit mode for the selected category
   };
 
-  const handleConfirmCategory = (index: number) => {
+  const handleConfirmCategory = async (index: number) => {
+    if (!accountId) {
+      alert('Account ID is required to confirm categories.');
+      return;
+    }
+  
+    const category = categories[index];
+    const formattedCategory = {
+      name: category,
+      subcategories: subcategories[category] || [],
+    };
+  
+    try {
+      await categoryService.updateCategories(accountId, [formattedCategory]); // Sync with backend
+      alert(`Category "${category}" updated successfully.`);
+    } catch (error) {
+      alert(`Failed to update category "${category}".`);
+    }
+
     setEditCategoryIndex(null); // Exit edit mode
     categoryService.confirmCategory(index);
   };

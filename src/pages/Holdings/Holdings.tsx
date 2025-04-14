@@ -49,6 +49,7 @@ const Holdings: React.FC = () => {
           accountId={accountId}
           categories={categories}
           subcategories={subcategories}
+          categoryService={categoryService}
         />
         <h1>Categories</h1>
         <CategoriesTable 
