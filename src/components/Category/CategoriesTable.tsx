@@ -37,7 +37,7 @@ const CategoriesTable: React.FC<CategoriesTableProps> = ({
   
     const category = categories[index];
     const formattedCategory = {
-      name: category,
+      category_name: category,
       subcategories: subcategories[category] || [],
     };
   

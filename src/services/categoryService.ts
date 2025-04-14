@@ -9,7 +9,7 @@ export interface CategoryService {
   removeCategory: (index: number) => void;
   editCategory: (index: number, newName: string) => void;
   confirmCategory: (index: number) => void;
-  updateCategories: (accountId: string, categories: { name: string; subcategories: string[] }[]) => Promise<void>;
+  updateCategories: (accountId: string, categories: { category_name: string; subcategories: string[] }[]) => Promise<void>;
   updateHoldingsCategories: (
     accountId: string,
     holdingsCategories: { category: string; subcategories: string[] }[]
@@ -45,7 +45,7 @@ export const createCategoryService = (
     confirmedCategories.add(index); // Mark the category as confirmed
   };
 
-  const updateCategories = async (accountId: string, categories: { name: string; subcategories: string[] }[]) => {
+  const updateCategories = async (accountId: string, categories: { category_name: string; subcategories: string[] }[]) => {
     try {
       const response = await axios.post(`api/categories/update`, categories, {
         params: { accountId },
