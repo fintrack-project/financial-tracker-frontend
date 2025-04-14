@@ -87,7 +87,6 @@ export const createCategoryService = (
       }, [] as { category: string; subcategories: string[] }[]);
   
       // Send the transformed data to the backend
-      console.log('Payload sent to backend:', holdingsCategories); // Log the payload
       const response = await axios.post(`api/categories/holdings/update`, holdingsCategories, {
         params: { accountId },
       });

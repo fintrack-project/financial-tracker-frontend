@@ -122,7 +122,7 @@ const CategoriesTable: React.FC<CategoriesTableProps> = ({
     try {
       await categoryService.updateCategories(accountId, formattedCategories); // Sync with backend
       console.log(`Category "${removedCategory}" removed successfully.`);
-      // resetHasFetched(); // Reset the fetched state
+      resetHasFetched(); // Reset the fetched state
     } catch (error) {
       alert(`Failed to remove category "${removedCategory}".`);
     }
