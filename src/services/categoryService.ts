@@ -14,6 +14,9 @@ export interface CategoryService {
     accountId: string,
     holdingsCategories: { category: string; subcategories: string[] }[]
   ) => Promise<void>;
+  fetchCategoriesAndSubcategories: (
+    accountId: string
+  ) => Promise<{ categories: string[]; subcategories: { [category: string]: string[] } }>;
 }
 
 export const createCategoryService = (
@@ -45,7 +48,10 @@ export const createCategoryService = (
     confirmedCategories.add(index); // Mark the category as confirmed
   };
 
-  const updateCategories = async (accountId: string, categories: { category_name: string; subcategories: string[] }[]) => {
+  const updateCategories = async (
+    accountId: string, 
+    categories: { category_name: string; subcategories: string[] }[]
+  ) => {
     try {
       const response = await axios.post(`api/categories/update`, categories, {
         params: { accountId },
@@ -57,7 +63,10 @@ export const createCategoryService = (
     }
   };
 
-  const updateHoldingsCategories = async (accountId: string, holdingsCategories: { category: string; subcategories: string[] }[]) => {
+  const updateHoldingsCategories = async (
+    accountId: string, 
+    holdingsCategories: { category: string; subcategories: string[] }[]
+  ) => {
     try {
       const response = await axios.post(`api/categories/holdings/update`, holdingsCategories, {
         params: { accountId },
@@ -65,6 +74,24 @@ export const createCategoryService = (
       return response.data;
     } catch (error) {
       console.error('Error updating holdings categories:', error);
+      throw error;
+    }
+  };
+
+  const fetchCategoriesAndSubcategories = async (
+    accountId: string
+  ) => {
+    try {
+      const response = await axios.get(`/api/categories`, {
+        params: { accountId },
+      });
+
+      const fetchedCategories = response.data.categories || [];
+      const fetchedSubcategories = response.data.subcategories || {};
+
+      return { categories: fetchedCategories, subcategories: fetchedSubcategories };
+    } catch (error) {
+      console.error('Error fetching categories and subcategories:', error);
       throw error;
     }
   };
@@ -78,5 +105,6 @@ export const createCategoryService = (
     confirmCategory,
     updateCategories,
     updateHoldingsCategories,
+    fetchCategoriesAndSubcategories,
   };
 };

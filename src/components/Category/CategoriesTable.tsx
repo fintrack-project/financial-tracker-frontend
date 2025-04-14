@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import IconButton from '../Button/IconButton';
 import CategoryInputCell from './CategoryInputCell';
 import { createCategoryService } from '../../services/categoryService';
@@ -24,6 +24,31 @@ const CategoriesTable: React.FC<CategoriesTableProps> = ({
 }) => {
   const [editCategoryIndex, setEditCategoryIndex] = useState<number | null>(null); // Tracks which category is being edited
   const [subcategoryEditMode, setSubcategoryEditMode] = useState<{ [category: string]: { [subIndex: number]: boolean } }>({}); // Tracks which subcategories are being edited
+
+  // Fetch categories and subcategories when the component mounts
+  useEffect(() => {
+    const fetchData = async () => {
+      if (!accountId) {
+        console.warn('Account ID is required to fetch categories.');
+        return;
+      }
+
+      try {
+        const { categories: fetchedCategories, subcategories: fetchedSubcategories } =
+          await categoryService.fetchCategoriesAndSubcategories(accountId);
+
+        // Use the onUpdateCategories callback to update the parent state
+        onUpdateCategories(fetchedCategories, fetchedSubcategories);
+
+        console.log('Fetched categories:', fetchedCategories);
+        console.log('Fetched subcategories:', fetchedSubcategories);
+      } catch (error) {
+        alert('Failed to fetch categories. Please try again.');
+      }
+    };
+
+    fetchData();
+  }, [accountId, categoryService]);
 
   const handleEditCategory = (index: number) => {
     setEditCategoryIndex(index); // Enable edit mode for the selected category
