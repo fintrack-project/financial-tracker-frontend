@@ -1,3 +1,7 @@
+import axios from 'axios';
+
+const API_BASE_URL = '/api/categories';
+
 export interface CategoryService {
   categories: string[];
   confirmedCategories: Set<number>;
@@ -44,4 +48,28 @@ export const createCategoryService = (
     editCategory,
     confirmCategory
   };
+};
+
+export const updateCategories = async (accountId: string, categories: { name: string; subcategories: string[] }[]) => {
+  try {
+    const response = await axios.post(`api/categories/update`, categories, {
+      params: { accountId },
+    });
+    return response.data;
+  } catch (error) {
+    console.error('Error updating categories:', error);
+    throw error;
+  }
+};
+
+export const updateHoldingsCategories = async (accountId: string, holdingsCategories: { category: string; subcategories: string[] }[]) => {
+  try {
+    const response = await axios.post(`api/categories/holdings/update`, holdingsCategories, {
+      params: { accountId },
+    });
+    return response.data;
+  } catch (error) {
+    console.error('Error updating holdings categories:', error);
+    throw error;
+  }
 };
