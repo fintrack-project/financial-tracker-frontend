@@ -11,7 +11,7 @@ interface CategoriesTableProps {
   subcategories: {[category: string]: string[]};
   categoryService: ReturnType<typeof createCategoryService>;
   subcategoryService: ReturnType<typeof createSubcategoryService>;
-  onUpdateCategories: (categories: string[], subcategories: string[][]) => void;
+  onUpdateCategories: (categories: string[], subcategories: {[category: string]: string[]}) => void;
 }
 
 const CategoriesTable: React.FC<CategoriesTableProps> = ({
@@ -96,6 +96,38 @@ const CategoriesTable: React.FC<CategoriesTableProps> = ({
     });
   };
 
+  const handleRemoveSubcategory = async (category: string, subIndex: number) => {
+    if (!accountId) {
+      alert('Account ID is required to remove subcategories.');
+      return;
+    }
+  
+    // Remove the subcategory locally
+    const updatedSubcategories = [...(subcategories[category] || [])];
+    updatedSubcategories.splice(subIndex, 1); // Remove the subcategory at the given index
+  
+    const formattedSubcategory = {
+      category_name: category,
+      subcategories: updatedSubcategories, // Send the updated list of subcategories
+    };
+  
+    try {
+      await subcategoryService.updateSubcategory(accountId, formattedSubcategory); // Sync with backend
+      console.log(`Subcategory removed and updated for category "${category}".`);
+    } catch (error) {
+      alert(`Failed to remove subcategory for category "${category}".`);
+    }
+  
+    // Update the local state
+    const updatedSubcategoriesState = {
+      ...subcategories,
+      [category]: updatedSubcategories,
+    };
+
+    onUpdateCategories(categories, updatedSubcategoriesState); // Update the parent state
+    console.log(`Updated subcategories for category "${category}":`, updatedSubcategoriesState[category]);
+  };
+
   return (
     <div className="categories-table-container">
       <table className="categories-table">
@@ -132,7 +164,8 @@ const CategoriesTable: React.FC<CategoriesTableProps> = ({
                         onConfirm={() => handleConfirmSubcategory(category, subIndex)}
                         onEdit={() => handleEditSubcategory(category, subIndex)}
                         onRemove={() =>
-                          subcategoryService.removeSubcategory(category, subIndex)
+                          // subcategoryService.removeSubcategory(category, subIndex)
+                          handleRemoveSubcategory(category, subIndex)
                         }
                         placeholder="Enter subcategory"
                       />

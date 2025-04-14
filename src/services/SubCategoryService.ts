@@ -32,16 +32,16 @@ export const createSubcategoryService = (
     setSubcategories(updatedSubcategories);
   };
 
-  const removeSubcategory = (category: string, subIndex: number) => {
-    const updatedSubcategories = { ...subcategories };
-    if (updatedSubcategories[category]) {
-      updatedSubcategories[category].splice(subIndex, 1); // Remove the subcategory at the given index
-      if (updatedSubcategories[category].length === 0) {
-        delete updatedSubcategories[category]; // Remove the category if no subcategories remain
-      }
-    }
-    setSubcategories(updatedSubcategories);
-  };
+  // const removeSubcategory = (category: string, subIndex: number) => {
+  //   const updatedSubcategories = { ...subcategories };
+  //   if (updatedSubcategories[category]) {
+  //     updatedSubcategories[category].splice(subIndex, 1); // Remove the subcategory at the given index
+  //     if (updatedSubcategories[category].length === 0) {
+  //       delete updatedSubcategories[category]; // Remove the category if no subcategories remain
+  //     }
+  //   }
+  //   setSubcategories(updatedSubcategories);
+  // };
 
   const updateSubcategory = async (
     accountId: string,
@@ -62,7 +62,7 @@ export const createSubcategoryService = (
   return {
     addSubcategory, 
     editSubcategory, 
-    removeSubcategory,
+    // removeSubcategory,
     updateSubcategory,
   };
 };
