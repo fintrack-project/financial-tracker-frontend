@@ -100,6 +100,39 @@ const CategoriesTable: React.FC<CategoriesTableProps> = ({
     });
   };
 
+  const handleRemoveCategory = async (index: number) => {
+    if (!accountId) {
+      alert('Account ID is required to remove categories.');
+      return;
+    }
+  
+    // Remove the category locally
+    const updatedCategories = [...categories];
+    const removedCategory = updatedCategories.splice(index, 1)[0]; // Remove the category at the given index
+  
+    // Remove associated subcategories
+    const updatedSubcategories = { ...subcategories };
+    delete updatedSubcategories[removedCategory];
+  
+    const formattedCategories = updatedCategories.map((category) => ({
+      category_name: category,
+      subcategories: updatedSubcategories[category] || [],
+    }));
+  
+    try {
+      await categoryService.updateCategories(accountId, formattedCategories); // Sync with backend
+      console.log(`Category "${removedCategory}" removed successfully.`);
+      // resetHasFetched(); // Reset the fetched state
+    } catch (error) {
+      alert(`Failed to remove category "${removedCategory}".`);
+    }
+  
+    // Update the local state
+    onUpdateCategories(updatedCategories, updatedSubcategories); // Update the parent state
+    console.log('Updated categories:', updatedCategories);
+    console.log('Updated subcategories:', updatedSubcategories);
+  };
+
   const handleRemoveSubcategory = async (category: string, subIndex: number) => {
     if (!accountId) {
       alert('Account ID is required to remove subcategories.');
@@ -118,6 +151,7 @@ const CategoriesTable: React.FC<CategoriesTableProps> = ({
     try {
       await subcategoryService.updateSubcategory(accountId, formattedSubcategory); // Sync with backend
       console.log(`Subcategory removed and updated for category "${category}".`);
+      resetHasFetched(); // Reset the fetched state
     } catch (error) {
       alert(`Failed to remove subcategory for category "${category}".`);
     }
@@ -151,7 +185,7 @@ const CategoriesTable: React.FC<CategoriesTableProps> = ({
                   onChange={(newValue) => categoryService.editCategory(index, newValue)}
                   onConfirm={() => handleConfirmCategory(index)}
                   onEdit={() => handleEditCategory(index)}
-                  onRemove={() => categoryService.removeCategory(index)}
+                  onRemove={() => handleRemoveCategory(index)}
                   placeholder="Enter category name"
                 />
               </td>
