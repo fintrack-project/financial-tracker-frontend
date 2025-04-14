@@ -51,7 +51,6 @@ export const createSubcategoryService = (
   return {
     addSubcategory, 
     editSubcategory, 
-    // removeSubcategory,
     updateSubcategory,
   };
 };
