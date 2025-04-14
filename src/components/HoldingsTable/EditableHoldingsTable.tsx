@@ -43,7 +43,12 @@ const EditableHoldingsTable: React.FC<EditableHoldingsTableProps> = ({
     }
   };
 
-  const handleCategoryColumnChange = (index: number, newCategoryColumn: string) => {
+  const handleCategoryColumnChange = async (index: number, newCategoryColumn: string) => {
+    if (!accountId) {
+      alert('Account ID is required to confirm holdings categories.');
+      return;
+    }
+
     const updatedCategoriesColumns = [...categoryColumns];
     updatedCategoriesColumns[index] = newCategoryColumn;
     setCategoryColumns(updatedCategoriesColumns);
@@ -52,32 +57,53 @@ const EditableHoldingsTable: React.FC<EditableHoldingsTableProps> = ({
     const updatedSubcategoryColumns = [...subcategoryColumns];
     updatedSubcategoryColumns[index] = Array(holdings.length).fill(''); // Reset all subcategories for this column
     setSubcategoryColumns(updatedSubcategoryColumns);
+
+    // Format the data to send to the backend
+    const formattedHoldingsCategories = holdings.map((holding, rowIndex) => ({
+      asset_name: holding.assetName, // Ensure asset_name is included
+      category: newCategoryColumn,
+      subcategory: updatedSubcategoryColumns[index][rowIndex] || null,
+    }));
+
+    try {
+      await categoryService.updateHoldingsCategories(accountId, formattedHoldingsCategories); // Sync with backend
+      alert(`Category "${newCategoryColumn}" updated successfully.`);
+    } catch (error) {
+      console.error('Error updating holdings categories:', error);
+      alert(`Failed to update category "${newCategoryColumn}".`);
+    }
   };
 
-  const handleSubcategoryColumnChange = async (categoryColumnIndex: number, rowIndex: number, newSubcategoryColumn: string) => {
+  const handleSubcategoryColumnChange = async (
+    categoryColumnIndex: number, 
+    rowIndex: number, 
+    newSubcategoryColumn: string
+  ) => {
     if (!accountId) {
       alert('Account ID is required to confirm holdings categories.');
       return;
     }
   
     const category = categoryColumns[categoryColumnIndex];
-    const subcategory = subcategoryColumns[categoryColumnIndex]?.[rowIndex] || '';
-  
-    const formattedHoldingsCategory = {
-      category,
-      subcategories: subcategoryColumns[categoryColumnIndex] || [],
-    };
-  
-    try {
-      await categoryService.updateHoldingsCategories(accountId, [formattedHoldingsCategory]); // Sync with backend
-      alert(`Subcategory "${subcategory}" under category "${category}" updated successfully.`);
-    } catch (error) {
-      alert(`Failed to update subcategory "${subcategory}" under category "${category}".`);
-    }
 
+    // Update the subcategory locally
     const updatedSubcategoryColumns = [...subcategoryColumns];
     updatedSubcategoryColumns[categoryColumnIndex][rowIndex] = newSubcategoryColumn;
     setSubcategoryColumns(updatedSubcategoryColumns);
+  
+    // Format the data to send to the backend
+    const formattedHoldingsCategories = holdings.map((holding, holdingIndex) => ({
+      asset_name: holding.assetName,
+      category,
+      subcategory: updatedSubcategoryColumns[categoryColumnIndex][holdingIndex] || null,
+    }));
+  
+    try {
+      await categoryService.updateHoldingsCategories(accountId, formattedHoldingsCategories); // Sync with backend
+      alert(`Subcategory under category "${category}" updated successfully.`);
+    } catch (error) {
+      alert(`Failed to update subcategory under category "${category}".`);
+    }
   };
 
   const handleConfirmCategoryColumn = (index: number) => {
