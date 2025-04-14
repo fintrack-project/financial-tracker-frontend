@@ -1,7 +1,5 @@
 import axios from 'axios';
 
-const API_BASE_URL = '/api/categories';
-
 export interface CategoryService {
   categories: string[];
   confirmedCategories: Set<number>;
@@ -82,7 +80,7 @@ export const createCategoryService = (
     accountId: string
   ) => {
     try {
-      const response = await axios.get(`/api/categories`, {
+      const response = await axios.get(`/api/categories/fetch`, {
         params: { accountId },
       });
 
