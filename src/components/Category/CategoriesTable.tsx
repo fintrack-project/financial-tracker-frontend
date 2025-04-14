@@ -43,7 +43,7 @@ const CategoriesTable: React.FC<CategoriesTableProps> = ({
   
     try {
       await categoryService.updateCategories(accountId, [formattedCategory]); // Sync with backend
-      alert(`Category "${category}" updated successfully.`);
+      console.log(`Category "${category}" updated successfully.`);
     } catch (error) {
       alert(`Failed to update category "${category}".`);
     }
@@ -66,7 +66,25 @@ const CategoriesTable: React.FC<CategoriesTableProps> = ({
     }));
   };
 
-  const handleConfirmSubcategory = (category: string, subIndex: number) => {
+  const handleConfirmSubcategory = async (category: string, subIndex: number) => {
+    if (!accountId) {
+      alert('Account ID is required to confirm subcategories.');
+      return;
+    }
+  
+    const allSubcategories = subcategories[category];
+    const formattedSubcategory = {
+      category_name: category,
+      subcategories: allSubcategories, // Send only the confirmed subcategory
+    };
+  
+    try {
+      await subcategoryService.updateSubcategory(accountId, formattedSubcategory); // Sync with backend
+      console.log(`Subcategory for category "${category}" updated successfully.`);
+    } catch (error) {
+      alert(`Failed to update subcategories for category "${category}".`);
+    }
+
     setSubcategoryEditMode((prev) => {
       const updatedCategory = { ...(prev[category] || {}) };
       delete updatedCategory[subIndex]; // Remove the specific subcategory from edit mode
