@@ -12,6 +12,7 @@ interface CategoriesTableProps {
   categoryService: ReturnType<typeof createCategoryService>;
   subcategoryService: ReturnType<typeof createSubcategoryService>;
   onUpdateCategories: (categories: string[], subcategories: {[category: string]: string[]}) => void;
+  resetHasFetched: () => void;
 }
 
 const CategoriesTable: React.FC<CategoriesTableProps> = ({
@@ -20,7 +21,8 @@ const CategoriesTable: React.FC<CategoriesTableProps> = ({
   subcategories,
   categoryService,
   subcategoryService,
-  onUpdateCategories
+  onUpdateCategories,
+  resetHasFetched,
 }) => {
   const [editCategoryIndex, setEditCategoryIndex] = useState<number | null>(null); // Tracks which category is being edited
   const [subcategoryEditMode, setSubcategoryEditMode] = useState<{ [category: string]: { [subIndex: number]: boolean } }>({}); // Tracks which subcategories are being edited
@@ -44,6 +46,7 @@ const CategoriesTable: React.FC<CategoriesTableProps> = ({
     try {
       await categoryService.updateCategories(accountId, [formattedCategory]); // Sync with backend
       console.log(`Category "${category}" updated successfully.`);
+      resetHasFetched(); // Reset the fetched state
     } catch (error) {
       alert(`Failed to update category "${category}".`);
     }
@@ -81,6 +84,7 @@ const CategoriesTable: React.FC<CategoriesTableProps> = ({
     try {
       await subcategoryService.updateSubcategory(accountId, formattedSubcategory); // Sync with backend
       console.log(`Subcategory for category "${category}" updated successfully.`);
+      resetHasFetched(); // Reset the fetched state
     } catch (error) {
       alert(`Failed to update subcategories for category "${category}".`);
     }

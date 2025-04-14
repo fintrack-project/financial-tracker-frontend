@@ -45,6 +45,11 @@ const Holdings: React.FC = () => {
     }
   }, [accountId, categoryService, hasFetched]);
 
+  // Callback to reset hasFetched state
+  const resetHasFetched = () => {
+    setHasFetched(false);
+  };
+
   // Callback to get the accountId from AccountMenu
   const handleAccountChange = (newAccountId: string) => {
     setAccountId(newAccountId);
@@ -89,6 +94,7 @@ const Holdings: React.FC = () => {
           categoryService={categoryService}
           subcategoryService={subcategoryService}
           onUpdateCategories={handleUpdateCategories}
+          resetHasFetched={resetHasFetched}
         />
       </div>
     </div>
