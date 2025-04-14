@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import AccountMenu from '../../components/Menu/AccountMenu';
 import MainNavigationBar from 'components/NavigationBar/MainNavigationBar';
 import EditableHoldingsTable from 'components/HoldingsTable/EditableHoldingsTable';
@@ -11,9 +11,39 @@ const Holdings: React.FC = () => {
   const [accountId, setAccountId] = useState<string | null>(null); // Store the currently logged-in account ID
   const [categories, setCategories] = useState<string[]>([]);
   const [subcategories, setSubcategories] = useState<{ [category: string]: string[] }>({});
+  const [hasFetched, setHasFetched] = useState(false);
 
   const categoryService = createCategoryService(categories, setCategories);
   const subcategoryService = createSubcategoryService(subcategories, setSubcategories);
+
+  // Fetch categories and subcategories when the component mounts
+  useEffect(() => {
+    const fetchData = async () => {
+      if (!accountId) {
+        console.warn('Account ID is required to fetch categories.');
+        return;
+      }
+
+      try {
+        const { categories: fetchedCategories, subcategories: fetchedSubcategories } =
+          await categoryService.fetchCategoriesAndSubcategories(accountId);
+
+        // Use the onUpdateCategories callback to update the parent state
+        setCategories(fetchedCategories);
+        setSubcategories(fetchedSubcategories);
+        setHasFetched(true); // Mark as fetched
+
+        console.log('Fetched categories:', fetchedCategories);
+        console.log('Fetched subcategories:', fetchedSubcategories);
+      } catch (error) {
+        alert('Failed to fetch categories. Please try again.');
+      }
+    };
+
+    if (!hasFetched) {
+      fetchData();
+    }
+  }, [accountId, categoryService, hasFetched]);
 
   // Callback to get the accountId from AccountMenu
   const handleAccountChange = (newAccountId: string) => {
