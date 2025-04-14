@@ -164,7 +164,6 @@ const CategoriesTable: React.FC<CategoriesTableProps> = ({
                         onConfirm={() => handleConfirmSubcategory(category, subIndex)}
                         onEdit={() => handleEditSubcategory(category, subIndex)}
                         onRemove={() =>
-                          // subcategoryService.removeSubcategory(category, subIndex)
                           handleRemoveSubcategory(category, subIndex)
                         }
                         placeholder="Enter subcategory"
