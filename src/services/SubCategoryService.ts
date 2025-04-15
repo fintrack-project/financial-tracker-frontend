@@ -34,6 +34,11 @@ export const createSubcategoryService = (
   };
 
   const removeSubcategory = async (accountId: string, category: string, subcategory: string) => {
+    if (!subcategory.trim()) {
+      console.log(`Ignoring empty subcategory removal for category "${category}".`);
+      return;
+    }
+
     try {
       await axios.delete(`/api/categories/subcategories/remove`, {
         params: { accountId, category, subcategory },

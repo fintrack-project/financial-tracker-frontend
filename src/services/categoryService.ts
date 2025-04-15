@@ -29,6 +29,11 @@ export const createCategoryService = (
   };
 
   const removeCategory = async (accountId: string, category: string) => {
+    if (!category.trim()) {
+      console.log(`Ignoring empty category removal.`);
+      return;
+    }
+    
     try {
       await axios.delete(`/api/categories/remove`, {
         params: { accountId, category },
