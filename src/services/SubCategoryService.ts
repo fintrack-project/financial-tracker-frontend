@@ -1,5 +1,4 @@
 import axios from 'axios';
-import { sub } from 'date-fns';
 
 export interface subCategoryService {
   subcategories: { [category: string]: string[] }; // Holds the subcategories for each category
@@ -49,12 +48,7 @@ export const createSubcategoryService = (
     const updatedSubcategories = { ...subcategories };
     if (updatedSubcategories[category]) {
       updatedSubcategories[category][subIndex] = newValue;
-      console.log(`Editing subcategory "${updatedSubcategories[category][subIndex]}" in category "${category}" to "${newValue}".`);
-      console.log(`Confirmed subcategories for category "${category}":`, confirmedSubcategories[category]);
-      console.log('subcategories === confirmedSubcategories:', subcategories === confirmedSubcategories);
-      console.log('updatedSubcategories === confirmedSubcategories:', updatedSubcategories === confirmedSubcategories);
     }
-
     setSubcategories(updatedSubcategories);
   };
 
@@ -71,13 +65,9 @@ export const createSubcategoryService = (
     }
   
     try {
-      console.log(`Starting confirmation for subcategory "${subcategoryName}" in category "${category}".`);
-      console.log(`Subcategories for category "${category}":`, subcategories);
-      console.log(`Confirmed subcategories for category "${category}":`, confirmedSubcategories[category]);
   
       // Check if the subcategory is newly added
       const isNewSubcategory = subIndex + 1 > confirmedSubcategories[category].length;
-      console.log(`Is new subcategory: ${isNewSubcategory}`);
 
       if (isNewSubcategory) {
         // Add the new subcategory to the backend
@@ -87,8 +77,6 @@ export const createSubcategoryService = (
           category_name: category,
           subcategory_name: subcategoryName,
         });
-  
-        console.log(`New subcategory "${subcategoryName}" added to category "${category}".`);
       } else {
         // Check if the name has changed
         const oldSubcategoryName = confirmedSubcategories[category][subIndex];
@@ -102,11 +90,9 @@ export const createSubcategoryService = (
         await axios.post(`/api/categories/subcategories/name/update`, {
           accountId,
           category_name: category,
-          old_subcategory_name: subcategories[subIndex],
+          old_subcategory_name: oldSubcategoryName,
           new_subcategory_name: subcategoryName,
         });
-  
-        console.log(`Subcategory "${oldSubcategoryName}" renamed to "${subcategoryName}" in category "${category}".`);
       }
     } catch (error) {
       console.error(`Error confirming subcategory "${subcategoryName}" in category "${category}":`, error);

@@ -42,8 +42,6 @@ export const createCategoryService = (
   const editCategory = (index: number, newName: string) => {
     const updatedCategories = [...categories];
     updatedCategories[index] = newName;
-    console.log(`Editing category "${updatedCategories[index]}" to "${newName}".`);
-    console.log(`Confirmed categories before edit:`, confirmedCategories);
     setCategories(updatedCategories);
   };
 
@@ -66,8 +64,6 @@ export const createCategoryService = (
             accountId,
             category_name: categoryName
           });
-  
-          console.log(`New category "${categoryName}" added.`);
       } else {
           // Check if the name has changed
           const oldCategoryName = confirmedCategories[index]; // Use the confirmed index
@@ -76,13 +72,6 @@ export const createCategoryService = (
             return;
           }
 
-          // Log the payload for debugging
-          console.log('Payload for category update:', {
-            accountId,
-            old_category_name: oldCategoryName,
-            new_category_name: categoryName,
-          });
-
           // Update the category name while keeping its priority and subcategories
           console.log(`Renaming category "${oldCategoryName}" to "${categoryName}".`);
           await axios.post(`/api/categories/name/update`, {
@@ -90,8 +79,6 @@ export const createCategoryService = (
             old_category_name: oldCategoryName, // Original name
             new_category_name: categoryName,
           });
-    
-          console.log(`Category "${oldCategoryName}" renamed to "${categoryName}".`);
       }
       
       console.log(`Confirmed Categories after marking:"${Array.from(categories)}"`);

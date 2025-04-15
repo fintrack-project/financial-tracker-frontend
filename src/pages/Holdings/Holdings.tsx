@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import _ from 'lodash';
 import AccountMenu from '../../components/Menu/AccountMenu';
 import MainNavigationBar from 'components/NavigationBar/MainNavigationBar';
 import EditableHoldingsTable from 'components/HoldingsTable/EditableHoldingsTable';
@@ -6,7 +7,6 @@ import CategoriesTable from 'components/Category/CategoriesTable';
 import { createCategoryService } from '../../services/categoryService';
 import { createSubcategoryService } from '../../services/subCategoryService';
 import './Holdings.css'; // Import the CSS file
-import { set } from 'date-fns';
 
 const Holdings: React.FC = () => {
   const [accountId, setAccountId] = useState<string | null>(null); // Store the currently logged-in account ID
@@ -31,21 +31,14 @@ const Holdings: React.FC = () => {
       try {
         const { categories: fetchedCategories, subcategories: fetchedSubcategories } =
           await categoryService.fetchCategoriesAndSubcategories(accountId);
-        
-        const deepCopy = (obj: { [key: string]: string[] }) => {
-          return Object.keys(obj).reduce((copy, key) => {
-            copy[key] = [...obj[key]]; // Create a new array for each key
-            return copy;
-          }, {} as { [key: string]: string[] });
-        };
 
         // Use the onUpdateCategories callback to update the parent state
         setCategories([... fetchedCategories]);
-        setSubcategories(deepCopy(fetchedSubcategories));
+        setSubcategories(_.cloneDeep(fetchedSubcategories));
 
         // Update confirmedCategories
         setConfirmedCategories([... fetchedCategories]);
-        setConfirmedSubcategories(deepCopy(fetchedSubcategories));
+        setConfirmedSubcategories(_.cloneDeep(fetchedSubcategories));
 
         setHasFetched(true); // Mark as fetched
 
