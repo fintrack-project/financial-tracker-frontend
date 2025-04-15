@@ -71,10 +71,7 @@ const CategoriesTable: React.FC<CategoriesTableProps> = ({
     }
 
     try {
-      // Use confirmSubcategory to handle both adding and updating subcategories
-      const isNewSubcategory = subIndex >= subcategories[category].length;
-      
-      await subcategoryService.confirmSubcategory(accountId, category, subIndex, subcategories[category]);
+      await subcategoryService.confirmSubcategory(accountId, category, subIndex);
       console.log(`Subcategory "${subcategories[category][subIndex]}" confirmed successfully in category "${category}".`);
       resetHasFetched(); // Reset the fetched state
     } catch (error) {

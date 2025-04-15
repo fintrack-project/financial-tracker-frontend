@@ -1,22 +1,29 @@
 import axios from 'axios';
+import { sub } from 'date-fns';
 
-export interface subcategoryService {
+export interface subCategoryService {
   subcategories: { [category: string]: string[] }; // Holds the subcategories for each category
+  confirmedSubcategories: { [category: string]: string[] }; // Holds confirmed subcategories for each category
   addSubcategory: (category: string) => void; // Adds a new subcategory to a category
   editSubcategory: (category: string, subIndex: number, newValue: string) => void; // Edits an existing subcategory
+  confirmSubcategory: (
+    accountId: string,
+    category: string,
+    subIndex: number
+  ) => Promise<void>; // Confirms a subcategory and sends it to the backend
   removeSubcategory: (
     accountId: string,
     category: string,
     subcategory: string
   ) => Promise<void>; // Removes a subcategory from a category
+
 }
 
 export const createSubcategoryService = (
   subcategories: { [category: string]: string[] },
-  setSubcategories: React.Dispatch<React.SetStateAction<{ [category: string]: string[] }>>
-) => {
-  // Initialize confirmedSubcategories to track confirmed subcategories for each category
-  const confirmedSubcategories: { [category: string]: Set<number> } = {};
+  setSubcategories: React.Dispatch<React.SetStateAction<{ [category: string]: string[] }>>,
+  confirmedSubcategories: { [category: string]: string[] } // Holds confirmed subcategories for each category
+) : subCategoryService => {
 
   const addSubcategory = (category: string) => {
     const updatedSubcategories = { ...subcategories };
@@ -42,17 +49,19 @@ export const createSubcategoryService = (
     const updatedSubcategories = { ...subcategories };
     if (updatedSubcategories[category]) {
       updatedSubcategories[category][subIndex] = newValue;
+      console.log(`Editing subcategory "${updatedSubcategories[category][subIndex]}" in category "${category}" to "${newValue}".`);
+      console.log(`Confirmed subcategories for category "${category}":`, confirmedSubcategories[category]);
     }
+
     setSubcategories(updatedSubcategories);
   };
 
   const confirmSubcategory = async (
     accountId: string,
     category: string,
-    subIndex: number,
-    subcategories: string[]
+    subIndex: number
   ) => {
-    const subcategoryName = subcategories[subIndex];
+    const subcategoryName = subcategories[category][subIndex];
   
     if (!subcategoryName.trim()) {
       alert('Subcategory name cannot be empty.');
@@ -60,13 +69,13 @@ export const createSubcategoryService = (
     }
   
     try {
-      // Initialize the confirmedSubcategories set for the category if it doesn't exist
-      if (!confirmedSubcategories[category]) {
-        confirmedSubcategories[category] = new Set();
-      }
-
+      console.log(`Starting confirmation for subcategory "${subcategoryName}" in category "${category}".`);
+      console.log(`Subcategories for category "${category}":`, subcategories);
+      console.log(`Confirmed subcategories for category "${category}":`, confirmedSubcategories[category]);
+  
       // Check if the subcategory is newly added
-      const isNewSubcategory = !confirmedSubcategories[category].has(subIndex);
+      const isNewSubcategory = subIndex + 1 > confirmedSubcategories[category].length;
+      console.log(`Is new subcategory: ${isNewSubcategory}`);
 
       if (isNewSubcategory) {
         // Add the new subcategory to the backend
@@ -80,26 +89,23 @@ export const createSubcategoryService = (
         console.log(`New subcategory "${subcategoryName}" added to category "${category}".`);
       } else {
         // Check if the name has changed
-        const oldSubcategoryName = subcategories[subIndex];
+        const oldSubcategoryName = confirmedSubcategories[category][subIndex];
         if (oldSubcategoryName === subcategoryName) {
           console.log(`Subcategory "${subcategoryName}" is unchanged. No request sent.`);
           return;
         }
-        
+
         // Update the subcategory name in the backend
-        console.log(`Renaming subcategory "${subcategoryName}" in category "${category}".`);
-        await axios.put(`/api/categories/subcategories/update`, {
+        console.log(`Renaming subcategory "${oldSubcategoryName}" in category "${category}".`);
+        await axios.post(`/api/categories/subcategories/name/update`, {
           accountId,
           category_name: category,
           old_subcategory_name: subcategories[subIndex],
           new_subcategory_name: subcategoryName,
         });
   
-        console.log(`Subcategory "${subcategories[subIndex]}" renamed to "${subcategoryName}" in category "${category}".`);
+        console.log(`Subcategory "${oldSubcategoryName}" renamed to "${subcategoryName}" in category "${category}".`);
       }
-
-      // Mark the subcategory as confirmed
-      confirmedSubcategories[category].add(subIndex);
     } catch (error) {
       console.error(`Error confirming subcategory "${subcategoryName}" in category "${category}":`, error);
       alert(`Failed to confirm subcategory "${subcategoryName}" in category "${category}".`);
@@ -107,6 +113,8 @@ export const createSubcategoryService = (
   };
 
   return {
+    subcategories,
+    confirmedSubcategories,
     addSubcategory, 
     editSubcategory, 
     removeSubcategory,

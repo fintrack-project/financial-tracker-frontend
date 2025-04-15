@@ -6,6 +6,7 @@ import CategoriesTable from 'components/Category/CategoriesTable';
 import { createCategoryService } from '../../services/categoryService';
 import { createSubcategoryService } from '../../services/subCategoryService';
 import './Holdings.css'; // Import the CSS file
+import { set } from 'date-fns';
 
 const Holdings: React.FC = () => {
   const [accountId, setAccountId] = useState<string | null>(null); // Store the currently logged-in account ID
@@ -14,9 +15,10 @@ const Holdings: React.FC = () => {
   const [hasFetched, setHasFetched] = useState(false);
 
   const [confirmedCategories, setConfirmedCategories] = useState<string[]>([]);; // Track confirmed categories
+  const [confirmedSubcategories, setConfirmedSubcategories] = useState<{ [category: string]: string[] }>({}); // Track confirmed subcategories
 
   const categoryService = createCategoryService(categories, setCategories, confirmedCategories);
-  const subcategoryService = createSubcategoryService(subcategories, setSubcategories);
+  const subcategoryService = createSubcategoryService(subcategories, setSubcategories, confirmedSubcategories);
 
   // Fetch categories and subcategories when the component mounts
   useEffect(() => {
@@ -31,12 +33,12 @@ const Holdings: React.FC = () => {
           await categoryService.fetchCategoriesAndSubcategories(accountId);
 
         // Use the onUpdateCategories callback to update the parent state
-        setCategories(fetchedCategories);
-        setSubcategories(fetchedSubcategories);
+        setCategories([... fetchedCategories]);
+        setSubcategories({... fetchedSubcategories});
 
         // Update confirmedCategories
-        setConfirmedCategories(fetchedCategories);
-        console.log('Confirmed categories:', fetchedCategories);
+        setConfirmedCategories([... fetchedCategories]);
+        setConfirmedSubcategories({... fetchedSubcategories});
 
         setHasFetched(true); // Mark as fetched
 
@@ -50,7 +52,7 @@ const Holdings: React.FC = () => {
     if (!hasFetched) {
       fetchData();
     }
-  }, [accountId, categoryService, hasFetched]);
+  }, [accountId, categoryService, subcategoryService, hasFetched]);
 
   // Callback to reset hasFetched state
   const resetHasFetched = () => {

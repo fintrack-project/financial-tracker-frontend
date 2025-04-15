@@ -2,6 +2,7 @@ import axios from 'axios';
 
 export interface CategoryService {
   categories: string[];
+  confirmedCategories: string[];
   addCategory: () => void;
   removeCategory: (accountId: string, category: string) => Promise<void>;
   editCategory: (index: number, newName: string) => void;
@@ -41,6 +42,8 @@ export const createCategoryService = (
   const editCategory = (index: number, newName: string) => {
     const updatedCategories = [...categories];
     updatedCategories[index] = newName;
+    console.log(`Editing category "${updatedCategories[index]}" to "${newName}".`);
+    console.log(`Confirmed categories before edit:`, confirmedCategories);
     setCategories(updatedCategories);
   };
 
@@ -155,6 +158,7 @@ export const createCategoryService = (
 
   return {
     categories,
+    confirmedCategories,
     addCategory,
     removeCategory,
     editCategory,
