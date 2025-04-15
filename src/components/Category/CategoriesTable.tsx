@@ -70,25 +70,24 @@ const CategoriesTable: React.FC<CategoriesTableProps> = ({
       alert('Account ID is required to confirm subcategories.');
       return;
     }
-  
-    const allSubcategories = subcategories[category];
-    const formattedSubcategory = {
-      category_name: category,
-      subcategories: allSubcategories, // Send only the confirmed subcategory
-    };
-  
+
     try {
-      await subcategoryService.updateSubcategory(accountId, formattedSubcategory); // Sync with backend
-      console.log(`Subcategory for category "${category}" updated successfully.`);
+      // Use confirmSubcategory to handle both adding and updating subcategories
+      const isNewSubcategory = subIndex >= subcategories[category].length;
+      
+      await subcategoryService.confirmSubcategory(accountId, category, subIndex, subcategories[category]);
+      console.log(`Subcategory "${subcategories[category][subIndex]}" confirmed successfully in category "${category}".`);
       resetHasFetched(); // Reset the fetched state
     } catch (error) {
-      alert(`Failed to update subcategories for category "${category}".`);
+      console.error(`Failed to confirm subcategory "${subcategories[category][subIndex]}" in category "${category}".`, error);
+      alert(`Failed to confirm subcategory "${subcategories[category][subIndex]}" in category "${category}".`);
     }
-
+  
+    // Exit edit mode for the subcategory
     setSubcategoryEditMode((prev) => {
       const updatedCategory = { ...(prev[category] || {}) };
       delete updatedCategory[subIndex]; // Remove the specific subcategory from edit mode
-
+  
       return {
         ...prev,
         [category]: updatedCategory,
