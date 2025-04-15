@@ -48,7 +48,6 @@ const CategoriesTable: React.FC<CategoriesTableProps> = ({
     }
 
     setEditCategoryIndex(null); // Exit edit mode
-    
   };
 
   const isSubcategoryEditing = (category: string, subIndex: number): boolean => {

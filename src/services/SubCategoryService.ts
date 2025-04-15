@@ -70,6 +70,7 @@ export const createSubcategoryService = (
 
       if (isNewSubcategory) {
         // Add the new subcategory to the backend
+        console.log(`Adding new subcategory "${subcategoryName}" to category "${category}".`);
         await axios.post(`/api/categories/subcategories/add`, {
           accountId,
           category_name: category,
@@ -78,7 +79,15 @@ export const createSubcategoryService = (
   
         console.log(`New subcategory "${subcategoryName}" added to category "${category}".`);
       } else {
+        // Check if the name has changed
+        const oldSubcategoryName = subcategories[subIndex];
+        if (oldSubcategoryName === subcategoryName) {
+          console.log(`Subcategory "${subcategoryName}" is unchanged. No request sent.`);
+          return;
+        }
+        
         // Update the subcategory name in the backend
+        console.log(`Renaming subcategory "${subcategoryName}" in category "${category}".`);
         await axios.put(`/api/categories/subcategories/update`, {
           accountId,
           category_name: category,
