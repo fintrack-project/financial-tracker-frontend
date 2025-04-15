@@ -6,7 +6,7 @@ export interface CategoryService {
   addCategory: () => void;
   removeCategory: (accountId: string, category: string) => Promise<void>;
   editCategory: (index: number, newName: string) => void;
-  confirmCategory: (index: number) => void;
+  confirmCategory: (accountId: string, index: number) => void;
   updateCategories: (accountId: string, categories: { category_name: string; subcategories: string[] }[]) => Promise<void>;
   updateHoldingsCategories: (
     accountId: string,
@@ -47,8 +47,43 @@ export const createCategoryService = (
     confirmedCategories.delete(index); // Allow editing for subcategories
   };
 
-  const confirmCategory = (index: number) => {
-    confirmedCategories.add(index); // Mark the category as confirmed
+  const confirmCategory = async (accountId: string, index: number) => {
+    const categoryName = categories[index];
+  
+    if (!categoryName.trim()) {
+      alert('Category name cannot be empty.');
+      return;
+    }
+  
+    try {
+      // Check if the category is newly added
+      const isNewCategory = !confirmedCategories.has(index);
+  
+      if (isNewCategory) {
+          // Send the new category with priority to the backend
+        await axios.post(`/api/categories/add`, {
+          accountId,
+          category_name: categoryName
+        });
+  
+        console.log(`New category "${categoryName}" added.`);
+      } else {
+        // Update the category name while keeping its priority and subcategories
+        await axios.put(`/api/categories/update`, {
+          accountId,
+          old_category_name: categories[index], // Original name
+          new_category_name: categoryName,
+        });
+  
+        console.log(`Category "${categories[index]}" renamed to "${categoryName}".`);
+      }
+  
+      // Mark the category as confirmed
+      confirmedCategories.add(index);
+    } catch (error) {
+      console.error(`Error confirming category "${categoryName}":`, error);
+      alert(`Failed to confirm category "${categoryName}".`);
+    }
   };
 
   const updateCategories = async (

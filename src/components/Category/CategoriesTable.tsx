@@ -36,23 +36,19 @@ const CategoriesTable: React.FC<CategoriesTableProps> = ({
       alert('Account ID is required to confirm categories.');
       return;
     }
-  
-    const category = categories[index];
-    const formattedCategory = {
-      category_name: category,
-      subcategories: subcategories[category] || [],
-    };
-  
+
     try {
-      await categoryService.updateCategories(accountId, [formattedCategory]); // Sync with backend
-      console.log(`Category "${category}" updated successfully.`);
+      // Use confirmCategory to handle both adding and updating categories
+      await categoryService.confirmCategory(accountId, index);
+      console.log(`Category "${categories[index]}" confirmed successfully.`);
       resetHasFetched(); // Reset the fetched state
     } catch (error) {
-      alert(`Failed to update category "${category}".`);
+      console.error(`Failed to confirm category "${categories[index]}".`, error);
+      alert(`Failed to confirm category "${categories[index]}".`);
     }
 
     setEditCategoryIndex(null); // Exit edit mode
-    categoryService.confirmCategory(index);
+    
   };
 
   const isSubcategoryEditing = (category: string, subIndex: number): boolean => {
