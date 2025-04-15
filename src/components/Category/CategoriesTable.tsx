@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import IconButton from '../Button/IconButton';
 import CategoryInputCell from './CategoryInputCell';
 import { createCategoryService } from '../../services/categoryService';
-import { createSubcategoryService } from '../../services/subcategoryService';
+import { createSubcategoryService } from '../../services/subCategoryService';
 import './CategoriesTable.css'; // Add styles for the table
 
 interface CategoriesTableProps {

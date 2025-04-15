@@ -9,10 +9,6 @@ export interface subcategoryService {
     category: string,
     subcategory: string
   ) => Promise<void>; // Removes a subcategory from a category
-  updateSubcategory: (
-    accountId: string,
-    subcategoryData: { category_name: string; subcategories: string[] }
-  ) => Promise<void>; // Syncs a subcategory with the backend
 }
 
 export const createSubcategoryService = (
@@ -101,26 +97,9 @@ export const createSubcategoryService = (
     }
   };
 
-  const updateSubcategory = async (
-    accountId: string,
-    subcategoryData: { category_name: string; subcategories: string[] }
-  ) => {
-    try {
-      console.log('Updating subcategory:', subcategoryData);
-      const response = await axios.post(`/api/categories/subcategories/update`, subcategoryData, {
-        params: { accountId },
-      });
-      return response.data;
-    } catch (error) {
-      console.error('Error updating subcategory:', error);
-      throw error;
-    }
-  };
-
   return {
     addSubcategory, 
     editSubcategory, 
-    updateSubcategory,
     removeSubcategory,
     confirmSubcategory,
   };

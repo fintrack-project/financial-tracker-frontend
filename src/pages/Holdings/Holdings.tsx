@@ -4,7 +4,7 @@ import MainNavigationBar from 'components/NavigationBar/MainNavigationBar';
 import EditableHoldingsTable from 'components/HoldingsTable/EditableHoldingsTable';
 import CategoriesTable from 'components/Category/CategoriesTable';
 import { createCategoryService } from '../../services/categoryService';
-import { createSubcategoryService } from '../../services/subcategoryService';
+import { createSubcategoryService } from '../../services/subCategoryService';
 import './Holdings.css'; // Import the CSS file
 
 const Holdings: React.FC = () => {
