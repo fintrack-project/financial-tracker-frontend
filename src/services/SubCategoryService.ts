@@ -51,6 +51,8 @@ export const createSubcategoryService = (
       updatedSubcategories[category][subIndex] = newValue;
       console.log(`Editing subcategory "${updatedSubcategories[category][subIndex]}" in category "${category}" to "${newValue}".`);
       console.log(`Confirmed subcategories for category "${category}":`, confirmedSubcategories[category]);
+      console.log('subcategories === confirmedSubcategories:', subcategories === confirmedSubcategories);
+      console.log('updatedSubcategories === confirmedSubcategories:', updatedSubcategories === confirmedSubcategories);
     }
 
     setSubcategories(updatedSubcategories);

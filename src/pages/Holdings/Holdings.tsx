@@ -31,14 +31,21 @@ const Holdings: React.FC = () => {
       try {
         const { categories: fetchedCategories, subcategories: fetchedSubcategories } =
           await categoryService.fetchCategoriesAndSubcategories(accountId);
+        
+        const deepCopy = (obj: { [key: string]: string[] }) => {
+          return Object.keys(obj).reduce((copy, key) => {
+            copy[key] = [...obj[key]]; // Create a new array for each key
+            return copy;
+          }, {} as { [key: string]: string[] });
+        };
 
         // Use the onUpdateCategories callback to update the parent state
         setCategories([... fetchedCategories]);
-        setSubcategories({... fetchedSubcategories});
+        setSubcategories(deepCopy(fetchedSubcategories));
 
         // Update confirmedCategories
         setConfirmedCategories([... fetchedCategories]);
-        setConfirmedSubcategories({... fetchedSubcategories});
+        setConfirmedSubcategories(deepCopy(fetchedSubcategories));
 
         setHasFetched(true); // Mark as fetched
 
