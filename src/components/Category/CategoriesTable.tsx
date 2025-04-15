@@ -162,7 +162,9 @@ const CategoriesTable: React.FC<CategoriesTableProps> = ({
                 <CategoryInputCell
                   value={category}
                   isEditing={editCategoryIndex === index}
-                  onChange={(newValue) => categoryService.editCategory(index, newValue)}
+                  onChange={
+                    (newValue) => categoryService.editCategory(index, newValue)
+                  }
                   onConfirm={() => handleConfirmCategory(index)}
                   onEdit={() => handleEditCategory(index)}
                   onRemove={() => handleRemoveCategory(index)}
@@ -181,9 +183,7 @@ const CategoriesTable: React.FC<CategoriesTableProps> = ({
                         }
                         onConfirm={() => handleConfirmSubcategory(category, subIndex)}
                         onEdit={() => handleEditSubcategory(category, subIndex)}
-                        onRemove={() =>
-                          handleRemoveSubcategory(category, subIndex)
-                        }
+                        onRemove={() => handleRemoveSubcategory(category, subIndex)}
                         placeholder="Enter subcategory"
                       />
                     </li>

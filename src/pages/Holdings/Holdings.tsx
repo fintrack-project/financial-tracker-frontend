@@ -13,7 +13,9 @@ const Holdings: React.FC = () => {
   const [subcategories, setSubcategories] = useState<{ [category: string]: string[] }>({});
   const [hasFetched, setHasFetched] = useState(false);
 
-  const categoryService = createCategoryService(categories, setCategories);
+  const [confirmedCategories, setConfirmedCategories] = useState<string[]>([]);; // Track confirmed categories
+
+  const categoryService = createCategoryService(categories, setCategories, confirmedCategories);
   const subcategoryService = createSubcategoryService(subcategories, setSubcategories);
 
   // Fetch categories and subcategories when the component mounts
@@ -31,6 +33,11 @@ const Holdings: React.FC = () => {
         // Use the onUpdateCategories callback to update the parent state
         setCategories(fetchedCategories);
         setSubcategories(fetchedSubcategories);
+
+        // Update confirmedCategories
+        setConfirmedCategories(fetchedCategories);
+        console.log('Confirmed categories:', fetchedCategories);
+
         setHasFetched(true); // Mark as fetched
 
         console.log('Fetched categories:', fetchedCategories);
