@@ -4,7 +4,7 @@ export interface CategoryService {
   categories: string[];
   confirmedCategories: Set<number>;
   addCategory: () => void;
-  removeCategory: (index: number) => void;
+  removeCategory: (accountId: string, category: string) => Promise<void>;
   editCategory: (index: number, newName: string) => void;
   confirmCategory: (index: number) => void;
   updateCategories: (accountId: string, categories: { category_name: string; subcategories: string[] }[]) => Promise<void>;
@@ -29,10 +29,15 @@ export const createCategoryService = (
     }
   };
 
-  const removeCategory = (index: number) => {
-    const updatedCategories = categories.filter((_, i) => i !== index);
-    setCategories(updatedCategories);
-    confirmedCategories.delete(index); // Remove the category from confirmed state
+  const removeCategory = async (accountId: string, category: string) => {
+    try {
+      await axios.delete(`/api/categories/remove`, {
+        params: { accountId, category },
+      });
+    } catch (error) {
+      console.error(`Error removing category "${category}":`, error);
+      throw error;
+    }
   };
 
   const editCategory = (index: number, newName: string) => {

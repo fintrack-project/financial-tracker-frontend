@@ -105,32 +105,25 @@ const CategoriesTable: React.FC<CategoriesTableProps> = ({
       alert('Account ID is required to remove categories.');
       return;
     }
-  
-    // Remove the category locally
-    const updatedCategories = [...categories];
-    const removedCategory = updatedCategories.splice(index, 1)[0]; // Remove the category at the given index
-  
-    // Remove associated subcategories
-    const updatedSubcategories = { ...subcategories };
-    delete updatedSubcategories[removedCategory];
-  
-    const formattedCategories = updatedCategories.map((category) => ({
-      category_name: category,
-      subcategories: updatedSubcategories[category] || [],
-    }));
-  
+
+    const categoryToRemove = categories[index]; // Get the category to remove
+
     try {
-      await categoryService.updateCategories(accountId, formattedCategories); // Sync with backend
-      console.log(`Category "${removedCategory}" removed successfully.`);
+      // Send the category to be removed to the backend
+      await categoryService.removeCategory(accountId, categoryToRemove);
+      console.log(`Category "${categoryToRemove}" removed successfully.`);
+  
+      // Fetch updated categories and subcategories from the backend
+      const { categories: updatedCategories, subcategories: updatedSubcategories } =
+        await categoryService.fetchCategoriesAndSubcategories(accountId);
+  
+      // Update the state with the fetched data
+      onUpdateCategories(updatedCategories, updatedSubcategories);
       resetHasFetched(); // Reset the fetched state
     } catch (error) {
-      alert(`Failed to remove category "${removedCategory}".`);
+      console.error(`Failed to remove category "${categoryToRemove}".`, error);
+      alert(`Failed to remove category "${categoryToRemove}".`);
     }
-  
-    // Update the local state
-    onUpdateCategories(updatedCategories, updatedSubcategories); // Update the parent state
-    console.log('Updated categories:', updatedCategories);
-    console.log('Updated subcategories:', updatedSubcategories);
   };
 
   const handleRemoveSubcategory = async (category: string, subIndex: number) => {
@@ -138,32 +131,25 @@ const CategoriesTable: React.FC<CategoriesTableProps> = ({
       alert('Account ID is required to remove subcategories.');
       return;
     }
-  
-    // Remove the subcategory locally
-    const updatedSubcategories = [...(subcategories[category] || [])];
-    updatedSubcategories.splice(subIndex, 1); // Remove the subcategory at the given index
-  
-    const formattedSubcategory = {
-      category_name: category,
-      subcategories: updatedSubcategories, // Send the updated list of subcategories
-    };
-  
+
+    const subcategoryToRemove = subcategories[category]?.[subIndex]; // Get the subcategory to remove
+
     try {
-      await subcategoryService.updateSubcategory(accountId, formattedSubcategory); // Sync with backend
-      console.log(`Subcategory removed and updated for category "${category}".`);
+      // Send the subcategory to be removed to the backend
+      await subcategoryService.removeSubcategory(accountId, category, subcategoryToRemove);
+      console.log(`Subcategory "${subcategoryToRemove}" removed successfully from category "${category}".`);
+
+      // Fetch updated categories and subcategories from the backend
+      const { categories: updatedCategories, subcategories: updatedSubcategories } =
+        await categoryService.fetchCategoriesAndSubcategories(accountId);
+
+      // Update the state with the fetched data
+      onUpdateCategories(updatedCategories, updatedSubcategories);
       resetHasFetched(); // Reset the fetched state
     } catch (error) {
-      alert(`Failed to remove subcategory for category "${category}".`);
+      console.error(`Failed to remove subcategory "${subcategoryToRemove}" from category "${category}".`, error);
+      alert(`Failed to remove subcategory "${subcategoryToRemove}" from category "${category}".`);
     }
-  
-    // Update the local state
-    const updatedSubcategoriesState = {
-      ...subcategories,
-      [category]: updatedSubcategories,
-    };
-
-    onUpdateCategories(categories, updatedSubcategoriesState); // Update the parent state
-    console.log(`Updated subcategories for category "${category}":`, updatedSubcategoriesState[category]);
   };
 
   return (

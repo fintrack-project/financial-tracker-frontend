@@ -4,7 +4,11 @@ export interface subcategoryService {
   subcategories: { [category: string]: string[] }; // Holds the subcategories for each category
   addSubcategory: (category: string) => void; // Adds a new subcategory to a category
   editSubcategory: (category: string, subIndex: number, newValue: string) => void; // Edits an existing subcategory
-  removeSubcategory: (category: string, subIndex: number) => void; // Removes a subcategory from a category
+  removeSubcategory: (
+    accountId: string,
+    category: string,
+    subcategory: string
+  ) => Promise<void>; // Removes a subcategory from a category
   updateSubcategory: (
     accountId: string,
     subcategoryData: { category_name: string; subcategories: string[] }
@@ -22,6 +26,17 @@ export const createSubcategoryService = (
     }
     updatedSubcategories[category].push(''); // Add an empty subcategory
     setSubcategories(updatedSubcategories);
+  };
+
+  const removeSubcategory = async (accountId: string, category: string, subcategory: string) => {
+    try {
+      await axios.delete(`/api/categories/subcategories/remove`, {
+        params: { accountId, category, subcategory },
+      });
+    } catch (error) {
+      console.error(`Error removing subcategory "${subcategory}" from category "${category}":`, error);
+      throw error;
+    }
   };
 
   const editSubcategory = (category: string, subIndex: number, newValue: string) => {
@@ -52,5 +67,6 @@ export const createSubcategoryService = (
     addSubcategory, 
     editSubcategory, 
     updateSubcategory,
+    removeSubcategory,
   };
 };
