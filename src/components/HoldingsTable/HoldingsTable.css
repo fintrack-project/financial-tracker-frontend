@@ -31,3 +31,35 @@
 .holdings-table tr:hover {
   background-color: #f1f1f1;
 }
+
+/* Additional styles for EditableHoldingsTable */
+.category-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.category-header input {
+  width: 70%;
+  padding: 4px;
+  font-size: 0.9rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+}
+
+.category-header .icon-button {
+  margin-left: 4px;
+}
+
+.holdings-table td input {
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.holdings-table td button {
+  background: none;
+  border: none;
+  color: red;
+  cursor: pointer;
+}

@@ -1,0 +1,19 @@
+/* Ensure the actions container does not affect layout */
+.category-cell {
+  position: relative; /* Required for absolute positioning of .actions */
+}
+
+.category-cell .actions {
+  display: none; /* Hide buttons by default */
+  position: absolute;
+  right: 8px; /* Align buttons to the right */
+  top: 50%; /* Vertically center buttons */
+  transform: translateY(-50%);
+  z-index: 10; /* Ensure buttons appear above other elements */
+}
+
+/* Show actions on hover */
+.category-cell:hover .actions {
+  display: inline-flex; /* Show buttons when hovering over the cell */
+  gap: 4px; /* Add spacing between buttons */
+}

@@ -1,7 +1,5 @@
-import React, { useEffect, useState } from 'react';
-import { fetchHoldings } from '../../services/holdingsService';
-import { updateMarketData, fetchMarketData, MarketDataProps } from 'services/marketDataService';
-import { Holding } from '../../types/Holding';
+import React from 'react';
+import { useHoldingsData } from '../../hooks/useHoldingsData';
 import './HoldingsTable.css';
 
 interface HoldingsTableProps {
@@ -9,39 +7,11 @@ interface HoldingsTableProps {
 }
 
 const HoldingsTable: React.FC<HoldingsTableProps> = ({ accountId }) => {
-  const [holdings, setHoldings] = useState<Holding[]>([]);
-  const [marketData, setMarketData] = useState<MarketDataProps[]>([]);
+  const { holdings, marketData, loading } = useHoldingsData(accountId);
 
-  useEffect(() => {
-    if (!accountId) {
-      console.warn('Account ID is null, skipping fetch'); // Debug log
-      return;
-    }
-
-    const loadHoldingsAndMarketData = async () => {
-      try {
-        // Step 1: Fetch holdings from the backend
-        const fetchedHoldings = await fetchHoldings(accountId);
-        setHoldings(fetchedHoldings);
-
-        // Step 2: Extract asset names from holdings
-        const assetNames = fetchedHoldings.map((holding) => holding.assetName);
-
-        // Step 3: Send asset names to the backend to initiate market data updates
-        await updateMarketData(assetNames);
-
-        // Step 4: Fetch the updated market data
-        const marketDataResponse = await fetchMarketData(assetNames);
-        setMarketData(marketDataResponse);
-
-        console.log('Market data fetched successfully:', marketDataResponse);
-      } catch (error) {
-        console.error('Error loading holdings or market data:', error);
-      }
-    };
-
-    loadHoldingsAndMarketData();
-  }, [accountId]);
+  if (loading) {
+    return <p>Loading...</p>;
+  }
 
   return (
     <div className="holdings-table-container">
