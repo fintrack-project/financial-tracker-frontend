@@ -6,6 +6,7 @@ import EditableHoldingsTable from 'components/HoldingsTable/EditableHoldingsTabl
 import CategoriesTable from 'components/Category/CategoriesTable';
 import { createCategoryService } from '../../services/categoryService';
 import { createSubcategoryService } from '../../services/subCategoryService';
+import { createHoldingsCategoriesService } from 'services/holdingsCategoriesService';
 import './Holdings.css'; // Import the CSS file
 
 const Holdings: React.FC = () => {
@@ -24,7 +25,9 @@ const Holdings: React.FC = () => {
 
   const categoryService = createCategoryService(categories, setCategories, confirmedCategories);
   const subcategoryService = createSubcategoryService(subcategories, setSubcategories, confirmedSubcategories);
-
+  const holdingsCategoriesService = createHoldingsCategoriesService(
+  );
+    
   // Fetch categories and subcategories when the component mounts
   useEffect(() => {
     const fetchData = async () => {
@@ -42,7 +45,7 @@ const Holdings: React.FC = () => {
         console.log('Fetched subcategories:', fetchedSubcategories);
 
         // Fetch holdings categories from the API
-        const response = await categoryService.fetchHoldingsCategories(accountId);
+        const response = await holdingsCategoriesService.fetchHoldingsCategories(accountId);
 
         console.log('Holdings - Fetched holdings categories:', response);
 
@@ -110,6 +113,7 @@ const Holdings: React.FC = () => {
           subcategories={subcategories}
           categoryService={categoryService}
           confirmedHoldingsCategories={confirmedHoldingsCategories}
+          holdingsCategoriesService={holdingsCategoriesService}
           resetHasFetched={resetHasFetched}
         />
         <h1>Categories</h1>

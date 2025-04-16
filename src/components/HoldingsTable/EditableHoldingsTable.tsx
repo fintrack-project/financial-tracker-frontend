@@ -3,6 +3,7 @@ import { useHoldingsData } from '../../hooks/useHoldingsData';
 import IconButton  from '../Button/IconButton';
 import CategoryDropdownCell from '../Category/CategoryDropdownCell';
 import { createCategoryService } from '../../services/categoryService';
+import { createHoldingsCategoriesService } from 'services/holdingsCategoriesService';
 import './HoldingsTable.css'; // Reuse the CSS from HoldingsTable
 
 interface EditableHoldingsTableProps {
@@ -10,6 +11,7 @@ interface EditableHoldingsTableProps {
   categories: string[];
   subcategories: {[category: string]: string[]};
   categoryService: ReturnType<typeof createCategoryService>;
+  holdingsCategoriesService: ReturnType<typeof createHoldingsCategoriesService>;
   confirmedHoldingsCategories: {
     [category: string]: {
       [assetName: string]: string | null;
@@ -23,6 +25,7 @@ const EditableHoldingsTable: React.FC<EditableHoldingsTableProps> = ({
   categories,
   subcategories,
   categoryService,
+  holdingsCategoriesService,
   confirmedHoldingsCategories,
   resetHasFetched
 }) => {
@@ -109,12 +112,12 @@ const EditableHoldingsTable: React.FC<EditableHoldingsTableProps> = ({
       if (isNewColumn) {
         // Add new column
         console.log('Adding new column:', category);
-        await categoryService.addHoldingsCategory(accountId, payload); // POST to add API
+        await holdingsCategoriesService.addHoldingsCategory(accountId, payload); // POST to add API
         alert(`New category "${category}" added successfully.`);
       } else {
         // Update existing column
         console.log('Updating existing column:', category);
-        await categoryService.updateHoldingsCategories(accountId, payload); // POST to update API
+        await holdingsCategoriesService.updateHoldingsCategories(accountId, payload); // POST to update API
         alert(`Category "${category}" updated successfully.`);
       }
   
@@ -146,7 +149,7 @@ const EditableHoldingsTable: React.FC<EditableHoldingsTableProps> = ({
   
     try {
       // Call the service to remove the holdings category
-      await categoryService.removeHoldingsCategory(accountId, category);
+      await holdingsCategoriesService.removeHoldingsCategory(accountId, category);
   
       // Update the state to remove the category and its subcategories
       const updatedCategoryColumns = [...categoryColumns];
