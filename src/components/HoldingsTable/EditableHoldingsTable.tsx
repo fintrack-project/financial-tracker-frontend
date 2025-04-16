@@ -63,6 +63,10 @@ const EditableHoldingsTable: React.FC<EditableHoldingsTableProps> = ({
     const updatedSubcategoryColumns = [...subcategoryColumns];
     updatedSubcategoryColumns[index] = Array(holdings.length).fill(''); // Reset all subcategories for this column
     setSubcategoryColumns(updatedSubcategoryColumns);
+
+    console.log('Updated Category Columns:', updatedCategoriesColumns);
+    console.log('Updated Subcategory Columns:', updatedSubcategoryColumns);
+    console.log('Updated Confirmed Holdings Categories:', confirmedHoldingsCategories);
   };
 
   const handleSubcategoryColumnChange = async (
@@ -85,14 +89,23 @@ const EditableHoldingsTable: React.FC<EditableHoldingsTableProps> = ({
     }
   
     const category = categoryColumns[index];
-    const formattedHoldingsCategories = holdings.map((holding, rowIndex) => ({
+    // Construct the holdings_categories payload
+    const holdingsCategories = holdings.map((holding, rowIndex) => ({
       asset_name: holding.assetName,
-      category,
-      subcategory: subcategoryColumns[index]?.[rowIndex] || null,
+      categories: categoryColumns.map((category, categoryIndex) => ({
+        category,
+        subcategory: subcategoryColumns[categoryIndex]?.[rowIndex] || null, // Use null if no subcategory is selected
+      })),
     }));
+
+    const payload = {
+      holdings_categories: holdingsCategories,
+    };
+
+    console.log('Payload to be sent to backend:', payload);
   
     try {
-      await categoryService.updateHoldingsCategories(accountId, formattedHoldingsCategories); // Sync with backend
+      await categoryService.updateHoldingsCategories(accountId, holdingsCategories); // Sync with backend
       alert(`Category "${category}" confirmed successfully.`);
   
       const updatedEditingColumns = new Set(editingColumns);

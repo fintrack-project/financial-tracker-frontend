@@ -9,7 +9,13 @@ export interface CategoryService {
   confirmCategory: (accountId: string, index: number) => void;
   updateHoldingsCategories: (
     accountId: string,
-    holdingsCategories: { asset_name: string; category: string; subcategory: string | null }[]
+    holdingsCategories: {
+      asset_name: string;
+      categories: {
+        category: string;
+        subcategory: string | null;
+      }[];
+    }[]
   ) => Promise<void>;
   fetchCategoriesAndSubcategories: (
     accountId: string
@@ -114,29 +120,18 @@ export const createCategoryService = (
 
   const updateHoldingsCategories = async (
     accountId: string, 
-    holdingsCategories: { asset_name: string; category: string; subcategory: string | null }[]
+    holdingsCategories: {
+      asset_name: string;
+      categories: {
+        category: string;
+        subcategory: string | null;
+      }[];
+    }[]
   ) => {
-    try {
-      // Transform the data into the expected format
-      const formattedCategories = holdingsCategories.reduce((acc, holding) => {
-        const existingCategory = acc.find((item) => item.category === holding.category);
-  
-        if (existingCategory) {
-          // Add the subcategory to the existing category
-          if (holding.subcategory) {
-            existingCategory.subcategories.push(holding.subcategory);
-          }
-        } else {
-          // Create a new category entry
-          acc.push({
-            category: holding.category,
-            subcategories: holding.subcategory ? [holding.subcategory] : [],
-          });
-        }
-  
-        return acc;
-      }, [] as { category: string; subcategories: string[] }[]);
-  
+
+    console.log('Updating holdings categories:', holdingsCategories);
+
+    try {  
       // Send the transformed data to the backend
       const response = await axios.post(`api/categories/holdings/update`, holdingsCategories, {
         params: { accountId },
