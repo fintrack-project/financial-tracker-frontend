@@ -23,6 +23,7 @@ export interface CategoryService {
       };
     }
   ) => Promise<void>;
+  removeHoldingsCategory: (accountId: string, category: string) => Promise<void>;
   fetchCategoriesAndSubcategories: (
     accountId: string
   ) => Promise<{ categories: string[]; subcategories: { [category: string]: string[] } }>;
@@ -168,6 +169,22 @@ export const createCategoryService = (
     }
   };
 
+  const removeHoldingsCategory = async (accountId: string, category: string) => {
+    try {
+      console.log(`Removing holdings category: ${category}`);
+  
+      const response = await axios.post(`/api/categories/holdings/remove`, null, {
+        params: { accountId, category },
+      });
+  
+      console.log(`Successfully removed holdings category: ${category}`);
+      return response.data;
+    } catch (error) {
+      console.error(`Error removing holdings category "${category}":`, error);
+      throw new Error(`Failed to remove holdings category "${category}".`);
+    }
+  };
+
   const fetchHoldingsCategories = async (accountId: string) => {
     try {
       const response = await axios.get(`/api/categories/holdings/fetch`, {
@@ -191,6 +208,7 @@ export const createCategoryService = (
     confirmCategory,
     updateHoldingsCategories,
     addHoldingsCategory,
+    removeHoldingsCategory,
     fetchCategoriesAndSubcategories,
     fetchHoldingsCategories,
   };

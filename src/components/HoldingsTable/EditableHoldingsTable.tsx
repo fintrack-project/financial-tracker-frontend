@@ -136,19 +136,33 @@ const EditableHoldingsTable: React.FC<EditableHoldingsTableProps> = ({
     setEditingColumns(updatedEditingColumns);
   };
 
-  const handleDeleteCategoryColumn = (index: number) => {
-    const updatedCategoryColumns = [...categoryColumns];
-    const updatedSubcategoryColumns = [...subcategoryColumns];
-
-    updatedCategoryColumns.splice(index, 1); // Remove the category
-    updatedSubcategoryColumns.splice(index, 1); // Remove the associated subcategories
-
-    setCategoryColumns(updatedCategoryColumns);
-    setSubcategoryColumns(updatedSubcategoryColumns);
-
-    const updatedEditingColumns = new Set(editingColumns);
-    updatedEditingColumns.delete(index); // Remove the column from editing state
-    setEditingColumns(updatedEditingColumns);
+  const handleRemoveCategoryColumn = async (index: number) => {
+    if (!accountId) {
+      alert('Account ID is required to remove holdings categories.');
+      return;
+    }
+  
+    const category = categoryColumns[index];
+  
+    try {
+      // Call the service to remove the holdings category
+      await categoryService.removeHoldingsCategory(accountId, category);
+  
+      // Update the state to remove the category and its subcategories
+      const updatedCategoryColumns = [...categoryColumns];
+      const updatedSubcategoryColumns = [...subcategoryColumns];
+  
+      updatedCategoryColumns.splice(index, 1); // Remove the category
+      updatedSubcategoryColumns.splice(index, 1); // Remove the associated subcategories
+  
+      setCategoryColumns(updatedCategoryColumns);
+      setSubcategoryColumns(updatedSubcategoryColumns);
+  
+      alert(`Category "${category}" removed successfully.`);
+    } catch (error) {
+      console.error('Error removing category column:', error);
+      alert(`Failed to remove category "${category}".`);
+    }
   };
 
   if (loading) {
@@ -180,7 +194,7 @@ const EditableHoldingsTable: React.FC<EditableHoldingsTableProps> = ({
                     onChange={(newValue) => handleCategoryColumnChange(categoryIndex, newValue)}
                     onConfirm={() => handleConfirmCategoryColumn(categoryIndex)}
                     onEdit={() => handleEditCategoryColumn(categoryIndex)}
-                    onRemove={() => handleDeleteCategoryColumn(categoryIndex)}
+                    onRemove={() => handleRemoveCategoryColumn(categoryIndex)}
                     showActions={true} // Show actions in the header
                   />
                 </th>
