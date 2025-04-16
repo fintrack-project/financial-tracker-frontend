@@ -2,7 +2,9 @@ import React, { useState, useEffect } from 'react';
 import { useHoldingsData } from '../../hooks/useHoldingsData';
 import IconButton  from '../Button/IconButton';
 import CategoryDropdownCell from '../Category/CategoryDropdownCell';
+import CategoryDisplayCell from 'components/Category/CategoryDisplayCell';
 import { createCategoryService } from '../../services/categoryService';
+import { createHoldingsCategoriesService } from 'services/holdingsCategoriesService';
 import './HoldingsTable.css'; // Reuse the CSS from HoldingsTable
 
 interface EditableHoldingsTableProps {
@@ -10,6 +12,13 @@ interface EditableHoldingsTableProps {
   categories: string[];
   subcategories: {[category: string]: string[]};
   categoryService: ReturnType<typeof createCategoryService>;
+  holdingsCategoriesService: ReturnType<typeof createHoldingsCategoriesService>;
+  confirmedHoldingsCategories: {
+    [category: string]: {
+      [assetName: string]: string | null;
+    };
+  };
+  resetHasFetched: () => void;
 }
 
 const EditableHoldingsTable: React.FC<EditableHoldingsTableProps> = ({ 
@@ -17,6 +26,9 @@ const EditableHoldingsTable: React.FC<EditableHoldingsTableProps> = ({
   categories,
   subcategories,
   categoryService,
+  holdingsCategoriesService,
+  confirmedHoldingsCategories,
+  resetHasFetched
 }) => {
   const { holdings, marketData, loading } = useHoldingsData(accountId);
   const [categoryColumns, setCategoryColumns] = useState<string[]>([]); // Manage categories as state
@@ -25,16 +37,19 @@ const EditableHoldingsTable: React.FC<EditableHoldingsTableProps> = ({
 
   // Synchronize categoryColumns and subcategoryColumns with the categories prop
   useEffect(() => {
-    const updatedCategoryColumns = categoryColumns.filter((category) =>
-      categories.includes(category)
-    );
-    const updatedSubcategoryColumns = subcategoryColumns.filter((_, index) =>
-      categories.includes(categoryColumns[index])
-    );
+    console.log('Confirmed Holdings Categories:', confirmedHoldingsCategories);
 
-    setCategoryColumns(updatedCategoryColumns);
-    setSubcategoryColumns(updatedSubcategoryColumns);
-  }, [categories]); // Run whenever categories change
+    const confirmedCategoryColumns = Object.keys(confirmedHoldingsCategories); // Extract categories
+    const confirmedSubcategoryColumns = confirmedCategoryColumns.map((category) =>
+      holdings.map((holding) => confirmedHoldingsCategories[category]?.[holding.assetName] || '') // Extract subcategories for each category
+    );
+  
+    console.log('Initial Category Columns:', confirmedCategoryColumns);
+    console.log('Initial Subcategory Columns:', confirmedSubcategoryColumns);
+
+    setCategoryColumns(confirmedCategoryColumns);
+    setSubcategoryColumns(confirmedSubcategoryColumns);
+  }, [confirmedHoldingsCategories]);
 
   const handleAddCategoryColumns = () => {
     if (categoryColumns.length < categories.length) {
@@ -44,11 +59,6 @@ const EditableHoldingsTable: React.FC<EditableHoldingsTableProps> = ({
   };
 
   const handleCategoryColumnChange = async (index: number, newCategoryColumn: string) => {
-    if (!accountId) {
-      alert('Account ID is required to confirm holdings categories.');
-      return;
-    }
-
     const updatedCategoriesColumns = [...categoryColumns];
     updatedCategoriesColumns[index] = newCategoryColumn;
     setCategoryColumns(updatedCategoriesColumns);
@@ -57,21 +67,6 @@ const EditableHoldingsTable: React.FC<EditableHoldingsTableProps> = ({
     const updatedSubcategoryColumns = [...subcategoryColumns];
     updatedSubcategoryColumns[index] = Array(holdings.length).fill(''); // Reset all subcategories for this column
     setSubcategoryColumns(updatedSubcategoryColumns);
-
-    // Format the data to send to the backend
-    const formattedHoldingsCategories = holdings.map((holding, rowIndex) => ({
-      asset_name: holding.assetName, // Ensure asset_name is included
-      category: newCategoryColumn,
-      subcategory: updatedSubcategoryColumns[index][rowIndex] || null,
-    }));
-
-    try {
-      await categoryService.updateHoldingsCategories(accountId, formattedHoldingsCategories); // Sync with backend
-      alert(`Category "${newCategoryColumn}" updated successfully.`);
-    } catch (error) {
-      console.error('Error updating holdings categories:', error);
-      alert(`Failed to update category "${newCategoryColumn}".`);
-    }
   };
 
   const handleSubcategoryColumnChange = async (
@@ -79,37 +74,49 @@ const EditableHoldingsTable: React.FC<EditableHoldingsTableProps> = ({
     rowIndex: number, 
     newSubcategoryColumn: string
   ) => {
+    // Update the subcategory locally
+    const updatedSubcategoryColumns = [...subcategoryColumns];
+    updatedSubcategoryColumns[categoryColumnIndex][rowIndex] = newSubcategoryColumn;
+    setSubcategoryColumns(updatedSubcategoryColumns);
+  };
+
+  const handleConfirmCategoryColumn = async (index: number) => {
     if (!accountId) {
       alert('Account ID is required to confirm holdings categories.');
       return;
     }
   
-    const category = categoryColumns[categoryColumnIndex];
-
-    // Update the subcategory locally
-    const updatedSubcategoryColumns = [...subcategoryColumns];
-    updatedSubcategoryColumns[categoryColumnIndex][rowIndex] = newSubcategoryColumn;
-    setSubcategoryColumns(updatedSubcategoryColumns);
-  
-    // Format the data to send to the backend
-    const formattedHoldingsCategories = holdings.map((holding, holdingIndex) => ({
-      asset_name: holding.assetName,
-      category,
-      subcategory: updatedSubcategoryColumns[categoryColumnIndex][holdingIndex] || null,
-    }));
+    const category = categoryColumns[index];
+    
+    // Construct the payload for the new column only
+    const payload = {
+      [category]: holdings.reduce((assetAcc: { [assetName: string]: string | null }, holding, rowIndex) => {
+        assetAcc[holding.assetName] = subcategoryColumns[index]?.[rowIndex] || null; // Use null if no subcategory is selected
+        return assetAcc;
+      }, {}),
+    };
   
     try {
-      await categoryService.updateHoldingsCategories(accountId, formattedHoldingsCategories); // Sync with backend
-      alert(`Subcategory under category "${category}" updated successfully.`);
+      const isNewColumn = !confirmedHoldingsCategories[category]; // Check if this is a new column
+  
+      if (isNewColumn) {
+        await holdingsCategoriesService.addHoldingsCategory(accountId, payload); // POST to add API
+        console.log(`New category "${category}" added successfully.`);
+      } else {
+        await holdingsCategoriesService.updateHoldingsCategories(accountId, payload); // POST to update API
+        console.log(`Category "${category}" updated successfully.`);
+      }
+  
+      // Exit edit mode for the column
+      const updatedEditingColumns = new Set(editingColumns);
+      updatedEditingColumns.delete(index);
+      setEditingColumns(updatedEditingColumns);
+  
+      resetHasFetched(); // Reset the fetched state
     } catch (error) {
-      alert(`Failed to update subcategory under category "${category}".`);
+      console.error('Error confirming category column:', error);
+      alert(`Failed to confirm category "${category}".`);
     }
-  };
-
-  const handleConfirmCategoryColumn = (index: number) => {
-    const updatedEditingColumns = new Set(editingColumns);
-    updatedEditingColumns.delete(index); // Exit edit mode for the column
-    setEditingColumns(updatedEditingColumns);
   };
 
   const handleEditCategoryColumn = (index: number) => {
@@ -118,19 +125,33 @@ const EditableHoldingsTable: React.FC<EditableHoldingsTableProps> = ({
     setEditingColumns(updatedEditingColumns);
   };
 
-  const handleDeleteCategoryColumn = (index: number) => {
-    const updatedCategoryColumns = [...categoryColumns];
-    const updatedSubcategoryColumns = [...subcategoryColumns];
-
-    updatedCategoryColumns.splice(index, 1); // Remove the category
-    updatedSubcategoryColumns.splice(index, 1); // Remove the associated subcategories
-
-    setCategoryColumns(updatedCategoryColumns);
-    setSubcategoryColumns(updatedSubcategoryColumns);
-
-    const updatedEditingColumns = new Set(editingColumns);
-    updatedEditingColumns.delete(index); // Remove the column from editing state
-    setEditingColumns(updatedEditingColumns);
+  const handleRemoveCategoryColumn = async (index: number) => {
+    if (!accountId) {
+      alert('Account ID is required to remove holdings categories.');
+      return;
+    }
+  
+    const category = categoryColumns[index];
+  
+    try {
+      // Call the service to remove the holdings category
+      await holdingsCategoriesService.removeHoldingsCategory(accountId, category);
+  
+      // Update the state to remove the category and its subcategories
+      const updatedCategoryColumns = [...categoryColumns];
+      const updatedSubcategoryColumns = [...subcategoryColumns];
+  
+      updatedCategoryColumns.splice(index, 1); // Remove the category
+      updatedSubcategoryColumns.splice(index, 1); // Remove the associated subcategories
+  
+      setCategoryColumns(updatedCategoryColumns);
+      setSubcategoryColumns(updatedSubcategoryColumns);
+  
+      console.log(`Category "${category}" removed successfully.`);
+    } catch (error) {
+      console.error('Error removing category column:', error);
+      alert(`Failed to remove category "${category}".`);
+    }
   };
 
   if (loading) {
@@ -148,31 +169,19 @@ const EditableHoldingsTable: React.FC<EditableHoldingsTableProps> = ({
             <th>Price (USD)</th>
             <th>Total Value (USD)</th>
             {categoryColumns.map((category, categoryIndex) => {
-              // Filter categories to exclude already confirmed ones
-              const availableCategories = categories.filter(
-                (cat) => !categoryColumns.includes(cat) || cat === category
-              );
-
               return (
                 <th key={categoryIndex}>
-                  <CategoryDropdownCell
+                  <CategoryDisplayCell
                     value={category}
                     isEditing={editingColumns.has(categoryIndex)} // Editable for the header
-                    options={availableCategories} // Filtered categories
-                    onChange={(newValue) => handleCategoryColumnChange(categoryIndex, newValue)}
                     onConfirm={() => handleConfirmCategoryColumn(categoryIndex)}
                     onEdit={() => handleEditCategoryColumn(categoryIndex)}
-                    onRemove={() => handleDeleteCategoryColumn(categoryIndex)}
+                    onRemove={() => handleRemoveCategoryColumn(categoryIndex)}
                     showActions={true} // Show actions in the header
                   />
                 </th>
               );
             })}
-            {categoryColumns.length < categories.length && (
-              <th>
-                <IconButton type="add" onClick={handleAddCategoryColumns} label="Add Column" />
-              </th>
-            )}
           </tr>
         </thead>
         <tbody>
