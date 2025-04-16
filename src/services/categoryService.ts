@@ -10,12 +10,18 @@ export interface CategoryService {
   updateHoldingsCategories: (
     accountId: string,
     holdingsCategories: {
-      asset_name: string;
-      categories: {
-        category: string;
-        subcategory: string | null;
-      }[];
-    }[]
+      [category: string]: {
+        [assetName: string]: string | null;
+      };
+    }
+  ) => Promise<void>;
+  addHoldingsCategory: (
+    accountId: string,
+    holdingsCategories: {
+      [category: string]: {
+        [assetName: string]: string | null;
+      };
+    }
   ) => Promise<void>;
   fetchCategoriesAndSubcategories: (
     accountId: string
@@ -119,27 +125,45 @@ export const createCategoryService = (
   };
 
   const updateHoldingsCategories = async (
-    accountId: string, 
+    accountId: string,
     holdingsCategories: {
-      asset_name: string;
-      categories: {
-        category: string;
-        subcategory: string | null;
-      }[];
-    }[]
+      [category: string]: {
+        [assetName: string]: string | null;
+      };
+    }
   ) => {
-
-    console.log('Updating holdings categories:', holdingsCategories);
-
-    try {  
-      // Send the transformed data to the backend
-      const response = await axios.post(`api/categories/holdings/update`, holdingsCategories, {
+    try {
+      console.log('Updating holdings categories:', holdingsCategories);
+  
+      const response = await axios.post(`/api/categories/holdings/update`, holdingsCategories, {
         params: { accountId },
       });
   
       return response.data;
     } catch (error) {
       console.error('Error updating holdings categories:', error);
+      throw error;
+    }
+  };
+
+  const addHoldingsCategory = async (
+    accountId: string,
+    holdingsCategories: {
+      [category: string]: {
+        [assetName: string]: string | null;
+      };
+    }
+  ) => {
+    try {
+      console.log('Adding new holdings category:', holdingsCategories);
+  
+      const response = await axios.post(`/api/categories/holdings/add`, holdingsCategories, {
+        params: { accountId },
+      });
+  
+      return response.data;
+    } catch (error) {
+      console.error('Error adding new holdings category:', error);
       throw error;
     }
   };
@@ -166,6 +190,7 @@ export const createCategoryService = (
     editCategory,
     confirmCategory,
     updateHoldingsCategories,
+    addHoldingsCategory,
     fetchCategoriesAndSubcategories,
     fetchHoldingsCategories,
   };
