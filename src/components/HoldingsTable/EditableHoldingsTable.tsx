@@ -77,8 +77,6 @@ const EditableHoldingsTable: React.FC<EditableHoldingsTableProps> = ({
     rowIndex: number, 
     newSubcategoryColumn: string
   ) => {
-    const category = categoryColumns[categoryColumnIndex];
-
     // Update the subcategory locally
     const updatedSubcategoryColumns = [...subcategoryColumns];
     updatedSubcategoryColumns[categoryColumnIndex][rowIndex] = newSubcategoryColumn;
@@ -113,7 +111,7 @@ const EditableHoldingsTable: React.FC<EditableHoldingsTableProps> = ({
         // Add new column
         console.log('Adding new column:', category);
         await holdingsCategoriesService.addHoldingsCategory(accountId, payload); // POST to add API
-        alert(`New category "${category}" added successfully.`);
+        console.log(`New category "${category}" added successfully.`);
       } else {
         // Update existing column
         console.log('Updating existing column:', category);
@@ -161,7 +159,7 @@ const EditableHoldingsTable: React.FC<EditableHoldingsTableProps> = ({
       setCategoryColumns(updatedCategoryColumns);
       setSubcategoryColumns(updatedSubcategoryColumns);
   
-      alert(`Category "${category}" removed successfully.`);
+      console.log(`Category "${category}" removed successfully.`);
     } catch (error) {
       console.error('Error removing category column:', error);
       alert(`Failed to remove category "${category}".`);
