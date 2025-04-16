@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useHoldingsData } from '../../hooks/useHoldingsData';
 import IconButton  from '../Button/IconButton';
 import CategoryDropdownCell from '../Category/CategoryDropdownCell';
+import CategoryDisplayCell from 'components/Category/CategoryDisplayCell';
 import { createCategoryService } from '../../services/categoryService';
 import { createHoldingsCategoriesService } from 'services/holdingsCategoriesService';
 import './HoldingsTable.css'; // Reuse the CSS from HoldingsTable
@@ -66,10 +67,6 @@ const EditableHoldingsTable: React.FC<EditableHoldingsTableProps> = ({
     const updatedSubcategoryColumns = [...subcategoryColumns];
     updatedSubcategoryColumns[index] = Array(holdings.length).fill(''); // Reset all subcategories for this column
     setSubcategoryColumns(updatedSubcategoryColumns);
-
-    console.log('Updated Category Columns:', updatedCategoriesColumns);
-    console.log('Updated Subcategory Columns:', updatedSubcategoryColumns);
-    console.log('Updated Confirmed Holdings Categories:', confirmedHoldingsCategories);
   };
 
   const handleSubcategoryColumnChange = async (
@@ -81,9 +78,6 @@ const EditableHoldingsTable: React.FC<EditableHoldingsTableProps> = ({
     const updatedSubcategoryColumns = [...subcategoryColumns];
     updatedSubcategoryColumns[categoryColumnIndex][rowIndex] = newSubcategoryColumn;
     setSubcategoryColumns(updatedSubcategoryColumns);
-
-    console.log('Updated Subcategory Columns:', updatedSubcategoryColumns);
-    console.log('Updated Confirmed Holdings Categories:', confirmedHoldingsCategories);
   };
 
   const handleConfirmCategoryColumn = async (index: number) => {
@@ -102,21 +96,15 @@ const EditableHoldingsTable: React.FC<EditableHoldingsTableProps> = ({
       }, {}),
     };
   
-    console.log('Payload to be sent to backend:', payload);
-  
     try {
       const isNewColumn = !confirmedHoldingsCategories[category]; // Check if this is a new column
   
       if (isNewColumn) {
-        // Add new column
-        console.log('Adding new column:', category);
         await holdingsCategoriesService.addHoldingsCategory(accountId, payload); // POST to add API
         console.log(`New category "${category}" added successfully.`);
       } else {
-        // Update existing column
-        console.log('Updating existing column:', category);
         await holdingsCategoriesService.updateHoldingsCategories(accountId, payload); // POST to update API
-        alert(`Category "${category}" updated successfully.`);
+        console.log(`Category "${category}" updated successfully.`);
       }
   
       // Exit edit mode for the column
@@ -181,18 +169,11 @@ const EditableHoldingsTable: React.FC<EditableHoldingsTableProps> = ({
             <th>Price (USD)</th>
             <th>Total Value (USD)</th>
             {categoryColumns.map((category, categoryIndex) => {
-              // Filter categories to exclude already confirmed ones
-              const availableCategories = categories.filter(
-                (cat) => !categoryColumns.includes(cat) || cat === category
-              );
-
               return (
                 <th key={categoryIndex}>
-                  <CategoryDropdownCell
+                  <CategoryDisplayCell
                     value={category}
                     isEditing={editingColumns.has(categoryIndex)} // Editable for the header
-                    options={availableCategories} // Filtered categories
-                    onChange={(newValue) => handleCategoryColumnChange(categoryIndex, newValue)}
                     onConfirm={() => handleConfirmCategoryColumn(categoryIndex)}
                     onEdit={() => handleEditCategoryColumn(categoryIndex)}
                     onRemove={() => handleRemoveCategoryColumn(categoryIndex)}
@@ -201,11 +182,6 @@ const EditableHoldingsTable: React.FC<EditableHoldingsTableProps> = ({
                 </th>
               );
             })}
-            {categoryColumns.length < categories.length && (
-              <th>
-                <IconButton type="add" onClick={handleAddCategoryColumns} label="Add Column" />
-              </th>
-            )}
           </tr>
         </thead>
         <tbody>
