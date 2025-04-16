@@ -10,6 +10,12 @@ interface EditableHoldingsTableProps {
   categories: string[];
   subcategories: {[category: string]: string[]};
   categoryService: ReturnType<typeof createCategoryService>;
+  confirmedHoldingsCategories: {
+    [category: string]: {
+      [assetName: string]: string | null;
+    };
+  };
+  resetHasFetched: () => void;
 }
 
 const EditableHoldingsTable: React.FC<EditableHoldingsTableProps> = ({ 
@@ -17,6 +23,8 @@ const EditableHoldingsTable: React.FC<EditableHoldingsTableProps> = ({
   categories,
   subcategories,
   categoryService,
+  confirmedHoldingsCategories,
+  resetHasFetched
 }) => {
   const { holdings, marketData, loading } = useHoldingsData(accountId);
   const [categoryColumns, setCategoryColumns] = useState<string[]>([]); // Manage categories as state
@@ -25,16 +33,19 @@ const EditableHoldingsTable: React.FC<EditableHoldingsTableProps> = ({
 
   // Synchronize categoryColumns and subcategoryColumns with the categories prop
   useEffect(() => {
-    const updatedCategoryColumns = categoryColumns.filter((category) =>
-      categories.includes(category)
-    );
-    const updatedSubcategoryColumns = subcategoryColumns.filter((_, index) =>
-      categories.includes(categoryColumns[index])
-    );
+    console.log('Confirmed Holdings Categories:', confirmedHoldingsCategories);
 
-    setCategoryColumns(updatedCategoryColumns);
-    setSubcategoryColumns(updatedSubcategoryColumns);
-  }, [categories]); // Run whenever categories change
+    const confirmedCategoryColumns = Object.keys(confirmedHoldingsCategories); // Extract categories
+    const confirmedSubcategoryColumns = confirmedCategoryColumns.map((category) =>
+      Object.values(confirmedHoldingsCategories[category]).map((subcategory) => subcategory || '') // Extract subcategories for each category
+    );
+  
+    console.log('Initial Category Columns:', confirmedCategoryColumns);
+    console.log('Initial Subcategory Columns:', confirmedSubcategoryColumns);
+
+    setCategoryColumns(confirmedCategoryColumns);
+    setSubcategoryColumns(confirmedSubcategoryColumns);
+  }, [confirmedHoldingsCategories]);
 
   const handleAddCategoryColumns = () => {
     if (categoryColumns.length < categories.length) {
@@ -44,11 +55,6 @@ const EditableHoldingsTable: React.FC<EditableHoldingsTableProps> = ({
   };
 
   const handleCategoryColumnChange = async (index: number, newCategoryColumn: string) => {
-    if (!accountId) {
-      alert('Account ID is required to confirm holdings categories.');
-      return;
-    }
-
     const updatedCategoriesColumns = [...categoryColumns];
     updatedCategoriesColumns[index] = newCategoryColumn;
     setCategoryColumns(updatedCategoriesColumns);
@@ -57,21 +63,6 @@ const EditableHoldingsTable: React.FC<EditableHoldingsTableProps> = ({
     const updatedSubcategoryColumns = [...subcategoryColumns];
     updatedSubcategoryColumns[index] = Array(holdings.length).fill(''); // Reset all subcategories for this column
     setSubcategoryColumns(updatedSubcategoryColumns);
-
-    // Format the data to send to the backend
-    const formattedHoldingsCategories = holdings.map((holding, rowIndex) => ({
-      asset_name: holding.assetName, // Ensure asset_name is included
-      category: newCategoryColumn,
-      subcategory: updatedSubcategoryColumns[index][rowIndex] || null,
-    }));
-
-    try {
-      await categoryService.updateHoldingsCategories(accountId, formattedHoldingsCategories); // Sync with backend
-      alert(`Category "${newCategoryColumn}" updated successfully.`);
-    } catch (error) {
-      console.error('Error updating holdings categories:', error);
-      alert(`Failed to update category "${newCategoryColumn}".`);
-    }
   };
 
   const handleSubcategoryColumnChange = async (
@@ -79,37 +70,39 @@ const EditableHoldingsTable: React.FC<EditableHoldingsTableProps> = ({
     rowIndex: number, 
     newSubcategoryColumn: string
   ) => {
-    if (!accountId) {
-      alert('Account ID is required to confirm holdings categories.');
-      return;
-    }
-  
     const category = categoryColumns[categoryColumnIndex];
 
     // Update the subcategory locally
     const updatedSubcategoryColumns = [...subcategoryColumns];
     updatedSubcategoryColumns[categoryColumnIndex][rowIndex] = newSubcategoryColumn;
     setSubcategoryColumns(updatedSubcategoryColumns);
+  };
+
+  const handleConfirmCategoryColumn = async (index: number) => {
+    if (!accountId) {
+      alert('Account ID is required to confirm holdings categories.');
+      return;
+    }
   
-    // Format the data to send to the backend
-    const formattedHoldingsCategories = holdings.map((holding, holdingIndex) => ({
+    const category = categoryColumns[index];
+    const formattedHoldingsCategories = holdings.map((holding, rowIndex) => ({
       asset_name: holding.assetName,
       category,
-      subcategory: updatedSubcategoryColumns[categoryColumnIndex][holdingIndex] || null,
+      subcategory: subcategoryColumns[index]?.[rowIndex] || null,
     }));
   
     try {
       await categoryService.updateHoldingsCategories(accountId, formattedHoldingsCategories); // Sync with backend
-      alert(`Subcategory under category "${category}" updated successfully.`);
+      alert(`Category "${category}" confirmed successfully.`);
+  
+      const updatedEditingColumns = new Set(editingColumns);
+      updatedEditingColumns.delete(index); // Exit edit mode for the column
+      setEditingColumns(updatedEditingColumns);
+      resetHasFetched(); // Reset the fetched state
     } catch (error) {
-      alert(`Failed to update subcategory under category "${category}".`);
+      console.error('Error confirming category column:', error);
+      alert(`Failed to confirm category "${category}".`);
     }
-  };
-
-  const handleConfirmCategoryColumn = (index: number) => {
-    const updatedEditingColumns = new Set(editingColumns);
-    updatedEditingColumns.delete(index); // Exit edit mode for the column
-    setEditingColumns(updatedEditingColumns);
   };
 
   const handleEditCategoryColumn = (index: number) => {

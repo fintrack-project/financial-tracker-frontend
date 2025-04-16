@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import _ from 'lodash';
+import _, { set } from 'lodash';
 import AccountMenu from '../../components/Menu/AccountMenu';
 import MainNavigationBar from 'components/NavigationBar/MainNavigationBar';
 import EditableHoldingsTable from 'components/HoldingsTable/EditableHoldingsTable';
@@ -16,6 +16,11 @@ const Holdings: React.FC = () => {
 
   const [confirmedCategories, setConfirmedCategories] = useState<string[]>([]);; // Track confirmed categories
   const [confirmedSubcategories, setConfirmedSubcategories] = useState<{ [category: string]: string[] }>({}); // Track confirmed subcategories
+  const [confirmedHoldingsCategories, setConfirmedHoldingsCategories] = useState<{
+    [category: string]: {
+      [assetName: string]: string | null;
+    };
+  }>({});
 
   const categoryService = createCategoryService(categories, setCategories, confirmedCategories);
   const subcategoryService = createSubcategoryService(subcategories, setSubcategories, confirmedSubcategories);
@@ -29,8 +34,17 @@ const Holdings: React.FC = () => {
       }
 
       try {
+        // Fetch categories and subcategories from the API
         const { categories: fetchedCategories, subcategories: fetchedSubcategories } =
           await categoryService.fetchCategoriesAndSubcategories(accountId);
+
+        console.log('Fetched categories:', fetchedCategories);
+        console.log('Fetched subcategories:', fetchedSubcategories);
+
+        // Fetch holdings categories from the API
+        const response = await categoryService.fetchHoldingsCategories(accountId);
+
+        console.log('Holdings - Fetched holdings categories:', response);
 
         // Use the onUpdateCategories callback to update the parent state
         setCategories([... fetchedCategories]);
@@ -40,10 +54,11 @@ const Holdings: React.FC = () => {
         setConfirmedCategories([... fetchedCategories]);
         setConfirmedSubcategories(_.cloneDeep(fetchedSubcategories));
 
+        // Update holdings categories
+        setConfirmedHoldingsCategories(_.cloneDeep(response) || {});
+
         setHasFetched(true); // Mark as fetched
 
-        console.log('Fetched categories:', fetchedCategories);
-        console.log('Fetched subcategories:', fetchedSubcategories);
       } catch (error) {
         alert('Failed to fetch categories. Please try again.');
       }
@@ -94,6 +109,8 @@ const Holdings: React.FC = () => {
           categories={categories}
           subcategories={subcategories}
           categoryService={categoryService}
+          confirmedHoldingsCategories={confirmedHoldingsCategories}
+          resetHasFetched={resetHasFetched}
         />
         <h1>Categories</h1>
         <CategoriesTable 
