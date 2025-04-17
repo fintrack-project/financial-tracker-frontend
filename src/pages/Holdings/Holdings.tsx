@@ -41,13 +41,8 @@ const Holdings: React.FC = () => {
         const { categories: fetchedCategories, subcategories: fetchedSubcategories } =
           await categoryService.fetchCategoriesAndSubcategories(accountId);
 
-        console.log('Fetched categories:', fetchedCategories);
-        console.log('Fetched subcategories:', fetchedSubcategories);
-
         // Fetch holdings categories from the API
         const response = await holdingsCategoriesService.fetchHoldingsCategories(accountId);
-
-        console.log('Holdings - Fetched holdings categories:', response);
 
         // Use the onUpdateCategories callback to update the parent state
         setCategories([... fetchedCategories]);

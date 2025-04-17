@@ -28,7 +28,7 @@ const HoldingsTable: React.FC<HoldingsTableProps> = ({ accountId }) => {
         <tbody>
           {holdings.map((holding, index) => {
               const assetData = marketData.find(
-                (data) => data.symbol === holding.assetName
+                (data) => data.symbol === holding.symbol
               );
 
               const totalValue = assetData

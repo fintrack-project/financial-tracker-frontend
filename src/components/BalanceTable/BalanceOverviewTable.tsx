@@ -41,11 +41,10 @@ const BalanceOverviewTable: React.FC<BalanceOverviewTableProps> = ({ accountId }
 
   // Calculate processedTransactions whenever transactions change
   useEffect(() => {
-    let runningBalance = 0;
     const calculatedTransactions: OverviewTransaction[] = transactions.map(
       ({ transactionId, accountId, date, credit, debit, ...rest }) => {
-        const totalBalanceBefore = runningBalance;
-        const totalBalanceAfter = runningBalance;
+        const totalBalanceBefore = 0;
+        const totalBalanceAfter = 0;
 
         return {
           date: format(new Date(date), 'yyyy-MM-dd'), // Format the date as YYYY-MM-DD

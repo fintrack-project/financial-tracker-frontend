@@ -132,7 +132,9 @@ const BalancePreviewTable: React.FC<BalancePreviewTableProps> = ({
             ))}
         </tbody>
       </table>
-      <button className="button" onClick={handleConfirm}>Confirm</button>
+      <button className="button" onClick={handleConfirm}>
+        Confirm
+      </button>
     </div>
   );
 };
