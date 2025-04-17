@@ -8,7 +8,7 @@ interface HoldingsTableProps {
 
 const HoldingsTable: React.FC<HoldingsTableProps> = ({ accountId }) => {
   const { holdings, marketData, loading } = useHoldingsData(accountId);
-
+  
   if (loading) {
     return <p>Loading...</p>;
   }
@@ -28,7 +28,7 @@ const HoldingsTable: React.FC<HoldingsTableProps> = ({ accountId }) => {
         <tbody>
           {holdings.map((holding, index) => {
               const assetData = marketData.find(
-                (data) => data.assetName === holding.assetName
+                (data) => data.symbol === holding.assetName
               );
 
               const totalValue = assetData
