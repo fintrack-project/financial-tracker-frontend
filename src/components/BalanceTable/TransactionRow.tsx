@@ -24,12 +24,13 @@ const TransactionRow: React.FC<TransactionRowProps> = ({
     >
       <td>{format(new Date(transaction.date), 'yyyy-MM-dd')}</td>
       <td>{transaction.assetName}</td>
+      <td>{transaction.symbol}</td>
       <td>{transaction.credit}</td>
       <td className={transaction.debit !== 0 ? 'debit-column' : ''}>
         {transaction.debit !== 0 ? `(${transaction.debit})` : transaction.debit}
       </td>
-      <td>{transaction.totalBalanceBefore}</td>
-      <td>{transaction.totalBalanceAfter}</td>
+      <td>{}</td>
+      <td>{}</td>
       <td>{transaction.unit}</td>
       {onDeleteClick && (
         <td>

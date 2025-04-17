@@ -18,18 +18,47 @@ const BalancePreviewTable: React.FC<BalancePreviewTableProps> = ({
   uploadedTransactions,
   onConfirm,
 }) => {
-  const [previewTransactions, setPreviewTransactions] = useState<PreviewTransaction[]>([
-    ...existingTransactions.map((t) => ({ ...t, markDelete: false })),
-    ...uploadedTransactions.map((t) => ({ ...t, markDelete: false })),
-  ]);
+  // Helper function to convert Transaction[] to PreviewTransaction[]
+  const convertToPreviewTransactions = (
+    transactions: Transaction[],
+    initialBalance: number = 0
+  ): PreviewTransaction[] => {
+    let runningBalance = initialBalance;
+
+    return transactions.map((transaction) => {
+      const totalBalanceBefore = runningBalance;
+      runningBalance += transaction.credit - transaction.debit;
+      const totalBalanceAfter = runningBalance;
+
+      return {
+        ...transaction,
+        totalBalanceBefore,
+        totalBalanceAfter,
+        markDelete: false, // Default to false
+      };
+    });
+  };
+
+  // Initialize previewTransactions state
+  const [previewTransactions, setPreviewTransactions] = useState<PreviewTransaction[]>(() => {
+    const combinedTransactions = [
+      ...convertToPreviewTransactions(existingTransactions),
+      ...convertToPreviewTransactions(uploadedTransactions),
+    ];
+    return combinedTransactions.sort(
+      (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()
+    ); // Sort by date (descending)
+  });
 
   // Update previewTransactions whenever existingTransactions or uploadedTransactions change
   useEffect(() => {
-
-    const sortedTransactions = [
-      ...existingTransactions.map((t) => ({ ...t, markDelete: false })),
-      ...uploadedTransactions.map((t) => ({ ...t, markDelete: false })),
-    ].sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()); // Sort by date (ascending)
+    const combinedTransactions = [
+      ...convertToPreviewTransactions(existingTransactions),
+      ...convertToPreviewTransactions(uploadedTransactions),
+    ];
+    const sortedTransactions = combinedTransactions.sort(
+      (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()
+    ); // Sort by date (descending)
 
     setPreviewTransactions(sortedTransactions);
   }, [existingTransactions, uploadedTransactions]);
@@ -40,10 +69,9 @@ const BalancePreviewTable: React.FC<BalancePreviewTableProps> = ({
       (uploaded) =>
         uploaded.date === transaction.date &&
         uploaded.assetName === transaction.assetName &&
+        uploaded.symbol === transaction.symbol &&
         uploaded.credit === transaction.credit &&
         uploaded.debit === transaction.debit &&
-        uploaded.totalBalanceBefore === transaction.totalBalanceBefore &&
-        uploaded.totalBalanceAfter === transaction.totalBalanceAfter &&
         uploaded.unit === transaction.unit
     );
   };
@@ -79,6 +107,7 @@ const BalancePreviewTable: React.FC<BalancePreviewTableProps> = ({
           <tr>
             <th>Date</th>
             <th>Asset Name</th>
+            <th>Symbol</th>
             <th>Credit (Increase)</th>
             <th>Debit (Decrease)</th>
             <th>Total Balance Before</th>
