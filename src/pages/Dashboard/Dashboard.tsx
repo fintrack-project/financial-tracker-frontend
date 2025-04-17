@@ -3,7 +3,8 @@ import AccountMenu from '../../components/Menu/AccountMenu';
 import MainNavigationBar from '../../components/NavigationBar/MainNavigationBar';
 import MarketAverageData from 'components/MarketData/MarketAverageData';
 import HoldingsTable from '../../components/HoldingsTable/HoldingsTable';
-import { updateMarketAverageData, fetchMarketAverageData } from '../../services/marketAverageDataService';
+// import { updateMarketAverageData, fetchMarketAverageData } from '../../services/marketAverageDataService';
+import { fetchMarketAverageData } from 'services/marketAverageDataService';
 import './Dashboard.css'; // Import the CSS file
 
 const Dashboard: React.FC = () => {
@@ -22,10 +23,7 @@ const Dashboard: React.FC = () => {
       try {
         const encodedSymbols = symbols.map(encodeURIComponent).join(",");
 
-        // Step 1: Send a POST request to update the market average data
-        await updateMarketAverageData(symbols);
-
-        // Step 2: Fetch the updated market average data
+        // Fetch the updated market average data
         const data = await fetchMarketAverageData([encodedSymbols]);
         setMarketData(data);
       } catch (error) {
