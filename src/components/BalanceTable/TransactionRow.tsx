@@ -9,7 +9,9 @@ interface TransactionRowProps<T> {
   onDeleteClick?: () => void; // Optional callback for delete button
 }
 
-const TransactionRow = <T extends { 
+const TransactionRow = <T extends {
+  transactionId?: string;
+  accountId?: string; 
   date: string; 
   assetName: string; 
   symbol: string; 
@@ -25,6 +27,7 @@ const TransactionRow = <T extends {
     isMarkedForDeletion = false,
     onDeleteClick,
   }: TransactionRowProps<T>) => {
+
   return (
     <tr
       className={`${isHighlighted ? 'highlight-row' : ''} ${

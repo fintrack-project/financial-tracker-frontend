@@ -95,16 +95,9 @@ const BalancePreviewTable: React.FC<BalancePreviewTableProps> = ({
       </button>
       <TransactionTable
         transactions={previewTransactions}
-        isHighlighted={(transaction) =>
-          uploadedTransactions.some(
-            (uploaded) =>
-              uploaded.date === transaction.date &&
-              uploaded.assetName === transaction.assetName &&
-              uploaded.symbol === transaction.symbol &&
-              uploaded.credit === transaction.credit &&
-              uploaded.debit === transaction.debit &&
-              uploaded.unit === transaction.unit
-          )
+        isHighlighted={(transaction) => 
+          transaction.transactionId === null && 
+          transaction.accountId === null
         }
         isMarkedForDeletion={(transaction) => transaction.markDelete}
         onDeleteClick={(transaction) => {
