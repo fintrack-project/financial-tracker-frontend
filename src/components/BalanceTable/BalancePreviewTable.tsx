@@ -90,6 +90,9 @@ const BalancePreviewTable: React.FC<BalancePreviewTableProps> = ({
   return (
     <div className="balance-preview-container">
       <h2>Balance Preview Table</h2>
+      <button className="button" onClick={handleConfirm}>
+        Confirm
+      </button>
       <TransactionTable
         transactions={previewTransactions}
         isHighlighted={(transaction) =>
@@ -115,9 +118,6 @@ const BalancePreviewTable: React.FC<BalancePreviewTableProps> = ({
           );
         }}
       />
-      <button className="button" onClick={handleConfirm}>
-        Confirm
-      </button>
     </div>
   );
 };

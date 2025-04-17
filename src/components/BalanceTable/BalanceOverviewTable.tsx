@@ -16,7 +16,7 @@ const BalanceOverviewTable: React.FC<BalanceOverviewTableProps> = ({ accountId }
   const [transactions, setTransactions] = useState<Transaction[]>([]);
   const [processedTransactions, setProcessedTransactions] = useState<OverviewTransaction[]>([]);
   const [loading, setLoading] = useState(true);
-  const [fileFormat, setFileFormat] = useState<'xlsx' | 'csv'>('xlsx'); // Default format is .xlsx
+  const [fileFormat, setFileFormat] = useState<'xlsx' | 'csv'>('csv'); // Default format is .xlsx
   const [dropdownOpen, setDropdownOpen] = useState(false); // Dropdown visibility state
 
   // Fetch transactions from the backend
@@ -81,14 +81,14 @@ const BalanceOverviewTable: React.FC<BalanceOverviewTableProps> = ({ accountId }
   return (
     <div className="balance-overview-container">
       <h2>Balance Overview</h2>
+        <FileActions
+            actionName='Download Balance Overview'
+            fileFormat={fileFormat}
+            onFileFormatChange={setFileFormat}
+            onDownload={handleFileDownload}
+        />
         <TransactionTable 
           transactions={processedTransactions} 
-        />
-        <FileActions
-          actionName='Download Balance Overview'
-          fileFormat={fileFormat}
-          onFileFormatChange={setFileFormat}
-          onDownload={handleFileDownload}
         />
     </div>
   );

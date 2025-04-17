@@ -1,3 +1,8 @@
+.transaction-table-container {
+  display: flex;
+  flex-direction: column;
+}
+
 .transaction-table {
   width: 100%;
   border-collapse: collapse;
@@ -42,4 +47,15 @@
   color: #666;
   font-size: 14px;
   padding: 20px;
+}
+
+.scrollable-table {
+  overflow-x: auto;
+  overflow-y: hidden;
+  max-width: 100%;
+}
+
+.scrollable-tbody table {
+  width: 100%;
+  border-collapse: collapse;
 }

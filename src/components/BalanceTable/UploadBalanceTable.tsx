@@ -18,7 +18,7 @@ const UploadBalanceTable: React.FC<UploadBalanceTableProps> = ({
   onPreviewUpdate 
 }) => {
   const [transactions, setTransactions] = useState<Transaction[]>([]);
-  const [templateFormat, setTemplateFormat] = useState<'xlsx' | 'csv'>('xlsx'); // Default format is .xlsx
+  const [templateFormat, setTemplateFormat] = useState<'xlsx' | 'csv'>('csv'); // Default format is .xlsx
 
   // Add a new blank row
   const addRow = () => {
@@ -118,6 +118,18 @@ const UploadBalanceTable: React.FC<UploadBalanceTableProps> = ({
   return (
     <div className="upload-balance-container">
       <h2>Upload Balance Table</h2>
+      <div className="actions-row">
+        <div className="upload-button-container">
+          <button className="button" onClick={handleUploadToPreview}>Upload Transactions</button>
+        </div>
+        <input type="file" accept=".csv, .xlsx" onChange={handleFileUpload} />
+        <FileActions
+          actionName='Download Template'
+          fileFormat={templateFormat}
+          onFileFormatChange={setTemplateFormat}
+          onDownload={handleDownloadTemplate}
+        />
+      </div>
       <table className="upload-balance-table">
         <thead>
           <tr>
@@ -131,6 +143,31 @@ const UploadBalanceTable: React.FC<UploadBalanceTableProps> = ({
           </tr>
         </thead>
         <tbody>
+        <tr>
+          {/* BlankTransactionRow for adding a new row */}
+          <td colSpan={6}>
+            <BlankTransactionRow onAddRow={addRow} />
+          </td>
+          {/* Delete All button */}
+          <td>
+            <button
+              className="button delete-all-button"
+              onClick={() => setTransactions([])} // Clear all transactions
+            >
+              Delete All
+            </button>
+          </td>
+        </tr>
+        {/* Render existing transactions */}
+        {transactions.map((transaction, index) => (
+          <InputTransactionRow
+            key={index}
+            transaction={transaction}
+            onInputChange={(field, value) => handleInputChange(index, field, value)}
+            onRemoveRow={() => removeRow(index)}
+          />
+        ))}
+          {/* <BlankTransactionRow onAddRow={addRow} />
           {transactions.map((transaction, index) => (
             <InputTransactionRow
               key={index}
@@ -138,22 +175,9 @@ const UploadBalanceTable: React.FC<UploadBalanceTableProps> = ({
               onInputChange={(field, value) => handleInputChange(index, field, value)}
               onRemoveRow={() => removeRow(index)}
             />
-          ))}
-          <BlankTransactionRow onAddRow={addRow} />
+          ))} */}
         </tbody>
       </table>
-      <div className="actions-row">
-        <div className="upload-button-container">
-          <button className="button" onClick={handleUploadToPreview}>Upload Transactions</button>
-        </div>
-        <input type="file" accept=".csv, .xlsx" onChange={handleFileUpload} />
-        <FileActions
-          actionName='Download Template'
-          fileFormat={templateFormat}
-          onFileFormatChange={setTemplateFormat}
-          onDownload={handleDownloadTemplate}
-        />
-      </div>
     </div>
   );
 };
