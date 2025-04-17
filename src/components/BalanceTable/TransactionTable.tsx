@@ -1,14 +1,30 @@
 import React from 'react';
 import { format } from 'date-fns';
 import './TransactionTable.css';
-import { Transaction } from 'types/Transaction';
 import TransactionRow from './TransactionRow';
 
-interface TransactionTableProps {
-  transactions: Transaction[];
+interface TransactionTableProps<T> {
+  transactions: T[];
+  isHighlighted?: (transaction: T) => boolean; // Function to determine if a row should be highlighted
+  isMarkedForDeletion?: (transaction: T) => boolean; // Function to determine if a row is marked for deletion
+  onDeleteClick?: (transaction: T) => void; // Callback for delete button
 }
 
-const TransactionTable: React.FC<TransactionTableProps> = ({ transactions }) => {
+const TransactionTable = <T extends { 
+  date: string; 
+  assetName: string; 
+  symbol: string; 
+  credit: number; 
+  debit: number; 
+  unit: string; 
+  totalBalanceBefore?: number; 
+  totalBalanceAfter?: number }>
+  ({
+    transactions,
+    isHighlighted = () => false,
+    isMarkedForDeletion = () => false,
+    onDeleteClick,
+  }: TransactionTableProps<T>) => {
   return (
     <table className="transaction-table">
       <thead>
@@ -24,10 +40,13 @@ const TransactionTable: React.FC<TransactionTableProps> = ({ transactions }) => 
         </tr>
       </thead>
       <tbody>
-        {transactions.map((transaction, index) => (
+      {transactions.map((transaction, index) => (
           <TransactionRow
             key={index}
             transaction={transaction}
+            isHighlighted={isHighlighted(transaction)}
+            isMarkedForDeletion={isMarkedForDeletion(transaction)}
+            onDeleteClick={onDeleteClick ? () => onDeleteClick(transaction) : undefined}
           />
         ))}
       </tbody>

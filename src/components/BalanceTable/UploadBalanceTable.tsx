@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { parseCSVFile, parseXLSXFile, exportToCSV, exportToXLSX } from '../../services/fileService';
 import { uploadPreviewTransactions } from '../../services/transactionService';
-import TransactionTable from '../BalanceTable/TransactionTable';
 import { Transaction } from 'types/Transaction';
 import BlankTransactionRow from './BlankTransactionRow';
 import InputTransactionRow from './InputTransactionRow';
@@ -83,8 +82,6 @@ const UploadBalanceTable: React.FC<UploadBalanceTableProps> = ({
         symbol: 'EXA',
         credit: 0,
         debit: 0,
-        totalBalanceBefore: 0,
-        totalBalanceAfter: 0,
         unit: 'USD',
       },
     ];

@@ -4,6 +4,7 @@ import { exportToCSV, exportToXLSX } from '../../services/fileService';
 import { fetchTransactions } from 'services/transactionService';
 import TransactionTable from '../BalanceTable/TransactionTable';
 import { Transaction } from 'types/Transaction';
+import { OverviewTransaction } from 'types/OverviewTransaction';
 import './BalanceOverviewTable.css';
 
 interface BalanceOverviewTableProps {
@@ -12,6 +13,7 @@ interface BalanceOverviewTableProps {
 
 const BalanceOverviewTable: React.FC<BalanceOverviewTableProps> = ({ accountId }) => {
   const [transactions, setTransactions] = useState<Transaction[]>([]);
+  const [processedTransactions, setProcessedTransactions] = useState<OverviewTransaction[]>([]);
   const [loading, setLoading] = useState(true);
   const [fileFormat, setFileFormat] = useState<'xlsx' | 'csv'>('xlsx'); // Default format is .xlsx
   const [dropdownOpen, setDropdownOpen] = useState(false); // Dropdown visibility state
@@ -36,19 +38,34 @@ const BalanceOverviewTable: React.FC<BalanceOverviewTableProps> = ({ accountId }
 
     fetchData();
   }, [accountId]);
-  
+
+  // Calculate processedTransactions whenever transactions change
+  useEffect(() => {
+    let runningBalance = 0;
+    const calculatedTransactions: OverviewTransaction[] = transactions.map(
+      ({ transactionId, accountId, date, credit, debit, ...rest }) => {
+        const totalBalanceBefore = runningBalance;
+        const totalBalanceAfter = runningBalance;
+
+        return {
+          date: format(new Date(date), 'yyyy-MM-dd'), // Format the date as YYYY-MM-DD
+          totalBalanceBefore,
+          totalBalanceAfter,
+          credit,
+          debit,
+          ...rest, // Include other fields like assetName, symbol, unit
+        };
+      }
+    );
+    setProcessedTransactions(calculatedTransactions);
+  }, [transactions]);
+
   // Handle file download
   const handleFileDownload = () => {
-    if (transactions.length === 0) {
+    if (processedTransactions.length === 0) {
       alert('No data available to download.');
       return;
     }
-
-    // Exclude `transactionId` and `accountId` from the exported data
-    const processedTransactions = transactions.map(({ transactionId, accountId, date, ...rest }) => ({
-      date: format(new Date(date), 'yyyy-MM-dd'), // Format the date as YYYY-MM-DD
-      ...rest,
-    }));
 
     if (fileFormat === 'csv') {
       exportToCSV(processedTransactions, 'balance_overview.csv');
@@ -64,7 +81,9 @@ const BalanceOverviewTable: React.FC<BalanceOverviewTableProps> = ({ accountId }
   return (
     <div className="balance-overview-container">
       <h2>Balance Overview</h2>
-        <TransactionTable transactions={transactions} />
+        <TransactionTable 
+          transactions={processedTransactions} 
+        />
       <div className="file-actions">
         <button className="button" onClick={handleFileDownload}>Download Balance Overview</button>
         <div className="dropdown-container">

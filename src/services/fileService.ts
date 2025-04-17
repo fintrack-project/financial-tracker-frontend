@@ -1,7 +1,7 @@
 import Papa from 'papaparse';
 import * as XLSX from 'xlsx';
 import { Transaction } from '../types/Transaction';
-import { PreviewTransaction } from '../types/PreviewTransaction';
+import { OverviewTransaction } from '../types/OverviewTransaction';
 
 // Required columns for validation
 const REQUIRED_COLUMNS = [
@@ -19,7 +19,7 @@ const validateColumns = (columns: string[]): boolean => {
 };
 
 // Generic function to parse CSV file
-export const parseCSVFile = <T extends Transaction | PreviewTransaction>(
+export const parseCSVFile = <T extends Transaction | OverviewTransaction>(
   file: File
 ): Promise<T[]> => {
   return new Promise((resolve, reject) => {
@@ -41,7 +41,6 @@ export const parseCSVFile = <T extends Transaction | PreviewTransaction>(
             ...(row.totalBalanceAfter !== undefined && {
               totalBalanceAfter: Number(row.totalBalanceAfter || 0),
             }),
-            ...(row.markDelete !== undefined && { markDelete: Boolean(row.markDelete) }),
           }));
           resolve(parsedData as T[]);
         } catch (error) {
@@ -54,7 +53,7 @@ export const parseCSVFile = <T extends Transaction | PreviewTransaction>(
 };
 
 // Generic function to parse XLSX file
-export const parseXLSXFile = <T extends Transaction | PreviewTransaction>(
+export const parseXLSXFile = <T extends Transaction | OverviewTransaction>(
   file: File
 ): Promise<T[]> => {
   return new Promise((resolve, reject) => {
@@ -78,7 +77,6 @@ export const parseXLSXFile = <T extends Transaction | PreviewTransaction>(
           ...(row.totalBalanceAfter !== undefined && {
             totalBalanceAfter: Number(row.totalBalanceAfter || 0),
           }),
-          ...(row.markDelete !== undefined && { markDelete: Boolean(row.markDelete) }),
         }));
         resolve(parsedData as T[]);
       } catch (error) {
@@ -91,7 +89,7 @@ export const parseXLSXFile = <T extends Transaction | PreviewTransaction>(
 };
 
 // Generic function to export data to CSV
-export const exportToCSV = <T extends Transaction | PreviewTransaction>(
+export const exportToCSV = <T extends Transaction | OverviewTransaction>(
   data: T[],
   filename: string
 ) => {
@@ -107,7 +105,7 @@ export const exportToCSV = <T extends Transaction | PreviewTransaction>(
 };
 
 // Generic function to export data to XLSX
-export const exportToXLSX = <T extends Transaction | PreviewTransaction>(
+export const exportToXLSX = <T extends Transaction | OverviewTransaction>(
   data: T[],
   filename: string
 ) => {
