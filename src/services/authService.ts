@@ -1,3 +1,4 @@
+import axios from 'axios';
 import UserSession from '../utils/UserSession';
 
 export interface LoginRequest {
@@ -7,24 +8,17 @@ export interface LoginRequest {
 
 export const loginUser = async (loginData: LoginRequest): Promise<string> => {
   try {
-    const response = await fetch('/api/login', {
-      method: 'POST',
+    const response = await axios.post('/api/login', loginData, {
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify(loginData),
-      credentials: 'include', // Include cookies for session-based authentication
+      withCredentials: true, // Include cookies for session-based authentication
     });
-
-    if (!response.ok) {
-      const errorMessage = await response.text();
-      throw new Error(errorMessage || 'Login failed.');
-    }
 
     return 'Login successful!';
   } catch (error) {
-    if (error instanceof Error) {
-      throw new Error(error.message || 'An error occurred during login.');
+    if (axios.isAxiosError(error) && error.response) {
+      throw new Error(error.response.data.message || 'Login failed.');
     }
     throw new Error('An unknown error occurred during login.');
   }
