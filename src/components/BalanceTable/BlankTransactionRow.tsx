@@ -15,10 +15,7 @@ const BlankTransactionRow: React.FC<BlankTransactionRowProps> = ({ onAddRow }) =
         <input type="text" disabled />
       </td>
       <td>
-        <input type="number" disabled />
-      </td>
-      <td>
-        <input type="number" disabled />
+        <input type="text" disabled />
       </td>
       <td>
         <input type="number" disabled />

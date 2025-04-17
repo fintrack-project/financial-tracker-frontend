@@ -28,10 +28,9 @@ const UploadBalanceTable: React.FC<UploadBalanceTableProps> = ({
       {
         date: 'yyyy-MM-dd',
         assetName: '',
+        symbol: '',
         credit: 0,
         debit: 0,
-        totalBalanceBefore: 0,
-        totalBalanceAfter: 0,
         unit: '',
       },
     ]);
@@ -81,6 +80,7 @@ const UploadBalanceTable: React.FC<UploadBalanceTableProps> = ({
       {
         date: 'yyyy-MM-dd',
         assetName: 'ExampleAsset',
+        symbol: 'EXA',
         credit: 0,
         debit: 0,
         totalBalanceBefore: 0,
@@ -126,10 +126,9 @@ const UploadBalanceTable: React.FC<UploadBalanceTableProps> = ({
           <tr>
             <th>Date</th>
             <th>Asset Name</th>
+            <th>Symbol</th>
             <th>Credit (Increase)</th>
             <th>Debit (Decrease)</th>
-            <th>Total Balance Before</th>
-            <th>Total Balance After</th>
             <th>Unit</th>
             <th>Action</th>
           </tr>

@@ -15,6 +15,7 @@ const TransactionTable: React.FC<TransactionTableProps> = ({ transactions }) => 
         <tr>
           <th>Date</th>
           <th>Asset Name</th>
+          <th>Symbol</th>
           <th>Credit (Increase)</th>
           <th>Debit (Decrease)</th>
           <th>Total Balance Before</th>

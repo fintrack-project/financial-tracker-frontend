@@ -3,9 +3,8 @@ export interface Transaction {
   accountId?: string;
   date: string;
   assetName: string;
+  symbol: string;
   credit: number;
   debit: number;
-  totalBalanceBefore: number;
-  totalBalanceAfter: number;
   unit: string;
 }

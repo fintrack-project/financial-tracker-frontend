@@ -32,6 +32,13 @@ const InputTransactionRow: React.FC<InputTransactionRowProps> = ({
       </td>
       <td>
         <input
+          type="text"
+          value={transaction.symbol || ''}
+          onChange={(e) => onInputChange('symbol', e.target.value)}
+        />
+      </td>
+      <td>
+        <input
           type="number"
           value={transaction.credit || 0}
           onChange={(e) => onInputChange('credit', parseFloat(e.target.value))}
@@ -42,24 +49,6 @@ const InputTransactionRow: React.FC<InputTransactionRowProps> = ({
           type="number"
           value={transaction.debit || 0}
           onChange={(e) => onInputChange('debit', parseFloat(e.target.value))}
-        />
-      </td>
-      <td>
-        <input
-          type="number"
-          value={transaction.totalBalanceBefore || 0}
-          onChange={(e) =>
-            onInputChange('totalBalanceBefore', parseFloat(e.target.value))
-          }
-        />
-      </td>
-      <td>
-        <input
-          type="number"
-          value={transaction.totalBalanceAfter || 0}
-          onChange={(e) =>
-            onInputChange('totalBalanceAfter', parseFloat(e.target.value))
-          }
         />
       </td>
       <td>
