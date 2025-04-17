@@ -47,7 +47,7 @@ const TransactionRow = <T extends {
       <td>{transaction.unit}</td>
       {onDeleteClick && (
         <td>
-          <IconButton type="delete" onClick={onDeleteClick} label="Delete Row" />
+          <IconButton type="delete" onClick={onDeleteClick} label="Delete Row"/>
         </td>
       )}
     </tr>

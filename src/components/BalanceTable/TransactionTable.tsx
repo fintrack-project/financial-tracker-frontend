@@ -51,7 +51,7 @@ const TransactionTable = <T extends {
         </tr>
       </thead>
       <tbody>
-      {transactions.slice(0, 20).map((transaction, index) => (
+      {transactions.map((transaction, index) => (
           <TransactionRow
             key={index}
             transaction={transaction}

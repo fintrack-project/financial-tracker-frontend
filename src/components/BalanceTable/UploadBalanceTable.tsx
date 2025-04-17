@@ -143,41 +143,23 @@ const UploadBalanceTable: React.FC<UploadBalanceTableProps> = ({
           </tr>
         </thead>
         <tbody>
-        <tr>
-          {/* BlankTransactionRow for adding a new row */}
-          <td colSpan={6}>
-            <BlankTransactionRow onAddRow={addRow} />
-          </td>
-          {/* Delete All button */}
-          <td>
-            <button
-              className="button delete-all-button"
-              onClick={() => setTransactions([])} // Clear all transactions
-            >
-              Delete All
-            </button>
-          </td>
-        </tr>
-        {/* Render existing transactions */}
-        {transactions.map((transaction, index) => (
-          <InputTransactionRow
-            key={index}
-            transaction={transaction}
-            onInputChange={(field, value) => handleInputChange(index, field, value)}
-            onRemoveRow={() => removeRow(index)}
-          />
-        ))}
-          {/* <BlankTransactionRow onAddRow={addRow} />
-          {transactions.map((transaction, index) => (
-            <InputTransactionRow
-              key={index}
-              transaction={transaction}
-              onInputChange={(field, value) => handleInputChange(index, field, value)}
-              onRemoveRow={() => removeRow(index)}
-            />
-          ))} */}
+          <BlankTransactionRow onAddRow={addRow} />
         </tbody>
       </table>
+      <div className="scrollable-tbody">
+        <table className="upload-balance-table">
+          <tbody>
+            {transactions.map((transaction, index) => (
+              <InputTransactionRow
+                key={index}
+                transaction={transaction}
+                onInputChange={(field, value) => handleInputChange(index, field, value)}
+                onRemoveRow={() => removeRow(index)}
+              />
+            ))}
+          </tbody>
+        </table>
+      </div>
     </div>
   );
 };
