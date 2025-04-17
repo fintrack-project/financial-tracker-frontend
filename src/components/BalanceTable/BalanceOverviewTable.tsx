@@ -3,6 +3,7 @@ import { format } from 'date-fns';
 import { exportToCSV, exportToXLSX } from '../../services/fileService';
 import { fetchTransactions } from 'services/transactionService';
 import TransactionTable from '../BalanceTable/TransactionTable';
+import FileActions from '../FileActions/FileActions';
 import { Transaction } from 'types/Transaction';
 import { OverviewTransaction } from 'types/OverviewTransaction';
 import './BalanceOverviewTable.css';
@@ -83,39 +84,12 @@ const BalanceOverviewTable: React.FC<BalanceOverviewTableProps> = ({ accountId }
         <TransactionTable 
           transactions={processedTransactions} 
         />
-      <div className="file-actions">
-        <button className="button" onClick={handleFileDownload}>Download Balance Overview</button>
-        <div className="dropdown-container">
-          <div
-            className="dropdown-selector"
-            onClick={() => setDropdownOpen((prev) => !prev)}
-          >
-          .{fileFormat.toLowerCase()} ▼
-          </div>
-          {dropdownOpen && (
-            <div className="dropdown-menu">
-              <div
-                className="dropdown-item"
-                onClick={() => {
-                  setFileFormat('xlsx');
-                  setDropdownOpen(false);
-                }}
-              >
-                .xlsx
-              </div>
-              <div
-                className="dropdown-item"
-                onClick={() => {
-                  setFileFormat('csv');
-                  setDropdownOpen(false);
-                }}
-              >
-                .csv
-              </div>
-            </div>
-          )}
-        </div>
-      </div>
+        <FileActions
+          actionName='Download Balance Overview'
+          fileFormat={fileFormat}
+          onFileFormatChange={setFileFormat}
+          onDownload={handleFileDownload}
+        />
     </div>
   );
 };

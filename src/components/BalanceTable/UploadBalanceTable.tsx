@@ -6,6 +6,7 @@ import BlankTransactionRow from './BlankTransactionRow';
 import InputTransactionRow from './InputTransactionRow';
 import './UploadBalanceTable.css';
 import { set } from 'date-fns';
+import FileActions from 'components/FileActions/FileActions';
 
 interface UploadBalanceTableProps {
   accountId: string | null; // Account ID for the transactions
@@ -18,7 +19,6 @@ const UploadBalanceTable: React.FC<UploadBalanceTableProps> = ({
 }) => {
   const [transactions, setTransactions] = useState<Transaction[]>([]);
   const [templateFormat, setTemplateFormat] = useState<'xlsx' | 'csv'>('xlsx'); // Default format is .xlsx
-  const [dropdownOpen, setDropdownOpen] = useState(false); // Dropdown visibility state
 
   // Add a new blank row
   const addRow = () => {
@@ -146,40 +146,13 @@ const UploadBalanceTable: React.FC<UploadBalanceTableProps> = ({
         <div className="upload-button-container">
           <button className="button" onClick={handleUploadToPreview}>Upload Transactions</button>
         </div>
-        <div className="file-actions">
-          <input type="file" accept=".csv, .xlsx" onChange={handleFileUpload} />
-          <button className="button" onClick={handleDownloadTemplate}>Download Template</button>
-          <div className="dropdown-container">
-            <div
-              className="dropdown-selector"
-              onClick={() => setDropdownOpen((prev) => !prev)}
-            >
-            .{templateFormat.toLowerCase()} ▼
-            </div>
-            {dropdownOpen && (
-              <div className="dropdown-menu">
-                <div
-                  className="dropdown-item"
-                  onClick={() => {
-                    setTemplateFormat('xlsx');
-                    setDropdownOpen(false);
-                  }}
-                >
-                  .xlsx
-                </div>
-                <div
-                  className="dropdown-item"
-                  onClick={() => {
-                    setTemplateFormat('csv');
-                    setDropdownOpen(false);
-                  }}
-                >
-                  .csv
-                </div>
-              </div>
-            )}
-          </div>
-        </div>
+        <input type="file" accept=".csv, .xlsx" onChange={handleFileUpload} />
+        <FileActions
+          actionName='Download Template'
+          fileFormat={templateFormat}
+          onFileFormatChange={setTemplateFormat}
+          onDownload={handleDownloadTemplate}
+        />
       </div>
     </div>
   );

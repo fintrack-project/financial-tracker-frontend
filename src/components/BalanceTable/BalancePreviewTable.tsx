@@ -4,6 +4,7 @@ import './BalancePreviewTable.css';
 import { Transaction } from 'types/Transaction';
 import { PreviewTransaction } from 'types/PreviewTransaction';
 import TransactionRow from './TransactionRow';
+import TransactionTable from './TransactionTable';
 
 interface BalancePreviewTableProps {
   accountId: string | null; // Account ID for the transactions
@@ -63,19 +64,6 @@ const BalancePreviewTable: React.FC<BalancePreviewTableProps> = ({
     setPreviewTransactions(sortedTransactions);
   }, [existingTransactions, uploadedTransactions]);
 
-  // Check if a transaction is in the uploadedTransactions list
-  const isUploadedTransaction = (transaction: PreviewTransaction) => {
-    return uploadedTransactions.some(
-      (uploaded) =>
-        uploaded.date === transaction.date &&
-        uploaded.assetName === transaction.assetName &&
-        uploaded.symbol === transaction.symbol &&
-        uploaded.credit === transaction.credit &&
-        uploaded.debit === transaction.debit &&
-        uploaded.unit === transaction.unit
-    );
-  };
-
   // Toggle the markDelete field for a transaction
   const toggleMarkDelete = (index: number) => {
     setPreviewTransactions((prev) =>
@@ -102,36 +90,31 @@ const BalancePreviewTable: React.FC<BalancePreviewTableProps> = ({
   return (
     <div className="balance-preview-container">
       <h2>Balance Preview Table</h2>
-      <table className="preview-table">
-        <thead>
-          <tr>
-            <th>Date</th>
-            <th>Asset Name</th>
-            <th>Symbol</th>
-            <th>Credit (Increase)</th>
-            <th>Debit (Decrease)</th>
-            <th>Total Balance Before</th>
-            <th>Total Balance After</th>
-            <th>Unit</th>
-            <th>Delete</th>
-          </tr>
-        </thead>
-        <tbody>
-          {previewTransactions.map((transaction, index) => (
-              <TransactionRow
-                key={index}
-                transaction={transaction}
-                isHighlighted={uploadedTransactions.some(
-                  (uploaded) =>
-                    uploaded.date === transaction.date &&
-                    uploaded.assetName === transaction.assetName
-                )}
-                isMarkedForDeletion={transaction.markDelete}
-                onDeleteClick={() => toggleMarkDelete(index)}
-              />
-            ))}
-        </tbody>
-      </table>
+      <TransactionTable
+        transactions={previewTransactions}
+        isHighlighted={(transaction) =>
+          uploadedTransactions.some(
+            (uploaded) =>
+              uploaded.date === transaction.date &&
+              uploaded.assetName === transaction.assetName &&
+              uploaded.symbol === transaction.symbol &&
+              uploaded.credit === transaction.credit &&
+              uploaded.debit === transaction.debit &&
+              uploaded.unit === transaction.unit
+          )
+        }
+        isMarkedForDeletion={(transaction) => transaction.markDelete}
+        onDeleteClick={(transaction) => {
+          const index = previewTransactions.indexOf(transaction);
+          toggleMarkDelete(index);
+        }}
+        onDeleteAllClick={() => {
+          const allMarked = previewTransactions.every((transaction) => transaction.markDelete);
+          setPreviewTransactions((prev) =>
+            prev.map((transaction) => ({ ...transaction, markDelete: !allMarked }))
+          );
+        }}
+      />
       <button className="button" onClick={handleConfirm}>
         Confirm
       </button>

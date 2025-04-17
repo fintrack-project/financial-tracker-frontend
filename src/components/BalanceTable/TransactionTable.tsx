@@ -8,6 +8,7 @@ interface TransactionTableProps<T> {
   isHighlighted?: (transaction: T) => boolean; // Function to determine if a row should be highlighted
   isMarkedForDeletion?: (transaction: T) => boolean; // Function to determine if a row is marked for deletion
   onDeleteClick?: (transaction: T) => void; // Callback for delete button
+  onDeleteAllClick?: () => void; // Callback for deleting all transactions
 }
 
 const TransactionTable = <T extends { 
@@ -24,6 +25,7 @@ const TransactionTable = <T extends {
     isHighlighted = () => false,
     isMarkedForDeletion = () => false,
     onDeleteClick,
+    onDeleteAllClick,
   }: TransactionTableProps<T>) => {
   return (
     <table className="transaction-table">
@@ -37,6 +39,15 @@ const TransactionTable = <T extends {
           <th>Total Balance Before</th>
           <th>Total Balance After</th>
           <th>Unit</th>
+          {onDeleteClick && (
+            <th
+              className="delete-column-header"
+              onClick={onDeleteAllClick} // Trigger bulk delete when header is clicked
+              style={{ cursor: 'pointer', color: 'red' }} // Add visual indication
+            >
+              Delete All
+            </th>
+          )}
         </tr>
       </thead>
       <tbody>

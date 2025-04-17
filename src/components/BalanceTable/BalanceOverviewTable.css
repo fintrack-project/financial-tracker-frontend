@@ -1,71 +1,19 @@
 .balance-overview-container {
   padding: 20px;
   border: 1px solid #ddd;
+  justify-content: space-between; /* Space between the two sections */
+  display: flex;
+  flex-direction: column; /* Stack items vertically */
+  align-items: center; /* Vertically align items */
   border-radius: 8px;
   background-color: #fff;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   margin-bottom: 20px;
+  margin-top: 16px; /* Add spacing above the row */
 }
 
 .balance-overview-container h2 {
   font-size: 20px;
   margin-bottom: 15px;
   color: #333;
-}
-
-.file-actions {
-  display: flex;
-  justify-content: flex-end;
-  gap: 10px;
-  margin-bottom: 20px;
-  margin-top: 20px;
-}
-
-.dropdown-container {
-  position: relative;
-}
-
-.dropdown-selector {
-  padding: 8px 12px;
-  border: 1px solid #ddd;
-  border-radius: 4px;
-  background-color: #f9f9f9;
-  cursor: pointer;
-  color: #333;
-  display: inline-block;
-  min-width: 100px;
-  text-align: center;
-}
-
-.dropdown-selector:hover {
-  background-color: #f1f1f1;
-}
-
-.dropdown-menu {
-  position: absolute;
-  top: 100%;
-  right: 0;
-  background-color: #fff;
-  border: 1px solid #ddd;
-  border-radius: 4px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  z-index: 10;
-  width: 100px;
-}
-
-.dropdown-item {
-  padding: 8px 12px;
-  cursor: pointer;
-  color: #333;
-}
-
-.dropdown-item:hover {
-  background-color: #f1f1f1;
-}
-
-.no-transactions-message {
-  text-align: center;
-  color: #666;
-  font-size: 14px;
-  margin-top: 20px;
 }
