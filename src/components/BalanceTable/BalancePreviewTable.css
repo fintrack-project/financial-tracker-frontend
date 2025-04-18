@@ -24,14 +24,3 @@
   color: red; /* Make debit text red */
   font-weight: bold;
 }
-
-.highlight-row {
-  background-color: #ffe6e6; /* Light red for rows added from UploadBalanceTable */
-}
-
-.marked-for-deletion {
-  text-decoration: line-through;
-  color: gray;
-  opacity: 0.6;
-}
-

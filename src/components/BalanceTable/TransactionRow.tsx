@@ -1,21 +1,33 @@
 import React from 'react';
 import { format } from 'date-fns';
-import { Transaction } from '../../types/Transaction';
 import IconButton from '../Button/IconButton';
 
-interface TransactionRowProps {
-  transaction: Transaction;
+interface TransactionRowProps<T> {
+  transaction: T;
   isHighlighted?: boolean; // Optional prop to highlight the row
   isMarkedForDeletion?: boolean; // Optional prop to mark the row for deletion
   onDeleteClick?: () => void; // Optional callback for delete button
 }
 
-const TransactionRow: React.FC<TransactionRowProps> = ({
-  transaction,
-  isHighlighted = false,
-  isMarkedForDeletion = false,
-  onDeleteClick,
-}) => {
+const TransactionRow = <T extends {
+  transactionId?: string;
+  accountId?: string; 
+  date: string; 
+  assetName: string; 
+  symbol: string; 
+  credit: number; 
+  debit: number; 
+  unit: string; 
+  totalBalanceBefore?: 
+  number; totalBalanceAfter?: 
+  number }>
+  ({
+    transaction,
+    isHighlighted = false,
+    isMarkedForDeletion = false,
+    onDeleteClick,
+  }: TransactionRowProps<T>) => {
+
   return (
     <tr
       className={`${isHighlighted ? 'highlight-row' : ''} ${
@@ -29,12 +41,16 @@ const TransactionRow: React.FC<TransactionRowProps> = ({
       <td className={transaction.debit !== 0 ? 'debit-column' : ''}>
         {transaction.debit !== 0 ? `(${transaction.debit})` : transaction.debit}
       </td>
-      <td>{}</td>
-      <td>{}</td>
+      {transaction.totalBalanceBefore !== undefined && (
+        <td>{transaction.totalBalanceBefore}</td>
+      )}
+      {transaction.totalBalanceAfter !== undefined && (
+        <td>{transaction.totalBalanceAfter}</td>
+      )}
       <td>{transaction.unit}</td>
       {onDeleteClick && (
         <td>
-          <IconButton type="delete" onClick={onDeleteClick} label="Delete Row" />
+          <IconButton type="delete" onClick={onDeleteClick} label="Delete Row"/>
         </td>
       )}
     </tr>

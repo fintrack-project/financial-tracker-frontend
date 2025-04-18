@@ -190,7 +190,6 @@ const CategoriesTable: React.FC<CategoriesTableProps> = ({
                   type="add"
                   onClick={() => subcategoryService.addSubcategory(category)}
                   label="Add Subcategory"
-                  size="small"
                 />
               </td>
             </tr>

@@ -1,12 +1,12 @@
 import React, { useState } from 'react';
 import { parseCSVFile, parseXLSXFile, exportToCSV, exportToXLSX } from '../../services/fileService';
 import { uploadPreviewTransactions } from '../../services/transactionService';
-import TransactionTable from '../BalanceTable/TransactionTable';
 import { Transaction } from 'types/Transaction';
 import BlankTransactionRow from './BlankTransactionRow';
 import InputTransactionRow from './InputTransactionRow';
 import './UploadBalanceTable.css';
 import { set } from 'date-fns';
+import FileActions from 'components/FileActions/FileActions';
 
 interface UploadBalanceTableProps {
   accountId: string | null; // Account ID for the transactions
@@ -18,8 +18,7 @@ const UploadBalanceTable: React.FC<UploadBalanceTableProps> = ({
   onPreviewUpdate 
 }) => {
   const [transactions, setTransactions] = useState<Transaction[]>([]);
-  const [templateFormat, setTemplateFormat] = useState<'xlsx' | 'csv'>('xlsx'); // Default format is .xlsx
-  const [dropdownOpen, setDropdownOpen] = useState(false); // Dropdown visibility state
+  const [templateFormat, setTemplateFormat] = useState<'xlsx' | 'csv'>('csv'); // Default format is .xlsx
 
   // Add a new blank row
   const addRow = () => {
@@ -83,8 +82,6 @@ const UploadBalanceTable: React.FC<UploadBalanceTableProps> = ({
         symbol: 'EXA',
         credit: 0,
         debit: 0,
-        totalBalanceBefore: 0,
-        totalBalanceAfter: 0,
         unit: 'USD',
       },
     ];
@@ -121,6 +118,18 @@ const UploadBalanceTable: React.FC<UploadBalanceTableProps> = ({
   return (
     <div className="upload-balance-container">
       <h2>Upload Balance Table</h2>
+      <div className="actions-row">
+        <div className="upload-button-container">
+          <button className="button" onClick={handleUploadToPreview}>Upload Transactions</button>
+        </div>
+        <input type="file" accept=".csv, .xlsx" onChange={handleFileUpload} />
+        <FileActions
+          actionName='Download Template'
+          fileFormat={templateFormat}
+          onFileFormatChange={setTemplateFormat}
+          onDownload={handleDownloadTemplate}
+        />
+      </div>
       <table className="upload-balance-table">
         <thead>
           <tr>
@@ -134,55 +143,22 @@ const UploadBalanceTable: React.FC<UploadBalanceTableProps> = ({
           </tr>
         </thead>
         <tbody>
-          {transactions.map((transaction, index) => (
-            <InputTransactionRow
-              key={index}
-              transaction={transaction}
-              onInputChange={(field, value) => handleInputChange(index, field, value)}
-              onRemoveRow={() => removeRow(index)}
-            />
-          ))}
           <BlankTransactionRow onAddRow={addRow} />
         </tbody>
       </table>
-      <div className="actions-row">
-        <div className="upload-button-container">
-          <button className="button" onClick={handleUploadToPreview}>Upload Transactions</button>
-        </div>
-        <div className="file-actions">
-          <input type="file" accept=".csv, .xlsx" onChange={handleFileUpload} />
-          <button className="button" onClick={handleDownloadTemplate}>Download Template</button>
-          <div className="dropdown-container">
-            <div
-              className="dropdown-selector"
-              onClick={() => setDropdownOpen((prev) => !prev)}
-            >
-            .{templateFormat.toLowerCase()} ▼
-            </div>
-            {dropdownOpen && (
-              <div className="dropdown-menu">
-                <div
-                  className="dropdown-item"
-                  onClick={() => {
-                    setTemplateFormat('xlsx');
-                    setDropdownOpen(false);
-                  }}
-                >
-                  .xlsx
-                </div>
-                <div
-                  className="dropdown-item"
-                  onClick={() => {
-                    setTemplateFormat('csv');
-                    setDropdownOpen(false);
-                  }}
-                >
-                  .csv
-                </div>
-              </div>
-            )}
-          </div>
-        </div>
+      <div className="scrollable-tbody">
+        <table className="upload-balance-table">
+          <tbody>
+            {transactions.map((transaction, index) => (
+              <InputTransactionRow
+                key={index}
+                transaction={transaction}
+                onInputChange={(field, value) => handleInputChange(index, field, value)}
+                onRemoveRow={() => removeRow(index)}
+              />
+            ))}
+          </tbody>
+        </table>
       </div>
     </div>
   );

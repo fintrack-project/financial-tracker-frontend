@@ -10,19 +10,9 @@ export interface MarketDataProps {
   priceUnit: string;
 }
 
-export const updateMarketData = async (assetNames: string[]): Promise<void> => {
+export const fetchMarketData = async (symbols: string[]): Promise<MarketDataProps[]> => {
   try {
-    await axios.post('/api/market-data/update', assetNames);
-    console.log('Market data update request sent successfully.');
-  } catch (error) {
-    console.error('Error updating market data:', error);
-    throw error;
-  }
-};
-
-export const fetchMarketData = async (assetNames: string[]): Promise<MarketDataProps[]> => {
-  try {
-    const queryParams = assetNames.map((name) => `assetNames=${encodeURIComponent(name)}`).join('&');
+    const queryParams = symbols.map((name) => `symbols=${encodeURIComponent(name)}`).join('&');
     const response = await axios.get(`/api/market-data/fetch?${queryParams}`);
     return response.data;
   } catch (error) {

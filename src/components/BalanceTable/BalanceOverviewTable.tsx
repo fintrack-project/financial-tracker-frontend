@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import { format } from 'date-fns';
 import { exportToCSV, exportToXLSX } from '../../services/fileService';
 import { fetchTransactions } from 'services/transactionService';
 import TransactionTable from '../BalanceTable/TransactionTable';
+import FileActions from '../FileActions/FileActions';
 import { Transaction } from 'types/Transaction';
+import { useProcessedTransactions } from 'hooks/useProcessedTransactions';
 import './BalanceOverviewTable.css';
 
 interface BalanceOverviewTableProps {
@@ -13,8 +14,7 @@ interface BalanceOverviewTableProps {
 const BalanceOverviewTable: React.FC<BalanceOverviewTableProps> = ({ accountId }) => {
   const [transactions, setTransactions] = useState<Transaction[]>([]);
   const [loading, setLoading] = useState(true);
-  const [fileFormat, setFileFormat] = useState<'xlsx' | 'csv'>('xlsx'); // Default format is .xlsx
-  const [dropdownOpen, setDropdownOpen] = useState(false); // Dropdown visibility state
+  const [fileFormat, setFileFormat] = useState<'xlsx' | 'csv'>('csv'); // Default format is .xlsx
 
   // Fetch transactions from the backend
   useEffect(() => {
@@ -36,19 +36,15 @@ const BalanceOverviewTable: React.FC<BalanceOverviewTableProps> = ({ accountId }
 
     fetchData();
   }, [accountId]);
-  
+
+  const processedTransactions = useProcessedTransactions(transactions);
+
   // Handle file download
   const handleFileDownload = () => {
-    if (transactions.length === 0) {
+    if (processedTransactions.length === 0) {
       alert('No data available to download.');
       return;
     }
-
-    // Exclude `transactionId` and `accountId` from the exported data
-    const processedTransactions = transactions.map(({ transactionId, accountId, date, ...rest }) => ({
-      date: format(new Date(date), 'yyyy-MM-dd'), // Format the date as YYYY-MM-DD
-      ...rest,
-    }));
 
     if (fileFormat === 'csv') {
       exportToCSV(processedTransactions, 'balance_overview.csv');
@@ -64,40 +60,15 @@ const BalanceOverviewTable: React.FC<BalanceOverviewTableProps> = ({ accountId }
   return (
     <div className="balance-overview-container">
       <h2>Balance Overview</h2>
-        <TransactionTable transactions={transactions} />
-      <div className="file-actions">
-        <button className="button" onClick={handleFileDownload}>Download Balance Overview</button>
-        <div className="dropdown-container">
-          <div
-            className="dropdown-selector"
-            onClick={() => setDropdownOpen((prev) => !prev)}
-          >
-          .{fileFormat.toLowerCase()} ▼
-          </div>
-          {dropdownOpen && (
-            <div className="dropdown-menu">
-              <div
-                className="dropdown-item"
-                onClick={() => {
-                  setFileFormat('xlsx');
-                  setDropdownOpen(false);
-                }}
-              >
-                .xlsx
-              </div>
-              <div
-                className="dropdown-item"
-                onClick={() => {
-                  setFileFormat('csv');
-                  setDropdownOpen(false);
-                }}
-              >
-                .csv
-              </div>
-            </div>
-          )}
-        </div>
-      </div>
+        <FileActions
+            actionName='Download Balance Overview'
+            fileFormat={fileFormat}
+            onFileFormatChange={setFileFormat}
+            onDownload={handleFileDownload}
+        />
+        <TransactionTable 
+          transactions={processedTransactions} 
+        />
     </div>
   );
 };

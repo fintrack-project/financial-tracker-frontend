@@ -1,19 +1,20 @@
 .icon-button {
   background: none;
+  background-color: transparent;
   border: none;
   cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 8px;
-}
-
-.icon-button-small {
   padding: 4px;
 }
 
+.icon-button-small {
+  padding: 2px;
+}
+
 .icon-button-large {
-  padding: 16px; /* Larger padding for large buttons */
+  padding: 8px; /* Larger padding for large buttons */
 }
 
 .icon-image {

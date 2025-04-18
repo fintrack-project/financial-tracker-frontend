@@ -37,16 +37,12 @@ const EditableHoldingsTable: React.FC<EditableHoldingsTableProps> = ({
 
   // Synchronize categoryColumns and subcategoryColumns with the categories prop
   useEffect(() => {
-    console.log('Confirmed Holdings Categories:', confirmedHoldingsCategories);
 
     const confirmedCategoryColumns = Object.keys(confirmedHoldingsCategories); // Extract categories
     const confirmedSubcategoryColumns = confirmedCategoryColumns.map((category) =>
       holdings.map((holding) => confirmedHoldingsCategories[category]?.[holding.assetName] || '') // Extract subcategories for each category
     );
-  
-    console.log('Initial Category Columns:', confirmedCategoryColumns);
-    console.log('Initial Subcategory Columns:', confirmedSubcategoryColumns);
-
+    
     setCategoryColumns(confirmedCategoryColumns);
     setSubcategoryColumns(confirmedSubcategoryColumns);
   }, [confirmedHoldingsCategories]);
@@ -186,7 +182,7 @@ const EditableHoldingsTable: React.FC<EditableHoldingsTableProps> = ({
         </thead>
         <tbody>
           {holdings.map((holding, rowIndex) => {
-            const assetData = marketData.find((data) => data.symbol === holding.assetName);
+            const assetData = marketData.find((data) => data.symbol === holding.symbol);
             const totalValue = assetData
               ? parseFloat((assetData.price * holding.totalBalance).toFixed(2)).toLocaleString()
               : 'Loading...';

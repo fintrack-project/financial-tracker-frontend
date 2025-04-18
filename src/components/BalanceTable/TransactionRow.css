@@ -11,7 +11,7 @@ td {
 
 /* Highlighted row */
 .highlight-row {
-  background-color: #ffe6e6;
+  background-color: #ffe6e6 !important;
 }
 
 .marked-for-deletion {

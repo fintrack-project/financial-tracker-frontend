@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import { format } from 'date-fns';
 import './BalancePreviewTable.css';
 import { Transaction } from 'types/Transaction';
 import { PreviewTransaction } from 'types/PreviewTransaction';
-import TransactionRow from './TransactionRow';
+import { useProcessedTransactions } from 'hooks/useProcessedTransactions';
+import TransactionTable from './TransactionTable';
 
 interface BalancePreviewTableProps {
   accountId: string | null; // Account ID for the transactions
@@ -21,19 +21,12 @@ const BalancePreviewTable: React.FC<BalancePreviewTableProps> = ({
   // Helper function to convert Transaction[] to PreviewTransaction[]
   const convertToPreviewTransactions = (
     transactions: Transaction[],
-    initialBalance: number = 0
   ): PreviewTransaction[] => {
-    let runningBalance = initialBalance;
-
     return transactions.map((transaction) => {
-      const totalBalanceBefore = runningBalance;
-      runningBalance += transaction.credit - transaction.debit;
-      const totalBalanceAfter = runningBalance;
-
       return {
         ...transaction,
-        totalBalanceBefore,
-        totalBalanceAfter,
+        totalBalanceBefore: 0,
+        totalBalanceAfter: 0,
         markDelete: false, // Default to false
       };
     });
@@ -50,31 +43,19 @@ const BalancePreviewTable: React.FC<BalancePreviewTableProps> = ({
     ); // Sort by date (descending)
   });
 
-  // Update previewTransactions whenever existingTransactions or uploadedTransactions change
-  useEffect(() => {
-    const combinedTransactions = [
-      ...convertToPreviewTransactions(existingTransactions),
-      ...convertToPreviewTransactions(uploadedTransactions),
-    ];
-    const sortedTransactions = combinedTransactions.sort(
-      (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()
-    ); // Sort by date (descending)
+  const processedTransactions = useProcessedTransactions(previewTransactions);
 
-    setPreviewTransactions(sortedTransactions);
-  }, [existingTransactions, uploadedTransactions]);
-
-  // Check if a transaction is in the uploadedTransactions list
-  const isUploadedTransaction = (transaction: PreviewTransaction) => {
-    return uploadedTransactions.some(
-      (uploaded) =>
-        uploaded.date === transaction.date &&
-        uploaded.assetName === transaction.assetName &&
-        uploaded.symbol === transaction.symbol &&
-        uploaded.credit === transaction.credit &&
-        uploaded.debit === transaction.debit &&
-        uploaded.unit === transaction.unit
+  // Merge `markDelete` into `processedTransactions`
+  const mergedTransactions = processedTransactions.map((processedTransaction) => {
+    const matchingPreviewTransaction = previewTransactions.find(
+      (previewTransaction) => previewTransaction.transactionId === processedTransaction.transactionId
     );
-  };
+
+    return {
+      ...processedTransaction,
+      markDelete: matchingPreviewTransaction?.markDelete || false, // Default to false if not found
+    };
+  });
 
   // Toggle the markDelete field for a transaction
   const toggleMarkDelete = (index: number) => {
@@ -93,7 +74,7 @@ const BalancePreviewTable: React.FC<BalancePreviewTableProps> = ({
     
     try {
       // Send all previewTransactions (including markDelete) to the backend
-      await onConfirm(previewTransactions);
+      await onConfirm(mergedTransactions);
     } catch (error) {
       console.error('Error confirming transactions:', error);
     }
@@ -102,37 +83,27 @@ const BalancePreviewTable: React.FC<BalancePreviewTableProps> = ({
   return (
     <div className="balance-preview-container">
       <h2>Balance Preview Table</h2>
-      <table className="preview-table">
-        <thead>
-          <tr>
-            <th>Date</th>
-            <th>Asset Name</th>
-            <th>Symbol</th>
-            <th>Credit (Increase)</th>
-            <th>Debit (Decrease)</th>
-            <th>Total Balance Before</th>
-            <th>Total Balance After</th>
-            <th>Unit</th>
-            <th>Delete</th>
-          </tr>
-        </thead>
-        <tbody>
-          {previewTransactions.map((transaction, index) => (
-              <TransactionRow
-                key={index}
-                transaction={transaction}
-                isHighlighted={uploadedTransactions.some(
-                  (uploaded) =>
-                    uploaded.date === transaction.date &&
-                    uploaded.assetName === transaction.assetName
-                )}
-                isMarkedForDeletion={transaction.markDelete}
-                onDeleteClick={() => toggleMarkDelete(index)}
-              />
-            ))}
-        </tbody>
-      </table>
-      <button className="button" onClick={handleConfirm}>Confirm</button>
+      <button className="button" onClick={handleConfirm}>
+        Confirm
+      </button>
+      <TransactionTable
+        transactions={mergedTransactions}
+        isHighlighted={(transaction) => 
+          transaction.transactionId === null && 
+          transaction.accountId === null
+        }
+        isMarkedForDeletion={(transaction) => transaction.markDelete}
+        onDeleteClick={(transaction) => {
+          const index = previewTransactions.indexOf(transaction);
+          toggleMarkDelete(index);
+        }}
+        onDeleteAllClick={() => {
+          const allMarked = previewTransactions.every((transaction) => transaction.markDelete);
+          setPreviewTransactions((prev) =>
+            prev.map((transaction) => ({ ...transaction, markDelete: !allMarked }))
+          );
+        }}
+      />
     </div>
   );
 };

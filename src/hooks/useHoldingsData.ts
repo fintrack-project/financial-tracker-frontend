@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { fetchHoldings } from '../services/holdingsService';
-import { updateMarketData, fetchMarketData, MarketDataProps } from '../services/marketDataService';
+import { fetchMarketData, MarketDataProps } from '../services/marketDataService';
 import { Holding } from '../types/Holding';
 
 export const useHoldingsData = (accountId: string | null) => {
@@ -23,17 +23,13 @@ export const useHoldingsData = (accountId: string | null) => {
         const fetchedHoldings = await fetchHoldings(accountId);
         setHoldings(fetchedHoldings);
 
-        // Step 2: Extract asset names from holdings
-        const assetNames = fetchedHoldings.map((holding) => holding.assetName);
+        // Step 2: Extract symbols of asset names from holdings
+        const symbols = fetchedHoldings.map((holding) => holding.symbol);
 
-        // Step 3: Send asset names to the backend to initiate market data updates
-        await updateMarketData(assetNames);
-
-        // Step 4: Fetch the updated market data
-        const marketDataResponse = await fetchMarketData(assetNames);
+        // Step 3: Fetch the updated market data
+        const marketDataResponse = await fetchMarketData(symbols);
         setMarketData(marketDataResponse);
 
-        console.log('Market data fetched successfully:', marketDataResponse);
       } catch (error) {
         console.error('Error loading holdings or market data:', error);
       } finally {
