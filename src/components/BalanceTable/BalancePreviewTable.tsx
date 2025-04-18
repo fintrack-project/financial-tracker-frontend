@@ -57,6 +57,9 @@ const BalancePreviewTable: React.FC<BalancePreviewTableProps> = ({
       (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()
     ); // Sort by date (descending)
     setPreviewTransactions(sortedTransactions);
+    console.log('Preview transactions updated:', sortedTransactions); // Debug log
+    console.log('Existing transactions:', existingTransactions); // Debug log
+    console.log('Uploaded transactions:', uploadedTransactions); // Debug log
   }, [existingTransactions, uploadedTransactions]);
 
   // Toggle the markDelete field for a transaction
