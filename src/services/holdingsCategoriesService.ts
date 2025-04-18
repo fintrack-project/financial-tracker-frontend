@@ -53,8 +53,6 @@ export const createHoldingsCategoriesService = () => {
     }
   ) => {
     try {
-      console.log('Updating holdings categories:', holdingsCategories);
-
       const response = await axios.post(`/api/categories/holdings/update`, holdingsCategories, {
         params: { accountId },
       });

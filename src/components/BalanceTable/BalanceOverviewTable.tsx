@@ -6,6 +6,7 @@ import TransactionTable from '../BalanceTable/TransactionTable';
 import FileActions from '../FileActions/FileActions';
 import { Transaction } from 'types/Transaction';
 import { OverviewTransaction } from 'types/OverviewTransaction';
+import { useProcessedTransactions } from 'hooks/useProcessedTransactions';
 import './BalanceOverviewTable.css';
 
 interface BalanceOverviewTableProps {
@@ -14,7 +15,7 @@ interface BalanceOverviewTableProps {
 
 const BalanceOverviewTable: React.FC<BalanceOverviewTableProps> = ({ accountId }) => {
   const [transactions, setTransactions] = useState<Transaction[]>([]);
-  const [processedTransactions, setProcessedTransactions] = useState<OverviewTransaction[]>([]);
+  // const [processedTransactions, setProcessedTransactions] = useState<OverviewTransaction[]>([]);
   const [loading, setLoading] = useState(true);
   const [fileFormat, setFileFormat] = useState<'xlsx' | 'csv'>('csv'); // Default format is .xlsx
   const [dropdownOpen, setDropdownOpen] = useState(false); // Dropdown visibility state
@@ -40,25 +41,27 @@ const BalanceOverviewTable: React.FC<BalanceOverviewTableProps> = ({ accountId }
     fetchData();
   }, [accountId]);
 
-  // Calculate processedTransactions whenever transactions change
-  useEffect(() => {
-    const calculatedTransactions: OverviewTransaction[] = transactions.map(
-      ({ transactionId, accountId, date, credit, debit, ...rest }) => {
-        const totalBalanceBefore = 0;
-        const totalBalanceAfter = 0;
+  // // Calculate processedTransactions whenever transactions change
+  // useEffect(() => {
+  //   const calculatedTransactions: OverviewTransaction[] = transactions.map(
+  //     ({ transactionId, accountId, date, credit, debit, ...rest }) => {
+  //       const totalBalanceBefore = 0;
+  //       const totalBalanceAfter = 0;
 
-        return {
-          date: format(new Date(date), 'yyyy-MM-dd'), // Format the date as YYYY-MM-DD
-          totalBalanceBefore,
-          totalBalanceAfter,
-          credit,
-          debit,
-          ...rest, // Include other fields like assetName, symbol, unit
-        };
-      }
-    );
-    setProcessedTransactions(calculatedTransactions);
-  }, [transactions]);
+  //       return {
+  //         date: format(new Date(date), 'yyyy-MM-dd'), // Format the date as YYYY-MM-DD
+  //         totalBalanceBefore,
+  //         totalBalanceAfter,
+  //         credit,
+  //         debit,
+  //         ...rest, // Include other fields like assetName, symbol, unit
+  //       };
+  //     }
+  //   );
+  //   setProcessedTransactions(calculatedTransactions);
+  // }, [transactions]);
+
+  const processedTransactions = useProcessedTransactions(transactions);
 
   // Handle file download
   const handleFileDownload = () => {

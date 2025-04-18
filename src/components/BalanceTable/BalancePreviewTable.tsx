@@ -3,6 +3,7 @@ import { format } from 'date-fns';
 import './BalancePreviewTable.css';
 import { Transaction } from 'types/Transaction';
 import { PreviewTransaction } from 'types/PreviewTransaction';
+import { useProcessedTransactions } from 'hooks/useProcessedTransactions';
 import TransactionRow from './TransactionRow';
 import TransactionTable from './TransactionTable';
 
@@ -24,13 +25,10 @@ const BalancePreviewTable: React.FC<BalancePreviewTableProps> = ({
     transactions: Transaction[],
   ): PreviewTransaction[] => {
     return transactions.map((transaction) => {
-      const totalBalanceBefore = 0;
-      const totalBalanceAfter = 0;
-
       return {
         ...transaction,
-        totalBalanceBefore,
-        totalBalanceAfter,
+        totalBalanceBefore: 0,
+        totalBalanceAfter: 0,
         markDelete: false, // Default to false
       };
     });
@@ -47,20 +45,31 @@ const BalancePreviewTable: React.FC<BalancePreviewTableProps> = ({
     ); // Sort by date (descending)
   });
 
-  // Update previewTransactions whenever existingTransactions or uploadedTransactions change
-  useEffect(() => {
-    const combinedTransactions = [
-      ...convertToPreviewTransactions(existingTransactions),
-      ...convertToPreviewTransactions(uploadedTransactions),
-    ];
-    const sortedTransactions = combinedTransactions.sort(
-      (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()
-    ); // Sort by date (descending)
-    setPreviewTransactions(sortedTransactions);
-    console.log('Preview transactions updated:', sortedTransactions); // Debug log
-    console.log('Existing transactions:', existingTransactions); // Debug log
-    console.log('Uploaded transactions:', uploadedTransactions); // Debug log
-  }, [existingTransactions, uploadedTransactions]);
+  // // Update previewTransactions whenever existingTransactions or uploadedTransactions change
+  // useEffect(() => {
+  //   const combinedTransactions = [
+  //     ...convertToPreviewTransactions(existingTransactions),
+  //     ...convertToPreviewTransactions(uploadedTransactions),
+  //   ];
+  //   const sortedTransactions = combinedTransactions.sort(
+  //     (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()
+  //   ); // Sort by date (descending)
+  //   setPreviewTransactions(sortedTransactions);
+  // }, [existingTransactions, uploadedTransactions]);
+
+  const processedTransactions = useProcessedTransactions(previewTransactions);
+
+  // Merge `markDelete` into `processedTransactions`
+  const mergedTransactions = processedTransactions.map((processedTransaction) => {
+    const matchingPreviewTransaction = previewTransactions.find(
+      (previewTransaction) => previewTransaction.transactionId === processedTransaction.transactionId
+    );
+
+    return {
+      ...processedTransaction,
+      markDelete: matchingPreviewTransaction?.markDelete || false, // Default to false if not found
+    };
+  });
 
   // Toggle the markDelete field for a transaction
   const toggleMarkDelete = (index: number) => {
@@ -79,7 +88,8 @@ const BalancePreviewTable: React.FC<BalancePreviewTableProps> = ({
     
     try {
       // Send all previewTransactions (including markDelete) to the backend
-      await onConfirm(previewTransactions);
+      // await onConfirm(previewTransactions);
+      await onConfirm(mergedTransactions);
     } catch (error) {
       console.error('Error confirming transactions:', error);
     }
@@ -92,7 +102,7 @@ const BalancePreviewTable: React.FC<BalancePreviewTableProps> = ({
         Confirm
       </button>
       <TransactionTable
-        transactions={previewTransactions}
+        transactions={mergedTransactions}
         isHighlighted={(transaction) => 
           transaction.transactionId === null && 
           transaction.accountId === null
