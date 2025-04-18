@@ -10,16 +10,6 @@ export interface MarketDataProps {
   priceUnit: string;
 }
 
-export const updateMarketData = async (symbols: string[]): Promise<void> => {
-  try {
-    await axios.post('/api/market-data/update', symbols);
-    console.log('Market data update request sent successfully.');
-  } catch (error) {
-    console.error('Error updating market data:', error);
-    throw error;
-  }
-};
-
 export const fetchMarketData = async (symbols: string[]): Promise<MarketDataProps[]> => {
   try {
     const queryParams = symbols.map((name) => `symbols=${encodeURIComponent(name)}`).join('&');
