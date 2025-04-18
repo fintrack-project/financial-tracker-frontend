@@ -1,11 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import { format } from 'date-fns';
 import { exportToCSV, exportToXLSX } from '../../services/fileService';
 import { fetchTransactions } from 'services/transactionService';
 import TransactionTable from '../BalanceTable/TransactionTable';
 import FileActions from '../FileActions/FileActions';
 import { Transaction } from 'types/Transaction';
-import { OverviewTransaction } from 'types/OverviewTransaction';
 import { useProcessedTransactions } from 'hooks/useProcessedTransactions';
 import './BalanceOverviewTable.css';
 
@@ -18,7 +16,6 @@ const BalanceOverviewTable: React.FC<BalanceOverviewTableProps> = ({ accountId }
   // const [processedTransactions, setProcessedTransactions] = useState<OverviewTransaction[]>([]);
   const [loading, setLoading] = useState(true);
   const [fileFormat, setFileFormat] = useState<'xlsx' | 'csv'>('csv'); // Default format is .xlsx
-  const [dropdownOpen, setDropdownOpen] = useState(false); // Dropdown visibility state
 
   // Fetch transactions from the backend
   useEffect(() => {
@@ -40,26 +37,6 @@ const BalanceOverviewTable: React.FC<BalanceOverviewTableProps> = ({ accountId }
 
     fetchData();
   }, [accountId]);
-
-  // // Calculate processedTransactions whenever transactions change
-  // useEffect(() => {
-  //   const calculatedTransactions: OverviewTransaction[] = transactions.map(
-  //     ({ transactionId, accountId, date, credit, debit, ...rest }) => {
-  //       const totalBalanceBefore = 0;
-  //       const totalBalanceAfter = 0;
-
-  //       return {
-  //         date: format(new Date(date), 'yyyy-MM-dd'), // Format the date as YYYY-MM-DD
-  //         totalBalanceBefore,
-  //         totalBalanceAfter,
-  //         credit,
-  //         debit,
-  //         ...rest, // Include other fields like assetName, symbol, unit
-  //       };
-  //     }
-  //   );
-  //   setProcessedTransactions(calculatedTransactions);
-  // }, [transactions]);
 
   const processedTransactions = useProcessedTransactions(transactions);
 

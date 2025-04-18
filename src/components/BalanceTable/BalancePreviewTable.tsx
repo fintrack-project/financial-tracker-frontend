@@ -1,10 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import { format } from 'date-fns';
 import './BalancePreviewTable.css';
 import { Transaction } from 'types/Transaction';
 import { PreviewTransaction } from 'types/PreviewTransaction';
 import { useProcessedTransactions } from 'hooks/useProcessedTransactions';
-import TransactionRow from './TransactionRow';
 import TransactionTable from './TransactionTable';
 
 interface BalancePreviewTableProps {
@@ -45,18 +43,6 @@ const BalancePreviewTable: React.FC<BalancePreviewTableProps> = ({
     ); // Sort by date (descending)
   });
 
-  // // Update previewTransactions whenever existingTransactions or uploadedTransactions change
-  // useEffect(() => {
-  //   const combinedTransactions = [
-  //     ...convertToPreviewTransactions(existingTransactions),
-  //     ...convertToPreviewTransactions(uploadedTransactions),
-  //   ];
-  //   const sortedTransactions = combinedTransactions.sort(
-  //     (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()
-  //   ); // Sort by date (descending)
-  //   setPreviewTransactions(sortedTransactions);
-  // }, [existingTransactions, uploadedTransactions]);
-
   const processedTransactions = useProcessedTransactions(previewTransactions);
 
   // Merge `markDelete` into `processedTransactions`
@@ -88,7 +74,6 @@ const BalancePreviewTable: React.FC<BalancePreviewTableProps> = ({
     
     try {
       // Send all previewTransactions (including markDelete) to the backend
-      // await onConfirm(previewTransactions);
       await onConfirm(mergedTransactions);
     } catch (error) {
       console.error('Error confirming transactions:', error);
