@@ -13,7 +13,6 @@ interface BalanceOverviewTableProps {
 
 const BalanceOverviewTable: React.FC<BalanceOverviewTableProps> = ({ accountId }) => {
   const [transactions, setTransactions] = useState<Transaction[]>([]);
-  // const [processedTransactions, setProcessedTransactions] = useState<OverviewTransaction[]>([]);
   const [loading, setLoading] = useState(true);
   const [fileFormat, setFileFormat] = useState<'xlsx' | 'csv'>('csv'); // Default format is .xlsx
 
