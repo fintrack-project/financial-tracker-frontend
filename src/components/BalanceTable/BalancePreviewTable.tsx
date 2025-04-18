@@ -22,14 +22,10 @@ const BalancePreviewTable: React.FC<BalancePreviewTableProps> = ({
   // Helper function to convert Transaction[] to PreviewTransaction[]
   const convertToPreviewTransactions = (
     transactions: Transaction[],
-    initialBalance: number = 0
   ): PreviewTransaction[] => {
-    let runningBalance = initialBalance;
-
     return transactions.map((transaction) => {
-      const totalBalanceBefore = runningBalance;
-      runningBalance += transaction.credit - transaction.debit;
-      const totalBalanceAfter = runningBalance;
+      const totalBalanceBefore = 0;
+      const totalBalanceAfter = 0;
 
       return {
         ...transaction,
@@ -60,7 +56,6 @@ const BalancePreviewTable: React.FC<BalancePreviewTableProps> = ({
     const sortedTransactions = combinedTransactions.sort(
       (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()
     ); // Sort by date (descending)
-
     setPreviewTransactions(sortedTransactions);
   }, [existingTransactions, uploadedTransactions]);
 

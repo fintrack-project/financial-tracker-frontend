@@ -25,14 +25,13 @@ export const useHoldingsData = (accountId: string | null) => {
 
         // Step 2: Extract symbols of asset names from holdings
         const symbols = fetchedHoldings.map((holding) => holding.symbol);
-
         // Step 3: Send symbols to the backend to initiate market data updates
         await updateMarketData(symbols);
 
         // Step 4: Fetch the updated market data
         const marketDataResponse = await fetchMarketData(symbols);
         setMarketData(marketDataResponse);
-        
+
       } catch (error) {
         console.error('Error loading holdings or market data:', error);
       } finally {

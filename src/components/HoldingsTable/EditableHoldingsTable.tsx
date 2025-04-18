@@ -37,16 +37,12 @@ const EditableHoldingsTable: React.FC<EditableHoldingsTableProps> = ({
 
   // Synchronize categoryColumns and subcategoryColumns with the categories prop
   useEffect(() => {
-    console.log('Confirmed Holdings Categories:', confirmedHoldingsCategories);
 
     const confirmedCategoryColumns = Object.keys(confirmedHoldingsCategories); // Extract categories
     const confirmedSubcategoryColumns = confirmedCategoryColumns.map((category) =>
       holdings.map((holding) => confirmedHoldingsCategories[category]?.[holding.assetName] || '') // Extract subcategories for each category
     );
-  
-    console.log('Initial Category Columns:', confirmedCategoryColumns);
-    console.log('Initial Subcategory Columns:', confirmedSubcategoryColumns);
-
+    
     setCategoryColumns(confirmedCategoryColumns);
     setSubcategoryColumns(confirmedSubcategoryColumns);
   }, [confirmedHoldingsCategories]);
