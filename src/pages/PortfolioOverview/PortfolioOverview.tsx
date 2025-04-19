@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import { PieChart, Pie, Cell, Tooltip, ResponsiveContainer, LineChart, Line, BarChart, Bar, XAxis, YAxis, CartesianGrid, Legend, ComposedChart } from 'recharts';
 import { useHoldingsData } from 'hooks/useHoldingsData';
 import AccountMenu from '../../components/Menu/AccountMenu';
 import MainNavigationBar from 'components/NavigationBar/MainNavigationBar';
@@ -14,9 +13,6 @@ const PortfolioOverview: React.FC = () => {
   const handleAccountChange = (newAccountId: string) => {
     setAccountId(newAccountId);
   };
-
-  // Colors for the pie chart
-  const COLORS = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042', '#A28EFF', '#FF6F61'];
 
   return (
     <div className="portfolio-overview-container">
