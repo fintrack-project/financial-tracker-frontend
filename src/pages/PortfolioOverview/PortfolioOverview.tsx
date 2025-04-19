@@ -36,7 +36,7 @@ const PortfolioOverview: React.FC = () => {
             <PieChart>
               <Pie
                 data={holdings}
-                dataKey="value" // Replace with the correct key for holdings value
+                dataKey="totalBalance" // Replace with the correct key for holdings value
                 nameKey="assetName" // Replace with the correct key for asset name
                 cx="50%"
                 cy="50%"

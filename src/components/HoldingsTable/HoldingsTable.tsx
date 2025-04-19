@@ -31,6 +31,9 @@ const HoldingsTable: React.FC<HoldingsTableProps> = ({ accountId }) => {
                 (data) => data.symbol === holding.symbol
               );
 
+              console.log('Asset Data:', assetData);
+              console.log('Holding:', holding);
+
               const totalValue = assetData
                 ? parseFloat((assetData.price * holding.totalBalance).toFixed(2)).toLocaleString()
                 : 'Loading...';
