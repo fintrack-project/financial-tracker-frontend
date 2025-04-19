@@ -18,6 +18,9 @@ const BalancePreviewTable: React.FC<BalancePreviewTableProps> = ({
   uploadedTransactions,
   onConfirm,
 }) => {
+  // State to manage preview transactions
+  const [previewTransactions, setPreviewTransactions] = useState<PreviewTransaction[]>([]);
+
   // Helper function to convert Transaction[] to PreviewTransaction[]
   const convertToPreviewTransactions = (
     transactions: Transaction[],
@@ -32,16 +35,22 @@ const BalancePreviewTable: React.FC<BalancePreviewTableProps> = ({
     });
   };
 
-  // Initialize previewTransactions state
-  const [previewTransactions, setPreviewTransactions] = useState<PreviewTransaction[]>(() => {
+  // Update previewTransactions when existingTransactions or uploadedTransactions change
+  useEffect(() => {
     const combinedTransactions = [
       ...convertToPreviewTransactions(existingTransactions),
       ...convertToPreviewTransactions(uploadedTransactions),
     ];
-    return combinedTransactions.sort(
-      (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()
-    ); // Sort by date (descending)
-  });
+    setPreviewTransactions((prev) => {
+      // Preserve the `markDelete` state for existing transactions
+      return combinedTransactions.map((transaction) => {
+        const existingTransaction = prev.find(
+          (t) => t.transactionId === transaction.transactionId
+        );
+        return existingTransaction || transaction;
+      });
+    });
+  }, [existingTransactions, uploadedTransactions]);
 
   const processedTransactions = useProcessedTransactions(previewTransactions);
 
@@ -56,6 +65,10 @@ const BalancePreviewTable: React.FC<BalancePreviewTableProps> = ({
       markDelete: matchingPreviewTransaction?.markDelete || false, // Default to false if not found
     };
   });
+
+  console.log('Merged Transactions:', mergedTransactions);
+  console.log('Preview Transactions:', previewTransactions);
+  console.log('Processed Transactions:', processedTransactions);
 
   // Toggle the markDelete field for a transaction
   const toggleMarkDelete = (index: number) => {
@@ -94,7 +107,9 @@ const BalancePreviewTable: React.FC<BalancePreviewTableProps> = ({
         }
         isMarkedForDeletion={(transaction) => transaction.markDelete}
         onDeleteClick={(transaction) => {
-          const index = previewTransactions.indexOf(transaction);
+          const index = previewTransactions.findIndex(
+            (t) => t.transactionId === transaction.transactionId
+          );
           toggleMarkDelete(index);
         }}
         onDeleteAllClick={() => {
