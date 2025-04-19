@@ -26,9 +26,7 @@ const PortfolioPieChart: React.FC<PortfolioPieChartProps> = ({ accountId }) => {
   useEffect(() => {
     const fetchCategoryNames = async () => {
       try {
-        console.log('Fetching category names...'); // Debug log
         const categoryNames = await fetchCategories(accountId); // Fetch category names
-        console.log('Fetched category names:', categoryNames); // Debug log
         setCategories(['None', ...categoryNames]); // Add "None" as the default option
       } catch (err) {
         console.error('Error fetching category names:', err);
@@ -45,9 +43,7 @@ const PortfolioPieChart: React.FC<PortfolioPieChartProps> = ({ accountId }) => {
       setLoading(true);
       setError(null);
       try {
-        console.log('Fetching chart data for account:', accountId, 'and category:', selectedCategory); // Debug log
         const data = await fetchPortfolioPieChartData(accountId, selectedCategory); // Fetch data from backend
-        console.log('Fetched chart data:', data); // Debug log
         setChartData(data);
       } catch (err) {
         console.error('Error fetching chart data:', err);
