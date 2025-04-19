@@ -66,10 +66,6 @@ const BalancePreviewTable: React.FC<BalancePreviewTableProps> = ({
     };
   });
 
-  console.log('Merged Transactions:', mergedTransactions);
-  console.log('Preview Transactions:', previewTransactions);
-  console.log('Processed Transactions:', processedTransactions);
-
   // Toggle the markDelete field for a transaction
   const toggleMarkDelete = (index: number) => {
     setPreviewTransactions((prev) =>
