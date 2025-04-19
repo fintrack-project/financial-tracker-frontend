@@ -4,9 +4,9 @@ import AccountMenu from '../../components/Menu/AccountMenu';
 import MainNavigationBar from 'components/NavigationBar/MainNavigationBar';
 import EditableHoldingsTable from 'components/HoldingsTable/EditableHoldingsTable';
 import CategoriesTable from 'components/Category/CategoriesTable';
-import { createCategoryService } from '../../services/categoryService';
+import { createCategoryService, fetchCategoriesAndSubcategories } from '../../services/categoryService';
 import { createSubcategoryService } from '../../services/subCategoryService';
-import { createHoldingsCategoriesService } from 'services/holdingsCategoriesService';
+import { createHoldingsCategoriesService, fetchHoldingsCategories } from 'services/holdingsCategoriesService';
 import './Holdings.css'; // Import the CSS file
 
 const Holdings: React.FC = () => {
@@ -39,10 +39,10 @@ const Holdings: React.FC = () => {
       try {
         // Fetch categories and subcategories from the API
         const { categories: fetchedCategories, subcategories: fetchedSubcategories } =
-          await categoryService.fetchCategoriesAndSubcategories(accountId);
+          await fetchCategoriesAndSubcategories(accountId);
 
         // Fetch holdings categories from the API
-        const response = await holdingsCategoriesService.fetchHoldingsCategories(accountId);
+        const response = await fetchHoldingsCategories(accountId);
 
         // Use the onUpdateCategories callback to update the parent state
         setCategories([... fetchedCategories]);

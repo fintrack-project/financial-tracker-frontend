@@ -7,6 +7,7 @@ import {
   ResponsiveContainer,
 } from 'recharts';
 import { fetchPortfolioPieChartData } from '../../services/portfolioPieChartService'; // Service to fetch chart data
+import { fetchCategories } from '../../services/categoryService'; // Service to fetch categories
 import './PortfolioPieChart.css';
 
 interface PortfolioPieChartProps {
@@ -14,13 +15,28 @@ interface PortfolioPieChartProps {
 }
 
 const PortfolioPieChart: React.FC<PortfolioPieChartProps> = ({ accountId }) => {
-  const [categories, setCategories] = useState<string[]>(['assetName']); // Default category
-  const [selectedCategory, setSelectedCategory] = useState<string>('assetName'); // Default category
+  const [categories, setCategories] = useState<string[]>([]); // Default category
+  const [selectedCategory, setSelectedCategory] = useState<string>('Unnamed'); // Default category
   const [chartData, setChartData] = useState<any[]>([]); // Data for the pie chart
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
 
   const COLORS = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042', '#A28EFF', '#FF6F61'];
+  
+  // Fetch category names when the component loads
+  useEffect(() => {
+    const fetchCategoryNames = async () => {
+      try {
+        const categoryNames = await fetchCategories(accountId); // Fetch category names
+        setCategories(categoryNames);
+      } catch (err) {
+        console.error('Error fetching category names:', err);
+        setError('Failed to load categories');
+      }
+    };
+
+    fetchCategoryNames();
+  }, [accountId]);
 
   // Fetch chart data from the backend
   useEffect(() => {
