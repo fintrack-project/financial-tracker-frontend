@@ -50,8 +50,8 @@
 
 /* Chart container styling */
 .chart-container {
-  margin: 40px auto;
-  padding: 20px;
+  margin: 20px auto;
+  padding: 10px;
   background-color: #ffffff; /* White background for the chart container */
   border-radius: 8px; /* Rounded corners */
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
