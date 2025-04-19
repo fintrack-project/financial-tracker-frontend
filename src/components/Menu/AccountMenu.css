@@ -1,7 +1,9 @@
 .account-menu {
-  position: relative;
-  display: flex; /* Ensure the account menu aligns properly */
+  position: relative; /* Ensure the dropdown menu is positioned relative to this container */
+  display: flex; /* Align the account button properly */
   align-items: center; /* Vertically align the button */
+  justify-content: flex-end; /* Align the button to the right */
+  margin-left: auto; /* Push the account menu to the right */
 }
 
 .account-button {
@@ -25,16 +27,16 @@
 }
 
 .dropdown-menu {
-  position: absolute;
-  top: 40px;
-  right: 0;
-  background-color: white;
-  border: 1px solid #ccc;
-  border-radius: 5px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  padding: 10px;
-  width: 200px;
-  z-index: 1000;
+  position: absolute; /* Position the dropdown relative to the parent */
+  top: 40px; /* Position the dropdown below the button */
+  right: 0; /* Align the dropdown to the right edge of the parent */
+  background-color: white; /* Set the background color */
+  border: 1px solid #ccc; /* Add a border for separation */
+  border-radius: 5px; /* Add rounded corners */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Add a subtle shadow for depth */
+  padding: 10px; /* Add padding inside the dropdown */
+  width: 150px; /* Set a fixed width for the dropdown */
+  z-index: 1000; /* Ensure the dropdown appears above other elements */
 }
 
 .dropdown-menu p {
@@ -54,6 +56,6 @@
   font-size: 1rem;
 }
 
-.account-menu.logout-button:hover {
+.account-menu .logout-button:hover {
   background-color: #c82333;
 }

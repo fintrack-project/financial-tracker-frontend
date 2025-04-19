@@ -1,6 +1,9 @@
+/* General container styling */
 .portfolio-overview-container {
   text-align: center;
   padding: 20px;
+  background-color: #f9f9f9; /* Light background for better contrast */
+  min-height: 100vh; /* Ensure the page takes up the full viewport height */
 }
 
 .portfolio-overview-container h1 {
@@ -34,28 +37,23 @@
   margin: 10px 0;
 }
 
-.content {
-  display: flex; /* Use flexbox to align sections horizontally */
-  flex-direction: row; /* Ensure sections are placed side by side */
-  justify-content: space-between; /* Add space between left and right sections */
-  align-items: flex-start; /* Align items at the top */
-  gap: 16px; /* Add spacing between sections */
-  width: 100%; /* Ensure the content takes full width */
-}
-  
-.left-section,
-.right-section {
-  flex: 1; /* Make both sections take equal width */
-  padding: 16px;
-  border: 1px solid #ddd; /* Optional: Add a border for clarity */
-  border-radius: 8px; /* Optional: Add rounded corners */
-  background-color: #f9f9f9; /* Optional: Add a background color */
+/* Top bar styling */
+.top-bar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+  padding: 10px 20px;
+  background-color: #ffffff; /* White background for the top bar */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Subtle shadow for separation */
 }
 
-.left-section {
-  margin-right: 8px; /* Optional: Add spacing to the right of the left section */
-}
-
-.right-section {
-  margin-left: 8px; /* Optional: Add spacing to the left of the right section */
+/* Chart container styling */
+.chart-container {
+  margin: 40px auto;
+  padding: 20px;
+  background-color: #ffffff; /* White background for the chart container */
+  border-radius: 8px; /* Rounded corners */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+  max-width: 800px; /* Limit the width of the chart container */
 }
