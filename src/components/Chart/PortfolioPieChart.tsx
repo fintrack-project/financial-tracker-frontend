@@ -5,6 +5,7 @@ import {
   Cell,
   Tooltip,
   ResponsiveContainer,
+  Legend,
 } from 'recharts';
 import { fetchPortfolioPieChartData } from '../../services/portfolioPieChartService'; // Service to fetch chart data
 import { fetchCategories } from '../../services/categoryService'; // Service to fetch categories
@@ -16,19 +17,19 @@ interface PortfolioPieChartProps {
 
 const PortfolioPieChart: React.FC<PortfolioPieChartProps> = ({ accountId }) => {
   const [categories, setCategories] = useState<string[]>([]); // Default category
-  const [selectedCategory, setSelectedCategory] = useState<string>('Unnamed'); // Default category
+  const [selectedCategory, setSelectedCategory] = useState<string>('None'); // Default category
   const [chartData, setChartData] = useState<any[]>([]); // Data for the pie chart
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
 
-  const COLORS = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042', '#A28EFF', '#FF6F61'];
-  
   // Fetch category names when the component loads
   useEffect(() => {
     const fetchCategoryNames = async () => {
       try {
+        console.log('Fetching category names...'); // Debug log
         const categoryNames = await fetchCategories(accountId); // Fetch category names
-        setCategories(categoryNames);
+        console.log('Fetched category names:', categoryNames); // Debug log
+        setCategories(['None', ...categoryNames]); // Add "None" as the default option
       } catch (err) {
         console.error('Error fetching category names:', err);
         setError('Failed to load categories');
@@ -44,7 +45,9 @@ const PortfolioPieChart: React.FC<PortfolioPieChartProps> = ({ accountId }) => {
       setLoading(true);
       setError(null);
       try {
+        console.log('Fetching chart data for account:', accountId, 'and category:', selectedCategory); // Debug log
         const data = await fetchPortfolioPieChartData(accountId, selectedCategory); // Fetch data from backend
+        console.log('Fetched chart data:', data); // Debug log
         setChartData(data);
       } catch (err) {
         console.error('Error fetching chart data:', err);
@@ -83,18 +86,28 @@ const PortfolioPieChart: React.FC<PortfolioPieChartProps> = ({ accountId }) => {
             <Pie
               data={chartData}
               dataKey="value"
-              nameKey="name"
+              nameKey="assetName"
               cx="50%"
               cy="50%"
               outerRadius={100}
               fill="#8884d8"
               label
             >
-              {chartData.map((_, index) => (
-                <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
+              {chartData.map((entry, index) => (
+                <Cell key={`cell-${index}`} fill={entry.color} /> // Use the "color" field from the backend response
               ))}
             </Pie>
             <Tooltip />
+            <Legend
+              layout="horizontal"
+              align="center"
+              verticalAlign="bottom"
+              payload={Array.from(
+                new Map(
+                  chartData.map((entry) => [entry.subcategory, { value: entry.subcategory, color: entry.color }])
+                ).values()
+              )}
+            />
           </PieChart>
         </ResponsiveContainer>
       )}
