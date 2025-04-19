@@ -7,9 +7,6 @@ export interface CategoryService {
   removeCategory: (accountId: string, category: string) => Promise<void>;
   editCategory: (index: number, newName: string) => void;
   confirmCategory: (accountId: string, index: number) => void;
-  fetchCategoriesAndSubcategories: (
-    accountId: string
-  ) => Promise<{ categories: string[]; subcategories: { [category: string]: string[] } }>;
 }
 
 export const createCategoryService = (
@@ -28,24 +25,6 @@ export const createCategoryService = (
     const updatedCategories = [...categories];
     updatedCategories[index] = newName;
     setCategories(updatedCategories);
-  };
-
-  const fetchCategoriesAndSubcategories = async (
-    accountId: string
-  ) => {
-    try {
-      const response = await axios.get(`/api/categories/fetch`, {
-        params: { accountId },
-      });
-
-      const fetchedCategories = response.data.categories || [];
-      const fetchedSubcategories = response.data.subcategories || {};
-
-      return { categories: fetchedCategories, subcategories: fetchedSubcategories };
-    } catch (error) {
-      console.error('Error fetching categories and subcategories:', error);
-      throw error;
-    }
   };
 
   const confirmCategory = async (accountId: string, index: number) => {
@@ -114,6 +93,35 @@ export const createCategoryService = (
     removeCategory,
     editCategory,
     confirmCategory,
-    fetchCategoriesAndSubcategories,
   };
+};
+
+export const fetchCategories = async (accountId: string): Promise<string[]> => {
+  try {
+    const response = await axios.get(`/api/categories/fetch/names`, {
+      params: { accountId },
+    });
+    return response.data; // Assuming the backend returns an array of category names
+  } catch (error) {
+    console.error('Error fetching category names:', error);
+    throw error;
+  }
+};
+
+export const fetchCategoriesAndSubcategories = async (
+  accountId: string
+) => {
+  try {
+    const response = await axios.get(`/api/categories/fetch`, {
+      params: { accountId },
+    });
+
+    const fetchedCategories = response.data.categories || [];
+    const fetchedSubcategories = response.data.subcategories || {};
+
+    return { categories: fetchedCategories, subcategories: fetchedSubcategories };
+  } catch (error) {
+    console.error('Error fetching categories and subcategories:', error);
+    throw error;
+  }
 };

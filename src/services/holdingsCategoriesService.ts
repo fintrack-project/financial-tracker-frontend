@@ -18,7 +18,6 @@ export interface HoldingsCategoriesService {
     }
   ) => Promise<void>;
   removeHoldingsCategory: (accountId: string, category: string) => Promise<void>;
-  fetchHoldingsCategories: (accountId: string) => Promise<any>;
 }
 
 export const createHoldingsCategoriesService = () => {
@@ -80,23 +79,22 @@ export const createHoldingsCategoriesService = () => {
     }
   };
 
-  const fetchHoldingsCategories = async (accountId: string) => {
-    try {
-      const response = await axios.get(`/api/categories/holdings/fetch`, {
-        params: { accountId },
-      });
-
-      return response.data;
-    } catch (error) {
-      console.error('Error fetching holdings categories:', error);
-      throw error;
-    }
-  };
-
   return {
     addHoldingsCategory,
     updateHoldingsCategories,
-    removeHoldingsCategory,
-    fetchHoldingsCategories,
+    removeHoldingsCategory
   };
+};
+
+export const fetchHoldingsCategories = async (accountId: string) => {
+  try {
+    const response = await axios.get(`/api/categories/holdings/fetch`, {
+      params: { accountId },
+    });
+
+    return response.data;
+  } catch (error) {
+    console.error('Error fetching holdings categories:', error);
+    throw error;
+  }
 };

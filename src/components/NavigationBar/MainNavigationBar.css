@@ -1,6 +1,7 @@
 .navigation-bar {
   display: flex;
   align-items: center; /* Vertically align items */
+  flex: 1; /* Allow the navigation bar to grow and fill available space */
   justify-content: flex-start; /* Align content to the left */
 }
 
