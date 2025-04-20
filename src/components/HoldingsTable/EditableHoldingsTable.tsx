@@ -45,7 +45,7 @@ const EditableHoldingsTable: React.FC<EditableHoldingsTableProps> = ({
     
     setCategoryColumns(confirmedCategoryColumns);
     setSubcategoryColumns(confirmedSubcategoryColumns);
-  }, [confirmedHoldingsCategories]);
+  }, [holdings, confirmedHoldingsCategories]);
 
   const handleAddCategoryColumns = () => {
     if (categoryColumns.length < categories.length) {
