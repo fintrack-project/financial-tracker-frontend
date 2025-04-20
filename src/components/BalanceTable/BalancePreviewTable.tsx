@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import './BalancePreviewTable.css';
 import { Transaction } from 'types/Transaction';
 import { PreviewTransaction } from 'types/PreviewTransaction';
-import { useProcessedTransactions } from 'hooks/useProcessedTransactions';
 import TransactionTable from './TransactionTable';
 
 interface BalancePreviewTableProps {
@@ -52,20 +51,6 @@ const BalancePreviewTable: React.FC<BalancePreviewTableProps> = ({
     });
   }, [existingTransactions, uploadedTransactions]);
 
-  const processedTransactions = useProcessedTransactions(previewTransactions);
-
-  // Merge `markDelete` into `processedTransactions`
-  const mergedTransactions = processedTransactions.map((processedTransaction) => {
-    const matchingPreviewTransaction = previewTransactions.find(
-      (previewTransaction) => previewTransaction.transactionId === processedTransaction.transactionId
-    );
-
-    return {
-      ...processedTransaction,
-      markDelete: matchingPreviewTransaction?.markDelete || false, // Default to false if not found
-    };
-  });
-
   // Toggle the markDelete field for a transaction
   const toggleMarkDelete = (index: number) => {
     setPreviewTransactions((prev) =>
@@ -83,7 +68,7 @@ const BalancePreviewTable: React.FC<BalancePreviewTableProps> = ({
     
     try {
       // Send all previewTransactions (including markDelete) to the backend
-      await onConfirm(mergedTransactions);
+      await onConfirm(previewTransactions);
     } catch (error) {
       console.error('Error confirming transactions:', error);
     }
@@ -96,7 +81,7 @@ const BalancePreviewTable: React.FC<BalancePreviewTableProps> = ({
         Confirm
       </button>
       <TransactionTable
-        transactions={mergedTransactions}
+        transactions={previewTransactions}
         isHighlighted={(transaction) => 
           transaction.transactionId === null && 
           transaction.accountId === null
