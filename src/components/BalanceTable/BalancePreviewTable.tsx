@@ -1,12 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import './BalancePreviewTable.css';
 import { Transaction } from 'types/Transaction';
+import { OverviewTransaction } from 'types/OverviewTransaction';
 import { PreviewTransaction } from 'types/PreviewTransaction';
 import TransactionTable from './TransactionTable';
 
 interface BalancePreviewTableProps {
   accountId: string | null; // Account ID for the transactions
-  existingTransactions: Transaction[]; // Data from BalanceOverviewTable
+  existingTransactions: OverviewTransaction[]; // Data from BalanceOverviewTable
   uploadedTransactions: Transaction[]; // Data from UploadBalanceTable
   onConfirm: (transactions: PreviewTransaction[]) => void; // Callback to confirm changes
 }
@@ -20,25 +21,36 @@ const BalancePreviewTable: React.FC<BalancePreviewTableProps> = ({
   // State to manage preview transactions
   const [previewTransactions, setPreviewTransactions] = useState<PreviewTransaction[]>([]);
 
-  // Helper function to convert Transaction[] to PreviewTransaction[]
-  const convertToPreviewTransactions = (
+  // Helper function to convert Transaction[] to OverviewTransaction[]
+  const convertToOverviewTransactions = (
     transactions: Transaction[],
-  ): PreviewTransaction[] => {
+  ): OverviewTransaction[] => {
     return transactions.map((transaction) => {
       return {
         ...transaction,
         totalBalanceBefore: 0,
-        totalBalanceAfter: 0,
-        markDelete: false, // Default to false
+        totalBalanceAfter: 0
       };
     });
   };
+
+  // Helper function to convert OverviewTransaction[] to PreviewTransaction[]
+  const convertToPreviewTransactions = (
+      transactions: OverviewTransaction[],
+    ): PreviewTransaction[] => {
+      return transactions.map((transaction) => {
+        return {
+          ...transaction,
+          markDelete: false, // Default to false
+        };
+      });
+    };
 
   // Update previewTransactions when existingTransactions or uploadedTransactions change
   useEffect(() => {
     const combinedTransactions = [
       ...convertToPreviewTransactions(existingTransactions),
-      ...convertToPreviewTransactions(uploadedTransactions),
+      ...convertToPreviewTransactions(convertToOverviewTransactions(uploadedTransactions)),
     ];
     setPreviewTransactions((prev) => {
       // Preserve the `markDelete` state for existing transactions

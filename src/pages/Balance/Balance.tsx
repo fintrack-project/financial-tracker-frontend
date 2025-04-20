@@ -5,15 +5,16 @@ import BalanceNavigationBar from 'components/NavigationBar/BalanceNavigationBar'
 import BalanceOverviewTable from 'components/BalanceTable/BalanceOverviewTable';
 import BalancePreviewTable from 'components/BalanceTable/BalancePreviewTable';
 import UploadBalanceTable from 'components/BalanceTable/UploadBalanceTable';
+import { OverviewTransaction } from 'types/OverviewTransaction';
 import { Transaction } from 'types/Transaction';
-import { fetchTransactions, confirmTransactions } from 'services/transactionService';
+import { fetchOverviewTransactions, confirmTransactions } from 'services/transactionService';
 import './Balance.css';
 import { PreviewTransaction } from 'types/PreviewTransaction';
 
 const Balance: React.FC = () => {
   const [accountId, setAccountId] = useState<string | null>(null); // Store the currently logged-in account ID
   const [activeTab, setActiveTab] = useState<'overview' | 'edit'>('overview'); // State to manage active tab
-  const [existingTransactions, setExistingTransactions] = useState<Transaction[]>([]); // Data from BalanceOverviewTable
+  const [existingOverviewTransactions, setExistingOverviewTransactions] = useState<OverviewTransaction[]>([]); // Data from BalanceOverviewTable
   const [uploadedTransactions, setUploadedTransactions] = useState<Transaction[]>([]); // Data from UploadBalanceTable
 
   // Fetch existing transactions when accountId changes
@@ -22,8 +23,8 @@ const Balance: React.FC = () => {
       if (!accountId) return;
 
       try {
-        const transactions = await fetchTransactions(accountId);
-        setExistingTransactions(transactions);
+        const overviewTransactions = await fetchOverviewTransactions(accountId);
+        setExistingOverviewTransactions(overviewTransactions);
       } catch (error) {
         console.error('Error fetching existing transactions:', error);
       }
@@ -38,21 +39,21 @@ const Balance: React.FC = () => {
   };
 
   // Callback to handle the confirmation of transactions
-  const handleConfirm = async (PreviewTransaction: PreviewTransaction[]) => {
+  const handleConfirm = async (previewTransaction: PreviewTransaction[]) => {
     try {
       if (!accountId) {
         alert('Please select an account before confirming transactions.');
         return;
       }
 
-      await confirmTransactions(accountId, PreviewTransaction);
+      await confirmTransactions(accountId, previewTransaction);
       alert('Transactions confirmed successfully.');
       // setExistingTransactions(updatedTransactions); // Update the existing transactions
       setUploadedTransactions([]); // Clear the uploaded transactions
       // Fetch the updated transactions after confirmation 
       try {
-        const transactions = await fetchTransactions(accountId);
-        setExistingTransactions(transactions);
+        const overviewTransactions = await fetchOverviewTransactions(accountId);
+        setExistingOverviewTransactions(overviewTransactions);
       } catch (error) {
         console.error('Error fetching existing transactions:', error);
       }
@@ -85,7 +86,7 @@ const Balance: React.FC = () => {
           <div className="upload-balance">
             <BalancePreviewTable
               accountId={accountId}
-              existingTransactions={existingTransactions}
+              existingTransactions={existingOverviewTransactions}
               uploadedTransactions={uploadedTransactions}
               onConfirm={handleConfirm}
             />

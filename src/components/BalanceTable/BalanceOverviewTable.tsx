@@ -1,9 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { exportToCSV, exportToXLSX } from '../../services/fileService';
-import { fetchTransactions } from 'services/transactionService';
+import { fetchOverviewTransactions } from '../../services/transactionService'; // Service to fetch overview transactions
 import TransactionTable from '../BalanceTable/TransactionTable';
 import FileActions from '../FileActions/FileActions';
-import { Transaction } from 'types/Transaction';
 import { OverviewTransaction } from 'types/OverviewTransaction';
 import './BalanceOverviewTable.css';
 
@@ -16,19 +15,6 @@ const BalanceOverviewTable: React.FC<BalanceOverviewTableProps> = ({ accountId }
   const [loading, setLoading] = useState(true);
   const [fileFormat, setFileFormat] = useState<'xlsx' | 'csv'>('csv'); // Default format is .xlsx
 
-  // Helper function to convert Transaction[] to OverviewTransaction[]
-  const convertToOverviewTransactions = (
-    transactions: Transaction[],
-  ): OverviewTransaction[] => {
-    return transactions.map((transaction) => {
-      return {
-        ...transaction,
-        totalBalanceBefore: 0,
-        totalBalanceAfter: 0
-      };
-    });
-  };
-
   // Fetch transactions from the backend
   useEffect(() => {
     if (!accountId) {
@@ -38,13 +24,12 @@ const BalanceOverviewTable: React.FC<BalanceOverviewTableProps> = ({ accountId }
 
     const fetchData = async () => {
       try {
-        console.log('Fetching transactions for account:', accountId); // Debug log
-        const data = await fetchTransactions(accountId);
-        console.log('Fetched transactions:', data); // Debug log
-        const overviewTransactions = convertToOverviewTransactions(data);
-        setOverviewTransactions(overviewTransactions);
+        console.log('Fetching overview transactions for account:', accountId); // Debug log
+        const data = await fetchOverviewTransactions(accountId);
+        console.log('Fetched overview transactions:', data); // Debug log
+        setOverviewTransactions(data);
       } catch (error) {
-        console.error('Error fetching transactions:', error);
+        console.error('Error fetching overview transactions:', error);
       } finally {
         setLoading(false);
       }
