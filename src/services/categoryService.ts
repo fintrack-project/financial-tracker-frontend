@@ -96,7 +96,13 @@ export const createCategoryService = (
   };
 };
 
-export const fetchCategories = async (accountId: string): Promise<string[]> => {
+export const fetchCategories = async (
+  accountId: string
+): Promise<string[]> => {
+  if (!accountId ) {
+    throw new Error('Account ID is required');
+  }
+
   try {
     const response = await axios.get(`/api/categories/fetch/names`, {
       params: { accountId },

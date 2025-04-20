@@ -12,7 +12,7 @@ import { fetchCategories } from '../../services/categoryService'; // Service to 
 import './PortfolioPieChart.css';
 
 interface PortfolioPieChartProps {
-  accountId: string;
+  accountId: string | null;
 }
 
 const PortfolioPieChart: React.FC<PortfolioPieChartProps> = ({ accountId }) => {
@@ -25,6 +25,11 @@ const PortfolioPieChart: React.FC<PortfolioPieChartProps> = ({ accountId }) => {
   // Fetch category names when the component loads
   useEffect(() => {
     const fetchCategoryNames = async () => {
+      if (!accountId) {
+        console.warn('Account ID is null, skipping fetch'); // Debug log
+        return;
+      }
+
       try {
         const categoryNames = await fetchCategories(accountId); // Fetch category names
         setCategories(['None', ...categoryNames]); // Add "None" as the default option
@@ -40,6 +45,11 @@ const PortfolioPieChart: React.FC<PortfolioPieChartProps> = ({ accountId }) => {
   // Fetch chart data from the backend
   useEffect(() => {
     const fetchData = async () => {
+      if (!accountId) {
+        console.warn('Account ID is null, skipping fetch'); // Debug log
+        return;
+      }
+      
       setLoading(true);
       setError(null);
       try {
