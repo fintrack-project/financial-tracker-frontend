@@ -1,10 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { exportToCSV, exportToXLSX } from '../../services/fileService';
-import { fetchTransactions } from 'services/transactionService';
+import { fetchOverviewTransactions } from '../../services/transactionService'; // Service to fetch overview transactions
 import TransactionTable from '../BalanceTable/TransactionTable';
 import FileActions from '../FileActions/FileActions';
-import { Transaction } from 'types/Transaction';
-import { useProcessedTransactions } from 'hooks/useProcessedTransactions';
+import { OverviewTransaction } from 'types/OverviewTransaction';
 import './BalanceOverviewTable.css';
 
 interface BalanceOverviewTableProps {
@@ -12,7 +11,7 @@ interface BalanceOverviewTableProps {
 }
 
 const BalanceOverviewTable: React.FC<BalanceOverviewTableProps> = ({ accountId }) => {
-  const [transactions, setTransactions] = useState<Transaction[]>([]);
+  const [overviewTransactions, setOverviewTransactions] = useState<OverviewTransaction[]>([]);
   const [loading, setLoading] = useState(true);
   const [fileFormat, setFileFormat] = useState<'xlsx' | 'csv'>('csv'); // Default format is .xlsx
 
@@ -25,10 +24,12 @@ const BalanceOverviewTable: React.FC<BalanceOverviewTableProps> = ({ accountId }
 
     const fetchData = async () => {
       try {
-        const data = await fetchTransactions(accountId);
-        setTransactions(data);
+        console.log('Fetching overview transactions for account:', accountId); // Debug log
+        const data = await fetchOverviewTransactions(accountId);
+        console.log('Fetched overview transactions:', data); // Debug log
+        setOverviewTransactions(data);
       } catch (error) {
-        console.error('Error fetching transactions:', error);
+        console.error('Error fetching overview transactions:', error);
       } finally {
         setLoading(false);
       }
@@ -37,19 +38,17 @@ const BalanceOverviewTable: React.FC<BalanceOverviewTableProps> = ({ accountId }
     fetchData();
   }, [accountId]);
 
-  const processedTransactions = useProcessedTransactions(transactions);
-
   // Handle file download
   const handleFileDownload = () => {
-    if (processedTransactions.length === 0) {
+    if (overviewTransactions.length === 0) {
       alert('No data available to download.');
       return;
     }
 
     if (fileFormat === 'csv') {
-      exportToCSV(processedTransactions, 'balance_overview.csv');
+      exportToCSV(overviewTransactions, 'balance_overview.csv');
     } else if (fileFormat === 'xlsx') {
-      exportToXLSX(processedTransactions, 'balance_overview.xlsx');
+      exportToXLSX(overviewTransactions, 'balance_overview.xlsx');
     }
   };
 
@@ -67,7 +66,7 @@ const BalanceOverviewTable: React.FC<BalanceOverviewTableProps> = ({ accountId }
             onDownload={handleFileDownload}
         />
         <TransactionTable 
-          transactions={processedTransactions} 
+          transactions={overviewTransactions}
         />
     </div>
   );

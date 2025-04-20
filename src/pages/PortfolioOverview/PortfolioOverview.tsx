@@ -26,7 +26,7 @@ const PortfolioOverview: React.FC = () => {
       </div>
       <div className='portfolio-overview-list'>
         <h1>Portfolio Overview</h1>
-        <PortfolioPieChart accountId={accountId!} />
+        <PortfolioPieChart accountId={accountId} />
       </div>
     </div>
   );

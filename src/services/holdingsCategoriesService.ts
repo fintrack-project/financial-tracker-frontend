@@ -67,7 +67,7 @@ export const createHoldingsCategoriesService = () => {
     try {
       console.log(`Removing holdings category: ${category}`);
 
-      const response = await axios.post(`/api/categories/holdings/fetch/remove`, null, {
+      const response = await axios.post(`/api/categories/holdings/remove`, null, {
         params: { accountId, category },
       });
 
