@@ -52,6 +52,30 @@ const BalancePreviewTable: React.FC<BalancePreviewTableProps> = ({
       ...convertToPreviewTransactions(existingTransactions),
       ...convertToPreviewTransactions(convertToOverviewTransactions(uploadedTransactions)),
     ];
+    
+    // Sort the combined transactions based on the specified criteria
+    combinedTransactions.sort((a, b) => {
+      // 1. Descending order of date
+      const dateA = new Date(a.date).getTime();
+      const dateB = new Date(b.date).getTime();
+      if (dateA !== dateB) {
+        return dateB - dateA; // Descending order
+      }
+
+      // 2. Ascending order of asset name
+      if (a.assetName !== b.assetName) {
+        return a.assetName.localeCompare(b.assetName); // Ascending order
+      }
+
+      // 3. Ascending order of credit
+      if (a.credit !== b.credit) {
+        return a.credit - b.credit; // Ascending order
+      }
+
+      // 4. Ascending order of debit
+      return a.debit - b.debit; // Ascending order
+    });
+
     setPreviewTransactions((prev) => {
       // Preserve the `markDelete` state for existing transactions
       return combinedTransactions.map((transaction) => {
