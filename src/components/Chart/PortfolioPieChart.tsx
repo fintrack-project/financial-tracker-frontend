@@ -87,7 +87,7 @@ const PortfolioPieChart: React.FC<PortfolioPieChartProps> = ({ accountId }) => {
       ) : error ? (
         <p className="error-message">{error}</p>
       ) : (
-        <ResponsiveContainer width="100%" height={300}>
+        <ResponsiveContainer width="100%" height={400}>
           <PieChart>
             <Pie
               data={chartData}
@@ -95,7 +95,7 @@ const PortfolioPieChart: React.FC<PortfolioPieChartProps> = ({ accountId }) => {
               nameKey="assetName"
               cx="50%"
               cy="50%"
-              outerRadius={100}
+              outerRadius={150}
               fill="#8884d8"
               label
             >
