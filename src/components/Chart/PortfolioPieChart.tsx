@@ -53,7 +53,9 @@ const PortfolioPieChart: React.FC<PortfolioPieChartProps> = ({ accountId }) => {
       setLoading(true);
       setError(null);
       try {
+        console.log('Fetching chart data for accountId:', accountId, 'and category:', selectedCategory); // Debug log
         const data = await fetchPortfolioPieChartData(accountId, selectedCategory); // Fetch data from backend
+        console.log('Chart data fetched:', data); // Debug log
         setChartData(data);
       } catch (err) {
         console.error('Error fetching chart data:', err);

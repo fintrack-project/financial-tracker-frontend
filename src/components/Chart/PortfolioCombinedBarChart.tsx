@@ -57,17 +57,21 @@ const PortfolioCombinedBarChart: React.FC<PortfolioCombinedBarChartProps> = ({ a
       setError(null);
       try {
         const data = await fetchPortfolioCombinedBarChartData(accountId, selectedCategory); // Fetch data from backend
-        const filteredData = data.map((entry: any) => {
-          const filteredAssets = entry.data.filter((asset: any) =>
-            selectedCategory === 'None' || asset.subcategory === selectedCategory
-          );
-          const transformedEntry: any = { date: entry.date };
-          filteredAssets.forEach((asset: any) => {
-            transformedEntry[asset.assetName] = asset.value; // Use assetName as the key
+        console.log('Fetched chart data:', data); // Debug log
+
+        // Transform the data for the chart
+        const transformedData = data.map((entry: any) => {
+          const transformedEntry: any = { date: entry.date }; // Initialize with the date
+          entry.data.forEach((asset: any) => {
+            transformedEntry[asset.assetName] = {
+              value: asset.value,
+              color: asset.color,
+            }; // Store both value and color for each asset
           });
           return transformedEntry;
         });
-        setChartData(filteredData);
+        console.log('Transformed chart data:', transformedData); // Debug log
+        setChartData(transformedData);
       } catch (err) {
         console.error('Error fetching chart data:', err);
         setError('Failed to load chart data');
@@ -115,14 +119,15 @@ const PortfolioCombinedBarChart: React.FC<PortfolioCombinedBarChartProps> = ({ a
             {assetNames.map((assetName) => (
               <Bar
                 key={assetName}
-                dataKey={assetName}
-                stackId="a"
-                fill={chartData
-                  .flatMap((entry) => entry.data || [])
-                  .find((asset: any) => asset.assetName === assetName)?.color || '#8884d8'}
+                dataKey={(entry) => entry[assetName]?.value || 0} // Use the value for the bar height
+                name={assetName}
+                stackId="a" // Stack all bars together
               >
                 {chartData.map((entry, index) => (
-                  <Cell key={`cell-${index}`} />
+                  <Cell
+                    key={`cell-${index}`}
+                    fill={entry[assetName]?.color || '#8884d8'} // Dynamically set the color for each segment
+                  />
                 ))}
               </Bar>
             ))}
