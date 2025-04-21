@@ -108,6 +108,7 @@ const UploadBalanceTable: React.FC<UploadBalanceTableProps> = ({
     try {
       const previewData = await uploadPreviewTransactions(accountId, transactions); // Send transactions to backend
       onPreviewUpdate(previewData); // Update the preview table with the response
+      setTransactions([]); // Clear the transactions after upload
       alert('Transactions uploaded to preview successfully.');
     } catch (error) {
       console.error('Error uploading transactions to preview:', error);
