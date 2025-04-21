@@ -24,9 +24,7 @@ const BalanceOverviewTable: React.FC<BalanceOverviewTableProps> = ({ accountId }
 
     const fetchData = async () => {
       try {
-        console.log('Fetching overview transactions for account:', accountId); // Debug log
         const data = await fetchOverviewTransactions(accountId);
-        console.log('Fetched overview transactions:', data); // Debug log
         setOverviewTransactions(data);
       } catch (error) {
         console.error('Error fetching overview transactions:', error);

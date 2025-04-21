@@ -7,7 +7,7 @@ import {
   ResponsiveContainer,
   Legend,
 } from 'recharts';
-import { fetchPortfolioPieChartData } from '../../services/portfolioPieChartService'; // Service to fetch chart data
+import { fetchPortfolioPieChartData } from '../../services/portfolioChartService'; // Service to fetch chart data
 import { fetchCategories } from '../../services/categoryService'; // Service to fetch categories
 import './PortfolioPieChart.css';
 
