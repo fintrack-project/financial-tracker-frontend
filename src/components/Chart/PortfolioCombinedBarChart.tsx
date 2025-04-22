@@ -62,12 +62,28 @@ const PortfolioCombinedBarChart: React.FC<PortfolioCombinedBarChartProps> = ({ a
         // Transform the data for the chart
         const transformedData = data.map((entry: any) => {
           const transformedEntry: any = { date: entry.date }; // Initialize with the date
-          entry.data.forEach((asset: any) => {
-            transformedEntry[asset.assetName] = {
-              value: asset.value,
-              color: asset.color,
-            }; // Store both value and color for each asset
+          const filteredAssets = Array.isArray(entry.data) ? entry.data : []; // Ensure entry.data is an array
+        
+          filteredAssets.forEach((asset: any) => {
+            if (selectedCategory === "None") {
+              // Transform by asset name
+              transformedEntry[asset.assetName] = {
+                value: asset.value, // Use the individual asset value
+                color: asset.color, // Use the asset's color
+              };
+            } else {
+              // Transform by subcategory
+              if (!transformedEntry[asset.subcategory]) {
+                transformedEntry[asset.subcategory] = {
+                  value: 0,
+                  color: asset.color, // Use the subcategory's color
+                };
+              }
+              transformedEntry[asset.subcategory].value += asset.value; // Accumulate asset value for the subcategory
+            }
           });
+        
+          console.log('Transformed entry:', transformedEntry); // Debug log
           return transformedEntry;
         });
         console.log('Transformed chart data:', transformedData); // Debug log
@@ -122,6 +138,7 @@ const PortfolioCombinedBarChart: React.FC<PortfolioCombinedBarChartProps> = ({ a
                 dataKey={(entry) => entry[assetName]?.value || 0} // Use the value for the bar height
                 name={assetName}
                 stackId="a" // Stack all bars together
+                fill={chartData[0]?.[assetName]?.color || '#8884d8'} // Set the color for the legend
               >
                 {chartData.map((entry, index) => (
                   <Cell
