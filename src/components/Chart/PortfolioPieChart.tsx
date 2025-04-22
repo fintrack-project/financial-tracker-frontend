@@ -7,7 +7,7 @@ import {
   ResponsiveContainer,
   Legend,
 } from 'recharts';
-import { fetchPortfolioPieChartData } from '../../services/portfolioPieChartService'; // Service to fetch chart data
+import { fetchPortfolioPieChartData } from '../../services/portfolioChartService'; // Service to fetch chart data
 import { fetchCategories } from '../../services/categoryService'; // Service to fetch categories
 import './PortfolioPieChart.css';
 
@@ -53,7 +53,9 @@ const PortfolioPieChart: React.FC<PortfolioPieChartProps> = ({ accountId }) => {
       setLoading(true);
       setError(null);
       try {
+        console.log('Fetching chart data for accountId:', accountId, 'and category:', selectedCategory); // Debug log
         const data = await fetchPortfolioPieChartData(accountId, selectedCategory); // Fetch data from backend
+        console.log('Chart data fetched:', data); // Debug log
         setChartData(data);
       } catch (err) {
         console.error('Error fetching chart data:', err);
@@ -87,7 +89,7 @@ const PortfolioPieChart: React.FC<PortfolioPieChartProps> = ({ accountId }) => {
       ) : error ? (
         <p className="error-message">{error}</p>
       ) : (
-        <ResponsiveContainer width="100%" height={300}>
+        <ResponsiveContainer width="100%" height={400}>
           <PieChart>
             <Pie
               data={chartData}
@@ -95,7 +97,7 @@ const PortfolioPieChart: React.FC<PortfolioPieChartProps> = ({ accountId }) => {
               nameKey="assetName"
               cx="50%"
               cy="50%"
-              outerRadius={100}
+              outerRadius={150}
               fill="#8884d8"
               label
             >
