@@ -27,7 +27,7 @@ export const useHoldingsData = (accountId: string | null) => {
         const symbols = fetchedHoldings.map((holding) => holding.symbol);
 
         // Step 3: Fetch the updated market data
-        const marketDataResponse = await fetchMarketData(symbols);
+        const marketDataResponse = await fetchMarketData(accountId, symbols);
         setMarketData(marketDataResponse);
 
       } catch (error) {
