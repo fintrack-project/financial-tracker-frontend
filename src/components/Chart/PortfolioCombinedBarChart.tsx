@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import {
   ComposedChart,
   Bar,
+  Line,
   XAxis,
   YAxis,
   CartesianGrid,
@@ -62,6 +63,7 @@ const PortfolioCombinedBarChart: React.FC<PortfolioCombinedBarChartProps> = ({ a
         // Transform the data for the chart
         const transformedData = data.map((entry: any) => {
           const transformedEntry: any = { date: entry.date }; // Initialize with the date
+          let totalValue = 0; // Initialize total value for the month
           const filteredAssets = Array.isArray(entry.data) ? entry.data : []; // Ensure entry.data is an array
         
           filteredAssets.forEach((asset: any) => {
@@ -71,6 +73,7 @@ const PortfolioCombinedBarChart: React.FC<PortfolioCombinedBarChartProps> = ({ a
                 value: asset.value, // Use the individual asset value
                 color: asset.color, // Use the asset's color
               };
+              totalValue += asset.value; // Accumulate total value
             } else {
               // Transform by subcategory
               if (!transformedEntry[asset.subcategory]) {
@@ -80,9 +83,11 @@ const PortfolioCombinedBarChart: React.FC<PortfolioCombinedBarChartProps> = ({ a
                 };
               }
               transformedEntry[asset.subcategory].value += asset.value; // Accumulate asset value for the subcategory
+              totalValue += asset.value; // Accumulate total value
             }
           });
-        
+
+          transformedEntry.totalValue = totalValue; // Add total value to the entry
           console.log('Transformed entry:', transformedEntry); // Debug log
           return transformedEntry;
         });
@@ -148,6 +153,29 @@ const PortfolioCombinedBarChart: React.FC<PortfolioCombinedBarChartProps> = ({ a
                 ))}
               </Bar>
             ))}
+            <Line
+              type="monotone"
+              dataKey="totalValue"
+              stroke="#ff7300"
+              strokeWidth={2}
+              dot={{ r: 4 }}
+              activeDot={{ r: 6 }}
+              name="Total Value"
+            >
+              {/* Add labels to display the total value */}
+              {chartData.map((entry, index) => (
+                <text
+                  key={`label-${index}`}
+                  x={index * 50} // Adjust the x position dynamically
+                  y={entry.totalValue - 10} // Adjust the y position dynamically
+                  fill="#ff7300"
+                  fontSize={12}
+                  textAnchor="middle"
+                >
+                  {entry.totalValue}
+                </text>
+              ))}
+            </Line>
           </ComposedChart>
         </ResponsiveContainer>
       )}
