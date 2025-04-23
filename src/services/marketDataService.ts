@@ -10,9 +10,16 @@ export interface MarketDataProps {
   priceUnit: string;
 }
 
-export const fetchMarketData = async (symbols: string[]): Promise<MarketDataProps[]> => {
+export const fetchMarketData = async (accountId: string, symbols: string[]): Promise<MarketDataProps[]> => {
   try {
-    const queryParams = symbols.map((name) => `symbols=${encodeURIComponent(name)}`).join('&');
+    // Encode accountId and symbols for the query parameters
+    const encodedAccountId = encodeURIComponent(accountId);
+    const encodedSymbols = symbols.map((symbol) => `symbols=${encodeURIComponent(symbol)}`).join('&');
+
+    // Construct the query string
+    const queryParams = `accountId=${encodedAccountId}&${encodedSymbols}`;
+
+    // Make the API request
     const response = await axios.get(`/api/market-data/fetch?${queryParams}`);
     return response.data;
   } catch (error) {
