@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import {
   ComposedChart,
   Bar,
+  Line,
   XAxis,
   YAxis,
   CartesianGrid,
@@ -12,6 +13,7 @@ import {
 } from 'recharts';
 import { fetchPortfolioCombinedBarChartData } from '../../services/portfolioChartService'; // Services to fetch data
 import { fetchCategories } from '../../services/categoryService'; // Service to fetch categories
+import { formatNumber } from '../../utils/FormatNumber';
 import './PortfolioCombinedBarChart.css';
 
 interface PortfolioCombinedBarChartProps {
@@ -62,6 +64,7 @@ const PortfolioCombinedBarChart: React.FC<PortfolioCombinedBarChartProps> = ({ a
         // Transform the data for the chart
         const transformedData = data.map((entry: any) => {
           const transformedEntry: any = { date: entry.date }; // Initialize with the date
+          let totalValue = 0; // Initialize total value for the month
           const filteredAssets = Array.isArray(entry.data) ? entry.data : []; // Ensure entry.data is an array
         
           filteredAssets.forEach((asset: any) => {
@@ -71,6 +74,7 @@ const PortfolioCombinedBarChart: React.FC<PortfolioCombinedBarChartProps> = ({ a
                 value: asset.value, // Use the individual asset value
                 color: asset.color, // Use the asset's color
               };
+              totalValue += asset.value; // Accumulate total value
             } else {
               // Transform by subcategory
               if (!transformedEntry[asset.subcategory]) {
@@ -80,9 +84,11 @@ const PortfolioCombinedBarChart: React.FC<PortfolioCombinedBarChartProps> = ({ a
                 };
               }
               transformedEntry[asset.subcategory].value += asset.value; // Accumulate asset value for the subcategory
+              totalValue += asset.value; // Accumulate total value
             }
           });
-        
+
+          transformedEntry.totalValue = totalValue; // Add total value to the entry
           console.log('Transformed entry:', transformedEntry); // Debug log
           return transformedEntry;
         });
@@ -104,6 +110,27 @@ const PortfolioCombinedBarChart: React.FC<PortfolioCombinedBarChartProps> = ({ a
     new Set(chartData.flatMap((entry) => Object.keys(entry).filter((key) => key !== 'date')))
   );
 
+  // Custom Tooltip Component
+  const CustomTooltip = ({ active, payload, label }: any) => {
+    if (active && payload && payload.length) {
+      // Filter out entries with "value: 0" and keep only relevant data
+      const filteredPayload = payload.filter((item: any) => item.value !== 0);
+
+      return (
+        <div className="custom-tooltip" style={{ backgroundColor: '#fff', padding: '10px', border: '1px solid #ccc' }}>
+          <p className="label">{`Date: ${label}`}</p>
+          {filteredPayload.map((item: any, index: number) => (
+            <p key={index} style={{ color: item.color }}>
+              {item.name}: {formatNumber(item.value)}
+            </p>
+          ))}
+        </div>
+      );
+    }
+
+    return null;
+  };
+  
   return (
     <div className="portfolio-bar-chart">
       <div className="chart-header">
@@ -130,7 +157,7 @@ const PortfolioCombinedBarChart: React.FC<PortfolioCombinedBarChartProps> = ({ a
             <CartesianGrid strokeDasharray="3 3" />
             <XAxis dataKey="date" />
             <YAxis />
-            <Tooltip />
+            <Tooltip content={<CustomTooltip />} /> {/* Use the custom tooltip */}
             <Legend />
             {assetNames.map((assetName) => (
               <Bar
@@ -148,6 +175,29 @@ const PortfolioCombinedBarChart: React.FC<PortfolioCombinedBarChartProps> = ({ a
                 ))}
               </Bar>
             ))}
+            <Line
+              type="monotone"
+              dataKey="totalValue"
+              stroke="#ff7300"
+              strokeWidth={2}
+              dot={{ r: 4 }}
+              activeDot={{ r: 6 }}
+              name="Total Value"
+            >
+              {/* Add labels to display the total value */}
+              {chartData.map((entry, index) => (
+                <text
+                  key={`label-${index}`}
+                  x={index * 50} // Adjust the x position dynamically
+                  y={entry.totalValue - 10} // Adjust the y position dynamically
+                  fill="#ff7300"
+                  fontSize={12}
+                  textAnchor="middle"
+                >
+                  {entry.totalValue}
+                </text>
+              ))}
+            </Line>
           </ComposedChart>
         </ResponsiveContainer>
       )}

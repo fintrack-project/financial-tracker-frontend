@@ -1,6 +1,7 @@
 import React from 'react';
 import { format } from 'date-fns';
 import IconButton from '../Button/IconButton';
+import { formatNumber } from '../../utils/FormatNumber';
 
 interface TransactionRowProps<T> {
   transaction: T;
@@ -37,15 +38,15 @@ const TransactionRow = <T extends {
       <td>{format(new Date(transaction.date), 'yyyy-MM-dd')}</td>
       <td>{transaction.assetName}</td>
       <td>{transaction.symbol}</td>
-      <td>{transaction.credit}</td>
+      <td>{formatNumber(transaction.credit)}</td>
       <td className={transaction.debit !== 0 ? 'debit-column' : ''}>
         {transaction.debit !== 0 ? `(${transaction.debit})` : transaction.debit}
       </td>
       {transaction.totalBalanceBefore !== undefined && (
-        <td>{transaction.totalBalanceBefore}</td>
+        <td>{formatNumber(transaction.totalBalanceBefore)}</td>
       )}
       {transaction.totalBalanceAfter !== undefined && (
-        <td>{transaction.totalBalanceAfter}</td>
+        <td>{formatNumber(transaction.totalBalanceAfter)}</td>
       )}
       <td>{transaction.unit}</td>
       {onDeleteClick && (

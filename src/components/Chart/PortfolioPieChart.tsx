@@ -9,7 +9,9 @@ import {
 } from 'recharts';
 import { fetchPortfolioPieChartData } from '../../services/portfolioChartService'; // Service to fetch chart data
 import { fetchCategories } from '../../services/categoryService'; // Service to fetch categories
+import { formatNumber } from '../../utils/FormatNumber'; // Utility function to format numbers
 import './PortfolioPieChart.css';
+import { slice } from 'lodash';
 
 interface PortfolioPieChartProps {
   accountId: string | null;
@@ -68,6 +70,27 @@ const PortfolioPieChart: React.FC<PortfolioPieChartProps> = ({ accountId }) => {
     fetchData();
   }, [accountId, selectedCategory]);
 
+  // Custom Tooltip for Pie Chart
+  const CustomTooltip = ({ active, payload }: any) => {
+    if (active && payload && payload.length) {
+      const { payload: sliceData } = payload[0];
+      const assetName = sliceData.assetName;
+      const value = sliceData.value;
+      const percentage = sliceData.percentage;
+      const subcategory = sliceData.subcategory;
+      const subcategoryValue = sliceData.subcategoryValue;
+      const percentageOfSubcategory = sliceData.percentageOfSubcategory;
+      return (
+        <div className="custom-tooltip" style={{ backgroundColor: '#fff', padding: '10px', border: '1px solid #ccc' }}>
+          <p>{subcategory === "None" ? assetName : subcategory}</p>
+          <p>{`Value: ${subcategory === "None" ? formatNumber(value) : formatNumber(subcategoryValue)}`}</p>
+          <p>{`Percentage: ${subcategory === "None" ? formatNumber(percentage) : formatNumber(percentageOfSubcategory)}%`}</p>
+        </div>
+      );
+    }
+    return null;
+  };
+
   return (
     <div className="portfolio-pie-chart">
       <div className="chart-header">
@@ -99,13 +122,13 @@ const PortfolioPieChart: React.FC<PortfolioPieChartProps> = ({ accountId }) => {
               cy="50%"
               outerRadius={150}
               fill="#8884d8"
-              label
+              label={({ name, value }) => `${name}: ${formatNumber(value)}`}
             >
               {chartData.map((entry, index) => (
                 <Cell key={`cell-${index}`} fill={entry.color} /> // Use the "color" field from the backend response
               ))}
             </Pie>
-            <Tooltip />
+            <Tooltip content={<CustomTooltip />} />
             <Legend
               layout="horizontal"
               align="center"

@@ -1,5 +1,6 @@
 import React from 'react';
 import { useHoldingsData } from '../../hooks/useHoldingsData';
+import { formatNumber } from '../../utils/FormatNumber';
 import './HoldingsTable.css';
 
 interface HoldingsTableProps {
@@ -31,15 +32,15 @@ const HoldingsTable: React.FC<HoldingsTableProps> = ({ accountId }) => {
                 (data) => data.symbol === holding.symbol
               );
               const totalValue = assetData
-                ? parseFloat((assetData.price * holding.totalBalance).toFixed(2)).toLocaleString()
+                ? formatNumber(assetData.price * holding.totalBalance)
                 : 'Loading...';
 
               return (
                 <tr key={index}>
                   <td>{holding.assetName}</td>
-                  <td>{holding.totalBalance.toLocaleString()}</td>
+                  <td>{formatNumber(holding.totalBalance)}</td>
                   <td>{holding.unit}</td>
-                  <td>{assetData?.price?.toLocaleString() || 'Loading...'}</td>
+                  <td>{assetData?.price ? formatNumber(assetData.price) : 'Loading...'}</td>
                   <td>{totalValue}</td>
                 </tr>
               );
