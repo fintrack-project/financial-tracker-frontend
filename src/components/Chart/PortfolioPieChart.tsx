@@ -9,6 +9,7 @@ import {
 } from 'recharts';
 import { fetchPortfolioPieChartData } from '../../services/portfolioChartService'; // Service to fetch chart data
 import { fetchCategories } from '../../services/categoryService'; // Service to fetch categories
+import { formatNumber } from '../../utils/FormatNumber'; // Utility function to format numbers
 import './PortfolioPieChart.css';
 
 interface PortfolioPieChartProps {
@@ -68,6 +69,20 @@ const PortfolioPieChart: React.FC<PortfolioPieChartProps> = ({ accountId }) => {
     fetchData();
   }, [accountId, selectedCategory]);
 
+  // Custom Tooltip for Pie Chart
+  const CustomTooltip = ({ active, payload }: any) => {
+    if (active && payload && payload.length) {
+      const { name, value } = payload[0];
+      return (
+        <div className="custom-tooltip" style={{ backgroundColor: '#fff', padding: '10px', border: '1px solid #ccc' }}>
+          <p>{name}</p>
+          <p>{`Value: ${formatNumber(value)}`}</p>
+        </div>
+      );
+    }
+    return null;
+  };
+
   return (
     <div className="portfolio-pie-chart">
       <div className="chart-header">
@@ -105,7 +120,7 @@ const PortfolioPieChart: React.FC<PortfolioPieChartProps> = ({ accountId }) => {
                 <Cell key={`cell-${index}`} fill={entry.color} /> // Use the "color" field from the backend response
               ))}
             </Pie>
-            <Tooltip />
+            <Tooltip content={<CustomTooltip />} />
             <Legend
               layout="horizontal"
               align="center"

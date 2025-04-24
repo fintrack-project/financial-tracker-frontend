@@ -13,6 +13,7 @@ import {
 } from 'recharts';
 import { fetchPortfolioCombinedBarChartData } from '../../services/portfolioChartService'; // Services to fetch data
 import { fetchCategories } from '../../services/categoryService'; // Service to fetch categories
+import { formatNumber } from '../../utils/FormatNumber';
 import './PortfolioCombinedBarChart.css';
 
 interface PortfolioCombinedBarChartProps {
@@ -109,6 +110,27 @@ const PortfolioCombinedBarChart: React.FC<PortfolioCombinedBarChartProps> = ({ a
     new Set(chartData.flatMap((entry) => Object.keys(entry).filter((key) => key !== 'date')))
   );
 
+  // Custom Tooltip Component
+  const CustomTooltip = ({ active, payload, label }: any) => {
+    if (active && payload && payload.length) {
+      // Filter out entries with "value: 0" and keep only relevant data
+      const filteredPayload = payload.filter((item: any) => item.value !== 0);
+
+      return (
+        <div className="custom-tooltip" style={{ backgroundColor: '#fff', padding: '10px', border: '1px solid #ccc' }}>
+          <p className="label">{`Date: ${label}`}</p>
+          {filteredPayload.map((item: any, index: number) => (
+            <p key={index} style={{ color: item.color }}>
+              {item.name}: {formatNumber(item.value)}
+            </p>
+          ))}
+        </div>
+      );
+    }
+
+    return null;
+  };
+  
   return (
     <div className="portfolio-bar-chart">
       <div className="chart-header">
@@ -135,7 +157,7 @@ const PortfolioCombinedBarChart: React.FC<PortfolioCombinedBarChartProps> = ({ a
             <CartesianGrid strokeDasharray="3 3" />
             <XAxis dataKey="date" />
             <YAxis />
-            <Tooltip />
+            <Tooltip content={<CustomTooltip />} /> {/* Use the custom tooltip */}
             <Legend />
             {assetNames.map((assetName) => (
               <Bar
