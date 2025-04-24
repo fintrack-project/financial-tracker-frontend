@@ -30,47 +30,69 @@ const TransactionTable = <T extends {
     onDeleteAllClick,
   }: TransactionTableProps<T>) => {
   return (
-    <div className='transaction-table-container'>
-      <table className="transaction-table">
-        <thead>
-          <tr>
-            <th>Date</th>
-            <th>Asset Name</th>
-            <th>Symbol</th>
-            <th>Credit (Increase)</th>
-            <th>Debit (Decrease)</th>
-            <th>Total Balance Before</th>
-            <th>Total Balance After</th>
-            <th>Unit</th>
-            {onDeleteClick && (
-              <th
-                className="delete-column-header"
-                onClick={onDeleteAllClick} // Trigger bulk delete when header is clicked
-                style={{ cursor: 'pointer', color: 'red' }} // Add visual indication
-              >
-                Delete All
-              </th>
-            )}
-          </tr>
-        </thead>
-      </table>
-      <table className="transaction-table">
+    <div className="transaction-table-container">
+      <div className="table-wrapper">
+        <table className="transaction-table">
+          <colgroup>
+            <col style={{ width: '15%' }} />
+            <col style={{ width: '15%' }} />
+            <col style={{ width: '10%' }} />
+            <col style={{ width: '10%' }} />
+            <col style={{ width: '10%' }} />
+            <col style={{ width: '15%' }} />
+            <col style={{ width: '15%' }} />
+            <col style={{ width: '10%' }} />
+            {onDeleteClick && <col style={{ width: '10%' }} />}
+          </colgroup>
+          <thead>
+            <tr>
+              <th>Date</th>
+              <th>Asset Name</th>
+              <th>Symbol</th>
+              <th>Credit (Increase)</th>
+              <th>Debit (Decrease)</th>
+              <th>Total Balance Before</th>
+              <th>Total Balance After</th>
+              <th>Unit</th>
+              {onDeleteClick && (
+                <th
+                  className="delete-column-header"
+                  onClick={onDeleteAllClick}
+                  style={{ cursor: 'pointer', color: 'red' }}
+                >
+                  Delete All
+                </th>
+              )}
+            </tr>
+          </thead>
+        </table>
         <div className="scrollable-tbody">
-          <table className="upload-balance-table">
+          <table className="transaction-table">
+            <colgroup>
+              <col style={{ width: '15%' }} />
+              <col style={{ width: '15%' }} />
+              <col style={{ width: '10%' }} />
+              <col style={{ width: '10%' }} />
+              <col style={{ width: '10%' }} />
+              <col style={{ width: '15%' }} />
+              <col style={{ width: '15%' }} />
+              <col style={{ width: '10%' }} />
+              {onDeleteClick && <col style={{ width: '10%' }} />}
+            </colgroup>
             <tbody>
               {transactions.map((transaction, index) => (
-                  <TransactionRow
-                    key={index}
-                    transaction={transaction}
-                    isHighlighted={isHighlighted(transaction)}
-                    isMarkedForDeletion={isMarkedForDeletion(transaction)}
-                    onDeleteClick={onDeleteClick ? () => onDeleteClick(transaction) : undefined}
-                  />
+                <TransactionRow
+                  key={index}
+                  transaction={transaction}
+                  isHighlighted={isHighlighted(transaction)}
+                  isMarkedForDeletion={isMarkedForDeletion(transaction)}
+                  onDeleteClick={onDeleteClick ? () => onDeleteClick(transaction) : undefined}
+                />
               ))}
             </tbody>
           </table>
         </div>
-      </table>
+      </div>
     </div>
   );
 };

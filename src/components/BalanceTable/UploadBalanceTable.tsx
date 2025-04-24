@@ -4,9 +4,8 @@ import { uploadPreviewTransactions } from '../../services/transactionService';
 import { Transaction } from 'types/Transaction';
 import BlankTransactionRow from './BlankTransactionRow';
 import InputTransactionRow from './InputTransactionRow';
-import './UploadBalanceTable.css';
-import { set } from 'date-fns';
 import FileActions from 'components/FileActions/FileActions';
+import './UploadBalanceTable.css';
 
 interface UploadBalanceTableProps {
   accountId: string | null; // Account ID for the transactions
@@ -131,35 +130,53 @@ const UploadBalanceTable: React.FC<UploadBalanceTableProps> = ({
           onDownload={handleDownloadTemplate}
         />
       </div>
-      <table className="upload-balance-table">
-        <thead>
-          <tr>
-            <th>Date</th>
-            <th>Asset Name</th>
-            <th>Symbol</th>
-            <th>Credit (Increase)</th>
-            <th>Debit (Decrease)</th>
-            <th>Unit</th>
-            <th>Action</th>
-          </tr>
-        </thead>
-        <tbody>
-          <BlankTransactionRow onAddRow={addRow} />
-        </tbody>
-      </table>
-      <div className="scrollable-tbody">
+      <div className="table-wrapper">
         <table className="upload-balance-table">
-          <tbody>
-            {transactions.map((transaction, index) => (
-              <InputTransactionRow
-                key={index}
-                transaction={transaction}
-                onInputChange={(field, value) => handleInputChange(index, field, value)}
-                onRemoveRow={() => removeRow(index)}
-              />
-            ))}
-          </tbody>
+          <colgroup>
+            <col style={{ width: '15%' }} />
+            <col style={{ width: '20%' }} />
+            <col style={{ width: '15%' }} />
+            <col style={{ width: '15%' }} />
+            <col style={{ width: '15%' }} />
+            <col style={{ width: '10%' }} />
+            <col style={{ width: '10%' }} />
+          </colgroup>
+          <thead>
+            <tr>
+              <th>Date</th>
+              <th>Asset Name</th>
+              <th>Symbol</th>
+              <th>Credit (Increase)</th>
+              <th>Debit (Decrease)</th>
+              <th>Unit</th>
+              <th>Action</th>
+            </tr>
+          </thead>
         </table>
+        <div className="scrollable-tbody">
+          <table className="upload-balance-table">
+            <colgroup>
+              <col style={{ width: '15%' }} />
+              <col style={{ width: '20%' }} />
+              <col style={{ width: '15%' }} />
+              <col style={{ width: '15%' }} />
+              <col style={{ width: '15%' }} />
+              <col style={{ width: '10%' }} />
+              <col style={{ width: '10%' }} />
+            </colgroup>
+            <tbody>
+              <BlankTransactionRow onAddRow={addRow} />
+              {transactions.map((transaction, index) => (
+                <InputTransactionRow
+                  key={index}
+                  transaction={transaction}
+                  onInputChange={(field, value) => handleInputChange(index, field, value)}
+                  onRemoveRow={() => removeRow(index)}
+                />
+              ))}
+            </tbody>
+          </table>
+        </div>
       </div>
     </div>
   );

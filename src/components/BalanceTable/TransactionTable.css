@@ -3,12 +3,18 @@
   flex-direction: column;
 }
 
+.table-wrapper {
+  display: block;
+  overflow: hidden;
+}
+
 .transaction-table {
   width: 100%;
   border-collapse: collapse;
   margin-top: 20px;
   font-size: 14px;
   color: #333;
+  table-layout: fixed;
 }
 
 .transaction-table th,
@@ -55,7 +61,13 @@
   max-width: 100%;
 }
 
+.scrollable-tbody {
+  max-height: 400px; /* Set a fixed height for the scrollable body */
+  overflow-y: auto;
+}
+
 .scrollable-tbody table {
   width: 100%;
   border-collapse: collapse;
+  table-layout: fixed;
 }
