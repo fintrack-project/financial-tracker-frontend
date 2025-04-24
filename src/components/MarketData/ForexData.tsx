@@ -28,6 +28,15 @@ const ForexData: React.FC<ForexDataProps> = ({ accountId }) => {
     setInputRows(updatedRows);
   };
 
+  const handleConfirm = async (symbol: string) => {
+    try {
+      const data = await fetchForexData([symbol]); // Fetch data for the confirmed symbol
+      setForexData([...forexData, ...data]); // Add the fetched data to the table
+    } catch (error) {
+      console.error('Error fetching forex data:', error);
+    }
+  };
+
   return (
     <div className="forex-data-container">
       <table className="forex-data-table">
@@ -54,6 +63,7 @@ const ForexData: React.FC<ForexDataProps> = ({ accountId }) => {
               symbol={symbol}
               onSymbolChange={(value) => handleSymbolChange(index, value)}
               onRemoveRow={() => handleRemoveRow(index)}
+              onConfirm={handleConfirm}
             />
           ))}
         </tbody>

@@ -6,28 +6,30 @@ interface BlankForexDataRowProps {
 }
 
 const BlankForexDataRow: React.FC<BlankForexDataRowProps> = ({ onAddRow }) => {
+  const now = new Date().toLocaleDateString();
+
   return (
     <tr>
       <td>
-        <input type="text" disabled />
+        USD/USD
       </td>
       <td>
-        <input type="text" disabled />
+        1.00
       </td>
       <td>
-        <input type="text" disabled />
+        0.00
       </td>
       <td>
-        <input type="text" disabled />
+        0.00%
       </td>
       <td>
-        <input type="text" disabled />
+        1.00
       </td>
       <td>
-        <input type="text" disabled />
+        1.00
       </td>
       <td>
-        <input type="text" disabled />
+        {now}
       </td>
       <td>
         <IconButton type="add" onClick={onAddRow} label="Add Row" />

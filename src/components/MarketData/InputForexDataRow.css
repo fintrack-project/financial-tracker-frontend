@@ -1,0 +1,25 @@
+.button-group {
+  display: flex;
+  gap: 10px; /* Add spacing between buttons */
+  justify-content: center; /* Center the buttons horizontally */
+  align-items: center; /* Align the buttons vertically */
+}
+
+.button-group button {
+  display: inline-block;
+}
+
+/* Hide buttons by default in confirmed mode */
+.forex-row.confirmed .button-group {
+  visibility: hidden;
+}
+
+/* Show buttons when hovering over the row */
+.forex-row.confirmed:hover .button-group {
+  visibility: visible;
+}
+
+/* Ensure buttons are always visible in non-confirmed mode */
+.forex-row .button-group {
+  visibility: visible;
+}
