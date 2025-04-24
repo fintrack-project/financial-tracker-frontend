@@ -1,14 +1,15 @@
 import React from 'react';
+import { formatNumber } from '../../utils/FormatNumber';
 import './MarketAverageData.css'; // Add styles for the component
 
 interface MarketAverageDataProps {
   indexName: string; // Name of the index (e.g., "S&P 500")
   marketData: {
-    price: string;
-    percent_change: string;
-    price_change: string;
-    price_high: string;
-    price_low: string;
+    price: number;
+    percent_change: number;
+    price_change: number;
+    price_high: number;
+    price_low: number;
   } | null;
 }
 
@@ -20,19 +21,19 @@ const MarketAverageData: React.FC<MarketAverageDataProps> = ({ indexName, market
   return (
     <div className="market-item">
       <h2>{indexName}</h2>
-      <p>Index: {parseFloat(marketData.price).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</p>
+      <p>Index: {formatNumber(marketData.price)}</p>
       <p>
-        Change: <span className={`change ${parseFloat(marketData.price_change) >= 0 ? 'positive' : 'negative'}`}>
-          {parseFloat(marketData.price_change).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+        Change: <span className={`change ${marketData.price_change >= 0 ? 'positive' : 'negative'}`}>
+          {formatNumber(marketData.price_change)}
         </span>
       </p>
       <p>
-        Change (%): <span className={`change ${parseFloat(marketData.percent_change) >= 0 ? 'positive' : 'negative'}`}>
-          {parseFloat(marketData.percent_change).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}%
+        Change (%): <span className={`change ${marketData.percent_change >= 0 ? 'positive' : 'negative'}`}>
+          {formatNumber(marketData.percent_change)}%
         </span>
       </p>
-      <p>Highest: {parseFloat(marketData.price_high).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</p>
-      <p>Lowest: {parseFloat(marketData.price_low).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</p>
+      <p>Highest: {formatNumber(marketData.price_high)}</p>
+      <p>Lowest: {formatNumber(marketData.price_low)}</p>
     </div>
   );
 };
