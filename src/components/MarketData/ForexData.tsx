@@ -3,7 +3,6 @@ import ForexDataRow from './ForexDataRow';
 import BlankForexDataRow from './BlankForexDataRow';
 import InputForexDataRow from './InputForexDataRow';
 import { fetchForexData } from '../../services/forexDataService';
-import { formatNumber } from '../../utils/FormatNumber';
 import './ForexData.css';
 
 interface ForexDataProps {
@@ -29,9 +28,28 @@ const ForexData: React.FC<ForexDataProps> = ({ accountId }) => {
   };
 
   const handleConfirm = async (symbol: string) => {
+    if (accountId === null) {
+      console.warn('Account ID is null, skipping fetch'); // Debug log
+      return;
+    }
+    
     try {
-      const data = await fetchForexData([symbol]); // Fetch data for the confirmed symbol
-      setForexData([...forexData, ...data]); // Add the fetched data to the table
+      // Combine all symbols from forexData and inputRows
+      const allSymbols = [
+        ...forexData.map((data) => data.symbol), // Extract symbols from confirmed rows
+        ...inputRows.filter((row) => row.trim() !== ''), // Include non-empty input rows
+      ];
+
+      // Remove duplicates
+      const uniqueSymbols = Array.from(new Set(allSymbols));
+
+      console.log('Unique symbols:', uniqueSymbols);
+
+      // Send the list of unique symbols to the backend
+      const data = await fetchForexData(accountId, uniqueSymbols);
+
+      // Update the forexData state with the fetched data
+      setForexData(data);
     } catch (error) {
       console.error('Error fetching forex data:', error);
     }
