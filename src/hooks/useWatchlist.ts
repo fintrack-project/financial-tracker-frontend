@@ -62,23 +62,40 @@ export const useWatchlist = (accountId: string | null, assetTypes: string[]) => 
     }
   }, [fetchWatchlist, hasFetched]);
 
-  const addRow = async (row: WatchlistRow) => {
-    if (!accountId || !row.symbol || !row.assetType) {
-      alert('Account ID, Symbol, and Asset Type are required to add a watchlist item.');
+  const addRow = () => {
+    // Add a new unconfirmed row
+    setRows((prevRows) => [
+      ...prevRows,
+      { symbol: '', assetType: '', confirmed: false } as WatchlistRow,
+    ]);
+  };
+
+  const confirmRow = async (index: number, defaultAssetType?: string) => {
+    const row = rows[index];
+    const assetType = row.assetType || defaultAssetType;
+
+    if (!accountId || !row.symbol || !assetType) {
+      alert('Symbol and Asset Type are required to confirm a row.');
       return;
     }
 
     try {
-      await addWatchlistItem(accountId, row.symbol, row.assetType);
-      setHasFetched(false); // Reset hasFetched to trigger a refetch
+      await addWatchlistItem(accountId, row.symbol, assetType);
+      setHasFetched(false);
     } catch (err) {
-      console.error('Error adding watchlist item:', err);
-      alert('Failed to add watchlist item. Please try again.');
+      console.error('Error confirming watchlist item:', err);
+      alert('Failed to confirm watchlist item. Please try again.');
     }
   };
 
   const removeRow = async (index: number) => {
     const row = rows[index];
+    if (!row.confirmed) {
+      // If the row is unconfirmed, just remove it from the state
+      setRows((prevRows) => prevRows.filter((_, i) => i !== index));
+      return;
+    }
+
     if (!accountId || !row.symbol || !row.assetType) {
       alert('Account ID, Symbol, and Asset Type are required to remove a watchlist item.');
       return;
@@ -86,7 +103,7 @@ export const useWatchlist = (accountId: string | null, assetTypes: string[]) => 
 
     try {
       await removeWatchlistItem(accountId, row.symbol, row.assetType);
-      setHasFetched(false); // Reset hasFetched to trigger a refetch
+      setHasFetched(false); // Trigger a refetch to fetch updated data
     } catch (err) {
       console.error('Error removing watchlist item:', err);
       alert('Failed to remove watchlist item. Please try again.');
@@ -97,5 +114,5 @@ export const useWatchlist = (accountId: string | null, assetTypes: string[]) => 
     setHasFetched(false); // Allow components to trigger a refetch
   };
 
-  return { rows, setRows, error, loading, addRow, removeRow, resetHasFetched };
+  return { rows, setRows, error, loading, addRow, confirmRow, removeRow, resetHasFetched };
 };

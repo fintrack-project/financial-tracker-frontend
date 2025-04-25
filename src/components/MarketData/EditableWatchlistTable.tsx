@@ -5,20 +5,16 @@ import './EditableWatchlistTable.css';
 
 interface EditableWatchlistTableProps<T> {
   columns: { key: keyof T; label: string; editable?: boolean; placeholder?: string }[];
-  fetchData: (row: Partial<T>) => Promise<T>;
-  accountId: string | null;
   rows: T[];
   setRows: Dispatch<SetStateAction<T[]>>;
-  onAddRow?: (row: T) => Promise<void>;
-  onRemoveRow?: (index: number) => Promise<void>;
-  onConfirmRow?: (row: T, index: number) => Promise<void>;
+  onAddRow: () => void;
+  onRemoveRow: (index: number) => Promise<void>;
+  onConfirmRow: (index: number) => Promise<void>;
   resetHasFetched: () => void; // Add resetHasFetched as a prop
 }
 
 const EditableWatchlistTable = <T extends { confirmed?: boolean }>({
   columns,
-  fetchData,
-  accountId,
   rows,
   setRows,
   onAddRow,
@@ -26,28 +22,15 @@ const EditableWatchlistTable = <T extends { confirmed?: boolean }>({
   onConfirmRow,
   resetHasFetched,
 }: EditableWatchlistTableProps<T>) => {
-  const handleAddRow = () => {
-    setRows([...rows, {} as T]); // Add a blank row
-  };
-
-  const handleRemoveRow = async (index: number) => {
-    if (onRemoveRow) {
-      await onRemoveRow(index);
-      resetHasFetched(); // Trigger refetch after removing a row
-    }
-  };
-
-  const handleConfirmRow = async (index: number) => {
-    const row = rows[index];
-    if (onConfirmRow) {
-      await onConfirmRow(row, index);
-      resetHasFetched(); // Trigger refetch after confirming a row
-    }
-  };
-
   const handleInputChange = (index: number, key: keyof T, value: string | number) => {
     const updatedRows = [...rows];
     updatedRows[index][key] = value as T[keyof T]; // Explicitly cast value to T[keyof T]
+    setRows(updatedRows);
+  };
+
+  const handleEditRow = (index: number) => {
+    const updatedRows = [...rows];
+    updatedRows[index].confirmed = false; // Mark the row as editable
     setRows(updatedRows);
   };
 
@@ -69,13 +52,14 @@ const EditableWatchlistTable = <T extends { confirmed?: boolean }>({
               row={row}
               columns={columns}
               onInputChange={(key, value) => handleInputChange(index, key, value)}
-              onConfirm={() => handleConfirmRow(index)}
-              onRemove={() => handleRemoveRow(index)}
+              onConfirm={() => onConfirmRow(index)}
+              onEdit={() => handleEditRow(index)}
+              onRemove={() => onRemoveRow(index)}
             />
           ))}
           <tr>
             <td colSpan={columns.length + 1}>
-              <IconButton type="add" onClick={handleAddRow} label="Add Row" />
+              <IconButton type="add" onClick={onAddRow} label="Add Row" />
             </td>
           </tr>
         </tbody>

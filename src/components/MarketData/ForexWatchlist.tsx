@@ -5,7 +5,7 @@ import { WatchlistRow } from '../../types/WatchlistRow';
 
 const ForexWatchlist: React.FC<{ accountId: string | null }> = ({ accountId }) => {
   const forexAssetTypes = ['FOREX'];
-  const { rows, setRows, error, loading, addRow, removeRow, resetHasFetched } = useWatchlist(accountId, forexAssetTypes);
+  const { rows, setRows, error, loading, addRow, confirmRow, removeRow, resetHasFetched } = useWatchlist(accountId, forexAssetTypes);
 
   const columns: { key: keyof WatchlistRow; label: string; editable?: boolean; placeholder?: string }[] = [
     { key: 'symbol', label: 'Symbol', editable: true, placeholder: 'EUR/USD' },
@@ -15,7 +15,6 @@ const ForexWatchlist: React.FC<{ accountId: string | null }> = ({ accountId }) =
     { key: 'high', label: 'High' },
     { key: 'low', label: 'Low' },
     { key: 'updatedTime', label: 'Updated Time' },
-    // { key: 'confirmed', label: '', editable: false },
   ];
 
   return (
@@ -24,13 +23,12 @@ const ForexWatchlist: React.FC<{ accountId: string | null }> = ({ accountId }) =
       {loading && <div className="loading-message">Loading...</div>}
       <EditableWatchlistTable<WatchlistRow>
         columns={columns}
-        fetchData={async (row) => row} // No additional fetch needed for now
-        accountId={accountId}
         rows={rows}
         setRows={setRows}
         onAddRow={addRow}
+        onConfirmRow={(index) => confirmRow(index, 'FOREX')}
         onRemoveRow={removeRow}
-        resetHasFetched={resetHasFetched} // Pass resetHasFetched
+        resetHasFetched={resetHasFetched}
       />
     </div>
   );
