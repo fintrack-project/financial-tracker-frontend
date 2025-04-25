@@ -31,7 +31,7 @@
 }
 
 .market-index,
-.currency-section {
+.holdings-section {
   flex: 1; /* Make both sections take equal width */
   padding: 16px;
   border: 1px solid #ddd; /* Optional: Add a border for clarity */
@@ -44,8 +44,8 @@
   margin-right: 8px; /* Add spacing to the right of the Market Index section */
 }
 
-.currency-section {
-  margin-left: 8px; /* Add spacing to the left of the Currency section */
+.holdings-section {
+  margin-left: 8px; /* Add spacing to the left of the Holdings section */
 }
 
 .market-index-items {

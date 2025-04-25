@@ -78,9 +78,9 @@ const Dashboard: React.FC = () => {
               </div>
             </div>
           </div>
-          <div className="currency-section">
-            <h1>Currency</h1>
-            <ForexWatchlist 
+          <div className="holdings-section">
+            <h1>My Holdings</h1>
+            <HoldingsTable 
               accountId={accountId}
             />
           </div>
@@ -93,10 +93,10 @@ const Dashboard: React.FC = () => {
             />
           </div>
           <div className="live-price">
-            <h1>My Holdings</h1>
-            <HoldingsTable 
-              accountId={accountId}
-            />
+            <h1>Currency</h1>
+              <ForexWatchlist 
+                accountId={accountId}
+              />
           </div>
         </div>
       </div>

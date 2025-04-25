@@ -18,13 +18,28 @@ const EditableWatchlistRow = <T extends { confirmed?: boolean }>({
   onEdit,
   onRemove,
 }: EditableWatchlistRowProps<T>) => {
+  const assetTypeOptions = ['STOCK', 'COMMODITY', 'CRYPTO']; // Dropdown options
+  
   return (
     <tr className={row.confirmed ? 'confirmed-row' : ''}>
       {columns.map((col) => (
         <td key={col.key as string}>
-        {row.confirmed || !col.editable ? (
-          // Ensure the value is a string or fallback to '-'
-          String(row[col.key] ?? '-')
+          {row.confirmed || !col.editable ? (
+            String(row[col.key] ?? '-')
+          ) : col.key === 'assetType' ? ( // Render dropdown for assetType
+            <select
+              value={String(row[col.key] ?? '')}
+              onChange={(e) => onInputChange(col.key, e.target.value)}
+            >
+              <option value="" disabled>
+                Select Type
+              </option>
+              {assetTypeOptions.map((option) => (
+                <option key={option} value={option}>
+                  {option}
+                </option>
+              ))}
+            </select>
         ) : (
           <input
             type="text"
