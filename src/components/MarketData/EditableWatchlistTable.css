@@ -1,0 +1,53 @@
+.editable-watchlist-table {
+  width: 100%;
+  border-collapse: collapse; /* Ensures borders don't double up */
+  table-layout: fixed;
+}
+
+.editable-watchlist-table th,
+.editable-watchlist-table td {
+  border: 1px solid #ccc; /* Adds a border to table cells */
+  padding: 8px; /* Adds padding for better readability */
+  text-align: left; /* Aligns text to the left */
+  word-wrap: break-word;
+}
+
+.editable-watchlist-table th {
+  background-color: #f4f4f4; /* Adds a light background to header cells */
+  font-weight: bold; /* Makes header text bold */
+}
+
+.editable-watchlist-table th:nth-child(1) {
+  width: 15%; /* Set width for the first column */
+}
+
+.editable-watchlist-table th:nth-child(2) {
+  width: 15%; /* Set width for the second column */
+}
+
+.editable-watchlist-table th:nth-child(3),
+.editable-watchlist-table th:nth-child(4),
+.editable-watchlist-table th:nth-child(5) {
+  width: 10%; /* Set width for other columns */
+}
+
+.editable-watchlist-table tr:nth-child(even) {
+  background-color: #f9f9f9; /* Adds a light background to even rows */
+}
+
+.editable-watchlist-table tr:hover {
+  background-color: #f1f1f1; /* Highlights the row on hover */
+}
+
+.confirmed-row .button-group {
+  visibility: hidden;
+}
+
+.confirmed-row:hover .button-group {
+  visibility: visible;
+}
+
+.button-group {
+  display: flex;
+  gap: 10px;
+}

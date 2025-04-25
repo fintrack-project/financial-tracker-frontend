@@ -4,7 +4,8 @@ import MainNavigationBar from '../../components/NavigationBar/MainNavigationBar'
 import MarketIndexData from '../../components/MarketData/MarketIndexData';
 import HoldingsTable from '../../components/HoldingsTable/HoldingsTable';
 import { fetchMarketIndexData } from '../../services/marketIndexDataService';
-import ForexData from '../../components/MarketData/ForexData';
+import ForexWatchlist from '../../components/MarketData/ForexWatchlist';
+import MarketWatchlist from '../../components/MarketData/MarketWatchlist';
 import './Dashboard.css'; // Import the CSS file
 
 const Dashboard: React.FC = () => {
@@ -77,19 +78,25 @@ const Dashboard: React.FC = () => {
               </div>
             </div>
           </div>
-          <div className="currency-section">
-            <h1>Currency</h1>
-            <ForexData accountId={accountId}/>
+          <div className="holdings-section">
+            <h1>My Holdings</h1>
+            <HoldingsTable 
+              accountId={accountId}
+            />
           </div>
         </div>
         <div className="dashboard-data-container">
           <div className="watchlist">
             <h1>Watchlist</h1>
-            <p>Coming Soon...</p>
+            <MarketWatchlist 
+              accountId={accountId}
+            />
           </div>
           <div className="live-price">
-            <h1>My Holdings</h1>
-            <HoldingsTable accountId={accountId}/>
+            <h1>Currency</h1>
+              <ForexWatchlist 
+                accountId={accountId}
+              />
           </div>
         </div>
       </div>
