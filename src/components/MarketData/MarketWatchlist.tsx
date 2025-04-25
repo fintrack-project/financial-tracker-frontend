@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import EditableWatchlistTable from './EditableWatchlistTable';
+import { fetchWatchlistData } from '../../services/watchlistDataService';
+import { fetchMarketData } from '../../services/marketDataService';
 
 interface MarketWatchlistRow {
   symbol?: string;
@@ -26,7 +28,6 @@ const MarketWatchlist: React.FC<{ accountId: string | null }> = ({ accountId }) 
     { key: 'low', label: 'Low' },
   ];
 
-  // Fetch saved watchlist items and their market data
   useEffect(() => {
     const fetchWatchlist = async () => {
       if (!accountId) {
@@ -36,14 +37,14 @@ const MarketWatchlist: React.FC<{ accountId: string | null }> = ({ accountId }) 
 
       try {
         // Fetch saved watchlist items
-        const savedItems = await fetchSavedWatchlistMarketDataItems(accountId); // Fetch symbols and asset types
+        const savedItems = await fetchWatchlistData(accountId, ['STOCK', 'CRYPTO', 'COMMODITY']);
         if (!savedItems || savedItems.length === 0) {
-          setRows([]); // No saved items
+          setRows([]);
           return;
         }
 
         // Fetch market data for saved items
-        const marketData = await fetchWatchlistMarketData(
+        const marketData = await fetchMarketData(
           accountId,
           savedItems.map((item) => ({ symbol: item.symbol, assetType: item.assetType }))
         );
@@ -60,59 +61,25 @@ const MarketWatchlist: React.FC<{ accountId: string | null }> = ({ accountId }) 
           confirmed: true,
         }));
 
-        setRows(updatedRows); // Update rows with fetched data
+        setRows(updatedRows);
       } catch (err) {
-        console.error('Error fetching watchlist data:', err);
-        setError('Failed to fetch watchlist data. Please try again later.');
+        console.error('Error fetching market watchlist data:', err);
+        setError('Failed to fetch market watchlist data. Please try again later.');
       }
     };
 
     fetchWatchlist();
   }, [accountId]);
 
-  const fetchData = async (row: MarketWatchlistRow): Promise<MarketWatchlistRow> => {
-    if (!accountId) {
-      alert('Account ID is required to confirm holdings categories.');
-      return Promise.reject(new Error('Account ID is required'));
-    }
-
-    if (!row.symbol || !row.assetType) {
-      throw new Error('Symbol and Asset Type are required');
-    }
-
-    try {
-      const data = await fetchWatchlistMarketData(accountId, [{ symbol: row.symbol, assetType: row.assetType }]);
-      if (!data || data.length === 0) {
-        throw new Error('No data returned from the server');
-      }
-
-      // Map the fetched data to the MarketWatchlistRow structure
-      return {
-        symbol: row.symbol,
-        assetType: row.assetType,
-        price: data[0].price,
-        priceChange: data[0].change,
-        percentChange: data[0].percentChange,
-        high: data[0].high,
-        low: data[0].low,
-        confirmed: true,
-      };
-    } catch (err) {
-      console.error('Error fetching market data:', err);
-      setError('Failed to fetch market data. Please try again later.');
-      return Promise.reject(err); // Re-throw the error for further handling
-    }
-  };
-
   return (
     <div>
-      {error && <div className="error-message">{error}</div>} {/* Display error message */}
+      {error && <div className="error-message">{error}</div>}
       <EditableWatchlistTable<MarketWatchlistRow>
         columns={columns}
-        fetchData={fetchData}
+        fetchData={async (row) => row} // No additional fetch needed for now
         accountId={accountId}
-        rows={rows} // Pass rows to the table
-        setRows={setRows} // Allow table to update rows
+        rows={rows}
+        setRows={setRows}
       />
     </div>
   );

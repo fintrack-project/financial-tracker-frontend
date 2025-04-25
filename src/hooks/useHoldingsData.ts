@@ -23,11 +23,14 @@ export const useHoldingsData = (accountId: string | null) => {
         const fetchedHoldings = await fetchHoldings(accountId);
         setHoldings(fetchedHoldings);
 
-        // Step 2: Extract symbols of asset names from holdings
-        const symbols = fetchedHoldings.map((holding) => holding.symbol);
+        // Step 2: Extract symbols and hardcode assetType to 'STOCK'
+        const entities = fetchedHoldings.map((holding) => ({
+          symbol: holding.symbol,
+          assetType: 'STOCK', // TODO: Replace with actual assetType when available in Holding
+        }));
 
         // Step 3: Fetch the updated market data
-        const marketDataResponse = await fetchMarketData(accountId, symbols);
+        const marketDataResponse = await fetchMarketData(accountId, entities);
         setMarketData(marketDataResponse);
 
       } catch (error) {

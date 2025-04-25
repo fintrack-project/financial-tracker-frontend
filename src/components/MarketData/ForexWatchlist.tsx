@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import EditableWatchlistTable from './EditableWatchlistTable';
+import { fetchWatchlistData } from '../../services/watchlistDataService';
+import { fetchMarketData } from '../../services/marketDataService';
 
 interface ForexWatchlistRow {
   symbol?: string;
@@ -37,82 +39,50 @@ const ForexWatchlist: React.FC<{ accountId: string | null }> = ({ accountId }) =
 
       try {
         // Fetch saved watchlist items
-        const savedItems = await fetchSavedWatchlistForexItems(accountId); // Fetch symbols and asset types
+        const savedItems = await fetchWatchlistData(accountId, ['FOREX']);
         if (!savedItems || savedItems.length === 0) {
-          setRows([]); // No saved items
+          setRows([]);
           return;
         }
 
-        // Fetch forex data for saved items
-        const forexData = await fetchForexData(
+        // Fetch market data for saved items
+        const marketData = await fetchMarketData(
           accountId,
-          savedItems.map((item) => item.symbol)
+          savedItems.map((item) => ({ symbol: item.symbol, assetType: item.assetType }))
         );
 
-        // Map forex data to rows
-        const updatedRows = forexData.map((data) => ({
+        // Map market data to rows
+        const updatedRows = marketData.map((data) => ({
           symbol: data.symbol,
-          assetType: 'FOREX', // Assuming all items in ForexWatchlist are FOREX
+          assetType: 'FOREX',
           price: data.price,
           priceChange: data.change,
           percentChange: data.percentChange,
           high: data.high,
           low: data.low,
-          updatedTime: data.updatedTime,
+          updatedTime: data.timestamp,
           confirmed: true,
         }));
 
-        setRows(updatedRows); // Update rows with fetched data
+        setRows(updatedRows);
       } catch (err) {
-        console.error('Error fetching watchlist data:', err);
-        setError('Failed to fetch watchlist data. Please try again later.');
+        console.error('Error fetching forex watchlist data:', err);
+        setError('Failed to fetch forex watchlist data. Please try again later.');
       }
     };
 
     fetchWatchlist();
   }, [accountId]);
 
-  const fetchData = async (row: ForexWatchlistRow): Promise<ForexWatchlistRow> => {
-    if (!accountId) {
-      alert('Account ID is required to confirm holdings categories.');
-      return Promise.reject(new Error('Account ID is required'));
-    }
-
-    if (!row.symbol) throw new Error('Symbol is required');
-
-    try {
-      const data = await fetchForexData(accountId, [row.symbol]);
-      if (!data || data.length === 0) {
-        throw new Error('No data returned from the server');
-      }
-
-      return {
-        symbol: row.symbol,
-        assetType: 'FOREX',
-        price: data[0].price,
-        priceChange: data[0].priceChange,
-        percentChange: data[0].percentChange,
-        high: data[0].high,
-        low: data[0].low,
-        updatedTime: data[0].updatedTime,
-        confirmed: true,
-      };
-    } catch (err) {
-      console.error('Error fetching forex data:', err);
-      setError('Failed to fetch forex data. Please try again later.');
-      return Promise.reject(err); // Re-throw the error for further handling
-    }
-  };
-
   return (
     <div>
-      {error && <div className="error-message">{error}</div>} {/* Display error message */}
+      {error && <div className="error-message">{error}</div>}
       <EditableWatchlistTable<ForexWatchlistRow>
         columns={columns}
-        fetchData={fetchData}
+        fetchData={async (row) => row} // No additional fetch needed for now
         accountId={accountId}
-        rows={rows} // Pass rows to the table
-        setRows={setRows} // Allow table to update rows
+        rows={rows}
+        setRows={setRows}
       />
     </div>
   );
