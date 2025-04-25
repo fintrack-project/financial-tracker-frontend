@@ -1,0 +1,12 @@
+.confirmed-row .button-group {
+  visibility: hidden;
+}
+
+.confirmed-row:hover .button-group {
+  visibility: visible;
+}
+
+.button-group {
+  display: flex;
+  gap: 10px;
+}

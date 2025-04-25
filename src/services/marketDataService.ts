@@ -4,6 +4,9 @@ export interface MarketDataProps {
   id: number;
   symbol: string;
   price: number;
+  change: number;
+  high: number;
+  low: number;
   percentChange: number;
   timestamp: string;
   assetName: string;
