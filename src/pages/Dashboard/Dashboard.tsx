@@ -3,8 +3,8 @@ import AccountMenu from '../../components/Menu/AccountMenu';
 import MainNavigationBar from '../../components/NavigationBar/MainNavigationBar';
 import MarketAverageData from 'components/MarketData/MarketAverageData';
 import HoldingsTable from '../../components/HoldingsTable/HoldingsTable';
-// import { updateMarketAverageData, fetchMarketAverageData } from '../../services/marketAverageDataService';
 import { fetchMarketAverageData } from 'services/marketAverageDataService';
+import ForexData from '../../components/MarketData/ForexData';
 import './Dashboard.css'; // Import the CSS file
 
 const Dashboard: React.FC = () => {
@@ -79,7 +79,7 @@ const Dashboard: React.FC = () => {
           </div>
           <div className="currency-section">
             <h1>Currency</h1>
-            <p>Coming Soon...</p>
+            <ForexData accountId={accountId}/>
           </div>
         </div>
         <div className="dashboard-data-container">

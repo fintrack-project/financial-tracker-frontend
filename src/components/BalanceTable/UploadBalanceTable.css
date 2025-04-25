@@ -26,9 +26,16 @@
   overflow-y: auto; /* Enable vertical scrolling */
 }
 
+.scrollable-tbody table {
+  width: 100%;
+  border-collapse: collapse;
+  table-layout: fixed; /* Ensure consistent column widths */
+}
+
 .upload-balance-table {
   width: 100%;
   border-collapse: collapse;
+  table-layout: fixed;
 }
 
 .upload-balance-table th,
