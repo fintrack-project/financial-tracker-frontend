@@ -1,4 +1,4 @@
-import React, { useState, Dispatch, SetStateAction } from 'react';
+import React, { Dispatch, SetStateAction } from 'react';
 import EditableWatchlistRow from './EditableWatchlistRow';
 import IconButton from '../Button/IconButton';
 import './EditableWatchlistTable.css';
@@ -7,8 +7,12 @@ interface EditableWatchlistTableProps<T> {
   columns: { key: keyof T; label: string; editable?: boolean; placeholder?: string }[];
   fetchData: (row: Partial<T>) => Promise<T>;
   accountId: string | null;
-  rows: T[]; // Add rows prop
-  setRows: Dispatch<SetStateAction<T[]>>; // Add setRows prop
+  rows: T[];
+  setRows: Dispatch<SetStateAction<T[]>>;
+  onAddRow?: (row: T) => Promise<void>;
+  onRemoveRow?: (index: number) => Promise<void>;
+  onConfirmRow?: (row: T, index: number) => Promise<void>;
+  resetHasFetched: () => void; // Add resetHasFetched as a prop
 }
 
 const EditableWatchlistTable = <T extends { confirmed?: boolean }>({
@@ -17,31 +21,28 @@ const EditableWatchlistTable = <T extends { confirmed?: boolean }>({
   accountId,
   rows,
   setRows,
+  onAddRow,
+  onRemoveRow,
+  onConfirmRow,
+  resetHasFetched,
 }: EditableWatchlistTableProps<T>) => {
   const handleAddRow = () => {
     setRows([...rows, {} as T]); // Add a blank row
   };
 
-  const handleRemoveRow = (index: number) => {
-    setRows(rows.filter((_, i) => i !== index)); // Remove the row
-  };
-
-  const handleConfirm = async (index: number) => {
-    const row = rows[index];
-    try {
-      const updatedRow = await fetchData(row); // Fetch data for the row
-      const updatedRows = [...rows];
-      updatedRows[index] = { ...updatedRow, confirmed: true }; // Mark row as confirmed
-      setRows(updatedRows);
-    } catch (error) {
-      console.error('Error confirming row:', error);
+  const handleRemoveRow = async (index: number) => {
+    if (onRemoveRow) {
+      await onRemoveRow(index);
+      resetHasFetched(); // Trigger refetch after removing a row
     }
   };
 
-  const handleEdit = (index: number) => {
-    const updatedRows = [...rows];
-    updatedRows[index].confirmed = false; // Allow editing
-    setRows(updatedRows);
+  const handleConfirmRow = async (index: number) => {
+    const row = rows[index];
+    if (onConfirmRow) {
+      await onConfirmRow(row, index);
+      resetHasFetched(); // Trigger refetch after confirming a row
+    }
   };
 
   const handleInputChange = (index: number, key: keyof T, value: string | number) => {
@@ -68,8 +69,7 @@ const EditableWatchlistTable = <T extends { confirmed?: boolean }>({
               row={row}
               columns={columns}
               onInputChange={(key, value) => handleInputChange(index, key, value)}
-              onConfirm={() => handleConfirm(index)}
-              onEdit={() => handleEdit(index)}
+              onConfirm={() => handleConfirmRow(index)}
               onRemove={() => handleRemoveRow(index)}
             />
           ))}

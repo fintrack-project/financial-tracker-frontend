@@ -2,8 +2,8 @@ import React from 'react';
 import IconButton from '../Button/IconButton';
 
 interface EditableWatchlistRowProps<T> {
-  row: Partial<T>;
-  columns: { key: keyof T; editable?: boolean; placeholder?: string }[];
+  row: T;
+  columns: { key: keyof T; label: string; editable?: boolean; placeholder?: string }[];
   onInputChange: (key: keyof T, value: string | number) => void;
   onConfirm: () => void;
   onEdit: () => void;
