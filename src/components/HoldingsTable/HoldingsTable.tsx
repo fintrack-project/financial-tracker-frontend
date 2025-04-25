@@ -20,6 +20,7 @@ const HoldingsTable: React.FC<HoldingsTableProps> = ({ accountId }) => {
         <thead>
           <tr>
             <th>Name</th>
+            <th>Symbol</th>
             <th>Quantity</th>
             <th>Asset Unit</th>
             <th>Price (USD)</th>
@@ -38,6 +39,7 @@ const HoldingsTable: React.FC<HoldingsTableProps> = ({ accountId }) => {
               return (
                 <tr key={index}>
                   <td>{holding.assetName}</td>
+                  <td>{holding.symbol}</td>
                   <td>{formatNumber(holding.totalBalance)}</td>
                   <td>{holding.unit}</td>
                   <td>{assetData?.price ? formatNumber(assetData.price) : 'Loading...'}</td>

@@ -160,6 +160,7 @@ const EditableHoldingsTable: React.FC<EditableHoldingsTableProps> = ({
         <thead>
           <tr>
             <th>Name</th>
+            <th>Symbol</th>
             <th>Quantity</th>
             <th>Asset Unit</th>
             <th>Price (USD)</th>
@@ -190,6 +191,7 @@ const EditableHoldingsTable: React.FC<EditableHoldingsTableProps> = ({
             return (
               <tr key={rowIndex}>
                 <td>{holding.assetName}</td>
+                <td>{holding.symbol}</td>
                 <td>{holding.totalBalance.toLocaleString()}</td>
                 <td>{holding.unit}</td>
                 <td>{assetData?.price?.toLocaleString() || 'Loading...'}</td>
