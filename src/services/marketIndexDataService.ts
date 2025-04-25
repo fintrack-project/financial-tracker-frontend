@@ -1,9 +1,9 @@
 import axios from 'axios';
 
-export const fetchMarketAverageData = async (symbols: string[]): Promise<{ [key: string]: any }> => {
+export const fetchMarketIndexData = async (symbols: string[]): Promise<{ [key: string]: any }> => {
   try {
     const queryParams = symbols.map((name) => `symbols=${encodeURIComponent(name)}`).join('&');
-    const response = await axios.get(`/api/market-average-data/fetch?${queryParams}`, {
+    const response = await axios.get(`/api/market-index-data/fetch?${queryParams}`, {
       headers: {
         'Content-Type': 'application/json',
       },
@@ -11,7 +11,7 @@ export const fetchMarketAverageData = async (symbols: string[]): Promise<{ [key:
 
     return response.data;
   } catch (error) {
-    console.error('Error fetching market average data:', error);
+    console.error('Error fetching market index data:', error);
     throw error;
   }
 };

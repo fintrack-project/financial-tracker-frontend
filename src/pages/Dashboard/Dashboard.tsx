@@ -1,9 +1,9 @@
 import React, { useState , useEffect } from 'react';
 import AccountMenu from '../../components/Menu/AccountMenu';
 import MainNavigationBar from '../../components/NavigationBar/MainNavigationBar';
-import MarketAverageData from 'components/MarketData/MarketAverageData';
+import MarketIndexData from '../../components/MarketData/MarketIndexData';
 import HoldingsTable from '../../components/HoldingsTable/HoldingsTable';
-import { fetchMarketAverageData } from 'services/marketAverageDataService';
+import { fetchMarketIndexData } from '../../services/marketIndexDataService';
 import ForexData from '../../components/MarketData/ForexData';
 import './Dashboard.css'; // Import the CSS file
 
@@ -23,8 +23,8 @@ const Dashboard: React.FC = () => {
       try {
         const encodedSymbols = symbols.map(encodeURIComponent).join(",");
 
-        // Fetch the updated market average data
-        const data = await fetchMarketAverageData([encodedSymbols]);
+        // Fetch the updated market index data
+        const data = await fetchMarketIndexData([encodedSymbols]);
         setMarketData(data);
       } catch (error) {
         console.error('Error fetching market data:', error);
@@ -46,12 +46,12 @@ const Dashboard: React.FC = () => {
       </div>
       <div className="dashboard-data-container">
         <div className="market-data-container">
-          <div className="market-average">
-            <h1>Market Average</h1>
-            <div className="market-average-items">
-              <div className="market-average-items">
+          <div className="market-index">
+            <h1>Market Index</h1>
+            <div className="market-index-items">
+              <div className="market-index-items">
                 {marketData && marketData['^GSPC'] && (
-                  <MarketAverageData
+                  <MarketIndexData
                     indexName="S&P 500"
                     marketData={{
                       price: marketData['^GSPC'].price,
@@ -63,7 +63,7 @@ const Dashboard: React.FC = () => {
                   />
                 )}
                 {marketData && marketData['^NDX'] && (
-                  <MarketAverageData
+                  <MarketIndexData
                     indexName="Nasdaq 100"
                     marketData={{
                       price: marketData['^NDX'].price,
