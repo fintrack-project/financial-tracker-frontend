@@ -30,7 +30,7 @@
   width: 100%; /* Ensure the content takes full width */
 }
 
-.market-average,
+.market-index,
 .currency-section {
   flex: 1; /* Make both sections take equal width */
   padding: 16px;
@@ -40,15 +40,15 @@
   box-sizing: border-box; /* Ensure padding is included in the width */
 }
 
-.market-average {
-  margin-right: 8px; /* Add spacing to the right of the Market Average section */
+.market-index {
+  margin-right: 8px; /* Add spacing to the right of the Market Index section */
 }
 
 .currency-section {
   margin-left: 8px; /* Add spacing to the left of the Currency section */
 }
 
-.market-average-items {
+.market-index-items {
   display: flex; /* Display items horizontally */
   justify-content: center; /* Center items horizontally */
   align-items: center; /* Center items vertically */

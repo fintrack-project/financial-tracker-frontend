@@ -1,8 +1,8 @@
 import React from 'react';
 import { formatNumber } from '../../utils/FormatNumber';
-import './MarketAverageData.css'; // Add styles for the component
+import './MarketIndexData.css'; // Add styles for the component
 
-interface MarketAverageDataProps {
+interface MarketIndexDataProps {
   indexName: string; // Name of the index (e.g., "S&P 500")
   marketData: {
     price: number;
@@ -13,7 +13,7 @@ interface MarketAverageDataProps {
   } | null;
 }
 
-const MarketAverageData: React.FC<MarketAverageDataProps> = ({ indexName, marketData }) => {
+const MarketIndexData: React.FC<MarketIndexDataProps> = ({ indexName, marketData }) => {
   if (!marketData) {
     return <p>Loading...</p>;
   }
@@ -38,4 +38,4 @@ const MarketAverageData: React.FC<MarketAverageDataProps> = ({ indexName, market
   );
 };
 
-export default MarketAverageData;
+export default MarketIndexData;
