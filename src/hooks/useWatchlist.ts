@@ -33,6 +33,8 @@ export const useWatchlist = (accountId: string | null, assetTypes: string[]) => 
         savedItems.map((item) => ({ symbol: item.symbol, assetType: item.assetType }))
       );
 
+      console.log('Market data:', marketData);
+
       // Map market data to rows
       const updatedRows = marketData.map((data) => ({
         symbol: data.symbol,
