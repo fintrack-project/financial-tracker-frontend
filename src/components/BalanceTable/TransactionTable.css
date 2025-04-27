@@ -71,3 +71,35 @@
   border-collapse: collapse;
   table-layout: fixed;
 }
+
+/* Define column widths using CSS classes */
+.col-date {
+  width: 10%;
+}
+
+.col-asset-name {
+  width: 15%;
+}
+
+.col-symbol,
+.col-asset-type {
+  width: 10%;
+}
+
+.col-credit,
+.col-debit {
+  width: 15%;
+}
+
+.col-total-before,
+.col-total-after {
+  width: 15%;
+}
+
+.col-unit {
+  width: 10%;
+}
+
+.col-delete {
+  width: 10%;
+}

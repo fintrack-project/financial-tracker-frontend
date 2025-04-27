@@ -61,3 +61,26 @@
 .delete-all-button:hover {
   background-color: #d9363e;
 }
+
+/* Define column widths using CSS classes */
+.col-date {
+  width: 10%;
+}
+
+.col-asset-name {
+  width: 20%;
+}
+
+.col-symbol,
+.col-asset-type {
+  width: 10%;
+}
+
+.col-credit,
+.col-debit {
+  width: 20%;
+}
+
+.col-action {
+  width: 5%;
+}

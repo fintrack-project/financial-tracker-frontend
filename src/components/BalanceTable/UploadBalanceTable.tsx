@@ -133,13 +133,13 @@ const UploadBalanceTable: React.FC<UploadBalanceTableProps> = ({
       <div className="table-wrapper">
         <table className="upload-balance-table">
           <colgroup>
-            <col style={{ width: '10%' }} />
-            <col style={{ width: '25%' }} />
-            <col style={{ width: '10%' }} />
-            <col style={{ width: '10%' }} />
-            <col style={{ width: '20%' }} />
-            <col style={{ width: '20%' }} />
-            <col style={{ width: '5%' }} />
+            <col className="col-date" />
+            <col className="col-asset-name" />
+            <col className="col-symbol" />
+            <col className="col-asset-type" />
+            <col className="col-credit" />
+            <col className="col-debit" />
+            <col className="col-action" />
           </colgroup>
           <thead>
             <tr>
@@ -156,13 +156,13 @@ const UploadBalanceTable: React.FC<UploadBalanceTableProps> = ({
         <div className="scrollable-tbody">
           <table className="upload-balance-table">
             <colgroup>
-              <col style={{ width: '10%' }} />
-              <col style={{ width: '25%' }} />
-              <col style={{ width: '10%' }} />
-              <col style={{ width: '10%' }} />
-              <col style={{ width: '20%' }} />
-              <col style={{ width: '20%' }} />
-              <col style={{ width: '5%' }} />
+              <col className="col-date" />
+              <col className="col-asset-name" />
+              <col className="col-symbol" />
+              <col className="col-asset-type" />
+              <col className="col-credit" />
+              <col className="col-debit" />
+              <col className="col-action" />
             </colgroup>
             <tbody>
               <BlankTransactionRow onAddRow={addRow} />

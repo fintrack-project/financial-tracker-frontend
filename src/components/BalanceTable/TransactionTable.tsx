@@ -35,16 +35,16 @@ const TransactionTable = <T extends {
       <div className="table-wrapper">
         <table className="transaction-table">
           <colgroup>
-            <col style={{ width: '15%' }} />
-            <col style={{ width: '15%' }} />
-            <col style={{ width: '10%' }} />
-            <col style={{ width: '10%' }} />
-            <col style={{ width: '10%' }} />
-            <col style={{ width: '15%' }} />
-            <col style={{ width: '15%' }} />
-            <col style={{ width: '10%' }} />
-            <col style={{ width: '10%' }} />
-            {onDeleteClick && <col style={{ width: '10%' }} />}
+            <col className="col-date" />
+            <col className="col-asset-name" />
+            <col className="col-symbol" />
+            <col className="col-asset-type" />
+            <col className="col-credit" />
+            <col className="col-debit" />
+            <col className="col-total-before" />
+            <col className="col-total-after" />
+            <col className="col-unit" />
+            {onDeleteClick && <col className="col-delete" />}
           </colgroup>
           <thead>
             <tr>
@@ -72,16 +72,16 @@ const TransactionTable = <T extends {
         <div className="scrollable-tbody">
           <table className="transaction-table">
             <colgroup>
-              <col style={{ width: '15%' }} />
-              <col style={{ width: '15%' }} />
-              <col style={{ width: '10%' }} />
-              <col style={{ width: '10%' }} />
-              <col style={{ width: '10%' }} />
-              <col style={{ width: '15%' }} />
-              <col style={{ width: '15%' }} />
-              <col style={{ width: '10%' }} />
-              <col style={{ width: '10%' }} />
-              {onDeleteClick && <col style={{ width: '10%' }} />}
+              <col className="col-date" />
+              <col className="col-asset-name" />
+              <col className="col-symbol" />
+              <col className="col-asset-type" />
+              <col className="col-credit" />
+              <col className="col-debit" />
+              <col className="col-total-before" />
+              <col className="col-total-after" />
+              <col className="col-unit" />
+              {onDeleteClick && <col className="col-delete" />}
             </colgroup>
             <tbody>
               {transactions.map((transaction, index) => (
