@@ -16,10 +16,11 @@ const TransactionTable = <T extends {
   accountId?: string;
   date: string; 
   assetName: string; 
-  symbol: string; 
+  symbol: string;
+  assetType: string; 
   credit: number; 
   debit: number; 
-  unit: string; 
+  unit?: string; 
   totalBalanceBefore?: number; 
   totalBalanceAfter?: number }>
   ({
@@ -42,6 +43,7 @@ const TransactionTable = <T extends {
             <col style={{ width: '15%' }} />
             <col style={{ width: '15%' }} />
             <col style={{ width: '10%' }} />
+            <col style={{ width: '10%' }} />
             {onDeleteClick && <col style={{ width: '10%' }} />}
           </colgroup>
           <thead>
@@ -49,6 +51,7 @@ const TransactionTable = <T extends {
               <th>Date</th>
               <th>Asset Name</th>
               <th>Symbol</th>
+              <th>Asset Type</th>
               <th>Credit (Increase)</th>
               <th>Debit (Decrease)</th>
               <th>Total Balance Before</th>
@@ -76,6 +79,7 @@ const TransactionTable = <T extends {
               <col style={{ width: '10%' }} />
               <col style={{ width: '15%' }} />
               <col style={{ width: '15%' }} />
+              <col style={{ width: '10%' }} />
               <col style={{ width: '10%' }} />
               {onDeleteClick && <col style={{ width: '10%' }} />}
             </colgroup>

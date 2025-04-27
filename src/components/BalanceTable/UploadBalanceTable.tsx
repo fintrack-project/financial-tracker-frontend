@@ -27,9 +27,9 @@ const UploadBalanceTable: React.FC<UploadBalanceTableProps> = ({
         date: 'yyyy-MM-dd',
         assetName: '',
         symbol: '',
+        assetType: '',
         credit: 0,
         debit: 0,
-        unit: '',
       },
     ]);
   };
@@ -79,9 +79,9 @@ const UploadBalanceTable: React.FC<UploadBalanceTableProps> = ({
         date: 'yyyy-MM-dd',
         assetName: 'ExampleAsset',
         symbol: 'EXA',
+        assetType: 'ExampleType',
         credit: 0,
         debit: 0,
-        unit: 'USD',
       },
     ];
 
@@ -133,22 +133,22 @@ const UploadBalanceTable: React.FC<UploadBalanceTableProps> = ({
       <div className="table-wrapper">
         <table className="upload-balance-table">
           <colgroup>
-            <col style={{ width: '15%' }} />
+            <col style={{ width: '10%' }} />
+            <col style={{ width: '25%' }} />
+            <col style={{ width: '10%' }} />
+            <col style={{ width: '10%' }} />
             <col style={{ width: '20%' }} />
-            <col style={{ width: '15%' }} />
-            <col style={{ width: '15%' }} />
-            <col style={{ width: '15%' }} />
-            <col style={{ width: '10%' }} />
-            <col style={{ width: '10%' }} />
+            <col style={{ width: '20%' }} />
+            <col style={{ width: '5%' }} />
           </colgroup>
           <thead>
             <tr>
               <th>Date</th>
               <th>Asset Name</th>
               <th>Symbol</th>
+              <th>Asset Type</th>
               <th>Credit (Increase)</th>
               <th>Debit (Decrease)</th>
-              <th>Unit</th>
               <th>Action</th>
             </tr>
           </thead>
@@ -156,13 +156,13 @@ const UploadBalanceTable: React.FC<UploadBalanceTableProps> = ({
         <div className="scrollable-tbody">
           <table className="upload-balance-table">
             <colgroup>
-              <col style={{ width: '15%' }} />
+              <col style={{ width: '10%' }} />
+              <col style={{ width: '25%' }} />
+              <col style={{ width: '10%' }} />
+              <col style={{ width: '10%' }} />
               <col style={{ width: '20%' }} />
-              <col style={{ width: '15%' }} />
-              <col style={{ width: '15%' }} />
-              <col style={{ width: '15%' }} />
-              <col style={{ width: '10%' }} />
-              <col style={{ width: '10%' }} />
+              <col style={{ width: '20%' }} />
+              <col style={{ width: '5%' }} />
             </colgroup>
             <tbody>
               <BlankTransactionRow onAddRow={addRow} />

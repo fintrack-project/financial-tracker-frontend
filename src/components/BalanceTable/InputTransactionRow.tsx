@@ -14,6 +14,8 @@ const InputTransactionRow: React.FC<InputTransactionRowProps> = ({
   onInputChange,
   onRemoveRow,
 }) => {
+  const assetTypeOptions = ['STOCK', 'FOREX', 'CRYPTO', 'COMMODITY']; // Asset type options
+
   return (
     <tr>
       <td>
@@ -38,6 +40,21 @@ const InputTransactionRow: React.FC<InputTransactionRowProps> = ({
         />
       </td>
       <td>
+        <select
+            value={transaction.assetType || ''}
+            onChange={(e) => onInputChange('assetType', e.target.value)}
+          >
+            <option value="" disabled>
+              Select Asset Type
+            </option>
+            {assetTypeOptions.map((option) => (
+              <option key={option} value={option}>
+                {option}
+              </option>
+            ))}
+        </select>
+      </td>
+      <td>
         <input
           type="number"
           value={transaction.credit || 0}
@@ -49,13 +66,6 @@ const InputTransactionRow: React.FC<InputTransactionRowProps> = ({
           type="number"
           value={transaction.debit || 0}
           onChange={(e) => onInputChange('debit', parseFloat(e.target.value))}
-        />
-      </td>
-      <td>
-        <input
-          type="text"
-          value={transaction.unit || ''}
-          onChange={(e) => onInputChange('unit', e.target.value)}
         />
       </td>
       <td>
