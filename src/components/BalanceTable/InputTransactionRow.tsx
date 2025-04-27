@@ -1,6 +1,7 @@
 import React from 'react';
 import { Transaction } from '../../types/Transaction';
 import IconButton from '../Button/IconButton';
+import AssetTypeDropDown from '../DropDown/AssetTypeDropDown';
 import './TransactionRow.css';
 
 interface InputTransactionRowProps {
@@ -40,19 +41,11 @@ const InputTransactionRow: React.FC<InputTransactionRowProps> = ({
         />
       </td>
       <td>
-        <select
-            value={transaction.assetType || ''}
-            onChange={(e) => onInputChange('assetType', e.target.value)}
-          >
-            <option value="" disabled>
-              Select Asset Type
-            </option>
-            {assetTypeOptions.map((option) => (
-              <option key={option} value={option}>
-                {option}
-              </option>
-            ))}
-        </select>
+        <AssetTypeDropDown
+          value={transaction.assetType || ''}
+          onChange={(value) => onInputChange('assetType', value)}
+          assetTypeOptions={assetTypeOptions}
+        />
       </td>
       <td>
         <input
