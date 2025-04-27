@@ -79,7 +79,7 @@ const UploadBalanceTable: React.FC<UploadBalanceTableProps> = ({
         date: 'yyyy-MM-dd',
         assetName: 'ExampleAsset',
         symbol: 'EXA',
-        assetType: 'ExampleType',
+        assetType: 'STOCK/FOREX/CRYPTO/COMMODITY',
         credit: 0,
         debit: 0,
       },
