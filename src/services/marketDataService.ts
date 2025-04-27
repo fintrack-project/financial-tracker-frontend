@@ -3,27 +3,30 @@ import axios from 'axios';
 export interface MarketDataProps {
   id: number;
   symbol: string;
+  assetType: string;
   price: number;
   change: number;
   high: number;
   low: number;
   percentChange: number;
-  timestamp: string;
+  updatedAt: number[];
   assetName: string;
   priceUnit: string;
 }
 
-export const fetchMarketData = async (accountId: string, symbols: string[]): Promise<MarketDataProps[]> => {
+export const fetchMarketData = async (
+  accountId: string,
+  assets: { symbol: string; assetType: string }[]
+): Promise<MarketDataProps[]> => {
   try {
-    // Encode accountId and symbols for the query parameters
-    const encodedAccountId = encodeURIComponent(accountId);
-    const encodedSymbols = symbols.map((symbol) => `symbols=${encodeURIComponent(symbol)}`).join('&');
+    // Construct the request payload
+    const payload = {
+      accountId,
+      assets, // Array of { symbol, assetType }
+    };
 
-    // Construct the query string
-    const queryParams = `accountId=${encodedAccountId}&${encodedSymbols}`;
-
-    // Make the API request
-    const response = await axios.get(`/api/market-data/fetch?${queryParams}`);
+    // Make the POST request
+    const response = await axios.post('/api/market-data/fetch', payload);
     return response.data;
   } catch (error) {
     console.error('Error fetching market data:', error);

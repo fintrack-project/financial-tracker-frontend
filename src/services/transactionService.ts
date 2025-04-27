@@ -3,18 +3,6 @@ import { OverviewTransaction } from 'types/OverviewTransaction';
 import { Transaction } from '../types/Transaction';
 import axios from 'axios';
 
-// export const fetchTransactions = async (accountId: string): Promise<Transaction[]> => {
-//   try {
-//     const response = await axios.get(`/api/accounts/${accountId}/transactions`, {
-//       withCredentials: true, // Include cookies for session-based authentication
-//     });
-//     return response.data;
-//   } catch (error) {
-//     console.error('Error fetching transactions:', error);
-//     throw error;
-//   }
-// };
-
 export const fetchOverviewTransactions = async (accountId: string): Promise<OverviewTransaction[]> => {
   try {
     const response = await axios.get(`/api/accounts/${accountId}/overview-transactions`, {
