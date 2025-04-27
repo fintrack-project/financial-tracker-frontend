@@ -9,7 +9,7 @@ export interface MarketDataProps {
   high: number;
   low: number;
   percentChange: number;
-  timestamp: string;
+  updatedAt: number[];
   assetName: string;
   priceUnit: string;
 }

@@ -3,8 +3,16 @@ import { fetchWatchlistData, addWatchlistItem, removeWatchlistItem } from '../se
 import { fetchMarketData } from '../services/marketDataService';
 import { WatchlistRow } from '../types/WatchlistRow';
 
+// Helper function to convert updatedAt array to a readable string
+const formatUpdatedAt = (updatedAt: number[]): string => {
+  if (!updatedAt || updatedAt.length < 7) return 'Invalid date';
+  const [year, month, day, hour, minute, second] = updatedAt;
+  return `${year}-${String(month + 1).padStart(2, '0')}-${String(day).padStart(2, '0')} ${String(hour).padStart(2, '0')}:${String(minute).padStart(2, '0')}:${String(second).padStart(2, '0')}`;
+};
+
 export const useWatchlist = (accountId: string | null, assetTypes: string[]) => {
   const [rows, setRows] = useState<WatchlistRow[]>([]);
+  const [savedRows, setSavedRows] = useState<WatchlistRow[]>([]);
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
   const [hasFetched, setHasFetched] = useState<boolean>(false); // Track if data has been fetched
@@ -21,19 +29,34 @@ export const useWatchlist = (accountId: string | null, assetTypes: string[]) => 
 
       // Fetch saved watchlist items
       const savedItems = await fetchWatchlistData(accountId, assetTypes);
+
       if (!savedItems || savedItems.length === 0) {
         setRows([]);
+        setSavedRows([]);
         setHasFetched(true); // Mark as fetched even if no data
         return;
       }
+
+      // Initialize rows with "loading..." for market data
+      const initialRows = savedItems.map((item) => ({
+        symbol: item.symbol,
+        assetType: item.assetType,
+        price: 'loading...',
+        priceChange: 'loading...',
+        percentChange: 'loading...',
+        high: 'loading...',
+        low: 'loading...',
+        updatedTime: 'loading...',
+        confirmed: true,
+      }));
+
+      // setRows(initialRows);
 
       // Fetch market data for saved items
       const marketData = await fetchMarketData(
         accountId,
         savedItems.map((item) => ({ symbol: item.symbol, assetType: item.assetType }))
       );
-
-      console.log('Market data:', marketData);
 
       // Map market data to rows
       const updatedRows = marketData.map((data) => ({
@@ -44,11 +67,12 @@ export const useWatchlist = (accountId: string | null, assetTypes: string[]) => 
         percentChange: data.percentChange,
         high: data.high,
         low: data.low,
-        updatedTime: data.timestamp,
+        updatedTime: formatUpdatedAt(data.updatedAt),
         confirmed: true,
       }));
 
       setRows(updatedRows);
+      setSavedRows(updatedRows);
       setHasFetched(true); // Mark as fetched
     } catch (err) {
       console.error('Error fetching watchlist data:', err);
@@ -81,9 +105,22 @@ export const useWatchlist = (accountId: string | null, assetTypes: string[]) => 
       return;
     }
 
+    // Check if the row exists in savedRows and if it has changed
+    const savedRow = savedRows.find((saved) => saved.symbol === row.symbol && saved.assetType === row.assetType);
+    if (savedRow && JSON.stringify(savedRow) === JSON.stringify(row)) {
+      console.log('No changes detected. Skipping update request.');
+
+      // Mark the row as confirmed locally
+      const updatedRows = [...rows];
+      updatedRows[index].confirmed = true;
+      setRows(updatedRows);
+
+      return;
+    }
+
     try {
       await addWatchlistItem(accountId, row.symbol, assetType);
-      setHasFetched(false);
+      setHasFetched(false); // Trigger a refetch to fetch updated data
     } catch (err) {
       console.error('Error confirming watchlist item:', err);
       alert('Failed to confirm watchlist item. Please try again.');
