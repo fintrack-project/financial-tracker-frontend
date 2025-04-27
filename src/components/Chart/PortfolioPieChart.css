@@ -26,3 +26,13 @@
   color: red;
   font-size: 1rem;
 }
+
+.no-holdings-message {
+  display: flex;
+  justify-content: center; /* Horizontally center the message */
+  align-items: center; /* Vertically center the message */
+  height: 400px; /* Match the height of the chart container */
+  font-size: 1.5rem;
+  color: #888;
+  font-style: italic;
+}

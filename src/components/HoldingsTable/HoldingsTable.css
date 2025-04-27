@@ -32,6 +32,35 @@
   background-color: #f1f1f1;
 }
 
+.holdings-table td input {
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.holdings-table td button {
+  background: none;
+  border: none;
+  color: red;
+  cursor: pointer;
+}
+
+.no-holdings-row {
+  text-align: center; /* Center horizontally */
+  vertical-align: middle; /* Center vertically */
+  font-size: 1.5rem;
+  font-style: italic;
+  color: #888;
+  height: 100px; /* Optional: Set a minimum height for better visibility */
+}
+
+.holdings-table tbody tr {
+  display: table-row; /* Ensure the row behaves like a table row */
+}
+
+.holdings-table tbody td {
+  text-align: center; /* Ensure all cells in the row are horizontally centered */
+}
+
 /* Additional styles for EditableHoldingsTable */
 .category-header {
   display: flex;
@@ -50,16 +79,4 @@
 
 .category-header .icon-button {
   margin-left: 4px;
-}
-
-.holdings-table td input {
-  border: 1px solid #ccc;
-  border-radius: 4px;
-}
-
-.holdings-table td button {
-  background: none;
-  border: none;
-  color: red;
-  cursor: pointer;
 }

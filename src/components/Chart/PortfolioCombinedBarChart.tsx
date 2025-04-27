@@ -151,6 +151,10 @@ const PortfolioCombinedBarChart: React.FC<PortfolioCombinedBarChartProps> = ({ a
         <p>Loading chart...</p>
       ) : error ? (
         <p className="error-message">{error}</p>
+      ) : chartData.length === 0 ? ( // Check if chartData is empty
+        <div className="no-monthly-holdings-message">
+          No monthly holdings
+        </div>
       ) : (
         <ResponsiveContainer width="100%" height={500}>
           <ComposedChart data={chartData}>

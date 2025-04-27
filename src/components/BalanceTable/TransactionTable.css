@@ -72,6 +72,16 @@
   table-layout: fixed;
 }
 
+.no-transactions-message {
+  display: flex;
+  justify-content: center; /* Horizontally center the message */
+  align-items: center; /* Vertically center the message */
+  height: 300px; /* Set a height to center the message within the container */
+  font-size: 1.5rem;
+  color: #888;
+  font-style: italic;
+}
+
 /* Define column widths using CSS classes */
 .col-date {
   width: 10%;
