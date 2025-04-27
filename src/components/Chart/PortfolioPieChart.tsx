@@ -111,6 +111,10 @@ const PortfolioPieChart: React.FC<PortfolioPieChartProps> = ({ accountId }) => {
         <p>Loading chart...</p>
       ) : error ? (
         <p className="error-message">{error}</p>
+      ) : chartData.length === 0 ? ( // Check if chartData is empty
+        <div className="no-holdings-message">
+          No holdings
+        </div>
       ) : (
         <ResponsiveContainer width="100%" height={400}>
           <PieChart>

@@ -1,4 +1,5 @@
 import React from 'react';
+import AssetTypeDropDown from '../DropDown/AssetTypeDropDown';
 import IconButton from '../Button/IconButton';
 
 interface EditableWatchlistRowProps<T> {
@@ -27,19 +28,11 @@ const EditableWatchlistRow = <T extends { confirmed?: boolean }>({
           {row.confirmed || !col.editable ? (
             String(row[col.key] ?? '-')
           ) : col.key === 'assetType' ? ( // Render dropdown for assetType
-            <select
+            <AssetTypeDropDown
               value={String(row[col.key] ?? '')}
-              onChange={(e) => onInputChange(col.key, e.target.value)}
-            >
-              <option value="" disabled>
-                Select Type
-              </option>
-              {assetTypeOptions.map((option) => (
-                <option key={option} value={option}>
-                  {option}
-                </option>
-              ))}
-            </select>
+              onChange={(value) => onInputChange(col.key, value)}
+              assetTypeOptions={assetTypeOptions}
+            />
         ) : (
           <input
             type="text"

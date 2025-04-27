@@ -15,10 +15,11 @@ const TransactionRow = <T extends {
   accountId?: string; 
   date: string; 
   assetName: string; 
-  symbol: string; 
+  symbol: string;
+  assetType: string;
   credit: number; 
   debit: number; 
-  unit: string; 
+  unit?: string; 
   totalBalanceBefore?: 
   number; totalBalanceAfter?: 
   number }>
@@ -38,6 +39,7 @@ const TransactionRow = <T extends {
       <td>{format(new Date(transaction.date), 'yyyy-MM-dd')}</td>
       <td>{transaction.assetName}</td>
       <td>{transaction.symbol}</td>
+      <td>{transaction.assetType}</td>
       <td>{formatNumber(transaction.credit)}</td>
       <td className={transaction.debit !== 0 ? 'debit-column' : ''}>
         {transaction.debit !== 0 ? `(${transaction.debit})` : transaction.debit}

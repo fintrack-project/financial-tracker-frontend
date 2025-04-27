@@ -28,7 +28,14 @@ const HoldingsTable: React.FC<HoldingsTableProps> = ({ accountId }) => {
           </tr>
         </thead>
         <tbody>
-          {holdings.map((holding, index) => {
+          {holdings.length === 0 ? (
+            <tr>
+              <td colSpan={6} className="no-holdings-row">
+                No holdings
+              </td>
+            </tr>
+          ) : (
+            holdings.map((holding, index) => {
               const assetData = marketData.find(
                 (data) => data.symbol === holding.symbol
               );
@@ -46,7 +53,8 @@ const HoldingsTable: React.FC<HoldingsTableProps> = ({ accountId }) => {
                   <td>{totalValue}</td>
                 </tr>
               );
-            })}
+            })
+          )}
         </tbody>
       </table>
     </div>

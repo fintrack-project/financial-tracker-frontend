@@ -16,3 +16,13 @@
   color: red;
   text-align: center;
 }
+
+.no-monthly-holdings-message {
+  display: flex;
+  justify-content: center; /* Horizontally center the message */
+  align-items: center; /* Vertically center the message */
+  height: 500px; /* Match the height of the chart container */
+  font-size: 1.5rem;
+  color: #888;
+  font-style: italic;
+}

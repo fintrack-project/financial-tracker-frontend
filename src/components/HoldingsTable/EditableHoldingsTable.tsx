@@ -182,39 +182,46 @@ const EditableHoldingsTable: React.FC<EditableHoldingsTableProps> = ({
           </tr>
         </thead>
         <tbody>
-          {holdings.map((holding, rowIndex) => {
-            const assetData = marketData.find((data) => data.symbol === holding.symbol);
-            const totalValue = assetData
-              ? parseFloat((assetData.price * holding.totalBalance).toFixed(2)).toLocaleString()
-              : 'Loading...';
+          {holdings.length === 0 ? (
+            <tr>
+              <td colSpan={9} className="no-holdings-row">
+                No holdings
+              </td>
+            </tr>
+          ) : (
+            holdings.map((holding, rowIndex) => {
+              const assetData = marketData.find((data) => data.symbol === holding.symbol);
+              const totalValue = assetData
+                ? parseFloat((assetData.price * holding.totalBalance).toFixed(2)).toLocaleString()
+                : 'Loading...';
 
-            return (
-              <tr key={rowIndex}>
-                <td>{holding.assetName}</td>
-                <td>{holding.symbol}</td>
-                <td>{holding.totalBalance.toLocaleString()}</td>
-                <td>{holding.unit}</td>
-                <td>{assetData?.price?.toLocaleString() || 'Loading...'}</td>
-                <td>{totalValue}</td>
-                {categoryColumns.map((category, categoryIndex) => (
-                  <td key={`${rowIndex}-${categoryIndex}`}>
-                  <CategoryDropdownCell
-                    value={subcategoryColumns[categoryIndex]?.[rowIndex] || ''}
-                    isEditing={editingColumns.has(categoryIndex)} // Always editable for subcategory cells
-                    options={subcategories[category] || []}
-                    onChange={(newValue) =>
-                      handleSubcategoryColumnChange(categoryIndex, rowIndex, newValue)
-                    }
-                    onConfirm={() => {}}
-                    onEdit={() => {}}
-                    onRemove={() => {}}
-                    showActions={false} // Hide actions in subcategory cells
-                  />
-                </td>
-                ))}
-              </tr>
-            );
-          })}
+              return (
+                <tr key={rowIndex}>
+                  <td>{holding.assetName}</td>
+                  <td>{holding.symbol}</td>
+                  <td>{holding.totalBalance.toLocaleString()}</td>
+                  <td>{holding.unit}</td>
+                  <td>{assetData?.price?.toLocaleString() || 'Loading...'}</td>
+                  <td>{totalValue}</td>
+                  {categoryColumns.map((category, categoryIndex) => (
+                    <td key={`${rowIndex}-${categoryIndex}`}>
+                    <CategoryDropdownCell
+                      value={subcategoryColumns[categoryIndex]?.[rowIndex] || ''}
+                      isEditing={editingColumns.has(categoryIndex)} // Always editable for subcategory cells
+                      options={subcategories[category] || []}
+                      onChange={(newValue) =>
+                        handleSubcategoryColumnChange(categoryIndex, rowIndex, newValue)
+                      }
+                      onConfirm={() => {}}
+                      onEdit={() => {}}
+                      onRemove={() => {}}
+                      showActions={false} // Hide actions in subcategory cells
+                    />
+                  </td>
+                  ))}
+                </tr>
+              );
+          }))}
         </tbody>
       </table>
     </div>
