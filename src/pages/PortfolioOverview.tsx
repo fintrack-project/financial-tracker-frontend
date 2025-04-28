@@ -1,6 +1,6 @@
 import React from 'react';
-import PortfolioPieChart from '../../components/Chart/PortfolioPieChart';
-import PortfolioCombinedBarChart from '../../components/Chart/PortfolioCombinedBarChart';
+import PortfolioPieChart from '../components/Chart/PortfolioPieChart';
+import PortfolioCombinedBarChart from '../components/Chart/PortfolioCombinedBarChart';
 import './PortfolioOverview.css'; // Import the CSS file
 
 interface PortfolioOverviewProps {

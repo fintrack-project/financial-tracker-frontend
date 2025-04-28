@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import InputField from '../../components/InputField/InputField';
+import InputField from '../components/InputField/InputField';
 import './Login.css';
 import Button from 'components/Button/Button';
-import { loginUser } from '../../services/authService';
-import UserSession from '../../utils/UserSession';
+import { loginUser } from '../services/authService';
+import UserSession from '../utils/UserSession';
 
 const Login: React.FC = () => {
   const [userId, setUserId] = useState('');

@@ -1,15 +1,15 @@
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import Login from './pages/Login/Login';
-import Register from './pages/Register/Register';
+import Login from './pages/Login';
+import Register from './pages/Register';
 import BasePage from './pages/BasePage';
-import Dashboard from './pages/Dashboard/Dashboard';
-import Holdings from './pages/Holdings/Holdings';
-import Balance from './pages/Balance/Balance';
-import PortfolioOverview from './pages/PortfolioOverview/PortfolioOverview';
-import Profile from './pages/Profile/Profile';
-import Support from './pages/Support/Support';
-import NotFound from './pages/NotFound/NotFound';
+import Dashboard from './pages/Dashboard';
+import Holdings from './pages/Holdings';
+import Balance from './pages/Balance';
+import PortfolioOverview from './pages/PortfolioOverview';
+import Profile from './pages/Profile';
+import Support from './pages/Support';
+import NotFound from './pages/NotFound';
 
 const App: React.FC = () => {
   return (

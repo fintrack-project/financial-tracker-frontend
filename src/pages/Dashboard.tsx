@@ -1,9 +1,9 @@
 import React, { useState , useEffect } from 'react';
-import MarketIndexData from '../../components/Watchlist/MarketIndexData';
-import HoldingsTable from '../../components/Table/HoldingsTable/HoldingsTable';
-import { fetchMarketIndexData } from '../../services/marketIndexDataService';
-import ForexWatchlist from '../../components/Watchlist/ForexWatchlist';
-import MarketWatchlist from '../../components/Watchlist/MarketWatchlist';
+import MarketIndexData from '../components/Watchlist/MarketIndexData';
+import HoldingsTable from '../components/Table/HoldingsTable/HoldingsTable';
+import { fetchMarketIndexData } from '../services/marketIndexDataService';
+import ForexWatchlist from '../components/Watchlist/ForexWatchlist';
+import MarketWatchlist from '../components/Watchlist/MarketWatchlist';
 import './Dashboard.css'; // Import the CSS file
 
 interface DashboardProps {
