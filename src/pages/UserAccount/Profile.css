@@ -19,3 +19,34 @@
   list-style-type: none;
   padding: 0;
 }
+
+.currency-selector {
+  margin-top: 20px;
+}
+
+.currency-selector label {
+  display: block;
+  font-size: 1rem;
+  color: #333;
+  margin-bottom: 8px;
+}
+
+.currency-selector select {
+  width: 100%;
+  padding: 8px;
+  font-size: 1rem;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  background-color: #fff;
+}
+
+.currency-selector select:disabled {
+  background-color: #f5f5f5;
+  color: #aaa;
+}
+
+.error-message {
+  color: red;
+  font-size: 0.9rem;
+  margin-top: 10px;
+}

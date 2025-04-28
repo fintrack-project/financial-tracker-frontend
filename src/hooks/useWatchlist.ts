@@ -50,8 +50,6 @@ export const useWatchlist = (accountId: string | null, assetTypes: string[]) => 
         confirmed: true,
       }));
 
-      // setRows(initialRows);
-
       // Fetch market data for saved items
       const marketData = await fetchMarketData(
         accountId,
