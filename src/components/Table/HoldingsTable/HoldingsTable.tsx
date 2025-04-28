@@ -1,5 +1,6 @@
 import React from 'react';
 import { useHoldingsData } from '../../../hooks/useHoldingsData';
+import { useBaseCurrency } from '../../../hooks/useBaseCurrency';
 import { formatNumber } from '../../../utils/FormatNumber';
 import './HoldingsTable.css';
 
@@ -9,6 +10,7 @@ interface HoldingsTableProps {
 
 const HoldingsTable: React.FC<HoldingsTableProps> = ({ accountId }) => {
   const { holdings, marketData, loading } = useHoldingsData(accountId);
+  const { baseCurrency, loading: baseCurrencyLoading, error: baseCurrencyError } = useBaseCurrency(accountId);
   
   if (loading) {
     return <p>Loading...</p>;
@@ -23,8 +25,8 @@ const HoldingsTable: React.FC<HoldingsTableProps> = ({ accountId }) => {
             <th>Symbol</th>
             <th>Quantity</th>
             <th>Asset Unit</th>
-            <th>Price (USD)</th>
-            <th>Total Value (USD)</th>
+            <th>Price ({baseCurrency || 'N/A'})</th>
+            <th>Total Value ({baseCurrency || 'N/A'})</th>
           </tr>
         </thead>
         <tbody>
@@ -36,11 +38,21 @@ const HoldingsTable: React.FC<HoldingsTableProps> = ({ accountId }) => {
             </tr>
           ) : (
             holdings.map((holding, index) => {
+              // Construct the symbol based on assetType
+              const symbol =
+                holding.assetType === 'FOREX' || holding.assetType === 'CRYPTO'
+                  ? `${baseCurrency}/${holding.symbol}` // Use base currency for FOREX and CRYPTO
+                  : holding.symbol; // Use holding symbol for other asset types
+
+              // Find the matching market data
               const assetData = marketData.find(
-                (data) => data.symbol === holding.symbol
+                (data) => data.symbol === symbol && data.assetType === holding.assetType
               );
-              const totalValue = assetData
-                ? formatNumber(assetData.price * holding.totalBalance)
+
+              const price = (holding.symbol === baseCurrency) ? 1 : (assetData?.price || undefined); // Default to 1 if baseCurrency matches holding.symbol
+
+              const totalValue = price
+                ? formatNumber(price * holding.totalBalance)
                 : 'Loading...';
 
               return (
@@ -49,7 +61,7 @@ const HoldingsTable: React.FC<HoldingsTableProps> = ({ accountId }) => {
                   <td>{holding.symbol}</td>
                   <td>{formatNumber(holding.totalBalance)}</td>
                   <td>{holding.unit}</td>
-                  <td>{assetData?.price ? formatNumber(assetData.price) : 'Loading...'}</td>
+                  <td>{price ? formatNumber(price) : 'Loading...'}</td>
                   <td>{totalValue}</td>
                 </tr>
               );

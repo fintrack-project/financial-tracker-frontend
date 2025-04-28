@@ -65,10 +65,9 @@ export const useHoldingsData = (accountId: string | null) => {
 
         // Step 4: Fetch the updated market data
         const marketDataResponse = await fetchMarketData(accountId, entities);
+        console.log('Fetched Market data:', marketDataResponse);
+
         setMarketData(marketDataResponse);
-
-        console.log('Market data:', marketDataResponse);
-
       } catch (error) {
         console.error('Error loading holdings or market data:', error);
       } finally {
