@@ -10,8 +10,9 @@ import {
 import { fetchPortfolioPieChartData } from '../../services/portfolioChartService'; // Service to fetch chart data
 import { fetchCategories } from '../../services/categoryService'; // Service to fetch categories
 import { formatNumber } from '../../utils/FormatNumber'; // Utility function to format numbers
+import CategoryDropdown from '../DropDown/CategoryDropdown';
 import './PortfolioPieChart.css';
-import { slice } from 'lodash';
+
 
 interface PortfolioPieChartProps {
   accountId: string | null;
@@ -94,18 +95,14 @@ const PortfolioPieChart: React.FC<PortfolioPieChartProps> = ({ accountId }) => {
   return (
     <div className="portfolio-pie-chart">
       <div className="chart-header">
-        <h2>Holdings Distribution</h2>
-        <select
-          value={selectedCategory}
-          onChange={(e) => setSelectedCategory(e.target.value)}
-          className="category-dropdown"
-        >
-          {categories.map((category) => (
-            <option key={category} value={category}>
-              {category}
-            </option>
-          ))}
-        </select>
+        <h2 className="chart-title">Holdings Distribution</h2>
+        <div className="dropdown-container">
+          <CategoryDropdown
+            value={selectedCategory}
+            onChange={setSelectedCategory}
+            categories={categories}
+          />
+        </div>
       </div>
       {loading ? (
         <p>Loading chart...</p>

@@ -1,3 +1,27 @@
+/* Center the chart title */
+.chart-header {
+  display: flex;
+  justify-content: center; /* Center the title horizontally */
+  align-items: center;
+  position: relative; /* Allow positioning of the dropdown */
+  margin-bottom: 20px;
+}
+
+/* Style the chart title */
+.chart-title {
+  font-size: 1.5rem;
+  font-weight: bold;
+  text-align: center;
+  margin: 0;
+}
+
+/* Position the dropdown at the right-top corner */
+.portfolio-pie-chart .dropdown-container {
+  position: absolute;
+  top: 0;
+  right: 0;
+}
+
 .portfolio-pie-chart {
   width: 50%;
   margin: 20px auto;
@@ -7,21 +31,6 @@
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   max-width: 800px;
 }
-
-.chart-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 20px;
-}
-
-.category-dropdown {
-  padding: 5px 10px;
-  font-size: 1rem;
-  border: 1px solid #ccc;
-  border-radius: 5px;
-}
-
 .error-message {
   color: red;
   font-size: 1rem;

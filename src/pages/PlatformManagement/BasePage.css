@@ -1,0 +1,11 @@
+.base-page {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+}
+
+.base-page-content {
+  flex: 1;
+  padding: 20px;
+  background-color: #f8f9fa; /* Light background color */
+}

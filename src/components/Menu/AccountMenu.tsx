@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, NavLink } from 'react-router-dom';
 import UserSession from '../../utils/UserSession';
-import axios from 'axios';
 import './AccountMenu.css';
 
 interface AccountMenuProps {
@@ -48,6 +47,14 @@ const AccountMenu: React.FC<AccountMenuProps> = ({ onAccountChange }) => {
     navigate('/');
   };
 
+  const handleProfileClick = () => {
+    navigate('/profile');
+  };
+
+  const handleSupportClick = () => {
+    navigate('/support');
+  };
+
   return (
     <div className="account-menu">
       <button
@@ -57,8 +64,24 @@ const AccountMenu: React.FC<AccountMenuProps> = ({ onAccountChange }) => {
         Account
       </button>
       {isMenuOpen && (
-        <div className="dropdown-menu">
-          <p>User ID: {userId || 'Guest'}</p>
+        <div className="account-dropdown-menu">
+          <p className="user-id">Logged in as: {userId || 'Guest'}</p>
+          <NavLink
+            to="/platform/profile"
+            className={({ isActive }) =>
+              isActive ? 'dropdown-item active' : 'dropdown-item'
+            }
+          >
+            Profile
+          </NavLink>
+          <NavLink
+            to="/platform/support"
+            className={({ isActive }) =>
+              isActive ? 'dropdown-item active' : 'dropdown-item'
+            }
+          >
+            Support
+          </NavLink>
           <button className="logout-button" onClick={handleLogout}>
             Logout
           </button>

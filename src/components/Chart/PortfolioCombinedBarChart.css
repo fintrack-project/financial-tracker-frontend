@@ -1,3 +1,27 @@
+/* Center the chart title */
+.chart-header {
+  display: flex;
+  justify-content: center; /* Center the title horizontally */
+  align-items: center;
+  position: relative; /* Allow positioning of the dropdown */
+  margin-bottom: 20px;
+}
+
+/* Style the chart title */
+.chart-title {
+  font-size: 1.5rem;
+  font-weight: bold;
+  text-align: center;
+  margin: 0;
+}
+
+/* Position the dropdown at the right-top corner */
+.portfolio-bar-chart .dropdown-container {
+  position: absolute;
+  top: 0;
+  right: 0;
+}
+
 .portfolio-bar-chart {
   width: 100%;
   margin: 20px auto;

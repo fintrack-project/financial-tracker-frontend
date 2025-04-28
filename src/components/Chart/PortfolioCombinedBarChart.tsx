@@ -12,8 +12,9 @@ import {
   Cell,
 } from 'recharts';
 import { fetchPortfolioCombinedBarChartData } from '../../services/portfolioChartService'; // Services to fetch data
-import { fetchCategories } from '../../services/categoryService'; // Service to fetch categories
+import { fetchCategories } from '../../services/categoryService';
 import { formatNumber } from '../../utils/FormatNumber';
+import CategoryDropdown from '../DropDown/CategoryDropdown';
 import './PortfolioCombinedBarChart.css';
 
 interface PortfolioCombinedBarChartProps {
@@ -134,18 +135,14 @@ const PortfolioCombinedBarChart: React.FC<PortfolioCombinedBarChartProps> = ({ a
   return (
     <div className="portfolio-bar-chart">
       <div className="chart-header">
-        <h2>Monthly Holdings Distribution</h2>
-        <select
-          value={selectedCategory}
-          onChange={(e) => setSelectedCategory(e.target.value)}
-          className="category-dropdown"
-        >
-          {categories.map((category) => (
-            <option key={category} value={category}>
-              {category}
-            </option>
-          ))}
-        </select>
+        <h2 className="chart-title">Monthly Holdings Distribution</h2>
+        <div className="dropdown-container">
+          <CategoryDropdown
+            value={selectedCategory}
+            onChange={setSelectedCategory}
+            categories={categories}
+          />
+        </div>
       </div>
       {loading ? (
         <p>Loading chart...</p>
