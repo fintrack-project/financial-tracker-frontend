@@ -1,5 +1,4 @@
 import React, { useState , useEffect } from 'react';
-import PageTopBar from '../../components/Bar/PageTopBar';
 import MarketIndexData from '../../components/Watchlist/MarketIndexData';
 import HoldingsTable from '../../components/Table/HoldingsTable/HoldingsTable';
 import { fetchMarketIndexData } from '../../services/marketIndexDataService';
@@ -7,15 +6,13 @@ import ForexWatchlist from '../../components/Watchlist/ForexWatchlist';
 import MarketWatchlist from '../../components/Watchlist/MarketWatchlist';
 import './Dashboard.css'; // Import the CSS file
 
-const Dashboard: React.FC = () => {
-  const [accountId, setAccountId] = useState<string | null>(null); // Store the currently logged-in account ID
+interface DashboardProps {
+  accountId: string | null; // Receive accountId as a prop
+}
+
+const Dashboard: React.FC<DashboardProps> = ({ accountId }) => {
   const [marketData, setMarketData] = useState<{ [key: string]: any } | null>(null);
-
-  // Callback to get the accountId from AccountMenu
-  const handleAccountChange = (newAccountId: string) => {
-    setAccountId(newAccountId);
-  };
-
+  
   // Fetch market data for S&P 500 and Nasdaq ETFs
   useEffect(() => {
     const symbols = ["^GSPC", "^NDX"];
@@ -36,7 +33,6 @@ const Dashboard: React.FC = () => {
 
   return (
     <div className="dashboard-container">
-      <PageTopBar onAccountChange={handleAccountChange} />
       <div className="dashboard-data-container">
         <div className="market-data-container">
           <div className="market-index">
@@ -93,7 +89,7 @@ const Dashboard: React.FC = () => {
         </div>
       </div>
     </div>
-  )
+  );
 };
 
 export default Dashboard;

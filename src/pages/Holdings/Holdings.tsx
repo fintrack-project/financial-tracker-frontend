@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import _, { set } from 'lodash';
-import PageTopBar from '../../components/Bar/PageTopBar';
 import EditableHoldingsTable from '../../components/Table/HoldingsTable/EditableHoldingsTable';
 import CategoriesTable from '../../components/Table/CategoryTable/CategoriesTable';
 import { createCategoryService, fetchCategoriesAndSubcategories } from '../../services/categoryService';
@@ -8,8 +7,11 @@ import { createSubcategoryService } from '../../services/subCategoryService';
 import { createHoldingsCategoriesService, fetchHoldingsCategories } from 'services/holdingsCategoriesService';
 import './Holdings.css'; // Import the CSS file
 
-const Holdings: React.FC = () => {
-  const [accountId, setAccountId] = useState<string | null>(null); // Store the currently logged-in account ID
+interface HoldingsProps {
+  accountId: string | null; // Receive accountId as a prop
+}
+
+const Holdings: React.FC<HoldingsProps> = ({ accountId }) => {
   const [categories, setCategories] = useState<string[]>([]);
   const [subcategories, setSubcategories] = useState<{ [category: string]: string[] }>({});
   const [hasFetched, setHasFetched] = useState(false);
@@ -71,11 +73,6 @@ const Holdings: React.FC = () => {
     setHasFetched(false);
   };
 
-  // Callback to get the accountId from AccountMenu
-  const handleAccountChange = (newAccountId: string) => {
-    setAccountId(newAccountId);
-  };
-
   const handleUpdateCategories = (updatedCategories: string[]) => {
     setCategories(updatedCategories);
 
@@ -91,7 +88,6 @@ const Holdings: React.FC = () => {
 
   return (
     <div className="holdings-container">
-      <PageTopBar onAccountChange={handleAccountChange} />
       <div className="holdings-list">
         <h1>Holdings</h1>
         <EditableHoldingsTable 

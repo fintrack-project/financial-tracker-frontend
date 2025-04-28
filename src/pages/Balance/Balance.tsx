@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import { PreviewTransaction } from '../../types/PreviewTransaction';
-import PageTopBar from '../../components/Bar/PageTopBar';
 import BalanceNavigationBar from '../../components/Bar/BalanceNavigationBar';
 import BalanceOverviewTable from '../../components/Table/BalanceTable/BalanceOverviewTable';
 import BalancePreviewTable from '../../components/Table/BalanceTable/BalancePreviewTable';
@@ -10,8 +9,11 @@ import { Transaction } from '../../types/Transaction';
 import { fetchOverviewTransactions, confirmTransactions } from '../../services/transactionService';
 import './Balance.css';
 
-const Balance: React.FC = () => {
-  const [accountId, setAccountId] = useState<string | null>(null); // Store the currently logged-in account ID
+interface BalanceProps {
+  accountId: string | null; // Receive accountId as a prop
+}
+
+const Balance: React.FC<BalanceProps> = ({ accountId }) => {
   const [activeTab, setActiveTab] = useState<'overview' | 'edit'>('overview'); // State to manage active tab
   const [existingOverviewTransactions, setExistingOverviewTransactions] = useState<OverviewTransaction[]>([]); // Data from BalanceOverviewTable
   const [uploadedTransactions, setUploadedTransactions] = useState<Transaction[]>([]); // Data from UploadBalanceTable
@@ -31,11 +33,6 @@ const Balance: React.FC = () => {
 
     fetchExistingTransactions();
   }, [accountId]);
-
-  // Callback to get the accountId from AccountMenu
-  const handleAccountChange = (accountId: string) => {
-    setAccountId(accountId);
-  };
 
   // Callback to handle the confirmation of transactions
   const handleConfirm = async (previewTransaction: PreviewTransaction[]) => {
@@ -62,34 +59,33 @@ const Balance: React.FC = () => {
   };
 
   return (
-    <div className="balance-container">
-      <PageTopBar onAccountChange={handleAccountChange} />
-      <BalanceNavigationBar
-        activeTab={activeTab}
-        onTabChange={setActiveTab}
-      />
-      <div className="balance-content">
-        {activeTab === 'overview' && (
-          <div className="balance-overview">
-            <BalanceOverviewTable accountId={accountId} />
-          </div>
-        )}
-        {activeTab === 'edit' && (
-          <div className="upload-balance">
-            <BalancePreviewTable
-              accountId={accountId}
-              existingTransactions={existingOverviewTransactions}
-              uploadedTransactions={uploadedTransactions}
-              onConfirm={handleConfirm}
-            />
-            <UploadBalanceTable 
-              accountId={accountId}
-              onPreviewUpdate={setUploadedTransactions}
-            />
-          </div>
-        )}
+      <div className="balance-container">
+        <BalanceNavigationBar
+          activeTab={activeTab}
+          onTabChange={setActiveTab}
+        />
+        <div className="balance-content">
+          {activeTab === 'overview' && (
+            <div className="balance-overview">
+              <BalanceOverviewTable accountId={accountId} />
+            </div>
+          )}
+          {activeTab === 'edit' && (
+            <div className="upload-balance">
+              <BalancePreviewTable
+                accountId={accountId}
+                existingTransactions={existingOverviewTransactions}
+                uploadedTransactions={uploadedTransactions}
+                onConfirm={handleConfirm}
+              />
+              <UploadBalanceTable 
+                accountId={accountId}
+                onPreviewUpdate={setUploadedTransactions}
+              />
+            </div>
+          )}
+        </div>
       </div>
-    </div>
   );
 };
 

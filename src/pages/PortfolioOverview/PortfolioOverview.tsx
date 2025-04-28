@@ -1,20 +1,15 @@
-import React, { useState, useEffect } from 'react';
-import PageTopBar from '../../components/Bar/PageTopBar';
+import React from 'react';
 import PortfolioPieChart from '../../components/Chart/PortfolioPieChart';
 import PortfolioCombinedBarChart from '../../components/Chart/PortfolioCombinedBarChart';
 import './PortfolioOverview.css'; // Import the CSS file
 
-const PortfolioOverview: React.FC = () => {
-  const [accountId, setAccountId] = useState<string | null>(null); // Store the currently logged-in account ID
+interface PortfolioOverviewProps {
+  accountId: string | null; // Receive accountId as a prop
+}
 
-  // Callback to get the accountId from AccountMenu
-  const handleAccountChange = (newAccountId: string) => {
-    setAccountId(newAccountId);
-  };
-
+const PortfolioOverview: React.FC<PortfolioOverviewProps> = ({ accountId }) => {
   return (
     <div className="portfolio-overview-container">
-      <PageTopBar onAccountChange={handleAccountChange} /> 
       <div className='portfolio-overview-list'>
         <h1>Portfolio Overview</h1>
         <PortfolioCombinedBarChart accountId={accountId} />
