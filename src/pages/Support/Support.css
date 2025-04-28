@@ -1,0 +1,37 @@
+.support-container {
+  text-align: center;
+  padding: 20px;
+}
+
+.support-container h1 {
+  font-size: 2.5rem;
+  color: #333;
+  margin-bottom: 20px;
+}
+
+.support-container p {
+  font-size: 1.2rem;
+  color: #555;
+  margin: 10px 0;
+}
+
+.support-container .support-list {
+  list-style-type: none;
+  padding: 0;
+}
+
+.support-content {
+  flex: 1;
+  padding: 20px;
+  font-family: Arial, sans-serif;
+  background-color: #f8f9fa; /* Light background color */
+}
+
+.support-content h1 {
+  margin-bottom: 10px;
+}
+
+.support-content p {
+  font-size: 1rem;
+  color: #555; /* Gray color for the text */
+}

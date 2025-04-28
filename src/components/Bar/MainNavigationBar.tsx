@@ -6,25 +6,25 @@ const NavigationBar: React.FC = () => {
   return (
     <nav className="navigation-bar">
       <NavLink
-        to="/dashboard"
+        to="/platform/dashboard"
         className={({ isActive }) => (isActive ? 'nav-link active-link' : 'nav-link')}
       >
         Dashboard
       </NavLink>
       <NavLink
-        to="/portfoliooverview"
+        to="/platform/portfolio_overview"
         className={({ isActive }) => (isActive ? 'nav-link active-link' : 'nav-link')}
       >
         Portfolio Overview
       </NavLink>
       <NavLink
-        to="/holdings"
+        to="/platform/holdings"
         className={({ isActive }) => (isActive ? 'nav-link active-link' : 'nav-link')}
       >
         Holdings
       </NavLink>
       <NavLink
-        to="/balance"
+        to="/platform/balance"
         className={({ isActive }) => (isActive ? 'nav-link active-link' : 'nav-link')}
       >
         Balance

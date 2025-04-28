@@ -32,7 +32,7 @@ const Login: React.FC = () => {
 
       if (loginSuccess) {
         alert(message);
-        navigate('/dashboard'); // Redirect to the dashboard
+        navigate('/platform/dashboard'); // Redirect to the dashboard
       } else {
         alert('Failed to log in. Another user is already logged in.');
       }
