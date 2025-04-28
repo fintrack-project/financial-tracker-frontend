@@ -1,0 +1,27 @@
+.category-dropdown-container {
+  display: inline-block;
+  width: 100%;
+}
+
+.category-dropdown {
+  width: 100%;
+  padding: 8px 12px;
+  font-size: 0.875rem;
+  color: #333;
+  background-color: #fff;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  appearance: none; /* Remove default browser styles */
+  cursor: pointer;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.category-dropdown:hover {
+  border-color: #888;
+}
+
+.category-dropdown:focus {
+  outline: none;
+  border-color: #007bff;
+  box-shadow: 0 0 4px rgba(0, 123, 255, 0.5);
+}
