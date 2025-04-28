@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import AccountMenu from '../../components/Menu/AccountMenu';
-import MainNavigationBar from 'components/NavigationBar/MainNavigationBar';
-import BalanceNavigationBar from 'components/NavigationBar/BalanceNavigationBar';
-import BalanceOverviewTable from 'components/BalanceTable/BalanceOverviewTable';
-import BalancePreviewTable from 'components/BalanceTable/BalancePreviewTable';
-import UploadBalanceTable from 'components/BalanceTable/UploadBalanceTable';
+import MainNavigationBar from 'components/Bar/MainNavigationBar';
+import BalanceNavigationBar from 'components/Bar/BalanceNavigationBar';
+import BalanceOverviewTable from 'components/Table/BalanceTable/BalanceOverviewTable';
+import BalancePreviewTable from 'components/Table/BalanceTable/BalancePreviewTable';
+import UploadBalanceTable from 'components/Table/BalanceTable/UploadBalanceTable';
 import { OverviewTransaction } from 'types/OverviewTransaction';
 import { Transaction } from 'types/Transaction';
 import { fetchOverviewTransactions, confirmTransactions } from 'services/transactionService';

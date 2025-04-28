@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import { useHoldingsData } from '../../hooks/useHoldingsData';
-import IconButton  from '../Button/IconButton';
-import CategoryDropdownCell from '../Category/CategoryDropdownCell';
-import CategoryDisplayCell from 'components/Category/CategoryDisplayCell';
-import { createCategoryService } from '../../services/categoryService';
+import { useHoldingsData } from '../../../hooks/useHoldingsData';
+import IconButton  from '../../Button/IconButton';
+import CategoryDropdownCell from '../../Table/CategoryTable/CategoryDropdownCell';
+import CategoryDisplayCell from '../../Table/CategoryTable/CategoryDisplayCell';
+import { createCategoryService } from '../../../services/categoryService';
 import { createHoldingsCategoriesService } from 'services/holdingsCategoriesService';
 import './HoldingsTable.css'; // Reuse the CSS from HoldingsTable
 

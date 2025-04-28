@@ -16,7 +16,7 @@
 }
 
 /* Position the dropdown at the right-top corner */
-.dropdown-container {
+.portfolio-bar-chart .dropdown-container {
   position: absolute;
   top: 0;
   right: 0;

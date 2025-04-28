@@ -1,6 +1,6 @@
 import React from 'react';
-import { useHoldingsData } from '../../hooks/useHoldingsData';
-import { formatNumber } from '../../utils/FormatNumber';
+import { useHoldingsData } from '../../../hooks/useHoldingsData';
+import { formatNumber } from '../../../utils/FormatNumber';
 import './HoldingsTable.css';
 
 interface HoldingsTableProps {

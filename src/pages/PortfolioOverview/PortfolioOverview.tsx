@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useHoldingsData } from 'hooks/useHoldingsData';
 import AccountMenu from '../../components/Menu/AccountMenu';
-import MainNavigationBar from '../../components/NavigationBar/MainNavigationBar';
+import MainNavigationBar from '../../components/Bar/MainNavigationBar';
 import PortfolioPieChart from '../../components/Chart/PortfolioPieChart';
 import PortfolioCombinedBarChart from '../../components/Chart/PortfolioCombinedBarChart';
 import './PortfolioOverview.css'; // Import the CSS file

@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
-import { parseCSVFile, parseXLSXFile, exportToCSV, exportToXLSX } from '../../services/fileService';
-import { uploadPreviewTransactions } from '../../services/transactionService';
+import { parseCSVFile, parseXLSXFile, exportToCSV, exportToXLSX } from '../../../services/fileService';
+import { uploadPreviewTransactions } from '../../../services/transactionService';
 import { Transaction } from 'types/Transaction';
 import BlankTransactionRow from './BlankTransactionRow';
 import InputTransactionRow from './InputTransactionRow';
-import FileActions from 'components/FileActions/FileActions';
+import FileActionsDropdown from 'components/DropDown/FileActionsDropdown';
 import './UploadBalanceTable.css';
 
 interface UploadBalanceTableProps {
@@ -123,7 +123,7 @@ const UploadBalanceTable: React.FC<UploadBalanceTableProps> = ({
           <button className="button" onClick={handleUploadToPreview}>Upload Transactions</button>
         </div>
         <input type="file" accept=".csv, .xlsx" onChange={handleFileUpload} />
-        <FileActions
+        <FileActionsDropdown
           actionName='Download Template'
           fileFormat={templateFormat}
           onFileFormatChange={setTemplateFormat}

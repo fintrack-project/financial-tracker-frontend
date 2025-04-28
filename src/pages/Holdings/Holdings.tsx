@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import _, { set } from 'lodash';
 import AccountMenu from '../../components/Menu/AccountMenu';
-import MainNavigationBar from 'components/NavigationBar/MainNavigationBar';
-import EditableHoldingsTable from 'components/HoldingsTable/EditableHoldingsTable';
-import CategoriesTable from 'components/Category/CategoriesTable';
+import MainNavigationBar from '../../components/Bar/MainNavigationBar';
+import EditableHoldingsTable from '../../components/Table/HoldingsTable/EditableHoldingsTable';
+import CategoriesTable from '../../components/Table/CategoryTable/CategoriesTable';
 import { createCategoryService, fetchCategoriesAndSubcategories } from '../../services/categoryService';
 import { createSubcategoryService } from '../../services/subCategoryService';
 import { createHoldingsCategoriesService, fetchHoldingsCategories } from 'services/holdingsCategoriesService';

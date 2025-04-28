@@ -1,6 +1,6 @@
 import React from 'react';
-import IconButton from '../Button/IconButton';
-import AssetTypeDropDown from '../DropDown/AssetTypeDropDown';
+import IconButton from '../../Button/IconButton';
+import AssetTypeDropDown from '../../DropDown/AssetTypeDropDown';
 import './TransactionRow.css';
 interface BlankTransactionRowProps {
   onAddRow: () => void; // Callback to add a new row

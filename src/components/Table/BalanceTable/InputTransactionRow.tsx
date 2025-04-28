@@ -1,7 +1,7 @@
 import React from 'react';
-import { Transaction } from '../../types/Transaction';
-import IconButton from '../Button/IconButton';
-import AssetTypeDropDown from '../DropDown/AssetTypeDropDown';
+import { Transaction } from '../../../types/Transaction';
+import IconButton from '../../Button/IconButton';
+import AssetTypeDropDown from '../../DropDown/AssetTypeDropDown';
 import './TransactionRow.css';
 
 interface InputTransactionRowProps {

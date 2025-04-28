@@ -1,11 +1,11 @@
 import React, { useState , useEffect } from 'react';
 import AccountMenu from '../../components/Menu/AccountMenu';
-import MainNavigationBar from '../../components/NavigationBar/MainNavigationBar';
-import MarketIndexData from '../../components/MarketData/MarketIndexData';
-import HoldingsTable from '../../components/HoldingsTable/HoldingsTable';
+import MainNavigationBar from '../../components/Bar/MainNavigationBar';
+import MarketIndexData from '../../components/Watchlist/MarketIndexData';
+import HoldingsTable from '../../components/Table/HoldingsTable/HoldingsTable';
 import { fetchMarketIndexData } from '../../services/marketIndexDataService';
-import ForexWatchlist from '../../components/MarketData/ForexWatchlist';
-import MarketWatchlist from '../../components/MarketData/MarketWatchlist';
+import ForexWatchlist from '../../components/Watchlist/ForexWatchlist';
+import MarketWatchlist from '../../components/Watchlist/MarketWatchlist';
 import './Dashboard.css'; // Import the CSS file
 
 const Dashboard: React.FC = () => {

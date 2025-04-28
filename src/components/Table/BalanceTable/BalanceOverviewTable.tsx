@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import { exportToCSV, exportToXLSX } from '../../services/fileService';
-import { fetchOverviewTransactions } from '../../services/transactionService'; // Service to fetch overview transactions
-import TransactionTable from '../BalanceTable/TransactionTable';
-import FileActions from '../FileActions/FileActions';
+import { exportToCSV, exportToXLSX } from '../../../services/fileService';
+import { fetchOverviewTransactions } from '../../../services/transactionService'; // Service to fetch overview transactions
+import TransactionTable from './TransactionTable';
+import FileActionsDropdown from '../../DropDown/FileActionsDropdown';
 import { OverviewTransaction } from 'types/OverviewTransaction';
 import './BalanceOverviewTable.css';
 
@@ -57,7 +57,7 @@ const BalanceOverviewTable: React.FC<BalanceOverviewTableProps> = ({ accountId }
   return (
     <div className="balance-overview-container">
       <h2>Balance Overview</h2>
-        <FileActions
+        <FileActionsDropdown
             actionName='Download Balance Overview'
             fileFormat={fileFormat}
             onFileFormatChange={setFileFormat}

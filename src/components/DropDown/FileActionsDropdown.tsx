@@ -1,14 +1,14 @@
 import React, { useState } from 'react';
-import './FileActions.css';
+import './FileActionsDropdown.css';
 
-interface FileActionsProps {
+interface FileActionsDropdownProps {
   actionName: string;
   fileFormat: 'xlsx' | 'csv';
   onFileFormatChange: (format: 'xlsx' | 'csv') => void;
   onDownload: () => void;
 }
 
-const FileActions: React.FC<FileActionsProps> = ({ 
+const FileActionsDropdown: React.FC<FileActionsDropdownProps> = ({ 
   actionName,
   fileFormat, 
   onFileFormatChange, 
@@ -55,4 +55,4 @@ const FileActions: React.FC<FileActionsProps> = ({
   );
 };
 
-export default FileActions;
+export default FileActionsDropdown;

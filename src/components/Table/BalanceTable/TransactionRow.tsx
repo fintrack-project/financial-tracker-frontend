@@ -1,7 +1,7 @@
 import React from 'react';
 import { format } from 'date-fns';
-import IconButton from '../Button/IconButton';
-import { formatNumber } from '../../utils/FormatNumber';
+import IconButton from '../../Button/IconButton';
+import { formatNumber } from '../../../utils/FormatNumber';
 
 interface TransactionRowProps<T> {
   transaction: T;
