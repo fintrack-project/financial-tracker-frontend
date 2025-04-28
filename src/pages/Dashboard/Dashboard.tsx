@@ -1,6 +1,5 @@
 import React, { useState , useEffect } from 'react';
-import AccountMenu from '../../components/Menu/AccountMenu';
-import MainNavigationBar from '../../components/Bar/MainNavigationBar';
+import PageTopBar from '../../components/Bar/PageTopBar';
 import MarketIndexData from '../../components/Watchlist/MarketIndexData';
 import HoldingsTable from '../../components/Table/HoldingsTable/HoldingsTable';
 import { fetchMarketIndexData } from '../../services/marketIndexDataService';
@@ -37,14 +36,7 @@ const Dashboard: React.FC = () => {
 
   return (
     <div className="dashboard-container">
-      <div className="top-bar">
-        <div className="navigation-bar">
-          <MainNavigationBar />
-        </div>
-        <div className="account-menu">
-          <AccountMenu onAccountChange={handleAccountChange} />
-        </div>
-      </div>
+      <PageTopBar onAccountChange={handleAccountChange} />
       <div className="dashboard-data-container">
         <div className="market-data-container">
           <div className="market-index">

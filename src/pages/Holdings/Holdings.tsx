@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import _, { set } from 'lodash';
-import AccountMenu from '../../components/Menu/AccountMenu';
-import MainNavigationBar from '../../components/Bar/MainNavigationBar';
+import PageTopBar from '../../components/Bar/PageTopBar';
 import EditableHoldingsTable from '../../components/Table/HoldingsTable/EditableHoldingsTable';
 import CategoriesTable from '../../components/Table/CategoryTable/CategoriesTable';
 import { createCategoryService, fetchCategoriesAndSubcategories } from '../../services/categoryService';
@@ -92,14 +91,7 @@ const Holdings: React.FC = () => {
 
   return (
     <div className="holdings-container">
-      <div className="top-bar">
-        <div className="navigation-bar">
-          <MainNavigationBar />
-        </div>
-        <div className="account-menu">
-          <AccountMenu onAccountChange={handleAccountChange} />
-        </div>
-      </div>
+      <PageTopBar onAccountChange={handleAccountChange} />
       <div className="holdings-list">
         <h1>Holdings</h1>
         <EditableHoldingsTable 

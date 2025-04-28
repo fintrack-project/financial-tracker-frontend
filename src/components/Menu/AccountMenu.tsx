@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import UserSession from '../../utils/UserSession';
-import axios from 'axios';
 import './AccountMenu.css';
 
 interface AccountMenuProps {
@@ -57,7 +56,7 @@ const AccountMenu: React.FC<AccountMenuProps> = ({ onAccountChange }) => {
         Account
       </button>
       {isMenuOpen && (
-        <div className="dropdown-menu">
+        <div className="account-dropdown-menu">
           <p>User ID: {userId || 'Guest'}</p>
           <button className="logout-button" onClick={handleLogout}>
             Logout

@@ -1,15 +1,14 @@
 import React, { useState, useEffect } from 'react';
-import AccountMenu from '../../components/Menu/AccountMenu';
-import MainNavigationBar from 'components/Bar/MainNavigationBar';
-import BalanceNavigationBar from 'components/Bar/BalanceNavigationBar';
-import BalanceOverviewTable from 'components/Table/BalanceTable/BalanceOverviewTable';
-import BalancePreviewTable from 'components/Table/BalanceTable/BalancePreviewTable';
-import UploadBalanceTable from 'components/Table/BalanceTable/UploadBalanceTable';
-import { OverviewTransaction } from 'types/OverviewTransaction';
-import { Transaction } from 'types/Transaction';
-import { fetchOverviewTransactions, confirmTransactions } from 'services/transactionService';
+import { PreviewTransaction } from '../../types/PreviewTransaction';
+import PageTopBar from '../../components/Bar/PageTopBar';
+import BalanceNavigationBar from '../../components/Bar/BalanceNavigationBar';
+import BalanceOverviewTable from '../../components/Table/BalanceTable/BalanceOverviewTable';
+import BalancePreviewTable from '../../components/Table/BalanceTable/BalancePreviewTable';
+import UploadBalanceTable from '../../components/Table/BalanceTable/UploadBalanceTable';
+import { OverviewTransaction } from '../../types/OverviewTransaction';
+import { Transaction } from '../../types/Transaction';
+import { fetchOverviewTransactions, confirmTransactions } from '../../services/transactionService';
 import './Balance.css';
-import { PreviewTransaction } from 'types/PreviewTransaction';
 
 const Balance: React.FC = () => {
   const [accountId, setAccountId] = useState<string | null>(null); // Store the currently logged-in account ID
@@ -64,14 +63,7 @@ const Balance: React.FC = () => {
 
   return (
     <div className="balance-container">
-      <div className="top-bar">
-        <div className="navigation-bar">
-          <MainNavigationBar />
-        </div>
-        <div className="account-menu">
-          <AccountMenu onAccountChange={handleAccountChange} />
-        </div>
-      </div>
+      <PageTopBar onAccountChange={handleAccountChange} />
       <BalanceNavigationBar
         activeTab={activeTab}
         onTabChange={setActiveTab}

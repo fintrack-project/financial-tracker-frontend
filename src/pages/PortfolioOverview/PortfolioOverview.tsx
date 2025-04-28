@@ -1,7 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useHoldingsData } from 'hooks/useHoldingsData';
-import AccountMenu from '../../components/Menu/AccountMenu';
-import MainNavigationBar from '../../components/Bar/MainNavigationBar';
+import PageTopBar from '../../components/Bar/PageTopBar';
 import PortfolioPieChart from '../../components/Chart/PortfolioPieChart';
 import PortfolioCombinedBarChart from '../../components/Chart/PortfolioCombinedBarChart';
 import './PortfolioOverview.css'; // Import the CSS file
@@ -16,14 +14,7 @@ const PortfolioOverview: React.FC = () => {
 
   return (
     <div className="portfolio-overview-container">
-      <div className="top-bar">
-        <div className="navigation-bar">
-          <MainNavigationBar />
-        </div>
-        <div className="account-menu">
-          <AccountMenu onAccountChange={handleAccountChange} />
-        </div>
-      </div>
+      <PageTopBar onAccountChange={handleAccountChange} /> 
       <div className='portfolio-overview-list'>
         <h1>Portfolio Overview</h1>
         <PortfolioCombinedBarChart accountId={accountId} />

@@ -1,0 +1,26 @@
+/* Container for the top bar */
+.page-top-bar {
+  display: flex;
+  justify-content: space-between; /* Align navigation bar to the left and account menu to the right */
+  align-items: center; /* Vertically center the items */
+  padding: 10px 20px;
+  background-color: #f8f9fa; /* Light background color */
+  border-bottom: 1px solid #ddd; /* Optional border for separation */
+  position: sticky; /* Keep the top bar fixed at the top */
+  top: 0;
+  z-index: 1000; /* Ensure it stays above other elements */
+}
+
+/* Navigation bar on the left */
+.navigation-bar {
+  flex: 1; /* Take up available space */
+  display: flex;
+  justify-content: flex-start; /* Align content to the left */
+}
+
+/* Account menu on the right */
+.account-menu {
+  flex: 0; /* Do not stretch */
+  display: flex;
+  justify-content: flex-end; /* Align content to the right */
+}
