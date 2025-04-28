@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import _, { set } from 'lodash';
-import EditableHoldingsTable from '../components/Table/HoldingsTable/EditableHoldingsTable';
-import CategoriesTable from '../components/Table/CategoryTable/CategoriesTable';
-import { createCategoryService, fetchCategoriesAndSubcategories } from '../services/categoryService';
-import { createSubcategoryService } from '../services/subCategoryService';
+import EditableHoldingsTable from '../../components/Table/HoldingsTable/EditableHoldingsTable';
+import CategoriesTable from '../../components/Table/CategoryTable/CategoriesTable';
+import { createCategoryService, fetchCategoriesAndSubcategories } from '../../services/categoryService';
+import { createSubcategoryService } from '../../services/subCategoryService';
 import { createHoldingsCategoriesService, fetchHoldingsCategories } from 'services/holdingsCategoriesService';
 import './Holdings.css'; // Import the CSS file
 

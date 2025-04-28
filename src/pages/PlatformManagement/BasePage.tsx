@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import PageTopBar from '../components/Bar/PageTopBar';
+import PageTopBar from '../../components/Bar/PageTopBar';
 
 interface BasePageProps {
   children: React.ReactElement<{ accountId: string }>;
