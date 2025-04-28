@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { fetchHoldings } from '../services/holdingsService';
 import { fetchMarketData, MarketDataProps } from '../services/marketDataService';
+import { fetchCurrenciesByAccountId } from '../services/accountCurrencyService';
 import { Holding } from '../types/Holding';
 
 export const useHoldingsData = (accountId: string | null) => {
@@ -23,15 +24,50 @@ export const useHoldingsData = (accountId: string | null) => {
         const fetchedHoldings = await fetchHoldings(accountId);
         setHoldings(fetchedHoldings);
 
-        // Step 2: Extract symbols and hardcode assetType to 'STOCK'
-        const entities = fetchedHoldings.map((holding) => ({
-          symbol: holding.symbol,
-          assetType: 'STOCK', // TODO: Replace with actual assetType when available in Holding
-        }));
+        // Step 2: Fetch the base currency of the user
+        const fetchedCurrencies = await fetchCurrenciesByAccountId(accountId);
+        console.log('Fetched currencies:', fetchedCurrencies);
 
-        // Step 3: Fetch the updated market data
+        // Find and get the base (default) currency
+        const baseCurrency = fetchedCurrencies.find((currency) => currency.default);
+        if (!baseCurrency) {
+          console.error('No default base currency found.');
+          return;
+        }
+        console.log('Base currency:', baseCurrency.currency);
+
+        // Step 3: Extract symbols and assetType
+        const entities = fetchedHoldings
+          .filter((holding) => holding.assetType !== undefined) // Filter out undefined assetTypes
+          .filter((holding) => {
+            // Exclude holdings where baseCurrency matches holding.symbol for FOREX or CRYPTO
+            if (
+              (holding.assetType === 'FOREX' || holding.assetType === 'CRYPTO') &&
+              baseCurrency.currency === holding.symbol
+            ) {
+              console.log(`Excluding holding: ${holding.symbol} (matches base currency)`);
+              return false;
+            }
+            return true;
+          })
+          .map((holding) => {
+            const symbol =
+              holding.assetType === 'FOREX' || holding.assetType === 'CRYPTO'
+                ? `${baseCurrency.currency}/${holding.symbol}` // Use base currency for FOREX and CRYPTO
+                : holding.symbol; // Use holding symbol for other asset types
+            return {
+              symbol,
+              assetType: holding.assetType as string, // Type assertion since undefined is filtered out
+            };
+          });
+
+        console.log('Entities:', entities);
+
+        // Step 4: Fetch the updated market data
         const marketDataResponse = await fetchMarketData(accountId, entities);
         setMarketData(marketDataResponse);
+
+        console.log('Market data:', marketDataResponse);
 
       } catch (error) {
         console.error('Error loading holdings or market data:', error);
