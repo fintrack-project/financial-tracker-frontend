@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import BaseUserAccountPage from './BaseUserAccountPage';
-import { fetchCurrenciesByAccountId } from '../../services/accountCurrencyService'; // Adjust the import path as necessary
+import { fetchCurrenciesByAccountId, updateBaseCurrency, AccountCurrency } from '../../services/accountCurrencyService'; // Adjust the import path as necessary
 import './Profile.css';
 
 interface ProfileProps {
@@ -8,9 +8,10 @@ interface ProfileProps {
 }
 
 const Profile: React.FC<ProfileProps> = ({ accountId }) => {
-  const [currencies, setCurrencies] = useState<string[]>([]); // List of available currencies
+  const [currencies, setCurrencies] = useState<AccountCurrency[]>([]); // List of available currencies
   const [baseCurrency, setBaseCurrency] = useState<string>('USD'); // Default base currency
   const [error, setError] = useState<string | null>(null);
+  const [successMessage, setSuccessMessage] = useState<string | null>(null);
 
   useEffect(() => {
     const fetchCurrencies = async () => {
@@ -22,6 +23,14 @@ const Profile: React.FC<ProfileProps> = ({ accountId }) => {
       try {
         const fetchedCurrencies = await fetchCurrenciesByAccountId(accountId);
         setCurrencies(fetchedCurrencies);
+        console.log('Fetched currencies:', fetchedCurrencies);
+
+        // Find and set the default currency
+        const defaultCurrency = fetchedCurrencies.find((currency) => currency.default);
+        console.log('Default currency:', defaultCurrency);
+        if (defaultCurrency) {
+          setBaseCurrency(defaultCurrency.currency);
+        }
       } catch (err) {
         setError('Failed to fetch currencies. Please try again later.');
       }
@@ -30,8 +39,23 @@ const Profile: React.FC<ProfileProps> = ({ accountId }) => {
     fetchCurrencies();
   }, [accountId]);
 
-  const handleBaseCurrencyChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
-    setBaseCurrency(event.target.value);
+  const handleBaseCurrencyChange = async (event: React.ChangeEvent<HTMLSelectElement>) => {
+    const selectedCurrency = event.target.value;
+    setBaseCurrency(selectedCurrency);
+
+    if (!accountId) {
+      setError('Account ID is required to update the base currency.');
+      return;
+    }
+
+    try {
+      await updateBaseCurrency(accountId, selectedCurrency);
+      setSuccessMessage(`Base currency updated to ${selectedCurrency}.`);
+      setError(null); // Clear any previous errors
+    } catch (err) {
+      setError('Failed to update base currency. Please try again later.');
+      setSuccessMessage(null); // Clear any previous success messages
+    }
   };
 
   const leftContent = (
@@ -56,8 +80,8 @@ const Profile: React.FC<ProfileProps> = ({ accountId }) => {
         >
           {currencies.length > 0 ? (
             currencies.map((currency) => (
-              <option key={currency} value={currency}>
-                {currency}
+              <option key={currency.currency} value={currency.currency}>
+                {currency.currency}
               </option>
             ))
           ) : (
@@ -65,6 +89,7 @@ const Profile: React.FC<ProfileProps> = ({ accountId }) => {
           )}
         </select>
         {error && <p className="error-message">{error}</p>}
+        {successMessage && <p className="success-message">{successMessage}</p>}
       </div>
     </div>
   );
