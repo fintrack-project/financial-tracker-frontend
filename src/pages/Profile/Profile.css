@@ -19,19 +19,3 @@
   list-style-type: none;
   padding: 0;
 }
-
-.profile-content {
-  flex: 1;
-  padding: 20px;
-  font-family: Arial, sans-serif;
-  background-color: #f8f9fa; /* Light background color */
-}
-
-.profile-content h1 {
-  margin-bottom: 10px;
-}
-
-.profile-content p {
-  font-size: 1rem;
-  color: #555; /* Gray color for the text */
-}

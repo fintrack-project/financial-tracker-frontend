@@ -1,6 +1,4 @@
 import React from 'react';
-import BasePage from '../../pages/BasePage';
-import PageTopBar from '../../components/Bar/PageTopBar';
 import './Support.css';
 
 interface ProfileProps {
@@ -10,10 +8,8 @@ interface ProfileProps {
 const Support: React.FC<ProfileProps> = ({ accountId }) => {
   return (
     <div className="support-container">
-      <div className="support-content">
-        <h1>Support</h1>
-        <p>Need help? Contact our support team or browse our FAQ section.</p>
-      </div>
+      <h1>Support</h1>
+      <p>Need help? Contact our support team or browse our FAQ section.</p>
     </div>
   );
 };

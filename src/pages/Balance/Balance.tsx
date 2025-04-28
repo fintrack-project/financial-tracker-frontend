@@ -59,33 +59,33 @@ const Balance: React.FC<BalanceProps> = ({ accountId }) => {
   };
 
   return (
-      <div className="balance-container">
-        <BalanceNavigationBar
-          activeTab={activeTab}
-          onTabChange={setActiveTab}
-        />
-        <div className="balance-content">
-          {activeTab === 'overview' && (
-            <div className="balance-overview">
-              <BalanceOverviewTable accountId={accountId} />
-            </div>
-          )}
-          {activeTab === 'edit' && (
-            <div className="upload-balance">
-              <BalancePreviewTable
-                accountId={accountId}
-                existingTransactions={existingOverviewTransactions}
-                uploadedTransactions={uploadedTransactions}
-                onConfirm={handleConfirm}
-              />
-              <UploadBalanceTable 
-                accountId={accountId}
-                onPreviewUpdate={setUploadedTransactions}
-              />
-            </div>
-          )}
-        </div>
+    <div className="balance-container">
+      <BalanceNavigationBar
+        activeTab={activeTab}
+        onTabChange={setActiveTab}
+      />
+      <div className="balance-content">
+        {activeTab === 'overview' && (
+          <div className="balance-overview">
+            <BalanceOverviewTable accountId={accountId} />
+          </div>
+        )}
+        {activeTab === 'edit' && (
+          <div className="upload-balance">
+            <BalancePreviewTable
+              accountId={accountId}
+              existingTransactions={existingOverviewTransactions}
+              uploadedTransactions={uploadedTransactions}
+              onConfirm={handleConfirm}
+            />
+            <UploadBalanceTable 
+              accountId={accountId}
+              onPreviewUpdate={setUploadedTransactions}
+            />
+          </div>
+        )}
       </div>
+    </div>
   );
 };
 

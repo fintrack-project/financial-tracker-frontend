@@ -18,25 +18,6 @@
   margin: 10px 0;
 }
 
-.portfolio-overview-list {
-  display: flex;
-  flex-direction: column;
-  text-align: center;
-  padding: 20px;
-}
-
-.portfolio-overview-list h1 {
-  color: #333;
-  font-size: 2.5rem;
-  margin-bottom: 20px;
-}
-
-.portfolio-overview-list p {
-  color: #555;
-  font-size: 1.2rem;
-  margin: 10px 0;
-}
-
 /* Top bar styling */
 .top-bar {
   display: flex;
