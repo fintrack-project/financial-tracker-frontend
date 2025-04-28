@@ -1,4 +1,5 @@
 import React from 'react';
+import BaseUserAccountPage from './BaseUserAccountPage';
 import './Profile.css';
 
 interface ProfileProps {
@@ -6,12 +7,22 @@ interface ProfileProps {
 }
 
 const Profile: React.FC<ProfileProps> = ({ accountId }) => {
-  return (
-    <div className="profile-container">
-      <h1>Profile</h1>
-      <p>Welcome to your profile page. Here you can manage your account details.</p>
+  const leftContent = (
+    <div>
+      <h2>Account Details</h2>
+      <p>Account ID: {accountId}</p>
+      <p>Other account-related information can go here.</p>
     </div>
   );
+
+  const rightContent = (
+    <div>
+      <h2>Profile Settings</h2>
+      <p>Welcome to your profile page. Here you can manage your account details, update your personal information, and more.</p>
+    </div>
+  );
+
+  return <BaseUserAccountPage leftContent={leftContent} rightContent={rightContent} />;
 };
 
 export default Profile;
