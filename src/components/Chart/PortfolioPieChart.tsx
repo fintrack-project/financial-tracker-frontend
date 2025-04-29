@@ -102,7 +102,7 @@ const PortfolioPieChart: React.FC<PortfolioPieChartProps> = ({ accountId }) => {
   return (
     <div className="portfolio-pie-chart">
       <div className="chart-header">
-        <h2 className="chart-title">Holdings Distribution</h2>
+        <h2 className="chart-title">Holdings Distribution ({baseCurrency})</h2>
         <div className="dropdown-container">
           <CategoryDropdown
             value={selectedCategory}
