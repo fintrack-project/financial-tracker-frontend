@@ -1,13 +1,14 @@
 import { useEffect, useState } from 'react';
 import { fetchHoldings } from '../services/holdingsService';
-import { fetchMarketData, MarketDataProps } from '../services/marketDataService';
+import { fetchPortfolioData, PortfolioData } from '../services/portfolioService';
 import { fetchCurrenciesByAccountId } from '../services/accountCurrencyService';
 import { Holding } from '../types/Holding';
 
 export const useHoldingsData = (accountId: string | null) => {
   const [holdings, setHoldings] = useState<Holding[]>([]);
-  const [marketData, setMarketData] = useState<MarketDataProps[]>([]);
+  const [portfolioData, setPortfolioData] = useState<PortfolioData[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     if (!accountId) {
@@ -36,38 +37,12 @@ export const useHoldingsData = (accountId: string | null) => {
         }
         console.log('Base currency:', baseCurrency.currency);
 
-        // Step 3: Extract symbols and assetType
-        const entities = fetchedHoldings
-          .filter((holding) => holding.assetType !== undefined) // Filter out undefined assetTypes
-          .filter((holding) => {
-            // Exclude holdings where baseCurrency matches holding.symbol for FOREX
-            if (
-              (holding.assetType === 'FOREX') &&
-              baseCurrency.currency === holding.symbol
-            ) {
-              console.log(`Excluding holding: ${holding.symbol} (matches base currency)`);
-              return false;
-            }
-            return true;
-          })
-          .map((holding) => {
-            const symbol =
-              holding.assetType === 'FOREX'
-                ? `${holding.symbol}/${baseCurrency.currency}` // Use base currency for FOREX
-                : holding.symbol; // Use holding symbol for other asset types
-            return {
-              symbol,
-              assetType: holding.assetType as string, // Type assertion since undefined is filtered out
-            };
-          });
+        // Step 3: Fetch portfolio data using the new service
+        const portfolioDataResponse = await fetchPortfolioData(accountId, baseCurrency.currency);
+        console.log('Fetched portfolio data:', portfolioDataResponse);
 
-        console.log('Entities:', entities);
-
-        // Step 4: Fetch the updated market data
-        const marketDataResponse = await fetchMarketData(accountId, entities);
-        console.log('Fetched Market data:', marketDataResponse);
-
-        setMarketData(marketDataResponse);
+        setPortfolioData(portfolioDataResponse);
+        setError(null); // Clear any previous errors
       } catch (error) {
         console.error('Error loading holdings or market data:', error);
       } finally {
@@ -78,5 +53,5 @@ export const useHoldingsData = (accountId: string | null) => {
     loadHoldingsAndMarketData();
   }, [accountId]);
 
-  return { holdings, marketData, loading };
+  return { holdings, portfolioData, loading };
 };
