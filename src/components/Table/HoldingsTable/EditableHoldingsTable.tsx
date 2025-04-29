@@ -31,7 +31,7 @@ const EditableHoldingsTable: React.FC<EditableHoldingsTableProps> = ({
   confirmedHoldingsCategories,
   resetHasFetched
 }) => {
-  const { holdings, marketData, loading } = useHoldingsData(accountId);
+  const { holdings, portfolioData, loading } = useHoldingsData(accountId);
   const { baseCurrency, usdToBaseCurrencyRate, loading: baseCurrencyLoading, error: baseCurrencyError } = useBaseCurrency(accountId);
   const [categoryColumns, setCategoryColumns] = useState<string[]>([]); // Manage categories as state
   const [subcategoryColumns, setSubcategoryColumns] = useState<string[][]>([]); // Manage subcategories as state
@@ -48,35 +48,6 @@ const EditableHoldingsTable: React.FC<EditableHoldingsTableProps> = ({
     setCategoryColumns(confirmedCategoryColumns);
     setSubcategoryColumns(confirmedSubcategoryColumns);
   }, [holdings, confirmedHoldingsCategories]);
-
-  const handleAddCategoryColumns = () => {
-    if (categoryColumns.length < categories.length) {
-      setCategoryColumns([...categoryColumns, '']); // Add an empty category
-      setSubcategoryColumns([...subcategoryColumns, Array(holdings.length).fill('')]); // Add empty subcategories for each row
-    }
-  };
-
-  const handleCategoryColumnChange = async (index: number, newCategoryColumn: string) => {
-    const updatedCategoriesColumns = [...categoryColumns];
-    updatedCategoriesColumns[index] = newCategoryColumn;
-    setCategoryColumns(updatedCategoriesColumns);
-
-    // Reset subcategories for the column when the category changes
-    const updatedSubcategoryColumns = [...subcategoryColumns];
-    updatedSubcategoryColumns[index] = Array(holdings.length).fill(''); // Reset all subcategories for this column
-    setSubcategoryColumns(updatedSubcategoryColumns);
-  };
-
-  const handleSubcategoryColumnChange = async (
-    categoryColumnIndex: number, 
-    rowIndex: number, 
-    newSubcategoryColumn: string
-  ) => {
-    // Update the subcategory locally
-    const updatedSubcategoryColumns = [...subcategoryColumns];
-    updatedSubcategoryColumns[categoryColumnIndex][rowIndex] = newSubcategoryColumn;
-    setSubcategoryColumns(updatedSubcategoryColumns);
-  };
 
   const handleConfirmCategoryColumn = async (index: number) => {
     if (!accountId) {
@@ -184,66 +155,44 @@ const EditableHoldingsTable: React.FC<EditableHoldingsTableProps> = ({
           </tr>
         </thead>
         <tbody>
-          {holdings.length === 0 ? (
+          {portfolioData.length === 0 ? (
             <tr>
-              <td colSpan={9} className="no-holdings-row">
+              <td colSpan={6} className="no-holdings-row">
                 No holdings
               </td>
             </tr>
           ) : (
-            holdings.map((holding, rowIndex) => {
-              // Determine the price
-              const isForex = holding.assetType === 'FOREX';
-              const isBaseCurrency = holding.symbol === baseCurrency;
-
-              // Find the matching market data
-              const assetData = marketData.find(
-                (data) =>
-                  data.symbol ===
-                    (isForex ? `${holding.symbol}/${baseCurrency}` : holding.symbol) &&
-                  data.assetType === holding.assetType
-              );
-
-              // Calculate the price
-              const price = isBaseCurrency
-                ? 1 // Base currency always has a price of 1
-                : isForex
-                ? assetData?.price // Do not multiply by usdToBaseCurrencyRate for FOREX
-                : assetData?.price
-                ? assetData.price * (usdToBaseCurrencyRate || 1) // Multiply by usdToBaseCurrencyRate for non-FOREX
-                : undefined;
-
-              const totalValue = price
-                ? formatNumber(price * holding.totalBalance)
-                : 'Loading...';
-
-              return (
-                <tr key={rowIndex}>
-                  <td>{holding.assetName}</td>
-                  <td>{holding.symbol}</td>
-                  <td>{formatNumber(holding.totalBalance)}</td>
-                  <td>{holding.unit}</td>
-                  <td>{price ? formatNumber(price) : 'Loading...'}</td>
-                  <td>{totalValue}</td>
-                  {categoryColumns.map((category, categoryIndex) => (
-                    <td key={`${rowIndex}-${categoryIndex}`}>
+            portfolioData.map((holding, rowIndex) => (
+              <tr key={rowIndex}>
+                <td>{holding.assetName}</td>
+                <td>{holding.symbol}</td>
+                <td>{formatNumber(holding.quantity)}</td>
+                <td>{holding.assetType}</td>
+                <td>{formatNumber(holding.priceInBaseCurrency)}</td>
+                <td>{formatNumber(holding.totalValueInBaseCurrency)}</td>
+                {categoryColumns.map((category, categoryIndex) => (
+                  <td key={`${rowIndex}-${categoryIndex}`}>
                     <CategoryDropdownCell
                       value={subcategoryColumns[categoryIndex]?.[rowIndex] || ''}
-                      isEditing={editingColumns.has(categoryIndex)} // Always editable for subcategory cells
+                      isEditing={editingColumns.has(categoryIndex)}
                       options={subcategories[category] || []}
                       onChange={(newValue) =>
-                        handleSubcategoryColumnChange(categoryIndex, rowIndex, newValue)
+                        setSubcategoryColumns((prev) => {
+                          const updated = [...prev];
+                          updated[categoryIndex][rowIndex] = newValue;
+                          return updated;
+                        })
                       }
                       onConfirm={() => {}}
                       onEdit={() => {}}
                       onRemove={() => {}}
-                      showActions={false} // Hide actions in subcategory cells
+                      showActions={false}
                     />
                   </td>
-                  ))}
-                </tr>
-              );
-          }))}
+                ))}
+              </tr>
+            ))
+          )}
         </tbody>
       </table>
     </div>

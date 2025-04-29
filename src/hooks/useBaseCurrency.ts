@@ -24,7 +24,6 @@ export const useBaseCurrency = (accountId: string | null) => {
       try {
         setLoading(true);
         const fetchedCurrencies = await fetchCurrenciesByAccountId(accountId);
-        console.log('Fetched currencies:', fetchedCurrencies);
 
         const defaultCurrency = fetchedCurrencies.find((currency: BaseCurrency) => currency.default);
         if (!defaultCurrency) {
@@ -34,7 +33,6 @@ export const useBaseCurrency = (accountId: string | null) => {
           return;
         }
 
-        console.log('Default base currency:', defaultCurrency.currency);
         setBaseCurrency(defaultCurrency.currency);
 
         if (defaultCurrency.currency === 'USD') {
