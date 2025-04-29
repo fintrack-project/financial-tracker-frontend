@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useHoldingsData } from '../../../hooks/useHoldingsData';
-import IconButton  from '../../Button/IconButton';
+import { useBaseCurrency } from '../../../hooks/useBaseCurrency';
+import { formatNumber } from '../../../utils/FormatNumber';
 import CategoryDropdownCell from '../../Table/CategoryTable/CategoryDropdownCell';
 import CategoryDisplayCell from '../../Table/CategoryTable/CategoryDisplayCell';
 import { createCategoryService } from '../../../services/categoryService';
@@ -31,6 +32,7 @@ const EditableHoldingsTable: React.FC<EditableHoldingsTableProps> = ({
   resetHasFetched
 }) => {
   const { holdings, marketData, loading } = useHoldingsData(accountId);
+  const { baseCurrency, usdToBaseCurrencyRate, loading: baseCurrencyLoading, error: baseCurrencyError } = useBaseCurrency(accountId);
   const [categoryColumns, setCategoryColumns] = useState<string[]>([]); // Manage categories as state
   const [subcategoryColumns, setSubcategoryColumns] = useState<string[][]>([]); // Manage subcategories as state
    const [editingColumns, setEditingColumns] = useState<Set<number>>(new Set()); // Track which columns are in edit mode
@@ -163,8 +165,8 @@ const EditableHoldingsTable: React.FC<EditableHoldingsTableProps> = ({
             <th>Symbol</th>
             <th>Quantity</th>
             <th>Asset Unit</th>
-            <th>Price (USD)</th>
-            <th>Total Value (USD)</th>
+            <th>Price ({baseCurrency || 'N/A'})</th>
+            <th>Total Value ({baseCurrency || 'N/A'})</th>
             {categoryColumns.map((category, categoryIndex) => {
               return (
                 <th key={categoryIndex}>
@@ -190,18 +192,38 @@ const EditableHoldingsTable: React.FC<EditableHoldingsTableProps> = ({
             </tr>
           ) : (
             holdings.map((holding, rowIndex) => {
-              const assetData = marketData.find((data) => data.symbol === holding.symbol);
-              const totalValue = assetData
-                ? parseFloat((assetData.price * holding.totalBalance).toFixed(2)).toLocaleString()
+              // Determine the price
+              const isForex = holding.assetType === 'FOREX';
+              const isBaseCurrency = holding.symbol === baseCurrency;
+
+              // Find the matching market data
+              const assetData = marketData.find(
+                (data) =>
+                  data.symbol ===
+                    (isForex ? `${holding.symbol}/${baseCurrency}` : holding.symbol) &&
+                  data.assetType === holding.assetType
+              );
+
+              // Calculate the price
+              const price = isBaseCurrency
+                ? 1 // Base currency always has a price of 1
+                : isForex
+                ? assetData?.price // Do not multiply by usdToBaseCurrencyRate for FOREX
+                : assetData?.price
+                ? assetData.price * (usdToBaseCurrencyRate || 1) // Multiply by usdToBaseCurrencyRate for non-FOREX
+                : undefined;
+
+              const totalValue = price
+                ? formatNumber(price * holding.totalBalance)
                 : 'Loading...';
 
               return (
                 <tr key={rowIndex}>
                   <td>{holding.assetName}</td>
                   <td>{holding.symbol}</td>
-                  <td>{holding.totalBalance.toLocaleString()}</td>
+                  <td>{formatNumber(holding.totalBalance)}</td>
                   <td>{holding.unit}</td>
-                  <td>{assetData?.price?.toLocaleString() || 'Loading...'}</td>
+                  <td>{price ? formatNumber(price) : 'Loading...'}</td>
                   <td>{totalValue}</td>
                   {categoryColumns.map((category, categoryIndex) => (
                     <td key={`${rowIndex}-${categoryIndex}`}>

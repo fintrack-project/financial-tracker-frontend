@@ -7,10 +7,10 @@ import { OverviewTransaction } from '../types/OverviewTransaction';
 const REQUIRED_COLUMNS = [
   'date',
   'assetName',
+  'assetType',
   'symbol',
   'credit',
   'debit',
-  'unit',
 ];
 
 // Validate columns
@@ -31,10 +31,10 @@ export const parseCSVFile = <T extends Transaction | OverviewTransaction>(
           const parsedData = results.data.map((row: any) => ({
             date: row.date || '',
             assetName: row.assetName || '',
+            assetType: row.assetType || '',
             symbol: row.symbol || '',
             credit: Number(row.credit || 0),
             debit: Number(row.debit || 0),
-            unit: row.unit || '',
             ...(row.totalBalanceBefore !== undefined && {
               totalBalanceBefore: Number(row.totalBalanceBefore || 0),
             }),
@@ -67,10 +67,10 @@ export const parseXLSXFile = <T extends Transaction | OverviewTransaction>(
         const parsedData = XLSX.utils.sheet_to_json(sheet).map((row: any) => ({
           date: row.date || '',
           assetName: row.assetName || '',
+          assetType: row.assetType || '',
           symbol: row.symbol || '',
           credit: Number(row.credit || 0),
           debit: Number(row.debit || 0),
-          unit: row.unit || '',
           ...(row.totalBalanceBefore !== undefined && {
             totalBalanceBefore: Number(row.totalBalanceBefore || 0),
           }),

@@ -66,6 +66,8 @@ const UploadBalanceTable: React.FC<UploadBalanceTableProps> = ({
         return
       }
 
+      console.log('Parsed transactions:', parsedTransactions);
+
       setTransactions((prev) => [...prev, ...parsedTransactions]);
     } catch (error) {
       alert('Error parsing file. Please check the file format and try again.');
@@ -103,6 +105,8 @@ const UploadBalanceTable: React.FC<UploadBalanceTableProps> = ({
       alert('No transactions to upload. Please upload a file first.');
       return;
     }
+
+    console.log('Uploading transactions to preview:', transactions);
 
     try {
       const previewData = await uploadPreviewTransactions(accountId, transactions); // Send transactions to backend
