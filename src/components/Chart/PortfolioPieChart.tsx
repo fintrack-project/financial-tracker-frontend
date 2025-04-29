@@ -9,6 +9,7 @@ import {
 } from 'recharts';
 import { fetchPortfolioPieChartData } from '../../services/portfolioChartService'; // Service to fetch chart data
 import { fetchCategories } from '../../services/categoryService'; // Service to fetch categories
+import { useBaseCurrency } from '../../hooks/useBaseCurrency'; // Custom hook to get base currency 
 import { formatNumber } from '../../utils/FormatNumber'; // Utility function to format numbers
 import CategoryDropdown from '../DropDown/CategoryDropdown';
 import './PortfolioPieChart.css';
@@ -24,6 +25,7 @@ const PortfolioPieChart: React.FC<PortfolioPieChartProps> = ({ accountId }) => {
   const [chartData, setChartData] = useState<any[]>([]); // Data for the pie chart
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
+  const { baseCurrency, loading: baseCurrencyLoading } = useBaseCurrency(accountId);
 
   // Fetch category names when the component loads
   useEffect(() => {
@@ -52,12 +54,17 @@ const PortfolioPieChart: React.FC<PortfolioPieChartProps> = ({ accountId }) => {
         console.warn('Account ID is null, skipping fetch'); // Debug log
         return;
       }
+
+      if(!baseCurrency) {
+        console.warn('Base currency is null, skipping fetch'); // Debug log
+        return;
+      }
       
       setLoading(true);
       setError(null);
       try {
-        console.log('Fetching chart data for accountId:', accountId, 'and category:', selectedCategory); // Debug log
-        const data = await fetchPortfolioPieChartData(accountId, selectedCategory); // Fetch data from backend
+        console.log('Fetching chart data for accountId:', accountId, 'and category:', selectedCategory, ', with base currency:', baseCurrency); // Debug log
+        const data = await fetchPortfolioPieChartData(accountId, selectedCategory, baseCurrency); // Fetch data from backend
         console.log('Chart data fetched:', data); // Debug log
         setChartData(data);
       } catch (err) {
@@ -69,7 +76,7 @@ const PortfolioPieChart: React.FC<PortfolioPieChartProps> = ({ accountId }) => {
     };
 
     fetchData();
-  }, [accountId, selectedCategory]);
+  }, [accountId, selectedCategory, baseCurrency]);
 
   // Custom Tooltip for Pie Chart
   const CustomTooltip = ({ active, payload }: any) => {

@@ -27,7 +27,6 @@ export const useHoldingsData = (accountId: string | null) => {
 
         // Step 2: Fetch the base currency of the user
         const fetchedCurrencies = await fetchCurrenciesByAccountId(accountId);
-        console.log('Fetched currencies:', fetchedCurrencies);
 
         // Find and get the base (default) currency
         const baseCurrency = fetchedCurrencies.find((currency) => currency.default);
@@ -35,7 +34,6 @@ export const useHoldingsData = (accountId: string | null) => {
           console.error('No default base currency found.');
           return;
         }
-        console.log('Base currency:', baseCurrency.currency);
 
         // Step 3: Fetch portfolio data using the new service
         const portfolioDataResponse = await fetchPortfolioData(accountId, baseCurrency.currency);

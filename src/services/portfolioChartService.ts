@@ -1,22 +1,51 @@
 import axios from 'axios';
 
+// export const fetchPortfolioPieChartData = async (
+//   accountId: string,
+//   category: string
+// ): Promise<{ name: string; value: number }[]> => {
+//   if (!accountId) {
+//     throw new Error('Account ID is required to fetch portfolio pie chart data');
+//   }
+
+//   try {
+//     const response = await axios.post(`/api/portfolio/piechart-data`, {
+//       accountId,
+//       category,
+//     });
+//     return response.data; // Assuming the backend returns an array of { name, value }
+//   } catch (error) {
+//     console.error('Error fetching portfolio chart data:', error);
+//     throw error;
+//   }
+// };
+
+
+export interface PieChartData {
+  assetName: string;       // Name of the asset (e.g., "Apple")
+  value: number;           // Value of the asset in the base currency
+  percentage: number;      // Percentage of the total portfolio
+  color: string;           // Color for the chart slice
+  subcategory: string;     // Subcategory name (if applicable)
+  subcategoryValue: number; // Value of the subcategory
+  percentageOfSubcategory: number; // Percentage of the subcategory
+}
+
 export const fetchPortfolioPieChartData = async (
   accountId: string,
-  category: string
-): Promise<{ name: string; value: number }[]> => {
-  if (!accountId) {
-    throw new Error('Account ID is required to fetch portfolio pie chart data');
-  }
-
+  category: string,
+  baseCurrency: string
+): Promise<PieChartData[]> => {
   try {
-    const response = await axios.post(`/api/portfolio/piechart-data`, {
+    const response = await axios.post('/api/portfolio/piechart-data', {
       accountId,
       category,
+      baseCurrency,
     });
-    return response.data; // Assuming the backend returns an array of { name, value }
+    return response.data;
   } catch (error) {
-    console.error('Error fetching portfolio chart data:', error);
-    throw error;
+    console.error('Error fetching portfolio pie chart data:', error);
+    throw new Error('Failed to fetch portfolio pie chart data');
   }
 };
 
