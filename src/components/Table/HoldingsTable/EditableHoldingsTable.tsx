@@ -49,35 +49,6 @@ const EditableHoldingsTable: React.FC<EditableHoldingsTableProps> = ({
     setSubcategoryColumns(confirmedSubcategoryColumns);
   }, [holdings, confirmedHoldingsCategories]);
 
-  const handleAddCategoryColumns = () => {
-    if (categoryColumns.length < categories.length) {
-      setCategoryColumns([...categoryColumns, '']); // Add an empty category
-      setSubcategoryColumns([...subcategoryColumns, Array(holdings.length).fill('')]); // Add empty subcategories for each row
-    }
-  };
-
-  const handleCategoryColumnChange = async (index: number, newCategoryColumn: string) => {
-    const updatedCategoriesColumns = [...categoryColumns];
-    updatedCategoriesColumns[index] = newCategoryColumn;
-    setCategoryColumns(updatedCategoriesColumns);
-
-    // Reset subcategories for the column when the category changes
-    const updatedSubcategoryColumns = [...subcategoryColumns];
-    updatedSubcategoryColumns[index] = Array(holdings.length).fill(''); // Reset all subcategories for this column
-    setSubcategoryColumns(updatedSubcategoryColumns);
-  };
-
-  const handleSubcategoryColumnChange = async (
-    categoryColumnIndex: number, 
-    rowIndex: number, 
-    newSubcategoryColumn: string
-  ) => {
-    // Update the subcategory locally
-    const updatedSubcategoryColumns = [...subcategoryColumns];
-    updatedSubcategoryColumns[categoryColumnIndex][rowIndex] = newSubcategoryColumn;
-    setSubcategoryColumns(updatedSubcategoryColumns);
-  };
-
   const handleConfirmCategoryColumn = async (index: number) => {
     if (!accountId) {
       alert('Account ID is required to confirm holdings categories.');
