@@ -10,7 +10,7 @@ interface HoldingsTableProps {
 
 const HoldingsTable: React.FC<HoldingsTableProps> = ({ accountId }) => {
   const { holdings, marketData, loading } = useHoldingsData(accountId);
-  const { baseCurrency, loading: baseCurrencyLoading, error: baseCurrencyError } = useBaseCurrency(accountId);
+  const { baseCurrency, usdToBaseCurrencyRate, loading: baseCurrencyLoading, error: baseCurrencyError } = useBaseCurrency(accountId);
   
   if (loading) {
     return <p>Loading...</p>;
@@ -38,19 +38,28 @@ const HoldingsTable: React.FC<HoldingsTableProps> = ({ accountId }) => {
             </tr>
           ) : (
             holdings.map((holding, index) => {
-              // Construct the symbol based on assetType
-              const symbol =
-                holding.assetType === 'FOREX' || holding.assetType === 'CRYPTO'
-                  ? `${baseCurrency}/${holding.symbol}` // Use base currency for FOREX and CRYPTO
-                  : holding.symbol; // Use holding symbol for other asset types
+              // Determine the price
+              const isForex = holding.assetType === 'FOREX';
+              const isBaseCurrency = holding.symbol === baseCurrency;
 
               // Find the matching market data
               const assetData = marketData.find(
-                (data) => data.symbol === symbol && data.assetType === holding.assetType
+                (data) =>
+                  data.symbol ===
+                    (isForex ? `${holding.symbol}/${baseCurrency}` : holding.symbol) &&
+                  data.assetType === holding.assetType
               );
 
-              const price = (holding.symbol === baseCurrency) ? 1 : (assetData?.price || undefined); // Default to 1 if baseCurrency matches holding.symbol
+              // Calculate the price
+              const price = isBaseCurrency
+                ? 1 // Base currency always has a price of 1
+                : isForex
+                ? assetData?.price // Do not multiply by usdToBaseCurrencyRate for FOREX
+                : assetData?.price
+                ? assetData.price * (usdToBaseCurrencyRate || 1) // Multiply by usdToBaseCurrencyRate for non-FOREX
+                : undefined;
 
+              // Calculate the total value
               const totalValue = price
                 ? formatNumber(price * holding.totalBalance)
                 : 'Loading...';

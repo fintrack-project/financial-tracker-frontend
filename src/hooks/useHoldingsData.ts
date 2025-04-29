@@ -40,9 +40,9 @@ export const useHoldingsData = (accountId: string | null) => {
         const entities = fetchedHoldings
           .filter((holding) => holding.assetType !== undefined) // Filter out undefined assetTypes
           .filter((holding) => {
-            // Exclude holdings where baseCurrency matches holding.symbol for FOREX or CRYPTO
+            // Exclude holdings where baseCurrency matches holding.symbol for FOREX
             if (
-              (holding.assetType === 'FOREX' || holding.assetType === 'CRYPTO') &&
+              (holding.assetType === 'FOREX') &&
               baseCurrency.currency === holding.symbol
             ) {
               console.log(`Excluding holding: ${holding.symbol} (matches base currency)`);
@@ -52,8 +52,8 @@ export const useHoldingsData = (accountId: string | null) => {
           })
           .map((holding) => {
             const symbol =
-              holding.assetType === 'FOREX' || holding.assetType === 'CRYPTO'
-                ? `${baseCurrency.currency}/${holding.symbol}` // Use base currency for FOREX and CRYPTO
+              holding.assetType === 'FOREX'
+                ? `${holding.symbol}/${baseCurrency.currency}` // Use base currency for FOREX
                 : holding.symbol; // Use holding symbol for other asset types
             return {
               symbol,
