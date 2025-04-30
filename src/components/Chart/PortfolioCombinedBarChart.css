@@ -16,10 +16,12 @@
 }
 
 /* Position the dropdown at the right-top corner */
-.portfolio-bar-chart .dropdown-container {
+.dropdown-container {
   position: absolute;
+  display: flex;
+  gap: 16px;
   top: 0;
-  right: 0;
+  right: 16px;
 }
 
 .portfolio-bar-chart {

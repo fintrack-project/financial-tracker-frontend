@@ -1,20 +1,28 @@
 import axios from 'axios';
 
-export interface PieChartData {
+export interface ChartData {
   assetName: string;       // Name of the asset (e.g., "Apple")
+  symbol: string;
   value: number;           // Value of the asset in the base currency
   percentage: number;      // Percentage of the total portfolio
   color: string;           // Color for the chart slice
+  priority: number;
+  totalValue: number;
   subcategory: string;     // Subcategory name (if applicable)
   subcategoryValue: number; // Value of the subcategory
   percentageOfSubcategory: number; // Percentage of the subcategory
+}
+
+export interface CombinedChartData {
+  date: string; // The date of the data point
+  assets: ChartData[];
 }
 
 export const fetchPortfolioPieChartData = async (
   accountId: string,
   category: string,
   baseCurrency: string
-): Promise<PieChartData[]> => {
+): Promise<ChartData[]> => {
   try {
     const response = await axios.post('/api/portfolio/piechart-data', {
       accountId,
@@ -29,9 +37,10 @@ export const fetchPortfolioPieChartData = async (
 };
 
 export const fetchPortfolioCombinedBarChartData = async (
-  accountId: string | null,
-  category: string
-): Promise<{ name: string; value: number }[]> => {
+  accountId: string,
+  category: string,
+  baseCurrency: string
+): Promise<CombinedChartData[]> => {
   if (!accountId) {
     console.warn('Account ID is null, skipping fetch'); // Debug log
     return [];
@@ -41,10 +50,45 @@ export const fetchPortfolioCombinedBarChartData = async (
     const response = await axios.post(`/api/portfolio/barchart-data`, {
       accountId,
       category,
+      baseCurrency,
     });
-    return response.data; // Assuming the backend returns an array of { name, value }
+
+    // Parse the backend response
+    const rawData = response.data; // Backend response
+    console.log('Raw data from backend:', rawData); // Debug log
+
+    // Validate that rawData is an array
+    if (!Array.isArray(rawData)) {
+      throw new Error('Invalid backend response format: rawData is not an array');
+    }
+
+    // Transform the raw data into the expected format
+    const parsedData: CombinedChartData[] = rawData.map((entry) => {
+      // Validate that each entry has a date and data array
+      if (typeof entry.date !== 'string' || !Array.isArray(entry.data)) {
+        throw new Error(`Invalid entry format: ${JSON.stringify(entry)}`);
+      }
+
+      return {
+        date: entry.date,
+        assets: entry.data.map((asset : ChartData) => ({
+          assetName: asset.assetName,
+          symbol: asset.symbol,
+          subcategory: asset.subcategory,
+          value: asset.value,
+          color: asset.color,
+          priority: asset.priority,
+          totalValue: asset.totalValue,
+          subcategoryValue: asset.subcategoryValue,
+          percentage: asset.percentage,
+          percentageOfSubcategory: asset.percentageOfSubcategory,
+        })),
+      };
+    });
+
+    return parsedData;
   } catch (error) {
-    console.error('Error fetching portfolio chart data:', error);
-    throw error;
+    console.error('Error fetching portfolio bar chart data:', error);
+    throw new Error('Failed to fetch portfolio bar chart data');
   }
 };
