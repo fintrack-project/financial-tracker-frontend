@@ -35,6 +35,9 @@ const AccountDetailAndMenu: React.FC<AccountDetailAndMenuProps> = ({ accountId }
         <NavLink to="/platform/profile" className="account-detail-and-menu-link">
           Profile
         </NavLink>
+        <NavLink to="/platform/settings" className="account-detail-and-menu-link">
+          Settings
+        </NavLink>
         <NavLink to="/platform/support" className="account-detail-and-menu-link">
           Support
         </NavLink>

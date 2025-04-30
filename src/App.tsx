@@ -8,6 +8,7 @@ import Holdings from './pages/PlatformManagement/Holdings';
 import Balance from './pages/PlatformManagement/Balance';
 import PortfolioOverview from './pages/PlatformManagement/PortfolioOverview';
 import Profile from './pages/UserAccount/Profile';
+import Settings from './pages/UserAccount/Settings';
 import Support from './pages/UserAccount/Support';
 import NotFound from './pages/ErrorPages/NotFound';
 
@@ -54,6 +55,14 @@ const App: React.FC = () => {
           element={
             <BasePage>
               <Profile accountId={null} />
+            </BasePage>
+          }
+        />
+        <Route
+          path="/platform/settings"
+          element={
+            <BasePage>
+              <Settings accountId={null} />
             </BasePage>
           }
         />
