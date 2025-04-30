@@ -28,7 +28,7 @@ const PortfolioCombinedBarChart: React.FC<PortfolioCombinedBarChartProps> = ({ a
   const [selectedCategory, setSelectedCategory] = useState<string>('None'); // Default category
   const [chartData, setChartData] = useState<CombinedChartData[]>([]); // Data for the bar chart
   const [filteredData, setFilteredData] = useState<CombinedChartData[]>([]); // Filtered data based on time range
-  const [timeRange, setTimeRange] = useState<string>('Monthly'); // Default time range
+  const [timeRange, setTimeRange] = useState<string>('Quarterly'); // Default time range
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
   const { baseCurrency, loading: baseCurrencyLoading } = useBaseCurrency(accountId);
@@ -152,7 +152,7 @@ const PortfolioCombinedBarChart: React.FC<PortfolioCombinedBarChartProps> = ({ a
   return (
     <div className="portfolio-bar-chart">
       <div className="chart-header">
-        <h2 className="chart-title">Monthly Holdings Distribution ({baseCurrency})</h2>
+        <h2 className="chart-title">{timeRange} Holdings Distribution ({baseCurrency})</h2>
         <div className="dropdown-container">
           <CategoryDropdown
             value={selectedCategory}
@@ -170,8 +170,8 @@ const PortfolioCombinedBarChart: React.FC<PortfolioCombinedBarChartProps> = ({ a
       ) : error ? (
         <p className="error-message">{error}</p>
       ) : filteredData.length === 0 ? (
-        <div className="no-monthly-holdings-message">
-          No monthly holdings
+        <div className="no-holdings-by-time-message">
+          No {timeRange} holdings
         </div>
       ) : (
         <ResponsiveContainer width="100%" height={500}>
