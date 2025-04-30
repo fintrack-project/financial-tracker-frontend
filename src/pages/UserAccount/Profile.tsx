@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import BaseUserAccountPage from './BaseUserAccountPage';
 import { fetchCurrenciesByAccountId, updateBaseCurrency, AccountCurrency } from '../../services/accountCurrencyService'; // Adjust the import path as necessary
+import AccountDetailAndMenu from '../../components/Menu/AccountDetailAndMenu'; // Import AccountDetailAndMenu
 import './Profile.css';
 
 interface ProfileProps {
@@ -59,11 +60,9 @@ const Profile: React.FC<ProfileProps> = ({ accountId }) => {
   };
 
   const leftContent = (
-    <div>
-      <h2>Account Details</h2>
-      <p>Account ID: {accountId}</p>
-      <p>Other account-related information can go here.</p>
-    </div>
+    <AccountDetailAndMenu
+      accountId={accountId || 'Guest'} // Display accountId or "Guest" if accountId is null
+    />
   );
 
   const rightContent = (

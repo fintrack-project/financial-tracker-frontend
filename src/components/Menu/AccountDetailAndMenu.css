@@ -1,0 +1,50 @@
+.account-detail-and-menu {
+  padding: 16px;
+  background-color: #f9f9f9;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  margin-bottom: 16px;
+}
+
+.account-detail-and-menu-title {
+  font-size: 24px; /* Larger font size for the title */
+  font-weight: bold;
+  margin-bottom: 16px;
+}
+
+.account-detail-and-menu-user {
+  font-size: 16px;
+  color: #555;
+  margin-bottom: 16px;
+}
+
+.account-detail-and-menu-nav {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-bottom: 16px;
+}
+
+.account-detail-and-menu-link {
+  font-size: 16px;
+  color: #007bff;
+  text-decoration: none;
+}
+
+.account-detail-and-menu-link:hover {
+  text-decoration: underline;
+}
+
+.account-detail-and-menu-logout {
+  background-color: #ff4d4f;
+  color: white;
+  border: none;
+  padding: 10px 16px;
+  font-size: 16px;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.account-detail-and-menu-logout:hover {
+  background-color: #e04344;
+}
