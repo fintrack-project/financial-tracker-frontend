@@ -11,8 +11,9 @@ import {
   ResponsiveContainer,
   Cell,
 } from 'recharts';
-import { fetchPortfolioCombinedBarChartData } from '../../services/portfolioChartService'; // Services to fetch data
+import { fetchPortfolioCombinedBarChartData, CombinedChartData, ChartData } from '../../services/portfolioChartService'; // Services to fetch data
 import { fetchCategories } from '../../services/categoryService';
+import { useBaseCurrency } from '../../hooks/useBaseCurrency'; // Custom hook to get base currency
 import { formatNumber } from '../../utils/FormatNumber';
 import CategoryDropdown from '../DropDown/CategoryDropdown';
 import './PortfolioCombinedBarChart.css';
@@ -24,9 +25,10 @@ interface PortfolioCombinedBarChartProps {
 const PortfolioCombinedBarChart: React.FC<PortfolioCombinedBarChartProps> = ({ accountId }) => {
   const [categories, setCategories] = useState<string[]>([]); // List of categories
   const [selectedCategory, setSelectedCategory] = useState<string>('None'); // Default category
-  const [chartData, setChartData] = useState<any[]>([]); // Data for the bar chart
+  const [chartData, setChartData] = useState<CombinedChartData[]>([]); // Data for the bar chart
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
+  const { baseCurrency, loading: baseCurrencyLoading } = useBaseCurrency(accountId);
 
   // Fetch categories when the component loads
   useEffect(() => {
@@ -56,45 +58,17 @@ const PortfolioCombinedBarChart: React.FC<PortfolioCombinedBarChartProps> = ({ a
         return;
       }
 
+      if(!baseCurrency) {
+        console.warn('Base currency is null, skipping fetch'); // Debug log
+        return;
+      }
+
       setLoading(true);
       setError(null);
       try {
-        const data = await fetchPortfolioCombinedBarChartData(accountId, selectedCategory); // Fetch data from backend
+        const data = await fetchPortfolioCombinedBarChartData(accountId, selectedCategory, baseCurrency); // Fetch data from backend
         console.log('Fetched chart data:', data); // Debug log
-
-        // Transform the data for the chart
-        const transformedData = data.map((entry: any) => {
-          const transformedEntry: any = { date: entry.date }; // Initialize with the date
-          let totalValue = 0; // Initialize total value for the month
-          const filteredAssets = Array.isArray(entry.data) ? entry.data : []; // Ensure entry.data is an array
-        
-          filteredAssets.forEach((asset: any) => {
-            if (selectedCategory === "None") {
-              // Transform by asset name
-              transformedEntry[asset.assetName] = {
-                value: asset.value, // Use the individual asset value
-                color: asset.color, // Use the asset's color
-              };
-              totalValue += asset.value; // Accumulate total value
-            } else {
-              // Transform by subcategory
-              if (!transformedEntry[asset.subcategory]) {
-                transformedEntry[asset.subcategory] = {
-                  value: 0,
-                  color: asset.color, // Use the subcategory's color
-                };
-              }
-              transformedEntry[asset.subcategory].value += asset.value; // Accumulate asset value for the subcategory
-              totalValue += asset.value; // Accumulate total value
-            }
-          });
-
-          transformedEntry.totalValue = totalValue; // Add total value to the entry
-          console.log('Transformed entry:', transformedEntry); // Debug log
-          return transformedEntry;
-        });
-        console.log('Transformed chart data:', transformedData); // Debug log
-        setChartData(transformedData);
+        setChartData(data);
       } catch (err) {
         console.error('Error fetching chart data:', err);
         setError('Failed to load chart data');
@@ -104,11 +78,15 @@ const PortfolioCombinedBarChart: React.FC<PortfolioCombinedBarChartProps> = ({ a
     };
 
     fetchData();
-  }, [accountId, selectedCategory]);
+  }, [accountId, selectedCategory, baseCurrency]);
 
-  // Extract unique asset names for the bars
+  // Extract unique asset names or subcategories for the bars
   const assetNames = Array.from(
-    new Set(chartData.flatMap((entry) => Object.keys(entry).filter((key) => key !== 'date')))
+    new Set(
+      chartData.flatMap((entry) =>
+        entry.assets.map((asset: ChartData) => (selectedCategory === 'None' ? asset.assetName : asset.subcategory))
+      )
+    )
   );
 
   // Custom Tooltip Component
@@ -163,42 +141,44 @@ const PortfolioCombinedBarChart: React.FC<PortfolioCombinedBarChartProps> = ({ a
             {assetNames.map((assetName) => (
               <Bar
                 key={assetName}
-                dataKey={(entry) => entry[assetName]?.value || 0} // Use the value for the bar height
+                dataKey={(entry) =>
+                  entry.assets
+                    .filter((asset: ChartData) =>
+                      selectedCategory === 'None' ? asset.assetName === assetName : asset.subcategory === assetName
+                    )
+                    .reduce((sum: number, asset: ChartData) => sum + asset.value, 0)
+                }
                 name={assetName}
-                stackId="a" // Stack all bars together
-                fill={chartData[0]?.[assetName]?.color || '#8884d8'} // Set the color for the legend
+                stackId="a"
+                fill={
+                  chartData[0]?.assets.find((asset: ChartData) =>
+                    selectedCategory === 'None' ? asset.assetName === assetName : asset.subcategory === assetName
+                  )?.color || '#8884d8'
+                }
               >
                 {chartData.map((entry, index) => (
                   <Cell
                     key={`cell-${index}`}
-                    fill={entry[assetName]?.color || '#8884d8'} // Dynamically set the color for each segment
+                    fill={
+                      entry.assets.find((asset: ChartData) =>
+                        selectedCategory === 'None' ? asset.assetName === assetName : asset.subcategory === assetName
+                      )?.color || '#8884d8'
+                    }
                   />
                 ))}
               </Bar>
             ))}
             <Line
               type="monotone"
-              dataKey="totalValue"
+              dataKey={(entry: CombinedChartData) =>
+                entry.assets.reduce((sum: number, asset: ChartData) => sum + asset.value, 0)
+              }
               stroke="#ff7300"
               strokeWidth={2}
               dot={{ r: 4 }}
               activeDot={{ r: 6 }}
               name="Total Value"
-            >
-              {/* Add labels to display the total value */}
-              {chartData.map((entry, index) => (
-                <text
-                  key={`label-${index}`}
-                  x={index * 50} // Adjust the x position dynamically
-                  y={entry.totalValue - 10} // Adjust the y position dynamically
-                  fill="#ff7300"
-                  fontSize={12}
-                  textAnchor="middle"
-                >
-                  {entry.totalValue}
-                </text>
-              ))}
-            </Line>
+            />
           </ComposedChart>
         </ResponsiveContainer>
       )}
