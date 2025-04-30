@@ -43,7 +43,7 @@
   text-align: center;
 }
 
-.no-monthly-holdings-message {
+.no-holdings-by-time-message {
   display: flex;
   justify-content: center; /* Horizontally center the message */
   align-items: center; /* Vertically center the message */
