@@ -26,6 +26,8 @@ const PortfolioCombinedBarChart: React.FC<PortfolioCombinedBarChartProps> = ({ a
   const [categories, setCategories] = useState<string[]>([]); // List of categories
   const [selectedCategory, setSelectedCategory] = useState<string>('None'); // Default category
   const [chartData, setChartData] = useState<CombinedChartData[]>([]); // Data for the bar chart
+  const [filteredData, setFilteredData] = useState<CombinedChartData[]>([]); // Filtered data based on time range
+  const [timeRange, setTimeRange] = useState<string>('Monthly'); // Default time range
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
   const { baseCurrency, loading: baseCurrencyLoading } = useBaseCurrency(accountId);
@@ -80,6 +82,42 @@ const PortfolioCombinedBarChart: React.FC<PortfolioCombinedBarChartProps> = ({ a
     fetchData();
   }, [accountId, selectedCategory, baseCurrency]);
 
+  // Filter data based on the selected time range
+  useEffect(() => {
+    const filterDataByTimeRange = () => {
+      let filtered: CombinedChartData[] = [];
+
+      if (timeRange === 'Monthly') {
+        filtered = chartData; // No filtering needed for monthly data
+      } else if (timeRange === 'Quarterly') {
+        // Filter for 01-01, 04-01, 07-01, 10-01 of each year
+        filtered = chartData.filter((entry) => {
+          const month = new Date(entry.date).getMonth() + 1; // Months are 0-indexed
+          return month === 1 || month === 4 || month === 7 || month === 10;
+        });
+      } else if (timeRange === 'Annual') {
+        // Filter for 01-01 of each year
+        filtered = chartData.filter((entry) => {
+          const month = new Date(entry.date).getMonth() + 1; // Months are 0-indexed
+          const day = new Date(entry.date).getDate();
+          return month === 1 && day === 1;
+        });
+      }
+
+      // Always include the last data point (most recent date)
+      if (chartData.length > 0) {
+        const lastDataPoint = chartData[chartData.length - 1];
+        if (!filtered.includes(lastDataPoint)) {
+          filtered = [...filtered, lastDataPoint];
+        }
+      }
+
+      setFilteredData(filtered);
+    };
+
+    filterDataByTimeRange();
+  }, [chartData, timeRange]);
+
   // Extract unique asset names or subcategories for the bars
   const assetNames = Array.from(
     new Set(
@@ -121,22 +159,31 @@ const PortfolioCombinedBarChart: React.FC<PortfolioCombinedBarChartProps> = ({ a
             categories={categories}
           />
         </div>
+        <select
+            className="time-range-dropdown"
+            value={timeRange}
+            onChange={(e) => setTimeRange(e.target.value)}
+          >
+            <option value="Monthly">Monthly</option>
+            <option value="Quarterly">Quarterly</option>
+            <option value="Annual">Annual</option>
+        </select>
       </div>
       {loading ? (
         <p>Loading chart...</p>
       ) : error ? (
         <p className="error-message">{error}</p>
-      ) : chartData.length === 0 ? ( // Check if chartData is empty
+      ) : filteredData.length === 0 ? (
         <div className="no-monthly-holdings-message">
           No monthly holdings
         </div>
       ) : (
         <ResponsiveContainer width="100%" height={500}>
-          <ComposedChart data={chartData}>
+          <ComposedChart data={filteredData}>
             <CartesianGrid strokeDasharray="3 3" />
             <XAxis dataKey="date" />
             <YAxis />
-            <Tooltip content={<CustomTooltip />} /> {/* Use the custom tooltip */}
+            <Tooltip content={<CustomTooltip />} />
             <Legend />
             {assetNames.map((assetName) => (
               <Bar
@@ -151,12 +198,12 @@ const PortfolioCombinedBarChart: React.FC<PortfolioCombinedBarChartProps> = ({ a
                 name={assetName}
                 stackId="a"
                 fill={
-                  chartData[0]?.assets.find((asset: ChartData) =>
+                  filteredData[0]?.assets.find((asset: ChartData) =>
                     selectedCategory === 'None' ? asset.assetName === assetName : asset.subcategory === assetName
                   )?.color || '#8884d8'
                 }
               >
-                {chartData.map((entry, index) => (
+                {filteredData.map((entry, index) => (
                   <Cell
                     key={`cell-${index}`}
                     fill={
