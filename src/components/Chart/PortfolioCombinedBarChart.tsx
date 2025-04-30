@@ -16,6 +16,7 @@ import { fetchCategories } from '../../services/categoryService';
 import { useBaseCurrency } from '../../hooks/useBaseCurrency'; // Custom hook to get base currency
 import { formatNumber } from '../../utils/FormatNumber';
 import CategoryDropdown from '../DropDown/CategoryDropdown';
+import TimeRangeDropdown from '../DropDown/TimeRangeDropDown';
 import './PortfolioCombinedBarChart.css';
 
 interface PortfolioCombinedBarChartProps {
@@ -157,17 +158,12 @@ const PortfolioCombinedBarChart: React.FC<PortfolioCombinedBarChartProps> = ({ a
             value={selectedCategory}
             onChange={setSelectedCategory}
             categories={categories}
+            />
+          <TimeRangeDropdown 
+            value={timeRange} 
+            onChange={setTimeRange} 
           />
         </div>
-        <select
-            className="time-range-dropdown"
-            value={timeRange}
-            onChange={(e) => setTimeRange(e.target.value)}
-          >
-            <option value="Monthly">Monthly</option>
-            <option value="Quarterly">Quarterly</option>
-            <option value="Annual">Annual</option>
-        </select>
       </div>
       {loading ? (
         <p>Loading chart...</p>

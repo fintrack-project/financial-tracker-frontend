@@ -13,18 +13,21 @@ const CategoryDropdown: React.FC<CategoryDropdownProps> = ({
   categories,
 }) => {
   return (
-    <div className="category-dropdown-container">
-      <select
-        value={value}
-        onChange={(e) => onChange(e.target.value)}
-        className="category-dropdown"
-      >
-        {categories.map((category) => (
-          <option key={category} value={category}>
-            {category}
-          </option>
-        ))}
-      </select>
+    <div className="category-dropdown-group">
+      <label className="category-dropdown-title">Category</label>
+      <div className="category-dropdown-container">
+        <select
+          value={value}
+          onChange={(e) => onChange(e.target.value)}
+          className="category-dropdown"
+        >
+          {categories.map((category) => (
+            <option key={category} value={category}>
+              {category}
+            </option>
+          ))}
+        </select>
+      </div>
     </div>
   );
 };
