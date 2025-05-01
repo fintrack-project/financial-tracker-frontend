@@ -3,7 +3,7 @@ import IconButton from '../../Button/IconButton'; // Import your custom IconButt
 import './ProfileTable.css';
 
 interface ProfileTableProps {
-  data: { label: string; value: string | null; editable?: boolean; redacted?: boolean}[]; // Add `editable` flag
+  data: { label: string; value: React.ReactNode; editable?: boolean; redacted?: boolean}[]; // Add `editable` flag
   onEditConfirm?: (label: string, newValue: string) => void; // Callback for confirming edits
 }
 

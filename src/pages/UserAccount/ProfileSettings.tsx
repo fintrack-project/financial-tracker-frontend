@@ -2,6 +2,8 @@ import React, { useState } from 'react'
 import ProfileSettingsNavigationBar from '../../components/Bar/ProfileSettingsNavigationBar';
 import ProfileDetail from '../../components/Profile/ProfileDetail'; // Import ProfileDetail component
 import Security from '../../components/Profile/Security';
+import Payment from '../../components/Profile/Payment';
+import Notification from '../../components/Profile/Notification';
 import './ProfileSettings.css'; // Add styles for horizontal alignment
 
 interface ProfileSettingsProps {
@@ -18,11 +20,11 @@ const ProfileSettings: React.FC<ProfileSettingsProps> = ({ accountId }) => {
       case 'Security':
         return <Security accountId={accountId} />;
       case 'Payment':
-        return <div className="profile-settings-content">Payment Placeholder</div>;
+        return <Payment accountId={accountId} />;
       case 'Notification':
-        return <div className="profile-settings-content">Notification Placeholder</div>;
+        return <Notification accountId={accountId} />;
       default:
-        return <div className="profile-settings-content">Profile Detail Placeholder</div>;
+        return <ProfileDetail accountId={accountId} />;
     }
   };
 
