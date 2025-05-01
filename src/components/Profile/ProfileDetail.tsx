@@ -16,6 +16,9 @@ const ProfileDetail: React.FC<ProfileDetailProps> = ({ accountId }) => {
       try {
         setLoading(true);
         const data = await fetchUserDetails(accountId); // Use the service to fetch user details
+
+        console.log('Fetched user details:', data);
+        
         setUserDetails(data);
         setError(null);
       } catch (err) {

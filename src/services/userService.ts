@@ -8,10 +8,10 @@ export interface UserDetails {
   address: string | null; // Address can be nullable
 }
 
-export const fetchUserDetails = async (accountId : string): Promise<UserDetails> => {
+export const fetchUserDetails = async (accountId: string): Promise<UserDetails> => {
   try {
     const userDataResponse = await axios.post('/api/user/fetch', {
-      params: { accountId },
+      accountId, // Send accountId directly in the request body
     });
 
     return userDataResponse.data;
