@@ -3,7 +3,7 @@ import IconButton from '../../Button/IconButton'; // Import your custom IconButt
 import './ProfileTable.css';
 
 interface ProfileTableProps {
-  data: { label: string; value: string | null; editable?: boolean }[]; // Add `editable` flag
+  data: { label: string; value: string | null; editable?: boolean; redacted?: boolean}[]; // Add `editable` flag
   onEditConfirm?: (label: string, newValue: string) => void; // Callback for confirming edits
 }
 
@@ -35,7 +35,9 @@ const ProfileTable: React.FC<ProfileTableProps> = ({ data, onEditConfirm }) => {
         <div key={index} className="profile-table-row">
           <div className="profile-table-label">{item.label}</div>
           <div className="profile-table-value">
-            {editState[item.label] !== undefined ? (
+            {item.redacted ? (
+              '************' // Display redacted value
+            ) : editState[item.label] !== undefined ? (
               <input
                 type="text"
                 value={editState[item.label] || ''}
@@ -57,7 +59,7 @@ const ProfileTable: React.FC<ProfileTableProps> = ({ data, onEditConfirm }) => {
               ) : (
                 <IconButton
                   type="edit" // Use the "edit" icon for editing
-                  onClick={() => handleEditClick(item.label, item.value)}
+                  onClick={() => handleEditClick(item.label, item.value as string)}
                   label="Edit"
                   size="small"
                 />
