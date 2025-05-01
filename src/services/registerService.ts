@@ -16,7 +16,7 @@ export interface CreateAccountRequest {
 export const registerUser = async (registerData: RegisterRequest): Promise<string> => {
   try {
     // Step 1: Register the user
-    const registerResponse = await axios.post('/api/register', registerData);
+    const registerResponse = await axios.post('/api/user/register', registerData);
     console.log('User registered successfully');
 
     // Step 2: Create an account for the registered user

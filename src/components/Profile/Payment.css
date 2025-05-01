@@ -1,0 +1,17 @@
+.payment {
+  padding: 16px;
+  background-color: #f9f9f9;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+}
+
+.payment h2 {
+  font-size: 20px;
+  font-weight: bold;
+  margin-bottom: 16px;
+}
+
+.payment-error {
+  color: red;
+  font-size: 14px;
+}

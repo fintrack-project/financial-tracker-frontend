@@ -1,0 +1,26 @@
+.profile-settings-navigation-bar {
+  display: flex;
+  justify-content: space-around; /* Align items horizontally */
+  margin-bottom: 16px;
+  border-bottom: 1px solid #ddd;
+  padding-bottom: 8px;
+}
+
+.profile-settings-navigation-item {
+  background: none;
+  border: none;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+  padding: 8px 16px;
+  color: #555;
+}
+
+.profile-settings-navigation-item.active {
+  color: #007bff;
+  border-bottom: 2px solid #007bff; /* Highlight active section */
+}
+
+.profile-settings-navigation-item:hover {
+  color: #007bff;
+}

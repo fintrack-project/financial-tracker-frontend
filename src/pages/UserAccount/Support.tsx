@@ -1,5 +1,6 @@
 import React from 'react';
 import BaseUserAccountPage from './BaseUserAccountPage';
+import AccountDetailAndMenu from '../../components/Menu/AccountDetailAndMenu'; // Import AccountDetailAndMenu
 import './Support.css';
 
 interface SupportProps {
@@ -8,11 +9,9 @@ interface SupportProps {
 
 const Support: React.FC<SupportProps> = ({ accountId }) => {
   const leftContent = (
-    <div>
-      <h2>Support Information</h2>
-      <p>Account ID: {accountId}</p>
-      <p>Contact our support team for assistance.</p>
-    </div>
+    <AccountDetailAndMenu
+      accountId={accountId || 'Guest'} // Display accountId or "Guest" if accountId is null
+    />
   );
 
   const rightContent = (

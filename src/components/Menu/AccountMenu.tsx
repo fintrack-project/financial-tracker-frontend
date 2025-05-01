@@ -47,14 +47,6 @@ const AccountMenu: React.FC<AccountMenuProps> = ({ onAccountChange }) => {
     navigate('/');
   };
 
-  const handleProfileClick = () => {
-    navigate('/profile');
-  };
-
-  const handleSupportClick = () => {
-    navigate('/support');
-  };
-
   return (
     <div className="account-menu">
       <button

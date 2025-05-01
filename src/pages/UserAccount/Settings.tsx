@@ -2,14 +2,13 @@ import React, { useEffect, useState } from 'react';
 import BaseUserAccountPage from './BaseUserAccountPage';
 import { fetchCurrenciesByAccountId, updateBaseCurrency, AccountCurrency } from '../../services/accountCurrencyService'; // Adjust the import path as necessary
 import AccountDetailAndMenu from '../../components/Menu/AccountDetailAndMenu'; // Import AccountDetailAndMenu
-import ProfileSettings from './ProfileSettings';
-import './Profile.css';
+import './Settings.css';
 
-interface ProfileProps {
+interface SettingsProps {
   accountId: string | null; // Receive accountId as a prop
 }
 
-const Profile: React.FC<ProfileProps> = ({ accountId }) => {
+const Settings: React.FC<SettingsProps> = ({ accountId }) => {
   const [currencies, setCurrencies] = useState<AccountCurrency[]>([]); // List of available currencies
   const [baseCurrency, setBaseCurrency] = useState<string>('USD'); // Default base currency
   const [error, setError] = useState<string | null>(null);
@@ -67,12 +66,34 @@ const Profile: React.FC<ProfileProps> = ({ accountId }) => {
   );
 
   const rightContent = (
-    <ProfileSettings 
-      accountId={accountId || 'Guest'} // Pass accountId to ProfileSettings
-    /> // Use the new ProfileSettings component
+    <div>
+      <h2>Settings Settings</h2>
+      <p>Welcome to your settings page. Here you can manage your account details, update your personal information, and more.</p>
+      <div className="currency-selector">
+        <label htmlFor="currency-dropdown">Select Base Currency:</label>
+        <select
+          id="currency-dropdown"
+          value={baseCurrency}
+          onChange={handleBaseCurrencyChange}
+          disabled={currencies.length === 0}
+        >
+          {currencies.length > 0 ? (
+            currencies.map((currency) => (
+              <option key={currency.currency} value={currency.currency}>
+                {currency.currency}
+              </option>
+            ))
+          ) : (
+            <option value="USD">USD</option> // Default option if no currencies are loaded
+          )}
+        </select>
+        {error && <p className="error-message">{error}</p>}
+        {successMessage && <p className="success-message">{successMessage}</p>}
+      </div>
+    </div>
   );
 
   return <BaseUserAccountPage leftContent={leftContent} rightContent={rightContent} />;
 };
 
-export default Profile;
+export default Settings;
