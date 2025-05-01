@@ -1,0 +1,25 @@
+.profile-table {
+  display: grid;
+  grid-template-columns: 150px 1fr 50px; /* Add a third column for the action buttons */
+  row-gap: 12px; /* Space between rows */
+  column-gap: 16px; /* Space between columns */
+}
+
+.profile-table-row {
+  display: contents; /* Ensure rows are aligned properly */
+}
+
+.profile-table-label {
+  font-weight: bold;
+  color: #333;
+  text-align: left;
+}
+
+.profile-table-value {
+  color: #555;
+  text-align: left;
+}
+
+.profile-table-action {
+  text-align: center;
+}
