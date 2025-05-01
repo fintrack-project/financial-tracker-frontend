@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import InputField from '../../components/InputField/InputField';
-import './Register.css';
 import Button from 'components/Button/Button';
+import AuthBasePage from './AuthBasePage';
 import { registerUser } from 'services/registerService';
+import './Register.css';
 
 const Register: React.FC = () => {
   const [userId, setUserId] = useState('');
@@ -36,53 +37,64 @@ const Register: React.FC = () => {
   };
 
   return (
-    <div className="register-container">
-      <h1>Register</h1>
-      {error && <p className="error-message">{error}</p>}
-      <InputField
-        type="text"
-        placeholder="User ID"
-        value={userId}
-        onChange={(e) => setUserId(e.target.value)}
-      />
-      <InputField
-        type="password"
-        placeholder="Password"
-        value={password}
-        onChange={(e) => setPassword(e.target.value)}
-      />
-      <InputField
-        type="password"
-        placeholder="Confirm Password"
-        value={confirmPassword}
-        onChange={(e) => setConfirmPassword(e.target.value)}
-      />
-      <InputField
-        type="email"
-        placeholder="Email"
-        value={email}
-        onChange={(e) => setEmail(e.target.value)}
-      />
-      <InputField
-        type="tel"
-        placeholder="Phone Number (Optional)"
-        value={phone}
-        onChange={(e) => setPhone(e.target.value)}
-      />
-      <InputField
-        type="text"
-        placeholder="Address (Optional)"
-        value={address}
-        onChange={(e) => setAddress(e.target.value)}
-        isTextArea={true}
-      />
-      <div className="button-container">
-        <Button onClick={handleRegister}>Register</Button>
-        <Button onClick={() => navigate('/')} className="secondary-button">
-          Back to Login
-        </Button>
+    <AuthBasePage title="Register">
+      <div className="register-container">
+        <p className="register-comment">
+          Join us and take control of your finances today!
+        </p>
+
+        {error && <p className="error-message">{error}</p>}
+
+        <div className="input-fields">
+          <InputField
+            type="text"
+            placeholder="User ID"
+            value={userId}
+            onChange={(e) => setUserId(e.target.value)}
+          />
+          <InputField
+            type="password"
+            placeholder="Password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+          />
+          <InputField
+            type="password"
+            placeholder="Confirm Password"
+            value={confirmPassword}
+            onChange={(e) => setConfirmPassword(e.target.value)}
+          />
+          <InputField
+            type="email"
+            placeholder="Email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+          />
+          <InputField
+            type="tel"
+            placeholder="Phone Number (Optional)"
+            value={phone}
+            onChange={(e) => setPhone(e.target.value)}
+          />
+          <InputField
+            type="text"
+            placeholder="Address (Optional)"
+            value={address}
+            onChange={(e) => setAddress(e.target.value)}
+            isTextArea={true}
+          />
+        </div>
+
+        <div className="register-actions">
+          <Button onClick={handleRegister} className="register-button">
+            Register
+          </Button>
+          <Button onClick={() => navigate('/')} className="secondary-button">
+            Back to Login
+          </Button>
+        </div>
       </div>
-    </div>
+    </AuthBasePage>
   );
 };
 

@@ -1,38 +1,79 @@
 .register-container {
   display: flex;
-  flex-direction: column; /* Stack elements vertically */
-  align-items: center; /* Center elements horizontally */
-  justify-content: center; /* Center elements vertically */
+  flex-direction: column;
+  align-items: center;
+  gap: 24px; /* Space between sections */
+  width: 100%;
+}
+
+.register-comment {
+  font-size: 1.2rem; /* Slightly larger font size */
+  font-weight: bold; /* Make the text bold */
+  color: #333; /* Darker color for better visibility */
   text-align: center;
-  padding: 20px;
-  min-height: 100vh; /* Ensure the container takes up the full viewport height */
-  box-sizing: border-box;
-}
-
-.register-container h1 {
-  font-size: 2.5rem;
-  color: #333;
-  margin-bottom: 20px;
-}
-
-.input-field {
-  padding: 10px;
-  width: 300px; /* Adjust width for consistency */
-  border: 1px solid #ccc;
-  border-radius: 5px;
-  font-size: 1rem;
-  margin: 10px 0; /* Add spacing between fields */
-}
-
-.button-container {
-  display: flex;
-  justify-content: center; /* Center the buttons horizontally */
-  gap: 20px; /* Add spacing between the buttons */
-  margin-top: 20px; /* Add spacing above the button container */
+  padding: 12px 16px; /* Add padding for spacing inside the comment box */
+  margin-bottom: 20px; /* Space below the comment */
 }
 
 .error-message {
   color: red;
+  font-size: 0.9rem;
+  text-align: center;
+}
+
+.input-fields {
+  display: flex;
+  flex-direction: column;
+  gap: 16px; /* Space between input fields */
+  width: 100%;
+  max-width: 400px; /* Limit the width of the input fields */
+}
+
+.input-fields input,
+.input-fields textarea {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
   font-size: 1rem;
-  margin-bottom: 10px;
+}
+
+.register-actions {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px; /* Space between buttons */
+  width: 100%;
+}
+
+.register-button {
+  width: 80%; /* Make the button 80% of the input field width */
+  padding: 10px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.register-button:hover {
+  background-color: #0056b3;
+}
+
+.secondary-button {
+  width: 80%; /* Match the width of the register button */
+  padding: 10px;
+  background-color: #6c757d;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.secondary-button:hover {
+  background-color: #5a6268;
 }
