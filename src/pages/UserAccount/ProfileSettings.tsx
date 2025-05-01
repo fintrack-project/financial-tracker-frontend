@@ -1,14 +1,19 @@
 import React, { useState } from 'react'
 import ProfileSettingsNavigationBar from '../../components/Bar/ProfileSettingsNavigationBar';
+import ProfileDetail from '../../components/Profile/ProfileDetail'; // Import ProfileDetail component
 import './ProfileSettings.css'; // Add styles for horizontal alignment
 
-const ProfileSettings: React.FC = () => {
+interface ProfileSettingsProps {
+  accountId: string; // Pass accountId to fetch user details
+}
+
+const ProfileSettings: React.FC<ProfileSettingsProps> = ({ accountId }) => {
   const [activeSection, setActiveSection] = useState<string>('Profile Detail'); // Default section
 
   const renderContent = () => {
     switch (activeSection) {
       case 'Profile Detail':
-        return <div className="profile-settings-content">Profile Detail Placeholder</div>;
+        return <ProfileDetail accountId={accountId} />;
       case 'Security':
         return <div className="profile-settings-content">Security Placeholder</div>;
       case 'Payment':

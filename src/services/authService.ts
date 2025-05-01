@@ -8,7 +8,7 @@ export interface LoginRequest {
 
 export const loginUser = async (loginData: LoginRequest): Promise<string> => {
   try {
-    const response = await axios.post('/api/login', loginData, {
+    const response = await axios.post('/api/user/login', loginData, {
       headers: {
         'Content-Type': 'application/json',
       },

@@ -68,6 +68,7 @@ const Profile: React.FC<ProfileProps> = ({ accountId }) => {
 
   const rightContent = (
     <ProfileSettings 
+      accountId={accountId || 'Guest'} // Pass accountId to ProfileSettings
     /> // Use the new ProfileSettings component
   );
 
