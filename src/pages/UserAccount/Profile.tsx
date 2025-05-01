@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import BaseUserAccountPage from './BaseUserAccountPage';
 import { fetchCurrenciesByAccountId, updateBaseCurrency, AccountCurrency } from '../../services/accountCurrencyService'; // Adjust the import path as necessary
 import AccountDetailAndMenu from '../../components/Menu/AccountDetailAndMenu'; // Import AccountDetailAndMenu
+import ProfileSettings from './ProfileSettings';
 import './Profile.css';
 
 interface ProfileProps {
@@ -66,10 +67,8 @@ const Profile: React.FC<ProfileProps> = ({ accountId }) => {
   );
 
   const rightContent = (
-    <div>
-      <h2>Profile Settings</h2>
-      <p>Welcome to your profile page. Here you can manage your account details, update your personal information, and more.</p>
-    </div>
+    <ProfileSettings 
+    /> // Use the new ProfileSettings component
   );
 
   return <BaseUserAccountPage leftContent={leftContent} rightContent={rightContent} />;
