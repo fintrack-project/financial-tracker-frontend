@@ -21,7 +21,7 @@ const FileActionsDropdown: React.FC<FileActionsDropdownProps> = ({
       <button className="button" onClick={onDownload}>
         {actionName}
       </button>
-      <div className="dropdown-container">
+      <div className="file-actions-dropdown-container">
         <div
           className="dropdown-selector"
           onClick={() => setDropdownOpen((prev) => !prev)}

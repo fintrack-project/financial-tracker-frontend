@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import InputField from '../../components/InputField/InputField';
-import './Login.css';
 import Button from 'components/Button/Button';
+import AuthBasePage from './AuthBasePage';
 import { loginUser } from '../../services/authService';
 import UserSession from '../../utils/UserSession';
+import './Login.css';
 
 const Login: React.FC = () => {
   const [userId, setUserId] = useState('');
@@ -42,33 +43,37 @@ const Login: React.FC = () => {
   };
 
   return (
-    <div className="login-container">
-      <h1>Login</h1>
-      <div className="input-container">
-        <InputField
-          type="text"
-          placeholder="User ID"
-          value={userId}
-          onChange={(e) => setUserId(e.target.value)}
-        />
+    <AuthBasePage title="Login">
+      <div className="login-container">
+        <div className="register-link" onClick={() => navigate('/register')}>
+          Don't have an account? Register
+        </div>
+
+        <div className="input-fields">
+          <InputField
+            type="text"
+            placeholder="User ID"
+            value={userId}
+            onChange={(e) => setUserId(e.target.value)}
+          />
+          <InputField
+            type="password"
+            placeholder="Password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+          />
+        </div>
+
+        <div className="login-actions">
+          <Button onClick={handleLogin} className="login-button">
+            Login
+          </Button>
+          <div className="forgot-password" onClick={() => alert('Forgot password clicked')}>
+            Forgot password?
+          </div>
+        </div>
       </div>
-      <div className="input-container">
-        <InputField
-          type="password"
-          placeholder="Password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-        />
-      </div>
-      <div className="button-container">
-      <Button onClick={handleLogin} className="login-button">
-        Login
-      </Button>
-      <Button onClick={() => navigate('/register')} className="register-button">
-        Register
-      </Button>
-      </div>
-    </div>
+    </AuthBasePage>
   );
 };
 
