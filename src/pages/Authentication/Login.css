@@ -1,36 +1,49 @@
 .login-container {
-  text-align: center;
-  padding: 20px;
-}
-
-.login-container h1 {
-  font-size: 2.5rem;
-  color: #333;
-  margin-bottom: 20px;
-}
-
-.login-container .input-container {
-  margin: 10px 0;
-}
-
-.login-container .input-field {
-  padding: 10px;
-  width: 250px;
+  display: flex;
+  flex-direction: column;
   align-items: center;
+  gap: 24px; /* Space between sections */
+  width: 100%;
+}
+
+.register-link {
+  font-size: 1rem;
+  color: #000;
+  cursor: pointer;
+  transition: color 0.3s ease;
+}
+
+.register-link:hover {
+  color: #555; /* Lighter color on hover */
+}
+
+.input-fields {
+  display: flex;
+  flex-direction: column;
+  gap: 16px; /* Space between input fields */
+  width: 100%;
+  max-width: 400px; /* Limit the width of the input fields */
+}
+
+.input-fields input {
+  width: 100%;
+  padding: 10px;
   border: 1px solid #ccc;
   border-radius: 5px;
   font-size: 1rem;
 }
 
-.login-container .button-container {
+.login-actions {
   display: flex;
-  justify-content: center; /* Center the buttons horizontally */
-  gap: 20px; /* Add spacing between the buttons */
-  margin-top: 20px; /* Add spacing above the button container */
+  flex-direction: column;
+  align-items: center;
+  gap: 8px; /* Space between the button and forgot password text */
+  width: 100%;
 }
 
-.login-container .button {
-  padding: 10px 20px;
+.login-button {
+  width: 80%; /* Make the button 80% of the input field width */
+  padding: 10px;
   background-color: #007bff;
   color: white;
   border: none;
@@ -40,6 +53,17 @@
   transition: background-color 0.3s ease;
 }
 
-.login-container .button:hover {
+.login-button:hover {
   background-color: #0056b3;
+}
+
+.forgot-password {
+  font-size: 0.9rem;
+  color: #000;
+  cursor: pointer;
+  transition: color 0.3s ease;
+}
+
+.forgot-password:hover {
+  color: #555;
 }

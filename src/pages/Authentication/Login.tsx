@@ -45,23 +45,32 @@ const Login: React.FC = () => {
   return (
     <AuthBasePage title="Login">
       <div className="login-container">
-        <InputField
-          type="text"
-          placeholder="User ID"
-          value={userId}
-          onChange={(e) => setUserId(e.target.value)}
-        />
-        <InputField
-          type="password"
-          placeholder="Password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-        />
-        <div className="button-container">
-          <Button onClick={handleLogin}>Login</Button>
-          <Button onClick={() => navigate('/register')} className="secondary-button">
-            Register
+        <div className="register-link" onClick={() => navigate('/register')}>
+          Don't have an account? Register
+        </div>
+
+        <div className="input-fields">
+          <InputField
+            type="text"
+            placeholder="User ID"
+            value={userId}
+            onChange={(e) => setUserId(e.target.value)}
+          />
+          <InputField
+            type="password"
+            placeholder="Password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+          />
+        </div>
+
+        <div className="login-actions">
+          <Button onClick={handleLogin} className="login-button">
+            Login
           </Button>
+          <div className="forgot-password" onClick={() => alert('Forgot password clicked')}>
+            Forgot password?
+          </div>
         </div>
       </div>
     </AuthBasePage>
