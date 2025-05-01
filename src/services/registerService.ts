@@ -4,8 +4,6 @@ export interface RegisterRequest {
   userId: string;
   password: string;
   email: string;
-  phone?: string;
-  address?: string;
 }
 
 export interface CreateAccountRequest {

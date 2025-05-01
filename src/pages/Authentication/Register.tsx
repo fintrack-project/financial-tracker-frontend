@@ -11,8 +11,6 @@ const Register: React.FC = () => {
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   const [email, setEmail] = useState('');
-  const [phone, setPhone] = useState('');
-  const [address, setAddress] = useState('');
   const [error, setError] = useState('');
   const navigate = useNavigate();
 
@@ -26,17 +24,8 @@ const Register: React.FC = () => {
     return emailRegex.test(email);
   };
 
-  const isValidPhone = (phone: string) => {
-    const phoneRegex = /^\+?[1-9]\d{1,14}$/; // E.164 format
-    return phoneRegex.test(phone);
-  };
-
   const sendEmailVerification = async (email: string) => {
     alert(`A verification link has been sent to ${email}. Please verify your email.`);
-  };
-
-  const sendSMSVerification = async (phone: string) => {
-    alert(`A verification code has been sent to ${phone}. Please verify your phone number.`);
   };
 
   const handleRegister = async () => {
@@ -60,24 +49,11 @@ const Register: React.FC = () => {
       return;
     }
 
-    if (phone && !isValidPhone(phone)) {
-      setError('Please enter a valid phone number.');
-      return;
-    }
-
-    if (address && address.trim().length < 5) {
-      setError('Address must be at least 5 characters long.');
-      return;
-    }
-
     try {
-      const message = await registerUser({ userId, password, email, phone, address });
+      const message = await registerUser({ userId, password, email });
       alert(message);
 
       await sendEmailVerification(email);
-      if (phone) {
-        await sendSMSVerification(phone);
-      }
 
       navigate('/'); // Redirect to login page
     } catch (err: any) {
@@ -119,19 +95,6 @@ const Register: React.FC = () => {
             placeholder="Email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
-          />
-          <InputField
-            type="tel"
-            placeholder="Phone Number (Optional)"
-            value={phone}
-            onChange={(e) => setPhone(e.target.value)}
-          />
-          <InputField
-            type="text"
-            placeholder="Address (Optional)"
-            value={address}
-            onChange={(e) => setAddress(e.target.value)}
-            isTextArea={true}
           />
         </div>
 

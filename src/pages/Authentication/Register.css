@@ -18,8 +18,7 @@
   color: red;
   font-size: 0.9rem;
   text-align: center;
-  margin-top: 8px;
-  margin-bottom: 8px; /* Space below the error message */
+  height: 20px; /* Fixed height for the error message */
   visibility: hidden; /* Hide the error message by default */
 }
 
