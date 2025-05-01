@@ -1,26 +1,27 @@
-/* Container for the top bar */
 .page-top-bar {
   display: flex;
-  justify-content: space-between; /* Align navigation bar to the left and account menu to the right */
-  align-items: center; /* Vertically center the items */
+  align-items: center;
+  justify-content: space-between;
   padding: 10px 20px;
-  background-color: #f8f9fa; /* Light background color */
-  border-bottom: 1px solid #ddd; /* Optional border for separation */
-  position: sticky; /* Keep the top bar fixed at the top */
-  top: 0;
-  z-index: 1000; /* Ensure it stays above other elements */
+  background-color: #f9f9f9;
+  border-bottom: 1px solid #ddd;
 }
 
-/* Navigation bar on the left */
+.logo-container {
+  display: flex;
+  align-items: center;
+}
+
+.fintrack-logo {
+  height: 40px; /* Adjust the height to fit well with the navigation bar */
+  width: auto; /* Maintain aspect ratio */
+}
+
 .navigation-bar {
-  flex: 1; /* Take up available space */
-  display: flex;
-  justify-content: flex-start; /* Align content to the left */
+  flex: 1; /* Allow the navigation bar to take up remaining space */
+  margin-left: 10px; /* Add spacing between the logo and navigation bar */
 }
 
-/* Account menu on the right */
 .account-menu {
-  flex: 0; /* Do not stretch */
-  display: flex;
-  justify-content: flex-end; /* Align content to the right */
+  margin-left: auto; /* Push the account menu to the far right */
 }
