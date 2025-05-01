@@ -16,9 +16,37 @@ const Register: React.FC = () => {
   const [error, setError] = useState('');
   const navigate = useNavigate();
 
+  const isStrongPassword = (password: string) => {
+    const strongPasswordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+    return strongPasswordRegex.test(password);
+  };
+
+  const isValidEmail = (email: string) => {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return emailRegex.test(email);
+  };
+
+  const isValidPhone = (phone: string) => {
+    const phoneRegex = /^\+?[1-9]\d{1,14}$/; // E.164 format
+    return phoneRegex.test(phone);
+  };
+
+  const sendEmailVerification = async (email: string) => {
+    alert(`A verification link has been sent to ${email}. Please verify your email.`);
+  };
+
+  const sendSMSVerification = async (phone: string) => {
+    alert(`A verification code has been sent to ${phone}. Please verify your phone number.`);
+  };
+
   const handleRegister = async () => {
     if (!userId || !password || !email) {
       setError('User ID, Password, and Email are required.');
+      return;
+    }
+
+    if (!isStrongPassword(password)) {
+      setError('Password must be at least 8 characters long, include uppercase, lowercase, a number, and a special character.');
       return;
     }
 
@@ -27,9 +55,30 @@ const Register: React.FC = () => {
       return;
     }
 
+    if (!isValidEmail(email)) {
+      setError('Please enter a valid email address.');
+      return;
+    }
+
+    if (phone && !isValidPhone(phone)) {
+      setError('Please enter a valid phone number.');
+      return;
+    }
+
+    if (address && address.trim().length < 5) {
+      setError('Address must be at least 5 characters long.');
+      return;
+    }
+
     try {
-      const message = await registerUser({ userId, password, email, phone, address }); // Use the register service
+      const message = await registerUser({ userId, password, email, phone, address });
       alert(message);
+
+      await sendEmailVerification(email);
+      if (phone) {
+        await sendSMSVerification(phone);
+      }
+
       navigate('/'); // Redirect to login page
     } catch (err: any) {
       setError(err.message);
@@ -43,7 +92,8 @@ const Register: React.FC = () => {
           Join us and take control of your finances today!
         </p>
 
-        {error && <p className="error-message">{error}</p>}
+        {error && <p className="error-message visible">{error}</p>}
+        {!error && <p className="error-message">&nbsp;</p>} {/* Empty space when no error */}
 
         <div className="input-fields">
           <InputField

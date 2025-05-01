@@ -20,6 +20,7 @@
 .input-fields {
   display: flex;
   flex-direction: column;
+  margin-top: 20px;
   gap: 16px; /* Space between input fields */
   width: 100%;
   max-width: 400px; /* Limit the width of the input fields */
@@ -37,6 +38,7 @@
   display: flex;
   flex-direction: column;
   align-items: center;
+  margin-top: 20px;
   gap: 8px; /* Space between the button and forgot password text */
   width: 100%;
 }
