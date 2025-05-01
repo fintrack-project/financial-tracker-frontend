@@ -1,6 +1,14 @@
 import axios from 'axios';
 
-export const registerUser = async (accountId : string): Promise<string[]> => {
+export interface UserDetails {
+  userId: string;
+  password: string;
+  email: string;
+  phone: string | null; // Phone can be nullable
+  address: string | null; // Address can be nullable
+}
+
+export const fetchUserDetails = async (accountId : string): Promise<UserDetails> => {
   try {
     const userDataResponse = await axios.post('/api/user/fetch', {
       params: { accountId },

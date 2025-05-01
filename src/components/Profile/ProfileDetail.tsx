@@ -1,15 +1,9 @@
 import React, { useEffect, useState } from 'react';
+import { fetchUserDetails, UserDetails } from '../../services/userService';
 import './ProfileDetail.css'; // Add styles for the profile detail section
 
 interface ProfileDetailProps {
   accountId: string; // Account ID to fetch user details
-}
-
-interface UserDetails {
-  name: string;
-  email: string;
-  phone: string;
-  address: string;
 }
 
 const ProfileDetail: React.FC<ProfileDetailProps> = ({ accountId }) => {
@@ -18,14 +12,10 @@ const ProfileDetail: React.FC<ProfileDetailProps> = ({ accountId }) => {
   const [loading, setLoading] = useState<boolean>(true);
 
   useEffect(() => {
-    const fetchUserDetails = async () => {
+    const loadUserDetails = async () => {
       try {
         setLoading(true);
-        const response = await fetch(`/api/users/${accountId}`); // Replace with your actual API endpoint
-        if (!response.ok) {
-          throw new Error('Failed to fetch user details');
-        }
-        const data = await response.json();
+        const data = await fetchUserDetails(accountId); // Use the service to fetch user details
         setUserDetails(data);
         setError(null);
       } catch (err) {
@@ -36,7 +26,7 @@ const ProfileDetail: React.FC<ProfileDetailProps> = ({ accountId }) => {
       }
     };
 
-    fetchUserDetails();
+    loadUserDetails();
   }, [accountId]);
 
   if (loading) {
@@ -54,10 +44,12 @@ const ProfileDetail: React.FC<ProfileDetailProps> = ({ accountId }) => {
   return (
     <div className="profile-detail">
       <h2>User Details</h2>
-      <p><strong>Name:</strong> {userDetails.name}</p>
-      <p><strong>Email:</strong> {userDetails.email}</p>
-      <p><strong>Phone:</strong> {userDetails.phone}</p>
-      <p><strong>Address:</strong> {userDetails.address}</p>
+      <div className="profile-detail-info">
+        <p><strong>ID:</strong> {userDetails.userId}</p>
+        <p><strong>Email:</strong> {userDetails.email}</p>
+        <p><strong>Phone:</strong> {userDetails.phone}</p>
+        <p><strong>Address:</strong> {userDetails.address}</p>
+      </div>
     </div>
   );
 };

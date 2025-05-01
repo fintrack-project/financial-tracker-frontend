@@ -1,5 +1,4 @@
 import axios from 'axios';
-import UserSession from '../utils/UserSession';
 
 export interface LoginRequest {
   userId: string;
