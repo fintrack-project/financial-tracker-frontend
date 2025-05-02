@@ -30,14 +30,11 @@ const ProfileSettings: React.FC<ProfileSettingsProps> = ({ accountId }) => {
 
   return (
     <div className="profile-settings">
-      {/* Navigation Bar */}
       <ProfileSettingsNavigationBar
         activeSection={activeSection}
         onSectionChange={setActiveSection}
       />
-
-      {/* Content Area */}
-      <div className="profile-settings-content-container">{renderContent()}</div>
+      {renderContent()}
     </div>
   );
 };

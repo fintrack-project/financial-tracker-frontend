@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
-import { fetchUserDetails, UserDetails, fetchNotificationPreferences, NotificationPreferences } from '../../services/userService';
-import ProfileTable from '../../components/Table/ProfileTable/ProfileTable';
+import { fetchUserDetails, UserDetails  } from '../../services/userService';
+import { fetchNotificationPreferences, NotificationPreferences } from '../../services/userNotificationPrefService';
+import NotificationToggle from '../Toggle/NotificationToggle'; // Import the toggle component
 import './Notification.css'; // Add styles for the notification section
 
 interface NotificationProps {
@@ -46,6 +47,19 @@ const Notification: React.FC<NotificationProps> = ({ accountId }) => {
     loadNotificationPreferences();
   }, [accountId]);
 
+  const handleToggle = (type: keyof NotificationPreferences) => {
+    if (!notificationPreferences) return;
+
+    // Update the local state for the toggle
+    setNotificationPreferences((prev) => ({
+      ...prev!,
+      [type]: !prev![type],
+    }));
+
+    // TODO: Call the backend API to persist the toggle state
+    console.log(`Toggled ${type} to ${!notificationPreferences[type]}`);
+  };
+
   if (loading) {
     return <p>Loading notification details...</p>;
   }
@@ -61,25 +75,27 @@ const Notification: React.FC<NotificationProps> = ({ accountId }) => {
   if (!notificationPreferences) {
     return <p>No notification preferences available.</p>;
   }
-  
-  const tableData = [
-    {
-      label: 'Notification Preferences',
-      value: (
-        <ul>
-          <li>Email: {notificationPreferences.email ? 'Enabled' : 'Disabled'}</li>
-          <li>SMS: {notificationPreferences.sms ? 'Enabled' : 'Disabled'}</li>
-          <li>Push Notifications: {notificationPreferences.push ? 'Enabled' : 'Disabled'}</li>
-        </ul>
-      ),
-    },
-    { label: 'Timezone', value: userDetails.timezone || 'N/A' },
-  ];
 
   return (
     <div className="notification">
       <h2>Notification Settings</h2>
-      <ProfileTable data={tableData} />
+      <div className="notification-preferences">
+        <NotificationToggle
+          label="Email"
+          isEnabled={notificationPreferences.email}
+          onToggle={() => handleToggle('email')}
+        />
+        <NotificationToggle
+          label="SMS"
+          isEnabled={notificationPreferences.sms}
+          onToggle={() => handleToggle('sms')}
+        />
+        <NotificationToggle
+          label="Push Notifications"
+          isEnabled={notificationPreferences.push}
+          onToggle={() => handleToggle('push')}
+        />
+      </div>
     </div>
   );
 };

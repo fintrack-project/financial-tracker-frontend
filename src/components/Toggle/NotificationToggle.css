@@ -1,0 +1,45 @@
+.notification-toggle {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 15px;
+  font-size: 1rem;
+}
+
+.notification-label {
+  margin-right: 10px;
+  color: #333;
+}
+
+.toggle-switch {
+  width: 50px;
+  height: 25px;
+  background-color: #ccc;
+  border-radius: 25px;
+  position: relative;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.toggle-switch.enabled {
+  background-color: #4caf50; /* Green when enabled */
+}
+
+.toggle-switch.disabled {
+  background-color: #ccc; /* Gray when disabled */
+}
+
+.toggle-knob {
+  width: 23px;
+  height: 23px;
+  background-color: #fff;
+  border-radius: 50%;
+  position: absolute;
+  top: 1px;
+  left: 1px;
+  transition: transform 0.3s ease;
+}
+
+.toggle-switch.enabled .toggle-knob {
+  transform: translateX(25px); /* Move knob to the right when enabled */
+}
