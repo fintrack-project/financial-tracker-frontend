@@ -1,20 +1,5 @@
 import axios from 'axios';
-
-export interface LoginRequest {
-  userId: string;
-  password: string;
-}
-
-export interface RegisterRequest {
-  userId: string;
-  password: string;
-  email: string;
-}
-
-export interface CreateAccountRequest {
-  userId: string;
-  accountName: string;
-}
+import { LoginRequest, RegisterRequest } from '../types/Requests';
 
 export const loginUser = async (loginData: LoginRequest): Promise<string> => {
   try {

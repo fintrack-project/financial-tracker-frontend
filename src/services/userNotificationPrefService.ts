@@ -1,10 +1,5 @@
 import axios from 'axios';
-
-export interface NotificationPreferences {
-  email: boolean;
-  sms: boolean;
-  push: boolean;
-}
+import { NotificationPreferences } from '../types/NotificationPreferences';
 
 export const fetchNotificationPreferences = async (accountId: string): Promise<NotificationPreferences> => {
   try {

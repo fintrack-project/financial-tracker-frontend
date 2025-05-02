@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { fetchUserDetails, UserDetails  } from '../../services/userService';
-import { fetchNotificationPreferences, NotificationPreferences } from '../../services/userNotificationPrefService';
+import { fetchNotificationPreferences } from '../../services/userNotificationPrefService';
+import { NotificationPreferences } from '../../types/NotificationPreferences';
 import NotificationToggle from '../Toggle/NotificationToggle'; // Import the toggle component
 import './Notification.css'; // Add styles for the notification section
 

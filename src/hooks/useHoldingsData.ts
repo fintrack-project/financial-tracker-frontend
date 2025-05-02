@@ -1,7 +1,8 @@
 import { useEffect, useState } from 'react';
 import { fetchHoldings } from '../services/holdingsService';
-import { fetchPortfolioData, PortfolioData } from '../services/portfolioService';
+import { fetchPortfolioData } from '../services/portfolioService';
 import { fetchCurrenciesByAccountId } from '../services/accountCurrencyService';
+import { PortfolioData } from 'types/PortfolioData';
 import { Holding } from '../types/Holding';
 
 export const useHoldingsData = (accountId: string | null) => {
