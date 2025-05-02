@@ -1,5 +1,4 @@
-import React, { useState } from 'react';
-import IconButton from '../../Button/IconButton'; // Import your custom IconButton
+import React from 'react';
 import './ProfileTable.css';
 
 interface ProfileTableRow {
@@ -16,27 +15,7 @@ interface ProfileTableProps {
   onEditConfirm?: (label: string, newValue: string) => void; // Callback for confirming edits
 }
 
-const ProfileTable: React.FC<ProfileTableProps> = ({ data, onEditConfirm }) => {
-  const [editState, setEditState] = useState<{ [key: string]: string | null }>({}); // Track edit states
-
-  const handleEditClick = (label: string, currentValue: string | null) => {
-    setEditState((prevState) => ({ ...prevState, [label]: currentValue })); // Enable edit mode for the row
-  };
-
-  const handleConfirmClick = (label: string) => {
-    if (onEditConfirm && editState[label] !== undefined) {
-      onEditConfirm(label, editState[label] || ''); // Call the confirm callback
-    }
-    setEditState((prevState) => {
-      const newState = { ...prevState };
-      delete newState[label]; // Exit edit mode for the row
-      return newState;
-    });
-  };
-
-  const handleInputChange = (label: string, newValue: string) => {
-    setEditState((prevState) => ({ ...prevState, [label]: newValue })); // Update the value in edit state
-  };
+const ProfileTable: React.FC<ProfileTableProps> = ({ data }) => {
 
   return (
     <div className="profile-table">
