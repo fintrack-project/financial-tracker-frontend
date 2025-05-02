@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react';
-import { fetchUserDetails, UserDetails } from '../../services/userService';
+import { fetchUserDetails } from '../../services/userService';
+import { UserDetails } from '../../types/UserDetails';
 import ProfileTable from '../../components/Table/ProfileTable/ProfileTable';
+import IconButton from '../../components/Button/IconButton';
 import './ProfileDetail.css'; // Add styles for the profile detail section
 
 interface ProfileDetailProps {
@@ -9,6 +11,7 @@ interface ProfileDetailProps {
 
 const ProfileDetail: React.FC<ProfileDetailProps> = ({ accountId }) => {
   const [userDetails, setUserDetails] = useState<UserDetails | null>(null);
+  const [editState, setEditState] = useState<{ [key: string]: string | null }>({});
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
 
@@ -33,6 +36,22 @@ const ProfileDetail: React.FC<ProfileDetailProps> = ({ accountId }) => {
     loadUserDetails();
   }, [accountId]);
 
+  const handleEditClick = (label: string, currentValue: string | null) => {
+    setEditState((prevState) => ({ ...prevState, [label]: currentValue })); // Enable edit mode for the row
+  };
+
+  const handleConfirmClick = (label: string) => {
+    if (editState[label] !== undefined) {
+      console.log(`Updated ${label} to ${editState[label]}`);
+      // Add logic to update the backend or state here
+      setUserDetails((prev) => ({
+        ...prev!,
+        [label.toLowerCase() as keyof UserDetails]: editState[label] || '',
+      }));
+      setEditState((prevState) => ({ ...prevState, [label]: null })); // Exit edit mode
+    }
+  };
+
   if (loading) {
     return <p>Loading user details...</p>;
   }
@@ -46,24 +65,95 @@ const ProfileDetail: React.FC<ProfileDetailProps> = ({ accountId }) => {
   }
 
   const tableData = [
-    { label: 'User ID', value: userDetails.userId },
-    { label: 'Email', value: userDetails.email, editable: true },
-    { label: 'Phone', value: userDetails.phone, editable: true },
-    { label: 'Address', value: userDetails.address, editable: true },
-    { label: 'Account Tier', value: userDetails.accountTier },
-    { label: 'Signup Date', value: userDetails.signupDate },
-    { label: 'Last Activity', value: userDetails.lastActivityDate },
+    {
+      label: 'User ID',
+      value: userDetails.userId,
+    },
+    {
+      label: 'Email',
+      value:
+        editState['Email'] !== undefined ? (
+          <input
+            type="text"
+            value={editState['Email'] || ''}
+            onChange={(e) => setEditState((prevState) => ({ ...prevState, Email: e.target.value }))}
+          />
+        ) : (
+          userDetails.email
+        ),
+      status: userDetails.emailVerifed ? (
+        <span style={{ color: 'green' }}>Verified</span>
+      ) : (
+        <span style={{ color: 'red' }}>Not Verified</span>
+      ),
+      actions:
+        editState['Email'] !== undefined ? (
+          <IconButton type="confirm" label="Confirm" onClick={() => handleConfirmClick('Email')} />
+        ) : (
+          <IconButton type="edit" label="Edit" onClick={() => handleEditClick('Email', userDetails.email)} />
+        ),
+    },
+    {
+      label: 'Phone',
+      value:
+        editState['Phone'] !== undefined ? (
+          <input
+            type="text"
+            value={editState['Phone'] || ''}
+            onChange={(e) => setEditState((prevState) => ({ ...prevState, Phone: e.target.value }))}
+          />
+        ) : (
+          userDetails.phone
+        ),
+      status: userDetails.phoneVerified ? (
+        <span style={{ color: 'green' }}>Verified</span>
+      ) : (
+        <span style={{ color: 'red' }}>Not Verified</span>
+      ),
+      actions:
+        editState['Phone'] !== undefined ? (
+          <IconButton type="confirm" label="Confirm" onClick={() => handleConfirmClick('Phone')} />
+        ) : (
+          <IconButton type="edit" label="Edit" onClick={() => handleEditClick('Phone', userDetails.phone)} />
+        ),
+    },
+    {
+      label: 'Address',
+      value:
+        editState['Address'] !== undefined ? (
+          <input
+            type="text"
+            value={editState['Address'] || ''}
+            onChange={(e) => setEditState((prevState) => ({ ...prevState, Address: e.target.value }))}
+          />
+        ) : (
+          userDetails.address
+        ),
+      actions:
+        editState['Address'] !== undefined ? (
+          <IconButton type="confirm" label="Confirm" onClick={() => handleConfirmClick('Address')} />
+        ) : (
+          <IconButton type="edit" label="Edit" onClick={() => handleEditClick('Address', userDetails.address)} />
+        ),
+    },
+    {
+      label: 'Account Tier',
+      value: userDetails.accountTier,
+    },
+    {
+      label: 'Signup Date',
+      value: userDetails.signupDate,
+    },
+    {
+      label: 'Last Activity',
+      value: userDetails.lastActivityDate,
+    },
   ];
-
-  const handleEditConfirm = (label: string, newValue: string) => {
-    console.log(`Updated ${label} to ${newValue}`);
-    // Add logic to update the backend or state here
-  };
 
   return (
     <div className="profile-detail">
       <h2>User Details</h2>
-      <ProfileTable data={tableData} onEditConfirm={handleEditConfirm} />
+      <ProfileTable data={tableData} />
     </div>
   );
 };

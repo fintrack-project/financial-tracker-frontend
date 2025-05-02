@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
-import { fetchUserDetails, UserDetails  } from '../../services/userService';
+import { fetchUserDetails  } from '../../services/userService';
 import { fetchNotificationPreferences, updateNotificationPreference } from '../../services/userNotificationPrefService';
+import { UserDetails } from '../../types/UserDetails';
 import { NotificationPreferences } from '../../types/NotificationPreferences';
 import ProfileTable from '../../components/Table/ProfileTable/ProfileTable';
 import NotificationToggle from '../Toggle/NotificationToggle'; // Import the toggle component
