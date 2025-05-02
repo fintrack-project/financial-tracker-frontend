@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { fetchUserDetails, UserDetails } from '../../services/userService';
+import { fetchUserDetails, UserDetails, fetchNotificationPreferences, NotificationPreferences } from '../../services/userService';
 import ProfileTable from '../../components/Table/ProfileTable/ProfileTable';
 import './Notification.css'; // Add styles for the notification section
 
@@ -9,6 +9,7 @@ interface NotificationProps {
 
 const Notification: React.FC<NotificationProps> = ({ accountId }) => {
   const [userDetails, setUserDetails] = useState<UserDetails | null>(null);
+  const [notificationPreferences, setNotificationPreferences] = useState<NotificationPreferences | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
 
@@ -27,7 +28,22 @@ const Notification: React.FC<NotificationProps> = ({ accountId }) => {
       }
     };
 
+    const loadNotificationPreferences = async () => {
+      try {
+        setLoading(true);
+        const preferences = await fetchNotificationPreferences(accountId);
+        setNotificationPreferences(preferences);
+        setError(null);
+      } catch (err) {
+        setError('Failed to load notification preferences. Please try again later.');
+        setNotificationPreferences(null);
+      } finally {
+        setLoading(false);
+      }
+    };
+
     loadUserDetails();
+    loadNotificationPreferences();
   }, [accountId]);
 
   if (loading) {
@@ -42,7 +58,10 @@ const Notification: React.FC<NotificationProps> = ({ accountId }) => {
     return <p>No notification details available.</p>;
   }
 
-  const notificationPreferences = userDetails.notificationPreferences || {};
+  if (!notificationPreferences) {
+    return <p>No notification preferences available.</p>;
+  }
+  
   const tableData = [
     {
       label: 'Notification Preferences',

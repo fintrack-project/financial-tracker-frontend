@@ -26,6 +26,12 @@ export interface UserDetails {
   apiUsageLimit: number;
 }
 
+export interface NotificationPreferences {
+  email: boolean;
+  sms: boolean;
+  push: boolean;
+}
+
 export const fetchUserDetails = async (accountId: string): Promise<UserDetails> => {
   try {
     const userDataResponse = await axios.post('/api/user/fetch', {
@@ -38,5 +44,29 @@ export const fetchUserDetails = async (accountId: string): Promise<UserDetails> 
       throw new Error(error.response.data.message || 'An error occurred during registration.');
     }
     throw new Error('An unknown error occurred during registration.');
+  }
+};
+
+export const fetchNotificationPreferences = async (accountId: string): Promise<NotificationPreferences> => {
+  try {
+    const response = await axios.get(`/api/notification-preferences`, {
+      params: { accountId },
+    });
+
+    // Transform the response data into the desired format
+    const preferences = response.data.reduce(
+      (acc: NotificationPreferences, pref: { notification_type: string; is_enabled: boolean }) => {
+        if (pref.notification_type === 'EMAIL') acc.email = pref.is_enabled;
+        if (pref.notification_type === 'SMS') acc.sms = pref.is_enabled;
+        if (pref.notification_type === 'PUSH') acc.push = pref.is_enabled;
+        return acc;
+      },
+      { email: false, sms: false, push: false }
+    );
+
+    return preferences;
+  } catch (error) {
+    console.error('Failed to fetch notification preferences:', error);
+    throw new Error('Unable to fetch notification preferences.');
   }
 };
