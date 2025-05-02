@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import InputField from '../../components/InputField/InputField';
 import Button from 'components/Button/Button';
 import AuthBasePage from './AuthBasePage';
-import { registerUser } from 'services/registerService';
+import { registerUser } from 'services/authService';
 import './Register.css';
 
 const Register: React.FC = () => {
@@ -25,7 +25,7 @@ const Register: React.FC = () => {
   };
 
   const sendEmailVerification = async (email: string) => {
-    alert(`A verification link has been sent to ${email}. Please verify your email.`);
+    alert(`Registration successful! A verification link has been sent to ${email}. Please verify your email.`);
   };
 
   const handleRegister = async () => {

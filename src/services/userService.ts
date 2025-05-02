@@ -16,7 +16,6 @@ export interface UserDetails {
   nextBillingDate: string | null;
   paymentStatus: string | null;
   timezone: string | null;
-  notificationPreferences: Record<string, any> | null;
   twoFactorEnabled: boolean;
   lastLogin: string | null;
   failedLoginAttempts: number;
@@ -25,7 +24,6 @@ export interface UserDetails {
   lastActivityDate: string | null;
   storageLimit: number;
   apiUsageLimit: number;
-  featureFlags: Record<string, any> | null;
 }
 
 export const fetchUserDetails = async (accountId: string): Promise<UserDetails> => {

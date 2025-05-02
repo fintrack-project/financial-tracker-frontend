@@ -8,12 +8,20 @@
 .notification h2 {
   font-size: 20px;
   font-weight: bold;
+  margin-top: 4px;
   margin-bottom: 16px;
+}
+
+.notification-preferences {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
 }
 
 .notification-error {
   color: red;
-  font-size: 14px;
+  font-size: 1rem;
+  margin-top: 10px;
 }
 
 .notification ul {

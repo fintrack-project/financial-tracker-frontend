@@ -15,7 +15,6 @@ export interface subCategoryService {
     category: string,
     subcategory: string
   ) => Promise<void>; // Removes a subcategory from a category
-
 }
 
 export const createSubcategoryService = (

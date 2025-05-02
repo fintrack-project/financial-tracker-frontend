@@ -11,10 +11,12 @@ import {
   ResponsiveContainer,
   Cell,
 } from 'recharts';
-import { fetchPortfolioCombinedBarChartData, CombinedChartData, ChartData } from '../../services/portfolioChartService'; // Services to fetch data
+import { fetchPortfolioCombinedBarChartData } from '../../services/portfolioChartService'; // Services to fetch data
 import { fetchCategories } from '../../services/categoryService';
 import { useBaseCurrency } from '../../hooks/useBaseCurrency'; // Custom hook to get base currency
 import { formatNumber } from '../../utils/FormatNumber';
+import { ChartData } from '../../types/ChartData';
+import { CombinedChartData } from '../../types/CombinedChartData';
 import CategoryDropdown from '../DropDown/CategoryDropdown';
 import TimeRangeDropdown from '../DropDown/TimeRangeDropDown';
 import './PortfolioCombinedBarChart.css';
