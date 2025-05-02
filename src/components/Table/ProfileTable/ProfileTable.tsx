@@ -44,36 +44,8 @@ const ProfileTable: React.FC<ProfileTableProps> = ({ data, onEditConfirm }) => {
         <div key={index} className="profile-table-row">
           <div className="profile-table-label">{item.label}</div>
           <div className="profile-table-value">{item.value || 'N/A'}</div>
-            {/* {item.redacted ? (
-              '************' // Display redacted value
-            ) : editState[item.label] !== undefined ? (
-              <input
-                type="text"
-                value={editState[item.label] || ''}
-                onChange={(e) => handleInputChange(item.label, e.target.value)}
-              />
-            ) : (
-              item.value || 'N/A'
-            )} */}
           <div className="profile-table-status">{item.status || ''}</div>
           <div className="profile-table-action">{item.actions || ''}</div>
-            {/* {item.editable ? (
-              editState[item.label] !== undefined ? (
-                <IconButton
-                  type="confirm" // Use the "confirm" icon for confirmation
-                  onClick={() => handleConfirmClick(item.label)}
-                  label="Confirm"
-                  size="small"
-                />
-              ) : (
-                <IconButton
-                  type="edit" // Use the "edit" icon for editing
-                  onClick={() => handleEditClick(item.label, item.value as string)}
-                  label="Edit"
-                  size="small"
-                />
-              )
-            ) : null} */}
         </div>
       ))}
     </div>

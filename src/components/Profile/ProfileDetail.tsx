@@ -41,14 +41,80 @@ const ProfileDetail: React.FC<ProfileDetailProps> = ({ accountId }) => {
   };
 
   const handleConfirmClick = (label: string) => {
-    if (editState[label] !== undefined) {
-      console.log(`Updated ${label} to ${editState[label]}`);
-      // Add logic to update the backend or state here
+    if (editState[label] === undefined) {
+      return; // Do nothing if the field is not in edit mode
+    }
+  
+    const currentValue = userDetails![label.toLowerCase() as keyof UserDetails];
+    const newValue = editState[label];
+  
+    // If no changes were made, exit edit mode without doing anything
+    if (currentValue === newValue) {
+      setEditState((prevState) => ({ ...prevState, [label]: null }));
+      return;
+    }
+  
+    if (label === 'Address') {
+      // Update the address in the backend
+      console.log(`Updating Address to: ${newValue}`);
       setUserDetails((prev) => ({
         ...prev!,
-        [label.toLowerCase() as keyof UserDetails]: editState[label] || '',
+        address: newValue || '',
       }));
-      setEditState((prevState) => ({ ...prevState, [label]: null })); // Exit edit mode
+      console.log('User details :', userDetails);
+      console.log('Address updated successfully');
+      setEditState((prevState) => ({ ...prevState, [label]: null }));
+      console.log('Edit state after update:', editState);
+      console.log('Exiting edit mode for Address');
+      return;
+    }
+  
+    if (label === 'Email') {
+      if (!newValue) {
+        alert('Email cannot be blank.');
+        setEditState((prevState) => ({ ...prevState, [label]: null })); // Revert to previous value
+        return;
+      }
+  
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      if (!emailRegex.test(newValue)) {
+        alert('Invalid email format.');
+        setEditState((prevState) => ({ ...prevState, [label]: null })); // Revert to previous value
+        return;
+      }
+  
+      // Ask for confirmation before changing the email
+      const confirmChange = window.confirm('Are you sure you want to change your email?');
+      if (!confirmChange) {
+        setEditState((prevState) => ({ ...prevState, [label]: null })); // Revert to previous value
+        return;
+      }
+  
+      // Update the email in the backend
+      console.log(`Updating Email to: ${newValue}`);
+      setUserDetails((prev) => ({
+        ...prev!,
+        email: newValue || '',
+      }));
+      setEditState((prevState) => ({ ...prevState, [label]: null }));
+  
+      // TODO: Send email verification request to backend
+      return;
+    }
+  
+    if (label === 'Phone') {
+      // Update the phone locally without sending a backend request
+      console.log(`Updating Phone to: ${newValue}`);
+      setUserDetails((prev) => ({
+        ...prev!,
+        phone: newValue || '',
+      }));
+      console.log('User details :', userDetails);
+      console.log('Phone updated successfully');
+      setEditState((prevState) => ({ ...prevState, [label]: null }));
+      console.log('Edit state after update:', editState);
+      console.log('Exiting edit mode for Phone');
+      return;
     }
   };
 
@@ -81,7 +147,7 @@ const ProfileDetail: React.FC<ProfileDetailProps> = ({ accountId }) => {
         ) : (
           userDetails.email
         ),
-      status: userDetails.emailVerifed ? (
+      status: userDetails.emailVerified ? (
         <span style={{ color: 'green' }}>Verified</span>
       ) : (
         <span style={{ color: 'red' }}>Not Verified</span>

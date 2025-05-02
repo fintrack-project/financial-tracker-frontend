@@ -22,6 +22,6 @@ export interface UserDetails {
   lastActivityDate: string | null;
   storageLimit: number;
   apiUsageLimit: number;
-  emailVerifed: boolean;
+  emailVerified: boolean;
   phoneVerified: boolean;
 }
