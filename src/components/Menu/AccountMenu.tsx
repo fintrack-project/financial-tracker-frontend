@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate, NavLink } from 'react-router-dom';
 import UserSession from '../../utils/UserSession';
+import { logoutUser } from '../../services/authService'; // Adjust the import path as necessary
 import './AccountMenu.css';
 
 interface AccountMenuProps {
@@ -10,6 +11,7 @@ interface AccountMenuProps {
 const AccountMenu: React.FC<AccountMenuProps> = ({ onAccountChange }) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [userId, setUserId] = useState<string | null>(null);
+  const [accountId, setAccountId] = useState<string | null>(null); // State to store the accountId
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -20,30 +22,42 @@ const AccountMenu: React.FC<AccountMenuProps> = ({ onAccountChange }) => {
 
     // Fetch the currently logged-in account ID dynamically
     const fetchAccountId = async () => {
+      const token = sessionStorage.getItem('authToken'); // Get the JWT token from sessionStorage
+      if (!token) {
+        console.error('No auth token found. Redirecting to login.');
+        navigate('/login'); // Redirect to login if no token is found
+        return;
+      }
+
       try {
         const response = await fetch('/api/accounts/current', {
-          credentials: 'include', // Include cookies for session-based authentication
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${token}`, // Include the JWT token in the Authorization header
+          },
         });
+
+        console.log('Response from /api/accounts/current:', response);
 
         if (!response.ok) {
           throw new Error('Failed to fetch account ID');
         }
 
         const data = await response.json();
-        onAccountChange(data.accountId);
+        setAccountId(data.accountId); // Store the accountId in state
+        onAccountChange(data.accountId); // Pass the accountId to the parent component
       } catch (error) {
         console.error('Error fetching account ID:', error);
       }
     };
 
     fetchAccountId();
-  }, [onAccountChange]);
+  }, [onAccountChange, navigate]);
 
   const handleLogout = () => {
     console.log('User logged out');
-    const session = UserSession.getInstance();
-    session.logout();
-    setUserId(null);
+    logoutUser();
     navigate('/');
   };
 

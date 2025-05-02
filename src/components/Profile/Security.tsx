@@ -50,7 +50,7 @@ const Security: React.FC<SecurityProps> = ({ accountId }) => {
     { label: 'Account Locked', value: userDetails.accountLocked ? 'Yes' : 'No' },
     {
       label: 'Password',
-      value: '[Change Password]',
+      value: '********', // Redacted password
       editable: false, // Password is not editable directly
       redacted: true, // Always redacted
     },

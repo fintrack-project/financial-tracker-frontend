@@ -1,22 +1,44 @@
 import axios from 'axios';
 import { LoginRequest, RegisterRequest } from '../types/Requests';
+import UserSession from '../utils/UserSession';
 
-export const loginUser = async (loginData: LoginRequest): Promise<string> => {
+export const loginUser = async (loginData: LoginRequest): Promise<void> => {
   try {
     const response = await axios.post('/api/user/login', loginData, {
       headers: {
         'Content-Type': 'application/json',
       },
-      withCredentials: true, // Include cookies for session-based authentication
     });
 
-    return 'Login successful!';
+    // Extract the token from the response
+    const token = response.data?.token;
+    if (!token) {
+      throw new Error('Login failed: No token received.');
+    }
+
+    // Store the token in sessionStorage
+    sessionStorage.setItem('authToken', token);
+
+    console.log('Token received:', token);
+    console.log('Storing token in sessionStorage:', sessionStorage);
+
+    console.log('Login successful! Token stored in sessionStorage.');
   } catch (error) {
     if (axios.isAxiosError(error) && error.response) {
       throw new Error(error.response.data.message || 'Login failed.');
     }
     throw new Error('An unknown error occurred during login.');
   }
+};
+
+export const logoutUser = (): void => {
+  sessionStorage.removeItem('authToken');
+  console.log('User logged out. Token removed from sessionStorage.');
+
+  // Clear the UserSession singleton
+  const session = UserSession.getInstance();
+  session.logout();
+  console.log('User session cleared.');
 };
 
 export const registerUser = async (registerData: RegisterRequest): Promise<void> => {
