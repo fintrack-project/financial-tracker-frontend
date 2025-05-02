@@ -10,6 +10,7 @@ import PortfolioOverview from './pages/PlatformManagement/PortfolioOverview';
 import Profile from './pages/UserAccount/Profile';
 import Settings from './pages/UserAccount/Settings';
 import Support from './pages/UserAccount/Support';
+import VerifyEmail from './pages/Authentication/VerifyEmail';
 import NotFound from './pages/ErrorPages/NotFound';
 
 const App: React.FC = () => {
@@ -74,6 +75,7 @@ const App: React.FC = () => {
             </BasePage>
           }
         />
+        <Route path="/verify-email" element={<VerifyEmail />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
     </Router>
