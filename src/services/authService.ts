@@ -50,3 +50,18 @@ export const verifyEmail = async (token: string): Promise<void> => {
     throw new Error('An unknown error occurred during email verification.');
   }
 };
+
+export const sendEmailVerification = async (accountId: string, email: string): Promise<void> => {
+  try {
+    await axios.post('/api/user/send-email-verification', {
+      accountId,
+      email,
+    });
+    console.log('Email verification request sent successfully.');
+  } catch (error) {
+    if (axios.isAxiosError(error) && error.response) {
+      throw new Error(error.response.data.message || 'Failed to send email verification.');
+    }
+    throw new Error('An unknown error occurred while sending email verification.');
+  }
+};

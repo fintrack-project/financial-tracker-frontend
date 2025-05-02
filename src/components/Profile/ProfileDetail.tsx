@@ -1,10 +1,11 @@
 import React, { useEffect, useState, useMemo } from 'react';
 import { fetchUserDetails } from '../../services/userService';
+import { updateUserPhone, updateUserAddress, updateUserEmail } from '../../services/userService';
+import { sendEmailVerification } from '../../services/authService';
 import { UserDetails } from '../../types/UserDetails';
 import ProfileTable from '../../components/Table/ProfileTable/ProfileTable';
 import IconButton from '../../components/Button/IconButton';
 import './ProfileDetail.css'; // Add styles for the profile detail section
-import { set } from 'lodash';
 
 interface ProfileDetailProps {
   accountId: string; // Account ID to fetch user details
@@ -44,7 +45,7 @@ const ProfileDetail: React.FC<ProfileDetailProps> = ({ accountId }) => {
   
   };
 
-  const handleConfirmClick = (label: string) => {
+  const handleConfirmClick = async (label: string) => {
     if (!editModes[label]) {
       return; // Do nothing if the field is not in edit mode
     }
@@ -60,64 +61,74 @@ const ProfileDetail: React.FC<ProfileDetailProps> = ({ accountId }) => {
       return;
     }
   
-    if (label === 'Address') {
-      console.log(`Updating Address to: ${newValue}`);
-      setUserDetails((prev) => ({
-        ...prev!,
-        address: newValue || '',
-      }));
-      setEditState((prevState) => ({ ...prevState, [label]: null }));
-      setEditModes((prevModes) => ({ ...prevModes, [label]: false })); // Exit edit mode for Address
-      console.log('Exiting edit mode for Address');
-      return;
-    }
+    try {
+      if (label === 'Phone') {
+        // Validate phone number format
+        const phoneRegex = /^\d{10}$/; // Example: 10-digit phone number
+        if (!phoneRegex.test(newValue || '')) {
+          alert('Invalid phone number format. Please enter a valid 10-digit phone number.');
+          return; // Do not exit edit mode
+        }
   
-    if (label === 'Email') {
-      if (!newValue) {
-        alert('Email cannot be blank.');
-        setEditState((prevState) => ({ ...prevState, [label]: null })); // Revert to previous value
-        setEditModes((prevModes) => ({ ...prevModes, [label]: false })); // Exit edit mode for Email
-        return;
+        console.log(`Updating Phone to: ${newValue}`);
+        await updateUserPhone(accountId, newValue || '');
+        setUserDetails((prev) => ({
+          ...prev!,
+          phone: newValue || '',
+        }));
       }
   
-      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-      if (!emailRegex.test(newValue)) {
-        alert('Invalid email format.');
-        setEditState((prevState) => ({ ...prevState, [label]: null })); // Revert to previous value
-        setEditModes((prevModes) => ({ ...prevModes, [label]: false })); // Exit edit mode for Email
-        return;
+      if (label === 'Address') {
+        console.log(`Updating Address to: ${newValue}`);
+        await updateUserAddress(accountId, newValue || '');
+        setUserDetails((prev) => ({
+          ...prev!,
+          address: newValue || '',
+        }));
       }
   
-      // Ask for confirmation before changing the email
-      const confirmChange = window.confirm('Are you sure you want to change your email?');
-      if (!confirmChange) {
-        setEditState((prevState) => ({ ...prevState, [label]: null })); // Revert to previous value
-        setEditModes((prevModes) => ({ ...prevModes, [label]: false })); // Exit edit mode for Email
-        return;
+      if (label === 'Email') {
+        if (!newValue) {
+          alert('Email cannot be blank.');
+          setEditState((prevState) => ({ ...prevState, [label]: null })); // Revert to previous value
+          setEditModes((prevModes) => ({ ...prevModes, [label]: false })); // Exit edit mode for Email
+          return;
+        }
+  
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (!emailRegex.test(newValue)) {
+          alert('Invalid email format.');
+          setEditState((prevState) => ({ ...prevState, [label]: null })); // Revert to previous value
+          setEditModes((prevModes) => ({ ...prevModes, [label]: false })); // Exit edit mode for Email
+          return;
+        }
+  
+        const confirmChange = window.confirm('Are you sure you want to change your email?');
+        if (!confirmChange) {
+          setEditState((prevState) => ({ ...prevState, [label]: null })); // Revert to previous value
+          setEditModes((prevModes) => ({ ...prevModes, [label]: false })); // Exit edit mode for Email
+          return;
+        }
+  
+        console.log(`Updating Email to: ${newValue}`);
+        await updateUserEmail(accountId, newValue || '');
+        setUserDetails((prev) => ({
+          ...prev!,
+          email: newValue || '',
+        }));
+  
+        // Trigger email verification
+        await sendEmailVerification(accountId, newValue || '');
+        alert('A verification email has been sent to your new email address.');
       }
   
-      // Update the email in the backend
-      console.log(`Updating Email to: ${newValue}`);
-      setUserDetails((prev) => ({
-        ...prev!,
-        email: newValue || '',
-      }));
+      // Exit edit mode for the field
       setEditState((prevState) => ({ ...prevState, [label]: null }));
-      setEditModes((prevModes) => ({ ...prevModes, [label]: false })); // Exit edit mode for Email
-      // TODO: Send email verification request to backend
-      return;
-    }
-  
-    if (label === 'Phone') {
-      console.log(`Updating Phone to: ${newValue}`);
-      setUserDetails((prev) => ({
-        ...prev!,
-        phone: newValue || '',
-      }));
-      setEditState((prevState) => ({ ...prevState, [label]: null }));
-      setEditModes((prevModes) => ({ ...prevModes, [label]: false })); // Exit edit mode for Phone
-      console.log('Exiting edit mode for Phone');
-      return;
+      setEditModes((prevModes) => ({ ...prevModes, [label]: false }));
+      console.log(`Exiting edit mode for ${label}`);
+    } catch (error) {
+      console.error(`Failed to update ${label}:`, error);
+      alert(`Failed to update ${label}. Please try again later.`);
     }
   };
 
