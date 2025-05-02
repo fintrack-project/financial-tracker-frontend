@@ -2,8 +2,17 @@ import React, { useState } from 'react';
 import IconButton from '../../Button/IconButton'; // Import your custom IconButton
 import './ProfileTable.css';
 
+interface ProfileTableRow {
+  label: string; // First column: Label
+  value: React.ReactNode; // Second column: Value
+  status?: React.ReactNode; // Third column: Status (optional)
+  actions?: React.ReactNode; // Fourth column: Actions (optional)
+  editable?: boolean; // Flag to indicate if the row is editable
+  redacted?: boolean; // Flag to indicate if the value should be redacted
+}
+
 interface ProfileTableProps {
-  data: { label: string; value: React.ReactNode; editable?: boolean; redacted?: boolean}[]; // Add `editable` flag
+  data: ProfileTableRow[]; // Add `editable` flag
   onEditConfirm?: (label: string, newValue: string) => void; // Callback for confirming edits
 }
 
@@ -34,8 +43,8 @@ const ProfileTable: React.FC<ProfileTableProps> = ({ data, onEditConfirm }) => {
       {data.map((item, index) => (
         <div key={index} className="profile-table-row">
           <div className="profile-table-label">{item.label}</div>
-          <div className="profile-table-value">
-            {item.redacted ? (
+          <div className="profile-table-value">{item.value || 'N/A'}</div>
+            {/* {item.redacted ? (
               '************' // Display redacted value
             ) : editState[item.label] !== undefined ? (
               <input
@@ -45,10 +54,10 @@ const ProfileTable: React.FC<ProfileTableProps> = ({ data, onEditConfirm }) => {
               />
             ) : (
               item.value || 'N/A'
-            )}
-          </div>
-          <div className="profile-table-action">
-            {item.editable ? (
+            )} */}
+          <div className="profile-table-status">{item.status || ''}</div>
+          <div className="profile-table-action">{item.actions || ''}</div>
+            {/* {item.editable ? (
               editState[item.label] !== undefined ? (
                 <IconButton
                   type="confirm" // Use the "confirm" icon for confirmation
@@ -64,8 +73,7 @@ const ProfileTable: React.FC<ProfileTableProps> = ({ data, onEditConfirm }) => {
                   size="small"
                 />
               )
-            ) : null}
-          </div>
+            ) : null} */}
         </div>
       ))}
     </div>

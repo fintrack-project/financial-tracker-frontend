@@ -1,25 +1,31 @@
 .profile-table {
-  display: grid;
-  grid-template-columns: 150px 1fr 50px; /* Add a third column for the action buttons */
-  row-gap: 12px; /* Space between rows */
-  column-gap: 16px; /* Space between columns */
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
 }
 
 .profile-table-row {
-  display: contents; /* Ensure rows are aligned properly */
+  display: grid;
+  grid-template-columns: 1fr 2fr 1fr 1fr; /* Four columns: Label, Value, Status, Actions */
+  align-items: center;
+  padding: 10px;
+  border-bottom: 1px solid #ddd;
 }
 
 .profile-table-label {
   font-weight: bold;
   color: #333;
-  text-align: left;
 }
 
 .profile-table-value {
   color: #555;
-  text-align: left;
 }
 
-.profile-table-action {
+.profile-table-status {
+  color: #888;
   text-align: center;
+}
+
+.profile-table-actions {
+  text-align: right;
 }
