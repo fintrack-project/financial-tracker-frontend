@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { fetchUserDetails, UserDetails  } from '../../services/userService';
-import { fetchNotificationPreferences } from '../../services/userNotificationPrefService';
+import { fetchNotificationPreferences, updateNotificationPreference } from '../../services/userNotificationPrefService';
 import { NotificationPreferences } from '../../types/NotificationPreferences';
 import NotificationToggle from '../Toggle/NotificationToggle'; // Import the toggle component
 import './Notification.css'; // Add styles for the notification section
@@ -48,17 +48,30 @@ const Notification: React.FC<NotificationProps> = ({ accountId }) => {
     loadNotificationPreferences();
   }, [accountId]);
 
-  const handleToggle = (type: keyof NotificationPreferences) => {
+  const handleToggle = async (type: keyof NotificationPreferences) => {
     if (!notificationPreferences) return;
 
-    // Update the local state for the toggle
+    const newState = !notificationPreferences[type];
+
+    // Update the local state for immediate feedback
     setNotificationPreferences((prev) => ({
       ...prev!,
-      [type]: !prev![type],
+      [type]: newState,
     }));
 
-    // TODO: Call the backend API to persist the toggle state
-    console.log(`Toggled ${type} to ${!notificationPreferences[type]}`);
+    try {
+      // Call the backend API to persist the toggle state
+      await updateNotificationPreference(accountId, type.toUpperCase(), newState);
+      console.log(`Successfully updated ${type} to ${newState}`);
+    } catch (err) {
+      console.error(`Failed to update ${type}:`, err);
+      setError(`Failed to update ${type}. Please try again.`);
+      // Revert the state if the update fails
+      setNotificationPreferences((prev) => ({
+        ...prev!,
+        [type]: !newState,
+      }));
+    }
   };
 
   if (loading) {

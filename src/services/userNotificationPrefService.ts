@@ -3,11 +3,9 @@ import { NotificationPreferences } from '../types/NotificationPreferences';
 
 export const fetchNotificationPreferences = async (accountId: string): Promise<NotificationPreferences> => {
   try {
-    const response = await axios.get(`/api/user/notification-preferences`, {
+    const response = await axios.get(`/api/user/notification-preference/fetch`, {
       params: { accountId },
     });
-
-    console.log('Notification preferences response:', response.data);
 
     // Transform the array into the NotificationPreferences object
     const preferences = response.data.reduce(
@@ -24,5 +22,25 @@ export const fetchNotificationPreferences = async (accountId: string): Promise<N
   } catch (error) {
     console.error('Failed to fetch notification preferences:', error);
     throw new Error('Unable to fetch notification preferences.');
+  }
+};
+
+// Update notification preferences
+export const updateNotificationPreference = async (
+  accountId: string,
+  notificationType: string,
+  isEnabled: boolean
+): Promise<void> => {
+  try {
+    await axios.post(`/api/user/notification-preference/update`, {
+      accountId,
+      notificationType,
+      isEnabled,
+    });
+
+    console.log(`Updated ${notificationType} to ${isEnabled}`);
+  } catch (error) {
+    console.error(`Failed to update ${notificationType}:`, error);
+    throw new Error(`Unable to update ${notificationType} preference.`);
   }
 };
