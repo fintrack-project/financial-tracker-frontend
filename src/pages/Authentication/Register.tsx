@@ -25,7 +25,7 @@ const Register: React.FC = () => {
   };
 
   const sendEmailVerification = async (email: string) => {
-    alert(`A verification link has been sent to ${email}. Please verify your email.`);
+    alert(`Registration successful! A verification link has been sent to ${email}. Please verify your email.`);
   };
 
   const handleRegister = async () => {

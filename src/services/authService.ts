@@ -34,7 +34,7 @@ export const loginUser = async (loginData: LoginRequest): Promise<string> => {
   }
 };
 
-export const registerUser = async (registerData: RegisterRequest): Promise<string> => {
+export const registerUser = async (registerData: RegisterRequest): Promise<void> => {
   try {
     // Step 1: Register the user
     const registerResponse = await axios.post('/api/user/register', registerData);
@@ -45,8 +45,6 @@ export const registerUser = async (registerData: RegisterRequest): Promise<strin
       params: { userId: registerData.userId },
     });
     console.log('Account created successfully:', createAccountResponse.data);
-
-    return `Registration successful! Please check your email to verify your account.`;
   } catch (error) {
     if (axios.isAxiosError(error) && error.response) {
       throw new Error(error.response.data.message || 'An error occurred during registration.');

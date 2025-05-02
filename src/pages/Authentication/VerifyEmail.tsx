@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { useSearchParams, useNavigate } from 'react-router-dom';
 import { verifyEmail } from '../../services/authService'; // Backend service for email verification
+import FinTrackLogo from '../../assets/logo/FinTrackLogo.png'; // Import the FinTrack logo
+import './VerifyEmail.css'; // Import the CSS file for styling
 
 const VerifyEmail: React.FC = () => {
   const [searchParams] = useSearchParams();
@@ -25,8 +27,19 @@ const VerifyEmail: React.FC = () => {
 
   return (
     <div className="verify-email-container">
-      <h1>Email Verification</h1>
-      <p>{status}</p>
+      <div className="verify-email-card">
+        {/* Add the FinTrack logo */}
+        <img src={FinTrackLogo} alt="FinTrack Logo" className="fintrack-logo" />
+        <h1>Email Verification</h1>
+        <p className={`status-message ${status.includes('failed') || status.includes('Invalid') ? 'error' : 'success'}`}>
+          {status}
+        </p>
+        {status.includes('failed') || status.includes('Invalid') ? (
+          <button className="retry-button" onClick={() => navigate('/register')}>
+            Go Back to Register
+          </button>
+        ) : null}
+      </div>
     </div>
   );
 };
