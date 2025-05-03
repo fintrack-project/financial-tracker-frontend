@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import { fetchUserDetails, UserDetails } from '../../services/userService';
+import { fetchUserDetails } from '../../services/userService';
+import { UserDetails } from '../../types/UserDetails';
 import ProfileTable from '../../components/Table/ProfileTable/ProfileTable';
 import './Payment.css'; // Add styles for the payment section
 

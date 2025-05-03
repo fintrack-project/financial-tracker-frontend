@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate, NavLink } from 'react-router-dom';
 import UserSession from '../../utils/UserSession';
+import { logoutUser } from 'services/authService';
 import './AccountDetailAndMenu.css';
 
 interface AccountDetailAndMenuProps {
@@ -21,9 +22,7 @@ const AccountDetailAndMenu: React.FC<AccountDetailAndMenuProps> = ({ accountId }
 
   const handleLogout = () => {
     console.log('User logged out');
-    const session = UserSession.getInstance();
-    session.logout();
-    setUserId(null);
+    logoutUser();
     navigate('/');
   };
 

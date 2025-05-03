@@ -10,35 +10,28 @@ import './Login.css';
 const Login: React.FC = () => {
   const [userId, setUserId] = useState('');
   const [password, setPassword] = useState('');
+  const [error, setError] = useState<string | null>(null); // State to handle errors
   const navigate = useNavigate();
 
   const handleLogin = async () => {
-    if (!userId || !password) {
-      alert('Please enter both user ID and password.');
-      return;
-    }
-  
+    setError(null); // Clear any previous errors
+
     try {
+      await loginUser({ userId, password }); // Call the login service
       const session = UserSession.getInstance();
 
-      // Prevent multiple users from logging in
       if (session.isLoggedIn()) {
-        alert('A user is already logged in. Please log out first.');
-        return;
-      }
-
-      const message = await loginUser({ userId, password }); // Use the auth service
-      const loginSuccess = session.login(userId); // Log in the user in the singleton
-      session.setUserId(userId); // Set the user ID in the singleton
-
-      if (loginSuccess) {
-        alert(message);
-        navigate('/platform/dashboard'); // Redirect to the dashboard
+        const userId = session.getUserId();
+        console.log('Logged in as:', userId);
+        navigate('/platform/dashboard'); // Redirect to the platform
       } else {
-        alert('Failed to log in. Another user is already logged in.');
+        throw new Error('Login failed: Unable to verify session.');
       }
-    } catch (error: any) {
-      alert(error.message);
+    } catch (err) {
+      if (err instanceof Error) {
+        setError(err.message); // Display the error message to the user
+        alert(err.message); // Optional: Show an alert with the error message
+      }
     }
   };
 
@@ -72,6 +65,7 @@ const Login: React.FC = () => {
             Forgot password?
           </div>
         </div>
+        {error && <p style={{ color: 'red' }}>{error}</p>}
       </div>
     </AuthBasePage>
   );

@@ -1,11 +1,15 @@
+import { jwtDecode } from 'jwt-decode';
+
+interface JwtPayload {
+  sub: string; // User ID (subject)
+  iat?: number; // Issued at
+  exp?: number; // Expiration time
+}
+
 class UserSession {
   private static instance: UserSession;
-  private userId: string | null = null;
 
-  private constructor() {
-    // Load userId from localStorage when the session is initialized
-    this.userId = localStorage.getItem('userId');
-  }
+  private constructor() {}
 
   // Get the singleton instance
   public static getInstance(): UserSession {
@@ -15,36 +19,43 @@ class UserSession {
     return UserSession.instance;
   }
 
-  // Log in a user
-  public login(userId: string): boolean {
-    if (this.userId) {
-      console.error('A user is already logged in.');
-      return false; // Prevent multiple users from logging in
-    }
-    this.userId = userId;
-    return true;
-  }
-
-  // Log out the current user
-  public logout(): void {
-    this.userId = null;
-    localStorage.removeItem('userId'); // Remove from localStorage
-  }
-
-  // Get the current logged-in user ID
+  // Get the current logged-in user ID from the JWT
   public getUserId(): string | null {
-    return this.userId;
-  }
+    const token = sessionStorage.getItem('authToken');
+    if (!token) {
+      return null;
+    }
 
-  // Set the user ID (e.g., after registration)
-  public setUserId(userId: string): void {
-    this.userId = userId;
-    localStorage.setItem('userId', userId); // Save to localStorage
+    try {
+      const decoded: JwtPayload = jwtDecode(token);
+      return decoded.sub; // Return the user ID from the JWT
+    } catch (error) {
+      console.error('Failed to decode JWT:', error);
+      return null;
+    }
   }
 
   // Check if a user is logged in
   public isLoggedIn(): boolean {
-    return this.userId !== null;
+    const token = sessionStorage.getItem('authToken');
+    if (!token) {
+      return false;
+    }
+
+    try {
+      const decoded: JwtPayload = jwtDecode(token);
+      const currentTime = Math.floor(Date.now() / 1000);
+      return decoded.exp ? decoded.exp > currentTime : true; // Check if the token is expired
+    } catch (error) {
+      console.error('Failed to decode JWT:', error);
+      return false;
+    }
+  }
+
+  // Log out the current user
+  public logout(): void {
+    sessionStorage.removeItem('authToken'); // Remove the JWT from sessionStorage
+    console.log('User logged out. JWT removed from sessionStorage.');
   }
 }
 

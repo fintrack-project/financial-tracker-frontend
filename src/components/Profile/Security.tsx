@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import { fetchUserDetails, UserDetails } from '../../services/userService';
+import { fetchUserDetails } from '../../services/userService';
+import { UserDetails } from '../../types/UserDetails';
 import ProfileTable from '../../components/Table/ProfileTable/ProfileTable';
 import './Security.css'; // Add styles for the security section
 
@@ -49,7 +50,7 @@ const Security: React.FC<SecurityProps> = ({ accountId }) => {
     { label: 'Account Locked', value: userDetails.accountLocked ? 'Yes' : 'No' },
     {
       label: 'Password',
-      value: '[Change Password]',
+      value: '********', // Redacted password
       editable: false, // Password is not editable directly
       redacted: true, // Always redacted
     },
