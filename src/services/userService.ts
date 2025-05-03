@@ -17,11 +17,12 @@ export const fetchUserDetails = async (accountId: string): Promise<UserDetails> 
 };
 
 // Update user's phone number
-export const updateUserPhone = async (accountId: string, phone: string): Promise<void> => {
+export const updateUserPhone = async (accountId: string, phone: string, countryCode: string): Promise<void> => {
   try {
     await axios.post('/api/user/update-phone', {
       accountId,
       phone,
+      countryCode
     });
   } catch (error) {
     if (axios.isAxiosError(error) && error.response) {

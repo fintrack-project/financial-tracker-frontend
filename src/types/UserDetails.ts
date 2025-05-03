@@ -3,6 +3,7 @@ export interface UserDetails {
   password: string;
   email: string;
   phone: string | null;
+  countryCode: string | null;
   address: string | null;
   accountTier: string;
   subscriptionStartDate: string | null;

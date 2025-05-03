@@ -5,6 +5,7 @@ import { sendEmailVerification } from '../../services/authService';
 import { UserDetails } from '../../types/UserDetails';
 import ProfileTable from '../../components/Table/ProfileTable/ProfileTable';
 import IconButton from '../../components/Button/IconButton';
+import { getCountries, getCountryCallingCode, parsePhoneNumberFromString, CountryCode } from 'libphonenumber-js';
 import './ProfileDetail.css'; // Add styles for the profile detail section
 
 interface ProfileDetailProps {
@@ -13,6 +14,7 @@ interface ProfileDetailProps {
 
 const ProfileDetail: React.FC<ProfileDetailProps> = ({ accountId }) => {
   const [userDetails, setUserDetails] = useState<UserDetails | null>(null);
+  const [countries, setCountries] = useState<{ code: string; phoneCode: string }[]>([]);
   const [editState, setEditState] = useState<{ [key: string]: string | null }>({});
   const [editModes, setEditModes] = useState<{ [key: string]: boolean }>({});
   const [error, setError] = useState<string | null>(null);
@@ -36,7 +38,16 @@ const ProfileDetail: React.FC<ProfileDetailProps> = ({ accountId }) => {
       }
     };
 
+    const loadCountries = () => {
+      const countryList = getCountries().map((code) => ({
+        code,
+        phoneCode: `+${getCountryCallingCode(code)}`,
+      }));
+      setCountries(countryList);
+    };
+
     loadUserDetails();
+    loadCountries();
   }, [accountId]);
 
   const handleEditClick = (label: string, currentValue: string | null) => {
@@ -49,36 +60,68 @@ const ProfileDetail: React.FC<ProfileDetailProps> = ({ accountId }) => {
     if (!editModes[label]) {
       return; // Do nothing if the field is not in edit mode
     }
-  
+
     const currentValue = userDetails![label.toLowerCase() as keyof UserDetails];
     const newValue = editState[label];
   
-    // If no changes were made, exit edit mode without doing anything
-    if (currentValue === newValue) {
-      console.log(`No changes made for ${label}. Exiting edit mode.`);
-      setEditState((prevState) => ({ ...prevState, [label]: currentValue }));
-      setEditModes((prevModes) => ({ ...prevModes, [label]: false }));
-      return;
-    }
-  
     try {
       if (label === 'Phone') {
-        // Validate phone number format
-        const phoneRegex = /^\d{10}$/; // Example: 10-digit phone number
-        if (!phoneRegex.test(newValue || '')) {
-          alert('Invalid phone number format. Please enter a valid 10-digit phone number.');
-          return; // Do not exit edit mode
+        const countryCode = editState['CountryCode'] || 'US';
+        const phoneNumber = editState['Phone'] || '';
+
+        console.log('Current Country Code:', userDetails?.countryCode);
+        console.log('Current Phone Number:', userDetails?.phone);
+
+        console.log('New Country Code:', countryCode);
+        console.log('New Phone Number:', phoneNumber);
+
+        // Parse the current and new phone numbers
+        const currentPhoneNumber = parsePhoneNumberFromString(
+          `+${getCountryCallingCode(userDetails?.countryCode as CountryCode || 'US')}${userDetails?.phone}`
+        );
+        const newPhoneNumber = parsePhoneNumberFromString(`+${getCountryCallingCode(countryCode as CountryCode)}${phoneNumber}`);
+
+        console.log('Current Phone Number:', currentPhoneNumber);
+        console.log('New Phone Number:', newPhoneNumber);
+
+        // If no changes were made, exit edit mode without doing anything
+        if (
+          currentPhoneNumber?.number === newPhoneNumber?.number
+        ) {
+          console.log(`No changes made for ${label}. Exiting edit mode.`);
+          setEditState((prevState) => ({ ...prevState, [label]: null }));
+          setEditModes((prevModes) => ({ ...prevModes, [label]: false }));
+          return;
         }
-  
-        console.log(`Updating Phone to: ${newValue}`);
-        await updateUserPhone(accountId, newValue || '');
+    
+        // Validate phone number
+        const parsedPhoneNumber = parsePhoneNumberFromString(
+          `${countryCode}${phoneNumber}`
+        );
+        // Ignore validation for now
+        // if (!parsedPhoneNumber || !parsedPhoneNumber.isValid()) {
+        //   alert('Invalid phone number. Please enter a valid phone number.');
+        //   return;
+        // }
+    
+        console.log(`Updating Phone to: ${countryCode} ${phoneNumber}`);
+        await updateUserPhone(accountId, phoneNumber, countryCode);
         setUserDetails((prev) => ({
           ...prev!,
-          phone: newValue || '',
+          phone: phoneNumber,
+          countryCode: countryCode,
         }));
       }
   
       if (label === 'Address') {
+        // If no changes were made, exit edit mode without doing anything
+        if (currentValue === newValue) {
+          console.log(`No changes made for ${label}. Exiting edit mode.`);
+          setEditState((prevState) => ({ ...prevState, [label]: currentValue }));
+          setEditModes((prevModes) => ({ ...prevModes, [label]: false }));
+          return;
+        }
+
         console.log(`Updating Address to: ${newValue}`);
         await updateUserAddress(accountId, newValue || '');
         setUserDetails((prev) => ({
@@ -88,6 +131,14 @@ const ProfileDetail: React.FC<ProfileDetailProps> = ({ accountId }) => {
       }
   
       if (label === 'Email') {
+        // If no changes were made, exit edit mode without doing anything
+        if (currentValue === newValue) {
+          console.log(`No changes made for ${label}. Exiting edit mode.`);
+          setEditState((prevState) => ({ ...prevState, [label]: currentValue }));
+          setEditModes((prevModes) => ({ ...prevModes, [label]: false }));
+          return;
+        }
+
         if (!newValue) {
           alert('Email cannot be blank.');
           setEditState((prevState) => ({ ...prevState, [label]: null })); // Revert to previous value
@@ -168,13 +219,35 @@ const ProfileDetail: React.FC<ProfileDetailProps> = ({ accountId }) => {
         label: 'Phone',
         value:
           editModes['Phone'] ? (
-            <input
-              type="text"
-              value={editState['Phone'] || ''}
-              onChange={(e) => setEditState((prevState) => ({ ...prevState, Phone: e.target.value }))}
-            />
+            <div>
+              <select
+                value={editState['CountryCode'] || ''}
+                onChange={(e) =>
+                  setEditState((prevState) => ({
+                    ...prevState,
+                    CountryCode: e.target.value,
+                  }))
+                }
+              >
+                {countries.map((country) => (
+                  <option key={country.code} value={country.code}>
+                    {country.code} ({country.phoneCode})
+                  </option>
+                ))}
+              </select>
+              <input
+                type="text"
+                value={editState['Phone'] || ''}
+                onChange={(e) =>
+                  setEditState((prevState) => ({
+                    ...prevState,
+                    Phone: e.target.value,
+                  }))
+                }
+              />
+            </div>
           ) : (
-            userDetails.phone
+            `(${userDetails.countryCode} +${getCountryCallingCode(userDetails.countryCode as CountryCode || 'US')}) ${userDetails.phone}`
           ),
         status: userDetails.phoneVerified ? (
           <span style={{ color: 'green' }}>Verified</span>
