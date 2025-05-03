@@ -1,14 +1,13 @@
 import axios from 'axios';
+import { loginApi, registerApi } from '../api/authApi';
+import { createAccountApi } from '../api/accountApi';
+import { sendEmailVerificationApi, verifyEmailApi } from '../api/emailApi';
 import { LoginRequest, RegisterRequest } from '../types/Requests';
 import UserSession from '../utils/UserSession';
 
 export const loginUser = async (loginData: LoginRequest): Promise<void> => {
   try {
-    const response = await axios.post('/api/user/login', loginData, {
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    });
+    const response = await loginApi(loginData);
 
     // Extract the token from the response
     const token = response.data?.token;
@@ -18,9 +17,6 @@ export const loginUser = async (loginData: LoginRequest): Promise<void> => {
 
     // Store the token in sessionStorage
     sessionStorage.setItem('authToken', token);
-
-    console.log('Token received:', token);
-    console.log('Storing token in sessionStorage:', sessionStorage);
 
     console.log('Login successful! Token stored in sessionStorage.');
   } catch (error) {
@@ -44,14 +40,12 @@ export const logoutUser = (): void => {
 export const registerUser = async (registerData: RegisterRequest): Promise<void> => {
   try {
     // Step 1: Register the user
-    const registerResponse = await axios.post('/api/user/register', registerData);
+    await registerApi(registerData);
     console.log('User registered successfully');
 
     // Step 2: Create an account for the registered user
-    const createAccountResponse = await axios.post('/api/accounts/create', null, {
-      params: { userId: registerData.userId },
-    });
-    console.log('Account created successfully:', createAccountResponse.data);
+    await createAccountApi(registerData.userId);
+    console.log('Account created successfully');
   } catch (error) {
     if (axios.isAxiosError(error) && error.response) {
       throw new Error(error.response.data.message || 'An error occurred during registration.');
@@ -62,8 +56,7 @@ export const registerUser = async (registerData: RegisterRequest): Promise<void>
 
 export const verifyEmail = async (token: string): Promise<void> => {
   try {
-    // Send a POST request to the backend to verify the email using the token
-    await axios.post('/api/user/email/verify', { token });
+    await verifyEmailApi(token);
     console.log('Email verified successfully.');
   } catch (error) {
     if (axios.isAxiosError(error) && error.response) {
@@ -75,10 +68,7 @@ export const verifyEmail = async (token: string): Promise<void> => {
 
 export const sendEmailVerification = async (accountId: string, email: string): Promise<void> => {
   try {
-    await axios.post('/api/user/email/send-verification', {
-      accountId,
-      email,
-    });
+    await sendEmailVerificationApi(accountId, email);
     console.log('Email verification request sent successfully.');
   } catch (error) {
     if (axios.isAxiosError(error) && error.response) {
