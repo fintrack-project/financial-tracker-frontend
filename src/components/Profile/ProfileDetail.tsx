@@ -23,7 +23,6 @@ const ProfileDetail: React.FC<ProfileDetailProps> = ({ accountId }) => {
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
   const [showPopup, setShowPopup] = useState<'phone' | 'email' | null>(null); // Track which popup to show
-  const [isEmailVerified, setIsEmailVerified] = useState<boolean>(false); // Track email verification status
 
 
   useEffect(() => {
@@ -35,7 +34,6 @@ const ProfileDetail: React.FC<ProfileDetailProps> = ({ accountId }) => {
         console.log('Fetched user details:', data);
 
         setUserDetails(data);
-        setIsEmailVerified(data.emailVerified); // Set email verification status
         setError(null);
       } catch (err) {
         setError('Failed to load user details. Please try again later.');
@@ -244,7 +242,7 @@ const ProfileDetail: React.FC<ProfileDetailProps> = ({ accountId }) => {
 
   const handlePopupVerify = async (verificationCode: string) => {
     if (showPopup === 'email') {
-      if (isEmailVerified) {
+      if (userDetails?.emailVerified) {
         alert('Email verified successfully!');
         setShowPopup(null);
       } else {
@@ -253,7 +251,14 @@ const ProfileDetail: React.FC<ProfileDetailProps> = ({ accountId }) => {
     } else if (showPopup === 'phone') {
       try {
         // Verify the SMS code entered by the user
-        await verifySMSCode(verificationCode);
+        await verifySMSCode(verificationCode, accountId);
+
+        // Update the phone verification status in the userDetails state
+        setUserDetails((prev) => ({
+          ...prev!,
+          phoneVerified: true, // Update the phoneVerified field
+        }));
+
         alert('Phone number verified successfully!');
         setShowPopup(null); // Close the popup on success
       } catch (error) {
@@ -412,7 +417,7 @@ const ProfileDetail: React.FC<ProfileDetailProps> = ({ accountId }) => {
         <EmailVerificationPopup
           onClose={handlePopupClose}
           onResend={handlePopupResend}
-          isEmailVerified={isEmailVerified}
+          isEmailVerified={userDetails.emailVerified}
         />
       )}
       <div id="recaptcha-container" style={{ display: 'none' }}></div>

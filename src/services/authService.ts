@@ -2,6 +2,7 @@ import axios from 'axios';
 import { loginApi, registerApi } from '../api/authApi';
 import { createAccountApi } from '../api/accountApi';
 import { sendEmailVerificationApi, verifyEmailApi } from '../api/emailApi';
+import { sendPhoneVerifiedApi } from '../api/phoneApi';
 import { LoginRequest, RegisterRequest } from '../types/Requests';
 import { RecaptchaVerifier, signInWithPhoneNumber } from 'firebase/auth';
 import { auth } from '../config/firebaseConfig'; // Ensure `auth` is correctly initialized
@@ -125,7 +126,7 @@ export const sendSMSVerification = async (phoneNumber: string): Promise<void> =>
   }
 };
 
-export const verifySMSCode = async (verificationCode: string): Promise<void> => {
+export const verifySMSCode = async (verificationCode: string, accountId: string): Promise<void> => {
   try {
     const confirmationResult = window.confirmationResult;
     if (!confirmationResult) {
@@ -134,6 +135,10 @@ export const verifySMSCode = async (verificationCode: string): Promise<void> => 
 
     const result = await confirmationResult.confirm(verificationCode);
     console.log('Phone number verified successfully:', result.user.phoneNumber);
+
+    // Send a request to the backend to update the phone verification status
+    await sendPhoneVerifiedApi(accountId);
+    console.log('Phone verification status updated successfully in the backend.');
   } catch (error) {
     console.error('Error verifying SMS code:', error);
     throw new Error('Failed to verify SMS code.');
