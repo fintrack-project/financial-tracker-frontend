@@ -28,12 +28,13 @@ const PhoneVerificationPopup: React.FC<PhoneVerificationPopupProps> = ({
     try {
       // Call the onVerify callback with the entered code
       await onVerify(code);
-      alert('Phone number verified successfully!');
+      console.log('PhoneVerificationPopup: Verification successful. Closing popup.');
       onClose(); // Close the popup on successful verification
     } catch (error) {
       console.error('Verification failed:', error);
       setErrorMessage('Invalid code. Please try again.'); // Display error message
       setCode(''); // Clear the input field
+      console.log('PhoneVerificationPopup: Verification failed. Popup remains open.');
     }
   };
 

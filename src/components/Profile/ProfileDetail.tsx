@@ -93,22 +93,23 @@ const ProfileDetail: React.FC<ProfileDetailProps> = ({ accountId }) => {
         }
     
         // Validate phone number
-        const parsedPhoneNumber = parsePhoneNumberFromString(
-          `${countryCode}${phoneNumber}`
+        const parsedPhoneNumber = parsePhoneNumberFromString(`+${getCountryCallingCode(countryCode as CountryCode)}${phoneNumber}`
         );
         // TODO : Ignore validation for now, think how to handle it later
-        // if (!parsedPhoneNumber || !parsedPhoneNumber.isValid()) {
-        //   alert('Invalid phone number. Please enter a valid phone number.');
-        //   return;
-        // }
+        if (!parsedPhoneNumber || !parsedPhoneNumber.isValid()) {
+          alert('Invalid phone number. Please enter a valid phone number.');
+          return;
+        }
     
-        console.log(`Updating Phone to: ${countryCode} ${phoneNumber}`);
+        console.log(`Updating Phone to: ${parsedPhoneNumber?.number}`);
         await updateUserPhone(accountId, phoneNumber, countryCode);
         setUserDetails((prev) => ({
           ...prev!,
           phone: phoneNumber,
           countryCode: countryCode,
         }));
+        // Trigger SMS verification
+        await sendSMSVerification(`+${getCountryCallingCode(countryCode as CountryCode)}${phoneNumber}`);
         setShowPopup('phone');
       }
   
@@ -250,15 +251,14 @@ const ProfileDetail: React.FC<ProfileDetailProps> = ({ accountId }) => {
         alert('Email verification is not complete. Please check your inbox.');
       }
     } else if (showPopup === 'phone') {
-      console.log('Phone number verified successfully!');
       try {
         // Verify the SMS code entered by the user
         await verifySMSCode(verificationCode);
         alert('Phone number verified successfully!');
-        setShowPopup(null);
+        setShowPopup(null); // Close the popup on success
       } catch (error) {
         console.error('Failed to verify phone number:', error);
-        alert('Failed to verify phone number. Please try again.');
+        throw new Error('Invalid verification code.'); // Propagate the error to the popup
       }
     }
   };
@@ -404,7 +404,7 @@ const ProfileDetail: React.FC<ProfileDetailProps> = ({ accountId }) => {
       {showPopup === 'phone' && (
         <PhoneVerificationPopup
           onClose={handlePopupClose}
-          onVerify={(verificationCode) => handlePopupVerify(verificationCode)}
+          onVerify={handlePopupVerify}
           onResend={handlePopupResend}
         />
       )}
@@ -415,6 +415,7 @@ const ProfileDetail: React.FC<ProfileDetailProps> = ({ accountId }) => {
           isEmailVerified={isEmailVerified}
         />
       )}
+      <div id="recaptcha-container" style={{ display: 'none' }}></div>
     </div>
   );
 };

@@ -82,6 +82,25 @@ export const sendEmailVerification = async (accountId: string, email: string): P
 
 export const sendSMSVerification = async (phoneNumber: string): Promise<void> => {
   try {
+    if (window.location.hostname === 'localhost') {
+      // Generate a random 6-digit verification code
+      const verificationCode = Math.floor(100000 + Math.random() * 900000).toString();
+
+      // Mock confirmationResult for Emulator
+      window.confirmationResult = {
+        confirm: async (inputCode: string) => {
+          if (inputCode === verificationCode) {
+            return { user: { phoneNumber } }; // Mock user object
+          } else {
+            throw new Error('Invalid verification code.');
+          }
+        },
+      };
+
+      console.log(`Mock SMS sent to ${phoneNumber}. Use code: ${verificationCode}`);
+      return;
+    }
+
     // Set up reCAPTCHA verifier
     const recaptchaVerifier = new RecaptchaVerifier(
       auth,
