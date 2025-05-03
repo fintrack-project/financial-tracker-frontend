@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import SixDigitInput from '../components/InputField/SixDigitInput';
 import './VerificationPopup.css'; // Add styles for the popup
 
 interface VerificationPopupProps {
@@ -9,6 +8,7 @@ interface VerificationPopupProps {
   onVerify?: (code: string) => void; // Callback when verification is successful
   onResend: () => void; // Callback to resend the verification
   onClose: () => void; // Callback to close the popup
+  errorMessage?: string | null; // Optional error message to display
 }
 
 const VerificationPopup: React.FC<VerificationPopupProps> = ({
@@ -18,6 +18,7 @@ const VerificationPopup: React.FC<VerificationPopupProps> = ({
   onVerify,
   onResend,
   onClose,
+  errorMessage,
 }) => {
   const [code, setCode] = useState('');
   const [timeLeft, setTimeLeft] = useState(120); // 2 minutes in seconds
@@ -55,9 +56,8 @@ const VerificationPopup: React.FC<VerificationPopupProps> = ({
       <div className="popup-content">
         <h2>{title}</h2>
         <p>{instructions}</p>
-        {customInput || (
-          <SixDigitInput onChange={(value) => setCode(value)} /> // Default to SixDigitInput
-        )}
+        {customInput !== undefined && customInput}
+        <p className="popup-error-message">{errorMessage || '\u00A0'}</p>
         <div className="popup-timer">
           Time left: {Math.floor(timeLeft / 60)}:{String(timeLeft % 60).padStart(2, '0')}
         </div>

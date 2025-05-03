@@ -38,6 +38,14 @@
   color: #555;
 }
 
+.popup-content .popup-error-message {
+  color: red;
+  font-size: 14px;
+  margin: 10px 0;
+  min-height: 20px; /* Reserve space for the error message */
+  text-align: center;
+}
+
 .popup-actions button {
   margin: 5px;
   padding: 10px 20px;

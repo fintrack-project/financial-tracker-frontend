@@ -6,6 +6,7 @@ import { UserDetails } from '../../types/UserDetails';
 import ProfileTable from '../../components/Table/ProfileTable/ProfileTable';
 import IconButton from '../../components/Button/IconButton';
 import { getCountries, getCountryCallingCode, parsePhoneNumberFromString, CountryCode } from 'libphonenumber-js';
+import EmailVerificationPopup from '../../popup/EmailVerificationPopup';
 import PhoneVerificationPopup from '../../popup/PhoneVerificationPopup';
 import './ProfileDetail.css'; // Add styles for the profile detail section
 
@@ -20,7 +21,9 @@ const ProfileDetail: React.FC<ProfileDetailProps> = ({ accountId }) => {
   const [editModes, setEditModes] = useState<{ [key: string]: boolean }>({});
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
-  const [showPopup, setShowPopup] = useState<boolean>(false);
+  const [showPopup, setShowPopup] = useState<'phone' | 'email' | null>(null); // Track which popup to show
+  const [isEmailVerified, setIsEmailVerified] = useState<boolean>(false); // Track email verification status
+
 
   useEffect(() => {
     const loadUserDetails = async () => {
@@ -31,6 +34,7 @@ const ProfileDetail: React.FC<ProfileDetailProps> = ({ accountId }) => {
         console.log('Fetched user details:', data);
 
         setUserDetails(data);
+        setIsEmailVerified(data.emailVerified); // Set email verification status
         setError(null);
       } catch (err) {
         setError('Failed to load user details. Please try again later.');
@@ -104,7 +108,7 @@ const ProfileDetail: React.FC<ProfileDetailProps> = ({ accountId }) => {
           phone: phoneNumber,
           countryCode: countryCode,
         }));
-        setShowPopup(true);
+        setShowPopup('phone');
       }
   
       if (label === 'Address') {
@@ -163,8 +167,8 @@ const ProfileDetail: React.FC<ProfileDetailProps> = ({ accountId }) => {
         }));
   
         // Trigger email verification
-        await sendEmailVerification(accountId, newValue || '');
-        alert('A verification email has been sent to your new email address.');
+        await sendEmailVerification(accountId, newValue || '');;
+        setShowPopup('email');
       }
   
       // Exit edit mode for the field
@@ -178,17 +182,32 @@ const ProfileDetail: React.FC<ProfileDetailProps> = ({ accountId }) => {
   };
 
   const handlePopupClose = () => {
-    setShowPopup(false); // Close the popup
+    setShowPopup(null); // Close the popup
+  };
+
+  const handlePopupResend = async () => {
+    if (showPopup === 'email') {
+      console.log('Resending email verification...');
+      await sendEmailVerification(accountId, userDetails?.email || '');
+      alert('Verification email has been resent.');
+    } else if (showPopup === 'phone') {
+      console.log('Resending SMS verification code...');
+      // Add logic to resend the SMS verification code
+    }
   };
 
   const handlePopupVerify = () => {
-    console.log('Phone number verified successfully!');
-    setShowPopup(false); // Close the popup after successful verification
-  };
-
-  const handlePopupResend = () => {
-    console.log('Resending SMS verification code...');
-    // Add logic to resend the SMS verification code
+    if (showPopup === 'email') {
+      if (isEmailVerified) {
+        alert('Email verified successfully!');
+        setShowPopup(null);
+      } else {
+        alert('Email verification is not complete. Please check your inbox.');
+      }
+    } else if (showPopup === 'phone') {
+      console.log('Phone number verified successfully!');
+      setShowPopup(null);
+    }
   };
 
   const tableData = useMemo(() => {
@@ -319,11 +338,18 @@ const ProfileDetail: React.FC<ProfileDetailProps> = ({ accountId }) => {
     <div className="profile-detail">
       <h2>User Details</h2>
       <ProfileTable data={tableData} />
-      {showPopup && (
+      {showPopup === 'phone' && (
         <PhoneVerificationPopup
           onClose={handlePopupClose}
           onVerify={handlePopupVerify}
           onResend={handlePopupResend}
+        />
+      )}
+      {showPopup === 'email' && (
+        <EmailVerificationPopup
+          onClose={handlePopupClose}
+          onResend={handlePopupResend}
+          isEmailVerified={isEmailVerified}
         />
       )}
     </div>

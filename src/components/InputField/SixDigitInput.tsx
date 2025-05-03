@@ -2,31 +2,29 @@ import React, { useState, useRef } from 'react';
 import './SixDigitInput.css'; // Add styles for the input boxes
 
 interface SixDigitInputProps {
+  value: string; // The current value of the input
   onChange: (value: string) => void; // Callback to pass the entered value
 }
 
-const SixDigitInput: React.FC<SixDigitInputProps> = ({ onChange }) => {
-  const [values, setValues] = useState<string[]>(['', '', '', '', '', '']);
+const SixDigitInput: React.FC<SixDigitInputProps> = ({ value, onChange }) => {
   const inputRefs = useRef<HTMLInputElement[]>([]);
 
-  const handleChange = (index: number, value: string) => {
-    if (!/^\d?$/.test(value)) return; // Allow only single digits
+  const handleChange = (index: number, digit: string) => {
+    if (!/^\d?$/.test(digit)) return; // Allow only single digits
 
-    const newValues = [...values];
-    newValues[index] = value;
-    setValues(newValues);
+    const newValues = value.split('');
+    newValues[index] = digit;
+    const newValue = newValues.join('');
+    onChange(newValue); // Pass the concatenated value to the parent component
 
     // Move focus to the next input box if a digit is entered
-    if (value && index < 5) {
+    if (digit && index < 5) {
       inputRefs.current[index + 1]?.focus();
     }
-
-    // Pass the concatenated value to the parent component
-    onChange(newValues.join(''));
   };
 
   const handleKeyDown = (index: number, event: React.KeyboardEvent) => {
-    if (event.key === 'Backspace' && !values[index] && index > 0) {
+    if (event.key === 'Backspace' && !value[index] && index > 0) {
       // Move focus to the previous input box on backspace if the current box is empty
       inputRefs.current[index - 1]?.focus();
     }
@@ -34,13 +32,13 @@ const SixDigitInput: React.FC<SixDigitInputProps> = ({ onChange }) => {
 
   return (
     <div className="six-digit-input">
-      {values.map((value, index) => (
+      {Array.from({ length: 6 }).map((_, index) => (
         <React.Fragment key={index}>
           <input
             ref={(el) => (inputRefs.current[index] = el!)}
             type="text"
             maxLength={1}
-            value={value}
+            value={value[index] || ''} // Use the corresponding character from the value prop
             onChange={(e) => handleChange(index, e.target.value)}
             onKeyDown={(e) => handleKeyDown(index, e)}
           />
