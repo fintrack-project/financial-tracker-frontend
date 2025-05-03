@@ -1,4 +1,7 @@
-import axios from 'axios';
+import {
+  fetchPortfolioPieChartDataApi,
+  fetchPortfolioCombinedBarChartDataApi,
+} from '../api/portfolioChartApi';
 import { ChartData } from '../types/ChartData';
 import { CombinedChartData } from '../types/CombinedChartData';
 
@@ -8,11 +11,7 @@ export const fetchPortfolioPieChartData = async (
   baseCurrency: string
 ): Promise<ChartData[]> => {
   try {
-    const response = await axios.post('/api/portfolio/piechart-data', {
-      accountId,
-      category,
-      baseCurrency,
-    });
+    const response = await fetchPortfolioPieChartDataApi(accountId, category, baseCurrency);
     return response.data;
   } catch (error) {
     console.error('Error fetching portfolio pie chart data:', error);
@@ -31,12 +30,8 @@ export const fetchPortfolioCombinedBarChartData = async (
   }
 
   try {
-    const response = await axios.post(`/api/portfolio/barchart-data`, {
-      accountId,
-      category,
-      baseCurrency,
-    });
-
+    const response = await fetchPortfolioCombinedBarChartDataApi(accountId, category, baseCurrency);
+    
     // Parse the backend response
     const rawData = response.data; // Backend response
     console.log('Raw data from backend:', rawData); // Debug log

@@ -1,4 +1,8 @@
-import axios from 'axios';
+import {
+  addSubcategoryApi,
+  updateSubcategoryNameApi,
+  removeSubcategoryApi,
+} from '../api/subCategoryApi';
 
 export interface subCategoryService {
   subcategories: { [category: string]: string[] }; // Holds the subcategories for each category
@@ -39,9 +43,7 @@ export const createSubcategoryService = (
     }
 
     try {
-      await axios.delete(`/api/categories/subcategories/remove`, {
-        params: { accountId, category, subcategory },
-      });
+      await removeSubcategoryApi(accountId, category, subcategory);
     } catch (error) {
       console.error(`Error removing subcategory "${subcategory}" from category "${category}":`, error);
       throw error;
@@ -76,11 +78,7 @@ export const createSubcategoryService = (
       if (isNewSubcategory) {
         // Add the new subcategory to the backend
         console.log(`Adding new subcategory "${subcategoryName}" to category "${category}".`);
-        await axios.post(`/api/categories/subcategories/add`, {
-          accountId,
-          category_name: category,
-          subcategory_name: subcategoryName,
-        });
+        await addSubcategoryApi(accountId, category, subcategoryName);
       } else {
         // Check if the name has changed
         const oldSubcategoryName = confirmedSubcategories[category][subIndex];
@@ -91,12 +89,7 @@ export const createSubcategoryService = (
 
         // Update the subcategory name in the backend
         console.log(`Renaming subcategory "${oldSubcategoryName}" in category "${category}".`);
-        await axios.post(`/api/categories/subcategories/name/update`, {
-          accountId,
-          category_name: category,
-          old_subcategory_name: oldSubcategoryName,
-          new_subcategory_name: subcategoryName,
-        });
+        await updateSubcategoryNameApi(accountId, category, oldSubcategoryName, subcategoryName);
       }
     } catch (error) {
       console.error(`Error confirming subcategory "${subcategoryName}" in category "${category}":`, error);
