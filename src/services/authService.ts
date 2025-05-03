@@ -63,7 +63,7 @@ export const registerUser = async (registerData: RegisterRequest): Promise<void>
 export const verifyEmail = async (token: string): Promise<void> => {
   try {
     // Send a POST request to the backend to verify the email using the token
-    await axios.post('/api/user/verify-email', { token });
+    await axios.post('/api/user/email/verify', { token });
     console.log('Email verified successfully.');
   } catch (error) {
     if (axios.isAxiosError(error) && error.response) {
@@ -75,7 +75,7 @@ export const verifyEmail = async (token: string): Promise<void> => {
 
 export const sendEmailVerification = async (accountId: string, email: string): Promise<void> => {
   try {
-    await axios.post('/api/user/send-email-verification', {
+    await axios.post('/api/user/email/send-verification', {
       accountId,
       email,
     });

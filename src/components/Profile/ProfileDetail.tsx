@@ -246,7 +246,7 @@ const ProfileDetail: React.FC<ProfileDetailProps> = ({ accountId }) => {
           <span style={{ color: 'green' }}>Verified</span>
         ) : (
           <span
-            style={{ color: 'red', cursor: 'pointer', textDecoration: 'underline' }}
+            style={{ color: 'red', cursor: 'pointer' }}
             onClick={() => handleVerificationClick('email')}
           >
             Not Verified
