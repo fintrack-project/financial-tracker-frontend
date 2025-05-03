@@ -8,6 +8,7 @@ import IconButton from '../../components/Button/IconButton';
 import { getCountries, getCountryCallingCode, parsePhoneNumberFromString, CountryCode } from 'libphonenumber-js';
 import EmailVerificationPopup from '../../popup/EmailVerificationPopup';
 import PhoneVerificationPopup from '../../popup/PhoneVerificationPopup';
+import { sendSMSVerification, verifySMSCode } from '../../services/authService';
 import './ProfileDetail.css'; // Add styles for the profile detail section
 
 interface ProfileDetailProps {
@@ -22,7 +23,6 @@ const ProfileDetail: React.FC<ProfileDetailProps> = ({ accountId }) => {
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
   const [showPopup, setShowPopup] = useState<'phone' | 'email' | null>(null); // Track which popup to show
-  const [isEmailVerified, setIsEmailVerified] = useState<boolean>(false); // Track email verification status
 
 
   useEffect(() => {
@@ -34,7 +34,6 @@ const ProfileDetail: React.FC<ProfileDetailProps> = ({ accountId }) => {
         console.log('Fetched user details:', data);
 
         setUserDetails(data);
-        setIsEmailVerified(data.emailVerified); // Set email verification status
         setError(null);
       } catch (err) {
         setError('Failed to load user details. Please try again later.');
@@ -92,22 +91,23 @@ const ProfileDetail: React.FC<ProfileDetailProps> = ({ accountId }) => {
         }
     
         // Validate phone number
-        const parsedPhoneNumber = parsePhoneNumberFromString(
-          `${countryCode}${phoneNumber}`
+        const parsedPhoneNumber = parsePhoneNumberFromString(`+${getCountryCallingCode(countryCode as CountryCode)}${phoneNumber}`
         );
         // TODO : Ignore validation for now, think how to handle it later
-        // if (!parsedPhoneNumber || !parsedPhoneNumber.isValid()) {
-        //   alert('Invalid phone number. Please enter a valid phone number.');
-        //   return;
-        // }
+        if (!parsedPhoneNumber || !parsedPhoneNumber.isValid()) {
+          alert('Invalid phone number. Please enter a valid phone number.');
+          return;
+        }
     
-        console.log(`Updating Phone to: ${countryCode} ${phoneNumber}`);
+        console.log(`Updating Phone to: ${parsedPhoneNumber?.number}`);
         await updateUserPhone(accountId, phoneNumber, countryCode);
         setUserDetails((prev) => ({
           ...prev!,
           phone: phoneNumber,
           countryCode: countryCode,
         }));
+        // Trigger SMS verification
+        await sendSMSVerification(`+${getCountryCallingCode(countryCode as CountryCode)}${phoneNumber}`);
         setShowPopup('phone');
       }
   
@@ -183,13 +183,29 @@ const ProfileDetail: React.FC<ProfileDetailProps> = ({ accountId }) => {
 
   const handleVerificationClick = async (type: 'phone' | 'email') => {
     if (type === 'phone') {
-      console.log('Sending SMS verification...'); // TODO: Add logic to send SMS verification
-      setShowPopup('phone'); // Open phone verification popup
+      console.log('Sending SMS verification...');
+      try {
+        // Combine country code and phone number
+        const fullPhoneNumber = `+${getCountryCallingCode(userDetails?.countryCode as CountryCode || 'US')}${userDetails?.phone}`;
+        console.log(`Full phone number: ${fullPhoneNumber}`);
+  
+        // Call the sendSMSVerification function with the full phone number
+        await sendSMSVerification(fullPhoneNumber);
+        setShowPopup('phone'); // Open phone verification popup
+      } catch (error) {
+        console.error('Failed to send SMS verification:', error);
+        alert('Failed to send SMS verification. Please try again.');
+      }
     } else if (type === 'email') {
-      console.log('Sending email verification...'); 
-      // Trigger email verification
-      await sendEmailVerification(accountId, userDetails?.email || '');
-      setShowPopup('email'); // Open email verification popup
+      console.log('Sending email verification...');
+      try {
+        // Trigger email verification
+        await sendEmailVerification(accountId, userDetails?.email || '');
+        setShowPopup('email'); // Open email verification popup
+      } catch (error) {
+        console.error('Failed to send email verification:', error);
+        alert('Failed to send email verification. Please try again.');
+      }
     }
   };
 
@@ -200,25 +216,55 @@ const ProfileDetail: React.FC<ProfileDetailProps> = ({ accountId }) => {
   const handlePopupResend = async () => {
     if (showPopup === 'email') {
       console.log('Resending email verification...');
-      await sendEmailVerification(accountId, userDetails?.email || '');
-      alert('Verification email has been resent.');
+      try {
+        await sendEmailVerification(accountId, userDetails?.email || '');
+        alert('Verification email has been resent.');
+      } catch (error) {
+        console.error('Failed to resend email verification:', error);
+        alert('Failed to resend email verification. Please try again.');
+      }
     } else if (showPopup === 'phone') {
       console.log('Resending SMS verification code...');
-      // TODO : Add logic to resend the SMS verification code
+      try {
+        // Combine country code and phone number
+        const fullPhoneNumber = `+${getCountryCallingCode(userDetails?.countryCode as CountryCode || 'US')}${userDetails?.phone}`;
+        console.log(`Full phone number: ${fullPhoneNumber}`);
+  
+        // Resend the SMS verification code
+        await sendSMSVerification(fullPhoneNumber);
+        alert('Verification SMS has been resent.');
+      } catch (error) {
+        console.error('Failed to resend SMS verification:', error);
+        alert('Failed to resend SMS verification. Please try again.');
+      }
     }
   };
 
-  const handlePopupVerify = () => {
+  const handlePopupVerify = async (verificationCode: string) => {
     if (showPopup === 'email') {
-      if (isEmailVerified) {
+      if (userDetails?.emailVerified) {
         alert('Email verified successfully!');
         setShowPopup(null);
       } else {
         alert('Email verification is not complete. Please check your inbox.');
       }
     } else if (showPopup === 'phone') {
-      console.log('Phone number verified successfully!');
-      setShowPopup(null);
+      try {
+        // Verify the SMS code entered by the user
+        await verifySMSCode(verificationCode, accountId);
+
+        // Update the phone verification status in the userDetails state
+        setUserDetails((prev) => ({
+          ...prev!,
+          phoneVerified: true, // Update the phoneVerified field
+        }));
+
+        alert('Phone number verified successfully!');
+        setShowPopup(null); // Close the popup on success
+      } catch (error) {
+        console.error('Failed to verify phone number:', error);
+        throw new Error('Invalid verification code.'); // Propagate the error to the popup
+      }
     }
   };
 
@@ -371,9 +417,10 @@ const ProfileDetail: React.FC<ProfileDetailProps> = ({ accountId }) => {
         <EmailVerificationPopup
           onClose={handlePopupClose}
           onResend={handlePopupResend}
-          isEmailVerified={isEmailVerified}
+          isEmailVerified={userDetails.emailVerified}
         />
       )}
+      <div id="recaptcha-container" style={{ display: 'none' }}></div>
     </div>
   );
 };

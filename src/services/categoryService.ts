@@ -1,4 +1,11 @@
-import axios from 'axios';
+// import axios from 'axios';
+import {
+  fetchCategoryNamesApi,
+  fetchCategoriesAndSubcategoriesApi,
+  addCategoryApi,
+  updateCategoryNameApi,
+  removeCategoryApi,
+} from '../api/categoryApi';
 
 export interface CategoryService {
   categories: string[];
@@ -42,10 +49,7 @@ export const createCategoryService = (
       if (isNewCategory) {
           // Send the new category with priority to the backend
           console.log(`Adding new category "${categoryName}".`);
-          await axios.post(`/api/categories/add`, {
-            accountId,
-            category_name: categoryName
-          });
+          await addCategoryApi(accountId, categoryName);
       } else {
           // Check if the name has changed
           const oldCategoryName = confirmedCategories[index]; // Use the confirmed index
@@ -56,11 +60,7 @@ export const createCategoryService = (
 
           // Update the category name while keeping its priority and subcategories
           console.log(`Renaming category "${oldCategoryName}" to "${categoryName}".`);
-          await axios.post(`/api/categories/name/update`, {
-            accountId,
-            old_category_name: oldCategoryName, // Original name
-            new_category_name: categoryName,
-          });
+          await updateCategoryNameApi(accountId, oldCategoryName, categoryName);
       }
       
       console.log(`Confirmed Categories after marking:"${Array.from(categories)}"`);
@@ -77,9 +77,7 @@ export const createCategoryService = (
     }
 
     try {
-      await axios.delete(`/api/categories/remove`, {
-        params: { accountId, category },
-      });
+      await removeCategoryApi(accountId, category);
     } catch (error) {
       console.error(`Error removing category "${category}":`, error);
       throw error;
@@ -104,10 +102,8 @@ export const fetchCategories = async (
   }
 
   try {
-    const response = await axios.get(`/api/categories/fetch/names`, {
-      params: { accountId },
-    });
-    return response.data; // Assuming the backend returns an array of category names
+    const response = await fetchCategoryNamesApi(accountId);
+    return response;
   } catch (error) {
     console.error('Error fetching category names:', error);
     throw error;
@@ -118,9 +114,7 @@ export const fetchCategoriesAndSubcategories = async (
   accountId: string
 ) => {
   try {
-    const response = await axios.get(`/api/categories/fetch`, {
-      params: { accountId },
-    });
+    const response = await fetchCategoriesAndSubcategoriesApi(accountId);
 
     const fetchedCategories = response.data.categories || [];
     const fetchedSubcategories = response.data.subcategories || {};

@@ -1,0 +1,13 @@
+{
+  "functions": {
+    "source": "functions"
+  },
+  "emulators": {
+    "auth": {
+      "port": 4000
+    },
+    "ui": {
+      "enabled": true
+    }
+  }
+}

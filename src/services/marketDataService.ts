@@ -1,4 +1,5 @@
-import axios from 'axios';
+// import axios from 'axios';
+import { fetchMarketDataApi } from '../api/marketDataApi';
 import { MarketDataProps } from '../types/MarketDataProps';
 
 export const fetchMarketData = async (
@@ -6,14 +7,8 @@ export const fetchMarketData = async (
   assets: { symbol: string; assetType: string }[]
 ): Promise<MarketDataProps[]> => {
   try {
-    // Construct the request payload
-    const payload = {
-      accountId,
-      assets, // Array of { symbol, assetType }
-    };
-
     // Make the POST request
-    const response = await axios.post('/api/market-data/fetch', payload);
+    const response = await fetchMarketDataApi(accountId, assets);
     return response.data;
   } catch (error) {
     console.error('Error fetching market data:', error);

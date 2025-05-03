@@ -10,6 +10,7 @@ interface PhoneVerificationPopupProps {
 
 const PhoneVerificationPopup: React.FC<PhoneVerificationPopupProps> = ({
   onClose,
+  onVerify,
   onResend,
 }) => {
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
@@ -23,13 +24,17 @@ const PhoneVerificationPopup: React.FC<PhoneVerificationPopupProps> = ({
     }
   }, [code, errorMessage]);
 
-  const handleVerify = () => {
-    if (code === '123456') {
-      alert('Phone number verified successfully!');
+  const handleVerify = async () => {
+    try {
+      // Call the onVerify callback with the entered code
+      await onVerify(code);
+      console.log('PhoneVerificationPopup: Verification successful. Closing popup.');
       onClose(); // Close the popup on successful verification
-    } else {
+    } catch (error) {
+      console.error('Verification failed:', error);
       setErrorMessage('Invalid code. Please try again.'); // Display error message
       setCode(''); // Clear the input field
+      console.log('PhoneVerificationPopup: Verification failed. Popup remains open.');
     }
   };
 

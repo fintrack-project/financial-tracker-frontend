@@ -29,7 +29,7 @@ export const useBaseCurrency = (accountId: string | null) => {
         if (!defaultCurrency) {
           console.error('No default base currency found.');
           setError('No default base currency found.');
-          setBaseCurrency(null);
+          setBaseCurrency('USD');
           return;
         }
 

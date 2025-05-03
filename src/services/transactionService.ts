@@ -1,3 +1,9 @@
+import {
+  fetchOverviewTransactionsApi,
+  uploadPreviewTransactionsApi,
+  fetchPreviewTransactionsApi,
+  confirmTransactionsApi,
+} from '../api/transactionApi';
 import { PreviewTransaction } from 'types/PreviewTransaction';
 import { OverviewTransaction } from 'types/OverviewTransaction';
 import { Transaction } from '../types/Transaction';
@@ -5,9 +11,7 @@ import axios from 'axios';
 
 export const fetchOverviewTransactions = async (accountId: string): Promise<OverviewTransaction[]> => {
   try {
-    const response = await axios.get(`/api/accounts/${accountId}/overview-transactions`, {
-      withCredentials: true, // Include cookies for session-based authentication
-    });
+    const response = await fetchOverviewTransactionsApi(accountId);
     return response.data;
   } catch (error) {
     console.error('Error fetching overview transactions:', error);
@@ -20,15 +24,7 @@ export const uploadPreviewTransactions = async (
   transactions: Transaction[]
 ): Promise<Transaction[]> => {
   try {
-    const response = await axios.post(
-      `/api/accounts/${accountId}/upload-preview-transactions`,
-      transactions,
-      {
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      }
-    );
+    const response = await uploadPreviewTransactionsApi(accountId, transactions);
     return response.data;
   } catch (error) {
     console.error('Error uploading transactions:', error);
@@ -40,7 +36,7 @@ export const fetchPreviewTransactions = async (
   accountId: string
 ): Promise<Transaction[]> => {
   try {
-    const response = await axios.get(`/api/accounts/${accountId}/preview-transactions`);
+    const response = await fetchPreviewTransactionsApi(accountId);
     return response.data;
   } catch (error) {
     console.error('Error fetching preview transactions:', error);
@@ -53,15 +49,7 @@ export const confirmTransactions = async (
   previewTransactions: PreviewTransaction[]
 ): Promise<void> => {
   try {
-    await axios.post(
-      `/api/accounts/${accountId}/confirm-transactions`,
-      previewTransactions,
-      {
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      }
-    );
+    await confirmTransactionsApi(accountId, previewTransactions);
     console.log('Transactions confirmed successfully.');
   } catch (error) {
     console.error('Error confirming transactions:', error);

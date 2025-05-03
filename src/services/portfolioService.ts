@@ -1,12 +1,9 @@
-import axios from 'axios';
+import { fetchPortfolioDataApi } from '../api/portfolioApi';
 import { PortfolioData } from '../types/PortfolioData';
 
 export const fetchPortfolioData = async (accountId: string, baseCurrency: string): Promise<PortfolioData[]> => {
   try {
-    const response = await axios.post('/api/portfolio/portfolio-data', {
-      accountId,
-      baseCurrency,
-    });
+    const response = await fetchPortfolioDataApi(accountId, baseCurrency);
     return response.data;
   } catch (error) {
     console.error('Error fetching portfolio data:', error);
