@@ -1,4 +1,10 @@
-import axios from 'axios';
+// import axios from 'axios';
+import {
+  addHoldingsCategoryApi,
+  updateHoldingsCategoriesApi,
+  removeHoldingsCategoryApi,
+  fetchHoldingsCategoriesApi,
+} from '../api/holdingsCategoryApi';
 
 export interface HoldingsCategoriesService {
   addHoldingsCategory: (
@@ -32,9 +38,7 @@ export const createHoldingsCategoriesService = () => {
     try {
       console.log('Adding new holdings category:', holdingsCategories);
 
-      const response = await axios.post(`/api/categories/holdings/add`, holdingsCategories, {
-        params: { accountId },
-      });
+      const response = await addHoldingsCategoryApi(accountId, holdingsCategories);
 
       return response.data;
     } catch (error) {
@@ -52,9 +56,7 @@ export const createHoldingsCategoriesService = () => {
     }
   ) => {
     try {
-      const response = await axios.post(`/api/categories/holdings/update`, holdingsCategories, {
-        params: { accountId },
-      });
+      const response = await updateHoldingsCategoriesApi(accountId, holdingsCategories);
 
       return response.data;
     } catch (error) {
@@ -67,9 +69,7 @@ export const createHoldingsCategoriesService = () => {
     try {
       console.log(`Removing holdings category: ${category}`);
 
-      const response = await axios.post(`/api/categories/holdings/remove`, null, {
-        params: { accountId, category },
-      });
+      const response = await removeHoldingsCategoryApi(accountId, category);
 
       console.log(`Successfully removed holdings category: ${category}`);
       return response.data;
@@ -88,9 +88,7 @@ export const createHoldingsCategoriesService = () => {
 
 export const fetchHoldingsCategories = async (accountId: string) => {
   try {
-    const response = await axios.get(`/api/categories/holdings/fetch`, {
-      params: { accountId },
-    });
+    const response = await fetchHoldingsCategoriesApi(accountId);
 
     return response.data;
   } catch (error) {

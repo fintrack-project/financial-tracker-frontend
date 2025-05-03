@@ -1,13 +1,16 @@
 import axios from 'axios';
+import {
+  fetchUserDetailsApi,
+  updateUserPhoneApi,
+  updateUserAddressApi,
+  updateUserEmailApi,
+} from '../api/userApi';
 import { UserDetails } from '../types/UserDetails';
 
 export const fetchUserDetails = async (accountId: string): Promise<UserDetails> => {
   try {
-    const userDataResponse = await axios.post('/api/user/fetch', {
-      accountId, // Send accountId directly in the request body
-    });
-
-    return userDataResponse.data;
+    const response = await fetchUserDetailsApi(accountId);
+    return response.data;
   } catch (error) {
     if (axios.isAxiosError(error) && error.response) {
       throw new Error(error.response.data.message || 'An error occurred during registration.');
@@ -19,11 +22,7 @@ export const fetchUserDetails = async (accountId: string): Promise<UserDetails> 
 // Update user's phone number
 export const updateUserPhone = async (accountId: string, phone: string, countryCode: string): Promise<void> => {
   try {
-    await axios.post('/api/user/update-phone', {
-      accountId,
-      phone,
-      countryCode
-    });
+    await updateUserPhoneApi(accountId, phone, countryCode);
   } catch (error) {
     if (axios.isAxiosError(error) && error.response) {
       throw new Error(error.response.data.message || 'Failed to update phone number.');
@@ -35,10 +34,7 @@ export const updateUserPhone = async (accountId: string, phone: string, countryC
 // Update user's address
 export const updateUserAddress = async (accountId: string, address: string): Promise<void> => {
   try {
-    await axios.post('/api/user/update-address', {
-      accountId,
-      address,
-    });
+    await updateUserAddressApi(accountId, address);
   } catch (error) {
     if (axios.isAxiosError(error) && error.response) {
       throw new Error(error.response.data.message || 'Failed to update address.');
@@ -50,10 +46,7 @@ export const updateUserAddress = async (accountId: string, address: string): Pro
 // Update user's email
 export const updateUserEmail = async (accountId: string, email: string): Promise<void> => {
   try {
-    await axios.post('/api/user/update-email', {
-      accountId,
-      email,
-    });
+    await updateUserEmailApi(accountId, email);
   } catch (error) {
     if (axios.isAxiosError(error) && error.response) {
       throw new Error(error.response.data.message || 'Failed to update email.');

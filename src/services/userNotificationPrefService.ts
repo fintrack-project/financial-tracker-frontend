@@ -1,11 +1,13 @@
 import axios from 'axios';
+import {
+  fetchNotificationPreferencesApi,
+  updateNotificationPreferenceApi,
+} from '../api/userNotificationPrefApi'; // Adjust the import path as necessary
 import { NotificationPreferences } from '../types/NotificationPreferences';
 
 export const fetchNotificationPreferences = async (accountId: string): Promise<NotificationPreferences> => {
   try {
-    const response = await axios.get(`/api/user/notification-preference/fetch`, {
-      params: { accountId },
-    });
+    const response = await fetchNotificationPreferencesApi(accountId);
 
     // Transform the array into the NotificationPreferences object
     const preferences = response.data.reduce(
@@ -32,12 +34,7 @@ export const updateNotificationPreference = async (
   isEnabled: boolean
 ): Promise<void> => {
   try {
-    await axios.post(`/api/user/notification-preference/update`, {
-      accountId,
-      notificationType,
-      isEnabled,
-    });
-
+    await updateNotificationPreferenceApi(accountId, notificationType, isEnabled);
     console.log(`Updated ${notificationType} to ${isEnabled}`);
   } catch (error) {
     console.error(`Failed to update ${notificationType}:`, error);
