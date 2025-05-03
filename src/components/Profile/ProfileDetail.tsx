@@ -6,6 +6,7 @@ import { UserDetails } from '../../types/UserDetails';
 import ProfileTable from '../../components/Table/ProfileTable/ProfileTable';
 import IconButton from '../../components/Button/IconButton';
 import { getCountries, getCountryCallingCode, parsePhoneNumberFromString, CountryCode } from 'libphonenumber-js';
+import PhoneVerificationPopup from '../../popup/PhoneVerificationPopup';
 import './ProfileDetail.css'; // Add styles for the profile detail section
 
 interface ProfileDetailProps {
@@ -19,6 +20,7 @@ const ProfileDetail: React.FC<ProfileDetailProps> = ({ accountId }) => {
   const [editModes, setEditModes] = useState<{ [key: string]: boolean }>({});
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
+  const [showPopup, setShowPopup] = useState<boolean>(false);
 
   useEffect(() => {
     const loadUserDetails = async () => {
@@ -69,20 +71,11 @@ const ProfileDetail: React.FC<ProfileDetailProps> = ({ accountId }) => {
         const countryCode = editState['CountryCode'] || 'US';
         const phoneNumber = editState['Phone'] || '';
 
-        console.log('Current Country Code:', userDetails?.countryCode);
-        console.log('Current Phone Number:', userDetails?.phone);
-
-        console.log('New Country Code:', countryCode);
-        console.log('New Phone Number:', phoneNumber);
-
         // Parse the current and new phone numbers
         const currentPhoneNumber = parsePhoneNumberFromString(
           `+${getCountryCallingCode(userDetails?.countryCode as CountryCode || 'US')}${userDetails?.phone}`
         );
         const newPhoneNumber = parsePhoneNumberFromString(`+${getCountryCallingCode(countryCode as CountryCode)}${phoneNumber}`);
-
-        console.log('Current Phone Number:', currentPhoneNumber);
-        console.log('New Phone Number:', newPhoneNumber);
 
         // If no changes were made, exit edit mode without doing anything
         if (
@@ -98,7 +91,7 @@ const ProfileDetail: React.FC<ProfileDetailProps> = ({ accountId }) => {
         const parsedPhoneNumber = parsePhoneNumberFromString(
           `${countryCode}${phoneNumber}`
         );
-        // Ignore validation for now
+        // TODO : Ignore validation for now, think how to handle it later
         // if (!parsedPhoneNumber || !parsedPhoneNumber.isValid()) {
         //   alert('Invalid phone number. Please enter a valid phone number.');
         //   return;
@@ -111,6 +104,7 @@ const ProfileDetail: React.FC<ProfileDetailProps> = ({ accountId }) => {
           phone: phoneNumber,
           countryCode: countryCode,
         }));
+        setShowPopup(true);
       }
   
       if (label === 'Address') {
@@ -181,6 +175,20 @@ const ProfileDetail: React.FC<ProfileDetailProps> = ({ accountId }) => {
       console.error(`Failed to update ${label}:`, error);
       alert(`Failed to update ${label}. Please try again later.`);
     }
+  };
+
+  const handlePopupClose = () => {
+    setShowPopup(false); // Close the popup
+  };
+
+  const handlePopupVerify = () => {
+    console.log('Phone number verified successfully!');
+    setShowPopup(false); // Close the popup after successful verification
+  };
+
+  const handlePopupResend = () => {
+    console.log('Resending SMS verification code...');
+    // Add logic to resend the SMS verification code
   };
 
   const tableData = useMemo(() => {
@@ -311,6 +319,13 @@ const ProfileDetail: React.FC<ProfileDetailProps> = ({ accountId }) => {
     <div className="profile-detail">
       <h2>User Details</h2>
       <ProfileTable data={tableData} />
+      {showPopup && (
+        <PhoneVerificationPopup
+          onClose={handlePopupClose}
+          onVerify={handlePopupVerify}
+          onResend={handlePopupResend}
+        />
+      )}
     </div>
   );
 };
