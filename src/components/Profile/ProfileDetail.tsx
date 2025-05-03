@@ -167,7 +167,7 @@ const ProfileDetail: React.FC<ProfileDetailProps> = ({ accountId }) => {
         }));
   
         // Trigger email verification
-        await sendEmailVerification(accountId, newValue || '');;
+        await sendEmailVerification(accountId, newValue || '');
         setShowPopup('email');
       }
   
@@ -178,6 +178,18 @@ const ProfileDetail: React.FC<ProfileDetailProps> = ({ accountId }) => {
     } catch (error) {
       console.error(`Failed to update ${label}:`, error);
       alert(`Failed to update ${label}. Please try again later.`);
+    }
+  };
+
+  const handleVerificationClick = async (type: 'phone' | 'email') => {
+    if (type === 'phone') {
+      console.log('Sending SMS verification...'); // TODO: Add logic to send SMS verification
+      setShowPopup('phone'); // Open phone verification popup
+    } else if (type === 'email') {
+      console.log('Sending email verification...'); 
+      // Trigger email verification
+      await sendEmailVerification(accountId, userDetails?.email || '');
+      setShowPopup('email'); // Open email verification popup
     }
   };
 
@@ -192,7 +204,7 @@ const ProfileDetail: React.FC<ProfileDetailProps> = ({ accountId }) => {
       alert('Verification email has been resent.');
     } else if (showPopup === 'phone') {
       console.log('Resending SMS verification code...');
-      // Add logic to resend the SMS verification code
+      // TODO : Add logic to resend the SMS verification code
     }
   };
 
@@ -233,7 +245,12 @@ const ProfileDetail: React.FC<ProfileDetailProps> = ({ accountId }) => {
         status: userDetails.emailVerified ? (
           <span style={{ color: 'green' }}>Verified</span>
         ) : (
-          <span style={{ color: 'red' }}>Not Verified</span>
+          <span
+            style={{ color: 'red', cursor: 'pointer', textDecoration: 'underline' }}
+            onClick={() => handleVerificationClick('email')}
+          >
+            Not Verified
+          </span>
         ),
         actions:
           editModes['Email'] ? (
@@ -246,7 +263,7 @@ const ProfileDetail: React.FC<ProfileDetailProps> = ({ accountId }) => {
         label: 'Phone',
         value:
           editModes['Phone'] ? (
-            <div>
+            <div className="phone-input-container">
               <select
                 value={editState['CountryCode'] || ''}
                 onChange={(e) =>
@@ -279,7 +296,12 @@ const ProfileDetail: React.FC<ProfileDetailProps> = ({ accountId }) => {
         status: userDetails.phoneVerified ? (
           <span style={{ color: 'green' }}>Verified</span>
         ) : (
-          <span style={{ color: 'red' }}>Not Verified</span>
+          <span
+            style={{ color: 'red', cursor: 'pointer'}}
+            onClick={() => handleVerificationClick('phone')}
+          >
+            Not Verified
+          </span>
         ),
         actions:
           editModes['Phone'] ? (
