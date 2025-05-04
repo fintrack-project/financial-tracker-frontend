@@ -9,6 +9,8 @@ import { getCountries, getCountryCallingCode, parsePhoneNumberFromString, Countr
 import EmailVerificationPopup from '../../popup/EmailVerificationPopup';
 import PhoneVerificationPopup from '../../popup/PhoneVerificationPopup';
 import { sendSMSVerification, verifySMSCode } from '../../services/authService';
+import AccountTier from '../../components/Profile/AccountTier';
+import { formatDate } from '../../utils/FormatDate';
 import './ProfileDetail.css'; // Add styles for the profile detail section
 
 interface ProfileDetailProps {
@@ -377,11 +379,11 @@ const ProfileDetail: React.FC<ProfileDetailProps> = ({ accountId }) => {
       },
       {
         label: 'Account Tier',
-        value: userDetails.accountTier,
+        value: <AccountTier tier={userDetails.accountTier as 'free' | 'premium'} />, // Use AccountTier component
       },
       {
         label: 'Signup Date',
-        value: userDetails.signupDate,
+        value: formatDate(userDetails.signupDate),
       },
       {
         label: 'Last Activity',
