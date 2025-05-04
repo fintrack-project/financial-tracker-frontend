@@ -387,7 +387,7 @@ const ProfileDetail: React.FC<ProfileDetailProps> = ({ accountId }) => {
       },
       {
         label: 'Last Activity',
-        value: userDetails.lastActivityDate,
+        value: formatDate(userDetails.lastActivityDate),
       },
     ];
   }, [userDetails, editState]);

@@ -16,7 +16,7 @@ export interface UserDetails {
   paymentStatus: string | null;
   timezone: string | null;
   twoFactorEnabled: boolean;
-  lastLogin: string | null;
+  lastLogin: number[] | null;
   failedLoginAttempts: number;
   accountLocked: boolean;
   signupDate: number[];

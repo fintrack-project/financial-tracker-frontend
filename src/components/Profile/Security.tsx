@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { fetchUserDetails } from '../../services/userService';
 import { UserDetails } from '../../types/UserDetails';
 import ProfileTable from '../../components/Table/ProfileTable/ProfileTable';
+import { formatDate } from '../../utils/FormatDate';
 import './Security.css'; // Add styles for the security section
 
 interface SecurityProps {
@@ -45,7 +46,7 @@ const Security: React.FC<SecurityProps> = ({ accountId }) => {
 
   const tableData = [
     { label: 'Two-Factor Authentication', value: userDetails.twoFactorEnabled ? 'Enabled' : 'Disabled' },
-    { label: 'Last Login', value: userDetails.lastLogin || 'N/A' },
+    { label: 'Last Login', value: formatDate(userDetails.lastLogin, true) || 'N/A' },
     { label: 'Failed Login Attempts', value: userDetails.failedLoginAttempts.toString() },
     { label: 'Account Locked', value: userDetails.accountLocked ? 'Yes' : 'No' },
     {

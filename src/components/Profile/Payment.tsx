@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { fetchUserDetails } from '../../services/userService';
 import { UserDetails } from '../../types/UserDetails';
 import ProfileTable from '../../components/Table/ProfileTable/ProfileTable';
+import { formatDate } from '../../utils/FormatDate';
 import './Payment.css'; // Add styles for the payment section
 
 interface PaymentProps {
@@ -46,11 +47,11 @@ const Payment: React.FC<PaymentProps> = ({ accountId }) => {
   const tableData = [
     { label: 'Payment Method', value: userDetails.paymentMethod || 'N/A' },
     { label: 'Billing Address', value: userDetails.billingAddress || 'N/A' },
-    { label: 'Last Payment Date', value: userDetails.lastPaymentDate || 'N/A' },
-    { label: 'Next Billing Date', value: userDetails.nextBillingDate || 'N/A' },
+    { label: 'Last Payment Date', value: formatDate(userDetails.lastPaymentDate, true) || 'N/A' },
+    { label: 'Next Billing Date', value: formatDate(userDetails.nextBillingDate, true) || 'N/A' },
     { label: 'Payment Status', value: userDetails.paymentStatus || 'N/A' },
-    { label: 'Subscription Start Date', value: userDetails.subscriptionStartDate || 'N/A' },
-    { label: 'Subscription End Date', value: userDetails.subscriptionEndDate || 'N/A' },
+    { label: 'Subscription Start Date', value: formatDate(userDetails.subscriptionStartDate, true) || 'N/A' },
+    { label: 'Subscription End Date', value: formatDate(userDetails.subscriptionEndDate, true) || 'N/A' },
     { label: 'Active Subscription', value: userDetails.isActiveSubscription ? 'Yes' : 'No' },
   ];
 

@@ -2,8 +2,12 @@ export const formatDate = (
   dateArray: number[] | null | undefined,
   includeTime: boolean = false
 ): string => {
+  if(dateArray === null || dateArray === undefined) {
+    return 'N/A'; // Handle null or undefined
+  } 
+
   if (!dateArray || dateArray.length < 3) {
-    return 'Invalid Date'; // Handle null, undefined, or invalid arrays
+    return 'Invalid Date'; // Handle invalid arrays
   }
 
   // Extract date components from the array
