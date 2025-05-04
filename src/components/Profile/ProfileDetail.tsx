@@ -5,13 +5,13 @@ import useVerification from '../../hooks/useVerification';
 import { UserDetails } from '../../types/UserDetails';
 import ProfileTable from '../../components/Table/ProfileTable/ProfileTable';
 import IconButton from '../../components/Button/IconButton';
+import { isValidEmail } from '../../utils/validationUtils';
 import { getCountries, getCountryCallingCode, parsePhoneNumberFromString, CountryCode } from 'libphonenumber-js';
 import EmailVerificationPopup from '../../popup/EmailVerificationPopup';
 import PhoneVerificationPopup from '../../popup/PhoneVerificationPopup';
 import AccountTier from '../../components/Profile/AccountTier';
 import { formatDate } from '../../utils/FormatDate';
 import './ProfileDetail.css'; // Add styles for the profile detail section
-import { set } from 'lodash';
 
 interface ProfileDetailProps {
   accountId: string; // Account ID to fetch user details
@@ -132,8 +132,8 @@ const ProfileDetail: React.FC<ProfileDetailProps> = ({ accountId }) => {
           return;
         }
   
-        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-        if (!emailRegex.test(newValue)) {
+        if (!isValidEmail(newValue)) {
+          console.error(`Invalid email format:`, newValue);
           alert('Invalid email format.');
           setEditState((prevState) => ({ ...prevState, [label]: null })); // Revert to previous value
           setEditModes((prevModes) => ({ ...prevModes, [label]: false })); // Exit edit mode for Email
@@ -235,10 +235,14 @@ const ProfileDetail: React.FC<ProfileDetailProps> = ({ accountId }) => {
           </span>
         ),
         actions:
-          editModes['Email'] ? (
-            <IconButton type="confirm" label="Confirm" onClick={() => handleConfirmClick('Email')} />
-          ) : (
-            <IconButton type="edit" label="Edit" onClick={() => handleEditClick('Email', userDetails.email)} />
+          (
+            <div className="actions">
+              {editModes['Email'] ? (
+                  <IconButton type="confirm" label="Confirm" onClick={() => handleConfirmClick('Email')} />
+              ) : (
+                <IconButton type="edit" label="Edit" onClick={() => handleEditClick('Email', userDetails.email)} />
+              )}
+            </div>
           ),
       },
       {
@@ -286,11 +290,15 @@ const ProfileDetail: React.FC<ProfileDetailProps> = ({ accountId }) => {
           </span>
         ),
         actions:
-          editModes['Phone'] ? (
-            <IconButton type="confirm" label="Confirm" onClick={() => handleConfirmClick('Phone')} />
-          ) : (
-            <IconButton type="edit" label="Edit" onClick={() => handleEditClick('Phone', userDetails.phone)} />
-          ),
+        (
+          <div className="actions">
+            {editModes['Phone'] ? (
+              <IconButton type="confirm" label="Confirm" onClick={() => handleConfirmClick('Phone')} />
+            ) : (
+              <IconButton type="edit" label="Edit" onClick={() => handleEditClick('Phone', userDetails.phone)} />
+            )}
+          </div>
+        ),
       },
       {
         label: 'Address',
@@ -305,11 +313,15 @@ const ProfileDetail: React.FC<ProfileDetailProps> = ({ accountId }) => {
             userDetails.address
           ),
         actions:
-          editModes['Address'] ? (
-            <IconButton type="confirm" label="Confirm" onClick={() => handleConfirmClick('Address')} />
-          ) : (
-            <IconButton type="edit" label="Edit" onClick={() => handleEditClick('Address', userDetails.address)} />
-          ),
+        (
+          <div className="actions">
+            {editModes['Address'] ? (
+              <IconButton type="confirm" label="Confirm" onClick={() => handleConfirmClick('Address')} />
+            ) : (
+              <IconButton type="edit" label="Edit" onClick={() => handleEditClick('Address', userDetails.address)} />
+            )}
+          </div>
+        ),
       },
       {
         label: 'Account Tier',

@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { isStrongPassword, isValidEmail } from '../../utils/validationUtils';
 import InputField from '../../components/InputField/InputField';
 import Button from 'components/Button/Button';
 import AuthBasePage from './AuthBasePage';
@@ -14,16 +15,7 @@ const Register: React.FC = () => {
   const [error, setError] = useState('');
   const navigate = useNavigate();
 
-  const isStrongPassword = (password: string) => {
-    const strongPasswordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
-    return strongPasswordRegex.test(password);
-  };
-
-  const isValidEmail = (email: string) => {
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    return emailRegex.test(email);
-  };
-
+  // TODO : check if registering really sends verification email
   const sendEmailVerification = async (email: string) => {
     alert(`Registration successful! A verification link has been sent to ${email}. Please verify your email.`);
   };
