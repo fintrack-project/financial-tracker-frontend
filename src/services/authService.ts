@@ -11,8 +11,6 @@ import UserSession from '../utils/UserSession';
 export const loginUser = async (loginData: LoginRequest): Promise<void> => {
   const response = await loginApi(loginData);
 
-  console.log('Login response:', response);
-
   if (!response) {
     throw new Error('Login failed: No response from server.');
   }

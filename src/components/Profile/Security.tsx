@@ -47,8 +47,6 @@ const Security: React.FC<SecurityProps> = ({ accountId }) => {
   const tableData = [
     { label: 'Two-Factor Authentication', value: userDetails.twoFactorEnabled ? 'Enabled' : 'Disabled' },
     { label: 'Last Login', value: formatDate(userDetails.lastLogin, true) || 'N/A' },
-    { label: 'Failed Login Attempts', value: userDetails.failedLoginAttempts.toString() },
-    { label: 'Account Locked', value: userDetails.accountLocked ? 'Yes' : 'No' },
     {
       label: 'Password',
       value: '********', // Redacted password
