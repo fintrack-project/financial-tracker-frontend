@@ -4,7 +4,7 @@ import { fetchNotificationPreferences, updateNotificationPreference } from '../.
 import { UserDetails } from '../../types/UserDetails';
 import { NotificationPreferences } from '../../types/NotificationPreferences';
 import ProfileTable from '../../components/Table/ProfileTable/ProfileTable';
-import NotificationToggle from '../Toggle/NotificationToggle'; // Import the toggle component
+import Toggle from '../Toggle/Toggle'; // Import the toggle component
 import './Notification.css'; // Add styles for the notification section
 
 interface NotificationProps {
@@ -99,7 +99,7 @@ const Notification: React.FC<NotificationProps> = ({ accountId }) => {
       value: notificationPreferences.email ? 'Enabled' : 'Disabled',
       status: '', // Leave blank for now
       actions: (
-        <NotificationToggle
+        <Toggle
           label="Email"
           isEnabled={notificationPreferences.email}
           onToggle={() => handleToggle('email')}
@@ -111,7 +111,7 @@ const Notification: React.FC<NotificationProps> = ({ accountId }) => {
       value: notificationPreferences.sms ? 'Enabled' : 'Disabled',
       status: '', // Leave blank for now
       actions: (
-        <NotificationToggle
+        <Toggle
           label="SMS"
           isEnabled={notificationPreferences.sms}
           onToggle={() => handleToggle('sms')}
@@ -123,7 +123,7 @@ const Notification: React.FC<NotificationProps> = ({ accountId }) => {
       value: notificationPreferences.push ? 'Enabled' : 'Disabled',
       status: '', // Leave blank for now
       actions: (
-        <NotificationToggle
+        <Toggle
           label="Push"
           isEnabled={notificationPreferences.push}
           onToggle={() => handleToggle('push')}

@@ -1,4 +1,4 @@
-.notification-toggle {
+.toggle {
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -6,7 +6,7 @@
   font-size: 1rem;
 }
 
-.notification-label {
+.toggle-label {
   margin-right: 10px;
   color: #333;
 }

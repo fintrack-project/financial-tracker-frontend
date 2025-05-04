@@ -1,16 +1,16 @@
 import React from 'react';
-import './NotificationToggle.css';
+import './Toggle.css';
 
-interface NotificationToggleProps {
+interface ToggleProps {
   label: string;
   isEnabled: boolean;
   onToggle: () => void;
 }
 
-const NotificationToggle: React.FC<NotificationToggleProps> = ({ label, isEnabled, onToggle }) => {
+const NotificationToggle: React.FC<ToggleProps> = ({ label, isEnabled, onToggle }) => {
   return (
-    <div className="notification-toggle">
-      <span className="notification-label">{label}</span>
+    <div className="toggle">
+      <span className="toggle-label">{label}</span>
       <div
         className={`toggle-switch ${isEnabled ? 'enabled' : 'disabled'}`}
         onClick={onToggle}
