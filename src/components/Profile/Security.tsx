@@ -60,7 +60,7 @@ const Security: React.FC<SecurityProps> = ({ accountId }) => {
     {
       label: 'Two-Factor Authentication',
       value: userDetails.twoFactorEnabled ? 'Enabled' : 'Disabled',
-      status: '', // Leave blank for now
+      status: userDetails.twoFactorEnabled ? 'Download OTP App' : '', // Show text only if 2FA is enabled
       actions: (
         <Toggle
           label="2FA"
@@ -69,7 +69,9 @@ const Security: React.FC<SecurityProps> = ({ accountId }) => {
         />
       ),
     },
-    { label: 'Last Login', value: formatDate(userDetails.lastLogin, true) || 'N/A' },
+    { label: 'Last Login', 
+      value: formatDate(userDetails.lastLogin, true) || 'N/A' 
+    },
     {
       label: 'Password',
       value: '********', // Redacted password

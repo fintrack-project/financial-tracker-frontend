@@ -8,24 +8,26 @@
   display: grid;
   grid-template-columns: 1fr 2fr 1fr 1fr; /* Four columns: Label, Value, Status, Actions */
   align-items: center;
+  justify-content: center;
   padding: 10px;
-  border-bottom: 1px solid #ddd;
 }
 
 .profile-table-label {
   font-weight: bold;
   color: #333;
+  margin-right: 10px;
 }
 
 .profile-table-value {
   color: #555;
+  align-items: center;
 }
 
 .profile-table-status {
   color: #888;
-  text-align: center;
+  align-items: center;
 }
 
 .profile-table-actions {
-  text-align: right;
+  align-items: center;
 }
