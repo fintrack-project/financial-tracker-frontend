@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { fetchUserDetails, updateTwoFactorStatus } from '../../services/userService';
 import { UserDetails } from '../../types/UserDetails';
+import { setup2FA, verify2FA } from '../../api/twoFactorApi';
+import QRCodePopup from '../../popup/QRCodePopup';
 import ProfileTable from '../../components/Table/ProfileTable/ProfileTable';
 import Toggle from '../../components/Toggle/Toggle'; // Import the Toggle component
 import { formatDate } from '../../utils/FormatDate';
@@ -12,6 +14,7 @@ interface SecurityProps {
 
 const Security: React.FC<SecurityProps> = ({ accountId }) => {
   const [userDetails, setUserDetails] = useState<UserDetails | null>(null);
+  const [qrCode, setQrCode] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
 
@@ -32,6 +35,31 @@ const Security: React.FC<SecurityProps> = ({ accountId }) => {
 
     loadUserDetails();
   }, [accountId]);
+
+  const handleSetup2FA = async () => {
+    try {
+      const data = await setup2FA(accountId);
+      setQrCode(data.qrCode); // Display the QR code
+    } catch (err) {
+      console.error('Failed to setup 2FA:', err);
+      alert('Failed to setup 2FA. Please try again.');
+    }
+  };
+
+  const handleVerifyOTP = async (otp: string) => {
+    try {
+      const result = await verify2FA(accountId, otp);
+      if (result.success) {
+        alert('2FA setup successfully!');
+        setQrCode(null); // Close the popup
+      } else {
+        alert(result.message);
+      }
+    } catch (err) {
+      console.error('Failed to verify OTP:', err);
+      alert('Failed to verify OTP. Please try again.');
+    }
+  };
 
   const handleToggle2FA = async () => {
     const enabled = !userDetails?.twoFactorEnabled; // Toggle the 2FA status
@@ -60,7 +88,16 @@ const Security: React.FC<SecurityProps> = ({ accountId }) => {
     {
       label: 'Two-Factor Authentication',
       value: userDetails.twoFactorEnabled ? 'Enabled' : 'Disabled',
-      status: userDetails.twoFactorEnabled ? 'Download OTP App' : '', // Show text only if 2FA is enabled
+      status: userDetails.twoFactorEnabled ? (
+        <span
+          style={{ color: 'blue', cursor: 'pointer', textDecoration: 'underline' }}
+          onClick={handleSetup2FA} // Trigger QR code setup
+        >
+          Setup Google OTP
+        </span>
+      ) : (
+        ''
+      ),
       actions: (
         <Toggle
           label="2FA"
@@ -84,6 +121,12 @@ const Security: React.FC<SecurityProps> = ({ accountId }) => {
     <div className="security">
       <h2>Security Settings</h2>
       <ProfileTable data={tableData} />
+      {qrCode && (
+        <QRCodePopup
+          qrCode={qrCode}
+          onClose={() => setQrCode(null)} // Close the popup
+        />
+      )}
     </div>
   );
 };

@@ -6,7 +6,7 @@ interface VerificationPopupProps {
   instructions: string; // Instructions to display
   customInput?: React.ReactNode; // Custom input field (e.g., SixDigitInput)
   onVerify?: (code: string) => void; // Callback when verification is successful
-  onResend: () => void; // Callback to resend the verification
+  onResend?: () => void; // Callback to resend the verification
   onClose: () => void; // Callback to close the popup
   errorMessage?: string | null; // Optional error message to display
 }
@@ -48,7 +48,9 @@ const VerificationPopup: React.FC<VerificationPopupProps> = ({
   const handleResend = () => {
     setTimeLeft(120); // Reset the timer to 2 minutes
     setCode(''); // Clear the input field
-    onResend(); // Call the resend callback
+    if(onResend) {
+      onResend(); // Call the resend callback
+    }
   };
 
   return (
@@ -63,7 +65,7 @@ const VerificationPopup: React.FC<VerificationPopupProps> = ({
         </div>
         <div className="popup-actions">
           {onVerify && <button onClick={handleVerify}>Verify</button>}
-          <button onClick={handleResend}>Resend</button>
+          {onResend && <button onClick={handleResend}>Resend</button>}
           <button onClick={onClose}>Close</button>
         </div>
       </div>
