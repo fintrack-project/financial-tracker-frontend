@@ -5,13 +5,13 @@ import useVerification from '../../hooks/useVerification';
 import { UserDetails } from '../../types/UserDetails';
 import ProfileTable from '../../components/Table/ProfileTable/ProfileTable';
 import IconButton from '../../components/Button/IconButton';
+import { isValidEmail } from '../../utils/validationUtils';
 import { getCountries, getCountryCallingCode, parsePhoneNumberFromString, CountryCode } from 'libphonenumber-js';
 import EmailVerificationPopup from '../../popup/EmailVerificationPopup';
 import PhoneVerificationPopup from '../../popup/PhoneVerificationPopup';
 import AccountTier from '../../components/Profile/AccountTier';
 import { formatDate } from '../../utils/FormatDate';
 import './ProfileDetail.css'; // Add styles for the profile detail section
-import { set } from 'lodash';
 
 interface ProfileDetailProps {
   accountId: string; // Account ID to fetch user details
@@ -132,8 +132,8 @@ const ProfileDetail: React.FC<ProfileDetailProps> = ({ accountId }) => {
           return;
         }
   
-        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-        if (!emailRegex.test(newValue)) {
+        if (!isValidEmail(newValue)) {
+          console.error(`Invalid email format:`, newValue);
           alert('Invalid email format.');
           setEditState((prevState) => ({ ...prevState, [label]: null })); // Revert to previous value
           setEditModes((prevModes) => ({ ...prevModes, [label]: false })); // Exit edit mode for Email

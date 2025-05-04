@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import './QRCodePopup.css'; // Add styles for the popup
 
 interface QRCodePopupProps {

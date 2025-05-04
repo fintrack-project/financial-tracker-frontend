@@ -3,6 +3,7 @@ import { fetchUserDetails, updateTwoFactorStatus } from '../../services/userServ
 import { UserDetails } from '../../types/UserDetails';
 import { updatePassword } from '../../api/userApi';
 import { setup2FA, verify2FA } from '../../api/twoFactorApi';
+import { isStrongPassword } from '../../utils/validationUtils';
 import QRCodePopup from '../../popup/QRCodePopup';
 import ProfileTable from '../../components/Table/ProfileTable/ProfileTable';
 import Toggle from '../../components/Toggle/Toggle';
@@ -58,21 +59,25 @@ const Security: React.FC<SecurityProps> = ({ accountId }) => {
     }
   
     const newValue = editState[label];
-
-    console.log(`New value for ${label}:`, newValue);
-
-    if( newValue === '') {
-      alert('Please enter a value.');
-      return;
-    }
-
-    if (newValue === null || newValue === undefined) {
-      console.error(`Invalid value for ${label}:`, newValue);
-      return;
-    }
   
     try {
       if (label === 'Password') {
+        console.log(`New value for ${label}:`, newValue);
+
+        if( newValue === '') {
+          alert('Please enter a value.');
+          return;
+        }
+    
+        if (newValue === null || newValue === undefined) {
+          console.error(`Invalid value for ${label}:`, newValue);
+          return;
+        }
+
+        if (!isStrongPassword(newValue)) {
+          alert('Password must be at least 8 characters long, include uppercase, lowercase, a number, and a special character.');
+          return;
+        }
 
         // Call the backend API to update the password
         await updatePassword(accountId, newValue);
