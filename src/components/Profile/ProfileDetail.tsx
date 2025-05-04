@@ -346,7 +346,6 @@ const ProfileDetail: React.FC<ProfileDetailProps> = ({ accountId }) => {
         <EmailVerificationPopup
           onClose={handlePopupClose}
           onResend={handlePopupResend}
-          isEmailVerified={userDetails.emailVerified}
         />
       )}
       <div id="recaptcha-container" style={{ display: 'none' }}></div>
