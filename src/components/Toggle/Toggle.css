@@ -1,13 +1,14 @@
-.notification-toggle {
+.toggle {
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  margin-bottom: 15px;
+  gap: 10px;
+  padding: 10px;
   font-size: 1rem;
 }
 
-.notification-label {
+.toggle-label {
   margin-right: 10px;
+  align-items: center;
   color: #333;
 }
 

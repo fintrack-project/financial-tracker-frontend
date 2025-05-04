@@ -31,3 +31,14 @@ export const updateUserEmailApi = async (accountId: string, email: string) => {
     email,
   });
 };
+
+// Update user's password
+
+
+// Update user's 2FA status
+export const updateTwoFactorStatusApi = async (accountId: string, enabled: boolean) => {
+  return axios.post('/api/user/update-2fa', {
+    accountId,
+    enabled,
+  });
+}

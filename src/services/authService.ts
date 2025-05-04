@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { loginApi, registerApi } from '../api/authApi';
 import { createAccountApi } from '../api/accountApi';
-import { sendEmailVerificationApi, verifyEmailApi } from '../api/emailApi';
+import { sendEmailVerificationApi, verifyEmailApi, checkEmailVerifiedApi } from '../api/emailApi';
 import { sendPhoneVerifiedApi } from '../api/phoneApi';
 import { LoginRequest, RegisterRequest } from '../types/Requests';
 import { RecaptchaVerifier, signInWithPhoneNumber } from 'firebase/auth';
@@ -9,25 +9,26 @@ import { auth } from '../config/firebaseConfig'; // Ensure `auth` is correctly i
 import UserSession from '../utils/UserSession';
 
 export const loginUser = async (loginData: LoginRequest): Promise<void> => {
-  try {
-    const response = await loginApi(loginData);
+  const response = await loginApi(loginData);
 
-    // Extract the token from the response
-    const token = response.data?.token;
-    if (!token) {
-      throw new Error('Login failed: No token received.');
-    }
-
-    // Store the token in sessionStorage
-    sessionStorage.setItem('authToken', token);
-
-    console.log('Login successful! Token stored in sessionStorage.');
-  } catch (error) {
-    if (axios.isAxiosError(error) && error.response) {
-      throw new Error(error.response.data.message || 'Login failed.');
-    }
-    throw new Error('An unknown error occurred during login.');
+  if (!response) {
+    throw new Error('Login failed: No response from server.');
   }
+
+  if (!response.success) {
+    // Throw the error message from the backend
+    throw new Error(response.message || 'Login failed.');
+  }
+
+  const token = response.token;
+
+  if (!token) {
+    throw new Error('Login failed: No token received.');
+  }
+
+  // Store the token in sessionStorage
+  sessionStorage.setItem('authToken', token);
+  console.log('Login successful! Token stored in sessionStorage.');
 };
 
 export const logoutUser = (): void => {
@@ -66,6 +67,19 @@ export const verifyEmail = async (token: string): Promise<void> => {
       throw new Error(error.response.data.message || 'Email verification failed.');
     }
     throw new Error('An unknown error occurred during email verification.');
+  }
+};
+
+export const checkEmailVerified = async (accountId: string): Promise<boolean> => {
+  try {
+    await checkEmailVerifiedApi(accountId);
+    console.log('Email verification status checked successfully.');
+    return true; // Assume the email is verified for this example
+  } catch (error) {
+    if (axios.isAxiosError(error) && error.response) {
+      throw new Error(error.response.data.message || 'Failed to check email verification status.');
+    }
+    throw new Error('An unknown error occurred while checking email verification status.');
   }
 };
 

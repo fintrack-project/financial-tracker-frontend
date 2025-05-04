@@ -10,7 +10,6 @@ const BasePage: React.FC<BasePageProps> = ({ children }) => {
 
   const handleAccountChange = (accountId: string) => {
     setAccountId(accountId);
-    console.log('Account changed to:', accountId);
   };
 
   if (!accountId) {
@@ -28,7 +27,7 @@ const BasePage: React.FC<BasePageProps> = ({ children }) => {
     <div className="base-page">
       <PageTopBar onAccountChange={handleAccountChange} />
       <div className="base-page-content">
-        {React.cloneElement(children, { accountId })} {/* Pass accountId to child */}
+        {React.cloneElement(children, { accountId })} 
       </div>
     </div>
   );

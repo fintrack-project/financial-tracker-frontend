@@ -1,48 +1,37 @@
 import React, { useEffect, useState, useMemo } from 'react';
-import { fetchUserDetails } from '../../services/userService';
+import useUserDetails from '../../hooks/useUserDetails';
 import { updateUserPhone, updateUserAddress, updateUserEmail } from '../../services/userService';
-import { sendEmailVerification } from '../../services/authService';
+import useVerification from '../../hooks/useVerification';
 import { UserDetails } from '../../types/UserDetails';
 import ProfileTable from '../../components/Table/ProfileTable/ProfileTable';
 import IconButton from '../../components/Button/IconButton';
 import { getCountries, getCountryCallingCode, parsePhoneNumberFromString, CountryCode } from 'libphonenumber-js';
 import EmailVerificationPopup from '../../popup/EmailVerificationPopup';
 import PhoneVerificationPopup from '../../popup/PhoneVerificationPopup';
-import { sendSMSVerification, verifySMSCode } from '../../services/authService';
+import AccountTier from '../../components/Profile/AccountTier';
+import { formatDate } from '../../utils/FormatDate';
 import './ProfileDetail.css'; // Add styles for the profile detail section
+import { set } from 'lodash';
 
 interface ProfileDetailProps {
   accountId: string; // Account ID to fetch user details
 }
 
 const ProfileDetail: React.FC<ProfileDetailProps> = ({ accountId }) => {
-  const [userDetails, setUserDetails] = useState<UserDetails | null>(null);
+  const { userDetails, setUserDetails, loading, error, refreshUserDetails } = useUserDetails(accountId); // Use the custom hook
+  const {
+    showPopup,
+    sendVerification,
+    resendVerification,
+    verifyCode,
+    closePopup,
+  } = useVerification(accountId, userDetails, setUserDetails);
   const [countries, setCountries] = useState<{ code: string; phoneCode: string }[]>([]);
   const [editState, setEditState] = useState<{ [key: string]: string | null }>({});
   const [editModes, setEditModes] = useState<{ [key: string]: boolean }>({});
-  const [error, setError] = useState<string | null>(null);
-  const [loading, setLoading] = useState<boolean>(true);
-  const [showPopup, setShowPopup] = useState<'phone' | 'email' | null>(null); // Track which popup to show
-
+  const [isFetch, setIsFetch] = useState(false); // Boolean to control fetching
 
   useEffect(() => {
-    const loadUserDetails = async () => {
-      try {
-        setLoading(true);
-        const data = await fetchUserDetails(accountId); // Use the service to fetch user details
-
-        console.log('Fetched user details:', data);
-
-        setUserDetails(data);
-        setError(null);
-      } catch (err) {
-        setError('Failed to load user details. Please try again later.');
-        setUserDetails(null);
-      } finally {
-        setLoading(false);
-      }
-    };
-
     const loadCountries = () => {
       const countryList = getCountries().map((code) => ({
         code,
@@ -51,21 +40,38 @@ const ProfileDetail: React.FC<ProfileDetailProps> = ({ accountId }) => {
       setCountries(countryList);
     };
 
-    loadUserDetails();
     loadCountries();
   }, [accountId]);
 
+  // Trigger refreshUserDetails when isFetch is true
+  useEffect(() => {
+    if (isFetch) {
+      const fetchDetails = async () => {
+        await refreshUserDetails();
+        setIsFetch(false); // Reset isFetch after fetching
+      };
+      fetchDetails();
+    }
+  }, [isFetch, refreshUserDetails]);
+
   const handleEditClick = (label: string, currentValue: string | null) => {
-    setEditState((prevState) => ({ ...prevState, [label]: currentValue })); // Enable edit mode for the row
+    if (label === 'Phone') {
+      setEditState((prevState) => ({
+        ...prevState,
+        [label]: userDetails?.phone || '', // Initialize the phone number
+        CountryCode: userDetails?.countryCode || 'US', // Initialize the country code
+      }));
+    } else {
+      setEditState((prevState) => ({ ...prevState, [label]: currentValue })); // Initialize other fields
+    }
     setEditModes((prevModes) => ({ ...prevModes, [label]: true })); // Enable edit mode for the field
-  
   };
 
   const handleConfirmClick = async (label: string) => {
     if (!editModes[label]) {
       return; // Do nothing if the field is not in edit mode
     }
-
+  
     const currentValue = userDetails![label.toLowerCase() as keyof UserDetails];
     const newValue = editState[label];
   
@@ -73,32 +79,30 @@ const ProfileDetail: React.FC<ProfileDetailProps> = ({ accountId }) => {
       if (label === 'Phone') {
         const countryCode = editState['CountryCode'] || 'US';
         const phoneNumber = editState['Phone'] || '';
-
+  
         // Parse the current and new phone numbers
         const currentPhoneNumber = parsePhoneNumberFromString(
           `+${getCountryCallingCode(userDetails?.countryCode as CountryCode || 'US')}${userDetails?.phone}`
         );
         const newPhoneNumber = parsePhoneNumberFromString(`+${getCountryCallingCode(countryCode as CountryCode)}${phoneNumber}`);
-
+  
         // If no changes were made, exit edit mode without doing anything
-        if (
-          currentPhoneNumber?.number === newPhoneNumber?.number
-        ) {
+        if (currentPhoneNumber?.number === newPhoneNumber?.number) {
           console.log(`No changes made for ${label}. Exiting edit mode.`);
           setEditState((prevState) => ({ ...prevState, [label]: null }));
           setEditModes((prevModes) => ({ ...prevModes, [label]: false }));
           return;
         }
-    
+  
         // Validate phone number
-        const parsedPhoneNumber = parsePhoneNumberFromString(`+${getCountryCallingCode(countryCode as CountryCode)}${phoneNumber}`
+        const parsedPhoneNumber = parsePhoneNumberFromString(
+          `+${getCountryCallingCode(countryCode as CountryCode)}${phoneNumber}`
         );
-        // TODO : Ignore validation for now, think how to handle it later
         if (!parsedPhoneNumber || !parsedPhoneNumber.isValid()) {
           alert('Invalid phone number. Please enter a valid phone number.');
           return;
         }
-    
+  
         console.log(`Updating Phone to: ${parsedPhoneNumber?.number}`);
         await updateUserPhone(accountId, phoneNumber, countryCode);
         setUserDetails((prev) => ({
@@ -106,26 +110,10 @@ const ProfileDetail: React.FC<ProfileDetailProps> = ({ accountId }) => {
           phone: phoneNumber,
           countryCode: countryCode,
         }));
-        // Trigger SMS verification
-        await sendSMSVerification(`+${getCountryCallingCode(countryCode as CountryCode)}${phoneNumber}`);
-        setShowPopup('phone');
-      }
   
-      if (label === 'Address') {
-        // If no changes were made, exit edit mode without doing anything
-        if (currentValue === newValue) {
-          console.log(`No changes made for ${label}. Exiting edit mode.`);
-          setEditState((prevState) => ({ ...prevState, [label]: currentValue }));
-          setEditModes((prevModes) => ({ ...prevModes, [label]: false }));
-          return;
-        }
-
-        console.log(`Updating Address to: ${newValue}`);
-        await updateUserAddress(accountId, newValue || '');
-        setUserDetails((prev) => ({
-          ...prev!,
-          address: newValue || '',
-        }));
+        // Trigger SMS verification
+        sendVerification('phone', `+${getCountryCallingCode(countryCode as CountryCode)}${phoneNumber}`); // Use the hook function
+        setIsFetch(true); // Set isFetch to true to trigger refreshUserDetails
       }
   
       if (label === 'Email') {
@@ -136,7 +124,7 @@ const ProfileDetail: React.FC<ProfileDetailProps> = ({ accountId }) => {
           setEditModes((prevModes) => ({ ...prevModes, [label]: false }));
           return;
         }
-
+  
         if (!newValue) {
           alert('Email cannot be blank.');
           setEditState((prevState) => ({ ...prevState, [label]: null })); // Revert to previous value
@@ -167,8 +155,26 @@ const ProfileDetail: React.FC<ProfileDetailProps> = ({ accountId }) => {
         }));
   
         // Trigger email verification
-        await sendEmailVerification(accountId, newValue || '');
-        setShowPopup('email');
+        sendVerification('email'); // Use the hook function
+        setIsFetch(true); // Set isFetch to true to trigger refreshUserDetails
+      }
+
+      if (label === 'Address') {
+        // If no changes were made, exit edit mode without doing anything
+        if (currentValue === newValue) {
+          console.log(`No changes made for ${label}. Exiting edit mode.`);
+          setEditState((prevState) => ({ ...prevState, [label]: currentValue }));
+          setEditModes((prevModes) => ({ ...prevModes, [label]: false }));
+          return;
+        }
+  
+        console.log(`Updating Address to: ${newValue}`);
+        await updateUserAddress(accountId, newValue || '');
+        setUserDetails((prev) => ({
+          ...prev!,
+          address: newValue || '',
+        }));
+        setIsFetch(true); // Set isFetch to true to trigger refreshUserDetails
       }
   
       // Exit edit mode for the field
@@ -181,91 +187,21 @@ const ProfileDetail: React.FC<ProfileDetailProps> = ({ accountId }) => {
     }
   };
 
-  const handleVerificationClick = async (type: 'phone' | 'email') => {
-    if (type === 'phone') {
-      console.log('Sending SMS verification...');
-      try {
-        // Combine country code and phone number
-        const fullPhoneNumber = `+${getCountryCallingCode(userDetails?.countryCode as CountryCode || 'US')}${userDetails?.phone}`;
-        console.log(`Full phone number: ${fullPhoneNumber}`);
-  
-        // Call the sendSMSVerification function with the full phone number
-        await sendSMSVerification(fullPhoneNumber);
-        setShowPopup('phone'); // Open phone verification popup
-      } catch (error) {
-        console.error('Failed to send SMS verification:', error);
-        alert('Failed to send SMS verification. Please try again.');
-      }
-    } else if (type === 'email') {
-      console.log('Sending email verification...');
-      try {
-        // Trigger email verification
-        await sendEmailVerification(accountId, userDetails?.email || '');
-        setShowPopup('email'); // Open email verification popup
-      } catch (error) {
-        console.error('Failed to send email verification:', error);
-        alert('Failed to send email verification. Please try again.');
-      }
-    }
+  const handleVerificationClick = (type: 'phone' | 'email') => {
+    sendVerification(type);
+  };
+
+  const handlePopupResend = () => {
+    resendVerification();
+  };
+
+  const handlePopupVerify = async (verificationCode: string): Promise<boolean> => {
+    return await verifyCode(verificationCode); // Call the hook function and return its result
   };
 
   const handlePopupClose = () => {
-    setShowPopup(null); // Close the popup
-  };
-
-  const handlePopupResend = async () => {
-    if (showPopup === 'email') {
-      console.log('Resending email verification...');
-      try {
-        await sendEmailVerification(accountId, userDetails?.email || '');
-        alert('Verification email has been resent.');
-      } catch (error) {
-        console.error('Failed to resend email verification:', error);
-        alert('Failed to resend email verification. Please try again.');
-      }
-    } else if (showPopup === 'phone') {
-      console.log('Resending SMS verification code...');
-      try {
-        // Combine country code and phone number
-        const fullPhoneNumber = `+${getCountryCallingCode(userDetails?.countryCode as CountryCode || 'US')}${userDetails?.phone}`;
-        console.log(`Full phone number: ${fullPhoneNumber}`);
-  
-        // Resend the SMS verification code
-        await sendSMSVerification(fullPhoneNumber);
-        alert('Verification SMS has been resent.');
-      } catch (error) {
-        console.error('Failed to resend SMS verification:', error);
-        alert('Failed to resend SMS verification. Please try again.');
-      }
-    }
-  };
-
-  const handlePopupVerify = async (verificationCode: string) => {
-    if (showPopup === 'email') {
-      if (userDetails?.emailVerified) {
-        alert('Email verified successfully!');
-        setShowPopup(null);
-      } else {
-        alert('Email verification is not complete. Please check your inbox.');
-      }
-    } else if (showPopup === 'phone') {
-      try {
-        // Verify the SMS code entered by the user
-        await verifySMSCode(verificationCode, accountId);
-
-        // Update the phone verification status in the userDetails state
-        setUserDetails((prev) => ({
-          ...prev!,
-          phoneVerified: true, // Update the phoneVerified field
-        }));
-
-        alert('Phone number verified successfully!');
-        setShowPopup(null); // Close the popup on success
-      } catch (error) {
-        console.error('Failed to verify phone number:', error);
-        throw new Error('Invalid verification code.'); // Propagate the error to the popup
-      }
-    }
+    closePopup();
+    setIsFetch(true); // Set isFetch to true to trigger refreshUserDetails
   };
 
   const tableData = useMemo(() => {
@@ -377,15 +313,15 @@ const ProfileDetail: React.FC<ProfileDetailProps> = ({ accountId }) => {
       },
       {
         label: 'Account Tier',
-        value: userDetails.accountTier,
+        value: <AccountTier tier={userDetails.accountTier as 'free' | 'premium'} />, // Use AccountTier component
       },
       {
         label: 'Signup Date',
-        value: userDetails.signupDate,
+        value: formatDate(userDetails.signupDate),
       },
       {
         label: 'Last Activity',
-        value: userDetails.lastActivityDate,
+        value: formatDate(userDetails.lastActivityDate),
       },
     ];
   }, [userDetails, editState]);
@@ -417,7 +353,6 @@ const ProfileDetail: React.FC<ProfileDetailProps> = ({ accountId }) => {
         <EmailVerificationPopup
           onClose={handlePopupClose}
           onResend={handlePopupResend}
-          isEmailVerified={userDetails.emailVerified}
         />
       )}
       <div id="recaptcha-container" style={{ display: 'none' }}></div>

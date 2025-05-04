@@ -12,9 +12,10 @@
   align-items: center;
 }
 
-.fintrack-logo {
+.page-top-bar .fintrack-logo {
   height: 40px; /* Adjust the height to fit well with the navigation bar */
   width: auto; /* Maintain aspect ratio */
+  margin-bottom: 0px;;
 }
 
 .navigation-bar {

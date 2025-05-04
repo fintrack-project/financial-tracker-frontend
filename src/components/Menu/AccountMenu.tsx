@@ -38,8 +38,6 @@ const AccountMenu: React.FC<AccountMenuProps> = ({ onAccountChange }) => {
           },
         });
 
-        console.log('Response from /api/accounts/current:', response);
-
         if (!response.ok) {
           throw new Error('Failed to fetch account ID');
         }

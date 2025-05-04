@@ -1,0 +1,17 @@
+.account-tier {
+  display: inline-block;
+  padding: 5px 10px;
+  border-radius: 15px;
+  font-size: 14px;
+  font-weight: bold;
+  text-align: center;
+  color: white;
+}
+
+.account-tier.free {
+  background-color: gray;
+}
+
+.account-tier.premium {
+  background-color: red;
+}
