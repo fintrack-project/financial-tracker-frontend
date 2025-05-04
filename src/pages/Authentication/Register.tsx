@@ -15,6 +15,7 @@ const Register: React.FC = () => {
   const [error, setError] = useState('');
   const navigate = useNavigate();
 
+  // TODO : check if registering really sends verification email
   const sendEmailVerification = async (email: string) => {
     alert(`Registration successful! A verification link has been sent to ${email}. Please verify your email.`);
   };
