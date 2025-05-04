@@ -21,10 +21,9 @@ const OTPVerificationPopup: React.FC<OTPVerificationPopupProps> = ({ qrCode, onV
   return (
     <VerificationPopup
       title="Two-Factor Authentication"
-      instructions="Scan the QR code below with Google Authenticator and enter the 6-digit OTP."
+      instructions="Enter the 6-digit OTP from Google Authenticator."
       customInput={
         <>
-          <img src={qrCode} alt="QR Code" />
           <input
             type="text"
             value={otp}

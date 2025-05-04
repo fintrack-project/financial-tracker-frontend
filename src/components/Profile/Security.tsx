@@ -123,8 +123,10 @@ const Security: React.FC<SecurityProps> = ({ accountId }) => {
       <ProfileTable data={tableData} />
       {qrCode && (
         <QRCodePopup
+          title="Scan QR Code"
+          instructions="Scan this QR code with Google Authenticator to set up Two-Factor Authentication."
           qrCode={qrCode}
-          onClose={() => setQrCode(null)} // Close the popup
+          onClose={() => setQrCode(null)}
         />
       )}
     </div>
