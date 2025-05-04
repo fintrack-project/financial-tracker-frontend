@@ -22,6 +22,12 @@
   font-size: 14px;
 }
 
+.actions {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
 .phone-input-container {
   display: flex;
   align-items: center; /* Align items vertically in the center */

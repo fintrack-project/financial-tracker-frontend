@@ -235,10 +235,14 @@ const ProfileDetail: React.FC<ProfileDetailProps> = ({ accountId }) => {
           </span>
         ),
         actions:
-          editModes['Email'] ? (
-            <IconButton type="confirm" label="Confirm" onClick={() => handleConfirmClick('Email')} />
-          ) : (
-            <IconButton type="edit" label="Edit" onClick={() => handleEditClick('Email', userDetails.email)} />
+          (
+            <div className="actions">
+              {editModes['Email'] ? (
+                  <IconButton type="confirm" label="Confirm" onClick={() => handleConfirmClick('Email')} />
+              ) : (
+                <IconButton type="edit" label="Edit" onClick={() => handleEditClick('Email', userDetails.email)} />
+              )}
+            </div>
           ),
       },
       {
@@ -286,11 +290,15 @@ const ProfileDetail: React.FC<ProfileDetailProps> = ({ accountId }) => {
           </span>
         ),
         actions:
-          editModes['Phone'] ? (
-            <IconButton type="confirm" label="Confirm" onClick={() => handleConfirmClick('Phone')} />
-          ) : (
-            <IconButton type="edit" label="Edit" onClick={() => handleEditClick('Phone', userDetails.phone)} />
-          ),
+        (
+          <div className="actions">
+            {editModes['Phone'] ? (
+              <IconButton type="confirm" label="Confirm" onClick={() => handleConfirmClick('Phone')} />
+            ) : (
+              <IconButton type="edit" label="Edit" onClick={() => handleEditClick('Phone', userDetails.phone)} />
+            )}
+          </div>
+        ),
       },
       {
         label: 'Address',
@@ -305,11 +313,15 @@ const ProfileDetail: React.FC<ProfileDetailProps> = ({ accountId }) => {
             userDetails.address
           ),
         actions:
-          editModes['Address'] ? (
-            <IconButton type="confirm" label="Confirm" onClick={() => handleConfirmClick('Address')} />
-          ) : (
-            <IconButton type="edit" label="Edit" onClick={() => handleEditClick('Address', userDetails.address)} />
-          ),
+        (
+          <div className="actions">
+            {editModes['Address'] ? (
+              <IconButton type="confirm" label="Confirm" onClick={() => handleConfirmClick('Address')} />
+            ) : (
+              <IconButton type="edit" label="Edit" onClick={() => handleEditClick('Address', userDetails.address)} />
+            )}
+          </div>
+        ),
       },
       {
         label: 'Account Tier',

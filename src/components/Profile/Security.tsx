@@ -1,10 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import { fetchUserDetails, updateTwoFactorStatus } from '../../services/userService';
 import { UserDetails } from '../../types/UserDetails';
+import { updatePassword } from '../../api/userApi';
 import { setup2FA, verify2FA } from '../../api/twoFactorApi';
 import QRCodePopup from '../../popup/QRCodePopup';
 import ProfileTable from '../../components/Table/ProfileTable/ProfileTable';
-import Toggle from '../../components/Toggle/Toggle'; // Import the Toggle component
+import Toggle from '../../components/Toggle/Toggle';
+import IconButton from '../../components/Button/IconButton';
 import { formatDate } from '../../utils/FormatDate';
 import './Security.css'; // Add styles for the security section
 
@@ -16,6 +18,8 @@ const Security: React.FC<SecurityProps> = ({ accountId }) => {
   const [userDetails, setUserDetails] = useState<UserDetails | null>(null);
   const [qrCode, setQrCode] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
+  const [editState, setEditState] = useState<{ [key: string]: string | null }>({});
+  const [editModes, setEditModes] = useState<{ [key: string]: boolean }>({});
   const [loading, setLoading] = useState<boolean>(true);
 
   useEffect(() => {
@@ -35,6 +39,59 @@ const Security: React.FC<SecurityProps> = ({ accountId }) => {
 
     loadUserDetails();
   }, [accountId]);
+
+  const handleEditClick = (label: string, currentValue: string | null) => {
+    if (label === 'Password') {
+      setEditState((prevState) => ({
+        ...prevState,
+        [label]: '', // Initialize the password field as empty
+      }));
+    } else {
+      setEditState((prevState) => ({ ...prevState, [label]: currentValue })); // Initialize other fields
+    }
+    setEditModes((prevModes) => ({ ...prevModes, [label]: true })); // Enable edit mode for the field
+  };
+
+  const handleConfirmClick = async (label: string) => {
+    if (!editModes[label]) {
+      return; // Do nothing if the field is not in edit mode
+    }
+  
+    const newValue = editState[label];
+
+    console.log(`New value for ${label}:`, newValue);
+
+    if( newValue === '') {
+      alert('Please enter a value.');
+      return;
+    }
+
+    if (newValue === null || newValue === undefined) {
+      console.error(`Invalid value for ${label}:`, newValue);
+      return;
+    }
+  
+    try {
+      if (label === 'Password') {
+
+        // Call the backend API to update the password
+        await updatePassword(accountId, newValue);
+        alert('Password updated successfully!');
+      }
+  
+      // Reset the edit mode and state for the field
+      setEditState((prevState) => ({ ...prevState, [label]: null }));
+      setEditModes((prevModes) => ({ ...prevModes, [label]: false }));
+    } catch (error) {
+      console.error(`Failed to update ${label}:`, error);
+      alert(`Failed to update ${label}. Please try again.`);
+    }
+  };
+
+  const handleCancelClick = (label: string, currentValue: string | null) => {
+    setEditState((prevState) => ({ ...prevState, [label]: currentValue })); // Reset to the original value
+    setEditModes((prevModes) => ({ ...prevModes, [label]: false })); // Disable edit mode for the field
+  };
 
   const handleSetup2FA = async () => {
     try {
@@ -111,10 +168,29 @@ const Security: React.FC<SecurityProps> = ({ accountId }) => {
     },
     {
       label: 'Password',
-      value: '********', // Redacted password
-      editable: false, // Password is not editable directly
-      redacted: true, // Always redacted
-    },
+      value: editModes['Password'] ? (
+        <input
+          type="password"
+          value={editState['Password'] || ''}
+          onChange={(e) =>
+            setEditState((prevState) => ({ ...prevState, Password: e.target.value }))
+          }
+          placeholder="Enter new password"
+        />
+      ) : (
+        '********' // Redacted password
+      ),
+      actions: editModes['Password'] ? (
+        <div className="actions">
+          <IconButton type="confirm" label="Confirm" onClick={() => handleConfirmClick('Password')} />
+          <IconButton type="cancel" label="Cancel" onClick={() => handleCancelClick('Password', null)} />
+        </div>
+      ) : (
+        <div className="actions">
+          <IconButton type="edit" label="Edit" onClick={() => handleEditClick('Password', null)} />
+        </div>
+      ),
+    }
   ];
 
   return (
