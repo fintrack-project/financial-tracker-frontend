@@ -4,7 +4,6 @@ import InputField from '../../components/InputField/InputField';
 import Button from 'components/Button/Button';
 import AuthBasePage from './AuthBasePage';
 import { loginUser } from '../../services/authService';
-import UserSession from '../../utils/UserSession';
 import './Login.css';
 
 const Login: React.FC = () => {
@@ -15,22 +14,21 @@ const Login: React.FC = () => {
 
   const handleLogin = async () => {
     setError(null); // Clear any previous errors
-
+  
     try {
-      await loginUser({ userId, password }); // Call the login service
-      const session = UserSession.getInstance();
-
-      if (session.isLoggedIn()) {
-        const userId = session.getUserId();
-        console.log('Logged in as:', userId);
-        navigate('/platform/dashboard'); // Redirect to the platform
-      } else {
-        throw new Error('Login failed: Unable to verify session.');
-      }
+      // Call the login service
+      await loginUser({ userId, password });
+  
+      // If login is successful, navigate to the dashboard
+      console.log('Login successful!');
+      navigate('/platform/dashboard'); // Redirect to the platform
     } catch (err) {
+      // Handle errors from the backend or unexpected errors
+      console.log('Login error:', err);
       if (err instanceof Error) {
-        setError(err.message); // Display the error message to the user
-        alert(err.message); // Optional: Show an alert with the error message
+        setError(err.message); // Display the error message from the backend
+      } else {
+        setError('An unexpected error occurred. Please try again later.');
       }
     }
   };
