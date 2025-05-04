@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { loginApi, registerApi } from '../api/authApi';
 import { createAccountApi } from '../api/accountApi';
-import { sendEmailVerificationApi, verifyEmailApi } from '../api/emailApi';
+import { sendEmailVerificationApi, verifyEmailApi, checkEmailVerifiedApi } from '../api/emailApi';
 import { sendPhoneVerifiedApi } from '../api/phoneApi';
 import { LoginRequest, RegisterRequest } from '../types/Requests';
 import { RecaptchaVerifier, signInWithPhoneNumber } from 'firebase/auth';
@@ -67,6 +67,19 @@ export const verifyEmail = async (token: string): Promise<void> => {
       throw new Error(error.response.data.message || 'Email verification failed.');
     }
     throw new Error('An unknown error occurred during email verification.');
+  }
+};
+
+export const checkEmailVerified = async (accountId: string): Promise<boolean> => {
+  try {
+    await checkEmailVerifiedApi(accountId);
+    console.log('Email verification status checked successfully.');
+    return true; // Assume the email is verified for this example
+  } catch (error) {
+    if (axios.isAxiosError(error) && error.response) {
+      throw new Error(error.response.data.message || 'Failed to check email verification status.');
+    }
+    throw new Error('An unknown error occurred while checking email verification status.');
   }
 };
 

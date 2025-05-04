@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { sendSMSVerification, verifySMSCode, sendEmailVerification } from '../services/authService';
+import { sendSMSVerification, verifySMSCode, sendEmailVerification, checkEmailVerified } from '../services/authService';
 import { getCountryCallingCode, CountryCode } from 'libphonenumber-js';
 import { UserDetails } from '../types/UserDetails'; // Adjust the import path as necessary
 
@@ -59,8 +59,9 @@ const useVerification = (
         setShowPopup(null); // Close the popup on success
         return true; // Indicate success
       } else if (showPopup === 'email') {
-        console.log(`Verifying email code: ${verificationCode}`);
-        if (userDetails?.emailVerified) {
+        console.log('Checking email verification status from backend...');
+        const isVerified = await checkEmailVerified(accountId); // Call the new API
+        if (isVerified) {
           console.log('Email verified successfully!');
           setShowPopup(null); // Close the popup on success
           return true; // Indicate success
