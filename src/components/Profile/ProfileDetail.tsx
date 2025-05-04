@@ -55,9 +55,16 @@ const ProfileDetail: React.FC<ProfileDetailProps> = ({ accountId }) => {
   }, [isFetch, refreshUserDetails]);
 
   const handleEditClick = (label: string, currentValue: string | null) => {
-    setEditState((prevState) => ({ ...prevState, [label]: currentValue })); // Enable edit mode for the row
+    if (label === 'Phone') {
+      setEditState((prevState) => ({
+        ...prevState,
+        [label]: userDetails?.phone || '', // Initialize the phone number
+        CountryCode: userDetails?.countryCode || 'US', // Initialize the country code
+      }));
+    } else {
+      setEditState((prevState) => ({ ...prevState, [label]: currentValue })); // Initialize other fields
+    }
     setEditModes((prevModes) => ({ ...prevModes, [label]: true })); // Enable edit mode for the field
-  
   };
 
   const handleConfirmClick = async (label: string) => {
