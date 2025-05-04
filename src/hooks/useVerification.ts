@@ -10,10 +10,10 @@ const useVerification = (
 ) => {
   const [showPopup, setShowPopup] = useState<'phone' | 'email' | null>(null);
 
-  const sendVerification = async (type: 'phone' | 'email') => {
+  const sendVerification = async (type: 'phone' | 'email', phoneNumber?: string) => {
     try {
       if (type === 'phone') {
-        const fullPhoneNumber = `+${getCountryCallingCode(userDetails?.countryCode as CountryCode || 'US')}${userDetails?.phone}`;
+        const fullPhoneNumber = phoneNumber || `+${getCountryCallingCode(userDetails?.countryCode as CountryCode || 'US')}${userDetails?.phone}`;
         console.log(`Sending SMS verification to: ${fullPhoneNumber}`);
         await sendSMSVerification(fullPhoneNumber);
         setShowPopup('phone');

@@ -93,7 +93,7 @@ const ProfileDetail: React.FC<ProfileDetailProps> = ({ accountId }) => {
         }));
   
         // Trigger SMS verification
-        sendVerification('phone'); // Use the hook function
+        sendVerification('phone', `+${getCountryCallingCode(countryCode as CountryCode)}${phoneNumber}`); // Use the hook function
       }
   
       if (label === 'Email') {

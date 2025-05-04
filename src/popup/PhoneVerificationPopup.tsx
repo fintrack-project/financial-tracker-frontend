@@ -4,7 +4,7 @@ import SixDigitInput from '../components/InputField/SixDigitInput'; // Import th
 
 interface PhoneVerificationPopupProps {
   onClose: () => void; // Callback to close the popup
-  onVerify: (code: string) => void; // Callback when verification is successful
+  onVerify: (verificationCode: string) => void; // Callback when verification is successful
   onResend: () => void; // Callback to resend the SMS
 }
 
@@ -14,7 +14,7 @@ const PhoneVerificationPopup: React.FC<PhoneVerificationPopupProps> = ({
   onResend,
 }) => {
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
-  const [code, setCode] = useState<string>(''); // Track the entered code
+  const [verificationCode, setVerificationCode] = useState(''); // Track the entered code
 
   useEffect(() => {
     if (errorMessage) {
@@ -22,20 +22,14 @@ const PhoneVerificationPopup: React.FC<PhoneVerificationPopupProps> = ({
         setErrorMessage(null); // Clear the error message after 3 seconds
       }, 3000);
     }
-  }, [code, errorMessage]);
+  }, [verificationCode, errorMessage]);
 
-  const handleVerify = async () => {
-    try {
-      // Call the onVerify callback with the entered code
-      await onVerify(code);
-      console.log('PhoneVerificationPopup: Verification successful. Closing popup.');
-      onClose(); // Close the popup on successful verification
-    } catch (error) {
-      console.error('Verification failed:', error);
-      setErrorMessage('Invalid code. Please try again.'); // Display error message
-      setCode(''); // Clear the input field
-      console.log('PhoneVerificationPopup: Verification failed. Popup remains open.');
+  const handleVerify = () => {
+    if (!verificationCode.trim()) {
+      alert('Please enter a verification code.');
+      return;
     }
+    onVerify(verificationCode); // Pass the code to the parent for verification
   };
 
   return (
@@ -44,13 +38,13 @@ const PhoneVerificationPopup: React.FC<PhoneVerificationPopupProps> = ({
       instructions="Please enter the 6-digit code sent to your phone."
       customInput={
         <SixDigitInput 
-          value={code} // Pass the code to the input component
-          onChange={(value) => setCode(value)} 
+          value={verificationCode} // Pass the code to the input component
+          onChange={(value) => setVerificationCode(value)} 
         />}
       onVerify={handleVerify} // Pass the verify callback
       onResend={() => {
         setErrorMessage(null); // Clear any previous error messages
-        setCode(''); // Clear the input field
+        setVerificationCode(''); // Clear the input field
         onResend(); // Resend the verification code
       }} // Pass the resend callback
       onClose={onClose} // Pass the close callback
