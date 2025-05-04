@@ -28,7 +28,6 @@ const ProfileDetail: React.FC<ProfileDetailProps> = ({ accountId }) => {
   const [countries, setCountries] = useState<{ code: string; phoneCode: string }[]>([]);
   const [editState, setEditState] = useState<{ [key: string]: string | null }>({});
   const [editModes, setEditModes] = useState<{ [key: string]: boolean }>({});
-  // const [showPopup, setShowPopup] = useState<'phone' | 'email' | null>(null); // Track which popup to show
 
   useEffect(() => {
     const loadCountries = () => {
@@ -173,8 +172,8 @@ const ProfileDetail: React.FC<ProfileDetailProps> = ({ accountId }) => {
     resendVerification();
   };
 
-  const handlePopupVerify = (verificationCode: string) => {
-    verifyCode(verificationCode);
+  const handlePopupVerify = async (verificationCode: string): Promise<boolean> => {
+    return await verifyCode(verificationCode); // Call the hook function and return its result
   };
 
   const handlePopupClose = () => {

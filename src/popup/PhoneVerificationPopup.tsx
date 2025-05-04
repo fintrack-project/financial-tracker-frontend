@@ -4,7 +4,7 @@ import SixDigitInput from '../components/InputField/SixDigitInput'; // Import th
 
 interface PhoneVerificationPopupProps {
   onClose: () => void; // Callback to close the popup
-  onVerify: (verificationCode: string) => void; // Callback when verification is successful
+  onVerify: (verificationCode: string) => Promise<boolean>; // Callback when verification is successful
   onResend: () => void; // Callback to resend the SMS
 }
 
@@ -18,18 +18,23 @@ const PhoneVerificationPopup: React.FC<PhoneVerificationPopupProps> = ({
 
   useEffect(() => {
     if (errorMessage) {
-      setTimeout(() => {
+      const timer = setTimeout(() => {
         setErrorMessage(null); // Clear the error message after 3 seconds
       }, 3000);
+      return () => clearTimeout(timer); // Cleanup the timer on unmount
     }
-  }, [verificationCode, errorMessage]);
+  }, [errorMessage]);
 
-  const handleVerify = () => {
+  const handleVerify = async () => {
     if (!verificationCode.trim()) {
-      alert('Please enter a verification code.');
+      setErrorMessage('Please enter a verification code.');
       return;
     }
-    onVerify(verificationCode); // Pass the code to the parent for verification
+
+    const isVerified = await onVerify(verificationCode); // Call the parent verification function
+    if (!isVerified) {
+      setErrorMessage('Invalid verification code. Please try again.');
+    }
   };
 
   return (

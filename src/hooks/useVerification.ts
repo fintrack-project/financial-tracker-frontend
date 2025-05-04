@@ -46,7 +46,7 @@ const useVerification = (
     }
   };
 
-  const verifyCode = async (verificationCode: string) => {
+  const verifyCode = async (verificationCode: string): Promise<boolean> => {
     try {
       if (showPopup === 'phone') {
         console.log(`Verifying phone code: ${verificationCode}`);
@@ -55,20 +55,26 @@ const useVerification = (
           ...prev,
           phoneVerified: true,
         }));
-        alert('Phone number verified successfully!');
-        setShowPopup(null);
+        console.log('Phone number verified successfully!');
+        setShowPopup(null); // Close the popup on success
+        return true; // Indicate success
       } else if (showPopup === 'email') {
+        console.log(`Verifying email code: ${verificationCode}`);
         if (userDetails?.emailVerified) {
-          alert('Email verified successfully!');
-          setShowPopup(null);
+          console.log('Email verified successfully!');
+          setShowPopup(null); // Close the popup on success
+          return true; // Indicate success
         } else {
-          alert('Email verification is not complete. Please check your inbox.');
+          console.log('Email verification is not complete. Please check your inbox.');
+          return false; // Indicate failure
         }
       }
     } catch (error) {
       console.error(`Failed to verify ${showPopup} code:`, error);
-      alert(`Invalid verification code. Please try again.`);
+      return false; // Indicate failure
     }
+
+    return false; // Default return value
   };
 
   const closePopup = () => {
