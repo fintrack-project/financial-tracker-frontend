@@ -4,6 +4,7 @@ import {
   updateUserPhoneApi,
   updateUserAddressApi,
   updateUserEmailApi,
+  updateTwoFactorStatusApi,
 } from '../api/userApi';
 import { UserDetails } from '../types/UserDetails';
 
@@ -54,3 +55,18 @@ export const updateUserEmail = async (accountId: string, email: string): Promise
     throw new Error('An unknown error occurred while updating the email.');
   }
 };
+
+// Update user's password
+
+
+// Update user's 2FA status
+export const updateTwoFactorStatus = async (accountId: string, enabled: boolean): Promise<void> => {
+  try {
+    await updateTwoFactorStatusApi(accountId, enabled);
+  } catch (error) {
+    if (axios.isAxiosError(error) && error.response) {
+      throw new Error(error.response.data.message || 'Failed to update 2FA status.');
+    }
+    throw new Error('An unknown error occurred while updating the 2FA status.');
+  }
+}

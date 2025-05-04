@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react';
-import { fetchUserDetails } from '../../services/userService';
+import { fetchUserDetails, updateTwoFactorStatus } from '../../services/userService';
 import { UserDetails } from '../../types/UserDetails';
 import ProfileTable from '../../components/Table/ProfileTable/ProfileTable';
+import Toggle from '../../components/Toggle/Toggle'; // Import the Toggle component
 import { formatDate } from '../../utils/FormatDate';
 import './Security.css'; // Add styles for the security section
 
@@ -32,6 +33,17 @@ const Security: React.FC<SecurityProps> = ({ accountId }) => {
     loadUserDetails();
   }, [accountId]);
 
+  const handleToggle2FA = async () => {
+    const enabled = !userDetails?.twoFactorEnabled; // Toggle the 2FA status
+    try {
+      await updateTwoFactorStatus(accountId, enabled); // Call the service to update 2FA status
+      setUserDetails((prev) => prev && { ...prev, twoFactorEnabled: enabled }); // Update local state
+    } catch (err) {
+      console.error('Failed to update 2FA status:', err);
+      alert('Failed to update 2FA status. Please try again later.');
+    }
+  };
+
   if (loading) {
     return <p>Loading security details...</p>;
   }
@@ -45,7 +57,18 @@ const Security: React.FC<SecurityProps> = ({ accountId }) => {
   }
 
   const tableData = [
-    { label: 'Two-Factor Authentication', value: userDetails.twoFactorEnabled ? 'Enabled' : 'Disabled' },
+    {
+      label: 'Two-Factor Authentication',
+      value: userDetails.twoFactorEnabled ? 'Enabled' : 'Disabled',
+      status: '', // Leave blank for now
+      actions: (
+        <Toggle
+          label="2FA"
+          isEnabled={userDetails.twoFactorEnabled}
+          onToggle={() => handleToggle2FA()}
+        />
+      ),
+    },
     { label: 'Last Login', value: formatDate(userDetails.lastLogin, true) || 'N/A' },
     {
       label: 'Password',
