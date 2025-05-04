@@ -11,13 +11,14 @@ import PhoneVerificationPopup from '../../popup/PhoneVerificationPopup';
 import AccountTier from '../../components/Profile/AccountTier';
 import { formatDate } from '../../utils/FormatDate';
 import './ProfileDetail.css'; // Add styles for the profile detail section
+import { set } from 'lodash';
 
 interface ProfileDetailProps {
   accountId: string; // Account ID to fetch user details
 }
 
 const ProfileDetail: React.FC<ProfileDetailProps> = ({ accountId }) => {
-  const { userDetails, setUserDetails, loading, error } = useUserDetails(accountId); // Use the custom hook
+  const { userDetails, setUserDetails, loading, error, refreshUserDetails } = useUserDetails(accountId); // Use the custom hook
   const {
     showPopup,
     sendVerification,
@@ -28,6 +29,7 @@ const ProfileDetail: React.FC<ProfileDetailProps> = ({ accountId }) => {
   const [countries, setCountries] = useState<{ code: string; phoneCode: string }[]>([]);
   const [editState, setEditState] = useState<{ [key: string]: string | null }>({});
   const [editModes, setEditModes] = useState<{ [key: string]: boolean }>({});
+  const [isFetch, setIsFetch] = useState(false); // Boolean to control fetching
 
   useEffect(() => {
     const loadCountries = () => {
@@ -40,6 +42,17 @@ const ProfileDetail: React.FC<ProfileDetailProps> = ({ accountId }) => {
 
     loadCountries();
   }, [accountId]);
+
+  // Trigger refreshUserDetails when isFetch is true
+  useEffect(() => {
+    if (isFetch) {
+      const fetchDetails = async () => {
+        await refreshUserDetails();
+        setIsFetch(false); // Reset isFetch after fetching
+      };
+      fetchDetails();
+    }
+  }, [isFetch, refreshUserDetails]);
 
   const handleEditClick = (label: string, currentValue: string | null) => {
     setEditState((prevState) => ({ ...prevState, [label]: currentValue })); // Enable edit mode for the row
@@ -93,6 +106,7 @@ const ProfileDetail: React.FC<ProfileDetailProps> = ({ accountId }) => {
   
         // Trigger SMS verification
         sendVerification('phone', `+${getCountryCallingCode(countryCode as CountryCode)}${phoneNumber}`); // Use the hook function
+        setIsFetch(true); // Set isFetch to true to trigger refreshUserDetails
       }
   
       if (label === 'Email') {
@@ -135,6 +149,7 @@ const ProfileDetail: React.FC<ProfileDetailProps> = ({ accountId }) => {
   
         // Trigger email verification
         sendVerification('email'); // Use the hook function
+        setIsFetch(true); // Set isFetch to true to trigger refreshUserDetails
       }
 
       if (label === 'Address') {
@@ -152,6 +167,7 @@ const ProfileDetail: React.FC<ProfileDetailProps> = ({ accountId }) => {
           ...prev!,
           address: newValue || '',
         }));
+        setIsFetch(true); // Set isFetch to true to trigger refreshUserDetails
       }
   
       // Exit edit mode for the field
@@ -178,6 +194,7 @@ const ProfileDetail: React.FC<ProfileDetailProps> = ({ accountId }) => {
 
   const handlePopupClose = () => {
     closePopup();
+    setIsFetch(true); // Set isFetch to true to trigger refreshUserDetails
   };
 
   const tableData = useMemo(() => {
