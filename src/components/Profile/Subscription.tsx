@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { fetchUserDetails } from '../../services/userService';
-import { fetchUserSubscription } from '../../services/userSubscriptionService';
+import { fetchUserSubscription, updateSubscriptionPlan } from '../../services/userSubscriptionService';
 import { fetchPaymentMethods, getDefaultPaymentMethod, deletePaymentMethod, setDefaultPaymentMethod, confirmPayment, attachPaymentMethod } from '../../services/paymentMethodService';
 import { UserDetails } from '../../types/UserDetails';
 import { UserSubscription } from '../../types/UserSubscription';
-import { PaymentMethod } from '../../types/PaymentMethod';
+import { PaymentMethod } from '../../types/PaymentMethods';
 import ProfileTable from '../../components/Table/ProfileTable/ProfileTable';
 import { formatDate } from '../../utils/FormatDate';
 import AccountTier from './AccountTier';
@@ -133,13 +133,59 @@ const Subscription: React.FC<SubscriptionProps> = ({ accountId }) => {
 
   const handleAttachPaymentMethod = async (accountId: string, paymentMethodId: string) => {
     try {
-      console.log('Attaching payment method:', { accountId, paymentMethodId });
+      console.log('=== Payment Method Attachment Process ===');
+      console.log('1. Starting attachment:', {
+        accountId,
+        paymentMethodId,
+        hasUserDetails: !!userDetails
+      });
+
+      if (!accountId || !paymentMethodId) {
+        console.error('2. Missing required data:', {
+          hasAccountId: !!accountId,
+          hasPaymentMethodId: !!paymentMethodId
+        });
+        throw new Error('Missing required data for payment method attachment');
+      }
+
+      console.log('3. Calling attachPaymentMethod service...');
       await attachPaymentMethod(accountId, paymentMethodId);
-      console.log('Payment method attached successfully');
-      await loadData(); // Reload user details to get updated payment methods
+      console.log('4. Payment method attached successfully');
+      
+      console.log('5. Reloading data...');
+      await loadData();
+      console.log('6. Data reloaded successfully');
     } catch (error) {
-      console.error('Error attaching payment method:', error);
-      // You might want to show this error in a toast or alert
+      console.error('7. Error in handleAttachPaymentMethod:', {
+        error,
+        type: error instanceof Error ? error.constructor.name : typeof error,
+        message: error instanceof Error ? error.message : 'Unknown error',
+        stack: error instanceof Error ? error.stack : undefined
+      });
+      setError('Failed to attach payment method. Please try again later.');
+    }
+  };
+
+  const handlePlanSelect = async (planName: string) => {
+    try {
+      console.log('Updating subscription plan:', planName);
+      await updateSubscriptionPlan(accountId, planName);
+      console.log('Subscription plan updated successfully');
+      await loadData(); // Reload data after plan update
+    } catch (err) {
+      console.error('Error updating plan:', err);
+      setError('Failed to update subscription plan. Please try again later.');
+    }
+  };
+
+  const handlePaymentMethodAdd = async (paymentMethodId: string) => {
+    try {
+      await handleAttachPaymentMethod(accountId, paymentMethodId);
+      // After successful payment method addition, reload the data
+      await loadData();
+    } catch (err) {
+      console.error('Error adding payment method:', err);
+      setError('Failed to add payment method. Please try again later.');
     }
   };
 
@@ -201,6 +247,8 @@ const Subscription: React.FC<SubscriptionProps> = ({ accountId }) => {
       <Plans
         userDetails={userDetails}
         subscription={subscription}
+        onPlanSelect={handlePlanSelect}
+        onPaymentMethodAdd={handlePaymentMethodAdd}
       />
     );
   };
@@ -214,7 +262,7 @@ const Subscription: React.FC<SubscriptionProps> = ({ accountId }) => {
         paymentMethods={paymentMethods}
         onSetDefault={handleSetDefaultPaymentMethod}
         onDelete={handleDeletePaymentMethod}
-        onAttach={(paymentMethodId) => handleAttachPaymentMethod(userDetails.accountId, paymentMethodId)}
+        onAttach={handleAttachPaymentMethod}
       />
     );
   };

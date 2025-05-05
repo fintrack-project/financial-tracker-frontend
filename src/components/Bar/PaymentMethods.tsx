@@ -1,9 +1,9 @@
 import React from 'react';
 import { Elements } from '@stripe/react-stripe-js';
-import { loadStripe } from '@stripe/stripe-js';
-import { PaymentMethod } from '../../types/PaymentMethod';
+import { PaymentMethod } from '../../types/PaymentMethods';
 import { UserDetails } from '../../types/UserDetails';
 import PaymentForm from '../Payment/PaymentForm';
+import { stripePromise } from '../../config/stripe';
 import './PaymentMethods.css';
 
 interface PaymentMethodsProps {
@@ -13,9 +13,6 @@ interface PaymentMethodsProps {
   onDelete: (paymentMethodId: string) => void;
   onAttach: (accountId: string, paymentMethodId: string) => void;
 }
-
-// Initialize Stripe
-const stripePromise = loadStripe(process.env.REACT_APP_STRIPE_PUBLISHABLE_KEY!);
 
 const PaymentMethods: React.FC<PaymentMethodsProps> = ({
   userDetails,
@@ -48,14 +45,14 @@ const PaymentMethods: React.FC<PaymentMethodsProps> = ({
               <div className="payment-method-actions">
                 {!method.isDefault && (
                   <button
-                    onClick={() => onSetDefault(method.id.toString())}
+                    onClick={() => onSetDefault(method.stripePaymentMethodId)}
                     className="action-button"
                   >
                     Set as Default
                   </button>
                 )}
                 <button
-                  onClick={() => onDelete(method.id.toString())}
+                  onClick={() => onDelete(method.stripePaymentMethodId)}
                   className="action-button delete"
                 >
                   Delete
@@ -75,14 +72,13 @@ const PaymentMethods: React.FC<PaymentMethodsProps> = ({
         <h4>Add New Payment Method</h4>
         <Elements stripe={stripePromise}>
           <PaymentForm
-            onSuccess={(paymentMethodId) => {
+            onSuccess={(stripePaymentMethodId) => {
               if (userDetails) {
-                onAttach(userDetails.accountId, paymentMethodId);
+                onAttach(userDetails.accountId, stripePaymentMethodId);
               }
             }}
             onError={(error) => {
               console.error('Payment method error:', error);
-              // You might want to show this error in a toast or alert
             }}
           />
         </Elements>

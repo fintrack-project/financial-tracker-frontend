@@ -8,7 +8,7 @@ import {
   createPaymentIntentApi,
   confirmPaymentApi,
 } from '../api/paymentMethodApi';
-import { PaymentMethod } from '../types/PaymentMethod';
+import { PaymentMethod } from '../types/PaymentMethods';
 
 export const fetchPaymentMethods = async (accountId: string): Promise<PaymentMethod[]> => {
   try {
@@ -30,9 +30,25 @@ export const getDefaultPaymentMethod = async (accountId: string): Promise<Paymen
 
 export const attachPaymentMethod = async (accountId: string, paymentMethodId: string): Promise<PaymentMethod> => {
   try {
-    return await attachPaymentMethodApi(accountId, paymentMethodId);
+    console.log('=== Payment Method Service ===');
+    console.log('1. Calling attachPaymentMethodApi:', {
+      accountId,
+      paymentMethodId
+    });
+    
+    const result = await attachPaymentMethodApi(accountId, paymentMethodId);
+    console.log('2. API call successful:', {
+      result
+    });
+    
+    return result;
   } catch (error) {
-    console.error('Error attaching payment method:', error);
+    console.error('3. Error in attachPaymentMethod service:', {
+      error,
+      type: error instanceof Error ? error.constructor.name : typeof error,
+      message: error instanceof Error ? error.message : 'Unknown error',
+      stack: error instanceof Error ? error.stack : undefined
+    });
     throw new Error('Failed to attach payment method');
   }
 };

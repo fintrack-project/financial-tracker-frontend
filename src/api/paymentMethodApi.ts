@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { PaymentMethod } from '../types/PaymentMethod';
+import { PaymentMethod, StripePaymentMethod } from '../types/PaymentMethods';
 
 // Fetch all payment methods for an account
 export const fetchPaymentMethodsApi = async (accountId: string): Promise<PaymentMethod[]> => {
@@ -96,4 +96,17 @@ export const confirmPaymentApi = async (accountId: string, paymentIntentId: stri
     }
     throw error;
   }
-}; 
+};
+
+// Verify a payment method exists
+export const verifyPaymentMethodApi = async (paymentMethodId: string): Promise<StripePaymentMethod> => {
+  try {
+    const response = await axios.post('/api/user/payments/verify-method', { paymentMethodId });
+    return response.data;
+  } catch (error) {
+    if (axios.isAxiosError(error)) {
+      throw new Error(error.response?.data?.message || 'Failed to verify payment method');
+    }
+    throw error;
+  }
+};
