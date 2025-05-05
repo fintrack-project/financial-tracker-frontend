@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { fetchUserDetails, updateTwoFactorStatus } from '../../services/userService';
 import { UserDetails } from '../../types/UserDetails';
 import { updatePassword } from '../../api/userApi';
-import { setup2FA, verify2FA } from '../../api/twoFactorApi';
+import { setup2FA } from '../../api/twoFactorApi';
 import { isStrongPassword } from '../../utils/validationUtils';
 import QRCodePopup from '../../popup/QRCodePopup';
 import ProfileTable from '../../components/Table/ProfileTable/ProfileTable';
@@ -21,19 +21,17 @@ interface SecurityProps {
 const Security: React.FC<SecurityProps> = ({ accountId }) => {
   const [userDetails, setUserDetails] = useState<UserDetails | null>(null);
   const [qrCode, setQrCode] = useState<string | null>(null);
-  // const [showOtpPopup, setShowOtpPopup] = useState(false);
-  // const [otpError, setOtpError] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [editState, setEditState] = useState<{ [key: string]: string | null }>({});
   const [editModes, setEditModes] = useState<{ [key: string]: boolean }>({});
   const [loading, setLoading] = useState<boolean>(true);
-  // const [pendingPassword, setPendingPassword] = useState<string | null>(null); // Store the password being updated
   const {
     authenticate,
     verifyOtp,
     closeOtpPopup,
     showPasswordPopup,
     passwordError,
+    setPasswordError,
     showOtpPopup,
     otpError,
   } = useAuthService();
@@ -217,8 +215,13 @@ const Security: React.FC<SecurityProps> = ({ accountId }) => {
             const { handlePasswordConfirm } = authenticate({
               accountId,
               twoFactorEnabled: userDetails?.twoFactorEnabled || false,
-              onSuccess: () => {},
-              onError: () => {},
+              onSuccess: () => {
+                setEditModes((prevModes) => ({ ...prevModes, Password: true })); // Enable edit mode
+                setEditState((prevState) => ({ ...prevState, Password: '' })); // Initialize password field
+              },
+              onError: (error) => {
+                setPasswordError(error); // Display error message
+              },
             });
             handlePasswordConfirm(password);
           }}
@@ -234,7 +237,6 @@ const Security: React.FC<SecurityProps> = ({ accountId }) => {
           errorMessage={passwordError}
         />
       )}
-
       {showOtpPopup && (
         <OTPVerificationPopup
           onVerify={(otp) => verifyOtp(accountId, otp)}

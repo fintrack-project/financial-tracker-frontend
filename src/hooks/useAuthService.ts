@@ -101,6 +101,7 @@ export const useAuthService = () => {
     closeOtpPopup,
     showPasswordPopup,
     passwordError,
+    setPasswordError,
     showOtpPopup,
     otpError,
   };

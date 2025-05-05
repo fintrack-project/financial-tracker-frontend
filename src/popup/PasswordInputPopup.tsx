@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import './PasswordInputPopup.css'; // Add styles for consistent layout
 
 interface PasswordInputPopupProps {
   onConfirm: (password: string) => void;
@@ -22,8 +23,8 @@ const PasswordInputPopup: React.FC<PasswordInputPopupProps> = ({
   };
 
   return (
-    <div className="password-popup">
-      <div className="popup-content">
+    <div className="password-popup-overlay">
+      <div className="password-popup">
         <h3>Enter Your Password</h3>
         <input
           type="password"
@@ -31,7 +32,7 @@ const PasswordInputPopup: React.FC<PasswordInputPopupProps> = ({
           onChange={(e) => setPassword(e.target.value)}
           placeholder="Enter your password"
         />
-        {errorMessage && <p className="error-message">{errorMessage}</p>}
+        <p className="password-popup-error-message">{errorMessage || '\u00A0'}</p>
         <div className="popup-actions">
           <button onClick={handleConfirm}>Confirm</button>
           <button onClick={onClose}>Cancel</button>
