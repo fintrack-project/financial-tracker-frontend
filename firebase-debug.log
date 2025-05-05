@@ -1,72 +1,271 @@
-[debug] [2025-05-03T13:52:59.748Z] ----------------------------------------------------------------------
-[debug] [2025-05-03T13:52:59.750Z] Command:       /usr/local/bin/firebase /Users/johnkim1216/.cache/firebase/tools/lib/node_modules/firebase-tools/lib/bin/firebase emulators:start
-[debug] [2025-05-03T13:52:59.750Z] CLI Version:   9.17.0
-[debug] [2025-05-03T13:52:59.750Z] Platform:      darwin
-[debug] [2025-05-03T13:52:59.750Z] Node Version:  v12.18.1
-[debug] [2025-05-03T13:52:59.751Z] Time:          Sat May 03 2025 23:52:59 GMT+1000 (Australian Eastern Standard Time)
-[debug] [2025-05-03T13:52:59.751Z] ----------------------------------------------------------------------
+[debug] [2025-05-05T01:01:27.485Z] ----------------------------------------------------------------------
+[debug] [2025-05-05T01:01:27.486Z] Command:       /Users/johnkim1216/.nvm/versions/node/v18.20.8/bin/node /Users/johnkim1216/.nvm/versions/node/v18.20.8/bin/firebase emulators:start
+[debug] [2025-05-05T01:01:27.486Z] CLI Version:   13.35.1
+[debug] [2025-05-05T01:01:27.487Z] Platform:      darwin
+[debug] [2025-05-05T01:01:27.487Z] Node Version:  v18.20.8
+[debug] [2025-05-05T01:01:27.487Z] Time:          Mon May 05 2025 11:01:27 GMT+1000 (Australian Eastern Standard Time)
+[debug] [2025-05-05T01:01:27.487Z] ----------------------------------------------------------------------
 [debug] 
-[debug] [2025-05-03T13:52:59.796Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
-[debug] [2025-05-03T13:52:59.796Z] > authorizing via signed-in user (johnmjkim1216@gmail.com)
-[info] i  emulators: Starting emulators: auth, functions {"metadata":{"emulator":{"name":"hub"},"message":"Starting emulators: auth, functions"}}
-[debug] [2025-05-03T13:52:59.814Z] [hub] writing locator at /var/folders/l9/v5z74m8n30q0wp97hl3t_psc0000gn/T/hub-fintrack-6f3e1.json
-[warn] ⚠  functions: The following emulators are not running, calls to these services from the Functions emulator will affect production: firestore, database, hosting, pubsub, storage {"metadata":{"emulator":{"name":"functions"},"message":"The following emulators are not running, calls to these services from the Functions emulator will affect production: \u001b[1mfirestore, database, hosting, pubsub, storage\u001b[22m"}}
-[warn] ⚠  Your requested "node" version "14" doesn't match your global version "12" {"metadata":{"emulator":{"name":"functions"},"message":"Your requested \"node\" version \"14\" doesn't match your global version \"12\""}}
-[debug] [2025-05-03T13:52:59.883Z] defaultcredentials: writing to file /Users/johnkim1216/.config/firebase/johnmjkim1216_gmail_com_application_default_credentials.json
-[debug] [2025-05-03T13:52:59.886Z] Setting GAC to /Users/johnkim1216/.config/firebase/johnmjkim1216_gmail_com_application_default_credentials.json {"metadata":{"emulator":{"name":"functions"},"message":"Setting GAC to /Users/johnkim1216/.config/firebase/johnmjkim1216_gmail_com_application_default_credentials.json"}}
-[debug] [2025-05-03T13:52:59.888Z] > refreshing access token with scopes: []
-[debug] [2025-05-03T13:52:59.888Z] >>> HTTP REQUEST POST https://www.googleapis.com/oauth2/v3/token  
- <request body omitted>
-[debug] [2025-05-03T13:53:00.463Z] <<< HTTP RESPONSE 200 {"date":"Sat, 03 May 2025 13:53:00 GMT","cache-control":"no-cache, no-store, max-age=0, must-revalidate","pragma":"no-cache","expires":"Mon, 01 Jan 1990 00:00:00 GMT","content-type":"application/json; charset=utf-8","vary":"X-Origin, Referer, Origin,Accept-Encoding","server":"scaffolding on HTTPServer2","x-xss-protection":"0","x-frame-options":"SAMEORIGIN","x-content-type-options":"nosniff","alt-svc":"h3=\":443\"; ma=2592000,h3-29=\":443\"; ma=2592000","accept-ranges":"none","transfer-encoding":"chunked"}
-[debug] [2025-05-03T13:53:00.482Z] >>> [apiv2][query] GET https://firebase.googleapis.com/v1beta1/projects/fintrack-6f3e1/adminSdkConfig [none]
-[debug] [2025-05-03T13:53:01.409Z] <<< [apiv2][status] GET https://firebase.googleapis.com/v1beta1/projects/fintrack-6f3e1/adminSdkConfig 200
-[debug] [2025-05-03T13:53:01.409Z] <<< [apiv2][body] GET https://firebase.googleapis.com/v1beta1/projects/fintrack-6f3e1/adminSdkConfig {"projectId":"fintrack-6f3e1","storageBucket":"fintrack-6f3e1.firebasestorage.app"}
-[warn] ⚠  ui: Emulator UI unable to start on port 4000, starting on 4001 instead. {"metadata":{"emulator":{"name":"ui"},"message":"Emulator UI unable to start on port 4000, starting on 4001 instead."}}
-[debug] [2025-05-03T13:53:03.250Z] Ignoring unsupported arg: auto_download {"metadata":{"emulator":{"name":"ui"},"message":"Ignoring unsupported arg: auto_download"}}
-[debug] [2025-05-03T13:53:03.250Z] Ignoring unsupported arg: port {"metadata":{"emulator":{"name":"ui"},"message":"Ignoring unsupported arg: port"}}
-[debug] [2025-05-03T13:53:03.250Z] Starting Emulator UI with command {"binary":"node","args":["/Users/johnkim1216/.cache/firebase/emulators/ui-v1.6.3/server.bundle.js"],"optionalArgs":[],"joinArgs":false} {"metadata":{"emulator":{"name":"ui"},"message":"Starting Emulator UI with command {\"binary\":\"node\",\"args\":[\"/Users/johnkim1216/.cache/firebase/emulators/ui-v1.6.3/server.bundle.js\"],\"optionalArgs\":[],\"joinArgs\":false}"}}
-[info] i  ui: Emulator UI logging to ui-debug.log {"metadata":{"emulator":{"name":"ui"},"message":"Emulator UI logging to \u001b[1mui-debug.log\u001b[22m"}}
-[debug] [2025-05-03T13:53:03.401Z] Web / API server started at localhost:4001
- {"metadata":{"emulator":{"name":"ui"},"message":"Web / API server started at localhost:4001\n"}}
+[debug] [2025-05-05T01:01:27.666Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2025-05-05T01:01:27.666Z] > authorizing via signed-in user (johnmjkim1216@gmail.com)
+[info] i  emulators: Starting emulators: auth, functions, extensions {"metadata":{"emulator":{"name":"hub"},"message":"Starting emulators: auth, functions, extensions"}}
+[debug] [2025-05-05T01:01:27.668Z] Checked if tokens are valid: true, expires at: 1746410022908
+[debug] [2025-05-05T01:01:27.668Z] Checked if tokens are valid: true, expires at: 1746410022908
+[debug] [2025-05-05T01:01:27.669Z] >>> [apiv2][query] GET https://cloudresourcemanager.googleapis.com/v1/projects/fintrack-6f3e1 [none]
+[debug] [2025-05-05T01:01:28.057Z] <<< [apiv2][status] GET https://cloudresourcemanager.googleapis.com/v1/projects/fintrack-6f3e1 200
+[debug] [2025-05-05T01:01:28.058Z] <<< [apiv2][body] GET https://cloudresourcemanager.googleapis.com/v1/projects/fintrack-6f3e1 {"projectNumber":"849112369737","projectId":"fintrack-6f3e1","lifecycleState":"ACTIVE","name":"FinTrack","labels":{"firebase":"enabled","firebase-core":"disabled"},"createTime":"2025-05-03T06:23:17.645722Z"}
+[debug] [2025-05-05T01:01:28.358Z] [logging] Logging Emulator only supports listening on one address (127.0.0.1). Not listening on ::1
+[debug] [2025-05-05T01:01:28.358Z] assigned listening specs for emulators {"user":{"ui":[{"address":"127.0.0.1","family":"IPv4","port":4001}],"auth":[{"address":"127.0.0.1","family":"IPv4","port":4000}],"hub":[{"address":"127.0.0.1","family":"IPv4","port":4400},{"address":"::1","family":"IPv6","port":4400}],"logging":[{"address":"127.0.0.1","family":"IPv4","port":4500}]},"metadata":{"message":"assigned listening specs for emulators"}}
+[debug] [2025-05-05T01:01:28.362Z] [hub] writing locator at /var/folders/l9/v5z74m8n30q0wp97hl3t_psc0000gn/T/hub-fintrack-6f3e1.json
+[debug] [2025-05-05T01:01:28.364Z] [Extensions] Started Extensions emulator, this is a noop.
+[debug] [2025-05-05T01:01:28.591Z] [functions] Functions Emulator only supports listening on one address (127.0.0.1). Not listening on ::1
+[debug] [2025-05-05T01:01:28.591Z] [eventarc] Eventarc Emulator only supports listening on one address (127.0.0.1). Not listening on ::1
+[debug] [2025-05-05T01:01:28.591Z] [tasks] Cloud Tasks Emulator only supports listening on one address (127.0.0.1). Not listening on ::1
+[debug] [2025-05-05T01:01:28.591Z] late-assigned ports for functions and eventarc emulators {"user":{"ui":[{"address":"127.0.0.1","family":"IPv4","port":4001}],"auth":[{"address":"127.0.0.1","family":"IPv4","port":4000}],"hub":[{"address":"127.0.0.1","family":"IPv4","port":4400},{"address":"::1","family":"IPv6","port":4400}],"logging":[{"address":"127.0.0.1","family":"IPv4","port":4500}],"functions":[{"address":"127.0.0.1","family":"IPv4","port":5001}],"eventarc":[{"address":"127.0.0.1","family":"IPv4","port":9299}],"tasks":[{"address":"127.0.0.1","family":"IPv4","port":9499}]},"metadata":{"message":"late-assigned ports for functions and eventarc emulators"}}
+[warn] ⚠  functions: The following emulators are not running, calls to these services from the Functions emulator will affect production: apphosting, firestore, database, hosting, pubsub, storage, dataconnect {"metadata":{"emulator":{"name":"functions"},"message":"The following emulators are not running, calls to these services from the Functions emulator will affect production: \u001b[1mapphosting, firestore, database, hosting, pubsub, storage, dataconnect\u001b[22m"}}
+[debug] [2025-05-05T01:01:28.597Z] defaultcredentials: writing to file /Users/johnkim1216/.config/firebase/johnmjkim1216_gmail_com_application_default_credentials.json
+[debug] [2025-05-05T01:01:28.598Z] Setting GAC to /Users/johnkim1216/.config/firebase/johnmjkim1216_gmail_com_application_default_credentials.json {"metadata":{"emulator":{"name":"functions"},"message":"Setting GAC to /Users/johnkim1216/.config/firebase/johnmjkim1216_gmail_com_application_default_credentials.json"}}
+[debug] [2025-05-05T01:01:28.598Z] Checked if tokens are valid: true, expires at: 1746410022908
+[debug] [2025-05-05T01:01:28.598Z] Checked if tokens are valid: true, expires at: 1746410022908
+[debug] [2025-05-05T01:01:28.598Z] >>> [apiv2][query] GET https://firebase.googleapis.com/v1beta1/projects/fintrack-6f3e1/adminSdkConfig [none]
+[debug] [2025-05-05T01:01:29.160Z] <<< [apiv2][status] GET https://firebase.googleapis.com/v1beta1/projects/fintrack-6f3e1/adminSdkConfig 200
+[debug] [2025-05-05T01:01:29.161Z] <<< [apiv2][body] GET https://firebase.googleapis.com/v1beta1/projects/fintrack-6f3e1/adminSdkConfig {"projectId":"fintrack-6f3e1","storageBucket":"fintrack-6f3e1.firebasestorage.app"}
+[info] i  ui: downloading ui-v1.14.0.zip... {"metadata":{"emulator":{"name":"ui"},"message":"downloading ui-v1.14.0.zip..."}}
+[debug] [2025-05-05T01:01:32.597Z] >>> [apiv2][query] GET https://storage.googleapis.com/firebase-preview-drop/emulator/ui-v1.14.0.zip 
+[debug] [2025-05-05T01:01:32.738Z] <<< [apiv2][status] GET https://storage.googleapis.com/firebase-preview-drop/emulator/ui-v1.14.0.zip 200
+[debug] [2025-05-05T01:01:32.738Z] <<< [apiv2][body] GET https://storage.googleapis.com/firebase-preview-drop/emulator/ui-v1.14.0.zip [stream]
+[debug] [2025-05-05T01:01:33.006Z] Data is 3615311
+[debug] [2025-05-05T01:01:33.006Z] [unzip] Entry: client/ (compressed_size=0 bytes, uncompressed_size=0 bytes)
+[debug] [2025-05-05T01:01:33.006Z] [unzip] Processing entry: client/
+[debug] [2025-05-05T01:01:33.006Z] [unzip] mkdir: /Users/johnkim1216/.cache/firebase/emulators/ui-v1.14.0/client/
+[debug] [2025-05-05T01:01:33.007Z] [unzip] Entry: client/favicon-16x16.png (compressed_size=293 bytes, uncompressed_size=293 bytes)
+[debug] [2025-05-05T01:01:33.007Z] [unzip] Processing entry: client/favicon-16x16.png
+[debug] [2025-05-05T01:01:33.007Z] [unzip] else mkdir: /Users/johnkim1216/.cache/firebase/emulators/ui-v1.14.0/client
+[debug] [2025-05-05T01:01:33.007Z] [unzip] Writing file: /Users/johnkim1216/.cache/firebase/emulators/ui-v1.14.0/client/favicon-16x16.png
+[debug] [2025-05-05T01:01:33.008Z] [unzip] Entry: client/safari-pinned-tab.svg (compressed_size=1433 bytes, uncompressed_size=2611 bytes)
+[debug] [2025-05-05T01:01:33.008Z] [unzip] Processing entry: client/safari-pinned-tab.svg
+[debug] [2025-05-05T01:01:33.008Z] [unzip] else mkdir: /Users/johnkim1216/.cache/firebase/emulators/ui-v1.14.0/client
+[debug] [2025-05-05T01:01:33.008Z] [unzip] deflating: /Users/johnkim1216/.cache/firebase/emulators/ui-v1.14.0/client/safari-pinned-tab.svg
+[debug] [2025-05-05T01:01:33.011Z] [unzip] Entry: client/favicon.ico (compressed_size=2933 bytes, uncompressed_size=13294 bytes)
+[debug] [2025-05-05T01:01:33.011Z] [unzip] Processing entry: client/favicon.ico
+[debug] [2025-05-05T01:01:33.011Z] [unzip] else mkdir: /Users/johnkim1216/.cache/firebase/emulators/ui-v1.14.0/client
+[debug] [2025-05-05T01:01:33.011Z] [unzip] deflating: /Users/johnkim1216/.cache/firebase/emulators/ui-v1.14.0/client/favicon.ico
+[debug] [2025-05-05T01:01:33.012Z] [unzip] Entry: client/index.html (compressed_size=1363 bytes, uncompressed_size=3071 bytes)
+[debug] [2025-05-05T01:01:33.012Z] [unzip] Processing entry: client/index.html
+[debug] [2025-05-05T01:01:33.012Z] [unzip] else mkdir: /Users/johnkim1216/.cache/firebase/emulators/ui-v1.14.0/client
+[debug] [2025-05-05T01:01:33.012Z] [unzip] deflating: /Users/johnkim1216/.cache/firebase/emulators/ui-v1.14.0/client/index.html
+[debug] [2025-05-05T01:01:33.013Z] [unzip] Entry: client/android-chrome-192x192.png (compressed_size=2684 bytes, uncompressed_size=2684 bytes)
+[debug] [2025-05-05T01:01:33.013Z] [unzip] Processing entry: client/android-chrome-192x192.png
+[debug] [2025-05-05T01:01:33.013Z] [unzip] else mkdir: /Users/johnkim1216/.cache/firebase/emulators/ui-v1.14.0/client
+[debug] [2025-05-05T01:01:33.013Z] [unzip] Writing file: /Users/johnkim1216/.cache/firebase/emulators/ui-v1.14.0/client/android-chrome-192x192.png
+[debug] [2025-05-05T01:01:33.014Z] [unzip] Entry: client/apple-touch-icon.png (compressed_size=2123 bytes, uncompressed_size=2152 bytes)
+[debug] [2025-05-05T01:01:33.014Z] [unzip] Processing entry: client/apple-touch-icon.png
+[debug] [2025-05-05T01:01:33.014Z] [unzip] else mkdir: /Users/johnkim1216/.cache/firebase/emulators/ui-v1.14.0/client
+[debug] [2025-05-05T01:01:33.014Z] [unzip] deflating: /Users/johnkim1216/.cache/firebase/emulators/ui-v1.14.0/client/apple-touch-icon.png
+[debug] [2025-05-05T01:01:33.015Z] [unzip] Entry: client/android-chrome-512x512.png (compressed_size=5369 bytes, uncompressed_size=5411 bytes)
+[debug] [2025-05-05T01:01:33.015Z] [unzip] Processing entry: client/android-chrome-512x512.png
+[debug] [2025-05-05T01:01:33.015Z] [unzip] else mkdir: /Users/johnkim1216/.cache/firebase/emulators/ui-v1.14.0/client
+[debug] [2025-05-05T01:01:33.015Z] [unzip] deflating: /Users/johnkim1216/.cache/firebase/emulators/ui-v1.14.0/client/android-chrome-512x512.png
+[debug] [2025-05-05T01:01:33.015Z] [unzip] Entry: client/manifest.json (compressed_size=245 bytes, uncompressed_size=551 bytes)
+[debug] [2025-05-05T01:01:33.015Z] [unzip] Processing entry: client/manifest.json
+[debug] [2025-05-05T01:01:33.015Z] [unzip] else mkdir: /Users/johnkim1216/.cache/firebase/emulators/ui-v1.14.0/client
+[debug] [2025-05-05T01:01:33.016Z] [unzip] deflating: /Users/johnkim1216/.cache/firebase/emulators/ui-v1.14.0/client/manifest.json
+[debug] [2025-05-05T01:01:33.016Z] [unzip] Entry: client/robots.txt (compressed_size=26 bytes, uncompressed_size=26 bytes)
+[debug] [2025-05-05T01:01:33.016Z] [unzip] Processing entry: client/robots.txt
+[debug] [2025-05-05T01:01:33.016Z] [unzip] else mkdir: /Users/johnkim1216/.cache/firebase/emulators/ui-v1.14.0/client
+[debug] [2025-05-05T01:01:33.016Z] [unzip] Writing file: /Users/johnkim1216/.cache/firebase/emulators/ui-v1.14.0/client/robots.txt
+[debug] [2025-05-05T01:01:33.016Z] [unzip] Entry: client/mstile-150x150.png (compressed_size=2034 bytes, uncompressed_size=2034 bytes)
+[debug] [2025-05-05T01:01:33.016Z] [unzip] Processing entry: client/mstile-150x150.png
+[debug] [2025-05-05T01:01:33.016Z] [unzip] else mkdir: /Users/johnkim1216/.cache/firebase/emulators/ui-v1.14.0/client
+[debug] [2025-05-05T01:01:33.017Z] [unzip] Writing file: /Users/johnkim1216/.cache/firebase/emulators/ui-v1.14.0/client/mstile-150x150.png
+[debug] [2025-05-05T01:01:33.017Z] [unzip] Entry: client/assets/ (compressed_size=0 bytes, uncompressed_size=0 bytes)
+[debug] [2025-05-05T01:01:33.017Z] [unzip] Processing entry: client/assets/
+[debug] [2025-05-05T01:01:33.017Z] [unzip] mkdir: /Users/johnkim1216/.cache/firebase/emulators/ui-v1.14.0/client/assets/
+[debug] [2025-05-05T01:01:33.017Z] [unzip] Entry: client/assets/index-ClZTY_JS.js.map (compressed_size=2328270 bytes, uncompressed_size=9947004 bytes)
+[debug] [2025-05-05T01:01:33.017Z] [unzip] Processing entry: client/assets/index-ClZTY_JS.js.map
+[debug] [2025-05-05T01:01:33.017Z] [unzip] else mkdir: /Users/johnkim1216/.cache/firebase/emulators/ui-v1.14.0/client/assets
+[debug] [2025-05-05T01:01:33.017Z] [unzip] deflating: /Users/johnkim1216/.cache/firebase/emulators/ui-v1.14.0/client/assets/index-ClZTY_JS.js.map
+[debug] [2025-05-05T01:01:33.129Z] [unzip] Entry: client/assets/index-ClZTY_JS.js (compressed_size=567195 bytes, uncompressed_size=2035940 bytes)
+[debug] [2025-05-05T01:01:33.129Z] [unzip] Processing entry: client/assets/index-ClZTY_JS.js
+[debug] [2025-05-05T01:01:33.129Z] [unzip] else mkdir: /Users/johnkim1216/.cache/firebase/emulators/ui-v1.14.0/client/assets
+[debug] [2025-05-05T01:01:33.129Z] [unzip] deflating: /Users/johnkim1216/.cache/firebase/emulators/ui-v1.14.0/client/assets/index-ClZTY_JS.js
+[debug] [2025-05-05T01:01:33.135Z] [unzip] Entry: client/assets/index-BdgySamB.css (compressed_size=35979 bytes, uncompressed_size=298654 bytes)
+[debug] [2025-05-05T01:01:33.135Z] [unzip] Processing entry: client/assets/index-BdgySamB.css
+[debug] [2025-05-05T01:01:33.135Z] [unzip] else mkdir: /Users/johnkim1216/.cache/firebase/emulators/ui-v1.14.0/client/assets
+[debug] [2025-05-05T01:01:33.135Z] [unzip] deflating: /Users/johnkim1216/.cache/firebase/emulators/ui-v1.14.0/client/assets/index-BdgySamB.css
+[debug] [2025-05-05T01:01:33.136Z] [unzip] Entry: client/assets/extensions/ (compressed_size=0 bytes, uncompressed_size=0 bytes)
+[debug] [2025-05-05T01:01:33.137Z] [unzip] Processing entry: client/assets/extensions/
+[debug] [2025-05-05T01:01:33.137Z] [unzip] mkdir: /Users/johnkim1216/.cache/firebase/emulators/ui-v1.14.0/client/assets/extensions/
+[debug] [2025-05-05T01:01:33.137Z] [unzip] Entry: client/assets/extensions/default-extension.png (compressed_size=1646 bytes, uncompressed_size=1657 bytes)
+[debug] [2025-05-05T01:01:33.137Z] [unzip] Processing entry: client/assets/extensions/default-extension.png
+[debug] [2025-05-05T01:01:33.137Z] [unzip] else mkdir: /Users/johnkim1216/.cache/firebase/emulators/ui-v1.14.0/client/assets/extensions
+[debug] [2025-05-05T01:01:33.137Z] [unzip] deflating: /Users/johnkim1216/.cache/firebase/emulators/ui-v1.14.0/client/assets/extensions/default-extension.png
+[debug] [2025-05-05T01:01:33.138Z] [unzip] Entry: client/assets/img/ (compressed_size=0 bytes, uncompressed_size=0 bytes)
+[debug] [2025-05-05T01:01:33.138Z] [unzip] Processing entry: client/assets/img/
+[debug] [2025-05-05T01:01:33.138Z] [unzip] mkdir: /Users/johnkim1216/.cache/firebase/emulators/ui-v1.14.0/client/assets/img/
+[debug] [2025-05-05T01:01:33.138Z] [unzip] Entry: client/assets/img/database.png (compressed_size=29449 bytes, uncompressed_size=29988 bytes)
+[debug] [2025-05-05T01:01:33.138Z] [unzip] Processing entry: client/assets/img/database.png
+[debug] [2025-05-05T01:01:33.138Z] [unzip] else mkdir: /Users/johnkim1216/.cache/firebase/emulators/ui-v1.14.0/client/assets/img
+[debug] [2025-05-05T01:01:33.138Z] [unzip] deflating: /Users/johnkim1216/.cache/firebase/emulators/ui-v1.14.0/client/assets/img/database.png
+[debug] [2025-05-05T01:01:33.138Z] [unzip] Entry: client/assets/provider-icons/ (compressed_size=0 bytes, uncompressed_size=0 bytes)
+[debug] [2025-05-05T01:01:33.138Z] [unzip] Processing entry: client/assets/provider-icons/
+[debug] [2025-05-05T01:01:33.138Z] [unzip] mkdir: /Users/johnkim1216/.cache/firebase/emulators/ui-v1.14.0/client/assets/provider-icons/
+[debug] [2025-05-05T01:01:33.139Z] [unzip] Entry: client/assets/provider-icons/auth_service_saml.svg (compressed_size=575 bytes, uncompressed_size=1226 bytes)
+[debug] [2025-05-05T01:01:33.139Z] [unzip] Processing entry: client/assets/provider-icons/auth_service_saml.svg
+[debug] [2025-05-05T01:01:33.139Z] [unzip] else mkdir: /Users/johnkim1216/.cache/firebase/emulators/ui-v1.14.0/client/assets/provider-icons
+[debug] [2025-05-05T01:01:33.139Z] [unzip] deflating: /Users/johnkim1216/.cache/firebase/emulators/ui-v1.14.0/client/assets/provider-icons/auth_service_saml.svg
+[debug] [2025-05-05T01:01:33.139Z] [unzip] Entry: client/assets/provider-icons/auth_service_phone.svg (compressed_size=261 bytes, uncompressed_size=414 bytes)
+[debug] [2025-05-05T01:01:33.139Z] [unzip] Processing entry: client/assets/provider-icons/auth_service_phone.svg
+[debug] [2025-05-05T01:01:33.139Z] [unzip] else mkdir: /Users/johnkim1216/.cache/firebase/emulators/ui-v1.14.0/client/assets/provider-icons
+[debug] [2025-05-05T01:01:33.139Z] [unzip] deflating: /Users/johnkim1216/.cache/firebase/emulators/ui-v1.14.0/client/assets/provider-icons/auth_service_phone.svg
+[debug] [2025-05-05T01:01:33.140Z] [unzip] Entry: client/assets/provider-icons/auth_service_facebook.svg (compressed_size=289 bytes, uncompressed_size=457 bytes)
+[debug] [2025-05-05T01:01:33.140Z] [unzip] Processing entry: client/assets/provider-icons/auth_service_facebook.svg
+[debug] [2025-05-05T01:01:33.140Z] [unzip] else mkdir: /Users/johnkim1216/.cache/firebase/emulators/ui-v1.14.0/client/assets/provider-icons
+[debug] [2025-05-05T01:01:33.140Z] [unzip] deflating: /Users/johnkim1216/.cache/firebase/emulators/ui-v1.14.0/client/assets/provider-icons/auth_service_facebook.svg
+[debug] [2025-05-05T01:01:33.140Z] [unzip] Entry: client/assets/provider-icons/auth_service_game_center.svg (compressed_size=991 bytes, uncompressed_size=3921 bytes)
+[debug] [2025-05-05T01:01:33.140Z] [unzip] Processing entry: client/assets/provider-icons/auth_service_game_center.svg
+[debug] [2025-05-05T01:01:33.140Z] [unzip] else mkdir: /Users/johnkim1216/.cache/firebase/emulators/ui-v1.14.0/client/assets/provider-icons
+[debug] [2025-05-05T01:01:33.140Z] [unzip] deflating: /Users/johnkim1216/.cache/firebase/emulators/ui-v1.14.0/client/assets/provider-icons/auth_service_game_center.svg
+[debug] [2025-05-05T01:01:33.140Z] [unzip] Entry: client/assets/provider-icons/auth_service_apple.svg (compressed_size=230 bytes, uncompressed_size=334 bytes)
+[debug] [2025-05-05T01:01:33.140Z] [unzip] Processing entry: client/assets/provider-icons/auth_service_apple.svg
+[debug] [2025-05-05T01:01:33.140Z] [unzip] else mkdir: /Users/johnkim1216/.cache/firebase/emulators/ui-v1.14.0/client/assets/provider-icons
+[debug] [2025-05-05T01:01:33.140Z] [unzip] deflating: /Users/johnkim1216/.cache/firebase/emulators/ui-v1.14.0/client/assets/provider-icons/auth_service_apple.svg
+[debug] [2025-05-05T01:01:33.141Z] [unzip] Entry: client/assets/provider-icons/auth_service_github.svg (compressed_size=466 bytes, uncompressed_size=838 bytes)
+[debug] [2025-05-05T01:01:33.141Z] [unzip] Processing entry: client/assets/provider-icons/auth_service_github.svg
+[debug] [2025-05-05T01:01:33.141Z] [unzip] else mkdir: /Users/johnkim1216/.cache/firebase/emulators/ui-v1.14.0/client/assets/provider-icons
+[debug] [2025-05-05T01:01:33.141Z] [unzip] deflating: /Users/johnkim1216/.cache/firebase/emulators/ui-v1.14.0/client/assets/provider-icons/auth_service_github.svg
+[debug] [2025-05-05T01:01:33.141Z] [unzip] Entry: client/assets/provider-icons/auth_service_mslive.svg (compressed_size=203 bytes, uncompressed_size=378 bytes)
+[debug] [2025-05-05T01:01:33.141Z] [unzip] Processing entry: client/assets/provider-icons/auth_service_mslive.svg
+[debug] [2025-05-05T01:01:33.141Z] [unzip] else mkdir: /Users/johnkim1216/.cache/firebase/emulators/ui-v1.14.0/client/assets/provider-icons
+[debug] [2025-05-05T01:01:33.141Z] [unzip] deflating: /Users/johnkim1216/.cache/firebase/emulators/ui-v1.14.0/client/assets/provider-icons/auth_service_mslive.svg
+[debug] [2025-05-05T01:01:33.141Z] [unzip] Entry: client/assets/provider-icons/auth_service_yahoo.svg (compressed_size=577 bytes, uncompressed_size=1182 bytes)
+[debug] [2025-05-05T01:01:33.141Z] [unzip] Processing entry: client/assets/provider-icons/auth_service_yahoo.svg
+[debug] [2025-05-05T01:01:33.141Z] [unzip] else mkdir: /Users/johnkim1216/.cache/firebase/emulators/ui-v1.14.0/client/assets/provider-icons
+[debug] [2025-05-05T01:01:33.141Z] [unzip] deflating: /Users/johnkim1216/.cache/firebase/emulators/ui-v1.14.0/client/assets/provider-icons/auth_service_yahoo.svg
+[debug] [2025-05-05T01:01:33.141Z] [unzip] Entry: client/assets/provider-icons/auth_service_twitter.svg (compressed_size=444 bytes, uncompressed_size=751 bytes)
+[debug] [2025-05-05T01:01:33.141Z] [unzip] Processing entry: client/assets/provider-icons/auth_service_twitter.svg
+[debug] [2025-05-05T01:01:33.141Z] [unzip] else mkdir: /Users/johnkim1216/.cache/firebase/emulators/ui-v1.14.0/client/assets/provider-icons
+[debug] [2025-05-05T01:01:33.142Z] [unzip] deflating: /Users/johnkim1216/.cache/firebase/emulators/ui-v1.14.0/client/assets/provider-icons/auth_service_twitter.svg
+[debug] [2025-05-05T01:01:33.142Z] [unzip] Entry: client/assets/provider-icons/auth_service_play_games.svg (compressed_size=565 bytes, uncompressed_size=1173 bytes)
+[debug] [2025-05-05T01:01:33.142Z] [unzip] Processing entry: client/assets/provider-icons/auth_service_play_games.svg
+[debug] [2025-05-05T01:01:33.142Z] [unzip] else mkdir: /Users/johnkim1216/.cache/firebase/emulators/ui-v1.14.0/client/assets/provider-icons
+[debug] [2025-05-05T01:01:33.142Z] [unzip] deflating: /Users/johnkim1216/.cache/firebase/emulators/ui-v1.14.0/client/assets/provider-icons/auth_service_play_games.svg
+[debug] [2025-05-05T01:01:33.142Z] [unzip] Entry: client/assets/provider-icons/auth_service_email.svg (compressed_size=228 bytes, uncompressed_size=326 bytes)
+[debug] [2025-05-05T01:01:33.142Z] [unzip] Processing entry: client/assets/provider-icons/auth_service_email.svg
+[debug] [2025-05-05T01:01:33.142Z] [unzip] else mkdir: /Users/johnkim1216/.cache/firebase/emulators/ui-v1.14.0/client/assets/provider-icons
+[debug] [2025-05-05T01:01:33.142Z] [unzip] deflating: /Users/johnkim1216/.cache/firebase/emulators/ui-v1.14.0/client/assets/provider-icons/auth_service_email.svg
+[debug] [2025-05-05T01:01:33.142Z] [unzip] Entry: client/assets/provider-icons/auth_service_google.svg (compressed_size=409 bytes, uncompressed_size=720 bytes)
+[debug] [2025-05-05T01:01:33.142Z] [unzip] Processing entry: client/assets/provider-icons/auth_service_google.svg
+[debug] [2025-05-05T01:01:33.142Z] [unzip] else mkdir: /Users/johnkim1216/.cache/firebase/emulators/ui-v1.14.0/client/assets/provider-icons
+[debug] [2025-05-05T01:01:33.142Z] [unzip] deflating: /Users/johnkim1216/.cache/firebase/emulators/ui-v1.14.0/client/assets/provider-icons/auth_service_google.svg
+[debug] [2025-05-05T01:01:33.143Z] [unzip] Entry: client/assets/provider-icons/auth_service_oidc.svg (compressed_size=414 bytes, uncompressed_size=858 bytes)
+[debug] [2025-05-05T01:01:33.143Z] [unzip] Processing entry: client/assets/provider-icons/auth_service_oidc.svg
+[debug] [2025-05-05T01:01:33.143Z] [unzip] else mkdir: /Users/johnkim1216/.cache/firebase/emulators/ui-v1.14.0/client/assets/provider-icons
+[debug] [2025-05-05T01:01:33.143Z] [unzip] deflating: /Users/johnkim1216/.cache/firebase/emulators/ui-v1.14.0/client/assets/provider-icons/auth_service_oidc.svg
+[debug] [2025-05-05T01:01:33.143Z] [unzip] Entry: client/browserconfig.xml (compressed_size=491 bytes, uncompressed_size=822 bytes)
+[debug] [2025-05-05T01:01:33.143Z] [unzip] Processing entry: client/browserconfig.xml
+[debug] [2025-05-05T01:01:33.143Z] [unzip] else mkdir: /Users/johnkim1216/.cache/firebase/emulators/ui-v1.14.0/client
+[debug] [2025-05-05T01:01:33.143Z] [unzip] deflating: /Users/johnkim1216/.cache/firebase/emulators/ui-v1.14.0/client/browserconfig.xml
+[debug] [2025-05-05T01:01:33.143Z] [unzip] Entry: client/favicon-32x32.png (compressed_size=475 bytes, uncompressed_size=475 bytes)
+[debug] [2025-05-05T01:01:33.143Z] [unzip] Processing entry: client/favicon-32x32.png
+[debug] [2025-05-05T01:01:33.143Z] [unzip] else mkdir: /Users/johnkim1216/.cache/firebase/emulators/ui-v1.14.0/client
+[debug] [2025-05-05T01:01:33.143Z] [unzip] Writing file: /Users/johnkim1216/.cache/firebase/emulators/ui-v1.14.0/client/favicon-32x32.png
+[debug] [2025-05-05T01:01:33.143Z] [unzip] Entry: server/ (compressed_size=0 bytes, uncompressed_size=0 bytes)
+[debug] [2025-05-05T01:01:33.143Z] [unzip] Processing entry: server/
+[debug] [2025-05-05T01:01:33.143Z] [unzip] mkdir: /Users/johnkim1216/.cache/firebase/emulators/ui-v1.14.0/server/
+[debug] [2025-05-05T01:01:33.144Z] [unzip] Entry: server/server.mjs.map (compressed_size=296496 bytes, uncompressed_size=1355667 bytes)
+[debug] [2025-05-05T01:01:33.144Z] [unzip] Processing entry: server/server.mjs.map
+[debug] [2025-05-05T01:01:33.144Z] [unzip] else mkdir: /Users/johnkim1216/.cache/firebase/emulators/ui-v1.14.0/server
+[debug] [2025-05-05T01:01:33.144Z] [unzip] deflating: /Users/johnkim1216/.cache/firebase/emulators/ui-v1.14.0/server/server.mjs.map
+[debug] [2025-05-05T01:01:33.147Z] [unzip] Entry: server/server.mjs (compressed_size=315701 bytes, uncompressed_size=1172682 bytes)
+[debug] [2025-05-05T01:01:33.147Z] [unzip] Processing entry: server/server.mjs
+[debug] [2025-05-05T01:01:33.147Z] [unzip] else mkdir: /Users/johnkim1216/.cache/firebase/emulators/ui-v1.14.0/server
+[debug] [2025-05-05T01:01:33.147Z] [unzip] deflating: /Users/johnkim1216/.cache/firebase/emulators/ui-v1.14.0/server/server.mjs
+[debug] [2025-05-05T01:01:33.150Z] [unzip] Entry: server/assets/ (compressed_size=0 bytes, uncompressed_size=0 bytes)
+[debug] [2025-05-05T01:01:33.150Z] [unzip] Processing entry: server/assets/
+[debug] [2025-05-05T01:01:33.150Z] [unzip] mkdir: /Users/johnkim1216/.cache/firebase/emulators/ui-v1.14.0/server/assets/
+[debug] [2025-05-05T01:01:33.150Z] [unzip] Entry: server/assets/multipart-parser-DGCUZdXu.mjs.map (compressed_size=4791 bytes, uncompressed_size=17918 bytes)
+[debug] [2025-05-05T01:01:33.150Z] [unzip] Processing entry: server/assets/multipart-parser-DGCUZdXu.mjs.map
+[debug] [2025-05-05T01:01:33.150Z] [unzip] else mkdir: /Users/johnkim1216/.cache/firebase/emulators/ui-v1.14.0/server/assets
+[debug] [2025-05-05T01:01:33.150Z] [unzip] deflating: /Users/johnkim1216/.cache/firebase/emulators/ui-v1.14.0/server/assets/multipart-parser-DGCUZdXu.mjs.map
+[debug] [2025-05-05T01:01:33.150Z] [unzip] Entry: server/assets/multipart-parser-DGCUZdXu.mjs (compressed_size=2621 bytes, uncompressed_size=10390 bytes)
+[debug] [2025-05-05T01:01:33.150Z] [unzip] Processing entry: server/assets/multipart-parser-DGCUZdXu.mjs
+[debug] [2025-05-05T01:01:33.150Z] [unzip] else mkdir: /Users/johnkim1216/.cache/firebase/emulators/ui-v1.14.0/server/assets
+[debug] [2025-05-05T01:01:33.150Z] [unzip] deflating: /Users/johnkim1216/.cache/firebase/emulators/ui-v1.14.0/server/assets/multipart-parser-DGCUZdXu.mjs
+[info] i  ui: Removing outdated emulator files: ui-v1.6.3 {"metadata":{"emulator":{"name":"ui"},"message":"Removing outdated emulator files: ui-v1.6.3"}}
+[info] i  ui: Removing outdated emulator files: ui-v1.6.3.zip {"metadata":{"emulator":{"name":"ui"},"message":"Removing outdated emulator files: ui-v1.6.3.zip"}}
+[debug] [2025-05-05T01:01:33.231Z] [Extensions] Connecting Extensions emulator, this is a noop.
 [info] i  functions: Watching "/Users/johnkim1216/VSCodeProjects/fintrack-project/financial-tracker-frontend/functions" for Cloud Functions... {"metadata":{"emulator":{"name":"functions"},"message":"Watching \"/Users/johnkim1216/VSCodeProjects/fintrack-project/financial-tracker-frontend/functions\" for Cloud Functions..."}}
-[debug] [2025-05-03T13:53:03.548Z] [worker-pool] addWorker(~diagnostic~) {"metadata":{"emulator":{"name":"functions"},"message":"[worker-pool] addWorker(~diagnostic~)"}}
-[debug] [2025-05-03T13:53:03.548Z] [worker-pool] Adding worker with key ~diagnostic~, total=1 {"metadata":{"emulator":{"name":"functions"},"message":"[worker-pool] Adding worker with key ~diagnostic~, total=1"}}
-[debug] [2025-05-03T13:53:03.548Z] [worker-pool] submitWork(triggerId=) {"metadata":{"emulator":{"name":"functions"},"message":"[worker-pool] submitWork(triggerId=)"}}
-[debug] [2025-05-03T13:53:03.548Z] [worker-~diagnostic~-f2294a7d-5300-4ced-88c5-dfa4c0f3344a]: Assigning socketPath: /var/folders/l9/v5z74m8n30q0wp97hl3t_psc0000gn/T/fire_emu_10240.sock {"metadata":{"emulator":{"name":"functions"},"message":"[worker-~diagnostic~-f2294a7d-5300-4ced-88c5-dfa4c0f3344a]: Assigning socketPath: /var/folders/l9/v5z74m8n30q0wp97hl3t_psc0000gn/T/fire_emu_10240.sock"}}
-[debug] [2025-05-03T13:53:03.549Z] [worker-~diagnostic~-f2294a7d-5300-4ced-88c5-dfa4c0f3344a]: BUSY {"metadata":{"emulator":{"name":"functions"},"message":"[worker-~diagnostic~-f2294a7d-5300-4ced-88c5-dfa4c0f3344a]: BUSY"}}
-[debug] [2025-05-03T13:53:03.955Z] [runtime-status] [10240] Functions runtime initialized. {"cwd":"/Users/johnkim1216/VSCodeProjects/fintrack-project/financial-tracker-frontend/functions","node_version":"12.18.1"} {"metadata":{"emulator":{"name":"functions"},"message":"[runtime-status] [10240] Functions runtime initialized. {\"cwd\":\"/Users/johnkim1216/VSCodeProjects/fintrack-project/financial-tracker-frontend/functions\",\"node_version\":\"12.18.1\"}"}}
-[debug] [2025-05-03T13:53:03.955Z] [runtime-status] [10240] Disabled runtime features: undefined {"metadata":{"emulator":{"name":"functions"},"message":"[runtime-status] [10240] Disabled runtime features: undefined"}}
-[debug] [2025-05-03T13:53:03.957Z] [runtime-status] [10240] Resolved module firebase-admin {"declared":true,"installed":true,"version":"9.12.0","resolution":"/Users/johnkim1216/VSCodeProjects/fintrack-project/financial-tracker-frontend/functions/node_modules/firebase-admin/lib/index.js"} {"metadata":{"emulator":{"name":"functions"},"message":"[runtime-status] [10240] Resolved module firebase-admin {\"declared\":true,\"installed\":true,\"version\":\"9.12.0\",\"resolution\":\"/Users/johnkim1216/VSCodeProjects/fintrack-project/financial-tracker-frontend/functions/node_modules/firebase-admin/lib/index.js\"}"}}
-[debug] [2025-05-03T13:53:03.959Z] [runtime-status] [10240] Resolved module firebase-functions {"declared":true,"installed":true,"version":"3.24.1","resolution":"/Users/johnkim1216/VSCodeProjects/fintrack-project/financial-tracker-frontend/functions/node_modules/firebase-functions/lib/index.js"} {"metadata":{"emulator":{"name":"functions"},"message":"[runtime-status] [10240] Resolved module firebase-functions {\"declared\":true,\"installed\":true,\"version\":\"3.24.1\",\"resolution\":\"/Users/johnkim1216/VSCodeProjects/fintrack-project/financial-tracker-frontend/functions/node_modules/firebase-functions/lib/index.js\"}"}}
-[debug] [2025-05-03T13:53:03.959Z] [runtime-status] [10240] Resolved module firebase-functions {"declared":true,"installed":true,"version":"3.24.1","resolution":"/Users/johnkim1216/VSCodeProjects/fintrack-project/financial-tracker-frontend/functions/node_modules/firebase-functions/lib/index.js"} {"metadata":{"emulator":{"name":"functions"},"message":"[runtime-status] [10240] Resolved module firebase-functions {\"declared\":true,\"installed\":true,\"version\":\"3.24.1\",\"resolution\":\"/Users/johnkim1216/VSCodeProjects/fintrack-project/financial-tracker-frontend/functions/node_modules/firebase-functions/lib/index.js\"}"}}
-[debug] [2025-05-03T13:53:03.960Z] [runtime-status] [10240] Outgoing network have been stubbed. [{"name":"http","status":"mocked"},{"name":"http","status":"mocked"},{"name":"https","status":"mocked"},{"name":"https","status":"mocked"},{"name":"net","status":"mocked"}] {"metadata":{"emulator":{"name":"functions"},"message":"[runtime-status] [10240] Outgoing network have been stubbed. [{\"name\":\"http\",\"status\":\"mocked\"},{\"name\":\"http\",\"status\":\"mocked\"},{\"name\":\"https\",\"status\":\"mocked\"},{\"name\":\"https\",\"status\":\"mocked\"},{\"name\":\"net\",\"status\":\"mocked\"}]"}}
-[debug] [2025-05-03T13:53:03.960Z] [runtime-status] [10240] Resolved module firebase-functions {"declared":true,"installed":true,"version":"3.24.1","resolution":"/Users/johnkim1216/VSCodeProjects/fintrack-project/financial-tracker-frontend/functions/node_modules/firebase-functions/lib/index.js"} {"metadata":{"emulator":{"name":"functions"},"message":"[runtime-status] [10240] Resolved module firebase-functions {\"declared\":true,\"installed\":true,\"version\":\"3.24.1\",\"resolution\":\"/Users/johnkim1216/VSCodeProjects/fintrack-project/financial-tracker-frontend/functions/node_modules/firebase-functions/lib/index.js\"}"}}
-[debug] [2025-05-03T13:53:03.998Z] [runtime-status] [10240] Checked functions.config() {"config":{}} {"metadata":{"emulator":{"name":"functions"},"message":"[runtime-status] [10240] Checked functions.config() {\"config\":{}}"}}
-[debug] [2025-05-03T13:53:03.999Z] [runtime-status] [10240] firebase-functions has been stubbed. {"functionsResolution":{"declared":true,"installed":true,"version":"3.24.1","resolution":"/Users/johnkim1216/VSCodeProjects/fintrack-project/financial-tracker-frontend/functions/node_modules/firebase-functions/lib/index.js"}} {"metadata":{"emulator":{"name":"functions"},"message":"[runtime-status] [10240] firebase-functions has been stubbed. {\"functionsResolution\":{\"declared\":true,\"installed\":true,\"version\":\"3.24.1\",\"resolution\":\"/Users/johnkim1216/VSCodeProjects/fintrack-project/financial-tracker-frontend/functions/node_modules/firebase-functions/lib/index.js\"}}"}}
-[debug] [2025-05-03T13:53:03.999Z] [runtime-status] [10240] Resolved module firebase-functions {"declared":true,"installed":true,"version":"3.24.1","resolution":"/Users/johnkim1216/VSCodeProjects/fintrack-project/financial-tracker-frontend/functions/node_modules/firebase-functions/lib/index.js"} {"metadata":{"emulator":{"name":"functions"},"message":"[runtime-status] [10240] Resolved module firebase-functions {\"declared\":true,\"installed\":true,\"version\":\"3.24.1\",\"resolution\":\"/Users/johnkim1216/VSCodeProjects/fintrack-project/financial-tracker-frontend/functions/node_modules/firebase-functions/lib/index.js\"}"}}
-[debug] [2025-05-03T13:53:03.999Z] [runtime-status] [10240] Resolved module firebase-admin {"declared":true,"installed":true,"version":"9.12.0","resolution":"/Users/johnkim1216/VSCodeProjects/fintrack-project/financial-tracker-frontend/functions/node_modules/firebase-admin/lib/index.js"} {"metadata":{"emulator":{"name":"functions"},"message":"[runtime-status] [10240] Resolved module firebase-admin {\"declared\":true,\"installed\":true,\"version\":\"9.12.0\",\"resolution\":\"/Users/johnkim1216/VSCodeProjects/fintrack-project/financial-tracker-frontend/functions/node_modules/firebase-admin/lib/index.js\"}"}}
-[debug] [2025-05-03T13:53:04.000Z] [runtime-status] [10240] Resolved module firebase-functions {"declared":true,"installed":true,"version":"3.24.1","resolution":"/Users/johnkim1216/VSCodeProjects/fintrack-project/financial-tracker-frontend/functions/node_modules/firebase-functions/lib/index.js"} {"metadata":{"emulator":{"name":"functions"},"message":"[runtime-status] [10240] Resolved module firebase-functions {\"declared\":true,\"installed\":true,\"version\":\"3.24.1\",\"resolution\":\"/Users/johnkim1216/VSCodeProjects/fintrack-project/financial-tracker-frontend/functions/node_modules/firebase-functions/lib/index.js\"}"}}
-[debug] [2025-05-03T13:53:04.000Z] [runtime-status] [10240] firebase-admin has been stubbed. {"adminResolution":{"declared":true,"installed":true,"version":"9.12.0","resolution":"/Users/johnkim1216/VSCodeProjects/fintrack-project/financial-tracker-frontend/functions/node_modules/firebase-admin/lib/index.js"}} {"metadata":{"emulator":{"name":"functions"},"message":"[runtime-status] [10240] firebase-admin has been stubbed. {\"adminResolution\":{\"declared\":true,\"installed\":true,\"version\":\"9.12.0\",\"resolution\":\"/Users/johnkim1216/VSCodeProjects/fintrack-project/financial-tracker-frontend/functions/node_modules/firebase-admin/lib/index.js\"}}"}}
+[debug] [2025-05-05T01:01:33.233Z] Validating nodejs source
+[warn] ⚠  functions: package.json indicates an outdated version of firebase-functions. Please upgrade using npm install --save firebase-functions@latest in your functions directory. 
+[warn] ⚠  functions: Please note that there will be breaking changes when you upgrade. 
+[debug] [2025-05-05T01:01:33.803Z] > [functions] package.json contents: {
+  "name": "functions",
+  "scripts": {
+    "lint": "eslint --ext .js,.ts .",
+    "build": "tsc",
+    "serve": "npm run build && firebase emulators:start --only functions",
+    "shell": "npm run build && firebase functions:shell",
+    "start": "npm run shell",
+    "deploy": "firebase deploy --only functions",
+    "logs": "firebase functions:log"
+  },
+  "engines": {
+    "node": "14"
+  },
+  "main": "lib/index.js",
+  "dependencies": {
+    "firebase-admin": "^9.8.0",
+    "firebase-functions": "^3.14.1"
+  },
+  "devDependencies": {
+    "@types/express": "^5.0.1",
+    "@types/express-serve-static-core": "^5.0.6",
+    "@types/react": "^19.1.2",
+    "@types/react-dom": "^19.1.3",
+    "@types/react-router-dom": "^5.3.3",
+    "@typescript-eslint/eslint-plugin": "^3.9.1",
+    "@typescript-eslint/parser": "^3.8.0",
+    "eslint": "^7.6.0",
+    "eslint-config-google": "^0.14.0",
+    "eslint-plugin-import": "^2.22.0",
+    "firebase-functions-test": "^0.2.0",
+    "typescript": "^5.8.3"
+  },
+  "private": true
+}
+[debug] [2025-05-05T01:01:33.803Z] Building nodejs source
+[debug] [2025-05-05T01:01:33.803Z] Failed to find version of module node: reached end of search path /Users/johnkim1216/VSCodeProjects/fintrack-project/financial-tracker-frontend/functions/node_modules
+[warn] ⚠  functions: Your requested "node" version "14" doesn't match your global version "18". Using node@18 from host. 
+[info] i  functions: You are using a version of firebase-functions SDK (3.24.1) that does not have support for the newest Firebase Extensions features. Please update firebase-functions SDK to >=5.1.0 to use them correctly 
+[debug] [2025-05-05T01:01:33.806Z] Could not find functions.yaml. Must use http discovery
+[debug] [2025-05-05T01:01:33.809Z] Found firebase-functions binary at '/Users/johnkim1216/VSCodeProjects/fintrack-project/financial-tracker-frontend/functions/node_modules/.bin/firebase-functions'
+[info] Serving at port 8364
+
+[debug] [2025-05-05T01:01:34.029Z] Got response from /__/functions.yaml {"endpoints":{},"specVersion":"v1alpha1","requiredAPIs":[]}
+[info] shutdown requested via /__/quitquitquit
+
+[info] ✔  functions: Loaded functions definitions from source: . {"metadata":{"emulator":{"name":"functions"},"message":"Loaded functions definitions from source: ."}}
+[debug] [2025-05-05T01:01:34.040Z] Could not find VSCode notification endpoint: FetchError: request to http://localhost:40001/vscode/notify failed, reason: connect ECONNREFUSED ::1:40001. If you are not running the Firebase Data Connect VSCode extension, this is expected and not an issue.
 [info] 
 ┌─────────────────────────────────────────────────────────────┐
 │ ✔  All emulators ready! It is now safe to connect your app. │
-│ i  View Emulator UI at http://localhost:4001                │
+│ i  View Emulator UI at http://127.0.0.1:4001/               │
 └─────────────────────────────────────────────────────────────┘
 
-┌────────────────┬────────────────┬─────────────────────────────────┐
-│ Emulator       │ Host:Port      │ View in Emulator UI             │
-├────────────────┼────────────────┼─────────────────────────────────┤
-│ Authentication │ localhost:4000 │ http://localhost:4001/auth      │
-├────────────────┼────────────────┼─────────────────────────────────┤
-│ Functions      │ localhost:5001 │ http://localhost:4001/functions │
-└────────────────┴────────────────┴─────────────────────────────────┘
-  Emulator Hub running at localhost:4400
+┌────────────────┬────────────────┬──────────────────────────────────┐
+│ Emulator       │ Host:Port      │ View in Emulator UI              │
+├────────────────┼────────────────┼──────────────────────────────────┤
+│ Authentication │ 127.0.0.1:4000 │ http://127.0.0.1:4001/auth       │
+├────────────────┼────────────────┼──────────────────────────────────┤
+│ Functions      │ 127.0.0.1:5001 │ http://127.0.0.1:4001/functions  │
+├────────────────┼────────────────┼──────────────────────────────────┤
+│ Extensions     │ 127.0.0.1:5001 │ http://127.0.0.1:4001/extensions │
+└────────────────┴────────────────┴──────────────────────────────────┘
+  Emulator Hub host: 127.0.0.1 port: 4400
   Other reserved ports: 4500
-
+┌─────────────────────────┬───────────────┬─────────────────────┐
+│ Extension Instance Name │ Extension Ref │ View in Emulator UI │
+└─────────────────────────┴───────────────┴─────────────────────┘
 Issues? Report them at https://github.com/firebase/firebase-tools/issues and attach the *-debug.log files.
  
-[debug] [2025-05-03T13:53:04.003Z] [worker-~diagnostic~-f2294a7d-5300-4ced-88c5-dfa4c0f3344a]: IDLE {"metadata":{"emulator":{"name":"functions"},"message":"[worker-~diagnostic~-f2294a7d-5300-4ced-88c5-dfa4c0f3344a]: IDLE"}}
-[debug] [2025-05-03T13:56:06.812Z] >>> [apiv2][query] POST http://localhost:5001/functions/projects/fintrack-6f3e1/trigger_multicast [none]
-[debug] [2025-05-03T13:56:06.813Z] >>> [apiv2][body] POST http://localhost:5001/functions/projects/fintrack-6f3e1/trigger_multicast {"eventId":"45b55444-1995-4c2d-bb50-b80934491bd3","eventType":"providers/firebase.auth/eventTypes/user.create","resource":{"name":"projects/fintrack-6f3e1","service":"firebaseauth.googleapis.com"},"params":{},"timestamp":"2025-05-03T13:56:06.811Z","data":{"uid":"ZDiBTHZJhoy2GaggcFTB2ni8N2Ls","emailVerified":false,"displayName":"rndusr1","photoURL":"","phoneNumber":"+61424685984","metadata":{"creationTime":"1746280566807","lastSignInTime":"1746280566806"},"customClaims":{},"providerData":[{"providerId":"phone","phoneNumber":"+61424685984","rawId":"+61424685984"}]}}
-[debug] [2025-05-03T13:56:06.832Z] <<< [apiv2][status] POST http://localhost:5001/functions/projects/fintrack-6f3e1/trigger_multicast 200
-[debug] [2025-05-03T13:56:06.832Z] <<< [apiv2][body] POST http://localhost:5001/functions/projects/fintrack-6f3e1/trigger_multicast {"status":"multicast_acknowledged"}
