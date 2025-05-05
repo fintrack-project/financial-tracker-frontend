@@ -3,6 +3,7 @@ import { CardElement, useStripe, useElements } from '@stripe/react-stripe-js';
 import { isStripeInitialized } from '../../config/stripe';
 import { verifyPaymentMethodApi } from '../../api/paymentMethodApi';
 import { StripePaymentMethod } from '../../types/PaymentMethods';
+import { PaymentError } from '../../api/paymentMethodApi';
 import './PaymentForm.css';
 
 interface PaymentFormProps {
@@ -10,10 +11,17 @@ interface PaymentFormProps {
   onError: (error: any) => void;
 }
 
+interface ErrorState {
+  message: string;
+  type: 'card_error' | 'validation_error' | 'payment_error' | 'internal_error';
+  code?: string;
+  field?: string;
+}
+
 const PaymentForm: React.FC<PaymentFormProps> = ({ onSuccess, onError }) => {
   const stripe = useStripe();
   const elements = useElements();
-  const [error, setError] = useState<string | null>(null);
+  const [error, setError] = useState<ErrorState | null>(null);
   const [processing, setProcessing] = useState(false);
   const [stripeInitialized, setStripeInitialized] = useState(false);
 
@@ -72,7 +80,10 @@ const PaymentForm: React.FC<PaymentFormProps> = ({ onSuccess, onError }) => {
           message: err instanceof Error ? err.message : 'Unknown error'
         });
         const error = err instanceof Error ? err : new Error('Failed to initialize payment system');
-        setError(error.message);
+        setError({
+          message: error.message,
+          type: 'internal_error'
+        });
         onError(error);
       }
     };
@@ -86,30 +97,20 @@ const PaymentForm: React.FC<PaymentFormProps> = ({ onSuccess, onError }) => {
     console.log('1. Form submitted:', {
       hasStripe: !!stripe,
       hasElements: !!elements,
-      isProcessing: processing,
+      processing,
       stripeInitialized
     });
 
-    if (!stripeInitialized) {
+    if (!stripe || !elements || !stripeInitialized) {
       console.error('2. Stripe not initialized:', {
-        stripeInitialized,
         hasStripe: !!stripe,
-        hasElements: !!elements
+        hasElements: !!elements,
+        stripeInitialized
       });
-      const error = new Error('Payment system is not initialized');
-      setError(error.message);
-      onError(error);
-      return;
-    }
-
-    if (!stripe || !elements) {
-      console.error('3. Payment system not ready:', {
-        stripe: !!stripe,
-        elements: !!elements
+      setError({
+        message: 'Payment system is not ready. Please try again.',
+        type: 'internal_error'
       });
-      const error = new Error('Payment system is not ready');
-      setError(error.message);
-      onError(error);
       return;
     }
 
@@ -118,9 +119,7 @@ const PaymentForm: React.FC<PaymentFormProps> = ({ onSuccess, onError }) => {
 
     try {
       const cardElement = elements.getElement(CardElement);
-      console.log('4. Card element status:', {
-        found: !!cardElement
-      });
+      console.log('4. Card element status:', { found: !!cardElement });
 
       if (!cardElement) {
         throw new Error('Card element not found');
@@ -130,77 +129,90 @@ const PaymentForm: React.FC<PaymentFormProps> = ({ onSuccess, onError }) => {
       const { error: stripeError, paymentMethod } = await stripe.createPaymentMethod({
         type: 'card',
         card: cardElement,
-        billing_details: {
-          address: {
-            postal_code: '12345'
-          }
-        }
       });
 
       if (stripeError) {
-        console.error('6. Stripe error details:', {
-          type: stripeError.type,
-          message: stripeError.message,
+        console.error('6. Stripe error:', stripeError);
+        setError({
+          message: stripeError.message || 'Card was declined. Please check your card details and try again.',
+          type: stripeError.type as 'card_error' | 'validation_error',
           code: stripeError.code,
-          decline_code: stripeError.decline_code
+          field: stripeError.param
         });
-        throw stripeError;
+        setProcessing(false);
+        return;
       }
 
       if (!paymentMethod) {
-        console.error('7. No payment method returned');
-        throw new Error('No payment method returned');
+        throw new Error('No payment method returned from Stripe');
       }
 
-      console.log('8. Payment method created successfully:', {
-        id: paymentMethod.id,
-        type: paymentMethod.type,
-        card: paymentMethod.card ? {
-          brand: paymentMethod.card.brand,
-          last4: paymentMethod.card.last4,
-          exp_month: paymentMethod.card.exp_month,
-          exp_year: paymentMethod.card.exp_year
-        } : null
-      });
+      console.log('8. Payment method created successfully:', paymentMethod);
 
-      // Wait a moment to ensure the payment method is fully registered with Stripe
+      // Add a small delay to ensure the payment method is fully registered with Stripe
       await new Promise(resolve => setTimeout(resolve, 1000));
 
-      // Verify the payment method exists
       try {
-        const verifiedMethod = await verifyPaymentMethodApi(paymentMethod.id);
-        console.log('9. Verified payment method:', {
-          id: verifiedMethod.id,
-          type: verifiedMethod.type,
-          card: verifiedMethod.card ? {
-            brand: verifiedMethod.card.brand,
-            last4: verifiedMethod.card.last4,
-            exp_month: verifiedMethod.card.exp_month,
-            exp_year: verifiedMethod.card.exp_year
-          } : null
-        });
-      } catch (verifyError) {
-        console.error('10. Payment method verification failed:', verifyError);
-        throw new Error('Payment method verification failed');
-      }
+        console.log('9. Verifying payment method...');
+        const verifiedPaymentMethod = await verifyPaymentMethodApi(paymentMethod.id);
+        console.log('9. Verified payment method:', verifiedPaymentMethod);
 
-      onSuccess(paymentMethod.id);
-    } catch (err) {
-      console.error('11. Payment error details:', {
-        error: err,
-        type: err instanceof Error ? err.constructor.name : typeof err,
-        message: err instanceof Error ? err.message : 'Unknown error',
-        stack: err instanceof Error ? err.stack : undefined
-      });
-      const error = err instanceof Error ? err : new Error('An unexpected error occurred');
-      setError(error.message);
-      onError(error);
+        // Only clear the card element and call onSuccess if everything is successful
+        cardElement.clear();
+        onSuccess(paymentMethod.id);
+      } catch (verifyError) {
+        console.error('10. Verification error:', verifyError);
+        // Handle backend verification errors
+        if (verifyError instanceof Error) {
+          if (verifyError.name === 'PaymentError') {
+            const paymentError = verifyError as PaymentError;
+            setError({
+              message: paymentError.message,
+              type: paymentError.type as 'payment_error' | 'internal_error',
+              code: paymentError.code || undefined
+            });
+          } else {
+            setError({
+              message: verifyError.message,
+              type: 'internal_error'
+            });
+          }
+        } else {
+          setError({
+            message: 'Failed to verify payment method. Please try again.',
+            type: 'internal_error'
+          });
+        }
+        setProcessing(false);
+        return;
+      }
+    } catch (error) {
+      console.error('11. Error in handleSubmit:', error);
+      // Handle general errors
+      if (error instanceof Error) {
+        if (error.name === 'PaymentError') {
+          const paymentError = error as PaymentError;
+          setError({
+            message: paymentError.message,
+            type: paymentError.type as 'payment_error' | 'internal_error',
+            code: paymentError.code || undefined
+          });
+        } else {
+          setError({
+            message: error.message,
+            type: 'internal_error'
+          });
+        }
+      } else {
+        setError({
+          message: 'An unexpected error occurred. Please try again.',
+          type: 'internal_error'
+        });
+      }
+      setProcessing(false);
+      return;
     } finally {
       setProcessing(false);
-      console.log('12. Payment process completed:', {
-        success: !error,
-        error: error || 'No error'
-      });
     }
   };
 
@@ -212,7 +224,7 @@ const PaymentForm: React.FC<PaymentFormProps> = ({ onSuccess, onError }) => {
     return (
       <div className="payment-form">
         <div className="error-message">
-          {error || 'Initializing payment system...'}
+          {error?.message || 'Initializing payment system...'}
         </div>
       </div>
     );
@@ -223,7 +235,7 @@ const PaymentForm: React.FC<PaymentFormProps> = ({ onSuccess, onError }) => {
       <div className="form-row">
         <div className="form-group">
           <label htmlFor="card-element">Credit or debit card</label>
-          <div className="card-element-container">
+          <div className={`card-element-container ${error?.field ? 'error' : ''}`}>
             <CardElement
               id="card-element"
               options={{
@@ -242,6 +254,11 @@ const PaymentForm: React.FC<PaymentFormProps> = ({ onSuccess, onError }) => {
               }}
             />
           </div>
+          {error?.field && (
+            <div className="field-error">
+              Please check this field
+            </div>
+          )}
         </div>
       </div>
 
@@ -259,7 +276,21 @@ const PaymentForm: React.FC<PaymentFormProps> = ({ onSuccess, onError }) => {
         <p className="note">Note: The ZIP code is automatically set to 12345 for testing purposes.</p>
       </div>
 
-      {error && <div className="error-message">{error}</div>}
+      {error && (
+        <div className={`error-message ${error.type}`}>
+          <div className="error-content">
+            <span className="error-icon">⚠️</span>
+            <span className="error-text">{error.message}</span>
+          </div>
+          <button 
+            type="button" 
+            className="retry-button"
+            onClick={() => setError(null)}
+          >
+            Try Again
+          </button>
+        </div>
+      )}
       
       <button
         type="submit"

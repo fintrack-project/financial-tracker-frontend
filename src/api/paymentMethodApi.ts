@@ -1,5 +1,34 @@
-import axios from 'axios';
+import axios, { AxiosError } from 'axios';
 import { PaymentMethod, StripePaymentMethod } from '../types/PaymentMethods';
+
+interface ErrorResponse {
+  type: 'payment_error' | 'internal_error';
+  message: string;
+  code: string | null;
+}
+
+export class PaymentError extends Error {
+  type: string;
+  code: string | null;
+
+  constructor(type: string, message: string, code: string | null) {
+    super(message);
+    this.type = type;
+    this.code = code;
+    this.name = 'PaymentError';
+  }
+}
+
+const handleApiError = (error: unknown): never => {
+  if (axios.isAxiosError(error)) {
+    const axiosError = error as AxiosError<ErrorResponse>;
+    if (axiosError.response?.data) {
+      const errorData = axiosError.response.data;
+      throw new PaymentError(errorData.type, errorData.message, errorData.code);
+    }
+  }
+  throw new PaymentError('internal_error', 'An unexpected error occurred', null);
+};
 
 // Fetch all payment methods for an account
 export const fetchPaymentMethodsApi = async (accountId: string): Promise<PaymentMethod[]> => {
@@ -7,10 +36,7 @@ export const fetchPaymentMethodsApi = async (accountId: string): Promise<Payment
     const response = await axios.post('/api/user/payments/methods', { accountId });
     return response.data;
   } catch (error) {
-    if (axios.isAxiosError(error)) {
-      throw new Error(error.response?.data?.message || 'Failed to fetch payment methods');
-    }
-    throw error;
+    return handleApiError(error);
   }
 };
 
@@ -20,23 +46,20 @@ export const getDefaultPaymentMethodApi = async (accountId: string): Promise<Pay
     const response = await axios.post('/api/user/payments/default-method', { accountId });
     return response.data;
   } catch (error) {
-    if (axios.isAxiosError(error)) {
-      throw new Error(error.response?.data?.message || 'Failed to fetch default payment method');
-    }
-    throw error;
+    return handleApiError(error);
   }
 };
 
 // Attach a new payment method
 export const attachPaymentMethodApi = async (accountId: string, paymentMethodId: string): Promise<PaymentMethod> => {
   try {
-    const response = await axios.post('/api/user/payments/attach-method', { accountId, paymentMethodId });
+    const response = await axios.post('/api/user/payments/attach-method', {
+      accountId,
+      paymentMethodId
+    });
     return response.data;
   } catch (error) {
-    if (axios.isAxiosError(error)) {
-      throw new Error(error.response?.data?.message || 'Failed to attach payment method');
-    }
-    throw error;
+    return handleApiError(error);
   }
 };
 
@@ -45,10 +68,7 @@ export const setDefaultPaymentMethodApi = async (accountId: string, paymentMetho
   try {
     await axios.post('/api/user/payments/set-default', { accountId, paymentMethodId });
   } catch (error) {
-    if (axios.isAxiosError(error)) {
-      throw new Error(error.response?.data?.message || 'Failed to set default payment method');
-    }
-    throw error;
+    return handleApiError(error);
   }
 };
 
@@ -57,10 +77,7 @@ export const deletePaymentMethodApi = async (accountId: string, paymentMethodId:
   try {
     await axios.post('/api/user/payments/delete-method', { accountId, paymentMethodId });
   } catch (error) {
-    if (axios.isAxiosError(error)) {
-      throw new Error(error.response?.data?.message || 'Failed to delete payment method');
-    }
-    throw error;
+    return handleApiError(error);
   }
 };
 
@@ -74,10 +91,7 @@ export const createPaymentIntentApi = async (accountId: string, amount: number, 
     });
     return response.data;
   } catch (error) {
-    if (axios.isAxiosError(error)) {
-      throw new Error(error.response?.data?.message || 'Failed to create payment intent');
-    }
-    throw error;
+    return handleApiError(error);
   }
 };
 
@@ -91,22 +105,18 @@ export const confirmPaymentApi = async (accountId: string, paymentIntentId: stri
     });
     return response.data;
   } catch (error) {
-    if (axios.isAxiosError(error)) {
-      throw new Error(error.response?.data?.message || 'Failed to confirm payment');
-    }
-    throw error;
+    return handleApiError(error);
   }
 };
 
 // Verify a payment method exists
 export const verifyPaymentMethodApi = async (paymentMethodId: string): Promise<StripePaymentMethod> => {
   try {
-    const response = await axios.post('/api/user/payments/verify-method', { paymentMethodId });
+    const response = await axios.post('/api/user/payments/verify-method', {
+      paymentMethodId
+    });
     return response.data;
   } catch (error) {
-    if (axios.isAxiosError(error)) {
-      throw new Error(error.response?.data?.message || 'Failed to verify payment method');
-    }
-    throw error;
+    return handleApiError(error);
   }
 };

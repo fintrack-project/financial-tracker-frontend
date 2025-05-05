@@ -162,7 +162,19 @@ const Subscription: React.FC<SubscriptionProps> = ({ accountId }) => {
         message: error instanceof Error ? error.message : 'Unknown error',
         stack: error instanceof Error ? error.stack : undefined
       });
-      setError('Failed to attach payment method. Please try again later.');
+
+      // Handle specific error cases
+      if (error instanceof Error) {
+        if (error.message.includes('card was declined')) {
+          setError('The card was declined. Please check your card details and try again.');
+        } else if (error.message.includes('payment method')) {
+          setError('Failed to attach payment method. Please try again.');
+        } else {
+          setError('An unexpected error occurred. Please try again later.');
+        }
+      } else {
+        setError('An unexpected error occurred. Please try again later.');
+      }
     }
   };
 
