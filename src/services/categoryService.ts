@@ -103,7 +103,14 @@ export const fetchCategories = async (
 
   try {
     const response = await fetchCategoryNamesApi(accountId);
-    return response;
+
+    // Extract the data property to return the array of category names
+    const categoryNames = response.data;
+    if (!Array.isArray(categoryNames)) {
+      throw new Error('Invalid response format: categoryNames is not an array');
+    }
+
+    return categoryNames;
   } catch (error) {
     console.error('Error fetching category names:', error);
     throw error;
