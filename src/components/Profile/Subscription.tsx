@@ -1,19 +1,28 @@
 import React, { useState, useEffect } from 'react';
 import { fetchUserDetails } from '../../services/userService';
-import { fetchPaymentMethods, getDefaultPaymentMethod, deletePaymentMethod, setDefaultPaymentMethod, confirmPayment } from '../../services/paymentMethodService';
+import { fetchUserSubscription } from '../../services/userSubscriptionService';
+import { fetchPaymentMethods, getDefaultPaymentMethod, deletePaymentMethod, setDefaultPaymentMethod, confirmPayment, attachPaymentMethod } from '../../services/paymentMethodService';
 import { UserDetails } from '../../types/UserDetails';
+import { UserSubscription } from '../../types/UserSubscription';
 import { PaymentMethod } from '../../types/PaymentMethod';
 import ProfileTable from '../../components/Table/ProfileTable/ProfileTable';
 import { formatDate } from '../../utils/FormatDate';
 import AccountTier from './AccountTier';
 import './Subscription.css';
+import { Elements } from '@stripe/react-stripe-js';
+import { loadStripe } from '@stripe/stripe-js';
+import PaymentForm from '../Payment/PaymentForm';
 
 interface SubscriptionProps {
   accountId: string;
 }
 
+// Initialize Stripe
+const stripePromise = loadStripe(process.env.REACT_APP_STRIPE_PUBLISHABLE_KEY!);
+
 const Subscription: React.FC<SubscriptionProps> = ({ accountId }) => {
   const [userDetails, setUserDetails] = useState<UserDetails | null>(null);
+  const [subscription, setSubscription] = useState<UserSubscription | null>(null);
   const [paymentMethods, setPaymentMethods] = useState<PaymentMethod[]>([]);
   const [defaultPaymentMethod, setDefaultPaymentMethodState] = useState<PaymentMethod | null>(null);
   const [error, setError] = useState<string | null>(null);
@@ -23,18 +32,21 @@ const Subscription: React.FC<SubscriptionProps> = ({ accountId }) => {
   const loadData = async () => {
     try {
       setLoading(true);
-      const [userData, methods, defaultMethod] = await Promise.all([
+      const [userData, subscriptionData, methods, defaultMethod] = await Promise.all([
         fetchUserDetails(accountId),
+        fetchUserSubscription(accountId),
         fetchPaymentMethods(accountId),
         getDefaultPaymentMethod(accountId)
       ]);
       setUserDetails(userData);
+      setSubscription(subscriptionData);
       setPaymentMethods(methods);
       setDefaultPaymentMethodState(defaultMethod);
       setError(null);
     } catch (err) {
       setError('Failed to load subscription details. Please try again later.');
       setUserDetails(null);
+      setSubscription(null);
       setPaymentMethods([]);
       setDefaultPaymentMethodState(null);
     } finally {
@@ -73,6 +85,16 @@ const Subscription: React.FC<SubscriptionProps> = ({ accountId }) => {
     }
   };
 
+  const handleAttachPaymentMethod = async (accountId: string, paymentMethodId: string) => {
+    try {
+      await attachPaymentMethod(accountId, paymentMethodId);
+      await loadData(); // Reload user details to get updated payment methods
+    } catch (error) {
+      console.error('Error attaching payment method:', error);
+      // You might want to show this error in a toast or alert
+    }
+  };
+
   if (loading) {
     return <p>Loading subscription details...</p>;
   }
@@ -86,23 +108,38 @@ const Subscription: React.FC<SubscriptionProps> = ({ accountId }) => {
   }
 
   const renderOverview = () => {
+    if (!userDetails || !subscription) return null;
+
     const tableData = [
       {
         label: 'Current Plan',
         value: <AccountTier tier={userDetails.accountTier as 'free' | 'premium'} />,
       },
       {
-        label: 'Default Payment Method',
-        value: defaultPaymentMethod ? (
-          <div className="method-info">
-            <span className="card-brand">{defaultPaymentMethod.cardBrand}</span>
-            <span className="card-last4">**** {defaultPaymentMethod.cardLast4}</span>
-          </div>
-        ) : 'No default payment method',
+        label: 'Subscription Status',
+        value: subscription.status,
       },
       {
-        label: 'Billing Address',
-        value: defaultPaymentMethod?.billingAddress || 'No billing address added',
+        label: 'Active Status',
+        value: subscription.isActive ? 'Active' : 'Inactive',
+      },
+      {
+        label: 'Next Billing Date',
+        value: subscription.nextBillingDate ? formatDate(new Date(subscription.nextBillingDate)) : 'N/A',
+      },
+      {
+        label: 'Last Payment Date',
+        value: subscription.lastPaymentDate ? formatDate(new Date(subscription.lastPaymentDate)) : 'N/A',
+      },
+      {
+        label: 'Subscription Period',
+        value: `${formatDate(new Date(subscription.subscriptionStartDate))} - ${
+          subscription.subscriptionEndDate ? formatDate(new Date(subscription.subscriptionEndDate)) : 'Ongoing'
+        }`,
+      },
+      {
+        label: 'Auto-Renew',
+        value: subscription.cancelAtPeriodEnd ? 'Will cancel at period end' : 'Auto-renewing',
       },
     ];
 
@@ -110,6 +147,8 @@ const Subscription: React.FC<SubscriptionProps> = ({ accountId }) => {
   };
 
   const renderPlans = () => {
+    if (!subscription) return null;
+
     const plans = [
       {
         name: 'Free',
@@ -118,8 +157,8 @@ const Subscription: React.FC<SubscriptionProps> = ({ accountId }) => {
           'Basic expense tracking',
           'Limited reports',
           '1 user',
-          `${userDetails.storageLimit}GB storage`,
-          `${userDetails.apiUsageLimit} API calls/month`,
+          '5GB storage',
+          '1000 API calls/month',
         ],
       },
       {
@@ -161,49 +200,62 @@ const Subscription: React.FC<SubscriptionProps> = ({ accountId }) => {
   };
 
   const renderPaymentMethods = () => {
-    if (paymentMethods.length === 0) {
-      return (
-        <div className="payment-methods">
-          <p>No payment methods added yet.</p>
-          <button className="add-method">+ Add Payment Method</button>
-        </div>
-      );
-    }
-
-    const tableData = paymentMethods.map(method => ({
-      label: 'Payment Method',
-      value: (
-        <div className="method-info">
-          <span className="card-brand">{method.cardBrand}</span>
-          <span className="card-last4">**** {method.cardLast4}</span>
-          <span className="expiration">Expires {method.cardExpMonth}/{method.cardExpYear}</span>
-        </div>
-      ),
-      status: method.isDefault ? 'Default' : null,
-      actions: (
-        <div className="method-actions">
-          {!method.isDefault && (
-            <button 
-              className="set-default"
-              onClick={() => handleSetDefaultPaymentMethod(method.stripePaymentMethodId)}
-            >
-              Set as Default
-            </button>
-          )}
-          <button 
-            className="remove"
-            onClick={() => handleDeletePaymentMethod(method.stripePaymentMethodId)}
-          >
-            Remove
-          </button>
-        </div>
-      ),
-    }));
+    if (!userDetails) return null;
 
     return (
       <div className="payment-methods">
-        <ProfileTable data={tableData} />
-        <button className="add-method">+ Add Payment Method</button>
+        <h3>Payment Methods</h3>
+        {paymentMethods.length > 0 ? (
+          <div className="payment-methods-list">
+            {paymentMethods.map((method) => (
+              <div key={method.id} className="payment-method-item">
+                <div className="payment-method-info">
+                  <span className="card-brand">{method.cardBrand}</span>
+                  <span className="card-last4">**** **** **** {method.cardLast4}</span>
+                  <span className="card-expiry">
+                    Expires {method.cardExpMonth}/{method.cardExpYear}
+                  </span>
+                  {method.isDefault && <span className="default-badge">Default</span>}
+                </div>
+                <div className="payment-method-actions">
+                  {!method.isDefault && (
+                    <button
+                      onClick={() => handleSetDefaultPaymentMethod(method.id.toString())}
+                      className="action-button"
+                    >
+                      Set as Default
+                    </button>
+                  )}
+                  <button
+                    onClick={() => handleDeletePaymentMethod(method.id.toString())}
+                    className="action-button delete"
+                  >
+                    Delete
+                  </button>
+                </div>
+              </div>
+            ))}
+          </div>
+        ) : (
+          <p>No payment methods added yet.</p>
+        )}
+
+        <div className="add-payment-method">
+          <h4>Add New Payment Method</h4>
+          <Elements stripe={stripePromise}>
+            <PaymentForm
+              onSuccess={(paymentMethodId) => {
+                if (userDetails) {
+                  handleAttachPaymentMethod(userDetails.accountId, paymentMethodId);
+                }
+              }}
+              onError={(error) => {
+                console.error('Payment method error:', error);
+                // You might want to show this error in a toast or alert
+              }}
+            />
+          </Elements>
+        </div>
       </div>
     );
   };

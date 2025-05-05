@@ -5,12 +5,12 @@ export interface PaymentMethod {
   last4: string | null;
   expirationDate: string | null;
   billingAddress: string | null;
-  createdAt: number[];
+  createdAt: string;
   cardBrand: string | null;
   cardExpMonth: number | null;
   cardExpYear: number | null;
   cardLast4: string | null;
   isDefault: boolean;
   type: string;
-  updatedAt: number[];
+  updatedAt: string;
 } 

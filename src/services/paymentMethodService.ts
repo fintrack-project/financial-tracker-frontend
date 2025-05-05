@@ -12,31 +12,25 @@ import { PaymentMethod } from '../types/PaymentMethod';
 
 export const fetchPaymentMethods = async (accountId: string): Promise<PaymentMethod[]> => {
   try {
-    const response = await fetchPaymentMethodsApi(accountId);
-    return response.data;
+    return await fetchPaymentMethodsApi(accountId);
   } catch (error) {
     console.error('Error fetching payment methods:', error);
-    throw new Error('Failed to fetch payment methods');
+    throw error;
   }
 };
 
 export const getDefaultPaymentMethod = async (accountId: string): Promise<PaymentMethod | null> => {
   try {
-    const response = await getDefaultPaymentMethodApi(accountId);
-    return response.data;
+    return await getDefaultPaymentMethodApi(accountId);
   } catch (error) {
-    if (axios.isAxiosError(error) && error.response?.status === 404) {
-      return null;
-    }
     console.error('Error fetching default payment method:', error);
-    throw new Error('Failed to fetch default payment method');
+    throw error;
   }
 };
 
 export const attachPaymentMethod = async (accountId: string, paymentMethodId: string): Promise<PaymentMethod> => {
   try {
-    const response = await attachPaymentMethodApi(accountId, paymentMethodId);
-    return response.data;
+    return await attachPaymentMethodApi(accountId, paymentMethodId);
   } catch (error) {
     console.error('Error attaching payment method:', error);
     throw new Error('Failed to attach payment method');
@@ -48,7 +42,7 @@ export const setDefaultPaymentMethod = async (accountId: string, paymentMethodId
     await setDefaultPaymentMethodApi(accountId, paymentMethodId);
   } catch (error) {
     console.error('Error setting default payment method:', error);
-    throw new Error('Failed to set default payment method');
+    throw error;
   }
 };
 
@@ -57,7 +51,7 @@ export const deletePaymentMethod = async (accountId: string, paymentMethodId: st
     await deletePaymentMethodApi(accountId, paymentMethodId);
   } catch (error) {
     console.error('Error deleting payment method:', error);
-    throw new Error('Failed to delete payment method');
+    throw error;
   }
 };
 
