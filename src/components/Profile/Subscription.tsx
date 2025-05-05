@@ -9,16 +9,13 @@ import ProfileTable from '../../components/Table/ProfileTable/ProfileTable';
 import { formatDate } from '../../utils/FormatDate';
 import AccountTier from './AccountTier';
 import './Subscription.css';
-import { Elements } from '@stripe/react-stripe-js';
-import { loadStripe } from '@stripe/stripe-js';
-import PaymentForm from '../Payment/PaymentForm';
+import SubscriptionTabs from '../Bar/SubscriptionTabs';
+import PaymentMethods from '../Bar/PaymentMethods';
+import Plans from '../Bar/Plans';
 
 interface SubscriptionProps {
   accountId: string;
 }
-
-// Initialize Stripe
-const stripePromise = loadStripe(process.env.REACT_APP_STRIPE_PUBLISHABLE_KEY!);
 
 const Subscription: React.FC<SubscriptionProps> = ({ accountId }) => {
   const [userDetails, setUserDetails] = useState<UserDetails | null>(null);
@@ -31,19 +28,59 @@ const Subscription: React.FC<SubscriptionProps> = ({ accountId }) => {
 
   const loadData = async () => {
     try {
+      console.log('Starting loadData with accountId:', accountId);
       setLoading(true);
-      const [userData, subscriptionData, methods, defaultMethod] = await Promise.all([
-        fetchUserDetails(accountId),
-        fetchUserSubscription(accountId),
-        fetchPaymentMethods(accountId),
-        getDefaultPaymentMethod(accountId)
-      ]);
+      
+      console.log('Fetching user details...');
+      const userData = await fetchUserDetails(accountId);
+      console.log('User details response:', userData);
+      
+      console.log('Fetching subscription data...');
+      let subscriptionData;
+      try {
+        subscriptionData = await fetchUserSubscription(accountId);
+        console.log('Subscription data response:', subscriptionData);
+      } catch (error) {
+        console.log('No subscription data found, using default values');
+        subscriptionData = {
+          id: 0,
+          accountId: accountId,
+          status: 'inactive',
+          isActive: false,
+          subscriptionStartDate: new Date().toISOString(),
+          subscriptionEndDate: null,
+          nextBillingDate: null,
+          lastPaymentDate: null,
+          cancelAtPeriodEnd: false,
+          createdAt: new Date().toISOString()
+        } as UserSubscription;
+      }
+      
+      console.log('Fetching payment methods...');
+      let methods: PaymentMethod[] = [];
+      try {
+        methods = await fetchPaymentMethods(accountId);
+        console.log('Payment methods response:', methods);
+      } catch (error) {
+        console.log('No payment methods found, using empty array');
+      }
+      
+      console.log('Fetching default payment method...');
+      let defaultMethod = null;
+      try {
+        defaultMethod = await getDefaultPaymentMethod(accountId);
+        console.log('Default payment method response:', defaultMethod);
+      } catch (error) {
+        console.log('No default payment method found');
+      }
+
       setUserDetails(userData);
       setSubscription(subscriptionData);
       setPaymentMethods(methods);
       setDefaultPaymentMethodState(defaultMethod);
       setError(null);
     } catch (err) {
+      console.error('Error in loadData:', err);
       setError('Failed to load subscription details. Please try again later.');
       setUserDetails(null);
       setSubscription(null);
@@ -60,34 +97,45 @@ const Subscription: React.FC<SubscriptionProps> = ({ accountId }) => {
 
   const handleDeletePaymentMethod = async (paymentMethodId: string) => {
     try {
+      console.log('Deleting payment method:', paymentMethodId);
       await deletePaymentMethod(accountId, paymentMethodId);
+      console.log('Payment method deleted successfully');
       await loadData(); // Reload data after deletion
     } catch (err) {
+      console.error('Error deleting payment method:', err);
       setError('Failed to delete payment method. Please try again later.');
     }
   };
 
   const handleSetDefaultPaymentMethod = async (paymentMethodId: string) => {
     try {
+      console.log('Setting default payment method:', paymentMethodId);
       await setDefaultPaymentMethod(accountId, paymentMethodId);
+      console.log('Default payment method set successfully');
       await loadData(); // Reload data after setting default
     } catch (err) {
+      console.error('Error setting default payment method:', err);
       setError('Failed to set default payment method. Please try again later.');
     }
   };
 
   const handleConfirmPayment = async (paymentIntentId: string, paymentMethodId: string) => {
     try {
+      console.log('Confirming payment:', { paymentIntentId, paymentMethodId });
       await confirmPayment(accountId, paymentIntentId, paymentMethodId);
+      console.log('Payment confirmed successfully');
       await loadData(); // Reload data after confirmation
     } catch (err) {
+      console.error('Error confirming payment:', err);
       setError('Failed to confirm payment. Please try again later.');
     }
   };
 
   const handleAttachPaymentMethod = async (accountId: string, paymentMethodId: string) => {
     try {
+      console.log('Attaching payment method:', { accountId, paymentMethodId });
       await attachPaymentMethod(accountId, paymentMethodId);
+      console.log('Payment method attached successfully');
       await loadData(); // Reload user details to get updated payment methods
     } catch (error) {
       console.error('Error attaching payment method:', error);
@@ -108,7 +156,7 @@ const Subscription: React.FC<SubscriptionProps> = ({ accountId }) => {
   }
 
   const renderOverview = () => {
-    if (!userDetails || !subscription) return null;
+    if (!userDetails) return null;
 
     const tableData = [
       {
@@ -117,29 +165,29 @@ const Subscription: React.FC<SubscriptionProps> = ({ accountId }) => {
       },
       {
         label: 'Subscription Status',
-        value: subscription.status,
+        value: subscription?.status || 'inactive',
       },
       {
         label: 'Active Status',
-        value: subscription.isActive ? 'Active' : 'Inactive',
+        value: subscription?.isActive ? 'Active' : 'Inactive',
       },
       {
         label: 'Next Billing Date',
-        value: subscription.nextBillingDate ? formatDate(new Date(subscription.nextBillingDate)) : 'N/A',
+        value: subscription?.nextBillingDate ? formatDate(new Date(subscription.nextBillingDate)) : 'N/A',
       },
       {
         label: 'Last Payment Date',
-        value: subscription.lastPaymentDate ? formatDate(new Date(subscription.lastPaymentDate)) : 'N/A',
+        value: subscription?.lastPaymentDate ? formatDate(new Date(subscription.lastPaymentDate)) : 'N/A',
       },
       {
         label: 'Subscription Period',
-        value: `${formatDate(new Date(subscription.subscriptionStartDate))} - ${
+        value: subscription ? `${formatDate(new Date(subscription.subscriptionStartDate))} - ${
           subscription.subscriptionEndDate ? formatDate(new Date(subscription.subscriptionEndDate)) : 'Ongoing'
-        }`,
+        }` : 'No active subscription',
       },
       {
         label: 'Auto-Renew',
-        value: subscription.cancelAtPeriodEnd ? 'Will cancel at period end' : 'Auto-renewing',
+        value: subscription?.cancelAtPeriodEnd ? 'Will cancel at period end' : 'Auto-renewing',
       },
     ];
 
@@ -149,53 +197,11 @@ const Subscription: React.FC<SubscriptionProps> = ({ accountId }) => {
   const renderPlans = () => {
     if (!subscription) return null;
 
-    const plans = [
-      {
-        name: 'Free',
-        price: '$0',
-        features: [
-          'Basic expense tracking',
-          'Limited reports',
-          '1 user',
-          '5GB storage',
-          '1000 API calls/month',
-        ],
-      },
-      {
-        name: 'Premium',
-        price: '$9.99',
-        features: [
-          'Advanced expense tracking',
-          'Unlimited reports',
-          'Multiple users',
-          'Priority support',
-          '50GB storage',
-          'Unlimited API calls',
-        ],
-        featured: true,
-      },
-    ];
-
     return (
-      <div className="plans-grid">
-        {plans.map((plan) => (
-          <div key={plan.name} className={`plan-card ${plan.featured ? 'featured' : ''}`}>
-            <h3>{plan.name}</h3>
-            <div className="price">{plan.price}/month</div>
-            <ul className="features">
-              {plan.features.map((feature) => (
-                <li key={feature}>{feature}</li>
-              ))}
-            </ul>
-            <button 
-              className="select-plan"
-              disabled={plan.name.toLowerCase() === userDetails.accountTier.toLowerCase()}
-            >
-              {plan.name.toLowerCase() === userDetails.accountTier.toLowerCase() ? 'Current Plan' : 'Select Plan'}
-            </button>
-          </div>
-        ))}
-      </div>
+      <Plans
+        userDetails={userDetails}
+        subscription={subscription}
+      />
     );
   };
 
@@ -203,60 +209,13 @@ const Subscription: React.FC<SubscriptionProps> = ({ accountId }) => {
     if (!userDetails) return null;
 
     return (
-      <div className="payment-methods">
-        <h3>Payment Methods</h3>
-        {paymentMethods.length > 0 ? (
-          <div className="payment-methods-list">
-            {paymentMethods.map((method) => (
-              <div key={method.id} className="payment-method-item">
-                <div className="payment-method-info">
-                  <span className="card-brand">{method.cardBrand}</span>
-                  <span className="card-last4">**** **** **** {method.cardLast4}</span>
-                  <span className="card-expiry">
-                    Expires {method.cardExpMonth}/{method.cardExpYear}
-                  </span>
-                  {method.isDefault && <span className="default-badge">Default</span>}
-                </div>
-                <div className="payment-method-actions">
-                  {!method.isDefault && (
-                    <button
-                      onClick={() => handleSetDefaultPaymentMethod(method.id.toString())}
-                      className="action-button"
-                    >
-                      Set as Default
-                    </button>
-                  )}
-                  <button
-                    onClick={() => handleDeletePaymentMethod(method.id.toString())}
-                    className="action-button delete"
-                  >
-                    Delete
-                  </button>
-                </div>
-              </div>
-            ))}
-          </div>
-        ) : (
-          <p>No payment methods added yet.</p>
-        )}
-
-        <div className="add-payment-method">
-          <h4>Add New Payment Method</h4>
-          <Elements stripe={stripePromise}>
-            <PaymentForm
-              onSuccess={(paymentMethodId) => {
-                if (userDetails) {
-                  handleAttachPaymentMethod(userDetails.accountId, paymentMethodId);
-                }
-              }}
-              onError={(error) => {
-                console.error('Payment method error:', error);
-                // You might want to show this error in a toast or alert
-              }}
-            />
-          </Elements>
-        </div>
-      </div>
+      <PaymentMethods
+        userDetails={userDetails}
+        paymentMethods={paymentMethods}
+        onSetDefault={handleSetDefaultPaymentMethod}
+        onDelete={handleDeletePaymentMethod}
+        onAttach={(paymentMethodId) => handleAttachPaymentMethod(userDetails.accountId, paymentMethodId)}
+      />
     );
   };
 
@@ -264,26 +223,10 @@ const Subscription: React.FC<SubscriptionProps> = ({ accountId }) => {
     <div className="subscription-container">
       <div className="subscription-header">
         <h2>Subscription Management</h2>
-        <div className="subscription-tabs">
-          <button
-            className={activeTab === 'overview' ? 'active' : ''}
-            onClick={() => setActiveTab('overview')}
-          >
-            Overview
-          </button>
-          <button
-            className={activeTab === 'plans' ? 'active' : ''}
-            onClick={() => setActiveTab('plans')}
-          >
-            Plans & Pricing
-          </button>
-          <button
-            className={activeTab === 'payment' ? 'active' : ''}
-            onClick={() => setActiveTab('payment')}
-          >
-            Payment Methods
-          </button>
-        </div>
+        <SubscriptionTabs 
+          activeTab={activeTab} 
+          onTabChange={setActiveTab} 
+        />
       </div>
 
       {activeTab === 'overview' && renderOverview()}
