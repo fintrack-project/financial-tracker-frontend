@@ -1,0 +1,154 @@
+.payment-form {
+  max-width: 500px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+.form-row {
+  margin-bottom: 20px;
+}
+
+.form-group {
+  margin-bottom: 20px;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 8px;
+  font-weight: 500;
+  color: #32325d;
+}
+
+.card-element-container {
+  padding: 12px;
+  border: 1px solid #e0e0e0;
+  border-radius: 4px;
+  background: white;
+  transition: all 0.2s ease;
+}
+
+.card-element-container.error {
+  border-color: #dc3545;
+  background-color: #fff8f8;
+}
+
+.field-error {
+  color: #dc3545;
+  font-size: 12px;
+  margin-top: 4px;
+}
+
+.error-message {
+  padding: 12px;
+  margin: 16px 0;
+  border-radius: 4px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #fff8f8;
+  border: 1px solid #dc3545;
+}
+
+.error-message.card_error {
+  background-color: #fff8f8;
+  border-color: #dc3545;
+}
+
+.error-message.validation_error {
+  background-color: #fff8f8;
+  border-color: #dc3545;
+}
+
+.error-message.payment_error {
+  background-color: #fff8f8;
+  border-color: #dc3545;
+}
+
+.error-message.internal_error {
+  background-color: #f8f9fa;
+  border-color: #6c757d;
+}
+
+.error-content {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.error-icon {
+  font-size: 16px;
+}
+
+.error-text {
+  color: #dc3545;
+  font-size: 14px;
+}
+
+.retry-button {
+  padding: 6px 12px;
+  background-color: #fff;
+  border: 1px solid #dc3545;
+  color: #dc3545;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 14px;
+  transition: all 0.2s ease;
+}
+
+.retry-button:hover {
+  background-color: #dc3545;
+  color: #fff;
+}
+
+.submit-button {
+  width: 100%;
+  padding: 12px;
+  background-color: #5469d4;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.submit-button:hover {
+  background-color: #4050b5;
+}
+
+.submit-button:disabled {
+  background-color: #aab7c4;
+  cursor: not-allowed;
+}
+
+.test-instructions {
+  margin-top: 24px;
+  padding: 16px;
+  background-color: #f8f9fa;
+  border-radius: 4px;
+  border: 1px solid #e0e0e0;
+}
+
+.test-instructions h4 {
+  margin: 0 0 12px 0;
+  color: #32325d;
+}
+
+.test-instructions ul {
+  margin: 0;
+  padding-left: 20px;
+}
+
+.test-instructions li {
+  margin-bottom: 8px;
+  font-size: 14px;
+  color: #6b7c93;
+}
+
+.test-instructions .note {
+  margin-top: 12px;
+  font-size: 12px;
+  color: #87909c;
+  font-style: italic;
+} 

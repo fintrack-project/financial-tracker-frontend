@@ -5,15 +5,8 @@ export interface UserDetails {
   phone: string | null;
   countryCode: string | null;
   address: string | null;
+  accountId: string; // UUID
   accountTier: string;
-  subscriptionStartDate: number[] | null;
-  subscriptionEndDate: number[] | null;
-  isActiveSubscription: boolean;
-  paymentMethod: string | null;
-  billingAddress: string | null;
-  lastPaymentDate: number[] | null;
-  nextBillingDate: number[] | null;
-  paymentStatus: string | null;
   timezone: string | null;
   twoFactorEnabled: boolean;
   lastLogin: number[] | null;
@@ -25,4 +18,5 @@ export interface UserDetails {
   apiUsageLimit: number;
   emailVerified: boolean;
   phoneVerified: boolean;
+  twoFactorSecret: string | null;
 }

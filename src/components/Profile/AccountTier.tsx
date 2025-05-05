@@ -6,9 +6,12 @@ interface AccountTierProps {
 }
 
 const AccountTier: React.FC<AccountTierProps> = ({ tier }) => {
+  // Capitalize the first letter
+  const displayTier = tier.charAt(0).toUpperCase() + tier.slice(1);
+  
   return (
     <div className={`account-tier ${tier.toLowerCase()}`}>
-      {tier}
+      {displayTier}
     </div>
   );
 };

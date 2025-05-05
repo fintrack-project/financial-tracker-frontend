@@ -1,39 +1,32 @@
-export const formatDate = (
-  dateArray: number[] | null | undefined,
-  includeTime: boolean = false
-): string => {
-  if(dateArray === null || dateArray === undefined) {
-    return 'N/A'; // Handle null or undefined
-  } 
-
-  if (!dateArray || dateArray.length < 3) {
-    return 'Invalid Date'; // Handle invalid arrays
+export const formatDate = (date: string | Date | number[] | null, includeTime: boolean = false): string => {
+  if (!date) return 'N/A';
+  
+  let dateObj: Date;
+  
+  if (Array.isArray(date)) {
+    // Handle number array format [year, month, day, ...]
+    dateObj = new Date(date[0], date[1] - 1, date[2]);
+  } else if (typeof date === 'string') {
+    dateObj = new Date(date);
+  } else {
+    dateObj = date;
   }
 
-  // Extract date components from the array
-  const [year, month, day, hour = 0, minute = 0, second = 0, millisecond = 0] = dateArray;
-
-  // Create a Date object
-  const date = new Date(year, month - 1, day, hour, minute, second, millisecond / 1_000_000);
-
-  // Check if the date is valid
-  if (isNaN(date.getTime())) {
+  if (isNaN(dateObj.getTime())) {
     return 'Invalid Date';
   }
 
-  // Format the date as yyyy-MM-dd
-  const formattedDate = `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}-${String(
-    date.getDate()
-  ).padStart(2, '0')}`;
+  const options: Intl.DateTimeFormatOptions = {
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric',
+  };
 
-  // If includeTime is true, add HH:MM:SS
   if (includeTime) {
-    const formattedTime = `${String(date.getHours()).padStart(2, '0')}:${String(date.getMinutes()).padStart(
-      2,
-      '0'
-    )}:${String(date.getSeconds()).padStart(2, '0')}`;
-    return `${formattedDate} ${formattedTime}`;
+    options.hour = '2-digit';
+    options.minute = '2-digit';
+    options.second = '2-digit';
   }
 
-  return formattedDate;
+  return dateObj.toLocaleDateString('en-US', options);
 };
