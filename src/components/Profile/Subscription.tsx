@@ -15,7 +15,7 @@ interface SubscriptionProps {
 const Subscription: React.FC<SubscriptionProps> = ({ accountId }) => {
   const [userDetails, setUserDetails] = useState<UserDetails | null>(null);
   const [paymentMethods, setPaymentMethods] = useState<PaymentMethod[]>([]);
-  const [defaultPaymentMethod, setDefaultPaymentMethod] = useState<PaymentMethod | null>(null);
+  const [defaultPaymentMethod, setDefaultPaymentMethodState] = useState<PaymentMethod | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
   const [activeTab, setActiveTab] = useState<'overview' | 'plans' | 'payment'>('overview');
@@ -30,13 +30,13 @@ const Subscription: React.FC<SubscriptionProps> = ({ accountId }) => {
       ]);
       setUserDetails(userData);
       setPaymentMethods(methods);
-      setDefaultPaymentMethod(defaultMethod);
+      setDefaultPaymentMethodState(defaultMethod);
       setError(null);
     } catch (err) {
       setError('Failed to load subscription details. Please try again later.');
       setUserDetails(null);
       setPaymentMethods([]);
-      setDefaultPaymentMethod(null);
+      setDefaultPaymentMethodState(null);
     } finally {
       setLoading(false);
     }

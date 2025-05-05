@@ -1,33 +1,132 @@
 .profile-table {
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: 12px;
+  background-color: white;
+  border-radius: 8px;
+  padding: 16px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
 }
 
 .profile-table-row {
   display: grid;
-  grid-template-columns: 1fr 2fr 1fr 1fr; /* Four columns: Label, Value, Status, Actions */
+  grid-template-columns: 1fr 2fr 1fr 1fr;
   align-items: center;
-  justify-content: center;
-  padding: 10px;
+  padding: 16px;
+  border-radius: 6px;
+  background-color: #f9f9f9;
+  transition: all 0.3s ease;
+}
+
+.profile-table-row:hover {
+  background-color: #f5f8ff;
+  transform: translateY(-1px);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
 }
 
 .profile-table-label {
-  font-weight: bold;
-  color: #333;
-  margin-right: 10px;
+  font-weight: 500;
+  color: #1a1a1a;
+  font-size: 14px;
 }
 
 .profile-table-value {
-  color: #555;
+  color: #4a4a4a;
+  font-size: 14px;
+  display: flex;
   align-items: center;
+  gap: 8px;
 }
 
 .profile-table-status {
-  color: #888;
+  color: #666;
+  font-size: 14px;
+  display: flex;
   align-items: center;
+  gap: 8px;
 }
 
 .profile-table-actions {
+  display: flex;
   align-items: center;
+  gap: 8px;
+  justify-content: flex-end;
+}
+
+/* Status badges */
+.status-badge {
+  display: inline-block;
+  padding: 4px 12px;
+  border-radius: 16px;
+  font-size: 12px;
+  font-weight: 500;
+}
+
+.status-badge.verified {
+  background-color: #e6f3ff;
+  color: #4a90e2;
+}
+
+.status-badge.unverified {
+  background-color: #ffe6e6;
+  color: #dc3545;
+}
+
+/* Action buttons */
+.action-button {
+  padding: 6px 12px;
+  border-radius: 4px;
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  border: 1px solid transparent;
+}
+
+.action-button.edit {
+  background-color: #e6f3ff;
+  color: #4a90e2;
+  border-color: #4a90e2;
+}
+
+.action-button.edit:hover {
+  background-color: #4a90e2;
+  color: white;
+}
+
+.action-button.delete {
+  background-color: #ffe6e6;
+  color: #dc3545;
+  border-color: #dc3545;
+}
+
+.action-button.delete:hover {
+  background-color: #dc3545;
+  color: white;
+}
+
+/* Input fields */
+.profile-table input {
+  width: 100%;
+  padding: 8px 12px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 14px;
+  transition: all 0.2s ease;
+}
+
+.profile-table input:focus {
+  outline: none;
+  border-color: #4a90e2;
+  box-shadow: 0 0 0 2px rgba(74, 144, 226, 0.1);
+}
+
+/* Empty state */
+.profile-table-empty {
+  text-align: center;
+  padding: 32px;
+  color: #666;
+  font-size: 14px;
+  background-color: #f9f9f9;
+  border-radius: 6px;
 }
