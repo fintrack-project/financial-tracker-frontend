@@ -1,8 +1,11 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { fetchUserDetails } from '../../services/userService';
+import { fetchPaymentMethods, getDefaultPaymentMethod, deletePaymentMethod, setDefaultPaymentMethod, confirmPayment } from '../../services/paymentMethodService';
 import { UserDetails } from '../../types/UserDetails';
+import { PaymentMethod } from '../../types/PaymentMethod';
 import ProfileTable from '../../components/Table/ProfileTable/ProfileTable';
 import { formatDate } from '../../utils/FormatDate';
+import AccountTier from './AccountTier';
 import './Subscription.css';
 
 interface SubscriptionProps {
@@ -11,27 +14,64 @@ interface SubscriptionProps {
 
 const Subscription: React.FC<SubscriptionProps> = ({ accountId }) => {
   const [userDetails, setUserDetails] = useState<UserDetails | null>(null);
+  const [paymentMethods, setPaymentMethods] = useState<PaymentMethod[]>([]);
+  const [defaultPaymentMethod, setDefaultPaymentMethod] = useState<PaymentMethod | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
   const [activeTab, setActiveTab] = useState<'overview' | 'plans' | 'payment'>('overview');
 
-  const loadUserDetails = async () => {
+  const loadData = async () => {
     try {
       setLoading(true);
-      const data = await fetchUserDetails(accountId);
-      setUserDetails(data);
+      const [userData, methods, defaultMethod] = await Promise.all([
+        fetchUserDetails(accountId),
+        fetchPaymentMethods(accountId),
+        getDefaultPaymentMethod(accountId)
+      ]);
+      setUserDetails(userData);
+      setPaymentMethods(methods);
+      setDefaultPaymentMethod(defaultMethod);
       setError(null);
     } catch (err) {
       setError('Failed to load subscription details. Please try again later.');
       setUserDetails(null);
+      setPaymentMethods([]);
+      setDefaultPaymentMethod(null);
     } finally {
       setLoading(false);
     }
   };
 
-  React.useEffect(() => {
-    loadUserDetails();
+  useEffect(() => {
+    loadData();
   }, [accountId]);
+
+  const handleDeletePaymentMethod = async (paymentMethodId: string) => {
+    try {
+      await deletePaymentMethod(accountId, paymentMethodId);
+      await loadData(); // Reload data after deletion
+    } catch (err) {
+      setError('Failed to delete payment method. Please try again later.');
+    }
+  };
+
+  const handleSetDefaultPaymentMethod = async (paymentMethodId: string) => {
+    try {
+      await setDefaultPaymentMethod(accountId, paymentMethodId);
+      await loadData(); // Reload data after setting default
+    } catch (err) {
+      setError('Failed to set default payment method. Please try again later.');
+    }
+  };
+
+  const handleConfirmPayment = async (paymentIntentId: string, paymentMethodId: string) => {
+    try {
+      await confirmPayment(accountId, paymentIntentId, paymentMethodId);
+      await loadData(); // Reload data after confirmation
+    } catch (err) {
+      setError('Failed to confirm payment. Please try again later.');
+    }
+  };
 
   if (loading) {
     return <p>Loading subscription details...</p>;
@@ -49,20 +89,20 @@ const Subscription: React.FC<SubscriptionProps> = ({ accountId }) => {
     const tableData = [
       {
         label: 'Current Plan',
-        value: 'Premium',
-        status: <span className="plan-status">Active</span>,
+        value: <AccountTier tier={userDetails.accountTier as 'free' | 'premium'} />,
       },
       {
-        label: 'Billing Cycle',
-        value: 'Monthly',
+        label: 'Default Payment Method',
+        value: defaultPaymentMethod ? (
+          <div className="method-info">
+            <span className="card-brand">{defaultPaymentMethod.cardBrand}</span>
+            <span className="card-last4">**** {defaultPaymentMethod.cardLast4}</span>
+          </div>
+        ) : 'No default payment method',
       },
       {
-        label: 'Next Billing Date',
-        value: 'March 1, 2024',
-      },
-      {
-        label: 'Payment Method',
-        value: 'Visa ending in 4242',
+        label: 'Billing Address',
+        value: defaultPaymentMethod?.billingAddress || 'No billing address added',
       },
     ];
 
@@ -74,18 +114,26 @@ const Subscription: React.FC<SubscriptionProps> = ({ accountId }) => {
       {
         name: 'Free',
         price: '$0',
-        features: ['Basic expense tracking', 'Limited reports', '1 user'],
+        features: [
+          'Basic expense tracking',
+          'Limited reports',
+          '1 user',
+          `${userDetails.storageLimit}GB storage`,
+          `${userDetails.apiUsageLimit} API calls/month`,
+        ],
       },
       {
         name: 'Premium',
         price: '$9.99',
-        features: ['Advanced expense tracking', 'Unlimited reports', 'Multiple users', 'Priority support'],
+        features: [
+          'Advanced expense tracking',
+          'Unlimited reports',
+          'Multiple users',
+          'Priority support',
+          '50GB storage',
+          'Unlimited API calls',
+        ],
         featured: true,
-      },
-      {
-        name: 'Enterprise',
-        price: '$29.99',
-        features: ['Custom integrations', 'Dedicated support', 'Unlimited users', 'Advanced analytics'],
       },
     ];
 
@@ -100,7 +148,12 @@ const Subscription: React.FC<SubscriptionProps> = ({ accountId }) => {
                 <li key={feature}>{feature}</li>
               ))}
             </ul>
-            <button className="select-plan">Select Plan</button>
+            <button 
+              className="select-plan"
+              disabled={plan.name.toLowerCase() === userDetails.accountTier.toLowerCase()}
+            >
+              {plan.name.toLowerCase() === userDetails.accountTier.toLowerCase() ? 'Current Plan' : 'Select Plan'}
+            </button>
           </div>
         ))}
       </div>
@@ -108,29 +161,44 @@ const Subscription: React.FC<SubscriptionProps> = ({ accountId }) => {
   };
 
   const renderPaymentMethods = () => {
-    const tableData = [
-      {
-        label: 'Primary Payment Method',
-        value: 'Visa ending in 4242',
-        status: 'Expires 12/24',
-        actions: (
-          <div className="method-actions">
-            <button className="remove">Remove</button>
-          </div>
-        ),
-      },
-      {
-        label: 'Secondary Payment Method',
-        value: 'Mastercard ending in 8888',
-        status: 'Expires 09/25',
-        actions: (
-          <div className="method-actions">
-            <button className="set-default">Set as Default</button>
-            <button className="remove">Remove</button>
-          </div>
-        ),
-      },
-    ];
+    if (paymentMethods.length === 0) {
+      return (
+        <div className="payment-methods">
+          <p>No payment methods added yet.</p>
+          <button className="add-method">+ Add Payment Method</button>
+        </div>
+      );
+    }
+
+    const tableData = paymentMethods.map(method => ({
+      label: 'Payment Method',
+      value: (
+        <div className="method-info">
+          <span className="card-brand">{method.cardBrand}</span>
+          <span className="card-last4">**** {method.cardLast4}</span>
+          <span className="expiration">Expires {method.cardExpMonth}/{method.cardExpYear}</span>
+        </div>
+      ),
+      status: method.isDefault ? 'Default' : null,
+      actions: (
+        <div className="method-actions">
+          {!method.isDefault && (
+            <button 
+              className="set-default"
+              onClick={() => handleSetDefaultPaymentMethod(method.stripePaymentMethodId)}
+            >
+              Set as Default
+            </button>
+          )}
+          <button 
+            className="remove"
+            onClick={() => handleDeletePaymentMethod(method.stripePaymentMethodId)}
+          >
+            Remove
+          </button>
+        </div>
+      ),
+    }));
 
     return (
       <div className="payment-methods">
