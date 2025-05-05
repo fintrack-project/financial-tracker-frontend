@@ -1,26 +1,37 @@
-.profile-settings-navigation-bar {
+.profile-settings-nav {
   display: flex;
-  justify-content: space-around; /* Align items horizontally */
-  margin-bottom: 16px;
-  border-bottom: 1px solid #ddd;
+  gap: 16px;
+  margin-bottom: 24px;
+  border-bottom: 1px solid #e0e0e0;
   padding-bottom: 8px;
 }
 
-.profile-settings-navigation-item {
-  background: none;
-  border: none;
-  font-size: 16px;
-  font-weight: bold;
-  cursor: pointer;
+.nav-button {
   padding: 8px 16px;
-  color: #555;
+  border: none;
+  background: none;
+  cursor: pointer;
+  font-size: 16px;
+  color: #666;
+  position: relative;
+  transition: color 0.3s ease;
 }
 
-.profile-settings-navigation-item.active {
+.nav-button:hover {
   color: #007bff;
-  border-bottom: 2px solid #007bff; /* Highlight active section */
 }
 
-.profile-settings-navigation-item:hover {
+.nav-button.active {
   color: #007bff;
+  font-weight: 500;
+}
+
+.nav-button.active::after {
+  content: '';
+  position: absolute;
+  bottom: -9px;
+  left: 0;
+  width: 100%;
+  height: 2px;
+  background-color: #007bff;
 }

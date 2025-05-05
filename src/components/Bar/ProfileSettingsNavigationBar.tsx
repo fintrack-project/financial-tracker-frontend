@@ -10,16 +10,14 @@ const ProfileSettingsNavigationBar: React.FC<ProfileSettingsNavigationBarProps> 
   activeSection,
   onSectionChange,
 }) => {
-  const sections = ['Profile Detail', 'Security', 'Payment', 'Notification'];
+  const sections = ['Profile Detail', 'Security', 'Subscription', 'Notification'];
 
   return (
-    <div className="profile-settings-navigation-bar">
+    <div className="profile-settings-nav">
       {sections.map((section) => (
         <button
           key={section}
-          className={`profile-settings-navigation-item ${
-            activeSection === section ? 'active' : ''
-          }`}
+          className={`nav-button ${activeSection === section ? 'active' : ''}`}
           onClick={() => onSectionChange(section)}
         >
           {section}
