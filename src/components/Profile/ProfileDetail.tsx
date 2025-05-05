@@ -2,6 +2,7 @@ import React, { useEffect, useState, useMemo } from 'react';
 import useUserDetails from '../../hooks/useUserDetails';
 import { updateUserPhone, updateUserAddress, updateUserEmail } from '../../services/userService';
 import useVerification from '../../hooks/useVerification';
+import { useAuthService } from '../../hooks/useAuthService';
 import { UserDetails } from '../../types/UserDetails';
 import ProfileTable from '../../components/Table/ProfileTable/ProfileTable';
 import IconButton from '../../components/Button/IconButton';
@@ -9,6 +10,8 @@ import { isValidEmail } from '../../utils/validationUtils';
 import { getCountries, getCountryCallingCode, parsePhoneNumberFromString, CountryCode } from 'libphonenumber-js';
 import EmailVerificationPopup from '../../popup/EmailVerificationPopup';
 import PhoneVerificationPopup from '../../popup/PhoneVerificationPopup';
+import PasswordInputPopup from '../../popup/PasswordInputPopup';
+import OTPVerificationPopup from '../../popup/OTPVerificationPopup';
 import AccountTier from '../../components/Profile/AccountTier';
 import { formatDate } from '../../utils/FormatDate';
 import './ProfileDetail.css'; // Add styles for the profile detail section
@@ -18,7 +21,13 @@ interface ProfileDetailProps {
 }
 
 const ProfileDetail: React.FC<ProfileDetailProps> = ({ accountId }) => {
-  const { userDetails, setUserDetails, loading, error, refreshUserDetails } = useUserDetails(accountId); // Use the custom hook
+  const { 
+    userDetails, 
+    setUserDetails, 
+    loading, 
+    error, 
+    refreshUserDetails 
+  } = useUserDetails(accountId); // Use the custom hook
   const {
     showPopup,
     sendVerification,
@@ -26,6 +35,15 @@ const ProfileDetail: React.FC<ProfileDetailProps> = ({ accountId }) => {
     verifyCode,
     closePopup,
   } = useVerification(accountId, userDetails, setUserDetails);
+  const {
+    authenticate,
+    verifyOtp,
+    closeOtpPopup,
+    showPasswordPopup,
+    passwordError,
+    showOtpPopup,
+    otpError,
+  } = useAuthService();
   const [countries, setCountries] = useState<{ code: string; phoneCode: string }[]>([]);
   const [editState, setEditState] = useState<{ [key: string]: string | null }>({});
   const [editModes, setEditModes] = useState<{ [key: string]: boolean }>({});
@@ -54,17 +72,45 @@ const ProfileDetail: React.FC<ProfileDetailProps> = ({ accountId }) => {
     }
   }, [isFetch, refreshUserDetails]);
 
+  // const handleEditClick = (label: string, currentValue: string | null) => {
+  //   if (label === 'Phone') {
+  //     setEditState((prevState) => ({
+  //       ...prevState,
+  //       [label]: userDetails?.phone || '', // Initialize the phone number
+  //       CountryCode: userDetails?.countryCode || 'US', // Initialize the country code
+  //     }));
+  //   } else {
+  //     setEditState((prevState) => ({ ...prevState, [label]: currentValue })); // Initialize other fields
+  //   }
+  //   setEditModes((prevModes) => ({ ...prevModes, [label]: true })); // Enable edit mode for the field
+  // };
   const handleEditClick = (label: string, currentValue: string | null) => {
-    if (label === 'Phone') {
-      setEditState((prevState) => ({
-        ...prevState,
-        [label]: userDetails?.phone || '', // Initialize the phone number
-        CountryCode: userDetails?.countryCode || 'US', // Initialize the country code
-      }));
+    if (label === 'Email' || label === 'Phone' || label === 'Address') {
+      authenticate({
+        accountId,
+        twoFactorEnabled: userDetails?.twoFactorEnabled || false,
+        onSuccess: () => {
+          // Enable edit mode and initialize the field value after successful verification
+          setEditModes((prevModes) => ({ ...prevModes, [label]: true }));
+          if (label === 'Phone') {
+            setEditState((prevState) => ({
+              ...prevState,
+              [label]: userDetails?.phone || '',
+              CountryCode: userDetails?.countryCode || 'US',
+            }));
+          } else {
+            setEditState((prevState) => ({ ...prevState, [label]: currentValue }));
+          }
+        },
+        onError: (error) => {
+          alert(error); // Display error message if verification fails
+        },
+      });
     } else {
-      setEditState((prevState) => ({ ...prevState, [label]: currentValue })); // Initialize other fields
+      // For other fields, directly enable edit mode
+      setEditState((prevState) => ({ ...prevState, [label]: currentValue }));
+      setEditModes((prevModes) => ({ ...prevModes, [label]: true }));
     }
-    setEditModes((prevModes) => ({ ...prevModes, [label]: true })); // Enable edit mode for the field
   };
 
   const handleConfirmClick = async (label: string) => {
@@ -365,6 +411,36 @@ const ProfileDetail: React.FC<ProfileDetailProps> = ({ accountId }) => {
         <EmailVerificationPopup
           onClose={handlePopupClose}
           onResend={handlePopupResend}
+        />
+      )}
+      {showPasswordPopup && (
+        <PasswordInputPopup
+          onConfirm={(password) => {
+            const { handlePasswordConfirm } = authenticate({
+              accountId,
+              twoFactorEnabled: userDetails?.twoFactorEnabled || false,
+              onSuccess: () => {},
+              onError: () => {},
+            });
+            handlePasswordConfirm(password);
+          }}
+          onClose={() => {
+            const { handlePasswordClose } = authenticate({
+              accountId,
+              twoFactorEnabled: userDetails?.twoFactorEnabled || false,
+              onSuccess: () => {},
+              onError: () => {},
+            });
+            handlePasswordClose();
+          }}
+          errorMessage={passwordError}
+        />
+      )}
+      {showOtpPopup && (
+        <OTPVerificationPopup
+          onVerify={(otp) => verifyOtp(accountId, otp)}
+          onClose={closeOtpPopup}
+          errorMessage={otpError}
         />
       )}
       <div id="recaptcha-container" style={{ display: 'none' }}></div>

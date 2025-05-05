@@ -103,6 +103,7 @@ export const useAuthService = () => {
     verifyOtp,
     closeOtpPopup,
     showPasswordPopup,
+    setShowPasswordPopup,
     passwordError,
     setPasswordError,
     showOtpPopup,

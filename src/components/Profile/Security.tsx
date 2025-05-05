@@ -34,7 +34,6 @@ const Security: React.FC<SecurityProps> = ({ accountId }) => {
     setPasswordError,
     showOtpPopup,
     otpError,
-    setOtpError,
   } = useAuthService();
 
   useEffect(() => {
