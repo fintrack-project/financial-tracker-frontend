@@ -13,7 +13,6 @@ import PasswordInputPopup from '../../popup/PasswordInputPopup';
 import { useAuthService } from '../../hooks/useAuthService';
 import { formatDate } from '../../utils/FormatDate';
 import './Security.css'; // Add styles for the security section
-import { set } from 'lodash';
 
 interface SecurityProps {
   accountId: string; // Account ID to fetch user details

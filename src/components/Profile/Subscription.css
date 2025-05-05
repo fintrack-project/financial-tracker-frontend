@@ -1,25 +1,27 @@
 .subscription-container {
-  padding: 24px;
-  max-width: 1200px;
-  margin: 0 auto;
+  padding: 16px;
+  background-color: #f9f9f9;
+  border: 1px solid #ddd;
+  border-radius: 8px;
 }
 
 .subscription-header {
-  margin-bottom: 32px;
+  margin-bottom: 16px;
 }
 
 .subscription-header h2 {
-  font-size: 24px;
-  font-weight: 600;
-  color: #1a1a1a;
+  font-size: 20px;
+  font-weight: bold;
+  margin-top: 4px;
   margin-bottom: 16px;
 }
 
 .subscription-tabs {
   display: flex;
-  gap: 24px;
-  border-bottom: 1px solid #e0e0e0;
+  gap: 16px;
+  border-bottom: 1px solid #ddd;
   padding-bottom: 8px;
+  margin-bottom: 24px;
 }
 
 .subscription-tabs button {
@@ -59,14 +61,16 @@
   grid-template-columns: 1fr 1fr;
 }
 
-.current-plan-card {
+.current-plan-card,
+.usage-stats {
   background: white;
   border-radius: 8px;
   padding: 24px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
-.current-plan-card h3 {
+.current-plan-card h3,
+.usage-stats h3 {
   font-size: 18px;
   font-weight: 600;
   margin-bottom: 16px;
@@ -101,20 +105,6 @@
   gap: 8px;
   color: #666;
   font-size: 14px;
-}
-
-.usage-stats {
-  background: white;
-  border-radius: 8px;
-  padding: 24px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-}
-
-.usage-stats h3 {
-  font-size: 18px;
-  font-weight: 600;
-  margin-bottom: 16px;
-  color: #1a1a1a;
 }
 
 .stats-grid {
@@ -251,7 +241,7 @@
   justify-content: space-between;
   align-items: center;
   padding: 16px;
-  border: 1px solid #e0e0e0;
+  border: 1px solid #ddd;
   border-radius: 8px;
   margin-bottom: 16px;
 }
@@ -311,7 +301,7 @@
 .add-method {
   width: 100%;
   padding: 12px;
-  border: 2px dashed #e0e0e0;
+  border: 2px dashed #ddd;
   border-radius: 4px;
   background: none;
   color: #666;

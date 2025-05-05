@@ -13,7 +13,7 @@ const Subscription: React.FC<SubscriptionProps> = ({ accountId }) => {
   const [userDetails, setUserDetails] = useState<UserDetails | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
-  const [activeTab, setActiveTab] = useState<'overview' | 'plans' | 'payment-methods'>('overview');
+  const [activeTab, setActiveTab] = useState<'overview' | 'plans' | 'payment'>('overview');
 
   const loadUserDetails = async () => {
     try {
@@ -45,132 +45,130 @@ const Subscription: React.FC<SubscriptionProps> = ({ accountId }) => {
     return <p>No subscription details available.</p>;
   }
 
-  const renderOverview = () => (
-    <div className="subscription-overview">
-      <div className="current-plan-card">
-        <h3>Current Plan</h3>
-        <div className="plan-details">
-          <div className="plan-name">{userDetails.accountTier || 'No Plan'}</div>
-          <div className="plan-status">{userDetails.isActiveSubscription ? 'Active' : 'Inactive'}</div>
-          <div className="plan-dates">
-            <div>Next Billing: {formatDate(userDetails.nextBillingDate, true) || 'N/A'}</div>
-            <div>Last Payment: {formatDate(userDetails.lastPaymentDate, true) || 'N/A'}</div>
-          </div>
-        </div>
-      </div>
+  const renderOverview = () => {
+    const tableData = [
+      {
+        label: 'Current Plan',
+        value: 'Premium',
+        status: <span className="plan-status">Active</span>,
+      },
+      {
+        label: 'Billing Cycle',
+        value: 'Monthly',
+      },
+      {
+        label: 'Next Billing Date',
+        value: 'March 1, 2024',
+      },
+      {
+        label: 'Payment Method',
+        value: 'Visa ending in 4242',
+      },
+    ];
 
-      <div className="usage-stats">
-        <h3>Usage Statistics</h3>
-        <div className="stats-grid">
-          <div className="stat-item">
-            <span>Storage</span>
-            <span>{userDetails.storageLimit}GB</span>
-          </div>
-          <div className="stat-item">
-            <span>API Usage</span>
-            <span>{userDetails.apiUsageLimit} calls</span>
-          </div>
-        </div>
-      </div>
-    </div>
-  );
+    return <ProfileTable data={tableData} />;
+  };
 
-  const renderPlans = () => (
-    <div className="subscription-plans">
+  const renderPlans = () => {
+    const plans = [
+      {
+        name: 'Free',
+        price: '$0',
+        features: ['Basic expense tracking', 'Limited reports', '1 user'],
+      },
+      {
+        name: 'Premium',
+        price: '$9.99',
+        features: ['Advanced expense tracking', 'Unlimited reports', 'Multiple users', 'Priority support'],
+        featured: true,
+      },
+      {
+        name: 'Enterprise',
+        price: '$29.99',
+        features: ['Custom integrations', 'Dedicated support', 'Unlimited users', 'Advanced analytics'],
+      },
+    ];
+
+    return (
       <div className="plans-grid">
-        <div className="plan-card">
-          <h3>Basic</h3>
-          <div className="price">$9.99/month</div>
-          <ul className="features">
-            <li>5GB Storage</li>
-            <li>1,000 API calls/month</li>
-            <li>Basic Analytics</li>
-          </ul>
-          <button className="select-plan">Select Plan</button>
-        </div>
-        <div className="plan-card featured">
-          <h3>Premium</h3>
-          <div className="price">$19.99/month</div>
-          <ul className="features">
-            <li>20GB Storage</li>
-            <li>5,000 API calls/month</li>
-            <li>Advanced Analytics</li>
-            <li>Priority Support</li>
-          </ul>
-          <button className="select-plan">Select Plan</button>
-        </div>
-        <div className="plan-card">
-          <h3>Enterprise</h3>
-          <div className="price">$49.99/month</div>
-          <ul className="features">
-            <li>100GB Storage</li>
-            <li>Unlimited API calls</li>
-            <li>Custom Analytics</li>
-            <li>24/7 Support</li>
-            <li>Custom Integration</li>
-          </ul>
-          <button className="select-plan">Select Plan</button>
-        </div>
+        {plans.map((plan) => (
+          <div key={plan.name} className={`plan-card ${plan.featured ? 'featured' : ''}`}>
+            <h3>{plan.name}</h3>
+            <div className="price">{plan.price}/month</div>
+            <ul className="features">
+              {plan.features.map((feature) => (
+                <li key={feature}>{feature}</li>
+              ))}
+            </ul>
+            <button className="select-plan">Select Plan</button>
+          </div>
+        ))}
       </div>
-    </div>
-  );
+    );
+  };
 
-  const renderPaymentMethods = () => (
-    <div className="payment-methods">
-      <div className="saved-methods">
-        <h3>Saved Payment Methods</h3>
-        <div className="methods-list">
-          {userDetails.paymentMethod ? (
-            <div className="method-card">
-              <div className="method-info">
-                <span className="card-brand">{userDetails.paymentMethod}</span>
-                <span className="card-last4">**** **** **** 4242</span>
-              </div>
-              <div className="method-actions">
-                <button className="set-default">Set as Default</button>
-                <button className="remove">Remove</button>
-              </div>
-            </div>
-          ) : (
-            <p>No payment methods saved</p>
-          )}
-        </div>
-        <button className="add-method">Add New Payment Method</button>
+  const renderPaymentMethods = () => {
+    const tableData = [
+      {
+        label: 'Primary Payment Method',
+        value: 'Visa ending in 4242',
+        status: 'Expires 12/24',
+        actions: (
+          <div className="method-actions">
+            <button className="remove">Remove</button>
+          </div>
+        ),
+      },
+      {
+        label: 'Secondary Payment Method',
+        value: 'Mastercard ending in 8888',
+        status: 'Expires 09/25',
+        actions: (
+          <div className="method-actions">
+            <button className="set-default">Set as Default</button>
+            <button className="remove">Remove</button>
+          </div>
+        ),
+      },
+    ];
+
+    return (
+      <div className="payment-methods">
+        <ProfileTable data={tableData} />
+        <button className="add-method">+ Add Payment Method</button>
       </div>
-    </div>
-  );
+    );
+  };
 
   return (
     <div className="subscription-container">
       <div className="subscription-header">
         <h2>Subscription Management</h2>
         <div className="subscription-tabs">
-          <button 
-            className={activeTab === 'overview' ? 'active' : ''} 
+          <button
+            className={activeTab === 'overview' ? 'active' : ''}
             onClick={() => setActiveTab('overview')}
           >
             Overview
           </button>
-          <button 
-            className={activeTab === 'plans' ? 'active' : ''} 
+          <button
+            className={activeTab === 'plans' ? 'active' : ''}
             onClick={() => setActiveTab('plans')}
           >
             Plans & Pricing
           </button>
-          <button 
-            className={activeTab === 'payment-methods' ? 'active' : ''} 
-            onClick={() => setActiveTab('payment-methods')}
+          <button
+            className={activeTab === 'payment' ? 'active' : ''}
+            onClick={() => setActiveTab('payment')}
           >
             Payment Methods
           </button>
         </div>
       </div>
 
-      <div className="subscription-content">
-        {activeTab === 'overview' && renderOverview()}
-        {activeTab === 'plans' && renderPlans()}
-        {activeTab === 'payment-methods' && renderPaymentMethods()}
-      </div>
+      {activeTab === 'overview' && renderOverview()}
+      {activeTab === 'plans' && renderPlans()}
+      {activeTab === 'payment' && renderPaymentMethods()}
     </div>
   );
 };
