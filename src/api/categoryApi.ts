@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 // Fetch category names
-export const fetchCategoryNamesApi = async (accountId: string): Promise<string[]> => {
+export const fetchCategoryNamesApi = async (accountId: string) => {
   return axios.get(`/api/categories/fetch/names`, {
     params: { accountId },
   });

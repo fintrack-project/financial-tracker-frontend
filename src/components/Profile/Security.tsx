@@ -2,31 +2,44 @@ import React, { useEffect, useState } from 'react';
 import { fetchUserDetails, updateTwoFactorStatus } from '../../services/userService';
 import { UserDetails } from '../../types/UserDetails';
 import { updatePassword } from '../../api/userApi';
-import { setup2FA, verify2FA } from '../../api/twoFactorApi';
+import { setup2FA } from '../../api/twoFactorApi';
 import { isStrongPassword } from '../../utils/validationUtils';
 import QRCodePopup from '../../popup/QRCodePopup';
 import ProfileTable from '../../components/Table/ProfileTable/ProfileTable';
 import Toggle from '../../components/Toggle/Toggle';
 import IconButton from '../../components/Button/IconButton';
 import OTPVerificationPopup from '../../popup/OTPVerificationPopup';
+import PasswordInputPopup from '../../popup/PasswordInputPopup';
+import { useAuthService } from '../../hooks/useAuthService';
 import { formatDate } from '../../utils/FormatDate';
 import './Security.css'; // Add styles for the security section
+import { set } from 'lodash';
 
 interface SecurityProps {
   accountId: string; // Account ID to fetch user details
 }
 
 const Security: React.FC<SecurityProps> = ({ accountId }) => {
+  const {
+    authenticate,
+    verifyOtp,
+    closeOtpPopup,
+    showPasswordPopup,
+    passwordError,
+    setPasswordError,
+    showOtpPopup,
+    otpError,
+  } = useAuthService();
+  const [passwordHandlers, setPasswordHandlers] = useState<{
+    handlePasswordConfirm: (password: string) => void;
+    handlePasswordClose: () => void;
+  } | null>(null);
   const [userDetails, setUserDetails] = useState<UserDetails | null>(null);
   const [qrCode, setQrCode] = useState<string | null>(null);
-  const [showOtpPopup, setShowOtpPopup] = useState(false);
-  const [otpError, setOtpError] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [editState, setEditState] = useState<{ [key: string]: string | null }>({});
   const [editModes, setEditModes] = useState<{ [key: string]: boolean }>({});
   const [loading, setLoading] = useState<boolean>(true);
-  const [pendingPassword, setPendingPassword] = useState<string | null>(null); // Store the password being updated
-
 
   useEffect(() => {
     const loadUserDetails = async () => {
@@ -48,23 +61,34 @@ const Security: React.FC<SecurityProps> = ({ accountId }) => {
 
   const handleEditClick = (label: string, currentValue: string | null) => {
     if (label === 'Password') {
-      setEditState((prevState) => ({
-        ...prevState,
-        [label]: '', // Initialize the password field as empty
-      }));
+      const handlers = authenticate({
+        accountId,
+        twoFactorEnabled: userDetails?.twoFactorEnabled || false,
+        onSuccess: () => {
+          console.log('onSuccess callback called from handleEditClick');
+          console.log('Authentication successful, enabling edit mode for password');
+          setEditModes((prevModes) => ({ ...prevModes, [label]: true })); // Enable edit mode
+          setEditState((prevState) => ({ ...prevState, [label]: '' })); // Initialize password field
+        },
+        onError: (error) => {
+          alert(error);
+        },
+      });
+
+      setPasswordHandlers(handlers); // Store the handlers for later use
     } else {
       setEditState((prevState) => ({ ...prevState, [label]: currentValue })); // Initialize other fields
+      setEditModes((prevModes) => ({ ...prevModes, [label]: true })); // Enable edit mode for other fields
     }
-    setEditModes((prevModes) => ({ ...prevModes, [label]: true })); // Enable edit mode for the field
   };
 
   const handleConfirmClick = async (label: string) => {
     if (!editModes[label]) {
       return; // Do nothing if the field is not in edit mode
     }
-  
+
     const newValue = editState[label];
-  
+
     try {
       if (label === 'Password') {
         console.log(`New value for ${label}:`, newValue);
@@ -73,27 +97,20 @@ const Security: React.FC<SecurityProps> = ({ accountId }) => {
           alert('Please enter a value.');
           return;
         }
-  
+
         if (!isStrongPassword(newValue)) {
           alert('Password must be at least 8 characters long, include uppercase, lowercase, a number, and a special character.');
           return;
         }
 
-        if (userDetails?.twoFactorEnabled) {
-          // Store the pending password and show the OTP popup
-          setPendingPassword(newValue);
-          setShowOtpPopup(true);
-          return; // Wait for OTP verification before proceeding
-        }
-
         // Call the backend API to update the password
         await updatePassword(accountId, newValue);
         alert('Password updated successfully!');
+
+        // Reset the edit mode and state for the password field
+        setEditState((prevState) => ({ ...prevState, [label]: null }));
+        setEditModes((prevModes) => ({ ...prevModes, [label]: false }));
       }
-  
-      // Reset the edit mode and state for the field
-      setEditState((prevState) => ({ ...prevState, [label]: null }));
-      setEditModes((prevModes) => ({ ...prevModes, [label]: false }));
     } catch (error) {
       console.error(`Failed to update ${label}:`, error);
       alert(`Failed to update ${label}. Please try again.`);
@@ -113,38 +130,6 @@ const Security: React.FC<SecurityProps> = ({ accountId }) => {
       console.error('Failed to setup 2FA:', err);
       alert('Failed to setup 2FA. Please try again.');
     }
-  };
-
-
-  const handleOtpVerify = async (otp: string) => {
-    try {
-      const result = await verify2FA(accountId, otp);
-      if (result.success) {
-        // OTP verified successfully, proceed with password update
-        if (pendingPassword) {
-          await updatePassword(accountId, pendingPassword);
-          alert('Password updated successfully!');
-        }
-        
-        // Reset the edit mode and state for the password field
-        setEditState((prevState) => ({ ...prevState, Password: null }));
-        setEditModes((prevModes) => ({ ...prevModes, Password: false }));
-
-        setPendingPassword(null); // Clear the pending password
-        setShowOtpPopup(false); // Close the OTP popup
-      } else {
-        setOtpError('Invalid OTP. Please try again.');
-      }
-    } catch (err) {
-      console.error('Failed to verify OTP:', err);
-      setOtpError('Failed to verify OTP. Please try again.');
-    }
-  };
-
-  const handleOtpClose = () => {
-    setShowOtpPopup(false); // Close the OTP popup
-    setOtpError(null); // Reset the error message
-    setPendingPassword(null); // Clear the pending password
   };
 
   const handleToggle2FA = async () => {
@@ -234,10 +219,17 @@ const Security: React.FC<SecurityProps> = ({ accountId }) => {
           onClose={() => setQrCode(null)}
         />
       )}
+      {showPasswordPopup && passwordHandlers && (
+        <PasswordInputPopup
+          onConfirm={(password) => passwordHandlers.handlePasswordConfirm(password)}
+          onClose={() => passwordHandlers.handlePasswordClose()}
+          errorMessage={passwordError}
+        />
+      )}
       {showOtpPopup && (
         <OTPVerificationPopup
-          onClose={handleOtpClose}
-          onVerify={handleOtpVerify}
+          onVerify={(otp) => verifyOtp(accountId, otp)}
+          onClose={closeOtpPopup}
           errorMessage={otpError}
         />
       )}

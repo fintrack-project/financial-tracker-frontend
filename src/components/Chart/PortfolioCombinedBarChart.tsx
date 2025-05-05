@@ -45,6 +45,7 @@ const PortfolioCombinedBarChart: React.FC<PortfolioCombinedBarChartProps> = ({ a
 
       try {
         const categoryNames = await fetchCategories(accountId); // Fetch category names
+        console.log('Fetched categories:', categoryNames); // Debug log
         setCategories(['None', ...categoryNames]); // Add "None" as the default option
       } catch (err) {
         console.error('Error fetching category names:', err);
