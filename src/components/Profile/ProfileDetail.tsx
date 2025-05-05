@@ -44,6 +44,10 @@ const ProfileDetail: React.FC<ProfileDetailProps> = ({ accountId }) => {
     showOtpPopup,
     otpError,
   } = useAuthService();
+  const [passwordHandlers, setPasswordHandlers] = useState<{
+    handlePasswordConfirm: (password: string) => void;
+    handlePasswordClose: () => void;
+  } | null>(null);
   const [countries, setCountries] = useState<{ code: string; phoneCode: string }[]>([]);
   const [editState, setEditState] = useState<{ [key: string]: string | null }>({});
   const [editModes, setEditModes] = useState<{ [key: string]: boolean }>({});
@@ -71,27 +75,20 @@ const ProfileDetail: React.FC<ProfileDetailProps> = ({ accountId }) => {
       fetchDetails();
     }
   }, [isFetch, refreshUserDetails]);
-
-  // const handleEditClick = (label: string, currentValue: string | null) => {
-  //   if (label === 'Phone') {
-  //     setEditState((prevState) => ({
-  //       ...prevState,
-  //       [label]: userDetails?.phone || '', // Initialize the phone number
-  //       CountryCode: userDetails?.countryCode || 'US', // Initialize the country code
-  //     }));
-  //   } else {
-  //     setEditState((prevState) => ({ ...prevState, [label]: currentValue })); // Initialize other fields
-  //   }
-  //   setEditModes((prevModes) => ({ ...prevModes, [label]: true })); // Enable edit mode for the field
-  // };
+  
   const handleEditClick = (label: string, currentValue: string | null) => {
     if (label === 'Email' || label === 'Phone' || label === 'Address') {
-      authenticate({
+      const handlers = authenticate({
         accountId,
         twoFactorEnabled: userDetails?.twoFactorEnabled || false,
         onSuccess: () => {
+          console.log('onSuccess callback called from handleEditClick');
+          console.log('Authentication successful, enabling edit mode for', label);
           // Enable edit mode and initialize the field value after successful verification
-          setEditModes((prevModes) => ({ ...prevModes, [label]: true }));
+          setEditModes((prevModes) => {
+            return { ...prevModes, [label]: true };
+          });
+  
           if (label === 'Phone') {
             setEditState((prevState) => ({
               ...prevState,
@@ -103,9 +100,12 @@ const ProfileDetail: React.FC<ProfileDetailProps> = ({ accountId }) => {
           }
         },
         onError: (error) => {
-          alert(error); // Display error message if verification fails
+          console.error(`Authentication failed for ${label}:`, error);
+          alert(error);
         },
       });
+
+      setPasswordHandlers(handlers); // Store the handlers for later use
     } else {
       // For other fields, directly enable edit mode
       setEditState((prevState) => ({ ...prevState, [label]: currentValue }));
@@ -413,26 +413,10 @@ const ProfileDetail: React.FC<ProfileDetailProps> = ({ accountId }) => {
           onResend={handlePopupResend}
         />
       )}
-      {showPasswordPopup && (
+      {showPasswordPopup && passwordHandlers && (
         <PasswordInputPopup
-          onConfirm={(password) => {
-            const { handlePasswordConfirm } = authenticate({
-              accountId,
-              twoFactorEnabled: userDetails?.twoFactorEnabled || false,
-              onSuccess: () => {},
-              onError: () => {},
-            });
-            handlePasswordConfirm(password);
-          }}
-          onClose={() => {
-            const { handlePasswordClose } = authenticate({
-              accountId,
-              twoFactorEnabled: userDetails?.twoFactorEnabled || false,
-              onSuccess: () => {},
-              onError: () => {},
-            });
-            handlePasswordClose();
-          }}
+          onConfirm={(password) => passwordHandlers.handlePasswordConfirm(password)}
+          onClose={() => passwordHandlers.handlePasswordClose()}
           errorMessage={passwordError}
         />
       )}

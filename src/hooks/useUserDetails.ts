@@ -16,8 +16,6 @@ const useUserDetails = (accountId: string) => {
       setLoading(true);
       const data = await fetchUserDetails(accountId);
 
-      console.log('Fetched user details:', data);
-
       setUserDetails(data);
       setError(null);
     } catch (err) {

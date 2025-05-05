@@ -1,6 +1,5 @@
 import { verifyPassword } from 'api/passwordApi'; // Adjust the import path as necessary
 import { verify2FA } from 'api/twoFactorApi';
-import { set } from 'lodash';
 import { useState } from 'react';
 
 interface AuthServiceOptions {
@@ -50,7 +49,9 @@ export const useAuthService = () => {
 
         // Step 3: If no 2FA, directly call success callback
         setShowPasswordPopup(false); // Close password popup
+        console.log('Calling onSuccess callback...');
         onSuccess();
+        console.log('Authentication process completed successfully.');
       } catch (error: any) {
         console.error('Password authentication failed:', error);
         setPasswordError(error.message || 'Authentication failed. Please try again.');
@@ -81,8 +82,11 @@ export const useAuthService = () => {
 
       // Execute the pending action after OTP verification
       if (pendingAction) {
+        console.log('Executing pending action after OTP verification...');
         await pendingAction();
         setPendingAction(null); // Clear the pending action
+      } else {
+        console.error('No pending action found after OTP verification.');
       }
 
       setShowOtpPopup(false); // Close OTP popup only after successful verification

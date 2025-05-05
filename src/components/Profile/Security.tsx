@@ -13,18 +13,13 @@ import PasswordInputPopup from '../../popup/PasswordInputPopup';
 import { useAuthService } from '../../hooks/useAuthService';
 import { formatDate } from '../../utils/FormatDate';
 import './Security.css'; // Add styles for the security section
+import { set } from 'lodash';
 
 interface SecurityProps {
   accountId: string; // Account ID to fetch user details
 }
 
 const Security: React.FC<SecurityProps> = ({ accountId }) => {
-  const [userDetails, setUserDetails] = useState<UserDetails | null>(null);
-  const [qrCode, setQrCode] = useState<string | null>(null);
-  const [error, setError] = useState<string | null>(null);
-  const [editState, setEditState] = useState<{ [key: string]: string | null }>({});
-  const [editModes, setEditModes] = useState<{ [key: string]: boolean }>({});
-  const [loading, setLoading] = useState<boolean>(true);
   const {
     authenticate,
     verifyOtp,
@@ -35,6 +30,16 @@ const Security: React.FC<SecurityProps> = ({ accountId }) => {
     showOtpPopup,
     otpError,
   } = useAuthService();
+  const [passwordHandlers, setPasswordHandlers] = useState<{
+    handlePasswordConfirm: (password: string) => void;
+    handlePasswordClose: () => void;
+  } | null>(null);
+  const [userDetails, setUserDetails] = useState<UserDetails | null>(null);
+  const [qrCode, setQrCode] = useState<string | null>(null);
+  const [error, setError] = useState<string | null>(null);
+  const [editState, setEditState] = useState<{ [key: string]: string | null }>({});
+  const [editModes, setEditModes] = useState<{ [key: string]: boolean }>({});
+  const [loading, setLoading] = useState<boolean>(true);
 
   useEffect(() => {
     const loadUserDetails = async () => {
@@ -56,10 +61,12 @@ const Security: React.FC<SecurityProps> = ({ accountId }) => {
 
   const handleEditClick = (label: string, currentValue: string | null) => {
     if (label === 'Password') {
-      authenticate({
+      const handlers = authenticate({
         accountId,
         twoFactorEnabled: userDetails?.twoFactorEnabled || false,
         onSuccess: () => {
+          console.log('onSuccess callback called from handleEditClick');
+          console.log('Authentication successful, enabling edit mode for password');
           setEditModes((prevModes) => ({ ...prevModes, [label]: true })); // Enable edit mode
           setEditState((prevState) => ({ ...prevState, [label]: '' })); // Initialize password field
         },
@@ -67,8 +74,11 @@ const Security: React.FC<SecurityProps> = ({ accountId }) => {
           alert(error);
         },
       });
+
+      setPasswordHandlers(handlers); // Store the handlers for later use
     } else {
       setEditState((prevState) => ({ ...prevState, [label]: currentValue })); // Initialize other fields
+      setEditModes((prevModes) => ({ ...prevModes, [label]: true })); // Enable edit mode for other fields
     }
   };
 
@@ -209,31 +219,10 @@ const Security: React.FC<SecurityProps> = ({ accountId }) => {
           onClose={() => setQrCode(null)}
         />
       )}
-      {showPasswordPopup && (
+      {showPasswordPopup && passwordHandlers && (
         <PasswordInputPopup
-          onConfirm={(password) => {
-            const { handlePasswordConfirm } = authenticate({
-              accountId,
-              twoFactorEnabled: userDetails?.twoFactorEnabled || false,
-              onSuccess: () => {
-                setEditModes((prevModes) => ({ ...prevModes, Password: true })); // Enable edit mode
-                setEditState((prevState) => ({ ...prevState, Password: '' })); // Initialize password field
-              },
-              onError: (error) => {
-                setPasswordError(error); // Display error message
-              },
-            });
-            handlePasswordConfirm(password);
-          }}
-          onClose={() => {
-            const { handlePasswordClose } = authenticate({
-              accountId,
-              twoFactorEnabled: userDetails?.twoFactorEnabled || false,
-              onSuccess: () => {},
-              onError: () => {},
-            });
-            handlePasswordClose();
-          }}
+          onConfirm={(password) => passwordHandlers.handlePasswordConfirm(password)}
+          onClose={() => passwordHandlers.handlePasswordClose()}
           errorMessage={passwordError}
         />
       )}
