@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import VerificationPopup from './VerificationPopup';
 import SixDigitInput from '../components/InputField/SixDigitInput'; // Import the SixDigitInput component
 
@@ -14,7 +14,12 @@ const OTPVerificationPopup: React.FC<OTPVerificationPopupProps> = ({
   errorMessage 
 }) => {
   const [otp, setOtp] = useState('');
-  const [error, setError] = useState<string | null>(errorMessage || null); // Track error message
+  const [error, setError] = useState<string | null>(null); // Track error message
+
+  // Synchronize the local error state with the errorMessage prop
+  useEffect(() => {
+    setError(errorMessage || null);
+  }, [errorMessage]);
 
   const handleVerify = () => {
     if (!otp.trim()) {
@@ -25,7 +30,7 @@ const OTPVerificationPopup: React.FC<OTPVerificationPopupProps> = ({
     if (otp.length === 6) {
       onVerify(otp);
     } else {
-      alert('Please enter a valid 6-digit OTP.');
+      setError('Please enter a valid 6-digit OTP.');
     }
   };
 

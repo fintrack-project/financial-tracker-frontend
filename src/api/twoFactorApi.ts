@@ -7,5 +7,6 @@ export const setup2FA = async (accountId: string) => {
 
 export const verify2FA = async (accountId: string, otp: string) => {
   const response = await axios.post('/api/user/2fa/verify', { accountId, otp });
+  console.log('verify2FA response:', response);
   return response.data;
 };

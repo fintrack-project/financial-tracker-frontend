@@ -1,5 +1,6 @@
 import { verifyPassword } from 'api/passwordApi'; // Adjust the import path as necessary
 import { verify2FA } from 'api/twoFactorApi';
+import { set } from 'lodash';
 import { useState } from 'react';
 
 interface AuthServiceOptions {
@@ -74,7 +75,7 @@ export const useAuthService = () => {
   const verifyOtp = async (accountId: string, otp: string): Promise<void> => {
     try {
       const otpValid = await verify2FA(accountId, otp);
-      if (!otpValid) {
+      if (!otpValid.success) {
         throw new Error('Invalid OTP. Please try again.');
       }
 
@@ -83,6 +84,8 @@ export const useAuthService = () => {
         await pendingAction();
         setPendingAction(null); // Clear the pending action
       }
+
+      setShowOtpPopup(false); // Close OTP popup only after successful verification
     } catch (error: any) {
       console.error('OTP verification failed:', error);
       setOtpError(error.message || 'Failed to verify OTP. Please try again.');
@@ -104,5 +107,6 @@ export const useAuthService = () => {
     setPasswordError,
     showOtpPopup,
     otpError,
+    setOtpError
   };
 };
