@@ -171,17 +171,21 @@ const PaymentForm: React.FC<PaymentFormProps> = ({ onSuccess, onError }) => {
               type: paymentError.type as 'payment_error' | 'internal_error',
               code: paymentError.code || undefined
             });
+            // Propagate the error to the parent component
+            onError(paymentError);
           } else {
             setError({
               message: verifyError.message,
               type: 'internal_error'
             });
+            onError(verifyError);
           }
         } else {
           setError({
             message: 'Failed to verify payment method. Please try again.',
             type: 'internal_error'
           });
+          onError(new Error('Failed to verify payment method'));
         }
         setProcessing(false);
         return;
@@ -197,17 +201,20 @@ const PaymentForm: React.FC<PaymentFormProps> = ({ onSuccess, onError }) => {
             type: paymentError.type as 'payment_error' | 'internal_error',
             code: paymentError.code || undefined
           });
+          onError(paymentError);
         } else {
           setError({
             message: error.message,
             type: 'internal_error'
           });
+          onError(error);
         }
       } else {
         setError({
           message: 'An unexpected error occurred. Please try again.',
           type: 'internal_error'
         });
+        onError(new Error('An unexpected error occurred'));
       }
       setProcessing(false);
       return;

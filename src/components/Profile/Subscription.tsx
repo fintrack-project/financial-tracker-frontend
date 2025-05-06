@@ -5,6 +5,7 @@ import { fetchPaymentMethods, getDefaultPaymentMethod, deletePaymentMethod, setD
 import { UserDetails } from '../../types/UserDetails';
 import { UserSubscription } from '../../types/UserSubscription';
 import { PaymentMethod } from '../../types/PaymentMethods';
+import { PaymentError } from '../../api/paymentMethodApi';
 import ProfileTable from '../../components/Table/ProfileTable/ProfileTable';
 import { formatDate } from '../../utils/FormatDate';
 import AccountTier from './AccountTier';
@@ -165,15 +166,18 @@ const Subscription: React.FC<SubscriptionProps> = ({ accountId }) => {
 
       // Handle specific error cases
       if (error instanceof Error) {
-        if (error.message.includes('card was declined')) {
-          setError('The card was declined. Please check your card details and try again.');
+        if (error.name === 'PaymentError') {
+          const paymentError = error as PaymentError;
+          throw paymentError; // Re-throw PaymentError to be handled by PaymentMethods
+        } else if (error.message.includes('card was declined')) {
+          throw new PaymentError('payment_error', 'Your card was declined. Please check your card details and try again.', 'card_declined');
         } else if (error.message.includes('payment method')) {
-          setError('Failed to attach payment method. Please try again.');
+          throw new PaymentError('payment_error', 'Failed to attach payment method. Please try again.', 'payment_method_error');
         } else {
-          setError('An unexpected error occurred. Please try again later.');
+          throw new PaymentError('internal_error', 'An unexpected error occurred. Please try again later.', null);
         }
       } else {
-        setError('An unexpected error occurred. Please try again later.');
+        throw new PaymentError('internal_error', 'An unexpected error occurred. Please try again later.', null);
       }
     }
   };
