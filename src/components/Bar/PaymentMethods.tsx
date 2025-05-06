@@ -33,7 +33,6 @@ const PaymentMethods: React.FC<PaymentMethodsProps> = ({
   if (!userDetails) return null;
 
   const handlePaymentError = (error: Error) => {
-    console.error('Payment method error:', error);
     if (error instanceof PaymentError) {
       setError({
         message: error.message,
