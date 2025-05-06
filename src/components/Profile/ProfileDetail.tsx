@@ -371,7 +371,7 @@ const ProfileDetail: React.FC<ProfileDetailProps> = ({ accountId }) => {
       },
       {
         label: 'Account Tier',
-        value: <AccountTier tier={userDetails.accountTier as 'free' | 'premium'} />, // Use AccountTier component
+        value: <AccountTier accountId={accountId} />, // Use AccountTier component with accountId
       },
       {
         label: 'Signup Date',

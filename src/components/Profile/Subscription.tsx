@@ -202,7 +202,7 @@ const Subscription: React.FC<SubscriptionProps> = ({ accountId }) => {
     const tableData = [
       {
         label: 'Current Plan',
-        value: <AccountTier tier={userDetails.accountTier as 'free' | 'premium'} />,
+        value: <AccountTier accountId={accountId} />,
       },
       {
         label: 'Subscription Status',

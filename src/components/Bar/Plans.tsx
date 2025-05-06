@@ -1,10 +1,13 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Elements } from '@stripe/react-stripe-js';
 import { loadStripe } from '@stripe/stripe-js';
 import PaymentForm from '../Payment/PaymentForm';
 import { PaymentMethod } from '../../types/PaymentMethods';
 import { UserDetails } from '../../types/UserDetails';
 import { UserSubscription } from '../../types/UserSubscription';
+import { SubscriptionPlan } from '../../types/SubscriptionPlan';
+import { fetchSubscriptionDetails } from '../../services/subscriptionDetailsService';
+import PlanCard from './PlanCard';
 import './Plans.css';
 
 const stripePromise = loadStripe(process.env.REACT_APP_STRIPE_PUBLIC_KEY || '');
@@ -29,6 +32,30 @@ const Plans: React.FC<PlansProps> = ({
   const [selectedPlan, setSelectedPlan] = useState<string | null>(null);
   const [showPaymentForm, setShowPaymentForm] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [currentPlan, setCurrentPlan] = useState<SubscriptionPlan | null>(null);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const loadSubscriptionPlan = async () => {
+      if (!userDetails?.accountId) return;
+      
+      try {
+        setLoading(true);
+        const response = await fetchSubscriptionDetails(userDetails.accountId);
+        setCurrentPlan(response.plan);
+      } catch (error) {
+        console.error('Error loading subscription plan:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    loadSubscriptionPlan();
+  }, [userDetails?.accountId]);
+
+  if (!userDetails) {
+    return <div className="plans-container"><p>Loading user details...</p></div>;
+  }
 
   const plans = [
     {
@@ -129,40 +156,13 @@ const Plans: React.FC<PlansProps> = ({
     <div className="plans-container">
       <div className="plans-grid">
         {plans.map((plan) => (
-          <div
+          <PlanCard
             key={plan.id}
-            className="plan-card"
-            style={{ borderColor: plan.color }}
-          >
-            <div className="plan-header" style={{ backgroundColor: plan.color }}>
-              <h3>{plan.name}</h3>
-              <div className="plan-price">
-                ${plan.price}
-                <span className="price-period">/month</span>
-              </div>
-              {plan.price > 0 && (
-                <div className="annual-price">
-                  ${(plan.price * 12 * 0.8).toFixed(2)}
-                  <span className="price-period">/year (20% off)</span>
-                </div>
-              )}
-            </div>
-            <div className="plan-features">
-              <ul>
-                {plan.features.map((feature, index) => (
-                  <li key={index}>{feature}</li>
-                ))}
-              </ul>
-            </div>
-            <button
-              className="select-plan-button"
-              style={{ backgroundColor: plan.color }}
-              onClick={() => handlePlanSelect(plan.id)}
-              disabled={plan.id === userDetails.accountTier.toLowerCase()}
-            >
-              {plan.id === userDetails.accountTier.toLowerCase() ? 'Current Plan' : 'Select Plan'}
-            </button>
-          </div>
+            plan={plan}
+            loading={loading}
+            currentPlan={currentPlan}
+            onSelect={handlePlanSelect}
+          />
         ))}
       </div>
 
