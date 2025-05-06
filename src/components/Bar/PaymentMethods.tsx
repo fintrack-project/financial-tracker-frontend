@@ -3,6 +3,7 @@ import { Elements } from '@stripe/react-stripe-js';
 import { PaymentMethod } from '../../types/PaymentMethods';
 import { UserDetails } from '../../types/UserDetails';
 import PaymentForm from '../Payment/PaymentForm';
+import TestCardDetails from '../Payment/TestCardDetails';
 import { stripePromise } from '../../config/stripe';
 import { PaymentError } from '../../api/paymentMethodApi';
 import './PaymentMethods.css';
@@ -28,7 +29,7 @@ const PaymentMethods: React.FC<PaymentMethodsProps> = ({
   onDelete,
   onAttach
 }) => {
-  // Initialize error state
+  const [showPaymentForm, setShowPaymentForm] = useState(false);
   const [error, setError] = useState<ErrorState | null>(null);
 
   // Log payment methods for debugging
@@ -136,6 +137,9 @@ const PaymentMethods: React.FC<PaymentMethodsProps> = ({
         {/* Render payment form for adding new methods */}
         <div className="add-payment-method">
           <h4>Add New Payment Method</h4>
+          
+          <TestCardDetails />
+
           <Elements stripe={stripePromise}>
             <PaymentForm
               onSuccess={(stripePaymentMethodId) => {
@@ -145,6 +149,7 @@ const PaymentMethods: React.FC<PaymentMethodsProps> = ({
                 }
               }}
               onError={handlePaymentError}
+              onCancel={() => setShowPaymentForm(false)}
             />
           </Elements>
           

@@ -1,104 +1,122 @@
+.plans-container {
+  padding: 1rem;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
 .plans-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-  gap: 2rem;
-  padding: 1rem;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.5rem;
+  margin-top: 1rem;
 }
 
 .plan-card {
-  background-color: #ffffff;
+  background: white;
   border-radius: 8px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  padding: 2rem;
-  text-align: center;
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  overflow: hidden;
+  transition: transform 0.2s ease;
+  display: flex;
+  flex-direction: column;
+  border: 2px solid;
 }
 
 .plan-card:hover {
   transform: translateY(-5px);
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
 }
 
-.plan-card.featured {
-  border: 2px solid #007bff;
-  position: relative;
+.plan-header {
+  padding: 1.25rem;
+  color: white;
+  text-align: center;
 }
 
-.plan-card h3 {
-  color: #333;
+.plan-header h3 {
+  margin: 0;
   font-size: 1.5rem;
-  margin-bottom: 1rem;
-}
-
-.price {
-  font-size: 2rem;
   font-weight: 600;
-  color: #007bff;
-  margin-bottom: 1.5rem;
 }
 
-.features {
+.plan-price {
+  font-size: 2rem;
+  font-weight: 700;
+  margin: 0.5rem 0;
+}
+
+.price-period {
+  font-size: 0.875rem;
+  font-weight: 400;
+  opacity: 0.9;
+}
+
+.annual-price {
+  font-size: 1rem;
+  opacity: 0.9;
+  margin-top: 0.25rem;
+}
+
+.plan-features {
+  padding: 1.25rem;
+  flex-grow: 1;
+}
+
+.plan-features ul {
   list-style: none;
   padding: 0;
-  margin: 0 0 2rem 0;
-  text-align: left;
+  margin: 0;
 }
 
-.features li {
+.plan-features li {
   padding: 0.5rem 0;
-  color: #666;
-  position: relative;
-  padding-left: 1.5rem;
+  font-size: 0.875rem;
+  color: #4a5568;
+  display: flex;
+  align-items: center;
 }
 
-.features li::before {
+.plan-features li::before {
   content: "✓";
-  color: #28a745;
-  position: absolute;
-  left: 0;
+  color: #48bb78;
+  margin-right: 0.5rem;
+  font-weight: bold;
 }
 
-.select-plan {
+.select-plan-button {
   width: 100%;
   padding: 0.75rem;
-  background-color: #007bff;
-  color: white;
   border: none;
-  border-radius: 4px;
-  font-size: 1rem;
+  background-color: #4a5568;
+  color: white;
+  font-weight: 600;
   cursor: pointer;
-  transition: background-color 0.3s ease;
+  transition: background-color 0.2s ease;
 }
 
-.select-plan:hover:not(:disabled) {
-  background-color: #0056b3;
+.select-plan-button:hover {
+  opacity: 0.9;
 }
 
-.select-plan:disabled {
-  background-color: #6c757d;
+.select-plan-button:disabled {
+  background-color: #a0aec0;
   cursor: not-allowed;
 }
 
-.payment-form-overlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background-color: rgba(0, 0, 0, 0.5);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  z-index: 1000;
+.error-message {
+  margin-top: 1rem;
+  padding: 0.75rem;
+  border-radius: 4px;
+  background-color: #fff5f5;
+  color: #c53030;
+  text-align: center;
 }
 
 .payment-form-container {
-  background-color: white;
-  padding: 2rem;
+  margin-top: 1rem;
+  padding: 1.25rem;
+  background: white;
   border-radius: 8px;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  width: 90%;
-  max-width: 500px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 .payment-form-container h3 {
@@ -144,4 +162,36 @@
 .error-message::before {
   content: "⚠️";
   font-size: 16px;
+}
+
+/* Custom scrollbar for the plans container */
+.plans-container::-webkit-scrollbar {
+  width: 8px;
+}
+
+.plans-container::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 4px;
+}
+
+.plans-container::-webkit-scrollbar-thumb {
+  background: #888;
+  border-radius: 4px;
+}
+
+.plans-container::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}
+
+/* Responsive adjustments */
+@media (max-width: 1024px) {
+  .plans-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 640px) {
+  .plans-grid {
+    grid-template-columns: 1fr;
+  }
 } 
