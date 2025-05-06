@@ -1,11 +1,11 @@
 .account-tier {
   display: inline-block;
-  padding: 4px 12px;
-  border-radius: 16px;
-  font-size: 14px;
-  font-weight: 500;
-  text-align: center;
+  padding: 0.5rem 1rem;
+  border-radius: 20px;
   color: white;
+  font-size: 0.875rem;
+  font-weight: 500;
+  text-transform: capitalize;
 }
 
 .account-tier.free {
@@ -14,4 +14,29 @@
 
 .account-tier.premium {
   background-color: #007bff;
+}
+
+.tier-badge {
+  display: inline-block;
+  padding: 0.25rem 0.75rem;
+  border-radius: 4px;
+  color: white;
+  font-weight: 600;
+  margin-bottom: 1rem;
+}
+
+.tier-features {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.tier-features li {
+  padding: 0.5rem 0;
+  border-bottom: 1px solid #eee;
+  font-size: 0.9rem;
+}
+
+.tier-features li:last-child {
+  border-bottom: none;
 }

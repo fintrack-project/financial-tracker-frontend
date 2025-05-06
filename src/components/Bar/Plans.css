@@ -1,104 +1,42 @@
+.plans-container {
+  padding: 1rem;
+  max-width: 1200px;
+  margin: 0 auto;
+  position: relative;
+}
+
 .plans-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-  gap: 2rem;
-  padding: 1rem;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.5rem;
+  margin-top: 1rem;
 }
 
-.plan-card {
-  background-color: #ffffff;
-  border-radius: 8px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  padding: 2rem;
-  text-align: center;
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
-}
-
-.plan-card:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
-}
-
-.plan-card.featured {
-  border: 2px solid #007bff;
-  position: relative;
-}
-
-.plan-card h3 {
-  color: #333;
-  font-size: 1.5rem;
-  margin-bottom: 1rem;
-}
-
-.price {
-  font-size: 2rem;
-  font-weight: 600;
-  color: #007bff;
-  margin-bottom: 1.5rem;
-}
-
-.features {
-  list-style: none;
-  padding: 0;
-  margin: 0 0 2rem 0;
-  text-align: left;
-}
-
-.features li {
-  padding: 0.5rem 0;
-  color: #666;
-  position: relative;
-  padding-left: 1.5rem;
-}
-
-.features li::before {
-  content: "✓";
-  color: #28a745;
-  position: absolute;
-  left: 0;
-}
-
-.select-plan {
-  width: 100%;
+.error-message {
+  margin-top: 1rem;
   padding: 0.75rem;
-  background-color: #007bff;
-  color: white;
-  border: none;
   border-radius: 4px;
-  font-size: 1rem;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
-}
-
-.select-plan:hover:not(:disabled) {
-  background-color: #0056b3;
-}
-
-.select-plan:disabled {
-  background-color: #6c757d;
-  cursor: not-allowed;
-}
-
-.payment-form-overlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background-color: rgba(0, 0, 0, 0.5);
+  background-color: #fff3f3;
+  border: 1px solid #ffcdd2;
+  color: #d32f2f;
+  text-align: center;
+  font-size: 14px;
   display: flex;
-  justify-content: center;
   align-items: center;
-  z-index: 1000;
+  gap: 8px;
+}
+
+.error-message::before {
+  content: "⚠️";
+  font-size: 16px;
 }
 
 .payment-form-container {
-  background-color: white;
-  padding: 2rem;
+  margin-top: 1rem;
+  padding: 1.25rem;
+  background: white;
   border-radius: 8px;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  width: 90%;
-  max-width: 500px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 .payment-form-container h3 {
@@ -122,4 +60,36 @@
 
 .cancel-button:hover {
   background-color: #5a6268;
+}
+
+/* Custom scrollbar for the plans container */
+.plans-container::-webkit-scrollbar {
+  width: 8px;
+}
+
+.plans-container::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 4px;
+}
+
+.plans-container::-webkit-scrollbar-thumb {
+  background: #888;
+  border-radius: 4px;
+}
+
+.plans-container::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}
+
+/* Responsive adjustments */
+@media (max-width: 1024px) {
+  .plans-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 640px) {
+  .plans-grid {
+    grid-template-columns: 1fr;
+  }
 } 

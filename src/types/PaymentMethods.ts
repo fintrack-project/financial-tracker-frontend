@@ -10,7 +10,7 @@ export interface PaymentMethod {
   cardExpMonth: number | null;
   cardExpYear: number | null;
   cardLast4: string | null;
-  isDefault: boolean;
+  default: boolean;
   type: string;
   updatedAt: string;
 }

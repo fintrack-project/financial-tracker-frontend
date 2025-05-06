@@ -5,6 +5,7 @@ import { fetchPaymentMethods, getDefaultPaymentMethod, deletePaymentMethod, setD
 import { UserDetails } from '../../types/UserDetails';
 import { UserSubscription } from '../../types/UserSubscription';
 import { PaymentMethod } from '../../types/PaymentMethods';
+import { PaymentError } from '../../api/paymentMethodApi';
 import ProfileTable from '../../components/Table/ProfileTable/ProfileTable';
 import { formatDate } from '../../utils/FormatDate';
 import AccountTier from './AccountTier';
@@ -28,20 +29,16 @@ const Subscription: React.FC<SubscriptionProps> = ({ accountId }) => {
 
   const loadData = async () => {
     try {
-      console.log('Starting loadData with accountId:', accountId);
       setLoading(true);
       
-      console.log('Fetching user details...');
+      // Fetch user details from backend
       const userData = await fetchUserDetails(accountId);
-      console.log('User details response:', userData);
       
-      console.log('Fetching subscription data...');
+      // Fetch subscription data or create empty subscription if none exists
       let subscriptionData;
       try {
         subscriptionData = await fetchUserSubscription(accountId);
-        console.log('Subscription data response:', subscriptionData);
       } catch (error) {
-        console.log('No subscription data found, using default values');
         subscriptionData = {
           id: 0,
           accountId: accountId,
@@ -56,24 +53,23 @@ const Subscription: React.FC<SubscriptionProps> = ({ accountId }) => {
         } as UserSubscription;
       }
       
-      console.log('Fetching payment methods...');
+      // Fetch existing payment methods
       let methods: PaymentMethod[] = [];
       try {
         methods = await fetchPaymentMethods(accountId);
-        console.log('Payment methods response:', methods);
       } catch (error) {
-        console.log('No payment methods found, using empty array');
+        // No payment methods found, using empty array
       }
       
-      console.log('Fetching default payment method...');
+      // Fetch default payment method
       let defaultMethod = null;
       try {
         defaultMethod = await getDefaultPaymentMethod(accountId);
-        console.log('Default payment method response:', defaultMethod);
       } catch (error) {
-        console.log('No default payment method found');
+        // No default payment method found
       }
 
+      // Update all state with fetched data
       setUserDetails(userData);
       setSubscription(subscriptionData);
       setPaymentMethods(methods);
@@ -97,10 +93,10 @@ const Subscription: React.FC<SubscriptionProps> = ({ accountId }) => {
 
   const handleDeletePaymentMethod = async (paymentMethodId: string) => {
     try {
-      console.log('Deleting payment method:', paymentMethodId);
+      // Delete payment method from backend
       await deletePaymentMethod(accountId, paymentMethodId);
-      console.log('Payment method deleted successfully');
-      await loadData(); // Reload data after deletion
+      // Reload data to reflect changes
+      await loadData();
     } catch (err) {
       console.error('Error deleting payment method:', err);
       setError('Failed to delete payment method. Please try again later.');
@@ -109,10 +105,10 @@ const Subscription: React.FC<SubscriptionProps> = ({ accountId }) => {
 
   const handleSetDefaultPaymentMethod = async (paymentMethodId: string) => {
     try {
-      console.log('Setting default payment method:', paymentMethodId);
+      // Set payment method as default in backend
       await setDefaultPaymentMethod(accountId, paymentMethodId);
-      console.log('Default payment method set successfully');
-      await loadData(); // Reload data after setting default
+      // Reload data to reflect changes
+      await loadData();
     } catch (err) {
       console.error('Error setting default payment method:', err);
       setError('Failed to set default payment method. Please try again later.');
@@ -121,10 +117,10 @@ const Subscription: React.FC<SubscriptionProps> = ({ accountId }) => {
 
   const handleConfirmPayment = async (paymentIntentId: string, paymentMethodId: string) => {
     try {
-      console.log('Confirming payment:', { paymentIntentId, paymentMethodId });
+      // Confirm payment with backend
       await confirmPayment(accountId, paymentIntentId, paymentMethodId);
-      console.log('Payment confirmed successfully');
-      await loadData(); // Reload data after confirmation
+      // Reload data to reflect changes
+      await loadData();
     } catch (err) {
       console.error('Error confirming payment:', err);
       setError('Failed to confirm payment. Please try again later.');
@@ -133,57 +129,42 @@ const Subscription: React.FC<SubscriptionProps> = ({ accountId }) => {
 
   const handleAttachPaymentMethod = async (accountId: string, paymentMethodId: string) => {
     try {
-      console.log('=== Payment Method Attachment Process ===');
-      console.log('1. Starting attachment:', {
-        accountId,
-        paymentMethodId,
-        hasUserDetails: !!userDetails
-      });
-
+      // Validate required data
       if (!accountId || !paymentMethodId) {
-        console.error('2. Missing required data:', {
-          hasAccountId: !!accountId,
-          hasPaymentMethodId: !!paymentMethodId
-        });
         throw new Error('Missing required data for payment method attachment');
       }
 
-      console.log('3. Calling attachPaymentMethod service...');
+      // Attach payment method to customer in backend
       await attachPaymentMethod(accountId, paymentMethodId);
-      console.log('4. Payment method attached successfully');
-      
-      console.log('5. Reloading data...');
+      // Reload data to reflect changes
       await loadData();
-      console.log('6. Data reloaded successfully');
     } catch (error) {
-      console.error('7. Error in handleAttachPaymentMethod:', {
-        error,
-        type: error instanceof Error ? error.constructor.name : typeof error,
-        message: error instanceof Error ? error.message : 'Unknown error',
-        stack: error instanceof Error ? error.stack : undefined
-      });
+      console.error('Error in handleAttachPaymentMethod:', error);
 
       // Handle specific error cases
       if (error instanceof Error) {
-        if (error.message.includes('card was declined')) {
-          setError('The card was declined. Please check your card details and try again.');
+        if (error.name === 'PaymentError') {
+          const paymentError = error as PaymentError;
+          throw paymentError;
+        } else if (error.message.includes('card was declined')) {
+          throw new PaymentError('payment_error', 'Your card was declined. Please check your card details and try again.', 'card_declined');
         } else if (error.message.includes('payment method')) {
-          setError('Failed to attach payment method. Please try again.');
+          throw new PaymentError('payment_error', 'Failed to attach payment method. Please try again.', 'payment_method_error');
         } else {
-          setError('An unexpected error occurred. Please try again later.');
+          throw new PaymentError('internal_error', 'An unexpected error occurred. Please try again later.', null);
         }
       } else {
-        setError('An unexpected error occurred. Please try again later.');
+        throw new PaymentError('internal_error', 'An unexpected error occurred. Please try again later.', null);
       }
     }
   };
 
-  const handlePlanSelect = async (planName: string) => {
+  const handlePlanSelect = async (planName: string, paymentMethodId?: string) => {
     try {
-      console.log('Updating subscription plan:', planName);
-      await updateSubscriptionPlan(accountId, planName);
-      console.log('Subscription plan updated successfully');
-      await loadData(); // Reload data after plan update
+      // Update subscription plan in backend with optional payment method
+      await updateSubscriptionPlan(accountId, planName, paymentMethodId);
+      // Reload data to reflect changes
+      await loadData();
     } catch (err) {
       console.error('Error updating plan:', err);
       setError('Failed to update subscription plan. Please try again later.');
@@ -192,8 +173,9 @@ const Subscription: React.FC<SubscriptionProps> = ({ accountId }) => {
 
   const handlePaymentMethodAdd = async (paymentMethodId: string) => {
     try {
+      // Add new payment method
       await handleAttachPaymentMethod(accountId, paymentMethodId);
-      // After successful payment method addition, reload the data
+      // Reload data to reflect changes
       await loadData();
     } catch (err) {
       console.error('Error adding payment method:', err);
@@ -216,10 +198,11 @@ const Subscription: React.FC<SubscriptionProps> = ({ accountId }) => {
   const renderOverview = () => {
     if (!userDetails) return null;
 
+    // Prepare data for overview table
     const tableData = [
       {
         label: 'Current Plan',
-        value: <AccountTier tier={userDetails.accountTier as 'free' | 'premium'} />,
+        value: <AccountTier accountId={accountId} />,
       },
       {
         label: 'Subscription Status',
@@ -255,12 +238,15 @@ const Subscription: React.FC<SubscriptionProps> = ({ accountId }) => {
   const renderPlans = () => {
     if (!subscription) return null;
 
+    // Render subscription plans section
     return (
       <Plans
         userDetails={userDetails}
         subscription={subscription}
+        paymentMethods={paymentMethods}
         onPlanSelect={handlePlanSelect}
         onPaymentMethodAdd={handlePaymentMethodAdd}
+        onTabChange={setActiveTab}
       />
     );
   };
@@ -268,6 +254,7 @@ const Subscription: React.FC<SubscriptionProps> = ({ accountId }) => {
   const renderPaymentMethods = () => {
     if (!userDetails) return null;
 
+    // Render payment methods section
     return (
       <PaymentMethods
         userDetails={userDetails}
@@ -289,6 +276,7 @@ const Subscription: React.FC<SubscriptionProps> = ({ accountId }) => {
         />
       </div>
 
+      {/* Render active tab content */}
       {activeTab === 'overview' && renderOverview()}
       {activeTab === 'plans' && renderPlans()}
       {activeTab === 'payment' && renderPaymentMethods()}
