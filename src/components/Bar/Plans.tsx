@@ -4,23 +4,29 @@ import { UserSubscription } from '../../types/UserSubscription';
 import { Elements } from '@stripe/react-stripe-js';
 import PaymentForm from '../Payment/PaymentForm';
 import { stripePromise } from '../../config/stripe';
+import { PaymentMethod } from '../../types/PaymentMethods';
 import './Plans.css';
 
 interface PlansProps {
   userDetails: UserDetails;
   subscription: UserSubscription | null;
-  onPlanSelect: (planName: string) => void;
+  paymentMethods: PaymentMethod[];
+  onPlanSelect: (planName: string, paymentMethodId?: string) => void;
   onPaymentMethodAdd: (paymentMethodId: string) => void;
+  onTabChange: (tab: 'overview' | 'plans' | 'payment') => void;
 }
 
 const Plans: React.FC<PlansProps> = ({ 
   userDetails, 
   subscription, 
+  paymentMethods,
   onPlanSelect,
-  onPaymentMethodAdd 
+  onPaymentMethodAdd,
+  onTabChange
 }) => {
   const [selectedPlan, setSelectedPlan] = useState<string | null>(null);
   const [showPaymentForm, setShowPaymentForm] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
   if (!subscription) return null;
 
@@ -53,18 +59,49 @@ const Plans: React.FC<PlansProps> = ({
 
   const handlePlanSelect = (planName: string) => {
     setSelectedPlan(planName);
-    setShowPaymentForm(true);
+    setError(null);
+
+    // If selecting Premium plan
+    if (planName === 'Premium') {
+      // Check if user has any payment methods
+      if (paymentMethods.length === 0) {
+        setError('Please add a payment method to subscribe to Premium plan');
+        onTabChange('payment');
+        return;
+      }
+
+      // Check if there's a default payment method
+      const defaultMethod = paymentMethods.find(method => method.default);
+      if (defaultMethod) {
+        // Use default payment method
+        onPlanSelect(planName, defaultMethod.stripePaymentMethodId);
+      } else {
+        // Show payment form to add a new payment method
+        setShowPaymentForm(true);
+      }
+    } else {
+      // For Free plan, no payment method needed
+      onPlanSelect(planName);
+    }
   };
 
   const handlePaymentSuccess = (paymentMethodId: string) => {
     onPaymentMethodAdd(paymentMethodId);
-    onPlanSelect(selectedPlan!);
+    if (selectedPlan) {
+      onPlanSelect(selectedPlan, paymentMethodId);
+    }
     setShowPaymentForm(false);
     setSelectedPlan(null);
   };
 
   return (
     <div className="plans-container">
+      {error && (
+        <div className="error-message" role="alert">
+          {error}
+        </div>
+      )}
+      
       <div className="plans-grid">
         {plans.map((plan) => (
           <div key={plan.name} className={`plan-card ${plan.featured ? 'featured' : ''}`}>
@@ -94,7 +131,7 @@ const Plans: React.FC<PlansProps> = ({
               <PaymentForm
                 onSuccess={handlePaymentSuccess}
                 onError={(error) => {
-                  console.error('Payment method error:', error);
+                  setError(error.message);
                   setShowPaymentForm(false);
                   setSelectedPlan(null);
                 }}
@@ -105,6 +142,7 @@ const Plans: React.FC<PlansProps> = ({
               onClick={() => {
                 setShowPaymentForm(false);
                 setSelectedPlan(null);
+                setError(null);
               }}
             >
               Cancel

@@ -17,6 +17,7 @@ const PaymentForm: React.FC<PaymentFormProps> = ({ onSuccess, onError }) => {
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
 
+    // Validate Stripe and Elements are loaded
     if (!stripe || !elements) {
       return;
     }
@@ -25,16 +26,19 @@ const PaymentForm: React.FC<PaymentFormProps> = ({ onSuccess, onError }) => {
     setError(null);
 
     try {
+      // Get the card element from Stripe
       const cardElement = elements.getElement(CardElement);
       if (!cardElement) {
         throw new Error('Card element not found');
       }
 
+      // Send card details to Stripe to create payment method
       const { error: stripeError, paymentMethod } = await stripe.createPaymentMethod({
         type: 'card',
         card: cardElement,
       });
 
+      // Handle Stripe-specific errors
       if (stripeError) {
         throw new PaymentError(
           'payment_error',
@@ -43,12 +47,15 @@ const PaymentForm: React.FC<PaymentFormProps> = ({ onSuccess, onError }) => {
         );
       }
 
+      // Validate payment method was created
       if (!paymentMethod) {
         throw new Error('No payment method returned from Stripe');
       }
 
+      // Success - pass payment method ID to parent
       onSuccess(paymentMethod.id);
     } catch (error) {
+      // Error handling and formatting
       const paymentError = error instanceof PaymentError 
         ? error 
         : new PaymentError('payment_error', 'Failed to process payment method', null);

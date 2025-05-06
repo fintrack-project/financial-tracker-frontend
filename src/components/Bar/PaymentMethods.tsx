@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Elements } from '@stripe/react-stripe-js';
 import { PaymentMethod } from '../../types/PaymentMethods';
 import { UserDetails } from '../../types/UserDetails';
@@ -28,11 +28,19 @@ const PaymentMethods: React.FC<PaymentMethodsProps> = ({
   onDelete,
   onAttach
 }) => {
+  // Initialize error state
   const [error, setError] = useState<ErrorState | null>(null);
 
+  // Log payment methods for debugging
+  useEffect(() => {
+    console.log('Payment Methods:', paymentMethods);
+  }, [paymentMethods]);
+
+  // Validate user details exist
   if (!userDetails) return null;
 
   const handlePaymentError = (error: Error) => {
+    // Format error for display
     if (error instanceof PaymentError) {
       setError({
         message: error.message,
@@ -49,9 +57,13 @@ const PaymentMethods: React.FC<PaymentMethodsProps> = ({
 
   const handleAttach = async (accountId: string, paymentMethodId: string) => {
     try {
+      // Clear any existing errors
       setError(null);
+      
+      // Attempt to attach payment method
       await onAttach(accountId, paymentMethodId);
     } catch (error) {
+      // Handle attachment errors
       handlePaymentError(error as Error);
     }
   };
@@ -60,53 +72,74 @@ const PaymentMethods: React.FC<PaymentMethodsProps> = ({
     <div className="payment-methods">
       <h3>Payment Methods</h3>
       <div className="payment-methods-content">
+        {/* Render existing payment methods if any */}
         {paymentMethods && paymentMethods.length > 0 ? (
           <div className="payment-methods-list">
-            {paymentMethods.map((method) => (
-              <div key={method.id} className="payment-method-item">
-                <div className="payment-method-info">
-                  <span className="card-brand">{method.cardBrand || 'Unknown'}</span>
-                  <span className="card-last4">
-                    {method.cardLast4 ? `**** **** **** ${method.cardLast4}` : 'No card details'}
-                  </span>
-                  <span className="card-expiry">
-                    {method.cardExpMonth && method.cardExpYear 
-                      ? `Expires ${method.cardExpMonth}/${method.cardExpYear}`
-                      : 'No expiry date'}
-                  </span>
-                  {method.isDefault && <span className="default-badge">Default</span>}
-                </div>
-                <div className="payment-method-actions">
-                  {!method.isDefault && (
+            {paymentMethods.map((method) => {
+              // Log each method's default status
+              console.log(`Method ${method.id} default:`, method.default);
+              
+              return (
+                <div key={method.id} className="payment-method-item">
+                  <div className="payment-method-info">
+                    <span className="card-brand">{method.cardBrand || 'Unknown'}</span>
+                    <span className="card-last4">
+                      {method.cardLast4 ? `**** **** **** ${method.cardLast4}` : 'No card details'}
+                    </span>
+                    <span className="card-expiry">
+                      {method.cardExpMonth && method.cardExpYear 
+                        ? `Expires ${method.cardExpMonth}/${method.cardExpYear}`
+                        : 'No expiry date'}
+                    </span>
+                    {method.default && (
+                      <span className="default-badge" style={{ 
+                        backgroundColor: '#4CAF50', 
+                        color: 'white',
+                        padding: '4px 8px',
+                        borderRadius: '4px',
+                        fontSize: '12px',
+                        marginLeft: '8px'
+                      }}>
+                        Default
+                      </span>
+                    )}
+                  </div>
+                  <div className="payment-method-actions">
+                    {/* Show set default button if not already default */}
+                    {!method.default && (
+                      <button
+                        onClick={() => onSetDefault(method.stripePaymentMethodId)}
+                        className="action-button"
+                      >
+                        Set as Default
+                      </button>
+                    )}
                     <button
-                      onClick={() => onSetDefault(method.stripePaymentMethodId)}
-                      className="action-button"
+                      onClick={() => onDelete(method.stripePaymentMethodId)}
+                      className="action-button delete"
                     >
-                      Set as Default
+                      Delete
                     </button>
-                  )}
-                  <button
-                    onClick={() => onDelete(method.stripePaymentMethodId)}
-                    className="action-button delete"
-                  >
-                    Delete
-                  </button>
+                  </div>
                 </div>
-              </div>
-            ))}
+              );
+            })}
           </div>
         ) : (
+          // Show empty state if no payment methods
           <div className="no-payment-methods">
             <p>No payment methods added yet.</p>
             <p className="add-payment-method-hint">Add a payment method to manage your subscription.</p>
           </div>
         )}
 
+        {/* Render payment form for adding new methods */}
         <div className="add-payment-method">
           <h4>Add New Payment Method</h4>
           <Elements stripe={stripePromise}>
             <PaymentForm
               onSuccess={(stripePaymentMethodId) => {
+                // Handle successful payment method creation
                 if (userDetails) {
                   handleAttach(userDetails.accountId, stripePaymentMethodId);
                 }
@@ -114,6 +147,8 @@ const PaymentMethods: React.FC<PaymentMethodsProps> = ({
               onError={handlePaymentError}
             />
           </Elements>
+          
+          {/* Display any errors */}
           {error && (
             <div className={`error-message ${error.type}`} role="alert">
               <div className="error-content">
