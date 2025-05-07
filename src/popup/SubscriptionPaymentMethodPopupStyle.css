@@ -82,6 +82,10 @@
   width: 90%;
 }
 
+.popup-content form {
+  width: 100%;
+}
+
 .popup-content p {
   color: #555;
   line-height: 1.5;
@@ -94,12 +98,18 @@
   font-weight: 600;
 }
 
+.popup-content .content-centered {
+  margin: 0 auto;
+  width: 100%;
+}
+
 /* Payment methods list styles */
 .subscription-payment-methods-list {
   margin: 15px 0 15px;
   border-radius: 8px;
   overflow: hidden;
   border: 1px solid #eee;
+  width: 100%;
 }
 
 .subscription-payment-methods-list .payment-method-item {
@@ -111,6 +121,7 @@
   border-bottom: 1px solid #eee;
   cursor: pointer;
   transition: all 0.2s ease;
+  width: calc(100% - 10px); /* Account for margins */
 }
 
 .subscription-payment-methods-list .payment-method-item.selected {

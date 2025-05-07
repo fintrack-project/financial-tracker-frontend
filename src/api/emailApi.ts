@@ -1,13 +1,37 @@
-import axios from 'axios';
+import { apiClient } from '../utils/apiClient';
 
-export const verifyEmailApi = async (token: string) => {
-  return axios.post('/api/user/email/verify', { token });
+interface ApiResponse<T> {
+  success: boolean;
+  data?: T;
+  message?: string;
+}
+
+export const verifyEmailApi = async (token: string): Promise<ApiResponse<void>> => {
+  try {
+    const response = await apiClient.post<ApiResponse<void>>('/api/user/email/verify', { token });
+    return response.data;
+  } catch (error) {
+    console.error('Email verification error:', error);
+    throw error;
+  }
 };
 
-export const checkEmailVerifiedApi = async (accountId: string) => {
-  return axios.post('/api/user/email/verified', { accountId });
+export const checkEmailVerifiedApi = async (accountId: string): Promise<ApiResponse<void>> => {
+  try {
+    const response = await apiClient.post<ApiResponse<void>>('/api/user/email/verified', { accountId });
+    return response.data;
+  } catch (error) {
+    console.error('Email verification check error:', error);
+    throw error;
+  }
 };
 
-export const sendEmailVerificationApi = async (accountId: string, email: string) => {
-  return axios.post('/api/user/email/send-verification', { accountId, email });
+export const sendEmailVerificationApi = async (accountId: string, email: string): Promise<ApiResponse<void>> => {
+  try {
+    const response = await apiClient.post<ApiResponse<void>>('/api/user/email/send-verification', { accountId, email });
+    return response.data;
+  } catch (error) {
+    console.error('Email verification send error:', error);
+    throw error;
+  }
 };

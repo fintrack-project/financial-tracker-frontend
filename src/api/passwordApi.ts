@@ -1,6 +1,17 @@
-import axios from 'axios';
+import { apiClient } from '../utils/apiClient';
 
-export const verifyPassword = async (accountId: string, password: string) => {
-  const response = await axios.post('/api/user/password/verify', { accountId, password });
-  return response.data;
+interface ApiResponse<T> {
+  success: boolean;
+  data?: T;
+  message?: string;
+}
+
+export const verifyPassword = async (accountId: string, password: string): Promise<ApiResponse<boolean>> => {
+  try {
+    const response = await apiClient.post<ApiResponse<boolean>>('/api/user/password/verify', { accountId, password });
+    return response.data;
+  } catch (error) {
+    console.error('Error verifying password:', error);
+    throw error;
+  }
 };

@@ -1,5 +1,17 @@
-import axios from 'axios';
+import { apiClient } from '../utils/apiClient';
 
-export const sendPhoneVerifiedApi = async (accountId: string) => {
-  return axios.post('/api/user/phone/verified', { accountId });
+interface ApiResponse<T> {
+  success: boolean;
+  data?: T;
+  message?: string;
+}
+
+export const sendPhoneVerifiedApi = async (accountId: string): Promise<ApiResponse<void>> => {
+  try {
+    const response = await apiClient.post<ApiResponse<void>>('/api/user/phone/verified', { accountId });
+    return response.data;
+  } catch (error) {
+    console.error('Phone verification error:', error);
+    throw error;
+  }
 };

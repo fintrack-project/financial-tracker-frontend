@@ -1,28 +1,28 @@
-import axios from 'axios';
+import { apiClient } from '../utils/apiClient';
 import { LoginRequest } from '../types/Requests';
 
-export const loginApi = async (loginData: LoginRequest): Promise<{ success: boolean; message?: string; token?: string }> => {
+interface AuthResponse {
+  success: boolean;
+  message?: string;
+  token?: string;
+}
+
+export const loginApi = async (loginData: LoginRequest): Promise<AuthResponse> => {
   try {
-    const response = await axios.post('/api/user/login', loginData);
-
-    return response.data; // Return the backend response directly
-  } catch (error: any) {
-    if (error.response && error.response.data) {
-      // Extract the error message from the backend response
-      return {
-        success: false,
-        message: error.response.data.message || 'An unexpected error occurred.',
-      };
-    }
-
-    // Handle unexpected errors
-    return {
-      success: false,
-      message: 'An unexpected error occurred. Please try again later.',
-    };
+    const response = await apiClient.post<AuthResponse>('/api/user/login', loginData);
+    return response.data;
+  } catch (error) {
+    console.error('Login error:', error);
+    throw error; // Let apiClient handle the error
   }
 };
 
-export const registerApi = async (registerData: { userId: string; email: string; password: string }) => {
-  return axios.post('/api/user/register', registerData);
+export const registerApi = async (registerData: { userId: string; email: string; password: string }): Promise<AuthResponse> => {
+  try {
+    const response = await apiClient.post<AuthResponse>('/api/user/register', registerData);
+    return response.data;
+  } catch (error) {
+    console.error('Registration error:', error);
+    throw error; // Let apiClient handle the error
+  }
 };

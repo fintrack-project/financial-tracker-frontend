@@ -1,4 +1,4 @@
-import axios, { AxiosError } from 'axios';
+import { apiClient } from '../utils/apiClient';
 import { PaymentMethod, StripePaymentMethod } from '../types/PaymentMethods';
 
 interface ErrorResponse {
@@ -20,21 +20,27 @@ export class PaymentError extends Error {
 }
 
 const handleApiError = (error: unknown): never => {
-  if (axios.isAxiosError(error)) {
-    const axiosError = error as AxiosError<ErrorResponse>;
-    if (axiosError.response?.data) {
-      const errorData = axiosError.response.data;
-      throw new PaymentError(errorData.type, errorData.message, errorData.code);
+  if (error instanceof Error) {
+    const errorData = error as Error & { response?: { data: ErrorResponse } };
+    if (errorData.response?.data) {
+      const { type, message, code } = errorData.response.data;
+      throw new PaymentError(type, message, code);
     }
   }
   throw new PaymentError('internal_error', 'An unexpected error occurred', null);
 };
 
+interface ApiResponse<T> {
+  success: boolean;
+  data: T;
+  message?: string;
+}
+
 // Fetch all payment methods for an account
 export const fetchPaymentMethodsApi = async (accountId: string): Promise<PaymentMethod[]> => {
   try {
-    const response = await axios.post('/api/user/payments/methods', { accountId });
-    return response.data;
+    const response = await apiClient.post<ApiResponse<PaymentMethod[]>>('/api/user/payments/methods', { accountId });
+    return response.data.data;
   } catch (error) {
     return handleApiError(error);
   }
@@ -43,8 +49,8 @@ export const fetchPaymentMethodsApi = async (accountId: string): Promise<Payment
 // Get default payment method for an account
 export const getDefaultPaymentMethodApi = async (accountId: string): Promise<PaymentMethod | null> => {
   try {
-    const response = await axios.post('/api/user/payments/default-method', { accountId });
-    return response.data;
+    const response = await apiClient.post<ApiResponse<PaymentMethod | null>>('/api/user/payments/default-method', { accountId });
+    return response.data.data;
   } catch (error) {
     return handleApiError(error);
   }
@@ -53,11 +59,11 @@ export const getDefaultPaymentMethodApi = async (accountId: string): Promise<Pay
 // Attach a new payment method
 export const attachPaymentMethodApi = async (accountId: string, paymentMethodId: string): Promise<PaymentMethod> => {
   try {
-    const response = await axios.post('/api/user/payments/attach-method', {
+    const response = await apiClient.post<ApiResponse<PaymentMethod>>('/api/user/payments/attach-method', {
       accountId,
       paymentMethodId
     });
-    return response.data;
+    return response.data.data;
   } catch (error) {
     return handleApiError(error);
   }
@@ -66,7 +72,7 @@ export const attachPaymentMethodApi = async (accountId: string, paymentMethodId:
 // Set a payment method as default
 export const setDefaultPaymentMethodApi = async (accountId: string, paymentMethodId: string): Promise<void> => {
   try {
-    await axios.post('/api/user/payments/set-default', { accountId, paymentMethodId });
+    await apiClient.post<ApiResponse<void>>('/api/user/payments/set-default', { accountId, paymentMethodId });
   } catch (error) {
     return handleApiError(error);
   }
@@ -75,7 +81,7 @@ export const setDefaultPaymentMethodApi = async (accountId: string, paymentMetho
 // Delete a payment method
 export const deletePaymentMethodApi = async (accountId: string, paymentMethodId: string): Promise<void> => {
   try {
-    await axios.post('/api/user/payments/delete-method', { accountId, paymentMethodId });
+    await apiClient.post<ApiResponse<void>>('/api/user/payments/delete-method', { accountId, paymentMethodId });
   } catch (error) {
     return handleApiError(error);
   }
@@ -84,12 +90,12 @@ export const deletePaymentMethodApi = async (accountId: string, paymentMethodId:
 // Create a payment intent
 export const createPaymentIntentApi = async (accountId: string, amount: number, currency: string) => {
   try {
-    const response = await axios.post('/api/user/payments/create-intent', {
+    const response = await apiClient.post<ApiResponse<any>>('/api/user/payments/create-intent', {
       accountId,
       amount,
       currency
     });
-    return response.data;
+    return response.data.data;
   } catch (error) {
     return handleApiError(error);
   }
@@ -98,12 +104,12 @@ export const createPaymentIntentApi = async (accountId: string, amount: number, 
 // Confirm a payment
 export const confirmPaymentApi = async (accountId: string, paymentIntentId: string, paymentMethodId: string) => {
   try {
-    const response = await axios.post('/api/user/payments/confirm', {
+    const response = await apiClient.post<ApiResponse<any>>('/api/user/payments/confirm', {
       accountId,
       paymentIntentId,
       paymentMethodId
     });
-    return response.data;
+    return response.data.data;
   } catch (error) {
     return handleApiError(error);
   }
@@ -112,10 +118,10 @@ export const confirmPaymentApi = async (accountId: string, paymentIntentId: stri
 // Verify a payment method exists
 export const verifyPaymentMethodApi = async (paymentMethodId: string): Promise<StripePaymentMethod> => {
   try {
-    const response = await axios.post('/api/user/payments/verify-method', {
+    const response = await apiClient.post<ApiResponse<StripePaymentMethod>>('/api/user/payments/verify-method', {
       paymentMethodId
     });
-    return response.data;
+    return response.data.data;
   } catch (error) {
     return handleApiError(error);
   }

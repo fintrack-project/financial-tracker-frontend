@@ -212,9 +212,18 @@ const Plans: React.FC<PlansProps> = ({
         <SubscriptionPaymentMethodSelectionPopup
           paymentMethods={paymentMethods}
           selectedPlanName={selectedPlanName}
+          selectedPlanId={selectedPlan || ''}
           onSelectPaymentMethod={handlePaymentMethodSelect}
           onAddPaymentMethod={handleAddPaymentMethod}
           onCancel={() => setShowPaymentMethodPopup(false)}
+          onSubscriptionComplete={(subscriptionId) => {
+            setShowPaymentMethodPopup(false);
+            if (userDetails?.accountId) {
+              fetchSubscriptionDetails(userDetails.accountId)
+                .then(response => setCurrentPlan(response.plan))
+                .catch(error => console.error('Error refreshing subscription:', error));
+            }
+          }}
         />
       )}
 

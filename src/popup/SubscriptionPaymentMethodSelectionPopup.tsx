@@ -1,30 +1,59 @@
 import React, { useState } from 'react';
 import { PaymentMethod } from '../types/PaymentMethods';
+import { createSubscription } from '../services/subscriptionService';
 import './SubscriptionPaymentMethodPopupStyle.css';
 
 interface SubscriptionPaymentMethodSelectionPopupProps {
   paymentMethods: PaymentMethod[];
   selectedPlanName: string;
+  selectedPlanId: string;
   onSelectPaymentMethod: (paymentMethodId: string) => void;
   onAddPaymentMethod: () => void;
   onCancel: () => void;
+  onSubscriptionComplete: (subscriptionId: string) => void;
 }
 
 const PaymentMethodSelectionPopup: React.FC<SubscriptionPaymentMethodSelectionPopupProps> = ({
   paymentMethods,
   selectedPlanName,
+  selectedPlanId,
   onSelectPaymentMethod,
   onAddPaymentMethod,
-  onCancel
+  onCancel,
+  onSubscriptionComplete
 }) => {
   const [selectedSubscriptionPaymentMethodId, setSelectedSubscriptionPaymentMethodId] = useState<string | null>(
     paymentMethods.find(method => method.default)?.stripePaymentMethodId || null
   );
+  const [isProcessing, setIsProcessing] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (selectedSubscriptionPaymentMethodId) {
-      onSelectPaymentMethod(selectedSubscriptionPaymentMethodId);
+    if (!selectedSubscriptionPaymentMethodId) return;
+
+    try {
+      setIsProcessing(true);
+      setError(null);
+
+      const response = await createSubscription({
+        planId: selectedPlanId,
+        paymentMethodId: selectedSubscriptionPaymentMethodId
+      });
+
+      if (response.status === 'active') {
+        onSubscriptionComplete(response.subscriptionId);
+      } else if (response.status === 'pending') {
+        // Handle pending status (e.g., show a message that subscription is being processed)
+        setError('Your subscription is being processed. Please wait a moment...');
+      } else {
+        setError('Failed to create subscription. Please try again.');
+      }
+    } catch (err) {
+      console.error('Error creating subscription:', err);
+      setError('An error occurred while processing your subscription. Please try again.');
+    } finally {
+      setIsProcessing(false);
     }
   };
 
@@ -41,6 +70,12 @@ const PaymentMethodSelectionPopup: React.FC<SubscriptionPaymentMethodSelectionPo
             You've selected the <strong>{selectedPlanName}</strong> plan. 
             Please select a payment method to complete your subscription.
           </p>
+          
+          {error && (
+            <div className="error-message">
+              {error}
+            </div>
+          )}
           
           {paymentMethods.length > 0 ? (
             <form onSubmit={handleSubmit}>
@@ -89,9 +124,9 @@ const PaymentMethodSelectionPopup: React.FC<SubscriptionPaymentMethodSelectionPo
                   <button 
                     type="submit" 
                     className="primary-button"
-                    disabled={!selectedSubscriptionPaymentMethodId}
+                    disabled={!selectedSubscriptionPaymentMethodId || isProcessing}
                   >
-                    Complete Subscription
+                    {isProcessing ? 'Processing...' : 'Pay Now'}
                   </button>
                 </div>
               </div>

@@ -1,7 +1,26 @@
-import axios from 'axios';
+import { apiClient } from '../utils/apiClient';
 
-export const createAccountApi = async (userId: string) => {
-  return axios.post('/api/accounts/create', null, {
-    params: { userId },
-  });
+interface Account {
+  accountId: string;
+  userId: string;
+  createdAt: string;
+  updatedAt: string;
+}
+
+interface ApiResponse<T> {
+  success: boolean;
+  data: T;
+  message?: string;
+}
+
+export const createAccountApi = async (userId: string): Promise<ApiResponse<Account>> => {
+  try {
+    const response = await apiClient.post<ApiResponse<Account>>('/api/accounts/create', null, {
+      params: { userId },
+    });
+    return response.data;
+  } catch (error) {
+    console.error('Error creating account:', error);
+    throw error;
+  }
 };
