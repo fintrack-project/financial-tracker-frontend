@@ -1,4 +1,3 @@
-import axios from 'axios';
 import { loginApi, registerApi } from '../api/authApi';
 import { createAccountApi } from '../api/accountApi';
 import { sendEmailVerificationApi, verifyEmailApi, checkEmailVerifiedApi } from '../api/emailApi';
@@ -9,19 +8,20 @@ import { auth } from '../config/firebaseConfig'; // Ensure `auth` is correctly i
 import UserSession from '../utils/UserSession';
 
 export const loginUser = async (loginData: LoginRequest): Promise<void> => {
+  console.log('Login request data:', loginData);
   const response = await loginApi(loginData);
-
-  if (!response) {
-    throw new Error('Login failed: No response from server.');
-  }
+  console.log('Login response:', response);
 
   if (!response.success) {
-    // Throw the error message from the backend
     throw new Error(response.message || 'Login failed.');
   }
 
-  const token = response.token;
+  const authData = response.data;
+  if (!authData) {
+    throw new Error('Login failed: No data received.');
+  }
 
+  const token = authData.token;
   if (!token) {
     throw new Error('Login failed: No token received.');
   }
@@ -44,54 +44,61 @@ export const logoutUser = (): void => {
 export const registerUser = async (registerData: RegisterRequest): Promise<void> => {
   try {
     // Step 1: Register the user
-    await registerApi(registerData);
+    const registerResponse = await registerApi(registerData);
+    if (!registerResponse.success) {
+      throw new Error(registerResponse.message || 'Registration failed.');
+    }
     console.log('User registered successfully');
 
     // Step 2: Create an account for the registered user
-    await createAccountApi(registerData.userId);
+    const accountResponse = await createAccountApi(registerData.userId);
+    if (!accountResponse.success) {
+      throw new Error(accountResponse.message || 'Account creation failed.');
+    }
     console.log('Account created successfully');
   } catch (error) {
-    if (axios.isAxiosError(error) && error.response) {
-      throw new Error(error.response.data.message || 'An error occurred during registration.');
-    }
-    throw new Error('An unknown error occurred during registration.');
+    console.error('Registration error:', error);
+    throw error;
   }
 };
 
 export const verifyEmail = async (token: string): Promise<void> => {
   try {
-    await verifyEmailApi(token);
+    const response = await verifyEmailApi(token);
+    if (!response.success) {
+      throw new Error(response.message || 'Email verification failed.');
+    }
     console.log('Email verified successfully.');
   } catch (error) {
-    if (axios.isAxiosError(error) && error.response) {
-      throw new Error(error.response.data.message || 'Email verification failed.');
-    }
-    throw new Error('An unknown error occurred during email verification.');
+    console.error('Email verification error:', error);
+    throw error;
   }
 };
 
 export const checkEmailVerified = async (accountId: string): Promise<boolean> => {
   try {
-    await checkEmailVerifiedApi(accountId);
-    console.log('Email verification status checked successfully.');
-    return true; // Assume the email is verified for this example
-  } catch (error) {
-    if (axios.isAxiosError(error) && error.response) {
-      throw new Error(error.response.data.message || 'Failed to check email verification status.');
+    const response = await checkEmailVerifiedApi(accountId);
+    if (!response.success) {
+      throw new Error(response.message || 'Failed to check email verification status.');
     }
-    throw new Error('An unknown error occurred while checking email verification status.');
+    console.log('Email verification status checked successfully.');
+    return true;
+  } catch (error) {
+    console.error('Email verification check error:', error);
+    throw error;
   }
 };
 
 export const sendEmailVerification = async (accountId: string, email: string): Promise<void> => {
   try {
-    await sendEmailVerificationApi(accountId, email);
+    const response = await sendEmailVerificationApi(accountId, email);
+    if (!response.success) {
+      throw new Error(response.message || 'Failed to send email verification.');
+    }
     console.log('Email verification request sent successfully.');
   } catch (error) {
-    if (axios.isAxiosError(error) && error.response) {
-      throw new Error(error.response.data.message || 'Failed to send email verification.');
-    }
-    throw new Error('An unknown error occurred while sending email verification.');
+    console.error('Email verification send error:', error);
+    throw error;
   }
 };
 
@@ -151,10 +158,13 @@ export const verifySMSCode = async (verificationCode: string, accountId: string)
     console.log('Phone number verified successfully:', result.user.phoneNumber);
 
     // Send a request to the backend to update the phone verification status
-    await sendPhoneVerifiedApi(accountId);
+    const response = await sendPhoneVerifiedApi(accountId);
+    if (!response.success) {
+      throw new Error(response.message || 'Failed to update phone verification status.');
+    }
     console.log('Phone verification status updated successfully in the backend.');
   } catch (error) {
     console.error('Error verifying SMS code:', error);
-    throw new Error('Failed to verify SMS code.');
+    throw error;
   }
 };

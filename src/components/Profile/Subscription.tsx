@@ -4,8 +4,7 @@ import { fetchUserSubscription, updateSubscriptionPlan } from '../../services/us
 import { fetchPaymentMethods, getDefaultPaymentMethod, deletePaymentMethod, setDefaultPaymentMethod, confirmPayment, attachPaymentMethod } from '../../services/paymentMethodService';
 import { UserDetails } from '../../types/UserDetails';
 import { UserSubscription } from '../../types/UserSubscription';
-import { PaymentMethod } from '../../types/PaymentMethods';
-import { PaymentError } from '../../api/paymentMethodApi';
+import { PaymentMethod, PaymentError } from '../../types/PaymentMethods';
 import ProfileTable from '../../components/Table/ProfileTable/ProfileTable';
 import { formatDate } from '../../utils/FormatDate';
 import AccountTier from './AccountTier';

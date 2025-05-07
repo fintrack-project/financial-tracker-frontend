@@ -3,7 +3,11 @@ import { fetchUserSubscriptionApi, updateSubscriptionPlanApi } from '../api/user
 
 export const fetchUserSubscription = async (accountId: string): Promise<UserSubscription> => {
   try {
-    return await fetchUserSubscriptionApi(accountId);
+    const response = await fetchUserSubscriptionApi(accountId);
+    if (!response.success || !response.data) {
+      throw new Error(response.message || 'Failed to fetch user subscription');
+    }
+    return response.data;
   } catch (error) {
     console.error('Error in user subscription service:', error);
     throw error;
@@ -16,7 +20,11 @@ export const updateSubscriptionPlan = async (
   paymentMethodId?: string
 ): Promise<UserSubscription> => {
   try {
-    return await updateSubscriptionPlanApi(accountId, planName, paymentMethodId);
+    const response = await updateSubscriptionPlanApi(accountId, planName, paymentMethodId);
+    if (!response.success || !response.data) {
+      throw new Error(response.message || 'Failed to update subscription plan');
+    }
+    return response.data;
   } catch (error) {
     console.error('Error updating subscription plan:', error);
     throw error;

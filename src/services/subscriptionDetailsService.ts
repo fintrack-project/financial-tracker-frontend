@@ -8,7 +8,11 @@ import { fetchSubscriptionDetailsApi } from '../api/subscriptionDetailsApi';
  */
 export const fetchSubscriptionDetails = async (accountId: string): Promise<SubscriptionDetails> => {
   try {
-    return await fetchSubscriptionDetailsApi(accountId);
+    const response = await fetchSubscriptionDetailsApi(accountId);
+    if (!response.success || !response.data) {
+      throw new Error(response.message || 'Failed to fetch subscription details');
+    }
+    return response.data;
   } catch (error) {
     console.error('Error in subscription details service:', error);
     throw error;

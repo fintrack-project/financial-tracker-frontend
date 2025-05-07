@@ -2,7 +2,7 @@ import {
   fetchPortfolioPieChartDataApi,
   fetchPortfolioCombinedBarChartDataApi,
 } from '../api/portfolioChartApi';
-import { ChartData } from '../types/ChartData';
+import { ChartData, RawChartDataEntry } from '../types/ChartData';
 import { CombinedChartData } from '../types/CombinedChartData';
 
 export const fetchPortfolioPieChartData = async (
@@ -12,6 +12,9 @@ export const fetchPortfolioPieChartData = async (
 ): Promise<ChartData[]> => {
   try {
     const response = await fetchPortfolioPieChartDataApi(accountId, category, baseCurrency);
+    if (!response.success || !response.data) {
+      throw new Error(response.message || 'Failed to fetch portfolio pie chart data');
+    }
     return response.data;
   } catch (error) {
     console.error('Error fetching portfolio pie chart data:', error);
@@ -31,7 +34,10 @@ export const fetchPortfolioCombinedBarChartData = async (
 
   try {
     const response = await fetchPortfolioCombinedBarChartDataApi(accountId, category, baseCurrency);
-    
+    if (!response.success || !response.data) {
+      throw new Error(response.message || 'Failed to fetch portfolio bar chart data');
+    }
+
     // Parse the backend response
     const rawData = response.data; // Backend response
     console.log('Raw data from backend:', rawData); // Debug log
@@ -42,26 +48,10 @@ export const fetchPortfolioCombinedBarChartData = async (
     }
 
     // Transform the raw data into the expected format
-    const parsedData: CombinedChartData[] = rawData.map((entry) => {
-      // Validate that each entry has a date and data array
-      if (typeof entry.date !== 'string' || !Array.isArray(entry.data)) {
-        throw new Error(`Invalid entry format: ${JSON.stringify(entry)}`);
-      }
-
+    const parsedData: CombinedChartData[] = rawData.map((entry: RawChartDataEntry) => {
       return {
         date: entry.date,
-        assets: entry.data.map((asset : ChartData) => ({
-          assetName: asset.assetName,
-          symbol: asset.symbol,
-          subcategory: asset.subcategory,
-          value: asset.value,
-          color: asset.color,
-          priority: asset.priority,
-          totalValue: asset.totalValue,
-          subcategoryValue: asset.subcategoryValue,
-          percentage: asset.percentage,
-          percentageOfSubcategory: asset.percentageOfSubcategory,
-        })),
+        assets: entry.data,
       };
     });
 

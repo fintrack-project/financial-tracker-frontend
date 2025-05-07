@@ -1,11 +1,6 @@
 import { useEffect, useState } from 'react';
-import { fetchCurrenciesByAccountId } from '../services/accountCurrencyService';
+import { fetchCurrencies, AccountCurrency } from '../services/accountCurrencyService'
 import { fetchMarketData } from '../services/marketDataService';
-
-interface BaseCurrency {
-  currency: string;
-  default: boolean;
-}
 
 export const useBaseCurrency = (accountId: string | null) => {
   const [baseCurrency, setBaseCurrency] = useState<string | null>(null);
@@ -23,39 +18,48 @@ export const useBaseCurrency = (accountId: string | null) => {
     const fetchBaseCurrency = async () => {
       try {
         setLoading(true);
-        const fetchedCurrencies = await fetchCurrenciesByAccountId(accountId);
+        console.log('Fetching currencies for accountId:', accountId);
+        const fetchedCurrencies = await fetchCurrencies(accountId);
+        console.log('Fetched currencies:', fetchedCurrencies);
 
-        const defaultCurrency = fetchedCurrencies.find((currency: BaseCurrency) => currency.default);
+        const defaultCurrency = fetchedCurrencies.find((currency: AccountCurrency) => currency.default);
+        console.log('Default currency found:', defaultCurrency);
+        
         if (!defaultCurrency) {
           console.error('No default base currency found.');
           setError('No default base currency found.');
           setBaseCurrency('USD');
+          setUsdToBaseCurrencyRate(1);
           return;
         }
 
         setBaseCurrency(defaultCurrency.currency);
+        console.log('Set base currency to:', defaultCurrency.currency);
 
         if (defaultCurrency.currency === 'USD') {
           setUsdToBaseCurrencyRate(1); // USD to USD rate is always 1
         } else {
+          console.log('Fetching market data for currency pair:', `USD/${defaultCurrency.currency}`);
           const marketData = await fetchMarketData(accountId, [
             {
               symbol: `USD/${defaultCurrency.currency}`,
-              assetType: 'FOREX', // Assuming the asset type is FOREX
+              assetType: 'FOREX',
             },
           ]);
-          console.log(`Market data for USD/${defaultCurrency.currency}:`, marketData);
+          console.log('Market data response:', marketData);
 
           if (marketData.length > 0) {
-            setUsdToBaseCurrencyRate(marketData[0].price); // Use the fetched price as the rate
+            setUsdToBaseCurrencyRate(marketData[0].price);
           }
         }
 
-        setError(null); // Clear any previous errors
+        setError(null);
       } catch (err) {
         console.error('Error fetching base currency:', err);
         setError('Failed to fetch the base currency.');
-        setBaseCurrency(null);
+        // Set USD as fallback
+        setBaseCurrency('USD');
+        setUsdToBaseCurrencyRate(1);
       } finally {
         setLoading(false);
       }

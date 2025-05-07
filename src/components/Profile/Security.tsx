@@ -123,8 +123,8 @@ const Security: React.FC<SecurityProps> = ({ accountId }) => {
 
   const handleSetup2FA = async () => {
     try {
-      const data = await setup2FA(accountId);
-      setQrCode(data.qrCode); // Display the QR code
+      const response = await setup2FA(accountId);
+      setQrCode(response.data?.qrCode || null); // Display the QR code
     } catch (err) {
       console.error('Failed to setup 2FA:', err);
       alert('Failed to setup 2FA. Please try again.');

@@ -1,4 +1,3 @@
-import axios from 'axios';
 import {
   fetchUserDetailsApi,
   updateUserPhoneApi,
@@ -11,62 +10,71 @@ import { UserDetails } from '../types/UserDetails';
 export const fetchUserDetails = async (accountId: string): Promise<UserDetails> => {
   try {
     const response = await fetchUserDetailsApi(accountId);
-    return response.data;
-  } catch (error) {
-    if (axios.isAxiosError(error) && error.response) {
-      throw new Error(error.response.data.message || 'An error occurred during registration.');
+    if (!response.success || !response.data) {
+      throw new Error(response.message || 'Failed to fetch user details');
     }
-    throw new Error('An unknown error occurred during registration.');
+
+    // Ensure all required fields are present
+    const userDetails = response.data;
+    if (!userDetails.userId || !userDetails.accountId) {
+      throw new Error('Invalid user details received');
+    }
+
+    return userDetails;
+  } catch (error) {
+    console.error('Error fetching user details:', error);
+    throw new Error('Failed to fetch user details');
   }
 };
 
 // Update user's phone number
 export const updateUserPhone = async (accountId: string, phone: string, countryCode: string): Promise<void> => {
   try {
-    await updateUserPhoneApi(accountId, phone, countryCode);
-  } catch (error) {
-    if (axios.isAxiosError(error) && error.response) {
-      throw new Error(error.response.data.message || 'Failed to update phone number.');
+    const response = await updateUserPhoneApi(accountId, phone, countryCode);
+    if (!response.success) {
+      throw new Error(response.message || 'Failed to update phone number');
     }
-    throw new Error('An unknown error occurred while updating the phone number.');
+  } catch (error) {
+    console.error('Error updating phone number:', error);
+    throw new Error('Failed to update phone number');
   }
 };
 
 // Update user's address
 export const updateUserAddress = async (accountId: string, address: string): Promise<void> => {
   try {
-    await updateUserAddressApi(accountId, address);
-  } catch (error) {
-    if (axios.isAxiosError(error) && error.response) {
-      throw new Error(error.response.data.message || 'Failed to update address.');
+    const response = await updateUserAddressApi(accountId, address);
+    if (!response.success) {
+      throw new Error(response.message || 'Failed to update address');
     }
-    throw new Error('An unknown error occurred while updating the address.');
+  } catch (error) {
+    console.error('Error updating address:', error);
+    throw new Error('Failed to update address');
   }
 };
 
 // Update user's email
 export const updateUserEmail = async (accountId: string, email: string): Promise<void> => {
   try {
-    await updateUserEmailApi(accountId, email);
-  } catch (error) {
-    if (axios.isAxiosError(error) && error.response) {
-      throw new Error(error.response.data.message || 'Failed to update email.');
+    const response = await updateUserEmailApi(accountId, email);
+    if (!response.success) {
+      throw new Error(response.message || 'Failed to update email');
     }
-    throw new Error('An unknown error occurred while updating the email.');
+  } catch (error) {
+    console.error('Error updating email:', error);
+    throw new Error('Failed to update email');
   }
 };
-
-// Update user's password
-
 
 // Update user's 2FA status
 export const updateTwoFactorStatus = async (accountId: string, enabled: boolean): Promise<void> => {
   try {
-    await updateTwoFactorStatusApi(accountId, enabled);
-  } catch (error) {
-    if (axios.isAxiosError(error) && error.response) {
-      throw new Error(error.response.data.message || 'Failed to update 2FA status.');
+    const response = await updateTwoFactorStatusApi(accountId, enabled);
+    if (!response.success) {
+      throw new Error(response.message || 'Failed to update 2FA status');
     }
-    throw new Error('An unknown error occurred while updating the 2FA status.');
+  } catch (error) {
+    console.error('Error updating 2FA status:', error);
+    throw new Error('Failed to update 2FA status');
   }
-}
+};

@@ -6,7 +6,6 @@ export interface UserDetails {
   countryCode: string | null;
   address: string | null;
   accountId: string; // UUID
-  accountTier: string;
   timezone: string | null;
   twoFactorEnabled: boolean;
   lastLogin: number[] | null;

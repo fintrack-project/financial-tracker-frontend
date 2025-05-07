@@ -5,13 +5,21 @@ import {
 } from '../api/userNotificationPrefApi'; // Adjust the import path as necessary
 import { NotificationPreferences } from '../types/NotificationPreferences';
 
+interface NotificationPreferenceResponse {
+  notification_type: string;
+  is_enabled: boolean;
+}
+
 export const fetchNotificationPreferences = async (accountId: string): Promise<NotificationPreferences> => {
   try {
     const response = await fetchNotificationPreferencesApi(accountId);
+    if (!response.success || !response.data) {
+      throw new Error(response.message || 'Failed to fetch notification preferences');
+    }
 
     // Transform the array into the NotificationPreferences object
-    const preferences = response.data.reduce(
-      (acc: NotificationPreferences, pref: { notification_type: string; is_enabled: boolean }) => {
+    const preferences = response.data.reduce<NotificationPreferences>(
+      (acc, pref) => {
         if (pref.notification_type === 'EMAIL') acc.email = pref.is_enabled;
         if (pref.notification_type === 'SMS') acc.sms = pref.is_enabled;
         if (pref.notification_type === 'PUSH') acc.push = pref.is_enabled;
@@ -34,7 +42,10 @@ export const updateNotificationPreference = async (
   isEnabled: boolean
 ): Promise<void> => {
   try {
-    await updateNotificationPreferenceApi(accountId, notificationType, isEnabled);
+    const response = await updateNotificationPreferenceApi(accountId, notificationType, isEnabled);
+    if (!response.success) {
+      throw new Error(response.message || `Failed to update ${notificationType} preference`);
+    }
     console.log(`Updated ${notificationType} to ${isEnabled}`);
   } catch (error) {
     console.error(`Failed to update ${notificationType}:`, error);

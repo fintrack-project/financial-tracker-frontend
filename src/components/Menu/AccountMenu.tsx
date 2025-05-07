@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate, NavLink } from 'react-router-dom';
 import UserSession from '../../utils/UserSession';
-import { logoutUser } from '../../services/authService'; // Adjust the import path as necessary
+import { logoutUser } from '../../services/authService';
+import { fetchCurrentAccountApi } from '../../api/accountApi';
 import './AccountMenu.css';
 
 interface AccountMenuProps {
@@ -22,31 +23,17 @@ const AccountMenu: React.FC<AccountMenuProps> = ({ onAccountChange }) => {
 
     // Fetch the currently logged-in account ID dynamically
     const fetchAccountId = async () => {
-      const token = sessionStorage.getItem('authToken'); // Get the JWT token from sessionStorage
-      if (!token) {
-        console.error('No auth token found. Redirecting to login.');
-        navigate('/login'); // Redirect to login if no token is found
-        return;
-      }
-
       try {
-        const response = await fetch('/api/accounts/current', {
-          method: 'GET',
-          headers: {
-            'Content-Type': 'application/json',
-            Authorization: `Bearer ${token}`, // Include the JWT token in the Authorization header
-          },
-        });
-
-        if (!response.ok) {
-          throw new Error('Failed to fetch account ID');
+        const response = await fetchCurrentAccountApi();
+        if (!response.success || !response.data) {
+          throw new Error(response.message || 'Failed to fetch account ID');
         }
 
-        const data = await response.json();
-        setAccountId(data.accountId); // Store the accountId in state
-        onAccountChange(data.accountId); // Pass the accountId to the parent component
+        setAccountId(response.data.accountId);
+        onAccountChange(response.data.accountId);
       } catch (error) {
         console.error('Error fetching account ID:', error);
+        navigate('/login');
       }
     };
 

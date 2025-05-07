@@ -1,43 +1,61 @@
-import axios from 'axios';
+import { apiClient } from '../utils/apiClient';
+import { ApiResponse } from '../types/ApiTypes';
+import { HoldingsCategories } from '../types/HoldingsCategoriesTypes';
 
 // Add a new holdings category
 export const addHoldingsCategoryApi = async (
   accountId: string,
-  holdingsCategories: {
-    [category: string]: {
-      [assetName: string]: string | null;
-    };
+  holdingsCategories: HoldingsCategories
+): Promise<ApiResponse<void>> => {
+  try {
+    const response = await apiClient.post<ApiResponse<void>>('/api/categories/holdings/add', holdingsCategories, {
+      params: { accountId },
+    });
+    return response.data;
+  } catch (error) {
+    console.error('Error adding holdings category:', error);
+    throw error;
   }
-) => {
-  return axios.post(`/api/categories/holdings/add`, holdingsCategories, {
-    params: { accountId },
-  });
 };
 
 // Update holdings categories
 export const updateHoldingsCategoriesApi = async (
   accountId: string,
-  holdingsCategories: {
-    [category: string]: {
-      [assetName: string]: string | null;
-    };
+  holdingsCategories: HoldingsCategories
+): Promise<ApiResponse<void>> => {
+  try {
+    const response = await apiClient.post<ApiResponse<void>>('/api/categories/holdings/update', holdingsCategories, {
+      params: { accountId },
+    });
+    return response.data;
+  } catch (error) {
+    console.error('Error updating holdings categories:', error);
+    throw error;
   }
-) => {
-  return axios.post(`/api/categories/holdings/update`, holdingsCategories, {
-    params: { accountId },
-  });
 };
 
 // Remove a holdings category
-export const removeHoldingsCategoryApi = async (accountId: string, category: string) => {
-  return axios.post(`/api/categories/holdings/remove`, null, {
-    params: { accountId, category },
-  });
+export const removeHoldingsCategoryApi = async (accountId: string, category: string): Promise<ApiResponse<void>> => {
+  try {
+    const response = await apiClient.post<ApiResponse<void>>('/api/categories/holdings/remove', null, {
+      params: { accountId, category },
+    });
+    return response.data;
+  } catch (error) {
+    console.error('Error removing holdings category:', error);
+    throw error;
+  }
 };
 
 // Fetch holdings categories
-export const fetchHoldingsCategoriesApi = async (accountId: string) => {
-  return axios.get(`/api/categories/holdings/fetch`, {
-    params: { accountId },
-  });
+export const fetchHoldingsCategoriesApi = async (accountId: string): Promise<ApiResponse<HoldingsCategories>> => {
+  try {
+    const response = await apiClient.get<ApiResponse<HoldingsCategories>>('/api/categories/holdings/fetch', {
+      params: { accountId },
+    });
+    return response.data;
+  } catch (error) {
+    console.error('Error fetching holdings categories:', error);
+    throw error;
+  }
 };

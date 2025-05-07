@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { fetchHoldings } from '../services/holdingsService';
 import { fetchPortfolioData } from '../services/portfolioService';
-import { fetchCurrenciesByAccountId } from '../services/accountCurrencyService';
+import { fetchCurrencies, AccountCurrency } from '../services/accountCurrencyService';
 import { PortfolioData } from 'types/PortfolioData';
 import { Holding } from '../types/Holding';
 
@@ -27,10 +27,10 @@ export const useHoldingsData = (accountId: string | null) => {
         setHoldings(fetchedHoldings);
 
         // Step 2: Fetch the base currency of the user
-        const fetchedCurrencies = await fetchCurrenciesByAccountId(accountId);
+        const fetchedCurrencies = await fetchCurrencies(accountId);
 
         // Find and get the base (default) currency
-        const baseCurrency = fetchedCurrencies.find((currency) => currency.default);
+        const baseCurrency = fetchedCurrencies.find((currency: AccountCurrency) => currency.default);
         if (!baseCurrency) {
           console.error('No default base currency found.');
           return;

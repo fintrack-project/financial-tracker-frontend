@@ -10,3 +10,8 @@ export interface ChartData {
   subcategoryValue: number; // Value of the subcategory
   percentageOfSubcategory: number; // Percentage of the subcategory
 }
+
+export interface RawChartDataEntry {
+  date: string;
+  data: ChartData[];
+}

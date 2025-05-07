@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import BaseUserAccountPage from './BaseUserAccountPage';
-import { fetchCurrenciesByAccountId, updateBaseCurrency, AccountCurrency } from '../../services/accountCurrencyService'; // Adjust the import path as necessary
+import { fetchCurrencies, updateBaseCurrency, AccountCurrency } from '../../services/accountCurrencyService'; // Adjust the import path as necessary
 import AccountDetailAndMenu from '../../components/Menu/AccountDetailAndMenu'; // Import AccountDetailAndMenu
 import ProfileSettings from './ProfileSettings';
 import './Profile.css';
@@ -16,19 +16,19 @@ const Profile: React.FC<ProfileProps> = ({ accountId }) => {
   const [successMessage, setSuccessMessage] = useState<string | null>(null);
 
   useEffect(() => {
-    const fetchCurrencies = async () => {
+    const fetchUpdateCurrencies = async () => {
       if (!accountId) {
         setError('Account ID is required to fetch currencies.');
         return;
       }
 
       try {
-        const fetchedCurrencies = await fetchCurrenciesByAccountId(accountId);
+        const fetchedCurrencies = await fetchCurrencies(accountId);
         setCurrencies(fetchedCurrencies);
         console.log('Fetched currencies:', fetchedCurrencies);
 
         // Find and set the default currency
-        const defaultCurrency = fetchedCurrencies.find((currency) => currency.default);
+        const defaultCurrency = fetchedCurrencies.find((currency: AccountCurrency) => currency.default);
         console.log('Default currency:', defaultCurrency);
         if (defaultCurrency) {
           setBaseCurrency(defaultCurrency.currency);
@@ -38,7 +38,7 @@ const Profile: React.FC<ProfileProps> = ({ accountId }) => {
       }
     };
 
-    fetchCurrencies();
+    fetchUpdateCurrencies();
   }, [accountId]);
 
   const handleBaseCurrencyChange = async (event: React.ChangeEvent<HTMLSelectElement>) => {
