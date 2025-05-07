@@ -44,7 +44,7 @@ const PaymentMethodSelectionPopup: React.FC<SubscriptionPaymentMethodSelectionPo
           
           {paymentMethods.length > 0 ? (
             <form onSubmit={handleSubmit}>
-              <div className="payment-methods-list">
+              <div className="subscription-payment-methods-list">
                 {paymentMethods.map(method => (
                   <div 
                     key={method.stripePaymentMethodId} 
@@ -53,19 +53,22 @@ const PaymentMethodSelectionPopup: React.FC<SubscriptionPaymentMethodSelectionPo
                     }`}
                     onClick={() => setSelectedSubscriptionPaymentMethodId(method.stripePaymentMethodId)}
                   >
+                    <div className="payment-method-details">
+                      <div className="card-brand">{method.cardBrand}</div>
+                      <div className="card-last4">**** **** **** {method.cardLast4 || method.last4}</div>
+                      <div className="card-expiry">Expires: {method.cardExpMonth}/{method.cardExpYear}</div>
+                    </div>
+                    <div className="payment-method-default">
+                      {method.default && <span className="default-badge">Default</span>}
+                    </div>
                     <input 
                       type="radio"
+                      className="input-radio"
                       name="paymentMethod"
                       value={method.stripePaymentMethodId}
                       checked={selectedSubscriptionPaymentMethodId === method.stripePaymentMethodId}
                       onChange={() => setSelectedSubscriptionPaymentMethodId(method.stripePaymentMethodId)}
                     />
-                    <div className="payment-method-details">
-                      <div className="card-brand">{method.cardBrand}</div>
-                      <div className="card-last4">**** **** **** {method.cardLast4 || method.last4}</div>
-                      <div className="card-expiry">Expires: {method.cardExpMonth}/{method.cardExpYear}</div>
-                      {method.default && <span className="default-badge">Default</span>}
-                    </div>
                   </div>
                 ))}
               </div>
