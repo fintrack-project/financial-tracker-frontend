@@ -1,6 +1,6 @@
 import { apiClient } from '../utils/apiClient';
 import { ApiResponse } from '../types/ApiTypes';
-import { Category, Subcategory } from '../types/CategoryTypes';
+import { Category, Subcategory, CategoryAndSubcategories } from '../types/CategoryTypes';
 
 // Fetch category names
 export const fetchCategoryNamesApi = async (accountId: string): Promise<ApiResponse<string[]>> => {
@@ -16,11 +16,9 @@ export const fetchCategoryNamesApi = async (accountId: string): Promise<ApiRespo
 };
 
 // Fetch categories and subcategories
-export const fetchCategoriesAndSubcategoriesApi = async (accountId: string): Promise<ApiResponse<Category[]>> => {
+export const fetchCategoriesAndSubcategoriesApi = async (accountId: string): Promise<ApiResponse<CategoryAndSubcategories>> => {
   try {
-    const response = await apiClient.get<ApiResponse<Category[]>>('/api/categories/fetch', {
-      params: { accountId },
-    });
+    const response = await apiClient.get<ApiResponse<CategoryAndSubcategories>>(`/api/categories/${accountId}`);
     return response.data;
   } catch (error) {
     console.error('Error fetching categories and subcategories:', error);

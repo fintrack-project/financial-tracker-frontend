@@ -1,3 +1,10 @@
+export interface CategoryResponse {
+  categories: string[];
+  subcategories: {
+    [category: string]: string[];
+  };
+}
+
 export interface Category {
   id: string;
   name: string;
@@ -11,6 +18,8 @@ export interface Subcategory {
 }
 
 export interface CategoryAndSubcategories {
-  categories: Category[];
-  subcategories: { [categoryId: string]: Subcategory[] };
-} 
+  categories: string[];
+  subcategories: {
+    [category: string]: string[];
+  };
+}

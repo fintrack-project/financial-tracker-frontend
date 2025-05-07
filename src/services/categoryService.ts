@@ -115,14 +115,8 @@ export const fetchCategoriesAndSubcategories = async (accountId: string): Promis
       throw new Error(response.message || 'Failed to fetch categories and subcategories');
     }
 
-    // Transform the data into the expected format
-    const categories = response.data;
-    const subcategories = categories.reduce((acc, category) => {
-      acc[category.id] = category.subcategories;
-      return acc;
-    }, {} as { [categoryId: string]: Subcategory[] });
-
-    return { categories, subcategories };
+    // The response data is already in the correct format
+    return response.data;
   } catch (error) {
     console.error('Error fetching categories and subcategories:', error);
     throw error;

@@ -1,5 +1,5 @@
 import { apiClient } from '../utils/apiClient';
-import { ChartData } from '../types/ChartData';
+import { ChartData, RawChartDataEntry } from '../types/ChartData';
 import { ApiResponse } from '../types/ApiTypes';
 
 // Fetch portfolio pie chart data
@@ -26,9 +26,9 @@ export const fetchPortfolioCombinedBarChartDataApi = async (
   accountId: string,
   category: string,
   baseCurrency: string
-): Promise<ApiResponse<ChartData[]>> => {
+): Promise<ApiResponse<RawChartDataEntry[]>> => {
   try {
-    const response = await apiClient.post<ApiResponse<ChartData[]>>('/api/portfolio/barchart-data', {
+    const response = await apiClient.post<ApiResponse<RawChartDataEntry[]>>('/api/portfolio/barchart-data', {
       accountId,
       category,
       baseCurrency,
