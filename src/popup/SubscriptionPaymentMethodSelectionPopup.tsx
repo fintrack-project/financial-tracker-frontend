@@ -1,12 +1,13 @@
 import React, { useState } from 'react';
+import { useStripe, useElements } from '@stripe/react-stripe-js';
 import { PaymentMethod } from '../types/PaymentMethods';
-import { createSubscription } from '../services/subscriptionService';
+import { updateSubscription } from '../services/subscriptionService';
 import './SubscriptionPaymentMethodPopupStyle.css';
 
 interface SubscriptionPaymentMethodSelectionPopupProps {
   paymentMethods: PaymentMethod[];
   selectedPlanName: string;
-  selectedPlanId: string;
+  accountId: string;
   onSelectPaymentMethod: (paymentMethodId: string) => void;
   onAddPaymentMethod: () => void;
   onCancel: () => void;
@@ -16,12 +17,14 @@ interface SubscriptionPaymentMethodSelectionPopupProps {
 const PaymentMethodSelectionPopup: React.FC<SubscriptionPaymentMethodSelectionPopupProps> = ({
   paymentMethods,
   selectedPlanName,
-  selectedPlanId,
+  accountId,
   onSelectPaymentMethod,
   onAddPaymentMethod,
   onCancel,
   onSubscriptionComplete
 }) => {
+  const stripe = useStripe();
+  const elements = useElements();
   const [selectedSubscriptionPaymentMethodId, setSelectedSubscriptionPaymentMethodId] = useState<string | null>(
     paymentMethods.find(method => method.default)?.stripePaymentMethodId || null
   );
@@ -30,28 +33,44 @@ const PaymentMethodSelectionPopup: React.FC<SubscriptionPaymentMethodSelectionPo
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!selectedSubscriptionPaymentMethodId) return;
+    if (!selectedSubscriptionPaymentMethodId || !stripe) return;
 
     try {
       setIsProcessing(true);
       setError(null);
 
-      const response = await createSubscription({
-        planId: selectedPlanId,
+      // 1. Update subscription and get payment intent if required
+      const response = await updateSubscription({
+        accountId,
+        planName: selectedPlanName,
         paymentMethodId: selectedSubscriptionPaymentMethodId
       });
 
+      // 2. If payment is required, confirm the payment
+      if (response.paymentRequired && response.clientSecret) {
+        const { error: confirmError } = await stripe.confirmCardPayment(
+          response.clientSecret,
+          {
+            payment_method: selectedSubscriptionPaymentMethodId
+          }
+        );
+
+        if (confirmError) {
+          throw new Error(confirmError.message);
+        }
+      }
+
+      // 3. Handle the subscription status
       if (response.status === 'active') {
         onSubscriptionComplete(response.subscriptionId);
       } else if (response.status === 'pending') {
-        // Handle pending status (e.g., show a message that subscription is being processed)
         setError('Your subscription is being processed. Please wait a moment...');
       } else {
         setError('Failed to create subscription. Please try again.');
       }
     } catch (err) {
-      console.error('Error creating subscription:', err);
-      setError('An error occurred while processing your subscription. Please try again.');
+      console.error('Error processing subscription:', err);
+      setError(err instanceof Error ? err.message : 'An error occurred while processing your subscription. Please try again.');
     } finally {
       setIsProcessing(false);
     }

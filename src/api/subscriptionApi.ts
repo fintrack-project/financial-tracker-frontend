@@ -1,10 +1,10 @@
 import { apiClient } from '../utils/apiClient';
 import { ApiResponse } from '../types/ApiTypes';
-import { CreateSubscriptionRequest, SubscriptionResponse } from '../types/Subscription';
+import { UpdateSubscriptionRequest, SubscriptionResponse } from '../types/Subscription';
 
-export const createSubscriptionApi = async (data: CreateSubscriptionRequest): Promise<ApiResponse<SubscriptionResponse>> => {
+export const updateSubscriptionApi = async (data: UpdateSubscriptionRequest): Promise<ApiResponse<SubscriptionResponse>> => {
   try {
-    const response = await apiClient.post<ApiResponse<SubscriptionResponse>>('/api/subscriptions/create', data);
+    const response = await apiClient.post<ApiResponse<SubscriptionResponse>>('/api/user/subscriptions/update', data);
     return response.data;
   } catch (error) {
     console.error('Error creating subscription:', error);
@@ -14,7 +14,7 @@ export const createSubscriptionApi = async (data: CreateSubscriptionRequest): Pr
 
 export const getSubscriptionStatusApi = async (subscriptionId: string): Promise<ApiResponse<SubscriptionResponse>> => {
   try {
-    const response = await apiClient.get<ApiResponse<SubscriptionResponse>>(`/api/subscriptions/${subscriptionId}/status`);
+    const response = await apiClient.get<ApiResponse<SubscriptionResponse>>(`/api/user/subscription-plans/${subscriptionId}/status`);
     return response.data;
   } catch (error) {
     console.error('Error getting subscription status:', error);

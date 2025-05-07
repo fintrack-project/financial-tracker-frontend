@@ -1,16 +1,5 @@
-import { createSubscriptionApi, getSubscriptionStatusApi } from '../api/subscriptionApi';
-
-interface CreateSubscriptionRequest {
-  planId: string;
-  paymentMethodId: string;
-}
-
-interface SubscriptionResponse {
-  subscriptionId: string;
-  status: 'active' | 'pending' | 'failed';
-  currentPeriodEnd: string;
-  planId: string;
-}
+import { updateSubscriptionApi, getSubscriptionStatusApi } from '../api/subscriptionApi';
+import { UpdateSubscriptionRequest, SubscriptionResponse } from '../types/Subscription';
 
 interface ApiResponse<T> {
   success: boolean;
@@ -18,15 +7,19 @@ interface ApiResponse<T> {
   message?: string;
 }
 
-export const createSubscription = async (data: CreateSubscriptionRequest): Promise<SubscriptionResponse> => {
+export const updateSubscription = async (data: UpdateSubscriptionRequest): Promise<SubscriptionResponse> => {
   try {
-    const response = await createSubscriptionApi(data);
+    if (!data.accountId) {
+      throw new Error('Account ID is required to update subscription');
+    }
+    
+    const response = await updateSubscriptionApi(data);
     if (!response.success || !response.data) {
-      throw new Error(response.message || 'Failed to create subscription');
+      throw new Error(response.message || 'Failed to update subscription');
     }
     return response.data;
   } catch (error) {
-    console.error('Error creating subscription:', error);
+    console.error('Error updating subscription:', error);
     throw error;
   }
 };

@@ -130,7 +130,7 @@ const Plans: React.FC<PlansProps> = ({
     setError(null);
 
     if (planId === 'free') {
-      await onPlanSelect(planId);
+      await onPlanSelect(selectedPlanObj.name);
       return;
     }
 
@@ -150,7 +150,11 @@ const Plans: React.FC<PlansProps> = ({
   const handlePaymentMethodSelect = async (paymentMethodId: string) => {
     if (selectedPlan) {
       try {
-        await onPlanSelect(selectedPlan, paymentMethodId);
+        const selectedPlanObj = plans.find(p => p.id === selectedPlan);
+        if (!selectedPlanObj) {
+          throw new Error('Invalid plan selected');
+        }
+        await onPlanSelect(selectedPlanObj.name, paymentMethodId);
         setShowPaymentMethodPopup(false);
       } catch (err) {
         if (err instanceof Error) {
@@ -212,7 +216,7 @@ const Plans: React.FC<PlansProps> = ({
         <SubscriptionPaymentMethodSelectionPopup
           paymentMethods={paymentMethods}
           selectedPlanName={selectedPlanName}
-          selectedPlanId={selectedPlan || ''}
+          accountId={userDetails.accountId}
           onSelectPaymentMethod={handlePaymentMethodSelect}
           onAddPaymentMethod={handleAddPaymentMethod}
           onCancel={() => setShowPaymentMethodPopup(false)}
