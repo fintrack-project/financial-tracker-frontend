@@ -31,7 +31,7 @@ const Profile: React.FC<ProfileProps> = ({ accountId }) => {
         const defaultCurrency = fetchedCurrencies.find((currency: AccountCurrency) => currency.default);
         console.log('Default currency:', defaultCurrency);
         if (defaultCurrency) {
-          setBaseCurrency(defaultCurrency.symbol);
+          setBaseCurrency(defaultCurrency.currency);
         }
       } catch (err) {
         setError('Failed to fetch currencies. Please try again later.');

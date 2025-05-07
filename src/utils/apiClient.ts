@@ -9,13 +9,14 @@ interface ErrorResponse {
 export const apiClient = axios.create({
   headers: {
     'Content-Type': 'application/json',
+    'Accept': 'application/json, application/*+json'
   },
 });
 
 // Add request interceptor to include auth token
 apiClient.interceptors.request.use(
   (config) => {
-    const token = localStorage.getItem('token');
+    const token = sessionStorage.getItem('authToken');
     if (token) {
       config.headers.Authorization = `Bearer ${token}`;
     }
@@ -29,17 +30,32 @@ apiClient.interceptors.request.use(
 
 // Add response interceptor to handle common errors
 apiClient.interceptors.response.use(
-  (response) => response,
+  (response) => {
+    // Log successful responses for debugging
+    console.log('API Response:', {
+      url: response.config.url,
+      method: response.config.method,
+      status: response.status,
+      data: response.data
+    });
+    return response;
+  },
   (error: AxiosError<ErrorResponse>) => {
+    // Enhanced error logging
     console.error('API Error:', {
+      url: error.config?.url,
+      method: error.config?.method,
       status: error.response?.status,
       statusText: error.response?.statusText,
-      data: error.response?.data
+      data: error.response?.data,
+      headers: error.response?.headers,
+      request: error.request,
+      message: error.message
     });
 
     if (error.response?.status === 401) {
       // Handle unauthorized access
-      localStorage.removeItem('token');
+      sessionStorage.removeItem('authToken');
       window.location.href = '/login';
     }
 

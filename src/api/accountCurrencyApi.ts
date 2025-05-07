@@ -3,7 +3,7 @@ import { ApiResponse } from '../types/ApiTypes';
 
 interface Currency {
   name: string;
-  symbol: string;
+  currency: string;
   default: boolean;
 }
 

@@ -30,7 +30,7 @@ const Settings: React.FC<SettingsProps> = ({ accountId }) => {
         const defaultCurrency = fetchedCurrencies.find((currency: AccountCurrency) => currency.default);
         console.log('Default currency:', defaultCurrency);
         if (defaultCurrency) {
-          setBaseCurrency(defaultCurrency.symbol);
+          setBaseCurrency(defaultCurrency.currency);
         }
       } catch (err) {
         setError('Failed to fetch currencies. Please try again later.');
@@ -79,8 +79,8 @@ const Settings: React.FC<SettingsProps> = ({ accountId }) => {
         >
           {currencies.length > 0 ? (
             currencies.map((currency) => (
-              <option key={currency.symbol} value={currency.symbol}>
-                {currency.symbol}
+              <option key={currency.currency} value={currency.currency}>
+                {currency.currency}
               </option>
             ))
           ) : (

@@ -16,7 +16,7 @@ export const fetchUserDetails = async (accountId: string): Promise<UserDetails> 
 
     // Ensure all required fields are present
     const userDetails = response.data;
-    if (!userDetails.userId || !userDetails.accountId || !userDetails.accountTier) {
+    if (!userDetails.userId || !userDetails.accountId) {
       throw new Error('Invalid user details received');
     }
 

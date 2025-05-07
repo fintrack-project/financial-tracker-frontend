@@ -18,7 +18,9 @@ export const fetchCategoryNamesApi = async (accountId: string): Promise<ApiRespo
 // Fetch categories and subcategories
 export const fetchCategoriesAndSubcategoriesApi = async (accountId: string): Promise<ApiResponse<CategoryAndSubcategories>> => {
   try {
-    const response = await apiClient.get<ApiResponse<CategoryAndSubcategories>>(`/api/categories/${accountId}`);
+    const response = await apiClient.get<ApiResponse<CategoryAndSubcategories>>(`/api/categories/fetch`, {
+      params: { accountId },
+    });
     return response.data;
   } catch (error) {
     console.error('Error fetching categories and subcategories:', error);

@@ -5,7 +5,7 @@ import {
 
 export interface AccountCurrency {
   name: string;
-  symbol: string;
+  currency: string;
   default: boolean;
 }
 

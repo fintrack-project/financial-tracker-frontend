@@ -37,7 +37,7 @@ export const useHoldingsData = (accountId: string | null) => {
         }
 
         // Step 3: Fetch portfolio data using the new service
-        const portfolioDataResponse = await fetchPortfolioData(accountId, baseCurrency.symbol);
+        const portfolioDataResponse = await fetchPortfolioData(accountId, baseCurrency.currency);
         console.log('Fetched portfolio data:', portfolioDataResponse);
 
         setPortfolioData(portfolioDataResponse);

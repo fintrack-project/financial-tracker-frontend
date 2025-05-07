@@ -2,6 +2,7 @@ import { apiClient } from '../utils/apiClient';
 import { MarketDataProps } from '../types/MarketDataProps';
 import { ApiResponse } from '../types/ApiTypes';
 import { Asset } from '../types/Asset';
+
 // Fetch market data for a specific account and assets
 export const fetchMarketDataApi = async (
   accountId: string,

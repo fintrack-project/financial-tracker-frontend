@@ -1,4 +1,3 @@
-import axios from 'axios';
 import { loginApi, registerApi } from '../api/authApi';
 import { createAccountApi } from '../api/accountApi';
 import { sendEmailVerificationApi, verifyEmailApi, checkEmailVerifiedApi } from '../api/emailApi';
@@ -8,20 +7,21 @@ import { RecaptchaVerifier, signInWithPhoneNumber } from 'firebase/auth';
 import { auth } from '../config/firebaseConfig'; // Ensure `auth` is correctly initialized
 import UserSession from '../utils/UserSession';
 
-interface AuthResponse {
-  success: boolean;
-  message?: string;
-  token?: string;
-}
-
 export const loginUser = async (loginData: LoginRequest): Promise<void> => {
+  console.log('Login request data:', loginData);
   const response = await loginApi(loginData);
+  console.log('Login response:', response);
 
   if (!response.success) {
     throw new Error(response.message || 'Login failed.');
   }
 
-  const token = response.token;
+  const authData = response.data;
+  if (!authData) {
+    throw new Error('Login failed: No data received.');
+  }
+
+  const token = authData.token;
   if (!token) {
     throw new Error('Login failed: No token received.');
   }

@@ -19,3 +19,13 @@ export const createAccountApi = async (userId: string): Promise<ApiResponse<Acco
     throw error;
   }
 };
+
+export const fetchCurrentAccountApi = async (): Promise<ApiResponse<Account>> => {
+  try {
+    const response = await apiClient.get<ApiResponse<Account>>('/api/accounts/current');
+    return response.data;
+  } catch (error) {
+    console.error('Error fetching current account:', error);
+    throw error;
+  }
+};
