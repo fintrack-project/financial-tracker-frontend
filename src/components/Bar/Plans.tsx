@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { Elements } from '@stripe/react-stripe-js';
 import { loadStripe } from '@stripe/stripe-js';
 import PaymentForm from '../Payment/PaymentForm';
+import SubscriptionPaymentMethodSelectionPopup from '../../popup/SubscriptionPaymentMethodSelectionPopup';
+import SubscriptionNoPaymentMethodPopup from '../../popup/SubscriptionNoPaymentMethodPopup';
 import { PaymentMethod } from '../../types/PaymentMethods';
 import { UserDetails } from '../../types/UserDetails';
 import { UserSubscription } from '../../types/UserSubscription';
@@ -30,7 +32,10 @@ const Plans: React.FC<PlansProps> = ({
   onTabChange
 }) => {
   const [selectedPlan, setSelectedPlan] = useState<string | null>(null);
+  const [selectedPlanName, setSelectedPlanName] = useState<string>('');
   const [showPaymentForm, setShowPaymentForm] = useState(false);
+  const [showPaymentMethodPopup, setShowPaymentMethodPopup] = useState(false);
+  const [showNoPaymentMethodPopup, setShowNoPaymentMethodPopup] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [currentPlan, setCurrentPlan] = useState<SubscriptionPlan | null>(null);
   const [loading, setLoading] = useState(true);
@@ -113,7 +118,15 @@ const Plans: React.FC<PlansProps> = ({
   ];
 
   const handlePlanSelect = async (planId: string) => {
+    const selectedPlanObj = plans.find(p => p.id === planId);
+    
+    if (!selectedPlanObj) {
+      setError('Invalid plan selected');
+      return;
+    }
+    
     setSelectedPlan(planId);
+    setSelectedPlanName(selectedPlanObj.name);
     setError(null);
 
     if (planId === 'free') {
@@ -122,29 +135,44 @@ const Plans: React.FC<PlansProps> = ({
     }
 
     if (paymentMethods.length === 0) {
-      setError('Please add a payment method before selecting a paid plan.');
-      setShowPaymentForm(true);
+      setShowNoPaymentMethodPopup(true);
       return;
     }
 
-    const hasDefaultPaymentMethod = paymentMethods.some(method => method.default);
-    if (!hasDefaultPaymentMethod) {
-      setError('Please set a default payment method before selecting a paid plan.');
-      setShowPaymentForm(true);
-      return;
-    }
+    setShowPaymentMethodPopup(true);
+  };
 
-    const defaultMethod = paymentMethods.find(method => method.default);
-    if (defaultMethod) {
-      await onPlanSelect(planId, defaultMethod.stripePaymentMethodId);
+  const handleRedirectToPayment = () => {
+    setShowNoPaymentMethodPopup(false);
+    onTabChange('payment');
+  };
+
+  const handlePaymentMethodSelect = async (paymentMethodId: string) => {
+    if (selectedPlan) {
+      try {
+        await onPlanSelect(selectedPlan, paymentMethodId);
+        setShowPaymentMethodPopup(false);
+      } catch (err) {
+        if (err instanceof Error) {
+          setError(err.message);
+        } else {
+          setError('Failed to update subscription. Please try again.');
+        }
+      }
     }
+  };
+
+  const handleAddPaymentMethod = () => {
+    setShowPaymentMethodPopup(false);
+    setShowPaymentForm(true);
   };
 
   const handlePaymentSuccess = async (paymentMethodId: string) => {
     await onPaymentMethodAdd(paymentMethodId);
     setShowPaymentForm(false);
+    
     if (selectedPlan) {
-      await onPlanSelect(selectedPlan, paymentMethodId);
+      handlePaymentMethodSelect(paymentMethodId);
     }
   };
 
@@ -170,6 +198,24 @@ const Plans: React.FC<PlansProps> = ({
         <div className="error-message">
           {error}
         </div>
+      )}
+
+      {showNoPaymentMethodPopup && (
+        <SubscriptionNoPaymentMethodPopup
+          selectedPlanName={selectedPlanName}
+          onRedirectToPayment={handleRedirectToPayment}
+          onCancel={() => setShowNoPaymentMethodPopup(false)}
+        />
+      )}
+
+      {showPaymentMethodPopup && (
+        <SubscriptionPaymentMethodSelectionPopup
+          paymentMethods={paymentMethods}
+          selectedPlanName={selectedPlanName}
+          onSelectPaymentMethod={handlePaymentMethodSelect}
+          onAddPaymentMethod={handleAddPaymentMethod}
+          onCancel={() => setShowPaymentMethodPopup(false)}
+        />
       )}
 
       {showPaymentForm && (

@@ -1,0 +1,355 @@
+/* Shared popup styles with improved design */
+.popup-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.6);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+  backdrop-filter: blur(3px);
+  animation: fadeIn 0.2s ease-out;
+}
+
+.popup-container {
+  background-color: white;
+  border-radius: 12px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+  width: 100%;
+  max-width: 520px;
+  max-height: 90vh;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  animation: scaleIn 0.2s ease-out;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.popup-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px 24px;
+  border-bottom: 1px solid #eee;
+  background-color: #f8f9fa;
+  border-top-left-radius: 12px;
+  border-top-right-radius: 12px;
+}
+
+.popup-header h3 {
+  margin: 0;
+  font-size: 1.25rem;
+  color: #2c3e50;
+  font-weight: 600;
+}
+
+.close-button {
+  background: none;
+  border: none;
+  font-size: 24px;
+  cursor: pointer;
+  color: #666;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+}
+
+.close-button:hover {
+  background-color: rgba(0, 0, 0, 0.07);
+  color: #333;
+}
+
+.popup-content {
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  min-height: 200px; /* Ensure enough vertical space */
+}
+
+.popup-content p {
+  color: #555;
+  line-height: 1.5;
+  margin: 0 0 12px 0;
+  font-size: 1rem;
+}
+
+.popup-content strong {
+  color: #333;
+  font-weight: 600;
+}
+
+/* Payment methods list styles */
+.payment-methods-list {
+  margin: 20px 0 24px;
+  border-radius: 8px;
+  overflow: hidden;
+  border: 1px solid #eee;
+}
+
+.payment-method-item {
+  display: flex;
+  align-items: center;
+  padding: 16px;
+  background-color: #fff;
+  border-bottom: 1px solid #eee;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.payment-method-item:last-child {
+  border-bottom: none;
+}
+
+.payment-method-item.selected {
+  border-color: #007bff;
+  background-color: #f0f7ff;
+}
+
+.payment-method-item:hover {
+  background-color: #f8f9fa;
+}
+
+.payment-method-details {
+  margin-left: 16px;
+  flex: 1;
+}
+
+.card-brand {
+  font-weight: 600;
+  color: #333;
+  margin-bottom: 4px;
+  font-size: 1rem;
+}
+
+.card-last4 {
+  color: #555;
+  font-size: 0.9rem;
+}
+
+.card-expiry {
+  color: #777;
+  font-size: 0.85rem;
+  margin-top: 2px;
+}
+
+.default-badge {
+  display: inline-block;
+  background-color: #28a745;
+  color: white;
+  font-size: 0.75rem;
+  padding: 3px 8px;
+  border-radius: 12px;
+  margin-left: 8px;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+/* Action buttons */
+.popup-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  margin-top: 24px;
+}
+
+.action-buttons {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  align-items: center;
+  flex-direction: row-reverse; /* Swap the order - cancel will be on the right */
+}
+
+/* All buttons should have the same height */
+.action-buttons button {
+  height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 16px;
+  font-size: 1rem;
+}
+
+.subscription-add-payment-method {
+  color: #007bff;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 10px 0;
+  text-align: left;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  font-size: 0.95rem;
+  height: 48px;
+}
+
+.subscription-add-payment-method svg {
+  margin-right: 8px;
+}
+
+.subscription-add-payment-method:hover {
+  color: #0056b3;
+  text-decoration: underline;
+}
+
+.subscription-add-payment-method.primary {
+  background-color: #007bff;
+  color: white;
+  border-radius: 6px;
+  padding: 12px 16px;
+  text-align: center;
+  margin-bottom: 12px;
+  font-weight: 600;
+  border: none;
+  transition: all 0.2s ease;
+  height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.subscription-add-payment-method.primary:hover {
+  background-color: #0062cc;
+  text-decoration: none;
+}
+
+.primary-button {
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  flex: 1;
+  cursor: pointer;
+  font-weight: 600;
+  transition: all 0.2s ease;
+}
+
+.primary-button:hover {
+  background-color: #0062cc;
+}
+
+.primary-button:disabled {
+  background-color: #b0d3f9;
+  cursor: not-allowed;
+}
+
+.secondary-button {
+  background-color: #f8f9fa;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  flex: 1;
+  cursor: pointer;
+  font-weight: 500;
+  color: #495057;
+  transition: all 0.2s ease;
+}
+
+.secondary-button:hover {
+  background-color: #e9ecef;
+}
+
+.no-payment-methods {
+  text-align: center;
+  padding: 20px 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.no-payment-methods p {
+  margin-bottom: 20px;
+}
+
+/* Center content vertically */
+.content-centered {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  flex: 1;
+}
+
+/* Animations */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes scaleIn {
+  from {
+    transform: scale(0.95);
+    opacity: 0;
+  }
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+/* Plus icon for add payment method */
+.plus-icon {
+  display: inline-block;
+  width: 16px;
+  height: 16px;
+  margin-right: 8px;
+  position: relative;
+}
+
+.plus-icon:before,
+.plus-icon:after {
+  content: '';
+  position: absolute;
+  background-color: currentColor;
+}
+
+.plus-icon:before {
+  width: 2px;
+  height: 16px;
+  left: 7px;
+  top: 0;
+}
+
+.plus-icon:after {
+  width: 16px;
+  height: 2px;
+  left: 0;
+  top: 7px;
+}
+
+/* Alert icon for no payment methods */
+.alert-icon {
+  display: inline-block;
+  width: 24px;
+  height: 24px;
+  margin-bottom: 12px;
+  position: relative;
+  border: 2px solid #dc3545;
+  border-radius: 50%;
+}
+
+.alert-icon:before {
+  content: '!';
+  position: absolute;
+  color: #dc3545;
+  font-weight: bold;
+  font-size: 16px;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+} 
