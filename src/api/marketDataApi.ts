@@ -1,17 +1,7 @@
 import { apiClient } from '../utils/apiClient';
 import { MarketDataProps } from '../types/MarketDataProps';
-
-interface Asset {
-  symbol: string;
-  assetType: string;
-}
-
-interface ApiResponse<T> {
-  success: boolean;
-  data: T;
-  message?: string;
-}
-
+import { ApiResponse } from '../types/ApiTypes';
+import { Asset } from '../types/Asset';
 // Fetch market data for a specific account and assets
 export const fetchMarketDataApi = async (
   accountId: string,

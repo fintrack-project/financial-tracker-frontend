@@ -1,19 +1,15 @@
 import { apiClient } from '../utils/apiClient';
+import { ApiResponse } from '../types/ApiTypes';
 
-interface NotificationPreferences {
-  [key: string]: boolean;
-}
-
-interface ApiResponse<T> {
-  success: boolean;
-  data?: T;
-  message?: string;
+interface NotificationPreferenceResponse {
+  notification_type: string;
+  is_enabled: boolean;
 }
 
 // Fetch notification preferences
-export const fetchNotificationPreferencesApi = async (accountId: string): Promise<ApiResponse<NotificationPreferences>> => {
+export const fetchNotificationPreferencesApi = async (accountId: string): Promise<ApiResponse<NotificationPreferenceResponse[]>> => {
   try {
-    const response = await apiClient.get<ApiResponse<NotificationPreferences>>('/api/user/notification-preference/fetch', {
+    const response = await apiClient.get<ApiResponse<NotificationPreferenceResponse[]>>('/api/user/notification-preference/fetch', {
       params: { accountId },
     });
     return response.data;

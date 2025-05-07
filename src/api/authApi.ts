@@ -1,12 +1,6 @@
 import { apiClient } from '../utils/apiClient';
 import { LoginRequest } from '../types/Requests';
-
-interface AuthResponse {
-  success: boolean;
-  message?: string;
-  token?: string;
-}
-
+import { AuthResponse } from '../types/AuthTypes';
 export const loginApi = async (loginData: LoginRequest): Promise<AuthResponse> => {
   try {
     const response = await apiClient.post<AuthResponse>('/api/user/login', loginData);

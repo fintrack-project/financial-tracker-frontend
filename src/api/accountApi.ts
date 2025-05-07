@@ -1,16 +1,11 @@
 import { apiClient } from '../utils/apiClient';
+import { ApiResponse } from '../types/ApiTypes';
 
 interface Account {
   accountId: string;
   userId: string;
   createdAt: string;
   updatedAt: string;
-}
-
-interface ApiResponse<T> {
-  success: boolean;
-  data: T;
-  message?: string;
 }
 
 export const createAccountApi = async (userId: string): Promise<ApiResponse<Account>> => {

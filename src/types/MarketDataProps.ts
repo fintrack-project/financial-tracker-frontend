@@ -11,3 +11,21 @@ export interface MarketDataProps {
   assetName: string;
   priceUnit: string;
 }
+
+export interface MarketIndexData {
+  symbol: string;
+  name: string;
+  price: number;
+  change: number;
+  changePercent: number;
+  lastUpdated: string;
+}
+
+export interface WatchlistItem {
+  symbol: string;
+  assetType: string;
+  name: string;
+  price: number;
+  change: number;
+  changePercent: number;
+}

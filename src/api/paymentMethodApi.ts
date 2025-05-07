@@ -1,23 +1,5 @@
 import { apiClient } from '../utils/apiClient';
-import { PaymentMethod, StripePaymentMethod } from '../types/PaymentMethods';
-
-interface ErrorResponse {
-  type: 'payment_error' | 'internal_error';
-  message: string;
-  code: string | null;
-}
-
-export class PaymentError extends Error {
-  type: string;
-  code: string | null;
-
-  constructor(type: string, message: string, code: string | null) {
-    super(message);
-    this.type = type;
-    this.code = code;
-    this.name = 'PaymentError';
-  }
-}
+import { PaymentMethod, StripePaymentMethod, ErrorResponse, PaymentError } from '../types/PaymentMethods';
 
 const handleApiError = (error: unknown): never => {
   if (error instanceof Error) {

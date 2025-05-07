@@ -6,6 +6,7 @@ import {
   updateCategoryNameApi,
   removeCategoryApi,
 } from '../api/categoryApi';
+import { Category, Subcategory, CategoryAndSubcategories } from '../types/CategoryTypes';
 
 export interface CategoryService {
   categories: string[];
@@ -94,41 +95,78 @@ export const createCategoryService = (
   };
 };
 
-export const fetchCategories = async (
-  accountId: string
-): Promise<string[]> => {
-  if (!accountId ) {
-    throw new Error('Account ID is required');
-  }
-
+export const fetchCategoryNames = async (accountId: string): Promise<string[]> => {
   try {
     const response = await fetchCategoryNamesApi(accountId);
-
-    // Extract the data property to return the array of category names
-    const categoryNames = response.data;
-    if (!Array.isArray(categoryNames)) {
-      throw new Error('Invalid response format: categoryNames is not an array');
+    if (!response.success || !response.data) {
+      throw new Error(response.message || 'Failed to fetch category names');
     }
-
-    return categoryNames;
+    return response.data;
   } catch (error) {
     console.error('Error fetching category names:', error);
     throw error;
   }
 };
 
-export const fetchCategoriesAndSubcategories = async (
-  accountId: string
-) => {
+export const fetchCategoriesAndSubcategories = async (accountId: string): Promise<CategoryAndSubcategories> => {
   try {
     const response = await fetchCategoriesAndSubcategoriesApi(accountId);
+    if (!response.success || !response.data) {
+      throw new Error(response.message || 'Failed to fetch categories and subcategories');
+    }
 
-    const fetchedCategories = response.data.categories || [];
-    const fetchedSubcategories = response.data.subcategories || {};
+    // Transform the data into the expected format
+    const categories = response.data;
+    const subcategories = categories.reduce((acc, category) => {
+      acc[category.id] = category.subcategories;
+      return acc;
+    }, {} as { [categoryId: string]: Subcategory[] });
 
-    return { categories: fetchedCategories, subcategories: fetchedSubcategories };
+    return { categories, subcategories };
   } catch (error) {
     console.error('Error fetching categories and subcategories:', error);
+    throw error;
+  }
+};
+
+export const addCategory = async (accountId: string, categoryName: string): Promise<Category> => {
+  try {
+    const response = await addCategoryApi(accountId, categoryName);
+    if (!response.success || !response.data) {
+      throw new Error(response.message || 'Failed to add category');
+    }
+    return response.data;
+  } catch (error) {
+    console.error('Error adding category:', error);
+    throw error;
+  }
+};
+
+export const updateCategoryName = async (
+  accountId: string,
+  oldCategoryName: string,
+  newCategoryName: string
+): Promise<Category> => {
+  try {
+    const response = await updateCategoryNameApi(accountId, oldCategoryName, newCategoryName);
+    if (!response.success || !response.data) {
+      throw new Error(response.message || 'Failed to update category name');
+    }
+    return response.data;
+  } catch (error) {
+    console.error('Error updating category name:', error);
+    throw error;
+  }
+};
+
+export const removeCategory = async (accountId: string, category: string): Promise<void> => {
+  try {
+    const response = await removeCategoryApi(accountId, category);
+    if (!response.success) {
+      throw new Error(response.message || 'Failed to remove category');
+    }
+  } catch (error) {
+    console.error('Error removing category:', error);
     throw error;
   }
 };

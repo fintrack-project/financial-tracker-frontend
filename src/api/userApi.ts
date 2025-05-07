@@ -1,19 +1,6 @@
 import { apiClient } from '../utils/apiClient';
-
-interface UserDetails {
-  accountId: string;
-  email: string;
-  phone?: string;
-  countryCode?: string;
-  address?: string;
-  twoFactorEnabled: boolean;
-}
-
-interface ApiResponse<T> {
-  success: boolean;
-  data?: T;
-  message?: string;
-}
+import { UserDetails } from '../types/UserDetails';
+import { ApiResponse } from '../types/ApiTypes';
 
 // Fetch user details
 export const fetchUserDetailsApi = async (accountId: string): Promise<ApiResponse<UserDetails>> => {

@@ -1,11 +1,6 @@
 import { useEffect, useState } from 'react';
-import { fetchCurrenciesByAccountId } from '../services/accountCurrencyService';
+import { fetchCurrencies, AccountCurrency } from '../services/accountCurrencyService'
 import { fetchMarketData } from '../services/marketDataService';
-
-interface BaseCurrency {
-  currency: string;
-  default: boolean;
-}
 
 export const useBaseCurrency = (accountId: string | null) => {
   const [baseCurrency, setBaseCurrency] = useState<string | null>(null);
@@ -23,9 +18,9 @@ export const useBaseCurrency = (accountId: string | null) => {
     const fetchBaseCurrency = async () => {
       try {
         setLoading(true);
-        const fetchedCurrencies = await fetchCurrenciesByAccountId(accountId);
+        const fetchedCurrencies = await fetchCurrencies(accountId);
 
-        const defaultCurrency = fetchedCurrencies.find((currency: BaseCurrency) => currency.default);
+        const defaultCurrency = fetchedCurrencies.find((currency: AccountCurrency) => currency.default);
         if (!defaultCurrency) {
           console.error('No default base currency found.');
           setError('No default base currency found.');
@@ -33,18 +28,18 @@ export const useBaseCurrency = (accountId: string | null) => {
           return;
         }
 
-        setBaseCurrency(defaultCurrency.currency);
+        setBaseCurrency(defaultCurrency.symbol);
 
-        if (defaultCurrency.currency === 'USD') {
+        if (defaultCurrency.symbol === 'USD') {
           setUsdToBaseCurrencyRate(1); // USD to USD rate is always 1
         } else {
           const marketData = await fetchMarketData(accountId, [
             {
-              symbol: `USD/${defaultCurrency.currency}`,
+              symbol: `USD/${defaultCurrency.symbol}`,
               assetType: 'FOREX', // Assuming the asset type is FOREX
             },
           ]);
-          console.log(`Market data for USD/${defaultCurrency.currency}:`, marketData);
+          console.log(`Market data for USD/${defaultCurrency.symbol}:`, marketData);
 
           if (marketData.length > 0) {
             setUsdToBaseCurrencyRate(marketData[0].price); // Use the fetched price as the rate

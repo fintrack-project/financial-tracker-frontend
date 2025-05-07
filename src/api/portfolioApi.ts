@@ -1,11 +1,6 @@
 import { apiClient } from '../utils/apiClient';
 import { PortfolioData } from '../types/PortfolioData';
-
-interface ApiResponse<T> {
-  success: boolean;
-  data: T;
-  message?: string;
-}
+import { ApiResponse } from '../types/ApiTypes';
 
 // Fetch portfolio data
 export const fetchPortfolioDataApi = async (accountId: string, baseCurrency: string): Promise<ApiResponse<PortfolioData[]>> => {

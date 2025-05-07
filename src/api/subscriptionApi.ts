@@ -1,22 +1,6 @@
 import { apiClient } from '../utils/apiClient';
-
-export interface CreateSubscriptionRequest {
-  planId: string;
-  paymentMethodId: string;
-}
-
-export interface SubscriptionResponse {
-  subscriptionId: string;
-  status: 'active' | 'pending' | 'failed';
-  currentPeriodEnd: string;
-  planId: string;
-}
-
-interface ApiResponse<T> {
-  success: boolean;
-  data: T;
-  message?: string;
-}
+import { ApiResponse } from '../types/ApiTypes';
+import { CreateSubscriptionRequest, SubscriptionResponse } from '../types/Subscription';
 
 export const createSubscriptionApi = async (data: CreateSubscriptionRequest): Promise<ApiResponse<SubscriptionResponse>> => {
   try {

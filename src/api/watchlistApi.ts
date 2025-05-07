@@ -1,19 +1,6 @@
 import { apiClient } from '../utils/apiClient';
-
-interface WatchlistItem {
-  symbol: string;
-  assetType: string;
-  name: string;
-  price: number;
-  change: number;
-  changePercent: number;
-}
-
-interface ApiResponse<T> {
-  success: boolean;
-  data?: T;
-  message?: string;
-}
+import { ApiResponse } from '../types/ApiTypes';
+import { WatchlistItem } from '../types/MarketDataProps';
 
 // Fetch watchlist data
 export const fetchWatchlistDataApi = async (accountId: string, assetTypes: string[]): Promise<ApiResponse<WatchlistItem[]>> => {

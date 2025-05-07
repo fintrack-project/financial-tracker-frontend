@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import BaseUserAccountPage from './BaseUserAccountPage';
-import { fetchCurrenciesByAccountId, updateBaseCurrency, AccountCurrency } from '../../services/accountCurrencyService'; // Adjust the import path as necessary
+import { fetchCurrencies, updateBaseCurrency, AccountCurrency } from '../../services/accountCurrencyService'; // Adjust the import path as necessary
 import AccountDetailAndMenu from '../../components/Menu/AccountDetailAndMenu'; // Import AccountDetailAndMenu
 import './Settings.css';
 
@@ -15,29 +15,29 @@ const Settings: React.FC<SettingsProps> = ({ accountId }) => {
   const [successMessage, setSuccessMessage] = useState<string | null>(null);
 
   useEffect(() => {
-    const fetchCurrencies = async () => {
+    const fetchUpdateCurrencies = async () => {
       if (!accountId) {
         setError('Account ID is required to fetch currencies.');
         return;
       }
 
       try {
-        const fetchedCurrencies = await fetchCurrenciesByAccountId(accountId);
+        const fetchedCurrencies = await fetchCurrencies(accountId);
         setCurrencies(fetchedCurrencies);
         console.log('Fetched currencies:', fetchedCurrencies);
 
         // Find and set the default currency
-        const defaultCurrency = fetchedCurrencies.find((currency) => currency.default);
+        const defaultCurrency = fetchedCurrencies.find((currency: AccountCurrency) => currency.default);
         console.log('Default currency:', defaultCurrency);
         if (defaultCurrency) {
-          setBaseCurrency(defaultCurrency.currency);
+          setBaseCurrency(defaultCurrency.symbol);
         }
       } catch (err) {
         setError('Failed to fetch currencies. Please try again later.');
       }
     };
 
-    fetchCurrencies();
+    fetchUpdateCurrencies();
   }, [accountId]);
 
   const handleBaseCurrencyChange = async (event: React.ChangeEvent<HTMLSelectElement>) => {
@@ -79,8 +79,8 @@ const Settings: React.FC<SettingsProps> = ({ accountId }) => {
         >
           {currencies.length > 0 ? (
             currencies.map((currency) => (
-              <option key={currency.currency} value={currency.currency}>
-                {currency.currency}
+              <option key={currency.symbol} value={currency.symbol}>
+                {currency.symbol}
               </option>
             ))
           ) : (

@@ -4,15 +4,19 @@ import {
 } from '../api/accountCurrencyApi';
 
 export interface AccountCurrency {
-  currency: string;
+  name: string;
+  symbol: string;
   default: boolean;
 }
 
 // Fetch available currencies by account ID
-export const fetchCurrenciesByAccountId = async (accountId: string): Promise<AccountCurrency[]> => {
+export const fetchCurrencies = async (accountId: string): Promise<AccountCurrency[]> => {
   try {
     const response = await fetchCurrenciesByAccountIdApi(accountId);
-    return response.data; // Return the list of currencies with default information
+    if (!response.success || !response.data) {
+      throw new Error(response.message || 'Failed to fetch currencies');
+    }
+    return response.data;
   } catch (error) {
     console.error('Error fetching currencies:', error);
     throw error;
@@ -20,10 +24,12 @@ export const fetchCurrenciesByAccountId = async (accountId: string): Promise<Acc
 };
 
 // Update the base currency for the account using POST
-export const updateBaseCurrency = async (accountId: string, baseCurrency: string) => {
+export const updateBaseCurrency = async (accountId: string, baseCurrency: string): Promise<void> => {
   try {
     const response = await updateBaseCurrencyApi(accountId, baseCurrency);
-    return response.data; // Return the response from the backend
+    if (!response.success) {
+      throw new Error(response.message || 'Failed to update base currency');
+    }
   } catch (error) {
     console.error('Error updating base currency:', error);
     throw error;

@@ -1,11 +1,6 @@
 import { apiClient } from '../utils/apiClient';
 import { UserSubscription } from '../types/UserSubscription';
-
-interface ApiResponse<T> {
-  success: boolean;
-  data?: T;
-  message?: string;
-}
+import { ApiResponse } from 'types/ApiTypes';
 
 export const fetchUserSubscriptionApi = async (accountId: string): Promise<ApiResponse<UserSubscription>> => {
   try {

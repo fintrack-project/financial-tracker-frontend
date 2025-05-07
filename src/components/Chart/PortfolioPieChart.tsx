@@ -8,7 +8,7 @@ import {
   Legend,
 } from 'recharts';
 import { fetchPortfolioPieChartData } from '../../services/portfolioChartService'; // Service to fetch chart data
-import { fetchCategories } from '../../services/categoryService'; // Service to fetch categories
+import { fetchCategoryNames } from '../../services/categoryService'; // Service to fetch categories
 import { useBaseCurrency } from '../../hooks/useBaseCurrency'; // Custom hook to get base currency 
 import { formatNumber } from '../../utils/FormatNumber'; // Utility function to format numbers
 import CategoryDropdown from '../DropDown/CategoryDropdown';
@@ -29,14 +29,14 @@ const PortfolioPieChart: React.FC<PortfolioPieChartProps> = ({ accountId }) => {
 
   // Fetch category names when the component loads
   useEffect(() => {
-    const fetchCategoryNames = async () => {
+    const updateCategoryNames = async () => {
       if (!accountId) {
         console.warn('Account ID is null, skipping fetch'); // Debug log
         return;
       }
 
       try {
-        const categoryNames = await fetchCategories(accountId); // Fetch category names
+        const categoryNames = await fetchCategoryNames(accountId); // Fetch category names
         setCategories(['None', ...categoryNames]); // Add "None" as the default option
       } catch (err) {
         console.error('Error fetching category names:', err);
@@ -44,7 +44,7 @@ const PortfolioPieChart: React.FC<PortfolioPieChartProps> = ({ accountId }) => {
       }
     };
 
-    fetchCategoryNames();
+    updateCategoryNames();
   }, [accountId]);
 
   // Fetch chart data from the backend

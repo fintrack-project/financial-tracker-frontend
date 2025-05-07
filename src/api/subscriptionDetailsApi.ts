@@ -1,11 +1,6 @@
 import { apiClient } from '../utils/apiClient';
 import { SubscriptionDetails } from '../types/SubscriptionPlan';
-
-interface ApiResponse<T> {
-  success: boolean;
-  data?: T;
-  message?: string;
-}
+import { ApiResponse } from '../types/ApiTypes';
 
 export interface SubscriptionDetailsError {
   type: 'subscription_error' | 'internal_error';

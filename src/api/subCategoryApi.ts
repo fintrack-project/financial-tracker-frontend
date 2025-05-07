@@ -1,10 +1,5 @@
 import { apiClient } from '../utils/apiClient';
-
-interface ApiResponse<T> {
-  success: boolean;
-  data?: T;
-  message?: string;
-}
+import { ApiResponse } from '../types/ApiTypes';
 
 // Add a new subcategory
 export const addSubcategoryApi = async (

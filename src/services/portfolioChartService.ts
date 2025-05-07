@@ -12,6 +12,9 @@ export const fetchPortfolioPieChartData = async (
 ): Promise<ChartData[]> => {
   try {
     const response = await fetchPortfolioPieChartDataApi(accountId, category, baseCurrency);
+    if (!response.success || !response.data) {
+      throw new Error(response.message || 'Failed to fetch portfolio pie chart data');
+    }
     return response.data;
   } catch (error) {
     console.error('Error fetching portfolio pie chart data:', error);
@@ -31,7 +34,10 @@ export const fetchPortfolioCombinedBarChartData = async (
 
   try {
     const response = await fetchPortfolioCombinedBarChartDataApi(accountId, category, baseCurrency);
-    
+    if (!response.success || !response.data) {
+      throw new Error(response.message || 'Failed to fetch portfolio bar chart data');
+    }
+
     // Parse the backend response
     const rawData = response.data; // Backend response
     console.log('Raw data from backend:', rawData); // Debug log
@@ -50,7 +56,7 @@ export const fetchPortfolioCombinedBarChartData = async (
 
       return {
         date: entry.date,
-        assets: entry.data.map((asset : ChartData) => ({
+        assets: entry.data.map((asset: ChartData) => ({
           assetName: asset.assetName,
           symbol: asset.symbol,
           subcategory: asset.subcategory,

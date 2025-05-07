@@ -1,19 +1,6 @@
 import { apiClient } from '../utils/apiClient';
-
-interface MarketIndexData {
-  symbol: string;
-  name: string;
-  price: number;
-  change: number;
-  changePercent: number;
-  lastUpdated: string;
-}
-
-interface ApiResponse<T> {
-  success: boolean;
-  data?: T;
-  message?: string;
-}
+import { ApiResponse } from '../types/ApiTypes';
+import { MarketIndexData } from '../types/MarketDataProps';
 
 // Fetch market index data
 export const fetchMarketIndexDataApi = async (symbols: string[]): Promise<ApiResponse<MarketIndexData[]>> => {

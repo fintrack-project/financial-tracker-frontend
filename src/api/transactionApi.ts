@@ -1,17 +1,13 @@
 import { apiClient } from '../utils/apiClient';
 import { Transaction } from '../types/Transaction';
 import { PreviewTransaction } from '../types/PreviewTransaction';
-
-interface ApiResponse<T> {
-  success: boolean;
-  data: T;
-  message?: string;
-}
+import { OverviewTransaction } from '../types/OverviewTransaction';
+import { ApiResponse } from '../types/ApiTypes';
 
 // Fetch overview transactions
-export const fetchOverviewTransactionsApi = async (accountId: string): Promise<ApiResponse<Transaction[]>> => {
+export const fetchOverviewTransactionsApi = async (accountId: string): Promise<ApiResponse<OverviewTransaction[]>> => {
   try {
-    const response = await apiClient.get<ApiResponse<Transaction[]>>(`/api/accounts/${accountId}/overview-transactions`);
+    const response = await apiClient.get<ApiResponse<OverviewTransaction[]>>(`/api/accounts/${accountId}/overview-transactions`);
     return response.data;
   } catch (error) {
     console.error('Error fetching overview transactions:', error);
@@ -20,9 +16,9 @@ export const fetchOverviewTransactionsApi = async (accountId: string): Promise<A
 };
 
 // Upload preview transactions
-export const uploadPreviewTransactionsApi = async (accountId: string, transactions: Transaction[]): Promise<ApiResponse<PreviewTransaction[]>> => {
+export const uploadPreviewTransactionsApi = async (accountId: string, transactions: Transaction[]): Promise<ApiResponse<Transaction[]>> => {
   try {
-    const response = await apiClient.post<ApiResponse<PreviewTransaction[]>>(
+    const response = await apiClient.post<ApiResponse<Transaction[]>>(
       `/api/accounts/${accountId}/upload-preview-transactions`,
       transactions
     );
@@ -34,9 +30,9 @@ export const uploadPreviewTransactionsApi = async (accountId: string, transactio
 };
 
 // Fetch preview transactions
-export const fetchPreviewTransactionsApi = async (accountId: string): Promise<ApiResponse<PreviewTransaction[]>> => {
+export const fetchPreviewTransactionsApi = async (accountId: string): Promise<ApiResponse<Transaction[]>> => {
   try {
-    const response = await apiClient.get<ApiResponse<PreviewTransaction[]>>(`/api/accounts/${accountId}/preview-transactions`);
+    const response = await apiClient.get<ApiResponse<Transaction[]>>(`/api/accounts/${accountId}/preview-transactions`);
     return response.data;
   } catch (error) {
     console.error('Error fetching preview transactions:', error);

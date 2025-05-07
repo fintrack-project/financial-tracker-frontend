@@ -12,7 +12,7 @@ import {
   Cell,
 } from 'recharts';
 import { fetchPortfolioCombinedBarChartData } from '../../services/portfolioChartService'; // Services to fetch data
-import { fetchCategories } from '../../services/categoryService';
+import { fetchCategoryNames } from '../../services/categoryService';
 import { useBaseCurrency } from '../../hooks/useBaseCurrency'; // Custom hook to get base currency
 import { formatNumber } from '../../utils/FormatNumber';
 import { ChartData } from '../../types/ChartData';
@@ -37,14 +37,14 @@ const PortfolioCombinedBarChart: React.FC<PortfolioCombinedBarChartProps> = ({ a
 
   // Fetch categories when the component loads
   useEffect(() => {
-    const fetchCategoryNames = async () => {
+    const updateCategoryNames = async () => {
       if (!accountId) {
         console.warn('Account ID is null, skipping fetch'); // Debug log
         return;
       }
 
       try {
-        const categoryNames = await fetchCategories(accountId); // Fetch category names
+        const categoryNames = await fetchCategoryNames(accountId); // Fetch category names
         console.log('Fetched categories:', categoryNames); // Debug log
         setCategories(['None', ...categoryNames]); // Add "None" as the default option
       } catch (err) {
@@ -53,7 +53,7 @@ const PortfolioCombinedBarChart: React.FC<PortfolioCombinedBarChartProps> = ({ a
       }
     };
 
-    fetchCategoryNames();
+    updateCategoryNames();
   }, [accountId]);
 
   // Fetch chart data when accountId or selectedCategory changes

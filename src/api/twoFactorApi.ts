@@ -1,14 +1,9 @@
 import { apiClient } from '../utils/apiClient';
+import { ApiResponse } from '../types/ApiTypes';
 
 interface TwoFactorSetupData {
   secret: string;
   qrCode: string;
-}
-
-interface ApiResponse<T> {
-  success: boolean;
-  data?: T;
-  message?: string;
 }
 
 export const setup2FA = async (accountId: string): Promise<ApiResponse<TwoFactorSetupData>> => {

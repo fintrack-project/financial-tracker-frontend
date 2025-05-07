@@ -1,11 +1,6 @@
 import { apiClient } from '../utils/apiClient';
 import { Holding } from '../types/Holding';
-
-interface ApiResponse<T> {
-  success: boolean;
-  data: T;
-  message?: string;
-}
+import { ApiResponse } from '../types/ApiTypes';
 
 // Fetch holdings for a specific account
 export const fetchHoldingsApi = async (accountId: string): Promise<ApiResponse<Holding[]>> => {

@@ -1,16 +1,6 @@
 import { apiClient } from '../utils/apiClient';
-
-interface HoldingsCategories {
-  [category: string]: {
-    [assetName: string]: string | null;
-  };
-}
-
-interface ApiResponse<T> {
-  success: boolean;
-  data?: T;
-  message?: string;
-}
+import { ApiResponse } from '../types/ApiTypes';
+import { HoldingsCategories } from '../types/HoldingsCategoriesTypes';
 
 // Add a new holdings category
 export const addHoldingsCategoryApi = async (

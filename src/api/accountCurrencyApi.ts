@@ -1,15 +1,10 @@
 import { apiClient } from '../utils/apiClient';
+import { ApiResponse } from '../types/ApiTypes';
 
 interface Currency {
-  code: string;
   name: string;
   symbol: string;
-}
-
-interface ApiResponse<T> {
-  success: boolean;
-  data?: T;
-  message?: string;
+  default: boolean;
 }
 
 // Fetch available currencies by account ID
