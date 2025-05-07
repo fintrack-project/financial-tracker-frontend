@@ -1,7 +1,7 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useStripe, useElements } from '@stripe/react-stripe-js';
 import { PaymentMethod } from '../types/PaymentMethods';
-import { updateSubscription } from '../services/subscriptionService';
+import { updateSubscription, finalizeSubscription } from '../services/subscriptionService';
 import './SubscriptionPaymentMethodPopupStyle.css';
 
 interface SubscriptionPaymentMethodSelectionPopupProps {
@@ -31,42 +31,48 @@ const PaymentMethodSelectionPopup: React.FC<SubscriptionPaymentMethodSelectionPo
   const [isProcessing, setIsProcessing] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
+  useEffect(() => {
+    if (!stripe || !elements) {
+      setError('Payment system is not available. Please try again later.');
+    }
+  }, [stripe, elements]);
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!selectedSubscriptionPaymentMethodId || !stripe) return;
+    if (!selectedSubscriptionPaymentMethodId) {
+      setError('Please select a payment method');
+      return;
+    }
+
+    if (!stripe || !elements) {
+      setError('Payment system is not available. Please try again later.');
+      return;
+    }
 
     try {
       setIsProcessing(true);
       setError(null);
 
+      // Get the return URL based on the current window location
+      const returnUrl = `${window.location.origin}/subscription/complete`;
+
       // 1. Update subscription and get payment intent if required
       const response = await updateSubscription({
         accountId,
         planName: selectedPlanName,
-        paymentMethodId: selectedSubscriptionPaymentMethodId
+        paymentMethodId: selectedSubscriptionPaymentMethodId,
+        returnUrl
       });
 
-      // 2. If payment is required, confirm the payment
-      if (response.paymentRequired && response.clientSecret) {
-        const { error: confirmError } = await stripe.confirmCardPayment(
-          response.clientSecret,
-          {
-            payment_method: selectedSubscriptionPaymentMethodId
-          }
-        );
-
-        if (confirmError) {
-          throw new Error(confirmError.message);
-        }
-      }
-
-      // 3. Handle the subscription status
-      if (response.status === 'active') {
-        onSubscriptionComplete(response.subscriptionId);
-      } else if (response.status === 'pending') {
-        setError('Your subscription is being processed. Please wait a moment...');
-      } else {
-        setError('Failed to create subscription. Please try again.');
+      // 2. Start finalizing the subscription
+      try {
+        const finalStatus = await finalizeSubscription(response.subscriptionId, stripe);
+        
+        // If we get here, the subscription is active
+        onSubscriptionComplete(finalStatus.subscriptionId);
+      } catch (finalizeError) {
+        console.error('Error finalizing subscription:', finalizeError);
+        throw new Error('Failed to complete subscription payment. Please try again.');
       }
     } catch (err) {
       console.error('Error processing subscription:', err);
@@ -89,13 +95,6 @@ const PaymentMethodSelectionPopup: React.FC<SubscriptionPaymentMethodSelectionPo
             You've selected the <strong>{selectedPlanName}</strong> plan. 
             Please select a payment method to complete your subscription.
           </p>
-          
-          {error && (
-            <div className="error-message">
-              {error}
-            </div>
-          )}
-          
           {paymentMethods.length > 0 ? (
             <form onSubmit={handleSubmit}>
               <div className="subscription-payment-methods-list">
@@ -143,7 +142,7 @@ const PaymentMethodSelectionPopup: React.FC<SubscriptionPaymentMethodSelectionPo
                   <button 
                     type="submit" 
                     className="primary-button"
-                    disabled={!selectedSubscriptionPaymentMethodId || isProcessing}
+                    disabled={!selectedSubscriptionPaymentMethodId || isProcessing || !stripe}
                   >
                     {isProcessing ? 'Processing...' : 'Pay Now'}
                   </button>
@@ -164,6 +163,11 @@ const PaymentMethodSelectionPopup: React.FC<SubscriptionPaymentMethodSelectionPo
               <button className="secondary-button" onClick={onCancel}>
                 Cancel
               </button>
+            </div>
+          )}
+          {error && (
+            <div className="error-message">
+              {error}
             </div>
           )}
         </div>

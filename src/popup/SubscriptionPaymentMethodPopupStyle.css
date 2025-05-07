@@ -121,7 +121,6 @@
   border-bottom: 1px solid #eee;
   cursor: pointer;
   transition: all 0.2s ease;
-  width: calc(100% - 10px); /* Account for margins */
 }
 
 .subscription-payment-methods-list .payment-method-item.selected {

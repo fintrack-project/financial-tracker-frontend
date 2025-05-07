@@ -2,6 +2,7 @@ export interface UpdateSubscriptionRequest {
   accountId: string;  // UUID string
   planName: string;   // Plan name instead of planId
   paymentMethodId: string;
+  returnUrl: string;  // URL to return to after payment completion
 }
 
 export interface SubscriptionResponse {
@@ -29,3 +30,6 @@ export interface SubscriptionFeature {
   name: string;
   description: string;
 }
+
+// Add subscription plan types
+export type SubscriptionPlanType = 'FREE' | 'BASIC' | 'PREMIUM';

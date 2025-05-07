@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import { Elements } from '@stripe/react-stripe-js';
-import { loadStripe } from '@stripe/stripe-js';
 import PaymentForm from '../Payment/PaymentForm';
 import SubscriptionPaymentMethodSelectionPopup from '../../popup/SubscriptionPaymentMethodSelectionPopup';
 import SubscriptionNoPaymentMethodPopup from '../../popup/SubscriptionNoPaymentMethodPopup';
@@ -9,10 +8,9 @@ import { UserDetails } from '../../types/UserDetails';
 import { UserSubscription } from '../../types/UserSubscription';
 import { SubscriptionPlan } from '../../types/SubscriptionPlan';
 import { fetchSubscriptionDetails } from '../../services/subscriptionDetailsService';
+import { stripePromise } from '../../config/stripe';
 import PlanCard from './PlanCard';
 import './Plans.css';
-
-const stripePromise = loadStripe(process.env.REACT_APP_STRIPE_PUBLIC_KEY || '');
 
 interface PlansProps {
   userDetails: UserDetails;
@@ -213,22 +211,24 @@ const Plans: React.FC<PlansProps> = ({
       )}
 
       {showPaymentMethodPopup && (
-        <SubscriptionPaymentMethodSelectionPopup
-          paymentMethods={paymentMethods}
-          selectedPlanName={selectedPlanName}
-          accountId={userDetails.accountId}
-          onSelectPaymentMethod={handlePaymentMethodSelect}
-          onAddPaymentMethod={handleAddPaymentMethod}
-          onCancel={() => setShowPaymentMethodPopup(false)}
-          onSubscriptionComplete={(subscriptionId) => {
-            setShowPaymentMethodPopup(false);
-            if (userDetails?.accountId) {
-              fetchSubscriptionDetails(userDetails.accountId)
-                .then(response => setCurrentPlan(response.plan))
-                .catch(error => console.error('Error refreshing subscription:', error));
-            }
-          }}
-        />
+        <Elements stripe={stripePromise}>
+          <SubscriptionPaymentMethodSelectionPopup
+            paymentMethods={paymentMethods}
+            selectedPlanName={selectedPlanName}
+            accountId={userDetails.accountId}
+            onSelectPaymentMethod={handlePaymentMethodSelect}
+            onAddPaymentMethod={handleAddPaymentMethod}
+            onCancel={() => setShowPaymentMethodPopup(false)}
+            onSubscriptionComplete={(subscriptionId) => {
+              setShowPaymentMethodPopup(false);
+              if (userDetails?.accountId) {
+                fetchSubscriptionDetails(userDetails.accountId)
+                  .then(response => setCurrentPlan(response.plan))
+                  .catch(error => console.error('Error refreshing subscription:', error));
+              }
+            }}
+          />
+        </Elements>
       )}
 
       {showPaymentForm && (
