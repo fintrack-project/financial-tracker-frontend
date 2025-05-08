@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { fetchUserDetails } from '../../services/userService';
-import { fetchUserSubscription, updateSubscriptionPlan } from '../../services/userSubscriptionService';
+import { fetchUserSubscription, updateSubscription } from '../../services/userSubscriptionService';
 import { fetchPaymentMethods, getDefaultPaymentMethod, deletePaymentMethod, setDefaultPaymentMethod, confirmPayment, attachPaymentMethod } from '../../services/paymentMethodService';
 import { UserDetails } from '../../types/UserDetails';
 import { UserSubscription } from '../../types/UserSubscription';
@@ -161,7 +161,7 @@ const Subscription: React.FC<SubscriptionProps> = ({ accountId }) => {
   const handlePlanSelect = async (planName: string, paymentMethodId?: string) => {
     try {
       // Update subscription plan in backend with optional payment method
-      await updateSubscriptionPlan(accountId, planName, paymentMethodId);
+      await updateSubscription(accountId, planName, paymentMethodId);
       // Reload data to reflect changes
       await loadData();
     } catch (err) {

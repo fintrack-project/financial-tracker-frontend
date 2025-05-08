@@ -16,6 +16,11 @@ export interface SubscriptionResponse {
   currency: string;
 }
 
+export interface SubscriptionUpdateResponse extends SubscriptionResponse {
+  paymentIntentId?: string;
+  returnUrl?: string;
+}
+
 export interface SubscriptionPlanResponse {
   id: string;
   name: string;

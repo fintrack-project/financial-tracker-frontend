@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useStripe, useElements } from '@stripe/react-stripe-js';
 import { PaymentMethod } from '../types/PaymentMethods';
-import { updateSubscription, finalizeSubscription } from '../services/subscriptionService';
+import { updateSubscriptionApi, confirmSubscriptionPaymentApi } from '../api/userSubscriptionApi';
 import './SubscriptionPaymentMethodPopupStyle.css';
 
 interface SubscriptionPaymentMethodSelectionPopupProps {
@@ -57,22 +57,42 @@ const PaymentMethodSelectionPopup: React.FC<SubscriptionPaymentMethodSelectionPo
       const returnUrl = `${window.location.origin}/subscription/complete`;
 
       // 1. Update subscription and get payment intent if required
-      const response = await updateSubscription({
+      const response = await updateSubscriptionApi(
         accountId,
-        planName: selectedPlanName,
-        paymentMethodId: selectedSubscriptionPaymentMethodId,
+        selectedPlanName,
+        selectedSubscriptionPaymentMethodId,
         returnUrl
-      });
+      );
 
-      // 2. Start finalizing the subscription
-      try {
-        const finalStatus = await finalizeSubscription(response.subscriptionId, stripe);
-        
-        // If we get here, the subscription is active
-        onSubscriptionComplete(finalStatus.subscriptionId);
-      } catch (finalizeError) {
-        console.error('Error finalizing subscription:', finalizeError);
-        throw new Error('Failed to complete subscription payment. Please try again.');
+      if (!response.success || !response.data) {
+        throw new Error(response.message || 'Failed to update subscription');
+      }
+
+      const subscriptionData = response.data;
+
+      // 2. Handle payment if required
+      if (subscriptionData.paymentRequired && subscriptionData.clientSecret) {
+        const { error: confirmError } = await stripe.confirmCardPayment(subscriptionData.clientSecret);
+        if (confirmError) {
+          throw new Error(confirmError.message);
+        }
+
+        // 3. Confirm the subscription payment
+        if (subscriptionData.paymentIntentId) {
+          const confirmResponse = await confirmSubscriptionPaymentApi(
+            subscriptionData.paymentIntentId,
+            subscriptionData.subscriptionId
+          );
+
+          if (!confirmResponse.success || !confirmResponse.data) {
+            throw new Error(confirmResponse.message || 'Failed to confirm subscription payment');
+          }
+
+          onSubscriptionComplete(confirmResponse.data.subscriptionId);
+        }
+      } else {
+        // No payment required, subscription is active
+        onSubscriptionComplete(subscriptionData.subscriptionId);
       }
     } catch (err) {
       console.error('Error processing subscription:', err);
