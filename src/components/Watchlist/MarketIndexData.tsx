@@ -19,7 +19,7 @@ const MarketIndexData: React.FC<MarketIndexDataProps> = ({ indexName, marketData
   }
 
   return (
-    <div className="market-item">
+    <div className="market-index-item">
       <h3 className="fintrack-card-title">{indexName}</h3>
       <p>Index: {formatNumber(marketData.price)}</p>
       <p>
