@@ -82,14 +82,14 @@ const PortfolioPieChart: React.FC<PortfolioPieChartProps> = ({ accountId }) => {
   const CustomTooltip = ({ active, payload }: any) => {
     if (!active || !payload || !payload.length) return null;
     
-    const { payload: sliceData } = payload[0];
+    const { payload: sliceData, color } = payload[0];
     const name = sliceData.subcategory === "None" ? sliceData.assetName : sliceData.subcategory;
     const value = sliceData.subcategory === "None" ? sliceData.value : sliceData.subcategoryValue;
     const percentage = sliceData.subcategory === "None" ? sliceData.percentage : sliceData.percentageOfSubcategory;
     
     return (
       <div className="custom-tooltip">
-        <p>{name}</p>
+        <p><span className="color-dot" style={{ backgroundColor: color }}></span>{name}</p>
         <p>Value: {formatNumber(value)}</p>
         <p>Percentage: {formatNumber(percentage)}%</p>
       </div>

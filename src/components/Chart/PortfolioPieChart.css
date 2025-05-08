@@ -41,26 +41,65 @@
   box-shadow: 0 6px 20px rgba(0, 0, 0, 0.12);
 }
 
-/* Custom tooltip styling */
+/* Tooltip fade-in animation */
+@keyframes tooltipFadeIn {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
 .portfolio-pie-chart .custom-tooltip {
   background-color: #fff;
   border-radius: 6px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
-  padding: 8px 12px;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.18);
+  padding: 12px 16px;
   border: none;
+  animation: tooltipFadeIn 0.2s ease;
+  transition: box-shadow 0.2s;
 }
 
 .portfolio-pie-chart .custom-tooltip p {
-  margin: 4px 0;
-  font-size: 0.9rem;
+  margin: 6px 0;
+  font-size: 0.95rem;
   color: #2c3e50;
   white-space: nowrap;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.portfolio-pie-chart .custom-tooltip .color-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  display: inline-block;
+  margin-right: 6px;
 }
 
 .portfolio-pie-chart .custom-tooltip p:first-child {
   font-weight: 600;
-  font-size: 1rem;
-  margin-bottom: 6px;
+  font-size: 1.08rem;
+  margin-bottom: 8px;
+}
+
+/* Dropdown hover/focus */
+.portfolio-pie-chart .dropdown-container select:focus,
+.portfolio-pie-chart .dropdown-container select:hover {
+  border-color: #3498db;
+  box-shadow: 0 0 0 2px rgba(52,152,219,0.15);
+}
+
+/* Legend hover effect */
+.portfolio-pie-chart .recharts-legend-item:hover .recharts-legend-item-text {
+  text-decoration: underline;
+  color: #3498db !important;
+  cursor: pointer;
+}
+
+/* Cursor pointer for interactive chart elements */
+.portfolio-pie-chart .recharts-sector:hover,
+.portfolio-pie-chart .recharts-bar-rectangle:hover {
+  filter: drop-shadow(0 2px 8px rgba(52,152,219,0.18));
+  cursor: pointer;
 }
 
 /* Error message styling */
