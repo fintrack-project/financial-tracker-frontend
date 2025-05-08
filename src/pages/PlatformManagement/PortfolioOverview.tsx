@@ -8,11 +8,23 @@ interface PortfolioOverviewProps {
 }
 
 const PortfolioOverview: React.FC<PortfolioOverviewProps> = ({ accountId }) => {
+  if (!accountId) {
+    return (
+      <div className="portfolio-overview-container">
+        <div className="loading-container">
+          <div className="loading-spinner" />
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="portfolio-overview-container">
       <h1 className="fintrack-section-title">Portfolio Overview</h1>
-      <PortfolioCombinedBarChart accountId={accountId} />
-      <PortfolioPieChart accountId={accountId} />
+      <div className="charts-grid">
+        <PortfolioCombinedBarChart accountId={accountId} />
+        <PortfolioPieChart accountId={accountId} />
+      </div>
     </div>
   );
 };

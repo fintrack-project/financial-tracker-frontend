@@ -1,47 +1,123 @@
 /* Center the chart title */
 .chart-header {
   display: flex;
-  justify-content: center; /* Center the title horizontally */
+  justify-content: space-between;
   align-items: center;
-  position: relative; /* Allow positioning of the dropdown */
-  margin-bottom: 20px;
+  padding: 0 16px 24px;
+  border-bottom: 1px solid #f0f0f0;
+  margin-bottom: 24px;
 }
 
 /* Style the chart title */
-.chart-title {
+.fintrack-subsection-title {
   font-size: 1.5rem;
-  font-weight: bold;
-  text-align: center;
+  font-weight: 600;
+  color: #2c3e50;
   margin: 0;
 }
 
 /* Position the dropdown at the right-top corner */
 .portfolio-pie-chart .dropdown-container {
-  position: absolute;
-  top: 0;
-  right: 10px;
+  position: static;
+  display: flex;
+  gap: 12px;
+  align-items: center;
 }
 
 .portfolio-pie-chart {
-  width: 50%;
-  margin: 20px auto;
-  padding: 20px;
+  width: 100%;
+  margin: 32px auto;
+  padding: 24px;
   background-color: #ffffff;
-  border-radius: 8px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  max-width: 800px;
-}
-.error-message {
-  color: red;
-  font-size: 1rem;
+  border-radius: 12px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+  transition: box-shadow 0.3s ease;
+  min-height: 600px;
+  display: flex;
+  flex-direction: column;
 }
 
+.portfolio-pie-chart:hover {
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.12);
+}
+
+/* Custom tooltip styling */
+.portfolio-pie-chart .custom-tooltip {
+  background-color: #fff;
+  border-radius: 6px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+  padding: 8px 12px;
+  border: none;
+}
+
+.portfolio-pie-chart .custom-tooltip p {
+  margin: 4px 0;
+  font-size: 0.9rem;
+  color: #2c3e50;
+  white-space: nowrap;
+}
+
+.portfolio-pie-chart .custom-tooltip p:first-child {
+  font-weight: 600;
+  font-size: 1rem;
+  margin-bottom: 6px;
+}
+
+/* Error message styling */
+.error-message {
+  color: #e74c3c;
+  font-size: 1rem;
+  padding: 16px;
+  background-color: #fdf0ef;
+  border-radius: 8px;
+  text-align: center;
+  margin: 16px 0;
+}
+
+/* Empty state styling */
 .no-holdings-message {
   display: flex;
-  justify-content: center; /* Horizontally center the message */
-  align-items: center; /* Vertically center the message */
-  height: 400px; /* Match the height of the chart container */
-  font-size: 1.5rem;
-  color: #888;
-  font-style: italic;
+  justify-content: center;
+  align-items: center;
+  height: 400px;
+  font-size: 1.25rem;
+  color: #95a5a6;
+  font-weight: 500;
+  background-color: #f8f9fa;
+  border-radius: 8px;
+  border: 2px dashed #e0e0e0;
+}
+
+/* Loading state */
+.loading-state {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 400px;
+  color: #3498db;
+  font-size: 1.1rem;
+}
+
+/* Chart container */
+.recharts-wrapper {
+  margin: 0 auto;
+}
+
+/* Legend styling */
+.portfolio-pie-chart .recharts-legend-wrapper {
+  padding-left: 20px !important;
+  border-left: 1px solid #f0f0f0;
+  background-color: #fff;
+  display: flex;
+  flex-direction: column;
+}
+
+.portfolio-pie-chart .recharts-legend-item {
+  margin: 8px 0 !important;
+  display: block !important;
+}
+
+.portfolio-pie-chart .recharts-legend-item-text {
+  color: #2c3e50 !important;
+  font-size: 0.9rem !important;
 }
