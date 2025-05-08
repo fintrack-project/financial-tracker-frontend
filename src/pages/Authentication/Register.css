@@ -2,84 +2,102 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 8px; /* Space between sections */
+  gap: 16px;
   width: 100%;
+  max-width: 400px;
+  margin: 20px auto 0 auto;
+  background: linear-gradient(135deg, #f9fafc 60%, #e3e9f6 100%);
+  border-radius: 16px;
+  box-shadow: 0 4px 16px rgba(52, 98, 219, 0.06);
+  border: 1px solid #e0e6ed;
+  padding: 20px 20px 20px 10px;
 }
 
 .register-comment {
-  font-size: 1rem; /* Slightly larger font size */
-  font-weight: bold; /* Make the text bold */
-  color: #333; /* Darker color for better visibility */
+  font-size: 1rem;
+  font-weight: bold;
+  color: #333;
   text-align: center;
-  padding: 4px; /* Add padding for spacing inside the comment box */
+  padding: 4px;
 }
 
 .error-message {
   color: red;
   font-size: 0.9rem;
   text-align: center;
-  height: 20px; /* Fixed height for the error message */
-  visibility: hidden; /* Hide the error message by default */
+  height: 10px;
+  visibility: hidden;
 }
 
 .error-message.visible {
-  visibility: visible; /* Show the error message when it exists */
+  visibility: visible;
 }
 
 .input-fields {
   display: flex;
   flex-direction: column;
-  gap: 16px; /* Space between input fields */
+  gap: 16px;
   width: 100%;
-  max-width: 400px; /* Limit the width of the input fields */
+  max-width: 340px;
 }
 
 .input-fields input,
 .input-fields textarea {
   width: 100%;
   padding: 10px;
-  border: 1px solid #ccc;
-  border-radius: 5px;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
   font-size: 1rem;
+  background: #fff;
+  transition: border-color 0.2s;
+}
+
+.input-fields input:focus,
+.input-fields textarea:focus {
+  border-color: #3462db;
+  outline: none;
 }
 
 .register-actions {
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin-top: 40px;
-  gap: 16px; /* Space between buttons */
+  margin-top: 10px;
+  gap: 16px;
   width: 100%;
 }
 
 .register-button {
-  width: 80%; /* Make the button 80% of the input field width */
+  width: 100%;
   padding: 10px;
-  background-color: #007bff;
-  color: white;
+  background: #3462db;
+  color: #fff;
   border: none;
-  border-radius: 5px;
+  border-radius: 8px;
   font-size: 1rem;
+  font-weight: 600;
   cursor: pointer;
-  transition: background-color 0.3s ease;
+  transition: background 0.3s;
 }
 
 .register-button:hover {
-  background-color: #0056b3;
+  background: #1a3a7c;
 }
 
 .secondary-button {
-  width: 80%; /* Match the width of the register button */
+  width: 100%;
   padding: 10px;
-  background-color: #6c757d;
-  color: white;
-  border: none;
-  border-radius: 5px;
+  background: #f8fafc;
+  color: #3462db;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
   font-size: 1rem;
+  font-weight: 600;
   cursor: pointer;
-  transition: background-color 0.3s ease;
+  transition: background 0.3s, color 0.3s;
 }
 
 .secondary-button:hover {
-  background-color: #5a6268;
+  background: #e3e9f6;
+  color: #1a3a7c;
 }
