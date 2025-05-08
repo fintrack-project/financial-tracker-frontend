@@ -1,12 +1,12 @@
-import React, { ElementType } from 'react';
+import React, { ElementType, CSSProperties } from 'react';
 import { IconType } from 'react-icons';
-import { IconBaseProps } from 'react-icons/lib';
 
 interface IconProps {
   icon: IconType;
   className?: string;
   'aria-hidden'?: boolean;
   size?: string | number;
+  style?: CSSProperties;
 }
 
 const Icon = ({ icon, ...props }: IconProps) => {
