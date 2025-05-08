@@ -18,41 +18,41 @@
 .dashboard-data-container {
   display: flex;
   flex-direction: column;
-  gap: 24px; /* Add spacing between sections */
+  gap: 24px; /* Consistent spacing between all main sections */
 }
 
 .market-data-container {
-  display: flex; /* Use flexbox to align sections horizontally */
-  flex-direction: row; /* Ensure sections are placed side by side */
-  justify-content: space-between; /* Add space between left and right sections */
-  align-items: flex-start; /* Align items at the top */
-  gap: 16px; /* Add spacing between sections */
-  width: 100%; /* Ensure the content takes full width */
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 16px;
+  width: 100%;
 }
 
 .market-index,
 .holdings-section {
-  flex: 1; /* Make both sections take equal width */
+  flex: 1;
   padding: 16px;
-  border: 1px solid #ddd; /* Optional: Add a border for clarity */
-  border-radius: 8px; /* Optional: Add rounded corners */
-  background-color: #f9f9f9; /* Optional: Add a background color */
-  box-sizing: border-box; /* Ensure padding is included in the width */
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  background-color: #f9f9f9;
+  box-sizing: border-box;
 }
 
 .market-index {
-  margin-right: 8px; /* Add spacing to the right of the Market Index section */
+  margin-right: 8px;
 }
 
 .holdings-section {
-  margin-left: 8px; /* Add spacing to the left of the Holdings section */
+  margin-left: 8px;
 }
 
 .market-index-items {
-  display: flex; /* Display items horizontally */
-  justify-content: center; /* Center items horizontally */
-  align-items: center; /* Center items vertically */
-  gap: 20px; /* Add spacing between items */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 20px;
 }
 
 .market-item {
@@ -68,14 +68,22 @@
   margin: 5px 0;
 }
 
+.watchlist,
+.live-price {
+  padding: 24px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  background-color: #f9f9f9;
+}
+
 .change {
   font-weight: bold;
 }
 
 .change.positive {
-  color: green; /* Green for positive change */
+  color: green;
 }
 
 .change.negative {
-  color: red; /* Red for negative change */
+  color: red;
 }
