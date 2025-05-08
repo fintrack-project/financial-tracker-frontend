@@ -10,7 +10,7 @@ interface PortfolioOverviewProps {
 const PortfolioOverview: React.FC<PortfolioOverviewProps> = ({ accountId }) => {
   return (
     <div className="portfolio-overview-container">
-      <h1>Portfolio Overview</h1>
+      <h1 className="fintrack-section-title">Portfolio Overview</h1>
       <PortfolioCombinedBarChart accountId={accountId} />
       <PortfolioPieChart accountId={accountId} />
     </div>

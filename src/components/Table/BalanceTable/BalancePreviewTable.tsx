@@ -112,7 +112,7 @@ const BalancePreviewTable: React.FC<BalancePreviewTableProps> = ({
 
   return (
     <div className="balance-preview-container">
-      <h2>Balance Preview Table</h2>
+      <h2 className="fintrack-subsection-title">Balance Preview Table</h2>
       <button className="button" onClick={handleConfirm}>
         Confirm
       </button>

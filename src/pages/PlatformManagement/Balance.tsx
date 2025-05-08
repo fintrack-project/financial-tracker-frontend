@@ -60,6 +60,7 @@ const Balance: React.FC<BalanceProps> = ({ accountId }) => {
 
   return (
     <div className="balance-container">
+      <h1 className="fintrack-section-title">Balance</h1>
       <BalanceNavigationBar
         activeTab={activeTab}
         onTabChange={setActiveTab}

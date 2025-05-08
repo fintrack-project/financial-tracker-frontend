@@ -20,7 +20,7 @@ const MarketIndexData: React.FC<MarketIndexDataProps> = ({ indexName, marketData
 
   return (
     <div className="market-item">
-      <h2>{indexName}</h2>
+      <h3 className="fintrack-card-title">{indexName}</h3>
       <p>Index: {formatNumber(marketData.price)}</p>
       <p>
         Change: <span className={`change ${marketData.price_change >= 0 ? 'positive' : 'negative'}`}>

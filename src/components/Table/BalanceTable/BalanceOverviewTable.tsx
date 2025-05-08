@@ -56,16 +56,16 @@ const BalanceOverviewTable: React.FC<BalanceOverviewTableProps> = ({ accountId }
 
   return (
     <div className="balance-overview-container">
-      <h2>Balance Overview</h2>
-        <FileActionsDropdown
-            actionName='Download Balance Overview'
-            fileFormat={fileFormat}
-            onFileFormatChange={setFileFormat}
-            onDownload={handleFileDownload}
-        />
-        <TransactionTable 
-          transactions={overviewTransactions}
-        />
+      <h2 className="fintrack-subsection-title">Balance Overview</h2>
+      <FileActionsDropdown
+        actionName='Download Balance Overview'
+        fileFormat={fileFormat}
+        onFileFormatChange={setFileFormat}
+        onDownload={handleFileDownload}
+      />
+      <TransactionTable 
+        transactions={overviewTransactions}
+      />
     </div>
   );
 };

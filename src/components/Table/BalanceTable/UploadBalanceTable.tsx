@@ -121,7 +121,7 @@ const UploadBalanceTable: React.FC<UploadBalanceTableProps> = ({
 
   return (
     <div className="upload-balance-container">
-      <h2>Upload Balance Table</h2>
+      <h2 className="fintrack-subsection-title">Upload Balance Table</h2>
       <div className="actions-row">
         <div className="upload-button-container">
           <button className="button" onClick={handleUploadToPreview}>Upload Transactions</button>

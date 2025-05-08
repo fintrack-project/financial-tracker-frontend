@@ -155,7 +155,7 @@ const PortfolioCombinedBarChart: React.FC<PortfolioCombinedBarChartProps> = ({ a
   return (
     <div className="portfolio-bar-chart">
       <div className="chart-header">
-        <h2 className="chart-title">{timeRange} Holdings Distribution ({baseCurrency})</h2>
+        <h2 className="fintrack-subsection-title">{timeRange} Holdings Distribution ({baseCurrency})</h2>
         <div className="dropdown-container">
           <CategoryDropdown
             value={selectedCategory}
