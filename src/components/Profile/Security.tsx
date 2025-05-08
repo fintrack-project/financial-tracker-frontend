@@ -160,7 +160,7 @@ const Security: React.FC<SecurityProps> = ({ accountId }) => {
       value: userDetails.twoFactorEnabled ? 'Enabled' : 'Disabled',
       status: userDetails.twoFactorEnabled ? (
         <span
-          style={{ color: 'blue', cursor: 'pointer', textDecoration: 'underline' }}
+          style={{ color: 'blue', cursor: 'pointer', textDecoration: 'none' }}
           onClick={handleSetup2FA} // Trigger QR code setup
         >
           Setup Google OTP

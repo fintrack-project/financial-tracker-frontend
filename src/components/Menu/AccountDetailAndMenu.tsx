@@ -28,6 +28,9 @@ const AccountDetailAndMenu: React.FC<AccountDetailAndMenuProps> = ({ accountId }
 
   return (
     <div className="account-detail-and-menu">
+      <div className="account-detail-and-menu-avatar">
+        {userId ? userId.charAt(0).toUpperCase() : <span role="img" aria-label="user">👤</span>}
+      </div>
       <h1 className="account-detail-and-menu-title">Account Details</h1>
       <p className="account-detail-and-menu-user">Logged in as: {userId}</p>
       <nav className="account-detail-and-menu-nav">
