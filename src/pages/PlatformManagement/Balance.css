@@ -1,6 +1,8 @@
 .balance-container {
-  text-align: center;
   padding: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
 }
 
 .balance-container h1 {
@@ -34,4 +36,8 @@
 .right-section form {
   width: 100%;
   max-width: 400px; /* Limit the width of the form */
+}
+
+.balance-navigation-bar {
+  margin-bottom: 28px;
 }

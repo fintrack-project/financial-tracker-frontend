@@ -1,6 +1,6 @@
 .balance-navigation-bar {
   display: flex;
-  justify-content: center;
+  justify-content: flex-start;
   margin-bottom: 28px;
   gap: 0;
   background: linear-gradient(135deg, #f9fafc 60%, #e3e9f6 100%);
@@ -9,6 +9,8 @@
   border: 1px solid #e0e6ed;
   padding: 8px 0;
   overflow: hidden;
+  max-width: 520px;
+  min-width: 200px;
 }
 
 .tab {

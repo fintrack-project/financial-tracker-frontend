@@ -5,14 +5,6 @@
   background-color: var(--neutral-200);
 }
 
-.base-page-content {
-  flex: 1;
-  padding: var(--spacing-xl);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
 .welcome-grid {
   max-width: 600px;
   width: 100%;
