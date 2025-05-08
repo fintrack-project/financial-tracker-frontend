@@ -1,6 +1,4 @@
 .upload-balance-container {
-  max-height: 400px;
-  overflow-y: auto;
   border: 1px solid #e0e0e0;
   border-radius: 12px;
   background-color: #fff;
@@ -11,6 +9,11 @@
 .upload-balance-container h2 {
   margin-bottom: 16px;
   padding: 0 16px;
+  background-color: #fff;
+  border-bottom: 1px solid #edf2f7;
+  padding-bottom: 16px;
+  margin-top: 0;
+  padding-top: 16px;
 }
 
 /* Parent container for file actions and upload button */
@@ -21,11 +24,13 @@
   margin: 16px;
   padding-bottom: 16px;
   border-bottom: 1px solid #edf2f7;
+  background-color: #fff;
 }
 
 .scrollable-tbody {
-  max-height: 400px;
+  max-height: 450px;
   overflow-y: auto;
+  margin-bottom: 16px;
 }
 
 .upload-balance-table {
@@ -54,13 +59,15 @@
 
 .upload-balance-table th,
 .upload-balance-table td {
-  padding: 12px 16px;
+  padding: 10px 16px;
   text-align: left;
   border-bottom: 1px solid #edf2f7;
+  line-height: 1.4;
 }
 
 .upload-balance-table tr:last-child td {
   border-bottom: none;
+  padding-bottom: 16px;
 }
 
 .upload-balance-table tbody tr {
@@ -111,22 +118,22 @@
 .col-credit, .col-debit { width: 20%; }
 .col-action { width: 8%; }
 
-/* Scrollbar styling */
-.upload-balance-container::-webkit-scrollbar {
+/* Move scrollbar styling to scrollable-tbody */
+.scrollable-tbody::-webkit-scrollbar {
   width: 8px;
 }
 
-.upload-balance-container::-webkit-scrollbar-track {
+.scrollable-tbody::-webkit-scrollbar-track {
   background: #f1f1f1;
   border-radius: 4px;
 }
 
-.upload-balance-container::-webkit-scrollbar-thumb {
+.scrollable-tbody::-webkit-scrollbar-thumb {
   background: #cbd5e1;
   border-radius: 4px;
 }
 
-.upload-balance-container::-webkit-scrollbar-thumb:hover {
+.scrollable-tbody::-webkit-scrollbar-thumb:hover {
   background: #94a3b8;
 }
 
