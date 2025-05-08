@@ -115,57 +115,92 @@ const Subscription: React.FC<SubscriptionProps> = ({ accountId }) => {
   };
 
   const handleConfirmPayment = async (paymentIntentId: string, paymentMethodId: string) => {
+    console.log('🔵 Starting payment confirmation:', {
+      paymentIntentId,
+      paymentMethodId,
+      accountId
+    });
+
     try {
-      // Confirm payment with backend
+      console.log('📡 Calling confirmPayment API...');
       await confirmPayment(accountId, paymentIntentId, paymentMethodId);
+      console.log('✅ Payment confirmation successful');
+
       // Reload data to reflect changes
+      console.log('🔄 Reloading subscription data...');
       await loadData();
+      console.log('✅ Data reload complete');
     } catch (err) {
-      console.error('Error confirming payment:', err);
+      console.error('❌ Error confirming payment:', err);
       setError('Failed to confirm payment. Please try again later.');
     }
   };
 
   const handleAttachPaymentMethod = async (accountId: string, paymentMethodId: string) => {
+    console.log('🔵 Starting payment method attachment:', {
+      accountId,
+      paymentMethodId
+    });
+
     try {
       // Validate required data
       if (!accountId || !paymentMethodId) {
+        console.error('❌ Missing required data:', { accountId, paymentMethodId });
         throw new Error('Missing required data for payment method attachment');
       }
 
-      // Attach payment method to customer in backend
+      console.log('📡 Calling attachPaymentMethod API...');
       await attachPaymentMethod(accountId, paymentMethodId);
+      console.log('✅ Payment method attached successfully');
+
       // Reload data to reflect changes
+      console.log('🔄 Reloading subscription data...');
       await loadData();
+      console.log('✅ Data reload complete');
     } catch (error) {
-      console.error('Error in handleAttachPaymentMethod:', error);
+      console.error('❌ Error in handleAttachPaymentMethod:', error);
 
       // Handle specific error cases
       if (error instanceof Error) {
         if (error.name === 'PaymentError') {
           const paymentError = error as PaymentError;
+          console.error('💳 Payment Error:', paymentError);
           throw paymentError;
         } else if (error.message.includes('card was declined')) {
+          console.error('💳 Card declined');
           throw new PaymentError('payment_error', 'Your card was declined. Please check your card details and try again.', 'card_declined');
         } else if (error.message.includes('payment method')) {
+          console.error('💳 Payment method error');
           throw new PaymentError('payment_error', 'Failed to attach payment method. Please try again.', 'payment_method_error');
         } else {
+          console.error('❌ Unexpected error');
           throw new PaymentError('internal_error', 'An unexpected error occurred. Please try again later.', null);
         }
       } else {
+        console.error('❌ Non-Error object thrown:', error);
         throw new PaymentError('internal_error', 'An unexpected error occurred. Please try again later.', null);
       }
     }
   };
 
   const handlePlanSelect = async (planName: string, paymentMethodId?: string) => {
+    console.log('🔵 Starting plan selection process:', {
+      planName,
+      paymentMethodId,
+      accountId
+    });
+
     try {
-      // Update subscription plan in backend with optional payment method
-      await updateSubscription(accountId, planName, paymentMethodId);
+      console.log('📡 Calling updateSubscription API...');
+      const response = await updateSubscription(accountId, planName, paymentMethodId);
+      console.log('✅ Update subscription response:', response);
+
       // Reload data to reflect changes
+      console.log('🔄 Reloading subscription data...');
       await loadData();
+      console.log('✅ Data reload complete');
     } catch (err) {
-      console.error('Error updating plan:', err);
+      console.error('❌ Error updating plan:', err);
       setError('Failed to update subscription plan. Please try again later.');
     }
   };

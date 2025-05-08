@@ -32,6 +32,10 @@ const PaymentMethodSelectionPopup: React.FC<SubscriptionPaymentMethodSelectionPo
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
+    console.log('🔄 Initializing Stripe payment elements:', {
+      stripeLoaded: !!stripe,
+      elementsLoaded: !!elements
+    });
     if (!stripe || !elements) {
       setError('Payment system is not available. Please try again later.');
     }
@@ -39,6 +43,13 @@ const PaymentMethodSelectionPopup: React.FC<SubscriptionPaymentMethodSelectionPo
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+
+    // STEP 1: User initiates payment - Validate payment method
+    console.log('🔵 STEP 1: User initiates payment', {
+      selectedPlanName,
+      selectedPaymentMethodId: selectedSubscriptionPaymentMethodId
+    });
+
     if (!selectedSubscriptionPaymentMethodId) {
       setError('Please select a payment method');
       return;
@@ -56,7 +67,14 @@ const PaymentMethodSelectionPopup: React.FC<SubscriptionPaymentMethodSelectionPo
       // Get the return URL based on the current window location
       const returnUrl = `${window.location.origin}/subscription/complete`;
 
-      // 1. Update subscription and get payment intent if required
+      // STEP 2: Backend creates PaymentIntent via Stripe
+      console.log('🔵 STEP 2: Calling backend to create PaymentIntent', {
+        accountId,
+        selectedPlanName,
+        paymentMethodId: selectedSubscriptionPaymentMethodId,
+        returnUrl
+      });
+
       const response = await updateSubscriptionApi(
         accountId,
         selectedPlanName,
@@ -69,33 +87,62 @@ const PaymentMethodSelectionPopup: React.FC<SubscriptionPaymentMethodSelectionPo
       }
 
       const subscriptionData = response.data;
+      console.log('✅ PaymentIntent created:', subscriptionData);
 
-      // 2. Handle payment if required
+      // STEP 3: Frontend confirms payment via Stripe.js
       if (subscriptionData.paymentRequired && subscriptionData.clientSecret) {
-        const { error: confirmError } = await stripe.confirmCardPayment(subscriptionData.clientSecret);
+        console.log('🔵 STEP 3: Confirming card payment with Stripe', {
+          clientSecret: '***' + subscriptionData.clientSecret.slice(-10),
+          paymentRequired: subscriptionData.paymentRequired
+        });
+
+        const { error: confirmError, paymentIntent } = await stripe.confirmCardPayment(subscriptionData.clientSecret);
         if (confirmError) {
+          console.error('❌ Payment confirmation failed:', confirmError);
           throw new Error(confirmError.message);
         }
 
-        // 3. Confirm the subscription payment
-        if (subscriptionData.paymentIntentId) {
+        console.log('✅ Payment confirmed with Stripe:', {
+          paymentIntentId: paymentIntent.id,
+          status: paymentIntent.status
+        });
+
+        // STEP 4: Backend confirms the payment result
+        if (paymentIntent && paymentIntent.status === 'succeeded') {
+          console.log('🔵 STEP 4: Confirming payment with backend', {
+            paymentIntentId: paymentIntent.id,
+            subscriptionId: subscriptionData.subscriptionId
+          });
+
           const confirmResponse = await confirmSubscriptionPaymentApi(
-            subscriptionData.paymentIntentId,
+            paymentIntent.id,
             subscriptionData.subscriptionId
           );
 
           if (!confirmResponse.success || !confirmResponse.data) {
-            throw new Error(confirmResponse.message || 'Failed to confirm subscription payment');
+            console.error('❌ Backend payment confirmation failed:', confirmResponse);
+            throw new Error(confirmResponse.message || 'Failed to confirm subscription payment with backend');
           }
 
+          console.log('✅ Payment confirmed with backend:', {
+            status: confirmResponse.data.status,
+            subscriptionId: confirmResponse.data.subscriptionId
+          });
+
+          // STEP 5: Frontend updates UI and completes the flow
+          console.log('🔵 STEP 5: Completing subscription process');
           onSubscriptionComplete(confirmResponse.data.subscriptionId);
+        } else {
+          console.error('❌ Payment intent status not succeeded:', paymentIntent?.status);
+          throw new Error('Payment was not completed successfully');
         }
       } else {
         // No payment required, subscription is active
+        console.log('ℹ️ No payment required, completing subscription');
         onSubscriptionComplete(subscriptionData.subscriptionId);
       }
     } catch (err) {
-      console.error('Error processing subscription:', err);
+      console.error('❌ Error processing subscription:', err);
       setError(err instanceof Error ? err.message : 'An error occurred while processing your subscription. Please try again.');
     } finally {
       setIsProcessing(false);
