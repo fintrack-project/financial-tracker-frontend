@@ -122,18 +122,6 @@ const UploadBalanceTable: React.FC<UploadBalanceTableProps> = ({
   return (
     <div className="upload-balance-container">
       <h2 className="fintrack-subsection-title">Upload Balance Table</h2>
-      <div className="actions-row">
-        <div className="upload-button-container">
-          <button className="button" onClick={handleUploadToPreview}>Upload Transactions</button>
-        </div>
-        <input type="file" accept=".csv, .xlsx" onChange={handleFileUpload} />
-        <FileActionsDropdown
-          actionName='Download Template'
-          fileFormat={templateFormat}
-          onFileFormatChange={setTemplateFormat}
-          onDownload={handleDownloadTemplate}
-        />
-      </div>
       <div className="table-wrapper">
         <table className="upload-balance-table">
           <colgroup>
@@ -181,6 +169,30 @@ const UploadBalanceTable: React.FC<UploadBalanceTableProps> = ({
             </tbody>
           </table>
         </div>
+      </div>
+      <div className="table-footer">
+        <div className="actions-group">
+          <div className="file-input-container">
+            <label className="file-input-label">
+              <i className="fas fa-file-upload"></i>
+              Choose File
+              <input 
+                type="file" 
+                accept=".csv, .xlsx" 
+                onChange={handleFileUpload}
+              />
+            </label>
+          </div>
+          <FileActionsDropdown
+            actionName='Download Template'
+            fileFormat={templateFormat}
+            onFileFormatChange={setTemplateFormat}
+            onDownload={handleDownloadTemplate}
+          />
+        </div>
+        <button className="button button-primary" onClick={handleUploadToPreview}>
+          Upload Transactions
+        </button>
       </div>
     </div>
   );
