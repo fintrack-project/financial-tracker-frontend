@@ -135,14 +135,13 @@ const PortfolioPieChart: React.FC<PortfolioPieChartProps> = ({ accountId }) => {
             </Pie>
             <Tooltip content={<CustomTooltip />} />
             <Legend
-              layout="vertical"
-              align="right"
-              verticalAlign="middle"
+              layout="horizontal"
+              align="center"
+              verticalAlign="bottom"
               formatter={(value) => <span className="legend-text">{value}</span>}
               wrapperStyle={{
-                right: 24,
-                paddingLeft: 20,
-                maxHeight: 400,
+                marginTop: 24,
+                maxHeight: 100,
                 overflowY: "auto"
               }}
             />

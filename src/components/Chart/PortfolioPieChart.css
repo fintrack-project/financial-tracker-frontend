@@ -108,13 +108,10 @@
   padding-left: 20px !important;
   border-left: 1px solid #f0f0f0;
   background-color: #fff;
-  display: flex;
-  flex-direction: column;
 }
 
 .portfolio-pie-chart .recharts-legend-item {
   margin: 8px 0 !important;
-  display: block !important;
 }
 
 .portfolio-pie-chart .recharts-legend-item-text {

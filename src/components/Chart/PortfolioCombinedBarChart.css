@@ -47,7 +47,7 @@
 }
 
 /* Custom tooltip styling */
-.custom-tooltip {
+.portfolio-bar-chart .custom-tooltip {
   background-color: #fff;
   border-radius: 6px;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
@@ -55,20 +55,20 @@
   border: none;
 }
 
-.custom-tooltip p {
+.portfolio-bar-chart .custom-tooltip p {
   margin: 4px 0;
   font-size: 0.9rem;
   color: #2c3e50;
   white-space: nowrap;
 }
 
-.custom-tooltip p:first-child {
+.portfolio-bar-chart .custom-tooltip p:first-child {
   font-weight: 600;
   font-size: 1rem;
   margin-bottom: 6px;
 }
 
-.custom-tooltip .label {
+.portfolio-bar-chart .custom-tooltip .label {
   color: #64748b;
   font-size: 0.85rem;
   margin-bottom: 8px;
