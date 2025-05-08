@@ -13,4 +13,9 @@ export interface SubscriptionPlan {
 export interface SubscriptionDetails {
   subscription: UserSubscription;
   plan: SubscriptionPlan;
+}
+
+export interface UserSubscriptionDetailsResponse {
+  subscription: UserSubscription;
+  plan: SubscriptionPlan;
 } 

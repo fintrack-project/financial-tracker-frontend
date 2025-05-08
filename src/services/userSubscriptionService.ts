@@ -1,5 +1,6 @@
 import { UserSubscription } from '../types/UserSubscription';
-import { fetchUserSubscriptionApi, updateSubscriptionPlanApi } from '../api/userSubscriptionApi';
+import { fetchUserSubscriptionApi, updateSubscriptionApi } from '../api/userSubscriptionApi';
+import { SubscriptionUpdateResponse } from '../types/Subscription';
 
 export const fetchUserSubscription = async (accountId: string): Promise<UserSubscription> => {
   try {
@@ -14,19 +15,25 @@ export const fetchUserSubscription = async (accountId: string): Promise<UserSubs
   }
 };
 
-export const updateSubscriptionPlan = async (
+export const updateSubscription = async (
   accountId: string,
   planName: string,
-  paymentMethodId?: string
-): Promise<UserSubscription> => {
+  paymentMethodId?: string,
+  returnUrl?: string
+): Promise<SubscriptionUpdateResponse> => {
   try {
-    const response = await updateSubscriptionPlanApi(accountId, planName, paymentMethodId);
+    const response = await updateSubscriptionApi(
+      accountId,
+      planName,
+      paymentMethodId || '',
+      returnUrl || `${window.location.origin}/subscription/complete`
+    );
     if (!response.success || !response.data) {
-      throw new Error(response.message || 'Failed to update subscription plan');
+      throw new Error(response.message || 'Failed to update subscription');
     }
     return response.data;
   } catch (error) {
-    console.error('Error updating subscription plan:', error);
+    console.error('Error updating subscription:', error);
     throw error;
   }
 }; 
