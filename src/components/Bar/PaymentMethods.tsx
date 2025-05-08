@@ -75,55 +75,57 @@ const PaymentMethods: React.FC<PaymentMethodsProps> = ({
         {/* Render existing payment methods if any */}
         {paymentMethods && paymentMethods.length > 0 ? (
           <div className="payment-methods-list">
-            {paymentMethods.map((method) => {
-              // Log each method's default status
-              console.log(`Method ${method.id} default:`, method.default);
-              
-              return (
-                <div key={method.id} className="payment-method-item">
-                  <div className="payment-method-info">
-                    <span className="card-brand">{method.cardBrand || 'Unknown'}</span>
-                    <span className="card-last4">
-                      {method.cardLast4 ? `**** **** **** ${method.cardLast4}` : 'No card details'}
-                    </span>
-                    <span className="card-expiry">
-                      {method.cardExpMonth && method.cardExpYear 
-                        ? `Expires ${method.cardExpMonth}/${method.cardExpYear}`
-                        : 'No expiry date'}
-                    </span>
-                    {method.default && (
-                      <span className="default-badge" style={{ 
-                        backgroundColor: '#4CAF50', 
-                        color: 'white',
-                        padding: '4px 8px',
-                        borderRadius: '4px',
-                        fontSize: '12px',
-                        marginLeft: '8px'
-                      }}>
-                        Default
+            {paymentMethods
+              .slice() // copy array to avoid mutating props
+              .sort((a, b) => (b.default ? 1 : 0) - (a.default ? 1 : 0))
+              .map((method) => {
+                // Log each method's default status
+                console.log(`Method ${method.id} default:`, method.default);
+                return (
+                  <div key={method.id} className="payment-method-item">
+                    <div className="payment-method-info">
+                      <span className="card-brand">{method.cardBrand || 'Unknown'}</span>
+                      <span className="card-last4">
+                        {method.cardLast4 ? `**** **** **** ${method.cardLast4}` : 'No card details'}
                       </span>
-                    )}
-                  </div>
-                  <div className="payment-method-actions">
-                    {/* Show set default button if not already default */}
-                    {!method.default && (
+                      <span className="card-expiry">
+                        {method.cardExpMonth && method.cardExpYear 
+                          ? `Expires ${method.cardExpMonth}/${method.cardExpYear}`
+                          : 'No expiry date'}
+                      </span>
+                      {method.default && (
+                        <span className="default-badge" style={{ 
+                          backgroundColor: '#4CAF50', 
+                          color: 'white',
+                          padding: '4px 8px',
+                          borderRadius: '4px',
+                          fontSize: '12px',
+                          marginLeft: '8px'
+                        }}>
+                          Default
+                        </span>
+                      )}
+                    </div>
+                    <div className="payment-method-actions">
+                      {/* Show set default button if not already default */}
+                      {!method.default && (
+                        <button
+                          onClick={() => onSetDefault(method.stripePaymentMethodId)}
+                          className="action-button"
+                        >
+                          Set as Default
+                        </button>
+                      )}
                       <button
-                        onClick={() => onSetDefault(method.stripePaymentMethodId)}
-                        className="action-button"
+                        onClick={() => onDelete(method.stripePaymentMethodId)}
+                        className="action-button delete"
                       >
-                        Set as Default
+                        Delete
                       </button>
-                    )}
-                    <button
-                      onClick={() => onDelete(method.stripePaymentMethodId)}
-                      className="action-button delete"
-                    >
-                      Delete
-                    </button>
+                    </div>
                   </div>
-                </div>
-              );
-            })}
+                );
+              })}
           </div>
         ) : (
           // Show empty state if no payment methods
