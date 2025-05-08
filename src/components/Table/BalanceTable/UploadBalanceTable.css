@@ -1,86 +1,143 @@
 .upload-balance-container {
-  padding: 20px;
-  border: 1px solid #ddd;
-  border-radius: 8px;
+  max-height: 400px;
+  overflow-y: auto;
+  border: 1px solid #e0e0e0;
+  border-radius: 12px;
   background-color: #fff;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
   margin-top: 20px;
 }
 
 .upload-balance-container h2 {
-  font-size: 20px;
-  margin-bottom: 15px;
-  color: #333;
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: #475569;
+  margin-bottom: 16px;
+  padding: 0 16px;
 }
 
 /* Parent container for file actions and upload button */
 .actions-row {
   display: flex;
-  justify-content: space-between; /* Space between the two sections */
-  align-items: center; /* Vertically align items */
-  margin-top: 16px; /* Add spacing above the row */
+  justify-content: space-between;
+  align-items: center;
+  margin: 16px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid #edf2f7;
 }
 
 .scrollable-tbody {
-  max-height: 400px; /* Adjust height as needed */
-  overflow-y: auto; /* Enable vertical scrolling */
-}
-
-.scrollable-tbody table {
-  width: 100%;
-  border-collapse: collapse;
-  table-layout: fixed; /* Ensure consistent column widths */
+  max-height: 400px;
+  overflow-y: auto;
 }
 
 .upload-balance-table {
   width: 100%;
-  border-collapse: collapse;
-  table-layout: fixed;
+  border-collapse: separate;
+  border-spacing: 0;
+  font-size: 0.95rem;
+}
+
+.upload-balance-table thead {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  background-color: #fff;
+}
+
+.upload-balance-table th {
+  background-color: #f8fafc;
+  font-weight: 600;
+  color: #475569;
+  text-transform: uppercase;
+  font-size: 0.85rem;
+  letter-spacing: 0.05em;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
 }
 
 .upload-balance-table th,
 .upload-balance-table td {
-  padding: 8px;
+  padding: 12px 16px;
   text-align: left;
-  border: 1px solid #ddd;
+  border-bottom: 1px solid #edf2f7;
 }
 
-.upload-balance-table th {
-  background-color: #f4f4f4;
+.upload-balance-table tr:last-child td {
+  border-bottom: none;
+}
+
+.upload-balance-table tbody tr {
+  transition: all 0.2s ease;
+}
+
+.upload-balance-table tbody tr:hover {
+  background-color: #f8fafc;
+  transform: translateY(-1px);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.02);
+}
+
+/* Symbol column styling */
+.upload-balance-table td:nth-child(3) {
+  font-weight: 500;
+  color: #2563eb;
+}
+
+/* Numeric columns styling */
+.upload-balance-table td:nth-child(5),
+.upload-balance-table td:nth-child(6) {
+  font-family: 'Monaco', 'Courier New', monospace;
+  text-align: right;
 }
 
 .delete-all-button {
-  background-color: #ff4d4f;
+  background-color: #dc2626;
   color: white;
   border: none;
-  padding: 5px 10px;
-  border-radius: 4px;
+  padding: 8px 16px;
+  border-radius: 6px;
   cursor: pointer;
+  font-size: 0.9rem;
+  font-weight: 500;
+  transition: all 0.2s ease;
 }
 
 .delete-all-button:hover {
-  background-color: #d9363e;
+  background-color: #b91c1c;
+  transform: translateY(-1px);
 }
 
 /* Define column widths using CSS classes */
-.col-date {
-  width: 10%;
+.col-date { width: 12%; }
+.col-asset-name { width: 20%; }
+.col-symbol { width: 10%; }
+.col-asset-type { width: 12%; }
+.col-credit, .col-debit { width: 20%; }
+.col-action { width: 8%; }
+
+/* Scrollbar styling */
+.upload-balance-container::-webkit-scrollbar {
+  width: 8px;
 }
 
-.col-asset-name {
-  width: 20%;
+.upload-balance-container::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 4px;
 }
 
-.col-symbol,
-.col-asset-type {
-  width: 10%;
+.upload-balance-container::-webkit-scrollbar-thumb {
+  background: #cbd5e1;
+  border-radius: 4px;
 }
 
-.col-credit,
-.col-debit {
-  width: 20%;
+.upload-balance-container::-webkit-scrollbar-thumb:hover {
+  background: #94a3b8;
 }
 
-.col-action {
-  width: 5%;
+/* Empty state styling */
+.no-data-message {
+  text-align: center;
+  padding: 48px 0;
+  font-size: 1.1rem;
+  color: #94a3b8;
+  font-style: italic;
 }
