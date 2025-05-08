@@ -33,9 +33,10 @@ const Dashboard: React.FC<DashboardProps> = ({ accountId }) => {
 
   return (
     <div className="dashboard-container">
+      <h1 className="fintrack-section-title">Dashboard</h1>
       <div className="market-data-container">
         <div className="market-index">
-          <h1>Market Index</h1>
+          <h2 className="fintrack-card-title">Market Index</h2>
           <div className="market-index-items">
             <div className="market-index-items">
               {marketData && marketData['^GSPC'] && (
@@ -66,7 +67,7 @@ const Dashboard: React.FC<DashboardProps> = ({ accountId }) => {
           </div>
         </div>
         <div className="holdings-section">
-          <h1>My Holdings</h1>
+          <h2 className="fintrack-card-title">My Holdings</h2>
           <HoldingsTable 
             accountId={accountId}
           />
@@ -74,13 +75,13 @@ const Dashboard: React.FC<DashboardProps> = ({ accountId }) => {
       </div>
       <div className="dashboard-data-container">
         <div className="watchlist">
-          <h1>Watchlist</h1>
+          <h2 className="fintrack-card-title">Watchlist</h2>
           <MarketWatchlist 
             accountId={accountId}
           />
         </div>
         <div className="live-price">
-          <h1>Currency</h1>
+          <h2 className="fintrack-card-title">Currency</h2>
             <ForexWatchlist 
               accountId={accountId}
             />

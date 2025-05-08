@@ -1,6 +1,21 @@
 .holdings-container {
-  text-align: center;
   padding: 20px;
+}
+
+.holdings-section,
+.categories-section {
+  margin-bottom: 48px;
+}
+
+/* Use the common fintrack-section-title class from Title.css */
+.holdings-container .fintrack-section-title {
+  margin-bottom: 24px;
+  color: #1e293b;
+}
+
+/* Add spacing between sections */
+.categories-section {
+  margin-top: 48px;
 }
 
 .holdings-container h1 {

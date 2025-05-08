@@ -1,36 +1,44 @@
 /* Center the chart title */
 .chart-header {
   display: flex;
-  justify-content: center; /* Center the title horizontally */
+  justify-content: space-between;
   align-items: center;
-  position: relative; /* Allow positioning of the dropdown */
-  margin-bottom: 20px;
+  padding: 0 16px 24px;
+  border-bottom: 1px solid #f0f0f0;
+  margin-bottom: 24px;
 }
 
 /* Style the chart title */
-.chart-title {
+.fintrack-subsection-title {
   font-size: 1.5rem;
-  font-weight: bold;
-  text-align: center;
+  font-weight: 600;
+  color: #2c3e50;
   margin: 0;
 }
 
 /* Position the dropdown at the right-top corner */
 .portfolio-bar-chart .dropdown-container {
-  position: absolute;
+  position: static;
   display: flex;
-  gap: 16px;
-  top: 0;
-  right: 30px;
+  gap: 12px;
+  align-items: center;
 }
 
+/* Chart container styling */
 .portfolio-bar-chart {
   width: 100%;
-  margin: 20px auto;
-  padding: 20px;
-  background-color: #f9f9f9;
-  border-radius: 8px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  margin: 32px auto;
+  padding: 24px;
+  background-color: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+  transition: box-shadow 0.3s ease;
+  display: flex;
+  flex-direction: column;
+}
+
+.portfolio-bar-chart:hover {
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.12);
 }
 
 .portfolio-bar-chart h2 {
@@ -38,17 +46,112 @@
   margin-bottom: 20px;
 }
 
-.error-message {
-  color: red;
-  text-align: center;
+/* Custom tooltip styling */
+.portfolio-bar-chart .custom-tooltip {
+  background-color: #fff;
+  border-radius: 6px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+  padding: 8px 12px;
+  border: none;
 }
 
+.portfolio-bar-chart .custom-tooltip p {
+  margin: 4px 0;
+  font-size: 0.9rem;
+  color: #2c3e50;
+  white-space: nowrap;
+}
+
+.portfolio-bar-chart .custom-tooltip p:first-child {
+  font-weight: 600;
+  font-size: 1rem;
+  margin-bottom: 6px;
+}
+
+.portfolio-bar-chart .custom-tooltip .label {
+  color: #64748b;
+  font-size: 0.85rem;
+  margin-bottom: 8px;
+  border-bottom: 1px solid #e2e8f0;
+  padding-bottom: 4px;
+}
+
+/* Error message styling */
+.error-message {
+  color: #e74c3c;
+  font-size: 1rem;
+  padding: 16px;
+  background-color: #fdf0ef;
+  border-radius: 8px;
+  text-align: center;
+  margin: 16px 0;
+}
+
+/* Empty state styling */
 .no-holdings-by-time-message {
   display: flex;
-  justify-content: center; /* Horizontally center the message */
-  align-items: center; /* Vertically center the message */
-  height: 500px; /* Match the height of the chart container */
-  font-size: 1.5rem;
-  color: #888;
-  font-style: italic;
+  justify-content: center;
+  align-items: center;
+  height: 300px;
+  font-size: 1.25rem;
+  color: #95a5a6;
+  font-weight: 500;
+  background-color: #f8f9fa;
+  border-radius: 8px;
+  border: 2px dashed #e0e0e0;
+}
+
+/* Loading state */
+.loading-state {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 300px;
+  color: #3498db;
+  font-size: 1.1rem;
+}
+
+/* Chart grid styling */
+.recharts-cartesian-grid-horizontal line,
+.recharts-cartesian-grid-vertical line {
+  stroke: #e2e8f0 !important;
+}
+
+/* Axis styling */
+.recharts-xAxis .recharts-cartesian-axis-line,
+.recharts-yAxis .recharts-cartesian-axis-line {
+  stroke: #bdc3c7;
+}
+
+.recharts-xAxis .recharts-cartesian-axis-tick-value,
+.recharts-yAxis .recharts-cartesian-axis-tick-value {
+  fill: #64748b !important;
+  font-size: 0.85rem !important;
+}
+
+/* Legend styling */
+.recharts-default-legend {
+  margin: 16px 0 !important;
+  padding: 0 16px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 16px;
+}
+
+.recharts-legend-item {
+  margin: 0 !important;
+  display: flex !important;
+  align-items: center !important;
+}
+
+.recharts-legend-item-text {
+  color: #2c3e50 !important;
+  font-size: 0.9rem !important;
+  margin-left: 8px !important;
+}
+
+/* Chart container */
+.recharts-wrapper {
+  margin: 0 auto;
 }

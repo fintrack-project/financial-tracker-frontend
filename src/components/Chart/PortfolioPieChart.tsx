@@ -80,29 +80,26 @@ const PortfolioPieChart: React.FC<PortfolioPieChartProps> = ({ accountId }) => {
 
   // Custom Tooltip for Pie Chart
   const CustomTooltip = ({ active, payload }: any) => {
-    if (active && payload && payload.length) {
-      const { payload: sliceData } = payload[0];
-      const assetName = sliceData.assetName;
-      const value = sliceData.value;
-      const percentage = sliceData.percentage;
-      const subcategory = sliceData.subcategory;
-      const subcategoryValue = sliceData.subcategoryValue;
-      const percentageOfSubcategory = sliceData.percentageOfSubcategory;
-      return (
-        <div className="custom-tooltip" style={{ backgroundColor: '#fff', padding: '10px', border: '1px solid #ccc' }}>
-          <p>{subcategory === "None" ? assetName : subcategory}</p>
-          <p>{`Value: ${subcategory === "None" ? formatNumber(value) : formatNumber(subcategoryValue)}`}</p>
-          <p>{`Percentage: ${subcategory === "None" ? formatNumber(percentage) : formatNumber(percentageOfSubcategory)}%`}</p>
-        </div>
-      );
-    }
-    return null;
+    if (!active || !payload || !payload.length) return null;
+    
+    const { payload: sliceData, color } = payload[0];
+    const name = sliceData.subcategory === "None" ? sliceData.assetName : sliceData.subcategory;
+    const value = sliceData.subcategory === "None" ? sliceData.value : sliceData.subcategoryValue;
+    const percentage = sliceData.subcategory === "None" ? sliceData.percentage : sliceData.percentageOfSubcategory;
+    
+    return (
+      <div className="custom-tooltip">
+        <p><span className="color-dot" style={{ backgroundColor: color }}></span>{name}</p>
+        <p>Value: {formatNumber(value)}</p>
+        <p>Percentage: {formatNumber(percentage)}%</p>
+      </div>
+    );
   };
 
   return (
     <div className="portfolio-pie-chart">
       <div className="chart-header">
-        <h2 className="chart-title">Holdings Distribution ({baseCurrency})</h2>
+        <h2 className="fintrack-subsection-title">Holdings Distribution ({baseCurrency})</h2>
         <div className="dropdown-container">
           <CategoryDropdown
             value={selectedCategory}
@@ -115,12 +112,12 @@ const PortfolioPieChart: React.FC<PortfolioPieChartProps> = ({ accountId }) => {
         <p>Loading chart...</p>
       ) : error ? (
         <p className="error-message">{error}</p>
-      ) : chartData.length === 0 ? ( // Check if chartData is empty
+      ) : chartData.length === 0 ? (
         <div className="no-holdings-message">
           No holdings
         </div>
       ) : (
-        <ResponsiveContainer width="100%" height={400}>
+        <ResponsiveContainer width="100%" height={600}>
           <PieChart>
             <Pie
               data={chartData}
@@ -128,12 +125,12 @@ const PortfolioPieChart: React.FC<PortfolioPieChartProps> = ({ accountId }) => {
               nameKey="assetName"
               cx="50%"
               cy="50%"
-              outerRadius={150}
+              outerRadius={200}
               fill="#8884d8"
               label={({ name, value }) => `${name}: ${formatNumber(value)}`}
             >
               {chartData.map((entry, index) => (
-                <Cell key={`cell-${index}`} fill={entry.color} /> // Use the "color" field from the backend response
+                <Cell key={`cell-${index}`} fill={entry.color} />
               ))}
             </Pie>
             <Tooltip content={<CustomTooltip />} />
@@ -141,11 +138,12 @@ const PortfolioPieChart: React.FC<PortfolioPieChartProps> = ({ accountId }) => {
               layout="horizontal"
               align="center"
               verticalAlign="bottom"
-              payload={Array.from(
-                new Map(
-                  chartData.map((entry) => [entry.subcategory, { value: entry.subcategory, color: entry.color }])
-                ).values()
-              )}
+              formatter={(value) => <span className="legend-text">{value}</span>}
+              wrapperStyle={{
+                marginTop: 24,
+                maxHeight: 100,
+                overflowY: "auto"
+              }}
             />
           </PieChart>
         </ResponsiveContainer>

@@ -59,10 +59,6 @@ const Register: React.FC = () => {
         <p className="register-comment">
           Join us and take control of your finances today!
         </p>
-
-        {error && <p className="error-message visible">{error}</p>}
-        {!error && <p className="error-message">&nbsp;</p>} {/* Empty space when no error */}
-
         <div className="input-fields">
           <InputField
             type="text"
@@ -89,7 +85,7 @@ const Register: React.FC = () => {
             onChange={(e) => setEmail(e.target.value)}
           />
         </div>
-
+        {error && <p className="error-message visible">{error}</p>}
         <div className="register-actions">
           <Button onClick={handleRegister} className="register-button">
             Register

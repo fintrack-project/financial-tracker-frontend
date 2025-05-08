@@ -35,6 +35,15 @@ const PortfolioCombinedBarChart: React.FC<PortfolioCombinedBarChartProps> = ({ a
   const [error, setError] = useState<string | null>(null);
   const { baseCurrency, loading: baseCurrencyLoading } = useBaseCurrency(accountId);
 
+  // Calculate dynamic height based on data points and asset names
+  const calculateChartHeight = () => {
+    if (!filteredData.length || !assetNames.length) return 300;
+    const baseHeight = 300;
+    const dataPointsHeight = Math.min(filteredData.length * 30, 150); // 30px per data point, max 150px additional
+    const assetNamesHeight = Math.min(assetNames.length * 20, 100); // 20px per asset, max 100px additional
+    return baseHeight + dataPointsHeight + assetNamesHeight;
+  };
+
   // Fetch categories when the component loads
   useEffect(() => {
     const updateCategoryNames = async () => {
@@ -133,29 +142,27 @@ const PortfolioCombinedBarChart: React.FC<PortfolioCombinedBarChartProps> = ({ a
 
   // Custom Tooltip Component
   const CustomTooltip = ({ active, payload, label }: any) => {
-    if (active && payload && payload.length) {
-      // Filter out entries with "value: 0" and keep only relevant data
-      const filteredPayload = payload.filter((item: any) => item.value !== 0);
+    if (!active || !payload || !payload.length) return null;
 
-      return (
-        <div className="custom-tooltip" style={{ backgroundColor: '#fff', padding: '10px', border: '1px solid #ccc' }}>
-          <p className="label">{`Date: ${label}`}</p>
-          {filteredPayload.map((item: any, index: number) => (
-            <p key={index} style={{ color: item.color }}>
-              {item.name}: {formatNumber(item.value)}
-            </p>
-          ))}
-        </div>
-      );
-    }
+    // Filter out entries with "value: 0" and keep only relevant data
+    const filteredPayload = payload.filter((item: any) => item.value !== 0);
 
-    return null;
+    return (
+      <div className="custom-tooltip">
+        <p>{`Date: ${label}`}</p>
+        {filteredPayload.map((item: any, index: number) => (
+          <p key={index}>
+            {item.name}: {formatNumber(item.value)}
+          </p>
+        ))}
+      </div>
+    );
   };
   
   return (
     <div className="portfolio-bar-chart">
       <div className="chart-header">
-        <h2 className="chart-title">{timeRange} Holdings Distribution ({baseCurrency})</h2>
+        <h2 className="fintrack-subsection-title">{timeRange} Holdings Distribution ({baseCurrency})</h2>
         <div className="dropdown-container">
           <CategoryDropdown
             value={selectedCategory}
@@ -177,7 +184,7 @@ const PortfolioCombinedBarChart: React.FC<PortfolioCombinedBarChartProps> = ({ a
           No {timeRange} holdings
         </div>
       ) : (
-        <ResponsiveContainer width="100%" height={500}>
+        <ResponsiveContainer width="100%" height={calculateChartHeight()}>
           <ComposedChart data={filteredData}>
             <CartesianGrid strokeDasharray="3 3" />
             <XAxis dataKey="date" />

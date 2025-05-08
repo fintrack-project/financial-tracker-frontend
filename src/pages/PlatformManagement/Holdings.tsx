@@ -88,26 +88,30 @@ const Holdings: React.FC<HoldingsProps> = ({ accountId }) => {
 
   return (
     <div className="holdings-container">
-      <h1>Holdings</h1>
-      <EditableHoldingsTable 
-        accountId={accountId}
-        categories={categories}
-        subcategories={subcategories}
-        categoryService={categoryService}
-        confirmedHoldingsCategories={confirmedHoldingsCategories}
-        holdingsCategoriesService={holdingsCategoriesService}
-        resetHasFetched={resetHasFetched}
+      <h2 className="fintrack-section-title">Holdings</h2>
+      <div className="holdings-section">
+        <EditableHoldingsTable 
+          accountId={accountId}
+          categories={categories}
+          subcategories={subcategories}
+          categoryService={categoryService}
+          confirmedHoldingsCategories={confirmedHoldingsCategories}
+          holdingsCategoriesService={holdingsCategoriesService}
+          resetHasFetched={resetHasFetched}
         />
-      <h1>Categories</h1>
-      <CategoriesTable 
-        accountId={accountId}
-        categories={categories}
-        subcategories={subcategories}
-        categoryService={categoryService}
-        subcategoryService={subcategoryService}
-        onUpdateCategories={handleUpdateCategories}
-        resetHasFetched={resetHasFetched}
-      />
+      </div>
+      <h2 className="fintrack-section-title">Categories</h2>
+      <div className="categories-section">
+        <CategoriesTable 
+          accountId={accountId}
+          categories={categories}
+          subcategories={subcategories}
+          categoryService={categoryService}
+          subcategoryService={subcategoryService}
+          onUpdateCategories={handleUpdateCategories}
+          resetHasFetched={resetHasFetched}
+        />
+      </div>
     </div>
   );
 };

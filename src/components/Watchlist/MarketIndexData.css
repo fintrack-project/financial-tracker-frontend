@@ -1,20 +1,27 @@
-.market-item {
-  padding: 15px;
-  border: 1px solid #ddd;
-  border-radius: 8px;
-  background-color: #f9f9f9;
+.dashboard-container .market-index-item {
+  padding: 24px 20px;
+  border: 1px solid #e0e6ed;
+  border-radius: 16px;
+  background: linear-gradient(135deg, #f9fafc 60%, #e3e9f6 100%);
+  box-shadow: 0 4px 16px rgba(52, 98, 219, 0.06);
   text-align: center;
-  width: 200px;
+  width: 240px;
+  margin-bottom: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
-.market-item h2 {
-  margin: 0 0 10px;
-  font-size: 1.5rem;
-  color: #333;
+.dashboard-container .market-index-item h3 {
+  margin: 0 0 14px 0;
+  font-size: 1.25rem;
+  color: #2c3e50;
+  font-weight: 700;
+  letter-spacing: 0.5px;
 }
 
-.market-item p {
-  margin: 5px 0;
+.dashboard-container .market-index-item p {
+  margin: 3px 0;
   font-size: 1rem;
   color: #555;
 }
@@ -24,9 +31,9 @@
 }
 
 .change.positive {
-  color: green; /* Green for positive change */
+  color: #16a34a;
 }
 
 .change.negative {
-  color: red; /* Red for negative change */
+  color: #dc2626;
 }

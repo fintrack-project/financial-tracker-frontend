@@ -50,22 +50,28 @@ const BalanceOverviewTable: React.FC<BalanceOverviewTableProps> = ({ accountId }
     }
   };
 
-  if (loading) {
-    return <p>Loading transactions...</p>;
-  }
-
   return (
     <div className="balance-overview-container">
-      <h2>Balance Overview</h2>
-        <FileActionsDropdown
+      <h2 className="fintrack-subsection-title">Balance Overview</h2>
+      <div className="table-wrapper">
+        {loading ? (
+          <p className="loading-message">Loading transactions...</p>
+        ) : (
+          <TransactionTable 
+            transactions={overviewTransactions}
+          />
+        )}
+      </div>
+      <div className="table-footer">
+        <div className="actions-group">
+          <FileActionsDropdown
             actionName='Download Balance Overview'
             fileFormat={fileFormat}
             onFileFormatChange={setFileFormat}
             onDownload={handleFileDownload}
-        />
-        <TransactionTable 
-          transactions={overviewTransactions}
-        />
+          />
+        </div>
+      </div>
     </div>
   );
 };

@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import PageTopBar from '../../components/Bar/PageTopBar';
+import './BasePage.css';
 
 interface BasePageProps {
   children: React.ReactElement<{ accountId: string }>;
@@ -17,7 +18,10 @@ const BasePage: React.FC<BasePageProps> = ({ children }) => {
       <div className="base-page">
         <PageTopBar onAccountChange={handleAccountChange} />
         <div className="base-page-content">
-          <p>Please select an account to continue.</p>
+          <div className="base-page-message">
+            <h2>Welcome to FinTrack</h2>
+            <p>Please select an account to continue.</p>
+          </div>
         </div>
       </div>
     );
@@ -27,7 +31,7 @@ const BasePage: React.FC<BasePageProps> = ({ children }) => {
     <div className="base-page">
       <PageTopBar onAccountChange={handleAccountChange} />
       <div className="base-page-content">
-        {React.cloneElement(children, { accountId })} 
+        {React.cloneElement(children, { accountId })}
       </div>
     </div>
   );

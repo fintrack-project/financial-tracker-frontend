@@ -56,6 +56,9 @@ const AccountMenu: React.FC<AccountMenuProps> = ({ onAccountChange }) => {
       </button>
       {isMenuOpen && (
         <div className="account-dropdown-menu">
+          <div className="account-menu-avatar">
+            {userId ? userId.charAt(0).toUpperCase() : <span role="img" aria-label="user">👤</span>}
+          </div>
           <p className="user-id">Logged in as: {userId || 'Guest'}</p>
           <NavLink
             to="/platform/profile"

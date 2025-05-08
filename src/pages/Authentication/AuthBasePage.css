@@ -46,6 +46,5 @@ h1 {
   width: 100%;
   max-width: 400px; /* Limit the width of the form */
   display: flex;
-  flex-direction: column;
   gap: 16px; /* Space between input fields */
 }
