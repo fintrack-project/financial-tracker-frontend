@@ -4,6 +4,14 @@
   gap: 10px;
 }
 
+.file-actions .button {
+  background: #3462db;
+  border: none;
+  color: none;
+  font-size: 0.95rem;
+  font-weight: 500;
+}
+
 .file-actions-dropdown-container {
   position: relative;
 }
