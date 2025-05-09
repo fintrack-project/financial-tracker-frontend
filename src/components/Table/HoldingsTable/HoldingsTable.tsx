@@ -31,9 +31,6 @@ const HoldingsTable: React.FC<HoldingsTableProps> = ({ accountId }) => {
   if (loading || baseCurrencyLoading) {
     return (
       <div className="table-container">
-        <div className="table-header">
-          <h2>Holdings</h2>
-        </div>
         <div className="loading-state">
           <div className="loading-spinner"></div>
           <span>Loading holdings data...</span>
@@ -44,9 +41,6 @@ const HoldingsTable: React.FC<HoldingsTableProps> = ({ accountId }) => {
 
   return (
     <div className="table-container holdings-table-container">
-      <div className="table-header">
-        <h2>Holdings</h2>
-      </div>
       <div className="scrollable-content">
         <table className="data-table">
           <thead>

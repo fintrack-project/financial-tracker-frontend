@@ -1,9 +1,9 @@
 import React, { useState , useEffect } from 'react';
 import MarketIndexData from '../../components/Watchlist/MarketIndexData';
 import HoldingsTable from '../../components/Table/HoldingsTable/HoldingsTable';
-import { fetchMarketIndexData } from '../../services/marketIndexDataService';
 import ForexWatchlist from '../../components/Watchlist/ForexWatchlist';
 import MarketWatchlist from '../../components/Watchlist/MarketWatchlist';
+import MarketIndexWidget from '../../components/Market/MarketIndexWidget';
 import './Dashboard.css'; // Import the CSS file
 
 interface DashboardProps {
@@ -11,69 +11,23 @@ interface DashboardProps {
 }
 
 const Dashboard: React.FC<DashboardProps> = ({ accountId }) => {
-  const [marketData, setMarketData] = useState<{ [key: string]: any } | null>(null);
-  
-  // Fetch market data for S&P 500 and Nasdaq ETFs
-  useEffect(() => {
-    const symbols = ["^GSPC", "^NDX"];
-    const fetchAndUpdateMarketData = async () => {
-      try {
-        const encodedSymbols = symbols.map(encodeURIComponent).join(",");
-
-        // Fetch the updated market index data
-        const data = await fetchMarketIndexData([encodedSymbols]);
-        setMarketData(data);
-      } catch (error) {
-        console.error('Error fetching market data:', error);
-      }
-    };
-
-    fetchAndUpdateMarketData();
-  }, []);
+  // Define the market indices we want to display
+  const marketIndices = ['^GSPC', '^NDX', '^DJI', '^RUT', 'GC=F', 'SI=F', 'CL=F'];
 
   return (
     <div className="dashboard-container">
       <h1 className="fintrack-section-title">Dashboard</h1>
-      <div className="market-data-container">
-        <div className="market-index">
-          <h2 className="fintrack-card-title">Market Index</h2>
-          <div className="market-index-items">
-            <div className="market-index-items">
-              {marketData && marketData['^GSPC'] && (
-                <MarketIndexData
-                  indexName="S&P 500"
-                  marketData={{
-                    price: marketData['^GSPC'].price,
-                    price_change: marketData['^GSPC'].price_change,
-                    percent_change: marketData['^GSPC'].percent_change,
-                    price_high: marketData['^GSPC'].price_high,
-                    price_low: marketData['^GSPC'].price_low,
-                  }}
-                />
-              )}
-              {marketData && marketData['^NDX'] && (
-                <MarketIndexData
-                  indexName="Nasdaq 100"
-                  marketData={{
-                    price: marketData['^NDX'].price,
-                    price_change: marketData['^NDX'].price_change,
-                    percent_change: marketData['^NDX'].percent_change,
-                    price_high: marketData['^NDX'].price_high,
-                    price_low: marketData['^NDX'].price_low,
-                  }}
-                />
-              )}
-            </div>
-          </div>
-        </div>
+      
+      {/* Market Indices Widget */}
+      <MarketIndexWidget symbols={marketIndices} refreshInterval={60000} />
+      
+      <div className="dashboard-data-container">
         <div className="holdings-section">
           <h2 className="fintrack-card-title">My Holdings</h2>
           <HoldingsTable 
             accountId={accountId}
           />
         </div>
-      </div>
-      <div className="dashboard-data-container">
         <div className="watchlist">
           <h2 className="fintrack-card-title">Watchlist</h2>
           <MarketWatchlist 
