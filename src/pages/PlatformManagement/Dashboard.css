@@ -18,7 +18,7 @@
 .dashboard-data-container {
   display: flex;
   flex-direction: column;
-  gap: 24px; /* Consistent spacing between all main sections */
+  gap: 16px; /* Consistent spacing between all main sections */
 }
 
 .market-data-container {
@@ -26,7 +26,7 @@
   flex-direction: row;
   justify-content: space-between;
   align-items: flex-start;
-  gap: 16px;
+  margin-bottom: 16px;
   width: 100%;
 }
 
@@ -52,11 +52,11 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  gap: 20px;
+  gap: 10px;
 }
 
 .market-item {
-  margin-bottom: 20px;
+  margin-bottom: 10px;
 }
 
 .market-item h3 {

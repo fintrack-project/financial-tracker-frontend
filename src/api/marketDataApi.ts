@@ -19,3 +19,20 @@ export const fetchMarketDataApi = async (
     throw error;
   }
 };
+
+// Fetch market index data for specified symbols
+export const fetchMarketIndexDataApi = async (symbols: string[]): Promise<ApiResponse<Record<string, any>>> => {
+  try {
+    // URL encode each symbol correctly
+    const encodedSymbols = symbols.map(symbol => encodeURIComponent(symbol)).join(',');
+    
+    const response = await apiClient.get<ApiResponse<Record<string, any>>>('/api/market-index-data/fetch', {
+      params: { symbols: encodedSymbols }
+    });
+    console.log('Market index data response:', response);
+    return response.data;
+  } catch (error) {
+    console.error('Error fetching market index data:', error);
+    throw error;
+  }
+};
