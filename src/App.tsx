@@ -2,6 +2,8 @@ import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Login from './pages/Authentication/Login';
 import Register from './pages/Authentication/Register';
+import RequestPasswordReset from './pages/Authentication/RequestPasswordReset';
+import ResetPassword from './pages/Authentication/ResetPassword';
 import BasePage from './pages/PlatformManagement/BasePage';
 import Dashboard from './pages/PlatformManagement/Dashboard';
 import Holdings from './pages/PlatformManagement/Holdings';
@@ -18,7 +20,10 @@ const App: React.FC = () => {
     <Router>
       <Routes>
         <Route path="/" element={<Login />} />
+        <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
+        <Route path="/request-password-reset" element={<RequestPasswordReset />} />
+        <Route path="/reset-password" element={<ResetPassword />} />
         <Route
           path="/platform/dashboard"
           element={
