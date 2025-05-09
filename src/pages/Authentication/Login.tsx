@@ -59,7 +59,10 @@ const Login: React.FC = () => {
           <Button onClick={handleLogin} className="login-button">
             Login
           </Button>
-          <div className="forgot-password" onClick={() => alert('Forgot password clicked')}>
+          <div 
+            className="forgot-password" 
+            onClick={() => navigate('/request-password-reset')}
+          >
             Forgot password?
           </div>
         </div>

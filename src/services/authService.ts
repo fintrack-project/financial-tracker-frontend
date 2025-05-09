@@ -1,4 +1,4 @@
-import { loginApi, registerApi } from '../api/authApi';
+import { loginApi, registerApi, requestPasswordResetApi, validateResetTokenApi, resetPasswordApi } from '../api/authApi';
 import { createAccountApi } from '../api/accountApi';
 import { sendEmailVerificationApi, verifyEmailApi, checkEmailVerifiedApi } from '../api/emailApi';
 import { sendPhoneVerifiedApi } from '../api/phoneApi';
@@ -71,6 +71,49 @@ export const verifyEmail = async (token: string): Promise<void> => {
     console.log('Email verified successfully.');
   } catch (error) {
     console.error('Email verification error:', error);
+    throw error;
+  }
+};
+
+// Password reset request service
+export const requestPasswordReset = async (identifier: string): Promise<void> => {
+  try {
+    const response = await requestPasswordResetApi(identifier);
+    if (!response.success) {
+      throw new Error(response.message || 'Failed to request password reset.');
+    }
+    console.log('Password reset request sent successfully.');
+  } catch (error) {
+    console.error('Password reset request error:', error);
+    throw error;
+  }
+};
+
+// Validate password reset token service
+export const validateResetToken = async (token: string): Promise<boolean> => {
+  try {
+    const response = await validateResetTokenApi(token);
+    if (!response.success) {
+      throw new Error(response.message || 'Invalid or expired reset token.');
+    }
+    console.log('Reset token validation successful.');
+    return true;
+  } catch (error) {
+    console.error('Reset token validation error:', error);
+    return false;
+  }
+};
+
+// Reset password with token service
+export const resetPassword = async (token: string, newPassword: string): Promise<void> => {
+  try {
+    const response = await resetPasswordApi(token, newPassword);
+    if (!response.success) {
+      throw new Error(response.message || 'Failed to reset password.');
+    }
+    console.log('Password reset successful.');
+  } catch (error) {
+    console.error('Password reset error:', error);
     throw error;
   }
 };

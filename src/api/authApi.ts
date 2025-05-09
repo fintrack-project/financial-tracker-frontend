@@ -34,3 +34,39 @@ export const registerApi = async (registerData: { userId: string; email: string;
     throw error;
   }
 };
+
+// Password reset request API function
+export const requestPasswordResetApi = async (identifier: string): Promise<ApiResponse<void>> => {
+  try {
+    const response = await apiClient.post<ApiResponse<void>>('/api/user/password-reset-request', { identifier });
+    return response.data;
+  } catch (error) {
+    console.error('Password reset request error:', error);
+    throw error;
+  }
+};
+
+// Validate password reset token API function
+export const validateResetTokenApi = async (token: string): Promise<ApiResponse<void>> => {
+  try {
+    const response = await apiClient.get<ApiResponse<void>>(`/api/user/validate-reset-token/${token}`);
+    return response.data;
+  } catch (error) {
+    console.error('Token validation error:', error);
+    throw error;
+  }
+};
+
+// Reset password with token API function
+export const resetPasswordApi = async (token: string, newPassword: string): Promise<ApiResponse<void>> => {
+  try {
+    const response = await apiClient.post<ApiResponse<void>>('/api/user/reset-password', {
+      token,
+      newPassword
+    });
+    return response.data;
+  } catch (error) {
+    console.error('Password reset error:', error);
+    throw error;
+  }
+};
