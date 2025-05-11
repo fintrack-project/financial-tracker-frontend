@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useStripe, useElements } from '@stripe/react-stripe-js';
 import { PaymentMethod } from '../types/PaymentMethods';
-import { updateSubscriptionApi, confirmSubscriptionPaymentApi } from '../api/userSubscriptionApi';
+import { updateSubscriptionApi, confirmSubscriptionPaymentApi, fetchUserSubscriptionApi } from '../api/userSubscriptionApi';
 import SubscriptionBasePopup from './SubscriptionBasePopup';
 import './SubscriptionBasePopup.css';
 import './PaymentMethodSelection.css';
@@ -105,12 +105,26 @@ const PaymentMethodSelectionPopup: React.FC<SubscriptionPaymentMethodSelectionPo
             throw new Error(confirmResponse.message || 'Failed to confirm subscription payment with backend');
           }
 
-          onSubscriptionComplete(confirmResponse.data.subscriptionId);
+          // Fetch fresh subscription data after successful payment
+          const freshSubscriptionData = await fetchUserSubscriptionApi(accountId);
+          if (!freshSubscriptionData.success || !freshSubscriptionData.data) {
+            throw new Error('Failed to fetch updated subscription data');
+          }
+
+          // Call onSubscriptionComplete with the fresh data
+          onSubscriptionComplete(freshSubscriptionData.data.id.toString());
         } else {
           throw new Error('Payment was not completed successfully');
         }
       } else {
-        onSubscriptionComplete(subscriptionData.subscriptionId);
+        // Fetch fresh subscription data even if no payment was required
+        const freshSubscriptionData = await fetchUserSubscriptionApi(accountId);
+        if (!freshSubscriptionData.success || !freshSubscriptionData.data) {
+          throw new Error('Failed to fetch updated subscription data');
+        }
+
+        // Call onSubscriptionComplete with the fresh data
+        onSubscriptionComplete(freshSubscriptionData.data.id.toString());
       }
     } catch (err) {
       console.error('❌ Error processing subscription:', err);

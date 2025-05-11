@@ -40,10 +40,10 @@ const Subscription: React.FC<SubscriptionProps> = ({ accountId }) => {
       try {
         console.log('📡 Fetching subscription data...');
         subscriptionData = await fetchUserSubscription(accountId);
-        console.log('✅ Subscription data fetched:', subscriptionData);
+        console.log('✅ Raw subscription data from API:', subscriptionData);
 
         // Log raw subscription data for debugging
-        console.log('📅 Raw subscription data:', {
+        console.log('📅 Raw subscription dates from API:', {
           nextBillingDate: subscriptionData.nextBillingDate,
           lastPaymentDate: subscriptionData.lastPaymentDate,
           subscriptionStartDate: subscriptionData.subscriptionStartDate,
@@ -93,7 +93,7 @@ const Subscription: React.FC<SubscriptionProps> = ({ accountId }) => {
         console.log('⚠️ No default payment method found');
       }
 
-      console.log('📝 Updating component state...');
+      console.log('📝 Updating component state with subscription data:', subscriptionData);
       setUserDetails(userData);
       setSubscription(subscriptionData);
       setPaymentMethods(methods);
@@ -139,28 +139,6 @@ const Subscription: React.FC<SubscriptionProps> = ({ accountId }) => {
     } catch (err) {
       console.error('❌ Error setting default payment method:', err);
       setError('Failed to set default payment method. Please try again later.');
-    }
-  };
-
-  const handleConfirmPayment = async (paymentIntentId: string, paymentMethodId: string) => {
-    console.log('🔵 Starting payment confirmation:', {
-      paymentIntentId,
-      paymentMethodId,
-      accountId
-    });
-
-    try {
-      console.log('📡 Calling confirmPayment API...');
-      await confirmPayment(accountId, paymentIntentId, paymentMethodId);
-      console.log('✅ Payment confirmation successful');
-
-      // Reload data to reflect changes
-      console.log('🔄 Reloading subscription data...');
-      await loadData();
-      console.log('✅ Data reload complete');
-    } catch (err) {
-      console.error('❌ Error confirming payment:', err);
-      setError('Failed to confirm payment. Please try again later.');
     }
   };
 
@@ -223,8 +201,16 @@ const Subscription: React.FC<SubscriptionProps> = ({ accountId }) => {
       const response = await updateSubscription(accountId, planName, paymentMethodId);
       console.log('✅ Update subscription response:', response);
 
-      // Reload data to reflect changes
-      console.log('🔄 Reloading subscription data...');
+      // Fetch fresh subscription data
+      console.log('📡 Fetching updated subscription data...');
+      const updatedSubscription = await fetchUserSubscription(accountId);
+      console.log('✅ Updated subscription data:', updatedSubscription);
+
+      // Update state with fresh data
+      setSubscription(updatedSubscription);
+
+      // Reload all data to ensure consistency
+      console.log('🔄 Reloading all data...');
       await loadData();
       console.log('✅ Data reload complete');
     } catch (err) {
@@ -245,24 +231,30 @@ const Subscription: React.FC<SubscriptionProps> = ({ accountId }) => {
     }
   };
 
+  const handleSubscriptionComplete = async (subscriptionId: string) => {
+    console.log('🔵 Subscription completed:', subscriptionId);
+    try {
+      // Fetch fresh subscription data
+      const updatedSubscription = await fetchUserSubscription(accountId);
+      console.log('✅ Updated subscription data:', updatedSubscription);
+      
+      // Update state with fresh data
+      setSubscription(updatedSubscription);
+      
+      // Reload all data to ensure consistency
+      await loadData();
+    } catch (err) {
+      console.error('❌ Error updating subscription:', err);
+      setError('Failed to update subscription. Please try again later.');
+    }
+  };
+
   const renderOverview = () => {
     console.log('🎨 Rendering overview tab');
     if (!userDetails || !subscription) {
       console.log('⚠️ Cannot render overview: missing user details or subscription');
       return null;
     }
-
-    // Helper function to convert array date to Date object
-    const arrayToDate = (dateArray: unknown): Date | null => {
-      if (!dateArray || !Array.isArray(dateArray) || dateArray.length !== 7) {
-        return null;
-      }
-      const [year, month, day, hour, minute, second, millisecond] = dateArray.map(Number);
-      if (isNaN(year) || isNaN(month) || isNaN(day)) {
-        return null;
-      }
-      return new Date(year, month - 1, day, hour, minute, second, millisecond);
-    };
 
     // Log raw subscription data for debugging
     console.log('📅 Raw subscription dates:', {
@@ -271,6 +263,26 @@ const Subscription: React.FC<SubscriptionProps> = ({ accountId }) => {
       subscriptionStartDate: subscription.subscriptionStartDate,
       subscriptionEndDate: subscription.subscriptionEndDate
     });
+
+    // Log parsed dates for debugging
+    if (Array.isArray(subscription.nextBillingDate)) {
+      console.log('📅 Parsed next billing date:', {
+        raw: subscription.nextBillingDate,
+        parsed: formatDate(subscription.nextBillingDate)
+      });
+    }
+    if (Array.isArray(subscription.lastPaymentDate)) {
+      console.log('📅 Parsed last payment date:', {
+        raw: subscription.lastPaymentDate,
+        parsed: formatDate(subscription.lastPaymentDate)
+      });
+    }
+    if (Array.isArray(subscription.subscriptionStartDate)) {
+      console.log('📅 Parsed start date:', {
+        raw: subscription.subscriptionStartDate,
+        parsed: formatDate(subscription.subscriptionStartDate)
+      });
+    }
 
     return (
       <div className="subscription-overview">
@@ -290,18 +302,6 @@ const Subscription: React.FC<SubscriptionProps> = ({ accountId }) => {
             </div>
             <div className="plan-dates">
               <div>
-                <strong>Subscription Start Date:</strong>{' '}
-                {subscription.subscriptionStartDate 
-                  ? formatDate(subscription.subscriptionStartDate) 
-                  : 'N/A'}
-              </div>
-              {subscription.subscriptionEndDate && (
-                <div>
-                  <strong>Subscription End Date:</strong>{' '}
-                  {formatDate(subscription.subscriptionEndDate)}
-                </div>
-              )}
-              <div>
                 <strong>Next Billing Date:</strong>{' '}
                 {subscription.nextBillingDate 
                   ? formatDate(subscription.nextBillingDate) 
@@ -313,6 +313,18 @@ const Subscription: React.FC<SubscriptionProps> = ({ accountId }) => {
                   ? formatDate(subscription.lastPaymentDate) 
                   : 'N/A'}
               </div>
+              <div>
+                <strong>Start Date:</strong>{' '}
+                {subscription.subscriptionStartDate 
+                  ? formatDate(subscription.subscriptionStartDate) 
+                  : 'N/A'}
+              </div>
+              {subscription.subscriptionEndDate && (
+                <div>
+                  <strong>End Date:</strong>{' '}
+                  {formatDate(subscription.subscriptionEndDate)}
+                </div>
+              )}
             </div>
           </div>
         </div>
@@ -358,6 +370,7 @@ const Subscription: React.FC<SubscriptionProps> = ({ accountId }) => {
         onPlanSelect={handlePlanSelect}
         onPaymentMethodAdd={handlePaymentMethodAdd}
         onTabChange={setActiveTab}
+        onSubscriptionComplete={handleSubscriptionComplete}
       />
     );
   };

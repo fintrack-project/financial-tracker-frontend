@@ -21,6 +21,7 @@ interface PlansProps {
   onPlanSelect: (planName: string, paymentMethodId?: string) => Promise<void>;
   onPaymentMethodAdd: (paymentMethodId: string) => Promise<void>;
   onTabChange: (tab: 'overview' | 'plans' | 'payment') => void;
+  onSubscriptionComplete: (subscriptionId: string) => void;
 }
 
 const Plans: React.FC<PlansProps> = ({
@@ -29,7 +30,8 @@ const Plans: React.FC<PlansProps> = ({
   paymentMethods,
   onPlanSelect,
   onPaymentMethodAdd,
-  onTabChange
+  onTabChange,
+  onSubscriptionComplete
 }) => {
   const [selectedPlan, setSelectedPlan] = useState<string | null>(null);
   const [selectedPlanName, setSelectedPlanName] = useState<string>('');
@@ -272,14 +274,7 @@ const Plans: React.FC<PlansProps> = ({
             onSelectPaymentMethod={handlePaymentMethodSelect}
             onAddPaymentMethod={handleAddPaymentMethod}
             onCancel={() => setShowPaymentMethodPopup(false)}
-            onSubscriptionComplete={(subscriptionId) => {
-              setShowPaymentMethodPopup(false);
-              if (userDetails?.accountId) {
-                fetchSubscriptionDetails(userDetails.accountId)
-                  .then(response => setCurrentPlan(response.plan))
-                  .catch(error => console.error('Error refreshing subscription:', error));
-              }
-            }}
+            onSubscriptionComplete={onSubscriptionComplete}
           />
         </Elements>
       )}

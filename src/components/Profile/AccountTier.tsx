@@ -38,12 +38,14 @@ const AccountTier: React.FC<AccountTierProps> = ({ accountId }) => {
   const getPlanColor = () => {
     if (!planDetails) return '#6c757d'; // Default gray for no plan
 
-    switch (planDetails.name.toLowerCase()) {
-      case 'free':
+    switch (planDetails.id) {
+      case 'plan_free':
         return '#6c757d'; // Gray
-      case 'basic':
+      case 'plan_basic':
+      case 'plan_basic_annual':
         return '#28a745'; // Green
-      case 'premium':
+      case 'plan_premium':
+      case 'plan_premium_annual':
         return '#007bff'; // Blue
       default:
         return '#6c757d';
