@@ -36,12 +36,17 @@ const PaymentMethodSelectionPopup: React.FC<SubscriptionPaymentMethodSelectionPo
   useEffect(() => {
     console.log('🔄 Initializing Stripe payment elements:', {
       stripeLoaded: !!stripe,
-      elementsLoaded: !!elements
+      elementsLoaded: !!elements,
+      hasDefaultPaymentMethod: !!paymentMethods.find(method => method.default)
     });
+    
+    // Only show error if there's no default payment method and Stripe isn't loaded
     if (!stripe || !elements) {
-      setError('Payment system is not available. Please try again later.');
+      if (!paymentMethods.find(method => method.default)) {
+        setError('Payment system is not available. Please try again later.');
+      }
     }
-  }, [stripe, elements]);
+  }, [stripe, elements, paymentMethods]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -51,7 +56,9 @@ const PaymentMethodSelectionPopup: React.FC<SubscriptionPaymentMethodSelectionPo
       return;
     }
 
-    if (!stripe || !elements) {
+    // Only check for Stripe if we need to process a new payment
+    const defaultMethod = paymentMethods.find(method => method.default);
+    if ((!stripe || !elements) && !defaultMethod) {
       setError('Payment system is not available. Please try again later.');
       return;
     }
@@ -76,6 +83,9 @@ const PaymentMethodSelectionPopup: React.FC<SubscriptionPaymentMethodSelectionPo
       const subscriptionData = response.data;
 
       if (subscriptionData.paymentRequired && subscriptionData.clientSecret) {
+        if (!stripe) {
+          throw new Error('Payment system is not available');
+        }
         const { error: confirmError, paymentIntent } = await stripe.confirmCardPayment(subscriptionData.clientSecret);
         if (confirmError) {
           throw new Error(confirmError.message);
