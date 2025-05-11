@@ -12,6 +12,8 @@ import { stripePromise } from '../../config/stripe';
 import PlanCard from './PlanCard';
 import './Plans.css';
 
+export const ANNUAL_DISCOUNT_RATE = 0.2; // 20% discount for annual plans
+
 interface PlansProps {
   userDetails: UserDetails;
   subscription: UserSubscription;
@@ -39,12 +41,13 @@ const Plans: React.FC<PlansProps> = ({
   const [loading, setLoading] = useState(true);
   const [billingCycle, setBillingCycle] = useState<'monthly' | 'annual'>('monthly');
 
-  const plans = [
+  const plans: (SubscriptionPlan & { color: string })[] = [
     {
       id: 'plan_free',
       name: 'Free',
-      monthlyPrice: 0,
-      annualPrice: 0,
+      amount: 0,
+      currency: 'USD',
+      interval: 'month',
       color: '#6c757d',
       features: [
         '1 year transaction history',
@@ -60,8 +63,9 @@ const Plans: React.FC<PlansProps> = ({
     {
       id: 'plan_basic',
       name: 'Basic',
-      monthlyPrice: 4.99,
-      annualPrice: 47.88,
+      amount: 4.99,
+      currency: 'USD',
+      interval: 'month',
       color: '#28a745',
       features: [
         '5 years transaction history',
@@ -78,8 +82,9 @@ const Plans: React.FC<PlansProps> = ({
     {
       id: 'plan_premium',
       name: 'Premium',
-      monthlyPrice: 9.99,
-      annualPrice: 95.88,
+      amount: 9.99,
+      currency: 'USD',
+      interval: 'month',
       color: '#007bff',
       features: [
         'Unlimited transaction history',
@@ -140,7 +145,7 @@ const Plans: React.FC<PlansProps> = ({
         if (plan) {
           const subscriptionPlan: SubscriptionPlan = {
             ...response.plan,
-            amount: response.plan.id.includes('_annual') ? plan.annualPrice : plan.monthlyPrice,
+            amount: response.plan.id.includes('_annual') ? plan.amount * 12 * 0.8 : plan.amount,
             interval: response.plan.id.includes('_annual') ? 'year' : 'month',
             description: `${plan.name} Plan`,
             features: plan.features
@@ -213,7 +218,7 @@ const Plans: React.FC<PlansProps> = ({
           className={`toggle-button ${billingCycle === 'annual' ? 'active' : ''}`}
           onClick={() => setBillingCycle('annual')}
         >
-          Annual (Save 20%)
+          Annual (Save {ANNUAL_DISCOUNT_RATE * 100}%)
         </button>
       </div>
 
@@ -222,8 +227,12 @@ const Plans: React.FC<PlansProps> = ({
           <PlanCard
             key={plan.id}
             plan={{
-              ...plan,
-              price: billingCycle === 'monthly' ? plan.monthlyPrice : plan.annualPrice,
+              id: plan.id,
+              name: plan.name,
+              color: plan.color,
+              features: plan.features || [],
+              monthlyPrice: plan.amount,
+              annualPrice: Number((plan.amount * 12 * (1 - ANNUAL_DISCOUNT_RATE)).toFixed(2)),
               isAnnual: billingCycle === 'annual'
             }}
             loading={loading}

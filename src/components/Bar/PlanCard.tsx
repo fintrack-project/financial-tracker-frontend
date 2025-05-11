@@ -1,16 +1,16 @@
 import React from 'react';
 import { SubscriptionPlan } from '../../types/SubscriptionPlan';
+import { ANNUAL_DISCOUNT_RATE } from '../../components/Bar/Plans';
 import './PlanCard.css';
 
 interface Plan {
   id: string;
   name: string;
-  monthlyPrice: number;
-  annualPrice: number;
   color: string;
   features: string[];
-  price?: number;
-  isAnnual?: boolean;
+  monthlyPrice: number;
+  annualPrice: number;
+  isAnnual: boolean;
 }
 
 interface PlanCardProps {
@@ -23,7 +23,7 @@ interface PlanCardProps {
 const PlanCard: React.FC<PlanCardProps> = ({ plan, loading, currentPlan, onSelect }) => {
   const isCurrentPlan = currentPlan?.id === plan.id;
   const price = plan.isAnnual ? plan.annualPrice : plan.monthlyPrice;
-  const savings = plan.isAnnual ? Math.round((plan.monthlyPrice * 12 - plan.annualPrice) / (plan.monthlyPrice * 12) * 100) : 0;
+  const savings = ANNUAL_DISCOUNT_RATE * 100;
 
   return (
     <div className={`plan-card ${isCurrentPlan ? 'current' : ''}`}>
