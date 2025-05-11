@@ -4,6 +4,7 @@ import { useWatchlist } from '../../hooks/useWatchlist';
 import { useMarketData } from '../../hooks/useMarketData';
 import { MarketDataDisplay } from '../../types/MarketData';
 import { SubscriptionPlan } from '../../hooks/useRefreshCycle';
+import './Watchlist.css';
 
 interface MarketWatchlistProps {
   accountId: string | null;
@@ -49,25 +50,28 @@ const MarketWatchlist: React.FC<MarketWatchlistProps> = ({
   ];
 
   return (
-    <div className="editable-watchlist-table-container">
-      <div className="editable-watchlist-header">
-        {(watchlistError || marketError) && <div className="error-message">{watchlistError || marketError}</div>}
-        {(watchlistLoading || marketLoading) && <div className="loading-message">Loading...</div>}
+    <div className="watchlist-container">
+      <div className="watchlist-header">
+        <h2>Market Watchlist</h2>
         {lastUpdated && (
           <div className="last-updated">
             Last updated: {lastUpdated.toLocaleTimeString()}
           </div>
         )}
       </div>
-      <EditableWatchlistTable<MarketDataDisplay>
-        columns={columns}
-        rows={rows}
-        setRows={() => {}} // We don't need this anymore as rows are derived from watchlistItems and marketData
-        onAddRow={addRow}
-        onConfirmRow={(index) => confirmRow(index)}
-        onRemoveRow={removeRow}
-        resetHasFetched={() => {}} // We don't need this anymore as refresh is handled by useMarketData
-      />
+      <div className="watchlist-content">
+        {(watchlistError || marketError) && <div className="error-message">{watchlistError || marketError}</div>}
+        {(watchlistLoading || marketLoading) && <div className="loading-message">Loading...</div>}
+        <EditableWatchlistTable<MarketDataDisplay>
+          columns={columns}
+          rows={rows}
+          setRows={() => {}} // We don't need this anymore as rows are derived from watchlistItems and marketData
+          onAddRow={addRow}
+          onConfirmRow={(index) => confirmRow(index)}
+          onRemoveRow={removeRow}
+          resetHasFetched={() => {}} // We don't need this anymore as refresh is handled by useMarketData
+        />
+      </div>
     </div>
   );
 };

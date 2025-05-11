@@ -1,0 +1,47 @@
+.watchlist-container {
+  width: 100%;
+  margin: 20px 0;
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.watchlist-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px 24px;
+  border-bottom: 1px solid #e0e0e0;
+}
+
+.watchlist-header h2 {
+  margin: 0;
+  font-size: 1.5rem;
+  color: #333;
+}
+
+.last-updated {
+  font-size: 0.875rem;
+  color: #666;
+  font-style: italic;
+}
+
+.watchlist-content {
+  padding: 16px 24px;
+}
+
+.error-message {
+  color: #d32f2f;
+  margin-bottom: 16px;
+  padding: 8px;
+  background-color: #ffebee;
+  border-radius: 4px;
+}
+
+.loading-message {
+  color: #1976d2;
+  margin-bottom: 16px;
+  padding: 8px;
+  background-color: #e3f2fd;
+  border-radius: 4px;
+} 
