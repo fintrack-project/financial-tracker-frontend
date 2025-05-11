@@ -145,7 +145,7 @@ const Plans: React.FC<PlansProps> = ({
         if (plan) {
           const subscriptionPlan: SubscriptionPlan = {
             ...response.plan,
-            amount: response.plan.id.includes('_annual') ? plan.amount * 12 * 0.8 : plan.amount,
+            amount: response.plan.id.includes('_annual') ? plan.amount * 12 * (1-ANNUAL_DISCOUNT_RATE) : plan.amount,
             interval: response.plan.id.includes('_annual') ? 'year' : 'month',
             description: `${plan.name} Plan`,
             features: plan.features

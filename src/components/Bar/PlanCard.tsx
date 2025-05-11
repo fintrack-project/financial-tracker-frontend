@@ -1,6 +1,6 @@
 import React from 'react';
 import { SubscriptionPlan } from '../../types/SubscriptionPlan';
-import { ANNUAL_DISCOUNT_RATE } from '../../components/Bar/Plans';
+import { ANNUAL_DISCOUNT_RATE } from './Plans';
 import './PlanCard.css';
 
 interface Plan {

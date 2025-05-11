@@ -5,7 +5,6 @@ import { fetchPaymentMethods, getDefaultPaymentMethod, deletePaymentMethod, setD
 import { UserDetails } from '../../types/UserDetails';
 import { UserSubscription } from '../../types/UserSubscription';
 import { PaymentMethod, PaymentError } from '../../types/PaymentMethods';
-import ProfileTable from '../../components/Table/ProfileTable/ProfileTable';
 import { formatDate } from '../../utils/FormatDate';
 import AccountTier from './AccountTier';
 import './Subscription.css';
@@ -18,6 +17,8 @@ interface SubscriptionProps {
 }
 
 const Subscription: React.FC<SubscriptionProps> = ({ accountId }) => {
+  console.log('🔵 Subscription component rendered with accountId:', accountId);
+
   const [userDetails, setUserDetails] = useState<UserDetails | null>(null);
   const [subscription, setSubscription] = useState<UserSubscription | null>(null);
   const [paymentMethods, setPaymentMethods] = useState<PaymentMethod[]>([]);
@@ -27,17 +28,39 @@ const Subscription: React.FC<SubscriptionProps> = ({ accountId }) => {
   const [activeTab, setActiveTab] = useState<'overview' | 'plans' | 'payment'>('overview');
 
   const loadData = async () => {
+    console.log('🔄 Starting to load subscription data...');
     try {
       setLoading(true);
       
-      // Fetch user details from backend
+      console.log('📡 Fetching user details...');
       const userData = await fetchUserDetails(accountId);
+      console.log('✅ User details fetched:', userData);
       
-      // Fetch subscription data or create empty subscription if none exists
       let subscriptionData;
       try {
+        console.log('📡 Fetching subscription data...');
         subscriptionData = await fetchUserSubscription(accountId);
+        console.log('✅ Subscription data fetched:', subscriptionData);
+
+        // Log raw subscription data for debugging
+        console.log('📅 Raw subscription data:', {
+          nextBillingDate: subscriptionData.nextBillingDate,
+          lastPaymentDate: subscriptionData.lastPaymentDate,
+          subscriptionStartDate: subscriptionData.subscriptionStartDate,
+          subscriptionEndDate: subscriptionData.subscriptionEndDate,
+          isActive: subscriptionData.isActive,
+          status: subscriptionData.status
+        });
+
+        // Only ensure isActive is set based on status
+        if (subscriptionData) {
+          subscriptionData = {
+            ...subscriptionData,
+            isActive: subscriptionData.isActive ?? (subscriptionData.status === 'active')
+          };
+        }
       } catch (error) {
+        console.log('⚠️ No subscription found, creating default...');
         subscriptionData = {
           id: 0,
           accountId: accountId,
@@ -52,30 +75,33 @@ const Subscription: React.FC<SubscriptionProps> = ({ accountId }) => {
         } as UserSubscription;
       }
       
-      // Fetch existing payment methods
       let methods: PaymentMethod[] = [];
       try {
+        console.log('📡 Fetching payment methods...');
         methods = await fetchPaymentMethods(accountId);
+        console.log('✅ Payment methods fetched:', methods);
       } catch (error) {
-        // No payment methods found, using empty array
+        console.log('⚠️ No payment methods found');
       }
       
-      // Fetch default payment method
       let defaultMethod = null;
       try {
+        console.log('📡 Fetching default payment method...');
         defaultMethod = await getDefaultPaymentMethod(accountId);
+        console.log('✅ Default payment method fetched:', defaultMethod);
       } catch (error) {
-        // No default payment method found
+        console.log('⚠️ No default payment method found');
       }
 
-      // Update all state with fetched data
+      console.log('📝 Updating component state...');
       setUserDetails(userData);
       setSubscription(subscriptionData);
       setPaymentMethods(methods);
       setDefaultPaymentMethodState(defaultMethod);
       setError(null);
+      console.log('✅ Component state updated successfully');
     } catch (err) {
-      console.error('Error in loadData:', err);
+      console.error('❌ Error in loadData:', err);
       setError('Failed to load subscription details. Please try again later.');
       setUserDetails(null);
       setSubscription(null);
@@ -83,33 +109,35 @@ const Subscription: React.FC<SubscriptionProps> = ({ accountId }) => {
       setDefaultPaymentMethodState(null);
     } finally {
       setLoading(false);
+      console.log('🏁 Data loading completed');
     }
   };
 
   useEffect(() => {
+    console.log('🔄 useEffect triggered, loading data...');
     loadData();
   }, [accountId]);
 
   const handleDeletePaymentMethod = async (paymentMethodId: string) => {
+    console.log('🔵 Deleting payment method:', paymentMethodId);
     try {
-      // Delete payment method from backend
       await deletePaymentMethod(accountId, paymentMethodId);
-      // Reload data to reflect changes
+      console.log('✅ Payment method deleted successfully');
       await loadData();
     } catch (err) {
-      console.error('Error deleting payment method:', err);
+      console.error('❌ Error deleting payment method:', err);
       setError('Failed to delete payment method. Please try again later.');
     }
   };
 
   const handleSetDefaultPaymentMethod = async (paymentMethodId: string) => {
+    console.log('🔵 Setting default payment method:', paymentMethodId);
     try {
-      // Set payment method as default in backend
       await setDefaultPaymentMethod(accountId, paymentMethodId);
-      // Reload data to reflect changes
+      console.log('✅ Default payment method set successfully');
       await loadData();
     } catch (err) {
-      console.error('Error setting default payment method:', err);
+      console.error('❌ Error setting default payment method:', err);
       setError('Failed to set default payment method. Please try again later.');
     }
   };
@@ -217,20 +245,32 @@ const Subscription: React.FC<SubscriptionProps> = ({ accountId }) => {
     }
   };
 
-  if (loading) {
-    return <p>Loading subscription details...</p>;
-  }
-
-  if (error) {
-    return <p className="subscription-error">{error}</p>;
-  }
-
-  if (!userDetails) {
-    return <p>No subscription details available.</p>;
-  }
-
   const renderOverview = () => {
-    if (!userDetails) return null;
+    console.log('🎨 Rendering overview tab');
+    if (!userDetails || !subscription) {
+      console.log('⚠️ Cannot render overview: missing user details or subscription');
+      return null;
+    }
+
+    // Helper function to convert array date to Date object
+    const arrayToDate = (dateArray: unknown): Date | null => {
+      if (!dateArray || !Array.isArray(dateArray) || dateArray.length !== 7) {
+        return null;
+      }
+      const [year, month, day, hour, minute, second, millisecond] = dateArray.map(Number);
+      if (isNaN(year) || isNaN(month) || isNaN(day)) {
+        return null;
+      }
+      return new Date(year, month - 1, day, hour, minute, second, millisecond);
+    };
+
+    // Log raw subscription data for debugging
+    console.log('📅 Raw subscription dates:', {
+      nextBillingDate: subscription.nextBillingDate,
+      lastPaymentDate: subscription.lastPaymentDate,
+      subscriptionStartDate: subscription.subscriptionStartDate,
+      subscriptionEndDate: subscription.subscriptionEndDate
+    });
 
     return (
       <div className="subscription-overview">
@@ -241,15 +281,37 @@ const Subscription: React.FC<SubscriptionProps> = ({ accountId }) => {
               <AccountTier accountId={accountId} />
             </div>
             <div className="plan-status">
-              {subscription?.isActive ? 'Active' : 'Inactive'}
-              {subscription?.cancelAtPeriodEnd && ' (Cancelling)'}
+              <span className={`status ${subscription.isActive ? 'active' : 'inactive'}`}>
+                {subscription.isActive ? 'Active' : 'Inactive'}
+              </span>
+              {subscription.cancelAtPeriodEnd && (
+                <span className="cancelling">(Cancelling)</span>
+              )}
             </div>
             <div className="plan-dates">
               <div>
-                <strong>Next Billing Date:</strong> {subscription?.nextBillingDate ? formatDate(new Date(subscription.nextBillingDate)) : 'N/A'}
+                <strong>Subscription Start Date:</strong>{' '}
+                {subscription.subscriptionStartDate 
+                  ? formatDate(subscription.subscriptionStartDate) 
+                  : 'N/A'}
+              </div>
+              {subscription.subscriptionEndDate && (
+                <div>
+                  <strong>Subscription End Date:</strong>{' '}
+                  {formatDate(subscription.subscriptionEndDate)}
+                </div>
+              )}
+              <div>
+                <strong>Next Billing Date:</strong>{' '}
+                {subscription.nextBillingDate 
+                  ? formatDate(subscription.nextBillingDate) 
+                  : 'N/A'}
               </div>
               <div>
-                <strong>Last Payment:</strong> {subscription?.lastPaymentDate ? formatDate(new Date(subscription.lastPaymentDate)) : 'N/A'}
+                <strong>Last Payment:</strong>{' '}
+                {subscription.lastPaymentDate 
+                  ? formatDate(subscription.lastPaymentDate) 
+                  : 'N/A'}
               </div>
             </div>
           </div>
@@ -281,7 +343,11 @@ const Subscription: React.FC<SubscriptionProps> = ({ accountId }) => {
   };
 
   const renderPlans = () => {
-    if (!subscription) return null;
+    console.log('🎨 Rendering plans tab');
+    if (!subscription || !userDetails) {
+      console.log('⚠️ Cannot render plans: missing subscription or user details');
+      return null;
+    }
 
     // Render subscription plans section
     return (
@@ -297,6 +363,7 @@ const Subscription: React.FC<SubscriptionProps> = ({ accountId }) => {
   };
 
   const renderPaymentMethods = () => {
+    console.log('🎨 Rendering payment methods tab');
     if (!userDetails) return null;
 
     // Render payment methods section
@@ -311,13 +378,32 @@ const Subscription: React.FC<SubscriptionProps> = ({ accountId }) => {
     );
   };
 
+  console.log('🎨 Rendering main subscription component');
+  if (loading) {
+    console.log('⏳ Loading state active');
+    return <p>Loading subscription details...</p>;
+  }
+
+  if (error) {
+    console.log('❌ Error state active:', error);
+    return <p className="subscription-error">{error}</p>;
+  }
+
+  if (!userDetails) {
+    console.log('⚠️ No user details available');
+    return <p>No subscription details available.</p>;
+  }
+
   return (
     <div className="subscription-container">
       <div className="subscription-header">
         <h2>Subscription Management</h2>
         <SubscriptionTabs 
           activeTab={activeTab} 
-          onTabChange={setActiveTab} 
+          onTabChange={(tab) => {
+            console.log('🔄 Tab changed to:', tab);
+            setActiveTab(tab);
+          }} 
         />
       </div>
 
