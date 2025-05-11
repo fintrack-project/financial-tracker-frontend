@@ -1,16 +1,5 @@
 import { fetchMarketIndexDataApi } from '../api/marketDataApi';
-
-// Define the structure of market index data received from API
-export interface MarketIndexData {
-  symbol: string;
-  name: string;
-  price: number | string;
-  price_change: number | string;
-  percent_change: number | string;
-  price_high?: number | string;
-  price_low?: number | string;
-}
-
+import { MarketIndexData } from '../types/MarketData';
 // Default symbols to fetch
 const DEFAULT_SYMBOLS = ['^GSPC', '^NDX', '^DJI', '^RUT', 'GC=F', 'SI=F', 'CL=F'];
 
@@ -48,10 +37,10 @@ export const fetchMarketIndices = async (symbols = DEFAULT_SYMBOLS): Promise<Mar
             symbol,
             name: MARKET_INDEX_NAMES[symbol] || symbol,
             price: indexData.price || 0,
-            price_change: indexData.price_change || 0,
-            percent_change: indexData.percent_change || 0,
-            price_high: indexData.price_high,
-            price_low: indexData.price_low
+            priceChange: indexData.price_change || 0,
+            percentChange: indexData.percent_change || 0,
+            priceHigh: indexData.price_high,
+            priceLow: indexData.price_low
           });
         } else {
           // Include the symbol in the result with empty data
@@ -60,8 +49,8 @@ export const fetchMarketIndices = async (symbols = DEFAULT_SYMBOLS): Promise<Mar
             symbol,
             name: MARKET_INDEX_NAMES[symbol] || symbol,
             price: 'N/A',
-            price_change: 0,
-            percent_change: 0
+            priceChange: 0,
+            percentChange: 0
           });
         }
       }

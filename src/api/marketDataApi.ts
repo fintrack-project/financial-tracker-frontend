@@ -1,5 +1,5 @@
 import { apiClient } from '../utils/apiClient';
-import { MarketDataProps } from '../types/MarketDataProps';
+import { MarketData } from '../types/MarketData';
 import { ApiResponse } from '../types/ApiTypes';
 import { Asset } from '../types/Asset';
 
@@ -7,9 +7,9 @@ import { Asset } from '../types/Asset';
 export const fetchMarketDataApi = async (
   accountId: string,
   assets: Asset[]
-): Promise<ApiResponse<MarketDataProps[]>> => {
+): Promise<ApiResponse<MarketData[]>> => {
   try {
-    const response = await apiClient.post<ApiResponse<MarketDataProps[]>>('/api/market-data/fetch', {
+    const response = await apiClient.post<ApiResponse<MarketData[]>>('/api/market-data/fetch', {
       accountId,
       assets,
     });
