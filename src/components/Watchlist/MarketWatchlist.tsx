@@ -14,8 +14,7 @@ const MarketWatchlist: React.FC<{ accountId: string | null }> = ({ accountId }) 
     { key: 'priceChange', label: 'Price Change' },
     { key: 'percentChange', label: '% Change' },
     { key: 'high', label: 'High' },
-    { key: 'low', label: 'Low' },
-    { key: 'updatedTime', label: 'Updated Time' },
+    { key: 'low', label: 'Low' }
   ];
 
   return (
