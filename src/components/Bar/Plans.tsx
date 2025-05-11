@@ -216,6 +216,9 @@ const Plans: React.FC<PlansProps> = ({
     setError(error.message);
   };
 
+  console.log('currentPlan', currentPlan);
+  console.log('plans', plans);
+
   return (
     <div className="plans-container">
       <div className="billing-cycle-toggle">
@@ -239,6 +242,7 @@ const Plans: React.FC<PlansProps> = ({
             key={plan.id}
             plan={{
               id: plan.id,
+              plan_group_id: plan.plan_group_id,
               name: plan.name,
               color: plan.color,
               features: plan.features || [],

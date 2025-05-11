@@ -1,6 +1,6 @@
 import { apiClient } from '../utils/apiClient';
 import { ApiResponse } from '../types/ApiTypes';
-import { SubscriptionPlanResponse, SubscriptionPlanType } from '../types/SubscriptionPlan';
+import { SubscriptionPlanResponse } from '../types/SubscriptionPlan';
 import { SubscriptionPlan } from '../types/SubscriptionPlan';
 
 export const getAllPlansApi = async (): Promise<ApiResponse<SubscriptionPlanResponse[]>> => {

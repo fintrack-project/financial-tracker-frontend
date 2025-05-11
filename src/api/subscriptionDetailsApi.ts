@@ -28,6 +28,28 @@ const handleApiError = (error: unknown): never => {
 };
 
 /**
+ * Transform subscription data from camelCase to snake_case
+ */
+const transformSubscriptionData = (data: any): SubscriptionDetails => {
+  if (!data) return data;
+
+  return {
+    ...data,
+    plan: data.plan ? {
+      ...data.plan,
+      plan_group_id: data.plan.planGroupId || data.plan.plan_group_id, // Handle both cases
+      id: data.plan.id,
+      name: data.plan.name,
+      amount: data.plan.amount,
+      currency: data.plan.currency,
+      interval: data.plan.interval,
+      description: data.plan.description,
+      features: data.plan.features
+    } : null
+  };
+};
+
+/**
  * Fetch subscription details including plan information for a user
  */
 export const fetchSubscriptionDetailsApi = async (accountId: string): Promise<ApiResponse<SubscriptionDetails>> => {
@@ -35,7 +57,12 @@ export const fetchSubscriptionDetailsApi = async (accountId: string): Promise<Ap
     console.log('Making API call to fetch subscription details with accountId:', accountId);
     const response = await apiClient.post<ApiResponse<SubscriptionDetails>>('/api/user/subscriptions/details', { accountId });
     console.log('Subscription details API response:', response.data);
-    return response.data;
+    
+    // Transform the data before returning
+    return {
+      ...response.data,
+      data: response.data.data ? transformSubscriptionData(response.data.data) : undefined
+    };
   } catch (error) {
     console.error('Error in fetchSubscriptionDetailsApi:', error);
     return handleApiError(error);

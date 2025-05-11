@@ -5,6 +5,7 @@ import './PlanCard.css';
 
 interface Plan {
   id: string;
+  plan_group_id: string;
   name: string;
   color: string;
   features: string[];
@@ -21,12 +22,12 @@ interface PlanCardProps {
 }
 
 const PlanCard: React.FC<PlanCardProps> = ({ plan, loading, currentPlan, onSelect }) => {
-  const isCurrentPlan = currentPlan?.id === plan.id;
+  const isCurrentPlanGroup = currentPlan?.plan_group_id === plan.plan_group_id;
   const price = plan.isAnnual ? plan.annualPrice : plan.monthlyPrice;
   const savings = ANNUAL_DISCOUNT_RATE * 100;
 
   return (
-    <div className={`plan-card ${isCurrentPlan ? 'current' : ''}`}>
+    <div className={`plan-card ${isCurrentPlanGroup ? 'current' : ''}`}>
       <div className="plan-header">
         <h3 className="plan-name" style={{ color: plan.color }}>{plan.name}</h3>
         <div className="plan-price">
@@ -45,11 +46,11 @@ const PlanCard: React.FC<PlanCardProps> = ({ plan, loading, currentPlan, onSelec
       </ul>
 
       <button
-        className={`plan-button ${isCurrentPlan ? 'secondary' : 'primary'} ${loading ? 'disabled' : ''}`}
+        className={`plan-button ${isCurrentPlanGroup ? 'secondary' : 'primary'} ${loading ? 'disabled' : ''}`}
         onClick={() => onSelect(plan.id)}
-        disabled={loading || isCurrentPlan}
+        disabled={loading || isCurrentPlanGroup}
       >
-        {loading ? 'Loading...' : isCurrentPlan ? 'Current Plan' : 'Select Plan'}
+        {loading ? 'Loading...' : isCurrentPlanGroup ? 'Current Plan' : 'Select Plan'}
       </button>
     </div>
   );
