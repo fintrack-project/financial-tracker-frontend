@@ -1,16 +1,5 @@
 import { fetchMarketIndexDataApi } from '../api/marketDataApi';
-
-// Define the structure of market index data received from API
-export interface MarketIndexData {
-  symbol: string;
-  name: string;
-  price: number | string;
-  price_change: number | string;
-  percent_change: number | string;
-  price_high?: number | string;
-  price_low?: number | string;
-}
-
+import { MarketIndexData } from '../types/MarketDataProps';
 // Default symbols to fetch
 const DEFAULT_SYMBOLS = ['^GSPC', '^NDX', '^DJI', '^RUT', 'GC=F', 'SI=F', 'CL=F'];
 

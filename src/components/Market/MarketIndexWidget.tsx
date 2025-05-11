@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { fetchMarketIndices, MarketIndexData, MARKET_INDEX_NAMES } from '../../services/marketIndexService';
+import { fetchMarketIndices, MARKET_INDEX_NAMES } from '../../services/marketIndexService';
+import { MarketIndexData } from '../../types/MarketDataProps';
 import './MarketIndexWidget.css';
 
 interface MarketIndexWidgetProps {
