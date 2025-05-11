@@ -3,18 +3,20 @@ import HoldingsTable from '../../components/Table/HoldingsTable/HoldingsTable';
 import ForexWatchlist from '../../components/Watchlist/ForexWatchlist';
 import MarketWatchlist from '../../components/Watchlist/MarketWatchlist';
 import MarketIndexWidget from '../../components/Market/MarketIndexWidget';
-import { SubscriptionPlan } from '../../hooks/useRefreshCycle';
+import { SubscriptionPlanType } from '../../types/Subscription';
 import './Dashboard.css'; // Import the CSS file
 
 interface DashboardProps {
   accountId: string | null; // Receive accountId as a prop
-  subscriptionPlan?: SubscriptionPlan;
+  subscriptionPlan?: SubscriptionPlanType;
 }
 
 const Dashboard: React.FC<DashboardProps> = ({ 
   accountId,
   subscriptionPlan = 'FREE'
 }) => {
+  console.log('[Dashboard] Current subscription plan:', subscriptionPlan);
+  
   // Define the market indices we want to display
   const marketIndices = ['^GSPC', '^NDX', '^DJI', '^RUT', 'GC=F', 'SI=F', 'CL=F'];
 
@@ -39,12 +41,14 @@ const Dashboard: React.FC<DashboardProps> = ({
           <h2 className="fintrack-card-title">Watchlist</h2>
           <MarketWatchlist 
             accountId={accountId}
+            subscriptionPlan={subscriptionPlan}
           />
         </div>
         <div className="live-price">
           <h2 className="fintrack-card-title">Currency</h2>
           <ForexWatchlist 
             accountId={accountId}
+            subscriptionPlan={subscriptionPlan}
           />
         </div>
       </div>

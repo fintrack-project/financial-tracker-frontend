@@ -1,12 +1,13 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { fetchMarketIndices, MARKET_INDEX_NAMES } from '../../services/marketIndexService';
 import { MarketIndexData } from '../../types/MarketData';
-import { useRefreshCycle, SubscriptionPlan } from '../../hooks/useRefreshCycle';
+import { useRefreshCycle } from '../../hooks/useRefreshCycle';
+import { SubscriptionPlanType } from '../../types/Subscription';
 import './MarketIndexWidget.css';
 
 interface MarketIndexWidgetProps {
-  symbols?: string[];
-  subscriptionPlan?: SubscriptionPlan;
+  symbols: string[];
+  subscriptionPlan: SubscriptionPlanType;
 }
 
 const MarketIndexWidget: React.FC<MarketIndexWidgetProps> = ({

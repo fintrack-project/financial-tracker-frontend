@@ -1,14 +1,14 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import EditableWatchlistTable from './EditableWatchlistTable';
 import { useWatchlist } from '../../hooks/useWatchlist';
 import { useMarketData } from '../../hooks/useMarketData';
 import { MarketDataDisplay } from '../../types/MarketData';
-import { SubscriptionPlan } from '../../hooks/useRefreshCycle';
+import { SubscriptionPlanType } from '../../types/Subscription';
 import './Watchlist.css';
 
 interface MarketWatchlistProps {
   accountId: string | null;
-  subscriptionPlan?: SubscriptionPlan;
+  subscriptionPlan: SubscriptionPlanType;
 }
 
 const MarketWatchlist: React.FC<MarketWatchlistProps> = ({ 

@@ -1,16 +1,16 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { useRefreshCycle } from './useRefreshCycle';
 import { fetchMarketData } from '../services/marketDataService';
-import { SubscriptionPlan } from './useRefreshCycle';
+import { SubscriptionPlanType } from '../types/Subscription';
 import { MarketData, WatchlistItem } from '../types/MarketData';
 
 interface UseMarketDataProps {
   accountId: string | null;
   symbols: WatchlistItem[];
-  subscriptionPlan?: SubscriptionPlan;
+  subscriptionPlan: SubscriptionPlanType;
 }
 
-export const useMarketData = ({ accountId, symbols, subscriptionPlan = 'FREE' }: UseMarketDataProps) => {
+export const useMarketData = ({ accountId, symbols, subscriptionPlan }: UseMarketDataProps) => {
   const [marketData, setMarketData] = useState<MarketData[]>([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
