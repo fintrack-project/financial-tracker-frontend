@@ -1,7 +1,7 @@
 import { apiClient } from '../utils/apiClient';
 import { ApiResponse } from '../types/ApiTypes';
 import { UserSubscription } from '../types/UserSubscription';
-import { SubscriptionUpdateResponse, SubscriptionPlanType } from '../types/Subscription';
+import { SubscriptionUpdateResponse, SubscriptionPlanType } from '../types/SubscriptionPlan';
 import { UserSubscriptionDetailsResponse } from '../types/SubscriptionPlan';
 
 export const fetchUserSubscriptionApi = async (accountId: string): Promise<ApiResponse<UserSubscription>> => {

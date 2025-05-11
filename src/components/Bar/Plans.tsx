@@ -46,6 +46,7 @@ const Plans: React.FC<PlansProps> = ({
   const plans: (SubscriptionPlan & { color: string })[] = [
     {
       id: 'plan_free',
+      plan_group_id: 'free',
       name: 'Free',
       amount: 0,
       currency: 'USD',
@@ -64,6 +65,7 @@ const Plans: React.FC<PlansProps> = ({
     },
     {
       id: 'plan_basic',
+      plan_group_id: 'basic',
       name: 'Basic',
       amount: 4.99,
       currency: 'USD',
@@ -83,6 +85,7 @@ const Plans: React.FC<PlansProps> = ({
     },
     {
       id: 'plan_premium',
+      plan_group_id: 'premium',
       name: 'Premium',
       amount: 9.99,
       currency: 'USD',

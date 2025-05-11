@@ -1,7 +1,7 @@
 import { useState, useEffect, useCallback } from 'react';
 import { useRefreshCycle } from './useRefreshCycle';
 import { fetchMarketData } from '../services/marketDataService';
-import { SubscriptionPlanType } from '../types/Subscription';
+import { SubscriptionPlanType } from '../types/SubscriptionPlan';
 import { MarketData, WatchlistItem } from '../types/MarketData';
 
 interface UseMarketDataProps {
