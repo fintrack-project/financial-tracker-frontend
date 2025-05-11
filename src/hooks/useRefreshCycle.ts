@@ -2,19 +2,6 @@ import { useState, useEffect, useCallback } from 'react';
 
 export type SubscriptionPlan = 'FREE' | 'BASIC' | 'PREMIUM';
 
-interface UseRefreshCycleProps {
-  refreshInterval?: number;
-  subscriptionPlan?: SubscriptionPlan;
-  onRefresh: () => Promise<void>;
-}
-
-interface UseRefreshCycleReturn {
-  loading: boolean;
-  error: string | null;
-  lastUpdated: Date | null;
-  refresh: () => Promise<void>;
-}
-
 // US Market closing time (4:00 PM ET)
 const US_MARKET_CLOSE_HOUR = 16;
 const US_MARKET_CLOSE_MINUTE = 0;
@@ -30,56 +17,104 @@ const getMillisecondsUntilMarketClose = (): number => {
     marketClose.setDate(marketClose.getDate() + 1);
   }
 
-  return marketClose.getTime() - now.getTime();
+  const msUntilClose = marketClose.getTime() - now.getTime();
+  console.log('[useRefreshCycle] Market close time:', marketClose.toLocaleString());
+  console.log('[useRefreshCycle] Milliseconds until market close:', msUntilClose);
+  return msUntilClose;
 };
 
-// Get refresh interval based on subscription plan
-const getRefreshInterval = (plan: SubscriptionPlan): number => {
-  switch (plan) {
-    case 'FREE':
-      return getMillisecondsUntilMarketClose(); // Update at market close
-    case 'BASIC':
-      return 6 * 60 * 60 * 1000; // 6 hours (4 times a day)
-    case 'PREMIUM':
-      return 60 * 1000; // 1 minute (near real-time)
-    default:
-      return getMillisecondsUntilMarketClose();
-  }
-};
+interface UseRefreshCycleProps {
+  subscriptionPlan: SubscriptionPlan;
+  onRefresh: () => Promise<void>;
+}
 
-export const useRefreshCycle = ({
-  refreshInterval,
-  subscriptionPlan = 'FREE',
-  onRefresh
-}: UseRefreshCycleProps): UseRefreshCycleReturn => {
+export const useRefreshCycle = ({ subscriptionPlan, onRefresh }: UseRefreshCycleProps) => {
+  const [lastUpdated, setLastUpdated] = useState<Date | null>(null);
+  const [hasFetched, setHasFetched] = useState(false);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const [lastUpdated, setLastUpdated] = useState<Date | null>(null);
+
+  const getRefreshInterval = useCallback(() => {
+    console.log('[useRefreshCycle] Current subscription plan:', subscriptionPlan);
+    switch (subscriptionPlan) {
+      case 'FREE':
+        const msUntilClose = getMillisecondsUntilMarketClose();
+        console.log('[useRefreshCycle] FREE plan - will update at market close');
+        return msUntilClose;
+      case 'BASIC':
+        return 5 * 60 * 1000; // 5 minutes
+      case 'PREMIUM':
+        return 60 * 1000; // 1 minute
+      default:
+        return getMillisecondsUntilMarketClose();
+    }
+  }, [subscriptionPlan]);
+
+  const shouldRefresh = useCallback(() => {
+    if (!lastUpdated) {
+      console.log('[useRefreshCycle] No last update time, should refresh');
+      return true;
+    }
+
+    const now = new Date();
+    const timeSinceLastUpdate = now.getTime() - lastUpdated.getTime();
+    const refreshInterval = getRefreshInterval();
+    
+    console.log('[useRefreshCycle] Time since last update:', timeSinceLastUpdate / 1000, 'seconds');
+    console.log('[useRefreshCycle] Refresh interval:', refreshInterval / 1000, 'seconds');
+    
+    const shouldRefreshNow = timeSinceLastUpdate >= refreshInterval;
+    console.log('[useRefreshCycle] Should refresh now:', shouldRefreshNow);
+    
+    return shouldRefreshNow;
+  }, [lastUpdated, getRefreshInterval]);
 
   const refresh = useCallback(async () => {
+    console.log('[useRefreshCycle] Starting refresh cycle');
     try {
       setLoading(true);
       setError(null);
       await onRefresh();
       setLastUpdated(new Date());
+      setHasFetched(true);
+      console.log('[useRefreshCycle] Refresh cycle completed');
     } catch (err) {
+      console.error('[useRefreshCycle] Refresh error:', err);
       setError(err instanceof Error ? err.message : 'Failed to refresh data');
-      console.error('Refresh error:', err);
     } finally {
       setLoading(false);
     }
   }, [onRefresh]);
 
   useEffect(() => {
-    // Initial refresh
-    refresh();
+    console.log('[useRefreshCycle] Effect triggered');
+    console.log('[useRefreshCycle] Has fetched:', hasFetched);
+    console.log('[useRefreshCycle] Last updated:', lastUpdated);
 
-    // Set up interval based on subscription plan
-    const interval = setInterval(refresh, refreshInterval || getRefreshInterval(subscriptionPlan));
+    if (!hasFetched) {
+      console.log('[useRefreshCycle] Initial fetch');
+      refresh();
+      return;
+    }
 
-    // Clean up interval on unmount
-    return () => clearInterval(interval);
-  }, [refresh, refreshInterval, subscriptionPlan]);
+    if (shouldRefresh()) {
+      console.log('[useRefreshCycle] Scheduled refresh triggered');
+      refresh();
+    }
 
-  return { loading, error, lastUpdated, refresh };
+    const interval = setInterval(() => {
+      console.log('[useRefreshCycle] Interval check');
+      if (shouldRefresh()) {
+        console.log('[useRefreshCycle] Interval refresh triggered');
+        refresh();
+      }
+    }, getRefreshInterval());
+
+    return () => {
+      console.log('[useRefreshCycle] Cleaning up interval');
+      clearInterval(interval);
+    };
+  }, [hasFetched, lastUpdated, refresh, shouldRefresh, getRefreshInterval]);
+
+  return { lastUpdated, hasFetched, loading, error };
 }; 
