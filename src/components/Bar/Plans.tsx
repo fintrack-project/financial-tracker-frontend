@@ -37,34 +37,14 @@ const Plans: React.FC<PlansProps> = ({
   const [error, setError] = useState<string | null>(null);
   const [currentPlan, setCurrentPlan] = useState<SubscriptionPlan | null>(null);
   const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    const loadSubscriptionPlan = async () => {
-      if (!userDetails?.accountId) return;
-      
-      try {
-        setLoading(true);
-        const response = await fetchSubscriptionDetails(userDetails.accountId);
-        setCurrentPlan(response.plan);
-      } catch (error) {
-        console.error('Error loading subscription plan:', error);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    loadSubscriptionPlan();
-  }, [userDetails?.accountId]);
-
-  if (!userDetails) {
-    return <div className="plans-container"><p>Loading user details...</p></div>;
-  }
+  const [billingCycle, setBillingCycle] = useState<'monthly' | 'annual'>('monthly');
 
   const plans = [
     {
-      id: 'free',
+      id: 'plan_free',
       name: 'Free',
-      price: 0,
+      monthlyPrice: 0,
+      annualPrice: 0,
       color: '#6c757d',
       features: [
         '1 year transaction history',
@@ -78,9 +58,10 @@ const Plans: React.FC<PlansProps> = ({
       ]
     },
     {
-      id: 'basic',
+      id: 'plan_basic',
       name: 'Basic',
-      price: 4.99,
+      monthlyPrice: 4.99,
+      annualPrice: 47.88,
       color: '#28a745',
       features: [
         '5 years transaction history',
@@ -95,9 +76,10 @@ const Plans: React.FC<PlansProps> = ({
       ]
     },
     {
-      id: 'premium',
+      id: 'plan_premium',
       name: 'Premium',
-      price: 9.99,
+      monthlyPrice: 9.99,
+      annualPrice: 95.88,
       color: '#007bff',
       features: [
         'Unlimited transaction history',
@@ -115,20 +97,26 @@ const Plans: React.FC<PlansProps> = ({
     }
   ];
 
+  const getPlanId = (basePlanId: string, isAnnual: boolean) => {
+    if (basePlanId === 'plan_free') return 'plan_free';
+    return isAnnual ? `${basePlanId}_annual` : basePlanId;
+  };
+
   const handlePlanSelect = async (planId: string) => {
-    const selectedPlanObj = plans.find(p => p.id === planId);
+    const basePlanId = planId.replace('_annual', '');
+    const selectedPlan = plans.find(p => p.id === basePlanId);
     
-    if (!selectedPlanObj) {
+    if (!selectedPlan) {
       setError('Invalid plan selected');
       return;
     }
     
-    setSelectedPlan(planId);
-    setSelectedPlanName(selectedPlanObj.name);
+    setSelectedPlan(getPlanId(basePlanId, billingCycle === 'annual'));
+    setSelectedPlanName(selectedPlan.name);
     setError(null);
 
-    if (planId === 'free') {
-      await onPlanSelect(selectedPlanObj.name);
+    if (basePlanId === 'plan_free') {
+      await onPlanSelect(selectedPlan.name);
       return;
     }
 
@@ -140,6 +128,35 @@ const Plans: React.FC<PlansProps> = ({
     setShowPaymentMethodPopup(true);
   };
 
+  useEffect(() => {
+    const loadSubscriptionPlan = async () => {
+      if (!userDetails?.accountId) return;
+      
+      try {
+        setLoading(true);
+        const response = await fetchSubscriptionDetails(userDetails.accountId);
+        const basePlanId = response.plan.id.replace('_annual', '');
+        const plan = plans.find(p => p.id === basePlanId);
+        if (plan) {
+          const subscriptionPlan: SubscriptionPlan = {
+            ...response.plan,
+            amount: response.plan.id.includes('_annual') ? plan.annualPrice : plan.monthlyPrice,
+            interval: response.plan.id.includes('_annual') ? 'year' : 'month',
+            description: `${plan.name} Plan`,
+            features: plan.features
+          };
+          setCurrentPlan(subscriptionPlan);
+        }
+      } catch (error) {
+        console.error('Error loading subscription plan:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    loadSubscriptionPlan();
+  }, [userDetails?.accountId]);
+
   const handleRedirectToPayment = () => {
     setShowNoPaymentMethodPopup(false);
     onTabChange('payment');
@@ -148,7 +165,8 @@ const Plans: React.FC<PlansProps> = ({
   const handlePaymentMethodSelect = async (paymentMethodId: string) => {
     if (selectedPlan) {
       try {
-        const selectedPlanObj = plans.find(p => p.id === selectedPlan);
+        const basePlanId = selectedPlan.replace('_annual', '');
+        const selectedPlanObj = plans.find(p => p.id === basePlanId);
         if (!selectedPlanObj) {
           throw new Error('Invalid plan selected');
         }
@@ -184,11 +202,30 @@ const Plans: React.FC<PlansProps> = ({
 
   return (
     <div className="plans-container">
+      <div className="billing-cycle-toggle">
+        <button
+          className={`toggle-button ${billingCycle === 'monthly' ? 'active' : ''}`}
+          onClick={() => setBillingCycle('monthly')}
+        >
+          Monthly
+        </button>
+        <button
+          className={`toggle-button ${billingCycle === 'annual' ? 'active' : ''}`}
+          onClick={() => setBillingCycle('annual')}
+        >
+          Annual (Save 20%)
+        </button>
+      </div>
+
       <div className="plans-grid">
         {plans.map((plan) => (
           <PlanCard
             key={plan.id}
-            plan={plan}
+            plan={{
+              ...plan,
+              price: billingCycle === 'monthly' ? plan.monthlyPrice : plan.annualPrice,
+              isAnnual: billingCycle === 'annual'
+            }}
             loading={loading}
             currentPlan={currentPlan}
             onSelect={handlePlanSelect}

@@ -5,9 +5,12 @@ import './PlanCard.css';
 interface Plan {
   id: string;
   name: string;
-  price: number;
+  monthlyPrice: number;
+  annualPrice: number;
   color: string;
   features: string[];
+  price?: number;
+  isAnnual?: boolean;
 }
 
 interface PlanCardProps {
@@ -17,49 +20,34 @@ interface PlanCardProps {
   onSelect: (planId: string) => void;
 }
 
-const PlanCard: React.FC<PlanCardProps> = ({ 
-  plan, 
-  loading, 
-  currentPlan, 
-  onSelect 
-}) => {
-  const isCurrentPlan = currentPlan && plan.id === currentPlan.name.toLowerCase();
+const PlanCard: React.FC<PlanCardProps> = ({ plan, loading, currentPlan, onSelect }) => {
+  const isCurrentPlan = currentPlan?.id === plan.id;
+  const price = plan.isAnnual ? plan.annualPrice : plan.monthlyPrice;
+  const savings = plan.isAnnual ? Math.round((plan.monthlyPrice * 12 - plan.annualPrice) / (plan.monthlyPrice * 12) * 100) : 0;
 
   return (
-    <div
-      className={`plan-card ${isCurrentPlan ? 'current-plan' : ''}`}
-      style={{ borderColor: plan.color }}
-    >
-      {isCurrentPlan && (
-        <div className="current-plan-badge">
-          Current Plan
-        </div>
-      )}
-      <div className="plan-header" style={{ backgroundColor: plan.color }}>
-        <h3>{plan.name}</h3>
+    <div className={`plan-card ${isCurrentPlan ? 'current' : ''}`}>
+      <div className="plan-header">
+        <h3 className="plan-name" style={{ color: plan.color }}>{plan.name}</h3>
         <div className="plan-price">
-          ${plan.price}
-          <span className="price-period">/month</span>
+          ${price}
+          <span className="period">/{plan.isAnnual ? 'year' : 'month'}</span>
+          {plan.isAnnual && savings > 0 && (
+            <span className="savings">Save {savings}% with annual billing</span>
+          )}
         </div>
-        {plan.price > 0 && (
-          <div className="annual-price">
-            ${(plan.price * 12 * 0.8).toFixed(2)}
-            <span className="price-period">/year (20% off)</span>
-          </div>
-        )}
       </div>
-      <div className="plan-features">
-        <ul>
-          {plan.features.map((feature, index) => (
-            <li key={index}>{feature}</li>
-          ))}
-        </ul>
-      </div>
+
+      <ul className="plan-features">
+        {plan.features.map((feature, index) => (
+          <li key={index}>{feature}</li>
+        ))}
+      </ul>
+
       <button
-        className="select-plan-button"
-        style={{ backgroundColor: plan.color }}
+        className={`plan-button ${isCurrentPlan ? 'secondary' : 'primary'} ${loading ? 'disabled' : ''}`}
         onClick={() => onSelect(plan.id)}
-        disabled={!!(loading || isCurrentPlan)}
+        disabled={loading || isCurrentPlan}
       >
         {loading ? 'Loading...' : isCurrentPlan ? 'Current Plan' : 'Select Plan'}
       </button>

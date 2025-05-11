@@ -232,41 +232,52 @@ const Subscription: React.FC<SubscriptionProps> = ({ accountId }) => {
   const renderOverview = () => {
     if (!userDetails) return null;
 
-    // Prepare data for overview table
-    const tableData = [
-      {
-        label: 'Current Plan',
-        value: <AccountTier accountId={accountId} />,
-      },
-      {
-        label: 'Subscription Status',
-        value: subscription?.status || 'inactive',
-      },
-      {
-        label: 'Active Status',
-        value: subscription?.isActive ? 'Active' : 'Inactive',
-      },
-      {
-        label: 'Next Billing Date',
-        value: subscription?.nextBillingDate ? formatDate(new Date(subscription.nextBillingDate)) : 'N/A',
-      },
-      {
-        label: 'Last Payment Date',
-        value: subscription?.lastPaymentDate ? formatDate(new Date(subscription.lastPaymentDate)) : 'N/A',
-      },
-      {
-        label: 'Subscription Period',
-        value: subscription ? `${formatDate(new Date(subscription.subscriptionStartDate))} - ${
-          subscription.subscriptionEndDate ? formatDate(new Date(subscription.subscriptionEndDate)) : 'Ongoing'
-        }` : 'No active subscription',
-      },
-      {
-        label: 'Auto-Renew',
-        value: subscription?.cancelAtPeriodEnd ? 'Will cancel at period end' : 'Auto-renewing',
-      },
-    ];
+    return (
+      <div className="subscription-overview">
+        <div className="current-plan-card">
+          <h3>Current Subscription</h3>
+          <div className="plan-details">
+            <div className="plan-name">
+              <AccountTier accountId={accountId} />
+            </div>
+            <div className="plan-status">
+              {subscription?.isActive ? 'Active' : 'Inactive'}
+              {subscription?.cancelAtPeriodEnd && ' (Cancelling)'}
+            </div>
+            <div className="plan-dates">
+              <div>
+                <strong>Next Billing Date:</strong> {subscription?.nextBillingDate ? formatDate(new Date(subscription.nextBillingDate)) : 'N/A'}
+              </div>
+              <div>
+                <strong>Last Payment:</strong> {subscription?.lastPaymentDate ? formatDate(new Date(subscription.lastPaymentDate)) : 'N/A'}
+              </div>
+            </div>
+          </div>
+        </div>
 
-    return <ProfileTable data={tableData} />;
+        <div className="usage-stats">
+          <h3>Usage Overview</h3>
+          <div className="stats-grid">
+            <div className="stat-item">
+              <span>Storage Used</span>
+              <span>1.2 GB / 10 GB</span>
+            </div>
+            <div className="stat-item">
+              <span>API Calls</span>
+              <span>2,450 / 5,000</span>
+            </div>
+            <div className="stat-item">
+              <span>Custom Categories</span>
+              <span>3 / 5</span>
+            </div>
+            <div className="stat-item">
+              <span>Team Members</span>
+              <span>1 / 3</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    );
   };
 
   const renderPlans = () => {
