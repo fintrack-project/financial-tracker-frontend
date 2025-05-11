@@ -116,7 +116,11 @@ const Plans: React.FC<PlansProps> = ({
       return;
     }
     
-    setSelectedPlan(getPlanId(basePlanId, billingCycle === 'annual'));
+    // Get the correct plan ID based on billing cycle
+    const finalPlanId = getPlanId(basePlanId, billingCycle === 'annual');
+    console.log('Selected plan ID:', finalPlanId, 'Billing cycle:', billingCycle);
+    
+    setSelectedPlan(finalPlanId);
     setSelectedPlanName(selectedPlan.name);
     setError(null);
 
@@ -170,12 +174,14 @@ const Plans: React.FC<PlansProps> = ({
   const handlePaymentMethodSelect = async (paymentMethodId: string) => {
     if (selectedPlan) {
       try {
+        console.log('Processing payment for plan:', selectedPlan);
         const basePlanId = selectedPlan.replace('_annual', '');
         const selectedPlanObj = plans.find(p => p.id === basePlanId);
         if (!selectedPlanObj) {
           throw new Error('Invalid plan selected');
         }
-        await onPlanSelect(selectedPlanObj.name, paymentMethodId);
+        // Use the selectedPlan directly which already has the correct billing cycle
+        await onPlanSelect(selectedPlan, paymentMethodId);
         setShowPaymentMethodPopup(false);
       } catch (err) {
         if (err instanceof Error) {
@@ -256,11 +262,12 @@ const Plans: React.FC<PlansProps> = ({
         />
       )}
 
-      {showPaymentMethodPopup && (
+      {showPaymentMethodPopup && selectedPlan && (
         <Elements stripe={stripePromise}>
           <SubscriptionPaymentMethodSelectionPopup
             paymentMethods={paymentMethods}
             selectedPlanName={selectedPlanName}
+            selectedPlanId={selectedPlan}
             accountId={userDetails.accountId}
             onSelectPaymentMethod={handlePaymentMethodSelect}
             onAddPaymentMethod={handleAddPaymentMethod}

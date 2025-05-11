@@ -9,8 +9,9 @@ import './PaymentMethodSelection.css';
 interface SubscriptionPaymentMethodSelectionPopupProps {
   paymentMethods: PaymentMethod[];
   selectedPlanName: string;
+  selectedPlanId: string;
   accountId: string;
-  onSelectPaymentMethod: (paymentMethodId: string) => void;
+  onSelectPaymentMethod: (paymentMethodId: string) => Promise<void>;
   onAddPaymentMethod: () => void;
   onCancel: () => void;
   onSubscriptionComplete: (subscriptionId: string) => void;
@@ -19,6 +20,7 @@ interface SubscriptionPaymentMethodSelectionPopupProps {
 const PaymentMethodSelectionPopup: React.FC<SubscriptionPaymentMethodSelectionPopupProps> = ({
   paymentMethods,
   selectedPlanName,
+  selectedPlanId,
   accountId,
   onSelectPaymentMethod,
   onAddPaymentMethod,
@@ -68,10 +70,12 @@ const PaymentMethodSelectionPopup: React.FC<SubscriptionPaymentMethodSelectionPo
       setError(null);
 
       const returnUrl = `${window.location.origin}/subscription/complete`;
+      
+      console.log('Sending plan ID to API:', selectedPlanId);
 
       const response = await updateSubscriptionApi(
         accountId,
-        selectedPlanName,
+        selectedPlanId,  // Send the full plan ID directly
         selectedPaymentMethodId,
         returnUrl
       );

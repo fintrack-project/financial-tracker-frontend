@@ -26,14 +26,14 @@ export const fetchSubscriptionDetailsApi = async (accountId: string): Promise<Ap
 
 export const updateSubscriptionApi = async (
   accountId: string,
-  planName: string,
+  planId: string,
   paymentMethodId: string,
   returnUrl: string
 ): Promise<ApiResponse<SubscriptionUpdateResponse>> => {
   try {
     const response = await apiClient.post<ApiResponse<SubscriptionUpdateResponse>>('/api/user/subscriptions/update', {
       accountId,
-      planName,
+      planId,
       paymentMethodId,
       returnUrl
     });

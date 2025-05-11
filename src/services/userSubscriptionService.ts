@@ -17,14 +17,14 @@ export const fetchUserSubscription = async (accountId: string): Promise<UserSubs
 
 export const updateSubscription = async (
   accountId: string,
-  planName: string,
+  planId: string,
   paymentMethodId?: string,
   returnUrl?: string
 ): Promise<SubscriptionUpdateResponse> => {
   try {
     const response = await updateSubscriptionApi(
       accountId,
-      planName,
+      planId,
       paymentMethodId || '',
       returnUrl || `${window.location.origin}/subscription/complete`
     );
