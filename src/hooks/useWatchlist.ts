@@ -1,9 +1,9 @@
 import { useState, useEffect } from 'react';
 import { fetchWatchlistData, addWatchlistItem, removeWatchlistItem } from '../services/watchlistDataService';
-import { WatchlistRow } from '../types/WatchlistRow';
+import { WatchlistItem } from '../types/MarketData';
 
 export const useWatchlist = (accountId: string | null, assetTypes: string[]) => {
-  const [watchlistItems, setWatchlistItems] = useState<{ symbol: string; assetType: string }[]>([]);
+  const [watchlistItems, setWatchlistItems] = useState<WatchlistItem[]>([]);
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
 

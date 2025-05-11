@@ -2,26 +2,16 @@ import { useState, useEffect } from 'react';
 import { useRefreshCycle } from './useRefreshCycle';
 import { fetchMarketData } from '../services/marketDataService';
 import { SubscriptionPlan } from './useRefreshCycle';
-
-interface MarketDataItem {
-  symbol: string;
-  assetType: string;
-  price: number;
-  change: number;
-  percentChange: number;
-  high: number;
-  low: number;
-  updatedAt: number[];
-}
+import { MarketData, WatchlistItem } from '../types/MarketData';
 
 interface UseMarketDataProps {
   accountId: string | null;
-  symbols: { symbol: string; assetType: string }[];
+  symbols: WatchlistItem[];
   subscriptionPlan?: SubscriptionPlan;
 }
 
 export const useMarketData = ({ accountId, symbols, subscriptionPlan = 'FREE' }: UseMarketDataProps) => {
-  const [marketData, setMarketData] = useState<MarketDataItem[]>([]);
+  const [marketData, setMarketData] = useState<MarketData[]>([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [lastUpdated, setLastUpdated] = useState<Date | null>(null);

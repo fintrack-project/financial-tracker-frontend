@@ -1,6 +1,6 @@
 import { apiClient } from '../utils/apiClient';
 import { ApiResponse } from '../types/ApiTypes';
-import { WatchlistItem } from '../types/MarketDataProps';
+import { WatchlistItem } from '../types/MarketData';
 
 // Fetch watchlist data
 export const fetchWatchlistDataApi = async (accountId: string, assetTypes: string[]): Promise<ApiResponse<WatchlistItem[]>> => {

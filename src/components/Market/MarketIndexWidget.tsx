@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { fetchMarketIndices, MARKET_INDEX_NAMES } from '../../services/marketIndexService';
-import { MarketIndexData } from '../../types/MarketDataProps';
+import { MarketIndexData } from '../../types/MarketData';
 import { useRefreshCycle, SubscriptionPlan } from '../../hooks/useRefreshCycle';
 import './MarketIndexWidget.css';
 
@@ -104,8 +104,8 @@ const MarketIndexWidget: React.FC<MarketIndexWidgetProps> = ({
               <div className="index-price">
                 {typeof index.price === 'string' ? index.price : index.price.toFixed(2)}
               </div>
-              <div className={`index-change ${getChangeClass(index.price_change)}`}>
-                {formatPriceChange(index.price_change)} ({formatPercent(index.percent_change)})
+              <div className={`index-change ${getChangeClass(index.priceChange)}`}>
+                {formatPriceChange(index.priceChange)} ({formatPercent(index.percentChange)})
               </div>
             </div>
           </div>

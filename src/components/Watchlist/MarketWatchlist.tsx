@@ -2,7 +2,7 @@ import React from 'react';
 import EditableWatchlistTable from './EditableWatchlistTable';
 import { useWatchlist } from '../../hooks/useWatchlist';
 import { useMarketData } from '../../hooks/useMarketData';
-import { WatchlistRow } from '../../types/WatchlistRow';
+import { MarketDataDisplay } from '../../types/MarketData';
 import { SubscriptionPlan } from '../../hooks/useRefreshCycle';
 
 interface MarketWatchlistProps {
@@ -24,21 +24,21 @@ const MarketWatchlist: React.FC<MarketWatchlistProps> = ({
   });
 
   // Combine watchlist items with market data
-  const rows: WatchlistRow[] = watchlistItems.map(item => {
+  const rows: MarketDataDisplay[] = watchlistItems.map(item => {
     const marketItem = marketData.find(m => m.symbol === item.symbol && m.assetType === item.assetType);
     return {
       symbol: item.symbol,
       assetType: item.assetType,
-      price: marketItem?.price,
-      priceChange: marketItem?.change,
-      percentChange: marketItem?.percentChange,
-      high: marketItem?.high,
-      low: marketItem?.low,
+      price: marketItem?.price ?? 0,
+      priceChange: marketItem?.change ?? 0,
+      percentChange: marketItem?.percentChange ?? 0,
+      high: marketItem?.high ?? 0,
+      low: marketItem?.low ?? 0,
       confirmed: true
     };
   });
 
-  const columns: { key: keyof WatchlistRow; label: string; editable?: boolean; placeholder?: string }[] = [
+  const columns: { key: keyof MarketDataDisplay; label: string; editable?: boolean; placeholder?: string }[] = [
     { key: 'symbol', label: 'Symbol', editable: true, placeholder: 'AAPL' },
     { key: 'assetType', label: 'Asset Type', editable: true, placeholder: 'STOCK' },
     { key: 'price', label: 'Price' },
@@ -59,7 +59,7 @@ const MarketWatchlist: React.FC<MarketWatchlistProps> = ({
           </div>
         )}
       </div>
-      <EditableWatchlistTable<WatchlistRow>
+      <EditableWatchlistTable<MarketDataDisplay>
         columns={columns}
         rows={rows}
         setRows={() => {}} // We don't need this anymore as rows are derived from watchlistItems and marketData
