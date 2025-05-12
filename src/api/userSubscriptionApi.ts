@@ -72,3 +72,17 @@ export const getAvailablePlanTypesApi = async (): Promise<ApiResponse<Subscripti
     throw error;
   }
 };
+
+export const cancelSubscriptionApi = async (
+  subscriptionId: string
+): Promise<ApiResponse<void>> => {
+  try {
+    const response = await apiClient.post<ApiResponse<void>>(`/api/user/subscriptions/cancel`, {
+      subscriptionId
+    });
+    return response.data;
+  } catch (error) {
+    console.error('Error cancelling subscription:', error);
+    throw error;
+  }
+};

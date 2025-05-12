@@ -18,10 +18,40 @@ interface PlanCardProps {
   plan: Plan;
   loading: boolean;
   currentPlan: SubscriptionPlan | null;
-  onSelect: (planId: string) => void;
+  onCancel: (planId: string) => void;
+  onUpgrade: (planId: string) => void;
+  onDowngrade: (planId: string) => void;
 }
 
-const PlanCard: React.FC<PlanCardProps> = ({ plan, loading, currentPlan, onSelect }) => {
+const handleButtonClick = async ({
+  onCancel,
+  onUpgrade,
+  onDowngrade,
+  displayCancelButton,
+  displayUpgradeButton,
+  displayDowngradeButton,
+  displayCurrentPlanButton,
+  planId
+} : {
+  onCancel: (planId: string) => void,
+  onUpgrade: (planId: string) => void,
+  onDowngrade: (planId: string) => void,
+  displayCancelButton: boolean,
+  displayUpgradeButton: boolean,
+  displayDowngradeButton: boolean,
+  displayCurrentPlanButton: boolean,
+  planId: string
+}) => {
+  if (displayCancelButton && onCancel) {
+    await onCancel(planId);
+  } else if (displayUpgradeButton && onUpgrade) {
+    await onUpgrade(planId);
+  } else if (displayDowngradeButton && onDowngrade) {
+    await onDowngrade(planId);
+  }
+};
+
+const PlanCard: React.FC<PlanCardProps> = ({ plan, loading, currentPlan, onCancel, onUpgrade, onDowngrade }) => {
   const isCurrentFreePlan = currentPlan?.plan_group_id === 'free';
   const isFreePlan = plan.plan_group_id === 'free';
   const isBetterPlan = 
@@ -35,10 +65,6 @@ const PlanCard: React.FC<PlanCardProps> = ({ plan, loading, currentPlan, onSelec
   const displayDowngradeButton = !isCurrentFreePlan && !isBetterPlan;
   const price = plan.isAnnual ? plan.annualPrice : plan.monthlyPrice;
   const savings = ANNUAL_DISCOUNT_RATE * 100;
-
-  console.log(plan);
-  console.log(currentPlan);
-  console.log(isCurrentFreePlan, isBetterPlan, isCurrentPlanGroupId, currentPlan?.interval, plan.isAnnual);
 
   return (
     <div className={`plan-card ${isCurrentPlanGroupId ? 'current' : ''}`}>
@@ -63,7 +89,16 @@ const PlanCard: React.FC<PlanCardProps> = ({ plan, loading, currentPlan, onSelec
         className={`plan-button 
           ${displayUpgradeButton ? 'primary' : displayCurrentPlanButton || displayDowngradeButton || displayCancelButton ? 'secondary' : 'primary'}
           ${loading ? 'disabled' : ''}`}
-        onClick={() => onSelect(plan.id)}
+        onClick={() => handleButtonClick({
+          onCancel: () => onCancel(plan.id), 
+          onUpgrade: () => onUpgrade(plan.id), 
+          onDowngrade: () => onDowngrade(plan.id),
+          displayCancelButton,
+          displayUpgradeButton,
+          displayDowngradeButton,
+          displayCurrentPlanButton,
+          planId: plan.id
+        })}
         disabled={loading || displayCurrentPlanButton}
       >
         {loading ? 'Loading...' : 
