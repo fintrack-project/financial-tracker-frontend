@@ -57,7 +57,16 @@ const handleButtonClick = async ({
   }
 };
 
-const PlanCard: React.FC<PlanCardProps> = ({ plan, loading, currentPlan, onCancel, onUpgrade, onDowngrade, onReactivate, isCancelling }) => {
+export const handleButtonDisplay = (
+  { plan,
+    currentPlan,
+    isCancelling
+  }: {
+    plan: Plan,
+    currentPlan: SubscriptionPlan | null,
+    isCancelling: boolean
+  }
+) => {
   const isCurrentFreePlan = currentPlan?.plan_group_id === 'free';
   const isFreePlan = plan.plan_group_id === 'free';
   const isBetterPlan = 
@@ -65,24 +74,33 @@ const PlanCard: React.FC<PlanCardProps> = ({ plan, loading, currentPlan, onCance
     ((plan.plan_group_id === 'basic') && (currentPlan?.plan_group_id === 'free'));
   const isCurrentPlanGroupId = currentPlan?.plan_group_id === plan.plan_group_id;
   const isSameBillingCycle = (currentPlan?.interval === 'year' && plan.isAnnual) || (currentPlan?.interval === 'month' && !plan.isAnnual);
+
   const displayUpgradeButton = (isBetterPlan || !isCurrentFreePlan && (isCurrentPlanGroupId && (currentPlan?.interval === 'month' && plan.isAnnual)));
   const displayCancelButton = !isCancelling && (!isCurrentFreePlan && (isCurrentPlanGroupId && isSameBillingCycle));
   const displayReactivateButton = isCancelling && (!isCurrentFreePlan && (isCurrentPlanGroupId && isSameBillingCycle));
   const displayCurrentPlanButton = (isCurrentFreePlan && isFreePlan) || (!isCurrentFreePlan && (isCurrentPlanGroupId && (currentPlan?.interval === 'year' && !plan.isAnnual)));
-  const displayDowngradeButton = !isCancelling && !isCurrentFreePlan && !isBetterPlan;
+  const displayDowngradeButton = !isCurrentFreePlan && (plan.plan_group_id === 'basic' && currentPlan?.plan_group_id === 'premium');
+
+  return {
+    displayUpgradeButton,
+    displayCancelButton,
+    displayReactivateButton,
+    displayCurrentPlanButton,
+    displayDowngradeButton
+  }
+}
+
+const PlanCard: React.FC<PlanCardProps> = ({ plan, loading, currentPlan, onCancel, onUpgrade, onDowngrade, onReactivate, isCancelling }) => {
+  const isCurrentPlanGroupId = currentPlan?.plan_group_id === plan.plan_group_id;
+  const { 
+    displayUpgradeButton, 
+    displayCancelButton, 
+    displayReactivateButton, 
+    displayCurrentPlanButton, 
+    displayDowngradeButton 
+  } = handleButtonDisplay({ plan, currentPlan, isCancelling });
   const price = plan.isAnnual ? plan.annualPrice : plan.monthlyPrice;
   const savings = ANNUAL_DISCOUNT_RATE * 100;
-
-  console.log('plan', plan);
-  console.log('currentPlan', currentPlan);
-  console.log('isCurrentPlanGroupId', isCurrentPlanGroupId);
-  console.log('isSameBillingCycle', isSameBillingCycle);
-  console.log('isCancelling', isCancelling);
-  console.log('displayUpgradeButton', displayUpgradeButton);
-  console.log('displayCancelButton', displayCancelButton);
-  console.log('displayReactivateButton', displayReactivateButton);
-  console.log('displayCurrentPlanButton', displayCurrentPlanButton);
-  console.log('displayDowngradeButton', displayDowngradeButton);
 
   return (
     <div className={`plan-card ${isCurrentPlanGroupId ? 'current' : ''}`}>

@@ -11,7 +11,7 @@ import { fetchSubscriptionDetails } from '../../services/subscriptionDetailsServ
 import { stripePromise } from '../../config/stripe';
 import PlanCard from './PlanCard';
 import './Plans.css';
-import { cancelSubscriptionApi, confirmSubscriptionPaymentApi, reactivateSubscriptionApi } from '../../api/userSubscriptionApi';
+import { cancelSubscriptionApi, confirmSubscriptionPaymentApi, reactivateSubscriptionApi, downgradeSubscriptionApi } from '../../api/userSubscriptionApi';
 
 export const ANNUAL_DISCOUNT_RATE = 0.2; // 20% discount for annual plans
 
@@ -226,14 +226,37 @@ const Plans: React.FC<PlansProps> = ({
       setError('Invalid plan selected');
       return;
     }
-    
-    console.log('Downgrading plan:', selectedPlan); 
+
+    if (!userDetails?.accountId) {
+      setError('No account ID found');
+      return;
+    }
+
+    console.log('Downgrading plan:', selectedPlan);
 
     // Get the correct plan ID based on billing cycle
     const finalPlanId = getPlanId(basePlanId, billingCycle === 'annual');
     console.log('Selected plan ID:', finalPlanId, 'Billing cycle:', billingCycle);
 
-    // TODO: Call API to downgrade plan
+    try {
+      setLoading(true);
+      setError(null);
+      
+      const response = await downgradeSubscriptionApi(userDetails.accountId, finalPlanId);
+      
+      if (!response.success) {
+        throw new Error(response.message || 'Failed to downgrade subscription');
+      }
+
+      // Refresh subscription details
+      await onSubscriptionComplete(subscription.stripeSubscriptionId);
+      setSuccessMessage('Successfully downgraded subscription');
+    } catch (error) {
+      console.error('Error downgrading subscription:', error);
+      setError(error instanceof Error ? error.message : 'Failed to downgrade subscription');
+    } finally {
+      setLoading(false);
+    }
   };
   
 

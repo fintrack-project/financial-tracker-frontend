@@ -24,22 +24,20 @@ export const fetchSubscriptionDetailsApi = async (accountId: string): Promise<Ap
   }
 };
 
-export const updateSubscriptionApi = async (
+export const upgradeSubscriptionApi = async (
   accountId: string,
   planId: string,
-  paymentMethodId: string,
-  returnUrl: string
+  paymentMethodId: string
 ): Promise<ApiResponse<SubscriptionUpdateResponse>> => {
   try {
-    const response = await apiClient.post<ApiResponse<SubscriptionUpdateResponse>>('/api/user/subscriptions/update', {
+    const response = await apiClient.post<ApiResponse<SubscriptionUpdateResponse>>('/api/user/subscriptions/upgrade', {
       accountId,
       planId,
-      paymentMethodId,
-      returnUrl
+      paymentMethodId
     });
     return response.data;
   } catch (error) {
-    console.error('Error updating subscription:', error);
+    console.error('Error upgrading subscription:', error);
     throw error;
   }
 };
@@ -97,6 +95,22 @@ export const reactivateSubscriptionApi = async (
     return response.data;
   } catch (error) {
     console.error('Error reactivating subscription:', error);
+    throw error;
+  }
+};
+
+export const downgradeSubscriptionApi = async (
+  accountId: string,
+  planId: string
+): Promise<ApiResponse<SubscriptionUpdateResponse>> => {
+  try {
+    const response = await apiClient.post<ApiResponse<SubscriptionUpdateResponse>>('/api/user/subscriptions/downgrade', {
+      accountId,
+      planId
+    });
+    return response.data;
+  } catch (error) {
+    console.error('Error downgrading subscription:', error);
     throw error;
   }
 };
