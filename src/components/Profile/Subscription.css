@@ -59,40 +59,40 @@
   display: grid;
   gap: 24px;
   grid-template-columns: 1fr 1fr;
+  margin-bottom: 32px;
 }
 
 .current-plan-card,
 .usage-stats {
   background: white;
-  border-radius: 8px;
+  border-radius: 12px;
   padding: 24px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
 
 .current-plan-card h3,
 .usage-stats h3 {
   font-size: 18px;
   font-weight: 600;
-  margin-bottom: 16px;
-  color: #1a1a1a;
+  margin-bottom: 20px;
+  color: #2c3e50;
 }
 
 .plan-details {
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  gap: 16px;
 }
 
 .plan-name {
   font-size: 24px;
   font-weight: 600;
-  color: #007bff;
 }
 
 .plan-status {
   display: inline-block;
-  padding: 4px 12px;
-  border-radius: 16px;
+  padding: 6px 12px;
+  border-radius: 20px;
   font-size: 14px;
   font-weight: 500;
   background-color: #e6f3ff;
@@ -100,8 +100,8 @@
 }
 
 .plan-status.inactive {
-  background-color: #dc3545;
-  color: white;
+  background-color: #f8d7da;
+  color: #dc3545;
 }
 
 .plan-dates {
@@ -112,16 +112,24 @@
   font-size: 14px;
 }
 
+.plan-dates strong {
+  color: #2c3e50;
+  margin-right: 8px;
+}
+
 .stats-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 16px;
+  gap: 20px;
 }
 
 .stat-item {
   display: flex;
   flex-direction: column;
   gap: 4px;
+  padding: 12px;
+  background-color: #f8f9fa;
+  border-radius: 8px;
 }
 
 .stat-item span:first-child {
@@ -130,9 +138,15 @@
 }
 
 .stat-item span:last-child {
-  font-size: 18px;
+  font-size: 16px;
   font-weight: 500;
-  color: #1a1a1a;
+  color: #2c3e50;
+}
+
+@media (max-width: 768px) {
+  .subscription-overview {
+    grid-template-columns: 1fr;
+  }
 }
 
 /* Plans Section */

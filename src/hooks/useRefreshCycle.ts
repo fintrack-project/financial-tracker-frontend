@@ -1,5 +1,5 @@
 import { useState, useEffect, useCallback } from 'react';
-import { SubscriptionPlanType } from '../types/Subscription';
+import { SubscriptionPlanType } from '../types/SubscriptionPlan';
 
 interface UseRefreshCycleProps {
   subscriptionPlan: SubscriptionPlanType;

@@ -1,7 +1,7 @@
 import { apiClient } from '../utils/apiClient';
 import { ApiResponse } from '../types/ApiTypes';
 import { UserSubscription } from '../types/UserSubscription';
-import { SubscriptionUpdateResponse, SubscriptionPlanType } from '../types/Subscription';
+import { SubscriptionUpdateResponse, SubscriptionPlanType } from '../types/SubscriptionPlan';
 import { UserSubscriptionDetailsResponse } from '../types/SubscriptionPlan';
 
 export const fetchUserSubscriptionApi = async (accountId: string): Promise<ApiResponse<UserSubscription>> => {
@@ -26,14 +26,14 @@ export const fetchSubscriptionDetailsApi = async (accountId: string): Promise<Ap
 
 export const updateSubscriptionApi = async (
   accountId: string,
-  planName: string,
+  planId: string,
   paymentMethodId: string,
   returnUrl: string
 ): Promise<ApiResponse<SubscriptionUpdateResponse>> => {
   try {
     const response = await apiClient.post<ApiResponse<SubscriptionUpdateResponse>>('/api/user/subscriptions/update', {
       accountId,
-      planName,
+      planId,
       paymentMethodId,
       returnUrl
     });
@@ -69,6 +69,34 @@ export const getAvailablePlanTypesApi = async (): Promise<ApiResponse<Subscripti
     return response.data;
   } catch (error) {
     console.error('Error fetching plan types:', error);
+    throw error;
+  }
+};
+
+export const cancelSubscriptionApi = async (
+  stripeSubscriptionId: string
+): Promise<ApiResponse<void>> => {
+  try {
+    const response = await apiClient.post<ApiResponse<void>>(`/api/user/subscriptions/cancel`, {
+      stripeSubscriptionId
+    });
+    return response.data;
+  } catch (error) {
+    console.error('Error cancelling subscription:', error);
+    throw error;
+  }
+};
+
+export const reactivateSubscriptionApi = async (
+  stripeSubscriptionId: string
+): Promise<ApiResponse<void>> => {
+  try {
+    const response = await apiClient.post<ApiResponse<void>>(`/api/user/subscriptions/reactivate`, {
+      stripeSubscriptionId
+    });
+    return response.data;
+  } catch (error) {
+    console.error('Error reactivating subscription:', error);
     throw error;
   }
 };

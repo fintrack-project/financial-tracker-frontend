@@ -1,0 +1,154 @@
+/* Payment method selection specific styles */
+.subscription-payment-methods-list {
+  width: 100%;
+  margin: 20px 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.subscription-payment-method-item {
+  display: flex;
+  align-items: center;
+  padding: 20px;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  margin-bottom: 16px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  background-color: white;
+  position: relative;
+  width: 100%;
+}
+
+.subscription-payment-method-item:hover {
+  border-color: #007bff;
+  box-shadow: 0 2px 8px rgba(0, 123, 255, 0.1);
+}
+
+.subscription-payment-method-item.selected {
+  border-color: #007bff;
+  background-color: #f8f9ff;
+}
+
+.subscription-payment-method-details {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.subscription-card-brand {
+  font-weight: 600;
+  color: #2c3e50;
+  text-transform: capitalize;
+}
+
+.subscription-card-last4 {
+  color: #666;
+  font-size: 0.9rem;
+}
+
+.subscription-card-expiry {
+  color: #666;
+  font-size: 0.9rem;
+}
+
+.subscription-payment-method-default {
+  margin: 0 16px;
+}
+
+.subscription-default-badge {
+  background-color: #e9ecef;
+  color: #495057;
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-size: 0.8rem;
+  font-weight: 500;
+}
+
+.subscription-input-radio {
+  width: 20px;
+  height: 20px;
+  margin: 0;
+  cursor: pointer;
+}
+
+.subscription-add-payment-method {
+  width: 100%;
+  padding: 16px;
+  margin-bottom: 20px;
+  background-color: #f8f9fa;
+  border: 1px dashed #ddd;
+  border-radius: 6px;
+  color: #495057;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.subscription-add-payment-method:hover {
+  background-color: #e9ecef;
+  border-color: #007bff;
+  color: #007bff;
+}
+
+.subscription-add-payment-method.primary {
+  background-color: #007bff;
+  border: none;
+  color: white;
+}
+
+.subscription-add-payment-method.primary:hover {
+  background-color: #0062cc;
+}
+
+.subscription-popup-actions {
+  width: 100%;
+  max-width: 600px;
+  margin-top: 24px;
+}
+
+.subscription-action-buttons {
+  display: flex;
+  justify-content: flex-end;
+  gap: 16px;
+  margin-top: 20px;
+  width: 100%;
+}
+
+.subscription-primary-button {
+  min-width: 160px;
+  padding: 0 32px;
+}
+
+.subscription-secondary-button {
+  min-width: 120px;
+  padding: 0 24px;
+}
+
+.subscription-no-payment-methods {
+  width: 100%;
+  max-width: 600px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+  padding: 32px 0;
+}
+
+.subscription-error-message {
+  width: 100%;
+  max-width: 600px;
+  margin-top: 20px;
+  color: #dc3545;
+  background-color: #f8d7da;
+  border: 1px solid #f5c6cb;
+  border-radius: 4px;
+  padding: 12px;
+  text-align: center;
+  font-size: 0.9rem;
+} 

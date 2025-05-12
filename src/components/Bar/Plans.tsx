@@ -11,6 +11,9 @@ import { fetchSubscriptionDetails } from '../../services/subscriptionDetailsServ
 import { stripePromise } from '../../config/stripe';
 import PlanCard from './PlanCard';
 import './Plans.css';
+import { cancelSubscriptionApi, confirmSubscriptionPaymentApi, reactivateSubscriptionApi } from '../../api/userSubscriptionApi';
+
+export const ANNUAL_DISCOUNT_RATE = 0.2; // 20% discount for annual plans
 
 interface PlansProps {
   userDetails: UserDetails;
@@ -19,6 +22,7 @@ interface PlansProps {
   onPlanSelect: (planName: string, paymentMethodId?: string) => Promise<void>;
   onPaymentMethodAdd: (paymentMethodId: string) => Promise<void>;
   onTabChange: (tab: 'overview' | 'plans' | 'payment') => void;
+  onSubscriptionComplete: (subscriptionId: string) => void;
 }
 
 const Plans: React.FC<PlansProps> = ({
@@ -27,7 +31,8 @@ const Plans: React.FC<PlansProps> = ({
   paymentMethods,
   onPlanSelect,
   onPaymentMethodAdd,
-  onTabChange
+  onTabChange,
+  onSubscriptionComplete
 }) => {
   const [selectedPlan, setSelectedPlan] = useState<string | null>(null);
   const [selectedPlanName, setSelectedPlanName] = useState<string>('');
@@ -36,35 +41,19 @@ const Plans: React.FC<PlansProps> = ({
   const [showNoPaymentMethodPopup, setShowNoPaymentMethodPopup] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [currentPlan, setCurrentPlan] = useState<SubscriptionPlan | null>(null);
+  const [isCancelling, setIsCancelling] = useState(false);
   const [loading, setLoading] = useState(true);
+  const [billingCycle, setBillingCycle] = useState<'monthly' | 'annual'>('monthly');
+  const [successMessage, setSuccessMessage] = useState<string | null>(null);
 
-  useEffect(() => {
-    const loadSubscriptionPlan = async () => {
-      if (!userDetails?.accountId) return;
-      
-      try {
-        setLoading(true);
-        const response = await fetchSubscriptionDetails(userDetails.accountId);
-        setCurrentPlan(response.plan);
-      } catch (error) {
-        console.error('Error loading subscription plan:', error);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    loadSubscriptionPlan();
-  }, [userDetails?.accountId]);
-
-  if (!userDetails) {
-    return <div className="plans-container"><p>Loading user details...</p></div>;
-  }
-
-  const plans = [
+  const plans: (SubscriptionPlan & { color: string })[] = [
     {
-      id: 'free',
+      id: 'plan_free',
+      plan_group_id: 'free',
       name: 'Free',
-      price: 0,
+      amount: 0,
+      currency: 'USD',
+      interval: 'month',
       color: '#6c757d',
       features: [
         '1 year transaction history',
@@ -78,9 +67,12 @@ const Plans: React.FC<PlansProps> = ({
       ]
     },
     {
-      id: 'basic',
+      id: 'plan_basic',
+      plan_group_id: 'basic',
       name: 'Basic',
-      price: 4.99,
+      amount: 4.99,
+      currency: 'USD',
+      interval: 'month',
       color: '#28a745',
       features: [
         '5 years transaction history',
@@ -95,9 +87,12 @@ const Plans: React.FC<PlansProps> = ({
       ]
     },
     {
-      id: 'premium',
+      id: 'plan_premium',
+      plan_group_id: 'premium',
       name: 'Premium',
-      price: 9.99,
+      amount: 9.99,
+      currency: 'USD',
+      interval: 'month',
       color: '#007bff',
       features: [
         'Unlimited transaction history',
@@ -115,20 +110,103 @@ const Plans: React.FC<PlansProps> = ({
     }
   ];
 
-  const handlePlanSelect = async (planId: string) => {
-    const selectedPlanObj = plans.find(p => p.id === planId);
-    
-    if (!selectedPlanObj) {
+  const handleCancelPlan = async (planId: string) => {
+    const basePlanId = planId.replace('_annual', '');
+    const selectedPlan = plans.find(p => p.id === basePlanId);
+
+    if (!selectedPlan) {
+      setError('Invalid plan selected');
+      return;
+    }
+
+    if (!subscription?.stripeSubscriptionId) {
+      setError('No active subscription found');
+      return;
+    }
+
+    console.log('Cancelling plan:', selectedPlan);
+
+    try {
+      setLoading(true);
+      setError(null);
+      
+      const response = await cancelSubscriptionApi(subscription.stripeSubscriptionId);
+      
+      if (!response.success) {
+        throw new Error(response.message || 'Failed to cancel subscription');
+      }
+
+      // Refresh subscription details
+      await onSubscriptionComplete(subscription.stripeSubscriptionId);
+      setSuccessMessage('Successfully cancelled subscription');
+    } catch (error) {
+      console.error('Error cancelling subscription:', error);
+      setError(error instanceof Error ? error.message : 'Failed to cancel subscription');
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleReactivatePlan = async (planId: string) => {
+    const basePlanId = planId.replace('_annual', '');
+    const selectedPlan = plans.find(p => p.id === basePlanId);
+
+    if (!selectedPlan) {
+      setError('Invalid plan selected');
+      return;
+    }
+
+    if (!subscription?.stripeSubscriptionId) {
+      setError('No active subscription found');
+      return;
+    }
+
+    console.log('Reactivating plan:', selectedPlan);
+    console.log('subscription.stripeSubscriptionId', subscription.stripeSubscriptionId);
+
+    try {
+      setLoading(true);
+      setError(null);
+      
+      const response = await reactivateSubscriptionApi(subscription.stripeSubscriptionId);
+      
+      if (!response.success) {
+        throw new Error(response.message || 'Failed to reactivate subscription');
+      }
+
+      // Refresh subscription details
+      await onSubscriptionComplete(subscription.stripeSubscriptionId);
+      setSuccessMessage('Successfully reactivated subscription');
+      setIsCancelling(false);
+    } catch (error) {
+      console.error('Error reactivating subscription:', error);
+      setError(error instanceof Error ? error.message : 'Failed to reactivate subscription');
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleUpgradePlan = async (planId: string) => {
+    const basePlanId = planId.replace('_annual', '');
+    const selectedPlan = plans.find(p => p.id === basePlanId);
+
+    if (!selectedPlan) {
       setError('Invalid plan selected');
       return;
     }
     
-    setSelectedPlan(planId);
-    setSelectedPlanName(selectedPlanObj.name);
+    console.log('Upgrading plan:', selectedPlan);
+
+    // Get the correct plan ID based on billing cycle
+    const finalPlanId = getPlanId(basePlanId, billingCycle === 'annual');
+    console.log('Selected plan ID:', finalPlanId, 'Billing cycle:', billingCycle);
+    
+    setSelectedPlan(finalPlanId);
+    setSelectedPlanName(selectedPlan.name);
     setError(null);
 
-    if (planId === 'free') {
-      await onPlanSelect(selectedPlanObj.name);
+    if (basePlanId === 'plan_free') {
+      await onPlanSelect(selectedPlan.name);
       return;
     }
 
@@ -140,6 +218,60 @@ const Plans: React.FC<PlansProps> = ({
     setShowPaymentMethodPopup(true);
   };
 
+  const handleDowngradePlan = async (planId: string) => {
+    const basePlanId = planId.replace('_annual', '');
+    const selectedPlan = plans.find(p => p.id === basePlanId);
+
+    if (!selectedPlan) {
+      setError('Invalid plan selected');
+      return;
+    }
+    
+    console.log('Downgrading plan:', selectedPlan); 
+
+    // Get the correct plan ID based on billing cycle
+    const finalPlanId = getPlanId(basePlanId, billingCycle === 'annual');
+    console.log('Selected plan ID:', finalPlanId, 'Billing cycle:', billingCycle);
+
+    // TODO: Call API to downgrade plan
+  };
+  
+
+  const getPlanId = (basePlanId: string, isAnnual: boolean) => {
+    if (basePlanId === 'plan_free') return 'plan_free';
+    return isAnnual ? `${basePlanId}_annual` : basePlanId;
+  };
+
+  useEffect(() => {
+    const loadSubscriptionPlan = async () => {
+      if (!userDetails?.accountId) return;
+      
+      try {
+        setLoading(true);
+        const response = await fetchSubscriptionDetails(userDetails.accountId);
+        const basePlanId = response.plan.id.replace('_annual', '');
+        const plan = plans.find(p => p.id === basePlanId);
+        if (plan) {
+          const subscriptionPlan: SubscriptionPlan = {
+            ...response.plan,
+            amount: response.plan.id.includes('_annual') ? plan.amount * 12 * (1-ANNUAL_DISCOUNT_RATE) : plan.amount,
+            interval: response.plan.id.includes('_annual') ? 'year' : 'month',
+            description: `${plan.name} Plan`,
+            features: plan.features
+          };
+          setCurrentPlan(subscriptionPlan);
+          setIsCancelling(response.subscription.cancelAtPeriodEnd);
+        }
+      } catch (error) {
+        console.error('Error loading subscription plan:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    loadSubscriptionPlan();
+  }, [userDetails?.accountId]);
+
   const handleRedirectToPayment = () => {
     setShowNoPaymentMethodPopup(false);
     onTabChange('payment');
@@ -148,11 +280,14 @@ const Plans: React.FC<PlansProps> = ({
   const handlePaymentMethodSelect = async (paymentMethodId: string) => {
     if (selectedPlan) {
       try {
-        const selectedPlanObj = plans.find(p => p.id === selectedPlan);
+        console.log('Processing payment for plan:', selectedPlan);
+        const basePlanId = selectedPlan.replace('_annual', '');
+        const selectedPlanObj = plans.find(p => p.id === basePlanId);
         if (!selectedPlanObj) {
           throw new Error('Invalid plan selected');
         }
-        await onPlanSelect(selectedPlanObj.name, paymentMethodId);
+        // Use the selectedPlan directly which already has the correct billing cycle
+        await onPlanSelect(selectedPlan, paymentMethodId);
         setShowPaymentMethodPopup(false);
       } catch (err) {
         if (err instanceof Error) {
@@ -182,18 +317,53 @@ const Plans: React.FC<PlansProps> = ({
     setError(error.message);
   };
 
+  // Filter plans based on current subscription
+  const filteredPlans = currentPlan && currentPlan.id === 'plan_free'
+    ? plans
+    : plans.filter(plan => plan.id !== 'plan_free');
+
   return (
     <div className="plans-container">
+      <div className="billing-cycle-toggle">
+        <button
+          className={`toggle-button ${billingCycle === 'monthly' ? 'active' : ''}`}
+          onClick={() => setBillingCycle('monthly')}
+        >
+          Monthly
+        </button>
+        <button
+          className={`toggle-button ${billingCycle === 'annual' ? 'active' : ''}`}
+          onClick={() => setBillingCycle('annual')}
+        >
+          Annual (Save {ANNUAL_DISCOUNT_RATE * 100}%)
+        </button>
+      </div>
+
       <div className="plans-grid">
-        {plans.map((plan) => (
-          <PlanCard
-            key={plan.id}
-            plan={plan}
-            loading={loading}
-            currentPlan={currentPlan}
-            onSelect={handlePlanSelect}
-          />
-        ))}
+        {filteredPlans.map((plan) => 
+          (
+            <PlanCard
+              key={plan.id}
+              plan={{
+                id: plan.id,
+                plan_group_id: plan.plan_group_id,
+                name: plan.name,
+                color: plan.color,
+                features: plan.features || [],
+                monthlyPrice: plan.amount,
+                annualPrice: Number((plan.amount * 12 * (1 - ANNUAL_DISCOUNT_RATE)).toFixed(2)),
+                isAnnual: billingCycle === 'annual'
+              }}
+              loading={loading}
+              currentPlan={currentPlan}
+              onCancel={handleCancelPlan}
+              onUpgrade={handleUpgradePlan}
+              onDowngrade={handleDowngradePlan}
+              onReactivate={handleReactivatePlan}
+              isCancelling={isCancelling}
+            />
+          )
+        )}
       </div>
 
       {error && (
@@ -210,23 +380,17 @@ const Plans: React.FC<PlansProps> = ({
         />
       )}
 
-      {showPaymentMethodPopup && (
+      {showPaymentMethodPopup && selectedPlan && (
         <Elements stripe={stripePromise}>
           <SubscriptionPaymentMethodSelectionPopup
             paymentMethods={paymentMethods}
             selectedPlanName={selectedPlanName}
+            selectedPlanId={selectedPlan}
             accountId={userDetails.accountId}
             onSelectPaymentMethod={handlePaymentMethodSelect}
             onAddPaymentMethod={handleAddPaymentMethod}
             onCancel={() => setShowPaymentMethodPopup(false)}
-            onSubscriptionComplete={(subscriptionId) => {
-              setShowPaymentMethodPopup(false);
-              if (userDetails?.accountId) {
-                fetchSubscriptionDetails(userDetails.accountId)
-                  .then(response => setCurrentPlan(response.plan))
-                  .catch(error => console.error('Error refreshing subscription:', error));
-              }
-            }}
+            onSubscriptionComplete={onSubscriptionComplete}
           />
         </Elements>
       )}

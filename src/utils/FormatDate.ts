@@ -1,32 +1,25 @@
 export const formatDate = (date: string | Date | number[] | null, includeTime: boolean = false): string => {
   if (!date) return 'N/A';
   
-  let dateObj: Date;
-  
   if (Array.isArray(date)) {
-    // Handle number array format [year, month, day, ...]
-    dateObj = new Date(date[0], date[1] - 1, date[2]);
+    // Handle number array format [year, month, day, hour, minute, second, millisecond]
+    const [year, month, day] = date;
+    const monthNames = ['January', 'February', 'March', 'April', 'May', 'June', 
+                       'July', 'August', 'September', 'October', 'November', 'December'];
+    
+    return `${monthNames[month - 1]} ${day}, ${year}`;
   } else if (typeof date === 'string') {
-    dateObj = new Date(date);
+    const dateObj = new Date(date);
+    return dateObj.toLocaleDateString('en-US', {
+      year: 'numeric',
+      month: 'long',
+      day: 'numeric'
+    });
   } else {
-    dateObj = date;
+    return date.toLocaleDateString('en-US', {
+      year: 'numeric',
+      month: 'long',
+      day: 'numeric'
+    });
   }
-
-  if (isNaN(dateObj.getTime())) {
-    return 'Invalid Date';
-  }
-
-  const options: Intl.DateTimeFormatOptions = {
-    year: 'numeric',
-    month: 'long',
-    day: 'numeric',
-  };
-
-  if (includeTime) {
-    options.hour = '2-digit';
-    options.minute = '2-digit';
-    options.second = '2-digit';
-  }
-
-  return dateObj.toLocaleDateString('en-US', options);
 };

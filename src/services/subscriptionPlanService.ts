@@ -1,4 +1,4 @@
-import { SubscriptionResponse } from '../types/Subscription';
+import { SubscriptionResponse } from '../types/SubscriptionPlan';
 import { confirmSubscriptionPaymentApi } from '../api/userSubscriptionApi';
 
 export const finalizeSubscription = async (

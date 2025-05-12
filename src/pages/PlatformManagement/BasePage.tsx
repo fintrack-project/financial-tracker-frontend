@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import PageTopBar from '../../components/Bar/PageTopBar';
-import { SubscriptionPlanType } from '../../types/Subscription';
+import { SubscriptionPlanType } from '../../types/SubscriptionPlan';
 import { fetchSubscriptionDetails } from '../../services/subscriptionDetailsService';
 import './BasePage.css';
 

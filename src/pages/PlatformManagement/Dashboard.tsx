@@ -3,7 +3,7 @@ import HoldingsTable from '../../components/Table/HoldingsTable/HoldingsTable';
 import ForexWatchlist from '../../components/Watchlist/ForexWatchlist';
 import MarketWatchlist from '../../components/Watchlist/MarketWatchlist';
 import MarketIndexWidget from '../../components/Market/MarketIndexWidget';
-import { SubscriptionPlanType } from '../../types/Subscription';
+import { SubscriptionPlanType } from '../../types/SubscriptionPlan';
 import './Dashboard.css'; // Import the CSS file
 
 interface DashboardProps {
