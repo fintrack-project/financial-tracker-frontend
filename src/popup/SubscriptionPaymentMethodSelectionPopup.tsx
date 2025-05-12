@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { useStripe, useElements } from '@stripe/react-stripe-js';
 import { PaymentMethod } from '../types/PaymentMethods';
-import { upgradeSubscriptionApi, confirmSubscriptionPaymentApi, fetchUserSubscriptionApi } from '../api/userSubscriptionApi';
+import { upgradeSubscriptionApi, fetchUserSubscriptionApi } from '../api/userSubscriptionApi';
+import { finalizeSubscription } from '../services/subscriptionPlanService';
 import SubscriptionBasePopup from './SubscriptionBasePopup';
 import './SubscriptionBasePopup.css';
 import './PaymentMethodSelection.css';
@@ -34,6 +35,7 @@ const PaymentMethodSelectionPopup: React.FC<SubscriptionPaymentMethodSelectionPo
   );
   const [isProcessing, setIsProcessing] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [paymentStatus, setPaymentStatus] = useState<string>('');
 
   useEffect(() => {
     console.log('🔄 Initializing Stripe payment elements:', {
@@ -68,16 +70,18 @@ const PaymentMethodSelectionPopup: React.FC<SubscriptionPaymentMethodSelectionPo
     try {
       setIsProcessing(true);
       setError(null);
+      setPaymentStatus('Initializing payment process...');
 
-      const returnUrl = `${window.location.origin}/subscription/complete`;
-      
-      console.log('Sending plan ID to API:', selectedPlanId);
+      console.log('🔄 Starting subscription upgrade process:', {
+        planId: selectedPlanId,
+        paymentMethodId: selectedPaymentMethodId
+      });
 
+      setPaymentStatus('Creating subscription...');
       const response = await upgradeSubscriptionApi(
         accountId,
-        selectedPlanId,  // Send the full plan ID directly
-        selectedPaymentMethodId,
-        returnUrl
+        selectedPlanId,
+        selectedPaymentMethodId
       );
 
       if (!response.success || !response.data) {
@@ -85,50 +89,100 @@ const PaymentMethodSelectionPopup: React.FC<SubscriptionPaymentMethodSelectionPo
       }
 
       const subscriptionData = response.data;
+      console.log('✅ Subscription created:', {
+        subscriptionId: subscriptionData.subscriptionId,
+        paymentRequired: subscriptionData.paymentRequired,
+        hasClientSecret: !!subscriptionData.clientSecret
+      });
 
       if (subscriptionData.paymentRequired && subscriptionData.clientSecret) {
         if (!stripe) {
           throw new Error('Payment system is not available');
         }
-        const { error: confirmError, paymentIntent } = await stripe.confirmCardPayment(subscriptionData.clientSecret);
-        if (confirmError) {
-          throw new Error(confirmError.message);
-        }
 
-        if (paymentIntent && paymentIntent.status === 'succeeded') {
-          const confirmResponse = await confirmSubscriptionPaymentApi(
-            paymentIntent.id,
-            subscriptionData.subscriptionId
+        try {
+          setPaymentStatus('Processing payment...');
+          console.log('🔄 Starting payment finalization:', {
+            subscriptionId: subscriptionData.subscriptionId,
+            hasClientSecret: !!subscriptionData.clientSecret
+          });
+
+          // Use the finalizeSubscription service
+          const finalizedSubscription = await finalizeSubscription(
+            subscriptionData.subscriptionId,
+            subscriptionData.clientSecret,
+            stripe
           );
 
-          if (!confirmResponse.success || !confirmResponse.data) {
-            throw new Error(confirmResponse.message || 'Failed to confirm subscription payment with backend');
-          }
+          console.log('✅ Payment finalized successfully:', {
+            subscriptionId: subscriptionData.subscriptionId,
+            status: finalizedSubscription.status
+          });
 
+          setPaymentStatus('Updating subscription details...');
           // Fetch fresh subscription data after successful payment
           const freshSubscriptionData = await fetchUserSubscriptionApi(accountId);
           if (!freshSubscriptionData.success || !freshSubscriptionData.data) {
             throw new Error('Failed to fetch updated subscription data');
           }
 
+          console.log('✅ Subscription updated:', {
+            subscriptionId: freshSubscriptionData.data.id,
+            status: freshSubscriptionData.data.status
+          });
+
           // Call onSubscriptionComplete with the fresh data
           onSubscriptionComplete(freshSubscriptionData.data.id.toString());
-        } else {
-          throw new Error('Payment was not completed successfully');
+          setPaymentStatus('Subscription completed successfully!');
+        } catch (finalizeError) {
+          console.error('❌ Payment finalization failed:', {
+            error: finalizeError,
+            subscriptionId: subscriptionData.subscriptionId
+          });
+          
+          // Handle specific error cases
+          let errorMessage = 'Failed to process payment';
+          if (finalizeError instanceof Error) {
+            if (finalizeError.message.includes('Stripe payment failed')) {
+              errorMessage = 'Payment processing failed. Please try again or use a different payment method.';
+            } else if (finalizeError.message.includes('Payment confirmation failed')) {
+              errorMessage = 'Payment could not be confirmed. Please try again or use a different payment method.';
+            } else if (finalizeError.message.includes('Payment not completed')) {
+              errorMessage = 'Payment was not completed successfully. Please try again.';
+            } else {
+              errorMessage = finalizeError.message;
+            }
+          }
+          
+          setError(errorMessage);
+          setPaymentStatus('Payment failed');
+          throw new Error(errorMessage);
         }
       } else {
+        setPaymentStatus('Updating subscription details...');
         // Fetch fresh subscription data even if no payment was required
         const freshSubscriptionData = await fetchUserSubscriptionApi(accountId);
         if (!freshSubscriptionData.success || !freshSubscriptionData.data) {
           throw new Error('Failed to fetch updated subscription data');
         }
 
+        console.log('✅ Subscription updated (no payment required):', {
+          subscriptionId: freshSubscriptionData.data.id,
+          status: freshSubscriptionData.data.status
+        });
+
         // Call onSubscriptionComplete with the fresh data
         onSubscriptionComplete(freshSubscriptionData.data.id.toString());
+        setPaymentStatus('Subscription completed successfully!');
       }
     } catch (err) {
-      console.error('❌ Error processing subscription:', err);
+      console.error('❌ Error processing subscription:', {
+        error: err,
+        planId: selectedPlanId,
+        paymentMethodId: selectedPaymentMethodId
+      });
       setError(err instanceof Error ? err.message : 'An error occurred while processing your subscription. Please try again.');
+      setPaymentStatus('Payment failed');
     } finally {
       setIsProcessing(false);
     }
@@ -192,7 +246,7 @@ const PaymentMethodSelectionPopup: React.FC<SubscriptionPaymentMethodSelectionPo
                 className="subscription-primary-button"
                 disabled={!selectedPaymentMethodId || isProcessing || !stripe}
               >
-                {isProcessing ? 'Processing...' : 'Pay Now'}
+                {isProcessing ? paymentStatus : 'Pay Now'}
               </button>
             </div>
           </div>
@@ -216,6 +270,11 @@ const PaymentMethodSelectionPopup: React.FC<SubscriptionPaymentMethodSelectionPo
       {error && (
         <div className="subscription-error-message">
           {error}
+        </div>
+      )}
+      {paymentStatus && !error && (
+        <div className="subscription-status-message">
+          {paymentStatus}
         </div>
       )}
     </SubscriptionBasePopup>

@@ -18,15 +18,13 @@ export const fetchUserSubscription = async (accountId: string): Promise<UserSubs
 export const upgradeSubscription = async (
   accountId: string,
   planId: string,
-  paymentMethodId?: string,
-  returnUrl?: string
+  paymentMethodId?: string
 ): Promise<SubscriptionUpdateResponse> => {
   try {
     const response = await upgradeSubscriptionApi(
       accountId,
       planId,
-      paymentMethodId || '',
-      returnUrl || `${window.location.origin}/subscription/complete`
+      paymentMethodId || ''
     );
     if (!response.success || !response.data) {
       throw new Error(response.message || 'Failed to upgrade subscription');
