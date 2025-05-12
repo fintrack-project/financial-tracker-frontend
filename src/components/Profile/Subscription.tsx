@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { fetchUserDetails } from '../../services/userService';
-import { fetchUserSubscription, updateSubscription } from '../../services/userSubscriptionService';
+import { fetchUserSubscription, upgradeSubscription } from '../../services/userSubscriptionService';
 import { fetchPaymentMethods, getDefaultPaymentMethod, deletePaymentMethod, setDefaultPaymentMethod, confirmPayment, attachPaymentMethod } from '../../services/paymentMethodService';
 import { UserDetails } from '../../types/UserDetails';
 import { UserSubscription } from '../../types/UserSubscription';
@@ -197,9 +197,9 @@ const Subscription: React.FC<SubscriptionProps> = ({ accountId }) => {
     });
 
     try {
-      console.log('📡 Calling updateSubscription API...');
-      const response = await updateSubscription(accountId, planName, paymentMethodId);
-      console.log('✅ Update subscription response:', response);
+      console.log('📡 Calling upgradeSubscription API...');
+      const response = await upgradeSubscription(accountId, planName, paymentMethodId);
+      console.log('✅ Upgrade subscription response:', response);
 
       // Fetch fresh subscription data
       console.log('📡 Fetching updated subscription data...');
@@ -325,28 +325,6 @@ const Subscription: React.FC<SubscriptionProps> = ({ accountId }) => {
                   {formatDate(subscription.subscriptionEndDate)}
                 </div>
               )}
-            </div>
-          </div>
-        </div>
-
-        <div className="usage-stats">
-          <h3>Usage Overview</h3>
-          <div className="stats-grid">
-            <div className="stat-item">
-              <span>Storage Used</span>
-              <span>1.2 GB / 10 GB</span>
-            </div>
-            <div className="stat-item">
-              <span>API Calls</span>
-              <span>2,450 / 5,000</span>
-            </div>
-            <div className="stat-item">
-              <span>Custom Categories</span>
-              <span>3 / 5</span>
-            </div>
-            <div className="stat-item">
-              <span>Team Members</span>
-              <span>1 / 3</span>
             </div>
           </div>
         </div>

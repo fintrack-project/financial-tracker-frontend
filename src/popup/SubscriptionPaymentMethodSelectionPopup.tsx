@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useStripe, useElements } from '@stripe/react-stripe-js';
 import { PaymentMethod } from '../types/PaymentMethods';
-import { updateSubscriptionApi, confirmSubscriptionPaymentApi, fetchUserSubscriptionApi } from '../api/userSubscriptionApi';
+import { upgradeSubscriptionApi, confirmSubscriptionPaymentApi, fetchUserSubscriptionApi } from '../api/userSubscriptionApi';
 import SubscriptionBasePopup from './SubscriptionBasePopup';
 import './SubscriptionBasePopup.css';
 import './PaymentMethodSelection.css';
@@ -73,7 +73,7 @@ const PaymentMethodSelectionPopup: React.FC<SubscriptionPaymentMethodSelectionPo
       
       console.log('Sending plan ID to API:', selectedPlanId);
 
-      const response = await updateSubscriptionApi(
+      const response = await upgradeSubscriptionApi(
         accountId,
         selectedPlanId,  // Send the full plan ID directly
         selectedPaymentMethodId,
