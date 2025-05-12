@@ -100,3 +100,19 @@ export const reactivateSubscriptionApi = async (
     throw error;
   }
 };
+
+export const downgradeSubscriptionApi = async (
+  accountId: string,
+  planId: string
+): Promise<ApiResponse<SubscriptionUpdateResponse>> => {
+  try {
+    const response = await apiClient.post<ApiResponse<SubscriptionUpdateResponse>>('/api/user/subscriptions/downgrade', {
+      accountId,
+      planId
+    });
+    return response.data;
+  } catch (error) {
+    console.error('Error downgrading subscription:', error);
+    throw error;
+  }
+};
