@@ -216,8 +216,10 @@ const Plans: React.FC<PlansProps> = ({
     setError(error.message);
   };
 
-  console.log('currentPlan', currentPlan);
-  console.log('plans', plans);
+  // Filter plans based on current subscription
+  const filteredPlans = currentPlan && currentPlan.id === 'plan_free'
+    ? plans
+    : plans.filter(plan => plan.id !== 'plan_free');
 
   return (
     <div className="plans-container">
@@ -237,24 +239,26 @@ const Plans: React.FC<PlansProps> = ({
       </div>
 
       <div className="plans-grid">
-        {plans.map((plan) => (
-          <PlanCard
-            key={plan.id}
-            plan={{
-              id: plan.id,
-              plan_group_id: plan.plan_group_id,
-              name: plan.name,
-              color: plan.color,
-              features: plan.features || [],
-              monthlyPrice: plan.amount,
-              annualPrice: Number((plan.amount * 12 * (1 - ANNUAL_DISCOUNT_RATE)).toFixed(2)),
-              isAnnual: billingCycle === 'annual'
-            }}
-            loading={loading}
-            currentPlan={currentPlan}
-            onSelect={handlePlanSelect}
-          />
-        ))}
+        {filteredPlans.map((plan) => 
+          (
+            <PlanCard
+              key={plan.id}
+              plan={{
+                id: plan.id,
+                plan_group_id: plan.plan_group_id,
+                name: plan.name,
+                color: plan.color,
+                features: plan.features || [],
+                monthlyPrice: plan.amount,
+                annualPrice: Number((plan.amount * 12 * (1 - ANNUAL_DISCOUNT_RATE)).toFixed(2)),
+                isAnnual: billingCycle === 'annual'
+              }}
+              loading={loading}
+              currentPlan={currentPlan}
+              onSelect={handlePlanSelect}
+            />
+          )
+        )}
       </div>
 
       {error && (
