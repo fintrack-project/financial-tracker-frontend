@@ -74,15 +74,29 @@ export const getAvailablePlanTypesApi = async (): Promise<ApiResponse<Subscripti
 };
 
 export const cancelSubscriptionApi = async (
-  subscriptionId: string
+  stripeSubscriptionId: string
 ): Promise<ApiResponse<void>> => {
   try {
     const response = await apiClient.post<ApiResponse<void>>(`/api/user/subscriptions/cancel`, {
-      subscriptionId
+      stripeSubscriptionId
     });
     return response.data;
   } catch (error) {
     console.error('Error cancelling subscription:', error);
+    throw error;
+  }
+};
+
+export const reactivateSubscriptionApi = async (
+  stripeSubscriptionId: string
+): Promise<ApiResponse<void>> => {
+  try {
+    const response = await apiClient.post<ApiResponse<void>>(`/api/user/subscriptions/reactivate`, {
+      stripeSubscriptionId
+    });
+    return response.data;
+  } catch (error) {
+    console.error('Error reactivating subscription:', error);
     throw error;
   }
 };

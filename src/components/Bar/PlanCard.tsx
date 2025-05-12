@@ -18,28 +18,32 @@ interface PlanCardProps {
   plan: Plan;
   loading: boolean;
   currentPlan: SubscriptionPlan | null;
+  isCancelling: boolean;
   onCancel: (planId: string) => void;
   onUpgrade: (planId: string) => void;
   onDowngrade: (planId: string) => void;
+  onReactivate: (planId: string) => void;
 }
 
 const handleButtonClick = async ({
   onCancel,
   onUpgrade,
   onDowngrade,
+  onReactivate,
   displayCancelButton,
   displayUpgradeButton,
   displayDowngradeButton,
-  displayCurrentPlanButton,
+  displayReactivateButton,
   planId
 } : {
   onCancel: (planId: string) => void,
   onUpgrade: (planId: string) => void,
   onDowngrade: (planId: string) => void,
+  onReactivate: (planId: string) => void,
   displayCancelButton: boolean,
   displayUpgradeButton: boolean,
   displayDowngradeButton: boolean,
-  displayCurrentPlanButton: boolean,
+  displayReactivateButton: boolean,
   planId: string
 }) => {
   if (displayCancelButton && onCancel) {
@@ -48,10 +52,12 @@ const handleButtonClick = async ({
     await onUpgrade(planId);
   } else if (displayDowngradeButton && onDowngrade) {
     await onDowngrade(planId);
+  } else if (displayReactivateButton && onReactivate) {
+    await onReactivate(planId);
   }
 };
 
-const PlanCard: React.FC<PlanCardProps> = ({ plan, loading, currentPlan, onCancel, onUpgrade, onDowngrade }) => {
+const PlanCard: React.FC<PlanCardProps> = ({ plan, loading, currentPlan, onCancel, onUpgrade, onDowngrade, onReactivate, isCancelling }) => {
   const isCurrentFreePlan = currentPlan?.plan_group_id === 'free';
   const isFreePlan = plan.plan_group_id === 'free';
   const isBetterPlan = 
@@ -60,11 +66,23 @@ const PlanCard: React.FC<PlanCardProps> = ({ plan, loading, currentPlan, onCance
   const isCurrentPlanGroupId = currentPlan?.plan_group_id === plan.plan_group_id;
   const isSameBillingCycle = (currentPlan?.interval === 'year' && plan.isAnnual) || (currentPlan?.interval === 'month' && !plan.isAnnual);
   const displayUpgradeButton = (isBetterPlan || !isCurrentFreePlan && (isCurrentPlanGroupId && (currentPlan?.interval === 'month' && plan.isAnnual)));
-  const displayCancelButton = !isCurrentFreePlan && (isCurrentPlanGroupId && isSameBillingCycle);
+  const displayCancelButton = !isCancelling && (!isCurrentFreePlan && (isCurrentPlanGroupId && isSameBillingCycle));
+  const displayReactivateButton = isCancelling && (!isCurrentFreePlan && (isCurrentPlanGroupId && isSameBillingCycle));
   const displayCurrentPlanButton = (isCurrentFreePlan && isFreePlan) || (!isCurrentFreePlan && (isCurrentPlanGroupId && (currentPlan?.interval === 'year' && !plan.isAnnual)));
-  const displayDowngradeButton = !isCurrentFreePlan && !isBetterPlan;
+  const displayDowngradeButton = !isCancelling && !isCurrentFreePlan && !isBetterPlan;
   const price = plan.isAnnual ? plan.annualPrice : plan.monthlyPrice;
   const savings = ANNUAL_DISCOUNT_RATE * 100;
+
+  console.log('plan', plan);
+  console.log('currentPlan', currentPlan);
+  console.log('isCurrentPlanGroupId', isCurrentPlanGroupId);
+  console.log('isSameBillingCycle', isSameBillingCycle);
+  console.log('isCancelling', isCancelling);
+  console.log('displayUpgradeButton', displayUpgradeButton);
+  console.log('displayCancelButton', displayCancelButton);
+  console.log('displayReactivateButton', displayReactivateButton);
+  console.log('displayCurrentPlanButton', displayCurrentPlanButton);
+  console.log('displayDowngradeButton', displayDowngradeButton);
 
   return (
     <div className={`plan-card ${isCurrentPlanGroupId ? 'current' : ''}`}>
@@ -87,23 +105,25 @@ const PlanCard: React.FC<PlanCardProps> = ({ plan, loading, currentPlan, onCance
 
       <button
         className={`plan-button 
-          ${displayUpgradeButton ? 'primary' : displayCurrentPlanButton || displayDowngradeButton || displayCancelButton ? 'secondary' : 'primary'}
+          ${displayUpgradeButton || displayReactivateButton ? 'primary' : displayCurrentPlanButton || displayDowngradeButton || displayCancelButton ? 'secondary' : 'primary'}
           ${loading ? 'disabled' : ''}`}
         onClick={() => handleButtonClick({
           onCancel: () => onCancel(plan.id), 
           onUpgrade: () => onUpgrade(plan.id), 
           onDowngrade: () => onDowngrade(plan.id),
+          onReactivate: () => onReactivate(plan.id),
           displayCancelButton,
           displayUpgradeButton,
           displayDowngradeButton,
-          displayCurrentPlanButton,
+          displayReactivateButton,
           planId: plan.id
         })}
         disabled={loading || displayCurrentPlanButton}
       >
         {loading ? 'Loading...' : 
         displayCurrentPlanButton ? 'Current Plan' : 
-        displayCancelButton ? 'Cancel Plan' :
+        displayCancelButton ? 'Cancel Plan' : 
+        displayReactivateButton ? 'Reactivate Plan' :
         displayUpgradeButton ? 'Upgrade Plan' : 
         displayDowngradeButton ? 'Downgrade Plan' : 'Select Plan'}
       </button>
