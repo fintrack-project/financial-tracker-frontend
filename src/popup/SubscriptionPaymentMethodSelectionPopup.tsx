@@ -140,7 +140,7 @@ const PaymentMethodSelectionPopup: React.FC<SubscriptionPaymentMethodSelectionPo
   };
 
   const handleConfirmPayment = async () => {
-    if (!stripe || !confirmationData) {
+    if (!stripe || !confirmationData || !selectedPaymentMethodId) {
       setError('Payment system is not available');
       return;
     }
@@ -154,7 +154,8 @@ const PaymentMethodSelectionPopup: React.FC<SubscriptionPaymentMethodSelectionPo
       const finalizedSubscription = await finalizeSubscription(
         confirmationData.subscriptionId,
         confirmationData.clientSecret,
-        stripe
+        stripe,
+        selectedPaymentMethodId
       );
 
       console.log('✅ Payment finalized successfully:', {

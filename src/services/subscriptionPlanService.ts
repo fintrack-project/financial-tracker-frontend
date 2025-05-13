@@ -4,13 +4,22 @@ import { confirmSubscriptionPaymentApi } from '../api/userSubscriptionApi';
 export const finalizeSubscription = async (
   subscriptionId: string,
   clientSecret: string,
-  stripe: any
+  stripe: any,
+  paymentMethodId: string
 ): Promise<SubscriptionResponse> => {
   try {
-    console.log('🔄 Confirming Stripe payment:', { clientSecret });
+    console.log('🔄 Confirming Stripe payment:', { 
+      clientSecret,
+      paymentMethodId 
+    });
     
     // 1. Confirm payment with Stripe
-    const { error, paymentIntent } = await stripe.confirmCardPayment(clientSecret);
+    const { error, paymentIntent } = await stripe.confirmCardPayment(
+      clientSecret,
+      {
+        payment_method: paymentMethodId
+      }
+    );
     
     if (error) {
       console.error('❌ Stripe payment confirmation failed:', error);
