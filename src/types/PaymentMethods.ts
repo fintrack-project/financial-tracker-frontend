@@ -7,8 +7,8 @@ export interface PaymentMethod {
   billingAddress: string | null;
   createdAt: string;
   cardBrand: string | null;
-  cardExpMonth: number | null;
-  cardExpYear: number | null;
+  cardExpMonth: string | null;
+  cardExpYear: string | null;
   cardLast4: string | null;
   default: boolean;
   type: string;
