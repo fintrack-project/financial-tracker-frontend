@@ -28,7 +28,7 @@ export const upgradeSubscriptionApi = async (
   accountId: string,
   planId: string,
   paymentMethodId: string,
-  returnUrl: string
+  returnUrl?: string | null
 ): Promise<ApiResponse<SubscriptionUpdateResponse>> => {
   try {
     const response = await apiClient.post<ApiResponse<SubscriptionUpdateResponse>>('/api/user/subscriptions/upgrade', {
@@ -103,14 +103,12 @@ export const reactivateSubscriptionApi = async (
 
 export const downgradeSubscriptionApi = async (
   accountId: string,
-  planId: string,
-  returnUrl: string
+  planId: string
 ): Promise<ApiResponse<SubscriptionUpdateResponse>> => {
   try {
     const response = await apiClient.post<ApiResponse<SubscriptionUpdateResponse>>('/api/user/subscriptions/downgrade', {
       accountId,
-      planId,
-      returnUrl
+      planId
     });
     return response.data;
   } catch (error) {
