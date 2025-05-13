@@ -1,7 +1,7 @@
 import { UserSubscription } from './UserSubscription';
 
 export type SubscriptionPlanType = 'FREE' | 'BASIC' | 'PREMIUM';
-export type SubscriptionStatus = 'active' | 'pending' | 'failed';
+export type SubscriptionStatus = 'active' | 'pending' | 'failed' | 'incomplete';
 
 export interface SubscriptionPlan {
   id: string;
@@ -54,9 +54,16 @@ export interface UpdateSubscriptionRequest {
   returnUrl: string;
 }
 
-export interface SubscriptionUpdateResponse extends SubscriptionResponse {
-  paymentIntentId?: string;
-  returnUrl?: string;
+export interface SubscriptionUpdateResponse {
+  subscriptionId: string;
+  status: SubscriptionStatus;
+  currentPeriodEnd: string;
+  planId: string;
+  clientSecret?: string;
+  paymentRequired: boolean;
+  amount: number;
+  currency: string;
+  paymentStatus: 'incomplete' | 'active' | 'canceled' | 'past_due' | 'trialing' | 'unpaid';
 }
 
 export interface UserSubscriptionDetailsResponse {

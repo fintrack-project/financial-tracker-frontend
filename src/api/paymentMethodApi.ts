@@ -70,12 +70,13 @@ export const deletePaymentMethodApi = async (accountId: string, paymentMethodId:
 };
 
 // Create a payment intent
-export const createPaymentIntentApi = async (accountId: string, amount: number, currency: string) => {
+export const createPaymentIntentApi = async (accountId: string, amount: number, currency: string, returnUrl: string) => {
   try {
     const response = await apiClient.post<ApiResponse<any>>('/api/user/payments/create-intent', {
       accountId,
       amount,
-      currency
+      currency,
+      returnUrl
     });
     return response.data.data;
   } catch (error) {
