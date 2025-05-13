@@ -36,6 +36,11 @@ const PaymentMethodSelectionPopup: React.FC<SubscriptionPaymentMethodSelectionPo
   const [isProcessing, setIsProcessing] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [paymentStatus, setPaymentStatus] = useState<string>('');
+  const [showConfirmation, setShowConfirmation] = useState(false);
+  const [confirmationData, setConfirmationData] = useState<{
+    subscriptionId: string;
+    clientSecret: string;
+  } | null>(null);
 
   useEffect(() => {
     console.log('🔄 Initializing Stripe payment elements:', {
@@ -44,7 +49,6 @@ const PaymentMethodSelectionPopup: React.FC<SubscriptionPaymentMethodSelectionPo
       hasDefaultPaymentMethod: !!paymentMethods.find(method => method.default)
     });
     
-    // Only show error if there's no default payment method and Stripe isn't loaded
     if (!stripe || !elements) {
       if (!paymentMethods.find(method => method.default)) {
         setError('Payment system is not available. Please try again later.');
@@ -60,7 +64,6 @@ const PaymentMethodSelectionPopup: React.FC<SubscriptionPaymentMethodSelectionPo
       return;
     }
 
-    // Only check for Stripe if we need to process a new payment
     const defaultMethod = paymentMethods.find(method => method.default);
     if ((!stripe || !elements) && !defaultMethod) {
       setError('Payment system is not available. Please try again later.');
@@ -81,7 +84,8 @@ const PaymentMethodSelectionPopup: React.FC<SubscriptionPaymentMethodSelectionPo
       const response = await upgradeSubscriptionApi(
         accountId,
         selectedPlanId,
-        selectedPaymentMethodId
+        selectedPaymentMethodId,
+        window.location.origin + '/payment/confirm'
       );
 
       if (!response.success || !response.data) {
@@ -96,95 +100,68 @@ const PaymentMethodSelectionPopup: React.FC<SubscriptionPaymentMethodSelectionPo
       });
 
       if (subscriptionData.paymentRequired && subscriptionData.clientSecret) {
-        if (!stripe) {
-          throw new Error('Payment system is not available');
-        }
-
-        try {
-          setPaymentStatus('Processing payment...');
-          console.log('🔄 Starting payment finalization:', {
-            subscriptionId: subscriptionData.subscriptionId,
-            hasClientSecret: !!subscriptionData.clientSecret
-          });
-
-          // Use the finalizeSubscription service
-          const finalizedSubscription = await finalizeSubscription(
-            subscriptionData.subscriptionId,
-            subscriptionData.clientSecret,
-            stripe
-          );
-
-          console.log('✅ Payment finalized successfully:', {
-            subscriptionId: subscriptionData.subscriptionId,
-            status: finalizedSubscription.status
-          });
-
-          setPaymentStatus('Updating subscription details...');
-          // Fetch fresh subscription data after successful payment
-          const freshSubscriptionData = await fetchUserSubscriptionApi(accountId);
-          if (!freshSubscriptionData.success || !freshSubscriptionData.data) {
-            throw new Error('Failed to fetch updated subscription data');
-          }
-
-          console.log('✅ Subscription updated:', {
-            subscriptionId: freshSubscriptionData.data.id,
-            status: freshSubscriptionData.data.status
-          });
-
-          // Call onSubscriptionComplete with the fresh data
-          onSubscriptionComplete(freshSubscriptionData.data.id.toString());
-          setPaymentStatus('Subscription completed successfully!');
-        } catch (finalizeError) {
-          console.error('❌ Payment finalization failed:', {
-            error: finalizeError,
-            subscriptionId: subscriptionData.subscriptionId
-          });
-          
-          // Handle specific error cases
-          let errorMessage = 'Failed to process payment';
-          if (finalizeError instanceof Error) {
-            if (finalizeError.message.includes('Stripe payment failed')) {
-              errorMessage = 'Payment processing failed. Please try again or use a different payment method.';
-            } else if (finalizeError.message.includes('Payment confirmation failed')) {
-              errorMessage = 'Payment could not be confirmed. Please try again or use a different payment method.';
-            } else if (finalizeError.message.includes('Payment not completed')) {
-              errorMessage = 'Payment was not completed successfully. Please try again.';
-            } else {
-              errorMessage = finalizeError.message;
-            }
-          }
-          
-          setError(errorMessage);
-          setPaymentStatus('Payment failed');
-          throw new Error(errorMessage);
-        }
-      } else {
-        setPaymentStatus('Updating subscription details...');
-        // Fetch fresh subscription data even if no payment was required
-        const freshSubscriptionData = await fetchUserSubscriptionApi(accountId);
-        if (!freshSubscriptionData.success || !freshSubscriptionData.data) {
-          throw new Error('Failed to fetch updated subscription data');
-        }
-
-        console.log('✅ Subscription updated (no payment required):', {
-          subscriptionId: freshSubscriptionData.data.id,
-          status: freshSubscriptionData.data.status
+        // Show confirmation popup instead of redirecting
+        setConfirmationData({
+          subscriptionId: subscriptionData.subscriptionId,
+          clientSecret: subscriptionData.clientSecret
         });
-
-        // Call onSubscriptionComplete with the fresh data
-        onSubscriptionComplete(freshSubscriptionData.data.id.toString());
-        setPaymentStatus('Subscription completed successfully!');
+        setShowConfirmation(true);
+        setPaymentStatus('Please confirm your payment details');
+      } else {
+        // No payment required, complete subscription
+        await completeSubscription(subscriptionData.subscriptionId);
       }
     } catch (err) {
-      console.error('❌ Error processing subscription:', {
-        error: err,
-        planId: selectedPlanId,
-        paymentMethodId: selectedPaymentMethodId
-      });
-      setError(err instanceof Error ? err.message : 'An error occurred while processing your subscription. Please try again.');
+      console.error('❌ Error processing subscription:', err);
+      setError(err instanceof Error ? err.message : 'An error occurred while processing your subscription');
       setPaymentStatus('Payment failed');
     } finally {
       setIsProcessing(false);
+    }
+  };
+
+  const completeSubscription = async (subscriptionId: string) => {
+    try {
+      setPaymentStatus('Updating subscription details...');
+      const freshSubscriptionData = await fetchUserSubscriptionApi(accountId);
+      if (!freshSubscriptionData.success || !freshSubscriptionData.data) {
+        throw new Error('Failed to fetch updated subscription data');
+      }
+
+      onSubscriptionComplete(freshSubscriptionData.data.id.toString());
+      setPaymentStatus('Subscription completed successfully!');
+      onCancel(); // Close the popup after successful completion
+    } catch (error) {
+      setError('Failed to complete subscription. Please try again.');
+      setPaymentStatus('Failed to complete subscription');
+    }
+  };
+
+  const handleConfirmPayment = async () => {
+    if (!stripe || !confirmationData) {
+      setError('Payment system is not available');
+      return;
+    }
+
+    try {
+      setPaymentStatus('Processing payment...');
+      
+      const finalizedSubscription = await finalizeSubscription(
+        confirmationData.subscriptionId,
+        confirmationData.clientSecret,
+        stripe
+      );
+
+      console.log('✅ Payment finalized successfully:', {
+        subscriptionId: confirmationData.subscriptionId,
+        status: finalizedSubscription.status
+      });
+
+      await completeSubscription(confirmationData.subscriptionId);
+    } catch (error) {
+      console.error('❌ Payment finalization failed:', error);
+      setError('Failed to process payment. Please try again or use a different payment method.');
+      setPaymentStatus('Payment failed');
     }
   };
 
@@ -193,79 +170,110 @@ const PaymentMethodSelectionPopup: React.FC<SubscriptionPaymentMethodSelectionPo
       title="Complete Your Subscription"
       onClose={onCancel}
     >
-      <p>
-        You've selected the <strong>{selectedPlanName}</strong> plan. 
-        Please select a payment method to complete your subscription.
-      </p>
-      {paymentMethods.length > 0 ? (
-        <form onSubmit={handleSubmit}>
-          <div className="subscription-payment-methods-list">
-            {paymentMethods.map(method => (
-              <div 
-                key={method.stripePaymentMethodId} 
-                className={`subscription-payment-method-item ${
-                  selectedPaymentMethodId === method.stripePaymentMethodId ? 'selected' : ''
-                }`}
-                onClick={() => setSelectedPaymentMethodId(method.stripePaymentMethodId)}
-              >
-                <div className="subscription-payment-method-details">
-                  <div className="subscription-card-brand">{method.cardBrand}</div>
-                  <div className="subscription-card-last4">**** **** **** {method.cardLast4 || method.last4}</div>
-                  <div className="subscription-card-expiry">Expires: {method.cardExpMonth}/{method.cardExpYear}</div>
-                </div>
-                <div className="subscription-payment-method-default">
-                  {method.default && <span className="subscription-default-badge">Default</span>}
-                </div>
-                <input 
-                  type="radio"
-                  className="subscription-input-radio"
-                  name="paymentMethod"
-                  value={method.stripePaymentMethodId}
-                  checked={selectedPaymentMethodId === method.stripePaymentMethodId}
-                  onChange={() => setSelectedPaymentMethodId(method.stripePaymentMethodId)}
-                />
-              </div>
-            ))}
+      {showConfirmation ? (
+        <div className="payment-confirmation">
+          <h3>Confirm Your Payment</h3>
+          <p>Please review your payment details and confirm to complete your subscription.</p>
+          <div className="confirmation-details">
+            <p><strong>Plan:</strong> {selectedPlanName}</p>
+            <p><strong>Payment Method:</strong> {paymentMethods.find(m => m.stripePaymentMethodId === selectedPaymentMethodId)?.cardBrand} ending in {paymentMethods.find(m => m.stripePaymentMethodId === selectedPaymentMethodId)?.cardLast4}</p>
           </div>
-          
-          <div className="subscription-popup-actions">
+          <div className="confirmation-actions">
             <button 
-              type="button" 
-              className="subscription-add-payment-method" 
-              onClick={onAddPaymentMethod}
+              className="subscription-secondary-button"
+              onClick={() => {
+                setShowConfirmation(false);
+                setConfirmationData(null);
+              }}
             >
-              <span className="subscription-plus-icon"></span>
-              Add New Payment Method
+              Back
             </button>
-            <div className="subscription-action-buttons">
-              <button type="button" className="subscription-secondary-button" onClick={onCancel}>
+            <button 
+              className="subscription-primary-button"
+              onClick={handleConfirmPayment}
+              disabled={isProcessing}
+            >
+              {isProcessing ? 'Processing...' : 'Confirm Payment'}
+            </button>
+          </div>
+        </div>
+      ) : (
+        <>
+          <p>
+            You've selected the <strong>{selectedPlanName}</strong> plan. 
+            Please select a payment method to complete your subscription.
+          </p>
+          {paymentMethods.length > 0 ? (
+            <form onSubmit={handleSubmit}>
+              <div className="subscription-payment-methods-list">
+                {paymentMethods.map(method => (
+                  <div 
+                    key={method.stripePaymentMethodId} 
+                    className={`subscription-payment-method-item ${
+                      selectedPaymentMethodId === method.stripePaymentMethodId ? 'selected' : ''
+                    }`}
+                    onClick={() => setSelectedPaymentMethodId(method.stripePaymentMethodId)}
+                  >
+                    <div className="subscription-payment-method-details">
+                      <div className="subscription-card-brand">{method.cardBrand}</div>
+                      <div className="subscription-card-last4">**** **** **** {method.cardLast4 || method.last4}</div>
+                      <div className="subscription-card-expiry">Expires: {method.cardExpMonth}/{method.cardExpYear}</div>
+                    </div>
+                    <div className="subscription-payment-method-default">
+                      {method.default && <span className="subscription-default-badge">Default</span>}
+                    </div>
+                    <input 
+                      type="radio"
+                      className="subscription-input-radio"
+                      name="paymentMethod"
+                      value={method.stripePaymentMethodId}
+                      checked={selectedPaymentMethodId === method.stripePaymentMethodId}
+                      onChange={() => setSelectedPaymentMethodId(method.stripePaymentMethodId)}
+                    />
+                  </div>
+                ))}
+              </div>
+              
+              <div className="subscription-popup-actions">
+                <button 
+                  type="button" 
+                  className="subscription-add-payment-method" 
+                  onClick={onAddPaymentMethod}
+                >
+                  <span className="subscription-plus-icon"></span>
+                  Add New Payment Method
+                </button>
+                <div className="subscription-action-buttons">
+                  <button type="button" className="subscription-secondary-button" onClick={onCancel}>
+                    Cancel
+                  </button>
+                  <button 
+                    type="submit" 
+                    className="subscription-primary-button"
+                    disabled={!selectedPaymentMethodId || isProcessing || !stripe}
+                  >
+                    {isProcessing ? paymentStatus : 'Pay Now'}
+                  </button>
+                </div>
+              </div>
+            </form>
+          ) : (
+            <div className="subscription-no-payment-methods">
+              <div className="subscription-alert-icon"></div>
+              <p>You don't have any payment methods set up yet.</p>
+              <button 
+                className="subscription-add-payment-method primary" 
+                onClick={onAddPaymentMethod}
+              >
+                <span className="subscription-plus-icon"></span>
+                Add Payment Method
+              </button>
+              <button className="subscription-secondary-button" onClick={onCancel}>
                 Cancel
               </button>
-              <button 
-                type="submit" 
-                className="subscription-primary-button"
-                disabled={!selectedPaymentMethodId || isProcessing || !stripe}
-              >
-                {isProcessing ? paymentStatus : 'Pay Now'}
-              </button>
             </div>
-          </div>
-        </form>
-      ) : (
-        <div className="subscription-no-payment-methods">
-          <div className="subscription-alert-icon"></div>
-          <p>You don't have any payment methods set up yet.</p>
-          <button 
-            className="subscription-add-payment-method primary" 
-            onClick={onAddPaymentMethod}
-          >
-            <span className="subscription-plus-icon"></span>
-            Add Payment Method
-          </button>
-          <button className="subscription-secondary-button" onClick={onCancel}>
-            Cancel
-          </button>
-        </div>
+          )}
+        </>
       )}
       {error && (
         <div className="subscription-error-message">

@@ -242,7 +242,11 @@ const Plans: React.FC<PlansProps> = ({
       setLoading(true);
       setError(null);
       
-      const response = await downgradeSubscriptionApi(userDetails.accountId, finalPlanId);
+      const response = await downgradeSubscriptionApi(
+        userDetails.accountId, 
+        finalPlanId,
+        window.location.origin + '/payment/confirm'
+      );
       
       if (!response.success) {
         throw new Error(response.message || 'Failed to downgrade subscription');
