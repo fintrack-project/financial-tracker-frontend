@@ -27,13 +27,15 @@ export const fetchSubscriptionDetailsApi = async (accountId: string): Promise<Ap
 export const upgradeSubscriptionApi = async (
   accountId: string,
   planId: string,
-  paymentMethodId: string
+  paymentMethodId: string,
+  returnUrl: string
 ): Promise<ApiResponse<SubscriptionUpdateResponse>> => {
   try {
     const response = await apiClient.post<ApiResponse<SubscriptionUpdateResponse>>('/api/user/subscriptions/upgrade', {
       accountId,
       planId,
-      paymentMethodId
+      paymentMethodId,
+      returnUrl
     });
     return response.data;
   } catch (error) {
@@ -101,12 +103,14 @@ export const reactivateSubscriptionApi = async (
 
 export const downgradeSubscriptionApi = async (
   accountId: string,
-  planId: string
+  planId: string,
+  returnUrl: string
 ): Promise<ApiResponse<SubscriptionUpdateResponse>> => {
   try {
     const response = await apiClient.post<ApiResponse<SubscriptionUpdateResponse>>('/api/user/subscriptions/downgrade', {
       accountId,
-      planId
+      planId,
+      returnUrl
     });
     return response.data;
   } catch (error) {

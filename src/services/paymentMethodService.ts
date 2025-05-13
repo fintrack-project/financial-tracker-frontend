@@ -71,9 +71,14 @@ export const deletePaymentMethod = async (accountId: string, paymentMethodId: st
   }
 };
 
-export const createPaymentIntent = async (accountId: string, amount: number, currency: string): Promise<any> => {
+export const createPaymentIntent = async (accountId: string, amount: number, currency: string, returnUrl?: string): Promise<any> => {
   try {
-    const response = await createPaymentIntentApi(accountId, amount, currency);
+    const response = await createPaymentIntentApi(
+      accountId, 
+      amount, 
+      currency,
+      returnUrl || window.location.origin + '/payment/confirm'
+    );
     return response.data;
   } catch (error) {
     console.error('Error creating payment intent:', error);
