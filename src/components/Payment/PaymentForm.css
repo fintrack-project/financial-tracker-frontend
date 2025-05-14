@@ -22,6 +22,28 @@
   border: 1px solid #dc3545;
 }
 
+.payment-form-error-message span {
+  color: #dc3545;
+  font-size: 0.95rem;
+}
+
+.payment-form-retry-btn {
+  padding: 6px 12px;
+  background-color: #fff;
+  border: 1px solid #dc3545;
+  color: #dc3545;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  font-weight: 500;
+  transition: all 0.2s ease;
+}
+
+.payment-form-retry-btn:hover {
+  background-color: #dc3545;
+  color: #fff;
+}
+
 .payment-form-actions-container {
   display: flex;
   gap: 1.5rem;
