@@ -67,7 +67,6 @@
 .holdings-table td:nth-child(5),
 .holdings-table td:nth-child(6) {
   font-family: 'Monaco', 'Courier New', monospace;
-  text-align: right;
 }
 
 /* Symbol column styling */

@@ -15,21 +15,26 @@
   padding: 2px;
   gap: 5px;
   border-radius: 4px;
-  background-color: transparent; /* Removed background */
+  background-color: transparent;
   width: 0;
+  min-width: 0;
   overflow: hidden;
+  margin-left: 0;
+  flex-shrink: 0;
 }
 
 /* Show actions on hover */
 .category-cell:hover .actions {
   opacity: 1;
   width: auto;
+  margin-left: 8px;
 }
 
 .category-cell-view,
 .category-cell-edit {
   display: inline-flex;
   align-items: center;
+  justify-content: center;
   gap: 8px;
   background-color: #3b82f6; /* Blue background */
   border-radius: 6px;
@@ -51,6 +56,9 @@
   letter-spacing: 0.01em; /* Slight letter spacing for better readability */
   text-shadow: 0 1px 1px rgba(0, 0, 0, 0.1); /* Subtle text shadow for depth */
   white-space: nowrap;
+  text-align: center;
+  flex: 1;
+  min-width: 0;
 }
 
 .category-cell input,
