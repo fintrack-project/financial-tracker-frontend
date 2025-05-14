@@ -189,6 +189,13 @@ const PaymentMethodSelectionPopup: React.FC<SubscriptionPaymentMethodSelectionPo
           </div>
           <div className="confirmation-actions">
             <button 
+              className="subscription-primary-button"
+              onClick={handleConfirmPayment}
+              disabled={isProcessing}
+            >
+              {isProcessing ? 'Processing...' : 'Confirm Payment'}
+            </button>
+            <button 
               className="subscription-secondary-button"
               onClick={() => {
                 setShowConfirmation(false);
@@ -196,13 +203,6 @@ const PaymentMethodSelectionPopup: React.FC<SubscriptionPaymentMethodSelectionPo
               }}
             >
               Back
-            </button>
-            <button 
-              className="subscription-primary-button"
-              onClick={handleConfirmPayment}
-              disabled={isProcessing}
-            >
-              {isProcessing ? 'Processing...' : 'Confirm Payment'}
             </button>
           </div>
         </div>
