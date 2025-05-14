@@ -58,8 +58,8 @@ const ForexWatchlist: React.FC<ForexWatchlistProps> = ({
 
   const columns: { key: keyof MarketDataDisplay; label: string; editable?: boolean; placeholder?: string }[] = [
     { key: 'symbol', label: 'Symbol', editable: true, placeholder: 'USD/AUD' },
-    { key: 'price', label: 'Price' },
-    { key: 'priceChange', label: 'Price Change' },
+    { key: 'price', label: 'Price Ratio' },
+    { key: 'priceChange', label: 'Price Ratio Change' },
     { key: 'percentChange', label: '% Change' },
     { key: 'high', label: 'High' },
     { key: 'low', label: 'Low' }

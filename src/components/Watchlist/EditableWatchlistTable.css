@@ -11,6 +11,7 @@
   text-align: left;
   border-bottom: 1px solid #edf2f7;
   word-wrap: break-word;
+  vertical-align: middle;
 }
 
 .editable-watchlist-table th {
@@ -23,6 +24,15 @@
   position: sticky;
   top: 0;
   z-index: 10;
+}
+
+/* Numeric column headers should also be right-aligned */
+.editable-watchlist-table th:nth-child(3),
+.editable-watchlist-table th:nth-child(4),
+.editable-watchlist-table th:nth-child(5),
+.editable-watchlist-table th:nth-child(6),
+.editable-watchlist-table th:nth-child(7) {
+  text-align: left;
 }
 
 .editable-watchlist-table tr:last-child td {
@@ -57,7 +67,8 @@
 .editable-watchlist-table td:nth-child(6),
 .editable-watchlist-table td:nth-child(7) {
   font-family: 'Monaco', 'Courier New', monospace;
-  text-align: right;
+  text-align: left;
+  white-space: nowrap;
 }
 
 /* Symbol column styling */
@@ -74,6 +85,8 @@
   border-radius: 6px;
   font-size: 0.95rem;
   transition: all 0.2s ease;
+  height: 36px;
+  box-sizing: border-box;
 }
 
 .editable-watchlist-table input:focus {
@@ -83,11 +96,15 @@
 }
 
 /* Button group styling */
-.button-group {
+.editable-watchlist-table td .button-group {
   display: flex;
   gap: 8px;
   opacity: 0;
   transition: opacity 0.2s ease;
+  align-items: center;
+  justify-content: flex-start;
+  height: 100%;
+  flex-direction: row;
 }
 
 tr:hover .button-group {
@@ -110,4 +127,16 @@ tr:hover .button-group {
   font-size: 1.1rem;
   color: #94a3b8;
   font-style: italic;
+}
+
+/* Ensure consistent height for all cells */
+.editable-watchlist-table td {
+  height: 52px;
+  line-height: 1.5;
+}
+
+/* Ensure consistent alignment for all text content */
+.editable-watchlist-table td > *:not(.button-group) {
+  vertical-align: middle;
+  display: inline-block;
 }

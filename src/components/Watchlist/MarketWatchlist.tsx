@@ -59,11 +59,11 @@ const MarketWatchlist: React.FC<MarketWatchlistProps> = ({
   const columns: { key: keyof MarketDataDisplay; label: string; editable?: boolean; placeholder?: string }[] = [
     { key: 'symbol', label: 'Symbol', editable: true, placeholder: 'AAPL' },
     { key: 'assetType', label: 'Asset Type', editable: true, placeholder: 'STOCK' },
-    { key: 'price', label: 'Price' },
-    { key: 'priceChange', label: 'Price Change' },
+    { key: 'price', label: 'Price (USD)' },
+    { key: 'priceChange', label: 'Price Change (USD)' },
     { key: 'percentChange', label: '% Change' },
-    { key: 'high', label: 'High' },
-    { key: 'low', label: 'Low' }
+    { key: 'high', label: 'High (USD)' },
+    { key: 'low', label: 'Low (USD)' }
   ];
 
   const handleConfirmRow = async (index: number) => {
