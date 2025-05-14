@@ -66,7 +66,7 @@ const PaymentForm: React.FC<PaymentFormProps> = ({ onSuccess, onCancel, onError 
 
   return (
     <form onSubmit={handleSubmit} className="payment-form">
-      <div className="form-row">
+      <div className="payment-form-row">
         <CardElement
           options={{
             style: {
@@ -84,19 +84,19 @@ const PaymentForm: React.FC<PaymentFormProps> = ({ onSuccess, onCancel, onError 
           }}
         />
       </div>
-      {error && <div className="error-message">{error}</div>}
-      <div className="form-actions">
+      {error && <div className="payment-form-error-message">{error}</div>}
+      <div className="payment-form-actions-container">
         <button
           type="submit"
           disabled={!stripe || processing}
-          className="submit-button"
+          className="payment-form-submit-btn"
         >
           {processing ? 'Processing...' : 'Add Payment Method'}
         </button>
         <button
           type="button"
           onClick={onCancel}
-          className="cancel-button"
+          className="payment-form-cancel-btn"
           disabled={processing}
         >
           Cancel
