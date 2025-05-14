@@ -43,21 +43,45 @@ export const logoutUser = (): void => {
 
 export const registerUser = async (registerData: RegisterRequest): Promise<void> => {
   try {
+    console.log('🔄 Starting user registration process:', { email: registerData.email });
+    
     // Step 1: Register the user
+    console.log('📝 Calling register API...');
     const registerResponse = await registerApi(registerData);
+    console.log('✅ Register API response:', {
+      success: registerResponse.success,
+      message: registerResponse.message,
+      data: registerResponse.data
+    });
+
     if (!registerResponse.success) {
+      console.error('❌ Registration failed:', registerResponse.message);
       throw new Error(registerResponse.message || 'Registration failed.');
     }
-    console.log('User registered successfully');
+    console.log('👤 User registered successfully:', registerResponse.data);
 
     // Step 2: Create an account for the registered user
+    console.log('📝 Creating user account...');
     const accountResponse = await createAccountApi(registerData.userId);
+    console.log('✅ Account creation response:', {
+      success: accountResponse.success,
+      message: accountResponse.message,
+      data: accountResponse.data
+    });
+
     if (!accountResponse.success) {
+      console.error('❌ Account creation failed:', accountResponse.message);
       throw new Error(accountResponse.message || 'Account creation failed.');
     }
-    console.log('Account created successfully');
+    console.log('💼 Account created successfully:', accountResponse.data);
   } catch (error) {
-    console.error('Registration error:', error);
+    console.error('❌ Registration process failed:', error);
+    if (error instanceof Error) {
+      console.error('Error details:', {
+        message: error.message,
+        stack: error.stack
+      });
+    }
     throw error;
   }
 };
