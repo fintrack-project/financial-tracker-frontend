@@ -23,9 +23,12 @@ export const fetchWatchlistData = async (accountId: string, assetTypes: string[]
 export const addWatchlistItem = async (accountId: string, symbol: string, assetType: string): Promise<void> => {
   try {
     const response = await addWatchlistItemApi(accountId, symbol, assetType);
-    if (!response.success || !response.data) {
-      throw new Error(response.message || 'Failed to add watchlist item');
+    // Check if response is successful, even if message contains "success"
+    if (response.success) {
+      return; // Successfully added
     }
+    // Only throw error if response is not successful
+    throw new Error(response.message || 'Failed to add watchlist item');
   } catch (error) {
     console.error('Error adding item to watchlist:', error);
     throw error;

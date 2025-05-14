@@ -15,6 +15,7 @@ export interface MarketData {
 export interface WatchlistItem {
   symbol: string;
   assetType: string;
+  confirmed?: boolean;
 }
 
 // Interface for market index data (specific format for indices)

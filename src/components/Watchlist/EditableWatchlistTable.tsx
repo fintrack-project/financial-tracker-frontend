@@ -10,10 +10,10 @@ interface EditableWatchlistTableProps<T> {
   onAddRow: () => void;
   onRemoveRow: (index: number) => Promise<void>;
   onConfirmRow: (index: number) => Promise<void>;
-  resetHasFetched: () => void; // Add resetHasFetched as a prop
+  resetHasFetched: () => void;
 }
 
-const EditableWatchlistTable = <T extends { confirmed?: boolean }>({
+const EditableWatchlistTable = <T extends { confirmed?: boolean; symbol?: string; assetType?: string }>({
   columns,
   rows,
   setRows,
@@ -24,14 +24,24 @@ const EditableWatchlistTable = <T extends { confirmed?: boolean }>({
 }: EditableWatchlistTableProps<T>) => {
   const handleInputChange = (index: number, key: keyof T, value: string | number) => {
     const updatedRows = [...rows];
-    updatedRows[index][key] = value as T[keyof T]; // Explicitly cast value to T[keyof T]
+    updatedRows[index] = {
+      ...updatedRows[index],
+      [key]: value
+    };
     setRows(updatedRows);
   };
 
   const handleEditRow = (index: number) => {
     const updatedRows = [...rows];
-    updatedRows[index].confirmed = false; // Mark the row as editable
+    updatedRows[index] = {
+      ...updatedRows[index],
+      confirmed: false
+    };
     setRows(updatedRows);
+  };
+
+  const handleAddRow = () => {
+    onAddRow();
   };
 
   return (
@@ -59,7 +69,7 @@ const EditableWatchlistTable = <T extends { confirmed?: boolean }>({
           ))}
           <tr>
             <td colSpan={columns.length + 1}>
-              <IconButton type="add" onClick={onAddRow} label="Add Row" />
+              <IconButton type="add" onClick={handleAddRow} label="Add Row" />
             </td>
           </tr>
         </tbody>

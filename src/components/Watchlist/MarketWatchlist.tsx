@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, Dispatch, SetStateAction } from 'react';
 import EditableWatchlistTable from './EditableWatchlistTable';
 import { useWatchlist } from '../../hooks/useWatchlist';
 import { useMarketData } from '../../hooks/useMarketData';
@@ -16,16 +16,33 @@ const MarketWatchlist: React.FC<MarketWatchlistProps> = ({
   subscriptionPlan = 'FREE'
 }) => {
   const marketWatchAssetTypes = ['STOCK', 'CRYPTO', 'COMMODITY'];
-  const { watchlistItems, error: watchlistError, loading: watchlistLoading, addRow, confirmRow, removeRow } = useWatchlist(accountId, marketWatchAssetTypes);
+  const { watchlistItems, setWatchlistItems, error: watchlistError, loading: watchlistLoading, addRow, confirmRow, removeRow } = useWatchlist(accountId, marketWatchAssetTypes);
   
+  // Only fetch market data for confirmed items
+  const confirmedItems = watchlistItems.filter(item => item.confirmed);
   const { marketData, loading: marketLoading, error: marketError, lastUpdated } = useMarketData({
     accountId,
-    symbols: watchlistItems,
+    symbols: confirmedItems,
     subscriptionPlan
   });
 
   // Combine watchlist items with market data
   const rows: MarketDataDisplay[] = watchlistItems.map(item => {
+    // For unconfirmed items, just return the basic data
+    if (!item.confirmed) {
+      return {
+        symbol: item.symbol,
+        assetType: item.assetType,
+        price: 0,
+        priceChange: 0,
+        percentChange: 0,
+        high: 0,
+        low: 0,
+        confirmed: false
+      };
+    }
+
+    // For confirmed items, include market data
     const marketItem = marketData.find(m => m.symbol === item.symbol && m.assetType === item.assetType);
     return {
       symbol: item.symbol,
@@ -42,12 +59,42 @@ const MarketWatchlist: React.FC<MarketWatchlistProps> = ({
   const columns: { key: keyof MarketDataDisplay; label: string; editable?: boolean; placeholder?: string }[] = [
     { key: 'symbol', label: 'Symbol', editable: true, placeholder: 'AAPL' },
     { key: 'assetType', label: 'Asset Type', editable: true, placeholder: 'STOCK' },
-    { key: 'price', label: 'Price' },
-    { key: 'priceChange', label: 'Price Change' },
+    { key: 'price', label: 'Price (USD)' },
+    { key: 'priceChange', label: 'Price Change (USD)' },
     { key: 'percentChange', label: '% Change' },
-    { key: 'high', label: 'High' },
-    { key: 'low', label: 'Low' }
+    { key: 'high', label: 'High (USD)' },
+    { key: 'low', label: 'Low (USD)' }
   ];
+
+  const handleConfirmRow = async (index: number) => {
+    try {
+      await confirmRow(index);
+    } catch (error) {
+      console.error('Error confirming row:', error);
+    }
+  };
+
+  const handleSetRows: Dispatch<SetStateAction<MarketDataDisplay[]>> = (value) => {
+    if (typeof value === 'function') {
+      // Handle function updater
+      const newRows = value(rows);
+      // Update the watchlist items with the new values
+      const updatedItems = newRows.map(row => ({
+        symbol: row.symbol,
+        assetType: row.assetType,
+        confirmed: row.confirmed
+      }));
+      setWatchlistItems(updatedItems);
+    } else {
+      // Handle direct value
+      const updatedItems = value.map(row => ({
+        symbol: row.symbol,
+        assetType: row.assetType,
+        confirmed: row.confirmed
+      }));
+      setWatchlistItems(updatedItems);
+    }
+  };
 
   return (
     <div className="watchlist-container">
@@ -65,11 +112,11 @@ const MarketWatchlist: React.FC<MarketWatchlistProps> = ({
         <EditableWatchlistTable<MarketDataDisplay>
           columns={columns}
           rows={rows}
-          setRows={() => {}} // We don't need this anymore as rows are derived from watchlistItems and marketData
+          setRows={handleSetRows}
           onAddRow={addRow}
-          onConfirmRow={(index) => confirmRow(index)}
+          onConfirmRow={handleConfirmRow}
           onRemoveRow={removeRow}
-          resetHasFetched={() => {}} // We don't need this anymore as refresh is handled by useMarketData
+          resetHasFetched={() => {}}
         />
       </div>
     </div>
