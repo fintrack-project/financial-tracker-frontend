@@ -104,9 +104,9 @@ const PlanCard: React.FC<PlanCardProps> = ({ plan, loading, currentPlan, onCance
 
   return (
     <div className={`plan-card ${isCurrentPlanGroupId ? 'current' : ''}`}>
-      <div className="plan-header">
-        <h3 className="plan-name" style={{ color: plan.color }}>{plan.name}</h3>
-        <div className="plan-price">
+      <div className="plan-card-header">
+        <h3 className="plan-card-name" style={{ color: plan.color }}>{plan.name}</h3>
+        <div className="plan-card-price">
           ${price}
           <span className="period">/{plan.isAnnual ? 'year' : 'month'}</span>
           {plan.isAnnual && savings > 0 && (
@@ -115,14 +115,14 @@ const PlanCard: React.FC<PlanCardProps> = ({ plan, loading, currentPlan, onCance
         </div>
       </div>
 
-      <ul className="plan-features">
+      <ul className="plan-card-features">
         {plan.features.map((feature, index) => (
           <li key={index}>{feature}</li>
         ))}
       </ul>
 
       <button
-        className={`plan-button 
+        className={`select-plan-button 
           ${displayUpgradeButton || displayReactivateButton ? 'primary' : displayCurrentPlanButton || displayDowngradeButton || displayCancelButton ? 'secondary' : 'primary'}
           ${loading ? 'disabled' : ''}`}
         onClick={() => handleButtonClick({
