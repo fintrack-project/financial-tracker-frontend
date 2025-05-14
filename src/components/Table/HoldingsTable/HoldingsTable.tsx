@@ -71,7 +71,7 @@ const HoldingsTable: React.FC<HoldingsTableProps> = ({ accountId }) => {
                   <td className="symbol-text">{holding.symbol}</td>
                   <td className="numeric-value">{formatNumber(holding.quantity)}</td>
                   <td>{holding.assetType}</td>
-                  <td className="numeric-value">{formatNumber(holding.priceInBaseCurrency)}</td>
+                  <td className="numeric-value">{formatNumber(holding.priceInBaseCurrency, holding.assetType === 'FOREX' ? 6 : 2)}</td>
                   <td className="numeric-value">{formatNumber(holding.totalValueInBaseCurrency)}</td>
                 </tr>
               ))

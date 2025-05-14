@@ -168,7 +168,7 @@ const EditableHoldingsTable: React.FC<EditableHoldingsTableProps> = ({
                 <td>{holding.symbol}</td>
                 <td>{formatNumber(holding.quantity)}</td>
                 <td>{holding.assetType}</td>
-                <td>{formatNumber(holding.priceInBaseCurrency)}</td>
+                <td>{formatNumber(holding.priceInBaseCurrency, holding.assetType === 'FOREX' ? 6 : 2)}</td>
                 <td>{formatNumber(holding.totalValueInBaseCurrency)}</td>
                 {categoryColumns.map((category, categoryIndex) => (
                   <td key={`${rowIndex}-${categoryIndex}`}>
