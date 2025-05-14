@@ -22,8 +22,6 @@ const getMillisecondsUntilMarketClose = (): number => {
   }
 
   const msUntilClose = marketClose.getTime() - now.getTime();
-  console.log('[useRefreshCycle] Market close time:', marketClose.toLocaleString());
-  console.log('[useRefreshCycle] Milliseconds until market close:', msUntilClose);
   return msUntilClose;
 };
 
@@ -56,13 +54,10 @@ const getMillisecondsUntilNextBasicRefresh = (): number => {
   }
 
   const msUntilNextRefresh = nextRefresh.getTime() - now.getTime();
-  console.log('[useRefreshCycle] Next Basic refresh time:', nextRefresh.toLocaleString());
-  console.log('[useRefreshCycle] Milliseconds until next Basic refresh:', msUntilNextRefresh);
   return msUntilNextRefresh;
 };
 
 export const useRefreshCycle = ({ subscriptionPlan, onRefresh }: UseRefreshCycleProps) => {
-  console.log('[useRefreshCycle] Hook initialized with subscription plan:', subscriptionPlan);
   
   const [lastUpdated, setLastUpdated] = useState<Date | null>(null);
   const [hasFetched, setHasFetched] = useState(false);
@@ -70,7 +65,6 @@ export const useRefreshCycle = ({ subscriptionPlan, onRefresh }: UseRefreshCycle
   const [error, setError] = useState<string | null>(null);
 
   const getRefreshInterval = useCallback(() => {
-    console.log('[useRefreshCycle] Getting refresh interval for plan:', subscriptionPlan);
     switch (subscriptionPlan) {
       case 'FREE':
         const msUntilClose = getMillisecondsUntilMarketClose();
@@ -91,7 +85,6 @@ export const useRefreshCycle = ({ subscriptionPlan, onRefresh }: UseRefreshCycle
 
   const shouldRefresh = useCallback(() => {
     if (!lastUpdated) {
-      console.log('[useRefreshCycle] No last update time, should refresh');
       return true;
     }
 
@@ -101,23 +94,19 @@ export const useRefreshCycle = ({ subscriptionPlan, onRefresh }: UseRefreshCycle
     
     console.log('[useRefreshCycle] Time since last update:', timeSinceLastUpdate / 1000, 'seconds');
     console.log('[useRefreshCycle] Refresh interval:', refreshInterval / 1000, 'seconds');
-    console.log('[useRefreshCycle] Current subscription plan:', subscriptionPlan);
     
     const shouldRefreshNow = timeSinceLastUpdate >= refreshInterval;
-    console.log('[useRefreshCycle] Should refresh now:', shouldRefreshNow);
     
     return shouldRefreshNow;
   }, [lastUpdated, getRefreshInterval, subscriptionPlan]);
 
   const refresh = useCallback(async () => {
-    console.log('[useRefreshCycle] Starting refresh cycle for plan:', subscriptionPlan);
     try {
       setLoading(true);
       setError(null);
       await onRefresh();
       setLastUpdated(new Date());
       setHasFetched(true);
-      console.log('[useRefreshCycle] Refresh cycle completed');
     } catch (err) {
       console.error('[useRefreshCycle] Refresh error:', err);
       setError(err instanceof Error ? err.message : 'Failed to refresh data');
@@ -127,31 +116,22 @@ export const useRefreshCycle = ({ subscriptionPlan, onRefresh }: UseRefreshCycle
   }, [onRefresh, subscriptionPlan]);
 
   useEffect(() => {
-    console.log('[useRefreshCycle] Effect triggered with plan:', subscriptionPlan);
-    console.log('[useRefreshCycle] Has fetched:', hasFetched);
-    console.log('[useRefreshCycle] Last updated:', lastUpdated);
-
     if (!hasFetched) {
-      console.log('[useRefreshCycle] Initial fetch');
       refresh();
       return;
     }
 
     if (shouldRefresh()) {
-      console.log('[useRefreshCycle] Scheduled refresh triggered');
       refresh();
     }
 
     const interval = setInterval(() => {
-      console.log('[useRefreshCycle] Interval check for plan:', subscriptionPlan);
       if (shouldRefresh()) {
-        console.log('[useRefreshCycle] Interval refresh triggered');
         refresh();
       }
     }, getRefreshInterval());
 
     return () => {
-      console.log('[useRefreshCycle] Cleaning up interval');
       clearInterval(interval);
     };
   }, [hasFetched, lastUpdated, refresh, shouldRefresh, getRefreshInterval, subscriptionPlan]);
