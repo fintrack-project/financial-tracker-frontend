@@ -1,11 +1,10 @@
 .categories-table-container {
-  max-height: 400px;
-  overflow-y: auto;
   border: 1px solid #e2e8f0;
   border-radius: 12px;
   background-color: #fff;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
-  margin-top: 32px; /* Add spacing between tables */
+  margin-bottom: 20px;
+  overflow: hidden;
 }
 
 .categories-table {
@@ -13,60 +12,7 @@
   border-collapse: separate;
   border-spacing: 0;
   font-size: 0.95rem;
-}
-
-.categories-table th,
-.categories-table td {
-  padding: 12px 16px;
-  text-align: left;
-  border-bottom: 1px solid #edf2f7;
-}
-
-.categories-table th {
-  background-color: #f8fafc;
-  font-weight: 600;
-  color: #475569;
-  text-transform: uppercase;
-  font-size: 0.85rem;
-  letter-spacing: 0.05em;
-  position: sticky;
-  top: 0;
-  z-index: 10;
-}
-
-.categories-table tr:last-child td {
-  border-bottom: none;
-}
-
-.categories-table tbody tr {
-  transition: all 0.2s ease;
-}
-
-.categories-table tbody tr:hover {
-  background-color: #f8fafc;
-  transform: translateY(-1px);
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.02);
-}
-
-/* Ensure the list items do not interfere with the actions container */
-.categories-table ul {
-  list-style: none;
-  padding: 0;
-  margin: 0;
-}
-
-.categories-table li {
-  padding: 8px 0;
-  position: relative;
-  overflow: visible;
-}
-
-.categories-table li:first-child {
-  padding-top: 0;
-}
-
-.categories-table li:last-child {
-  padding-bottom: 0;
+  table-layout: fixed; /* Enable fixed table layout */
 }
 
 /* Column widths */
@@ -78,6 +24,94 @@
 .categories-table th:last-child,
 .categories-table td:last-child {
   width: 70%;
+}
+
+.categories-table th {
+  background-color: #f8fafc;
+  font-weight: 600;
+  color: #475569;
+  text-transform: uppercase;
+  font-size: 0.85rem;
+  letter-spacing: 0.05em;
+  padding: 12px 16px;
+  text-align: left;
+  border-bottom: 1px solid #e2e8f0;
+}
+
+.categories-table td {
+  padding: 12px 16px;
+  border-bottom: 1px solid #e2e8f0;
+  vertical-align: top;
+}
+
+.categories-table ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.categories-table li {
+  margin: 0;
+  flex-shrink: 0;
+}
+
+/* When in edit mode, make the item take full width and force to new line */
+.categories-table li .category-cell-edit {
+  width: 100%;
+  min-width: 200px;
+  position: relative;
+  z-index: 10;
+  background-color: #fff;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* Force the editing item to take full width and move to new line */
+.categories-table li:has(.category-cell-edit) {
+  width: 100%;
+  margin-top: 8px;
+  margin-bottom: 8px;
+}
+
+.categories-table li:last-child {
+  margin: 0;
+}
+
+/* Add button container - place it after the flex container */
+.categories-table .add-subcategory-container {
+  margin-top: 12px;
+  display: block;
+}
+
+/* Style for the add button container */
+.categories-table .icon-button {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 6px 12px;
+  border-radius: 4px;
+  background-color: transparent;
+  color: #64748b;
+  font-size: 0.875rem;
+  transition: all 0.2s ease;
+}
+
+.categories-table .icon-button:hover {
+  background-color: #f1f5f9;
+  color: #3b82f6;
+}
+
+.categories-table .icon-button img {
+  width: 14px;
+  height: 14px;
+  opacity: 0.7;
+  transition: opacity 0.2s ease;
+}
+
+.categories-table .icon-button:hover img {
+  opacity: 1;
 }
 
 /* Input styling */
@@ -95,21 +129,6 @@
   outline: none;
   border-color: #3b82f6;
   box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.1);
-}
-
-/* Icon button styling */
-.categories-table .icon-button {
-  padding: 2px;
-  background-color: transparent;
-  border: none;
-  cursor: pointer;
-  transition: all 0.2s ease;
-  color: #64748b;
-}
-
-.categories-table .icon-button:hover {
-  color: #3b82f6;
-  transform: translateY(-1px);
 }
 
 /* Add category button styling */
