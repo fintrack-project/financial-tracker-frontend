@@ -99,8 +99,7 @@
 
 /* Icon button styling */
 .categories-table .icon-button {
-  padding: 6px;
-  margin: 0 4px;
+  padding: 2px;
   background-color: transparent;
   border: none;
   cursor: pointer;

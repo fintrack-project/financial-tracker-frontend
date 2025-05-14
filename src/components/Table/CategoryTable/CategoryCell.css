@@ -1,35 +1,41 @@
 /* Ensure the actions container does not affect layout */
 .category-cell {
   position: relative;
-  display: inline-flex; /* Change to inline-flex to fit content */
+  display: inline-flex;
   align-items: center;
-  gap: 8px;
-  min-width: fit-content; /* Ensure minimum width fits content */
+  width: fit-content;
+  min-width: fit-content;
 }
 
 .category-cell .actions {
   display: flex;
   align-items: center;
-  gap: 4px;
   opacity: 0;
-  transition: opacity 0.2s ease;
-  margin-left: 8px; /* Add space between text and actions */
+  transition: all 0.2s ease;
+  padding: 2px;
+  gap: 5px;
+  border-radius: 4px;
+  background-color: transparent; /* Removed background */
+  width: 0;
+  overflow: hidden;
 }
 
 /* Show actions on hover */
 .category-cell:hover .actions {
   opacity: 1;
+  width: auto;
 }
 
 .category-cell-view,
 .category-cell-edit {
-  display: inline-flex; /* Change to inline-flex to fit content */
+  display: inline-flex;
   align-items: center;
   gap: 8px;
   background-color: #3b82f6; /* Blue background */
   border-radius: 6px;
   padding: 8px 16px;
   transition: all 0.2s ease;
+  width: fit-content;
   min-width: fit-content; /* Ensure minimum width fits content */
 }
 
@@ -44,6 +50,7 @@
   color: #ffffff; /* White text for better contrast */
   letter-spacing: 0.01em; /* Slight letter spacing for better readability */
   text-shadow: 0 1px 1px rgba(0, 0, 0, 0.1); /* Subtle text shadow for depth */
+  white-space: nowrap;
 }
 
 .category-cell input,
@@ -57,6 +64,7 @@
   color: #ffffff;
   transition: all 0.2s ease;
   min-width: 120px; /* Minimum width for input */
+  width: fit-content;
 }
 
 .category-cell input::placeholder {
@@ -89,16 +97,22 @@
 
 /* Icon button styling within cells */
 .category-cell .icon-button {
-  background-color: rgba(255, 255, 255, 0.1);
+  background-color: #ffffff;
   border-radius: 4px;
   padding: 4px;
   transition: all 0.2s ease;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  flex-shrink: 0;
 }
 
 .category-cell .icon-button:hover {
-  background-color: rgba(255, 255, 255, 0.2);
+  background-color: #f8fafc;
+  border-color: rgba(0, 0, 0, 0.2);
+  transform: translateY(-1px);
 }
 
 .category-cell .icon-button img {
-  filter: brightness(0) invert(1); /* Make icons white */
+  width: 14px;
+  height: 14px;
+  filter: none; /* Remove the white filter to show original colors */
 }
