@@ -94,32 +94,36 @@ const EditableHoldingsTable: React.FC<EditableHoldingsTableProps> = ({
     setEditingColumns(updatedEditingColumns);
   };
 
-  const handleRemoveCategoryColumn = async (index: number) => {
+  const handleResetCategoryColumn = async (index: number) => {
     if (!accountId) {
-      alert('Account ID is required to remove holdings categories.');
+      alert('Account ID is required to reset holdings categories.');
       return;
     }
   
     const category = categoryColumns[index];
   
     try {
-      // Call the service to remove the holdings category
-      await holdingsCategoriesService.removeHoldingsCategory(accountId, category);
+      // Reset all subcategories for this category to null
+      const payload = {
+        [category]: holdings.reduce((assetAcc: { [assetName: string]: string | null }, holding) => {
+          assetAcc[holding.assetName] = null;
+          return assetAcc;
+        }, {}),
+      };
+
+      // Update the holdings categories with null values
+      await holdingsCategoriesService.updateHoldingsCategories(accountId, payload);
   
-      // Update the state to remove the category and its subcategories
-      const updatedCategoryColumns = [...categoryColumns];
+      // Update the state to reset subcategories for this category
       const updatedSubcategoryColumns = [...subcategoryColumns];
+      updatedSubcategoryColumns[index] = holdings.map(() => ''); // Reset all subcategories to empty string
   
-      updatedCategoryColumns.splice(index, 1); // Remove the category
-      updatedSubcategoryColumns.splice(index, 1); // Remove the associated subcategories
-  
-      setCategoryColumns(updatedCategoryColumns);
       setSubcategoryColumns(updatedSubcategoryColumns);
   
-      console.log(`Category "${category}" removed successfully.`);
+      console.log(`Subcategories for category "${category}" reset successfully.`);
     } catch (error) {
-      console.error('Error removing category column:', error);
-      alert(`Failed to remove category "${category}".`);
+      console.error('Error resetting category subcategories:', error);
+      alert(`Failed to reset subcategories for category "${category}".`);
     }
   };
 
@@ -146,7 +150,7 @@ const EditableHoldingsTable: React.FC<EditableHoldingsTableProps> = ({
                     isEditing={editingColumns.has(categoryIndex)} // Editable for the header
                     onConfirm={() => handleConfirmCategoryColumn(categoryIndex)}
                     onEdit={() => handleEditCategoryColumn(categoryIndex)}
-                    onRemove={() => handleRemoveCategoryColumn(categoryIndex)}
+                    onRemove={() => handleResetCategoryColumn(categoryIndex)}
                     showActions={true} // Show actions in the header
                   />
                 </th>
