@@ -1,19 +1,104 @@
 /* Ensure the actions container does not affect layout */
 .category-cell {
-  position: relative; /* Required for absolute positioning of .actions */
+  position: relative;
+  display: inline-flex; /* Change to inline-flex to fit content */
+  align-items: center;
+  gap: 8px;
+  min-width: fit-content; /* Ensure minimum width fits content */
 }
 
 .category-cell .actions {
-  display: none; /* Hide buttons by default */
-  position: absolute;
-  right: 8px; /* Align buttons to the right */
-  top: 50%; /* Vertically center buttons */
-  transform: translateY(-50%);
-  z-index: 10; /* Ensure buttons appear above other elements */
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  opacity: 0;
+  transition: opacity 0.2s ease;
+  margin-left: 8px; /* Add space between text and actions */
 }
 
 /* Show actions on hover */
 .category-cell:hover .actions {
-  display: inline-flex; /* Show buttons when hovering over the cell */
-  gap: 4px; /* Add spacing between buttons */
+  opacity: 1;
+}
+
+.category-cell-view,
+.category-cell-edit {
+  display: inline-flex; /* Change to inline-flex to fit content */
+  align-items: center;
+  gap: 8px;
+  background-color: #3b82f6; /* Blue background */
+  border-radius: 6px;
+  padding: 8px 16px;
+  transition: all 0.2s ease;
+  min-width: fit-content; /* Ensure minimum width fits content */
+}
+
+.category-cell-view:hover,
+.category-cell-edit:hover {
+  background-color: #2563eb; /* Darker blue on hover */
+}
+
+.category-cell-view span {
+  font-size: 0.95rem;
+  font-weight: 600; /* Make text bold */
+  color: #ffffff; /* White text for better contrast */
+  letter-spacing: 0.01em; /* Slight letter spacing for better readability */
+  text-shadow: 0 1px 1px rgba(0, 0, 0, 0.1); /* Subtle text shadow for depth */
+}
+
+.category-cell input,
+.category-cell select {
+  padding: 8px 12px;
+  font-size: 0.95rem;
+  font-weight: 600;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 4px;
+  background-color: rgba(255, 255, 255, 0.1);
+  color: #ffffff;
+  transition: all 0.2s ease;
+  min-width: 120px; /* Minimum width for input */
+}
+
+.category-cell input::placeholder {
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.category-cell input:focus,
+.category-cell select:focus {
+  outline: none;
+  border-color: rgba(255, 255, 255, 0.4);
+  background-color: rgba(255, 255, 255, 0.15);
+  box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.1);
+}
+
+/* Subcategory specific styles */
+.category-cell.subcategory {
+  margin-left: 16px;
+}
+
+.category-cell.subcategory .category-cell-view,
+.category-cell.subcategory .category-cell-edit {
+  background-color: #60a5fa; /* Lighter blue for subcategories */
+  border: none;
+}
+
+.category-cell.subcategory .category-cell-view:hover,
+.category-cell.subcategory .category-cell-edit:hover {
+  background-color: #3b82f6; /* Same as parent on hover */
+}
+
+/* Icon button styling within cells */
+.category-cell .icon-button {
+  background-color: rgba(255, 255, 255, 0.1);
+  border-radius: 4px;
+  padding: 4px;
+  transition: all 0.2s ease;
+}
+
+.category-cell .icon-button:hover {
+  background-color: rgba(255, 255, 255, 0.2);
+}
+
+.category-cell .icon-button img {
+  filter: brightness(0) invert(1); /* Make icons white */
 }

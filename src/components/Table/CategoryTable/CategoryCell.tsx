@@ -11,6 +11,7 @@ interface CategoryCellProps {
   onRemove: () => void; // Handler for removing the category or subcategory
   children: React.ReactNode; // Content to render inside the cell (e.g., input or dropdown)
   showActions?: boolean; // Optional prop to control action button visibility
+  isSubcategory?: boolean;
 }
 
 const CategoryCell: React.FC<CategoryCellProps> = ({
@@ -22,9 +23,10 @@ const CategoryCell: React.FC<CategoryCellProps> = ({
   onRemove,
   children,
   showActions = true, // Default to true if not provided
+  isSubcategory = false,
 }) => {
   return (
-    <div className="category-cell">
+    <div className={`category-cell ${isSubcategory ? 'subcategory' : ''}`}>
       {isEditing ? (
         <div className="category-cell-edit">
           {children}

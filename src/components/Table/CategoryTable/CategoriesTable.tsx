@@ -182,6 +182,7 @@ const CategoriesTable: React.FC<CategoriesTableProps> = ({
                         onEdit={() => handleEditSubcategory(category, subIndex)}
                         onRemove={() => handleRemoveSubcategory(category, subIndex)}
                         placeholder="Enter subcategory"
+                        isSubcategory={true}
                       />
                     </li>
                   ))}
