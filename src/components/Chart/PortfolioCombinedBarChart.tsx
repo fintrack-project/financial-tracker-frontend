@@ -150,11 +150,21 @@ const PortfolioCombinedBarChart: React.FC<PortfolioCombinedBarChartProps> = ({ a
     return (
       <div className="custom-tooltip">
         <p>{`Date: ${label}`}</p>
-        {filteredPayload.map((item: any, index: number) => (
-          <p key={index}>
-            {item.name}: {formatNumber(item.value)}
-          </p>
-        ))}
+        {filteredPayload.map((item: any, index: number) => {
+          // Find the corresponding asset data to get the percentage
+          const assetData = filteredData.find(entry => entry.date === label)?.assets.find(
+            asset => (selectedCategory === 'None' ? asset.assetName : asset.subcategory) === item.name
+          );
+
+          return (
+            <p key={index}>
+              {item.name}: {formatNumber(item.value)}
+              {item.name !== 'Total Value' && assetData && (
+                ` (${formatNumber(selectedCategory === 'None' ? assetData.percentage : assetData.percentageOfSubcategory)}%)`
+              )}
+            </p>
+          );
+        })}
       </div>
     );
   };
