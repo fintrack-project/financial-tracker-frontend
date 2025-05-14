@@ -42,11 +42,8 @@ const Register: React.FC = () => {
     }
 
     try {
-      const message = await registerUser({ userId, password, email });
-      alert(message);
-
+      await registerUser({ userId, password, email });
       await sendEmailVerification(email);
-
       navigate('/'); // Redirect to login page
     } catch (err: any) {
       setError(err.message);
