@@ -85,7 +85,11 @@ const PaymentMethodSelectionPopup: React.FC<SubscriptionPaymentMethodSelectionPo
         accountId,
         selectedPlanId,
         selectedPaymentMethodId,
-        window.location.origin + '/payment/confirm'
+        null // TODO: Handle 3D Secure cards in the future
+        // For 3D Secure cards, we'll need to:
+        // 1. Check if card requires 3D Secure
+        // 2. If yes, provide returnUrl for redirect
+        // 3. Handle the redirect back from 3D Secure authentication
       );
 
       if (!response.success || !response.data) {
@@ -100,7 +104,6 @@ const PaymentMethodSelectionPopup: React.FC<SubscriptionPaymentMethodSelectionPo
       });
 
       if (subscriptionData.paymentRequired && subscriptionData.clientSecret) {
-        // Show confirmation popup instead of redirecting
         setConfirmationData({
           subscriptionId: subscriptionData.subscriptionId,
           clientSecret: subscriptionData.clientSecret
@@ -108,7 +111,6 @@ const PaymentMethodSelectionPopup: React.FC<SubscriptionPaymentMethodSelectionPo
         setShowConfirmation(true);
         setPaymentStatus('Please confirm your payment details');
       } else {
-        // No payment required, complete subscription
         await completeSubscription(subscriptionData.subscriptionId);
       }
     } catch (err) {
@@ -138,18 +140,22 @@ const PaymentMethodSelectionPopup: React.FC<SubscriptionPaymentMethodSelectionPo
   };
 
   const handleConfirmPayment = async () => {
-    if (!stripe || !confirmationData) {
+    if (!stripe || !confirmationData || !selectedPaymentMethodId) {
       setError('Payment system is not available');
       return;
     }
 
     try {
+      setIsProcessing(true);
+      setError(null);
       setPaymentStatus('Processing payment...');
-      
+
+      // Finalize the subscription using the simplified flow
       const finalizedSubscription = await finalizeSubscription(
         confirmationData.subscriptionId,
         confirmationData.clientSecret,
-        stripe
+        stripe,
+        selectedPaymentMethodId
       );
 
       console.log('✅ Payment finalized successfully:', {
@@ -157,11 +163,14 @@ const PaymentMethodSelectionPopup: React.FC<SubscriptionPaymentMethodSelectionPo
         status: finalizedSubscription.status
       });
 
+      // Complete the subscription
       await completeSubscription(confirmationData.subscriptionId);
     } catch (error) {
       console.error('❌ Payment finalization failed:', error);
-      setError('Failed to process payment. Please try again or use a different payment method.');
+      setError(error instanceof Error ? error.message : 'Failed to process payment. Please try again or use a different payment method.');
       setPaymentStatus('Payment failed');
+    } finally {
+      setIsProcessing(false);
     }
   };
 
@@ -180,6 +189,13 @@ const PaymentMethodSelectionPopup: React.FC<SubscriptionPaymentMethodSelectionPo
           </div>
           <div className="confirmation-actions">
             <button 
+              className="subscription-primary-button"
+              onClick={handleConfirmPayment}
+              disabled={isProcessing}
+            >
+              {isProcessing ? 'Processing...' : 'Confirm Payment'}
+            </button>
+            <button 
               className="subscription-secondary-button"
               onClick={() => {
                 setShowConfirmation(false);
@@ -187,13 +203,6 @@ const PaymentMethodSelectionPopup: React.FC<SubscriptionPaymentMethodSelectionPo
               }}
             >
               Back
-            </button>
-            <button 
-              className="subscription-primary-button"
-              onClick={handleConfirmPayment}
-              disabled={isProcessing}
-            >
-              {isProcessing ? 'Processing...' : 'Confirm Payment'}
             </button>
           </div>
         </div>

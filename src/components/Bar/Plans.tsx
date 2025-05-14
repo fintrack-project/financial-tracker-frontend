@@ -244,8 +244,7 @@ const Plans: React.FC<PlansProps> = ({
       
       const response = await downgradeSubscriptionApi(
         userDetails.accountId, 
-        finalPlanId,
-        window.location.origin + '/payment/confirm'
+        finalPlanId
       );
       
       if (!response.success) {
