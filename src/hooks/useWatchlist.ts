@@ -97,6 +97,29 @@ export const useWatchlist = (accountId: string | null, assetTypes: string[]) => 
     const item = watchlistItems[index];
     console.log('🗑️ Removing row:', { index, item });
 
+    // Check if it's an empty row (not confirmed and no symbol/assetType)
+    const isEmptyRow = !item.confirmed && !item.symbol && !item.assetType;
+    console.log('🔍 Row status:', { isEmptyRow, item });
+
+    // Update watchlist items state
+    setWatchlistItems(prev => {
+      const newItems = prev.filter((_, i) => i !== index);
+      console.log('📝 Updated watchlist items:', {
+        previousItems: prev,
+        newItems,
+        removedItem: item,
+        removedIndex: index
+      });
+      return newItems;
+    });
+
+    // If it's an empty row, we're done
+    if (isEmptyRow) {
+      console.log('🗑️ Empty row removed from local state');
+      return;
+    }
+
+    // For non-empty rows, proceed with API call
     if (!accountId || !item.symbol || !item.assetType) {
       console.warn('⚠️ Missing required fields for removal:', { 
         hasAccountId: !!accountId, 

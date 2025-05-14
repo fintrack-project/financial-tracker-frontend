@@ -41,12 +41,6 @@ const EditableWatchlistTable = <T extends { confirmed?: boolean; symbol?: string
   };
 
   const handleAddRow = () => {
-    const newRow = {
-      symbol: '',
-      assetType: '',
-      confirmed: false
-    } as T;
-    setRows([...rows, newRow]);
     onAddRow();
   };
 
