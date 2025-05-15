@@ -3,7 +3,7 @@ import IconButton from '../../Button/IconButton';
 import CategoryColorDropdown from '../../DropDown/CategoryColorDropdown';
 import { CategoryProps, CategoryColor } from '../../../types/CategoryTypes';
 import { updateCategoryColor } from '../../../services/categoryService';
-import { updateSubcategoryColor } from '../../../services/ssssssubCategoryService';
+import { updateSubcategoryColor } from '../../../services/subCategoryService';
 import './Category.css'; // Optional: Add styles for the cell
 
 const Category: React.FC<CategoryProps> = ({
