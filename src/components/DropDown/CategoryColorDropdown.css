@@ -12,8 +12,8 @@
   align-items: center;
   justify-content: center;
   transition: all 0.2s ease;
-  width: 10px;
-  height: 10px;
+  width: 18px;
+  height: 18px;
   padding: 2px;
 }
 
@@ -26,8 +26,16 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 10px;
-  height: 10px;
+  width: 14px;
+  height: 14px;
+}
+
+.category-cell .actions .category-color-dropdown .color-circle {
+  border-radius: 50%;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  transition: transform 0.2s ease;
+  width: 14px;
+  height: 14px;
 }
 
 .category-cell .actions .category-color-dropdown .color-options {
@@ -62,14 +70,6 @@
 .category-cell .actions .category-color-dropdown .color-option:hover {
   transform: translateY(-1px);
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-}
-
-.category-cell .actions .category-color-dropdown .color-circle {
-  border-radius: 50%;
-  border: 1px solid rgba(0, 0, 0, 0.1);
-  transition: transform 0.2s ease;
-  width: 10px;
-  height: 10px;
 }
 
 .category-cell .actions .category-color-dropdown .color-option:hover .color-circle {

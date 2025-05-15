@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import IconButton from '../../Button/IconButton';
 import CategoryColorDropdown from '../../DropDown/CategoryColorDropdown';
 import { CategoryProps, CategoryColor } from '../../../types/CategoryTypes';
@@ -14,17 +14,20 @@ const Category: React.FC<CategoryProps> = ({
   children,
   showActions = true, // Default to true if not provided
   isSubcategory = false, // Default to false if not provided
-  color = CategoryColor.DARK_OLIVE_GREEN,
+  color: initialColor = CategoryColor.DARK_OLIVE_GREEN,
 }) => {
+  const [currentColor, setCurrentColor] = useState(initialColor);
+
   const handleColorSelect = (newColor: CategoryColor) => {
-    // Apply the color change immediately
-    if (onChange) {
-      onChange(value); // Keep the same value but trigger a re-render
-    }
+    setCurrentColor(newColor);
     // Update the background color of the category cell
     const categoryCell = document.querySelector('.category-cell-edit');
     if (categoryCell) {
       (categoryCell as HTMLElement).style.backgroundColor = newColor;
+    }
+    // Call onChange with the current value to trigger a re-render
+    if (onChange) {
+      onChange(value);
     }
   };
 
@@ -33,14 +36,14 @@ const Category: React.FC<CategoryProps> = ({
       {isEditing ? (
         <div 
           className="category-cell-edit"
-          style={{ backgroundColor: color }}
+          style={{ backgroundColor: currentColor }}
         >
           {children}
           {showActions && (
             <div className="actions">
               <IconButton type="confirm" onClick={onConfirm} label="Confirm" size="small" />
               <CategoryColorDropdown
-                selectedColor={color}
+                selectedColor={currentColor}
                 onColorSelect={handleColorSelect}
               />
               <IconButton type="delete" onClick={onRemove} label="Remove" size="small" />
@@ -50,7 +53,7 @@ const Category: React.FC<CategoryProps> = ({
       ) : (
         <div 
           className="category-cell-view"
-          style={{ backgroundColor: color }}
+          style={{ backgroundColor: currentColor }}
         >
           <span>{value || 'Unnamed'}</span>
           {showActions && (

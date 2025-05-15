@@ -125,8 +125,8 @@
 }
 
 .category-cell .actions .icon-button img {
-  width: 14px;
-  height: 14px;
+  width: 18px;
+  height: 18px;
   filter: none;
   opacity: 0.7;
   transition: opacity 0.2s ease;
@@ -138,8 +138,8 @@
 
 /* Color dropdown specific styles */
 .category-cell .actions .category-color-dropdown .color-selector {
-  width: 18px;
-  height: 18px;
+  width: 14px;
+  height: 14px;
   padding: 2px;
   display: flex;
   align-items: center;
@@ -147,11 +147,11 @@
 }
 
 .category-cell .actions .category-color-dropdown .selected-color {
-  width: 14px;
-  height: 14px;
+  width: 12px;
+  height: 12px;
 }
 
 .category-cell .actions .category-color-dropdown .color-circle {
-  width: 14px;
-  height: 14px;
+  width: 12px;
+  height: 12px;
 }
