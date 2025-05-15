@@ -151,14 +151,13 @@ const PaymentMethods: React.FC<PaymentMethodsProps> = ({
               }}
               onError={handlePaymentError}
               onCancel={() => setShowPaymentForm(false)}
+              reset={!error}
             />
           </Elements>
           
-          {/* Display any errors */}
           {error && (
             <div className={`error-message ${error.type}`} role="alert">
               <div className="error-content">
-                <span className="error-icon" aria-hidden="true">⚠️</span>
                 <span className="error-text">
                   {error.message}
                   {error.code && <span className="error-code"> (Error code: {error.code})</span>}

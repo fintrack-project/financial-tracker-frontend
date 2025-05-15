@@ -13,16 +13,22 @@
 .nav-link {
   margin-right: 20px;
   text-decoration: none;
-  color: #007bff;
-  font-size: 1.2rem;
-  font-weight: 500;
+  color: #3462db;
+  font-size: 1.08rem;
+  font-weight: 600;
+  padding: 8px 12px;
+  border-radius: 6px;
+  transition: background 0.15s, color 0.15s;
 }
 
 .nav-link:hover {
-  text-decoration: underline;
+  background: #e3e9f6;
+  color: #1a3a7c;
+  text-decoration: none;
 }
 
 .active-link {
-  color: #0056b3;
-  font-weight: bold;
+  background: #e3e9f6;
+  color: #1a3a7c;
+  text-decoration: none;
 }

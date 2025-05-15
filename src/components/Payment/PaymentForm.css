@@ -2,10 +2,102 @@
   max-width: 500px;
   margin: 0 auto;
   padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
 }
 
-.form-row {
-  margin-bottom: 20px;
+.payment-form-row {
+  margin-bottom: 0;
+}
+
+.payment-form-error-message {
+  padding: 12px;
+  margin: 0;
+  border-radius: 4px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #fff8f8;
+  border: 1px solid #dc3545;
+}
+
+.payment-form-error-message span {
+  color: #dc3545;
+  font-size: 0.95rem;
+}
+
+.payment-form-retry-btn {
+  padding: 6px 12px;
+  background-color: #fff;
+  border: 1px solid #dc3545;
+  color: #dc3545;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  font-weight: 500;
+  transition: all 0.2s ease;
+}
+
+.payment-form-retry-btn:hover {
+  background-color: #dc3545;
+  color: #fff;
+}
+
+.payment-form-actions-container {
+  display: flex;
+  gap: 1.5rem;
+  margin-top: 1rem;
+}
+
+.payment-form-submit-btn {
+  flex: 1;
+  padding: 12px 24px;
+  background: #4d7df2;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  font-size: 1.08rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.15s, color 0.15s, box-shadow 0.15s;
+  box-shadow: 0 2px 8px rgba(52, 98, 219, 0.08);
+}
+
+.payment-form-submit-btn:hover {
+  background: #3462db;
+  box-shadow: 0 4px 16px rgba(52, 98, 219, 0.12);
+}
+
+.payment-form-submit-btn:disabled {
+  background: #cbd5e1;
+  cursor: not-allowed;
+}
+
+.payment-form-cancel-btn {
+  flex: 1;
+  padding: 12px 24px;
+  background: #cbd5e1;
+  color: #334155;
+  border: none;
+  border-radius: 6px;
+  font-size: 1.08rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.15s, color 0.15s, box-shadow 0.15s;
+  box-shadow: 0 2px 8px rgba(52, 98, 219, 0.08);
+}
+
+.payment-form-cancel-btn:hover {
+  background: #94a3b8;
+  color: #1e293b;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+}
+
+.payment-form-cancel-btn:disabled {
+  background: #f8f9fa;
+  color: #aab7c4;
+  cursor: not-allowed;
 }
 
 .form-group {
@@ -36,17 +128,6 @@
   color: #dc3545;
   font-size: 12px;
   margin-top: 4px;
-}
-
-.error-message {
-  padding: 12px;
-  margin: 16px 0;
-  border-radius: 4px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  background-color: #fff8f8;
-  border: 1px solid #dc3545;
 }
 
 .error-message.card_error {
@@ -98,28 +179,6 @@
 .retry-button:hover {
   background-color: #dc3545;
   color: #fff;
-}
-
-.submit-button {
-  width: 100%;
-  padding: 12px;
-  background-color: #5469d4;
-  color: white;
-  border: none;
-  border-radius: 4px;
-  font-size: 16px;
-  font-weight: 600;
-  cursor: pointer;
-  transition: all 0.2s ease;
-}
-
-.submit-button:hover {
-  background-color: #4050b5;
-}
-
-.submit-button:disabled {
-  background-color: #aab7c4;
-  cursor: not-allowed;
 }
 
 .test-instructions {

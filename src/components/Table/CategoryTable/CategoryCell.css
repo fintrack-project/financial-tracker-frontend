@@ -1,19 +1,134 @@
 /* Ensure the actions container does not affect layout */
 .category-cell {
-  position: relative; /* Required for absolute positioning of .actions */
+  position: relative;
+  align-items: center;
+  width: fit-content;
+  min-width: fit-content;
+  max-width: fit-content;
 }
 
 .category-cell .actions {
-  display: none; /* Hide buttons by default */
-  position: absolute;
-  right: 8px; /* Align buttons to the right */
-  top: 50%; /* Vertically center buttons */
-  transform: translateY(-50%);
-  z-index: 10; /* Ensure buttons appear above other elements */
+  display: flex;
+  align-items: center;
+  opacity: 0;
+  transition: all 0.2s ease;
+  padding: 2px;
+  gap: 2px;
+  border-radius: 4px;
+  background-color: transparent;
+  width: 0;
+  min-width: 0;
+  max-width: 0;
+  overflow: hidden;
+  margin-left: 0;
+  flex-shrink: 0;
 }
 
-/* Show actions on hover */
+/* Show actions on hover with more controlled expansion */
 .category-cell:hover .actions {
-  display: inline-flex; /* Show buttons when hovering over the cell */
-  gap: 4px; /* Add spacing between buttons */
+  opacity: 1;
+  width: auto;
+  min-width: auto;
+  max-width: none;
+  margin-left: 4px;
+}
+
+.category-cell-view,
+.category-cell-edit {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  background-color: #3b82f6;
+  border-radius: 6px;
+  padding: 6px 12px;
+  transition: all 0.2s ease;
+  width: fit-content;
+  min-width: fit-content;
+  max-width: fit-content;
+}
+
+.category-cell-view:hover,
+.category-cell-edit:hover {
+  background-color: #2563eb;
+}
+
+.category-cell-view span {
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: #ffffff;
+  letter-spacing: 0.01em;
+  text-shadow: 0 1px 1px rgba(0, 0, 0, 0.1);
+  white-space: nowrap;
+  text-align: center;
+}
+
+/* Make selectors more specific to override CategoriesTable.css */
+.category-cell .category-cell-edit input,
+.category-cell .category-cell-edit select {
+  padding: 8px 12px;
+  font-size: 0.95rem;
+  font-weight: 600;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 4px;
+  background-color: rgba(255, 255, 255, 0.9) !important;
+  color: #1e293b !important;
+  transition: all 0.2s ease;
+  min-width: 120px;
+  width: 100%;
+}
+
+.category-cell .category-cell-edit input::placeholder {
+  color: #94a3b8 !important;
+}
+
+.category-cell .category-cell-edit input:focus,
+.category-cell .category-cell-edit select:focus {
+  outline: none;
+  border-color: rgba(255, 255, 255, 0.4);
+  background-color: #ffffff !important;
+  box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.1);
+}
+
+/* Subcategory specific styles */
+.category-cell.subcategory .category-cell-view,
+.category-cell.subcategory .category-cell-edit {
+  background-color: #60a5fa;
+}
+
+.category-cell.subcategory .category-cell-edit input,
+.category-cell.subcategory .category-cell-edit select {
+  background-color: rgba(255, 255, 255, 0.95) !important;
+}
+
+/* Icon button styling within cells */
+.category-cell .actions .icon-button {
+  border-radius: 4px;
+  padding: 4px;
+  transition: all 0.2s ease;
+  flex-shrink: 0;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  background-color: transparent;
+  color: #64748b;
+  font-size: 0.875rem;
+}
+
+.category-cell .actions .icon-button:hover {
+  background-color: #f8fafc;
+  transform: translateY(-1px);
+  color: #3b82f6;
+}
+
+.category-cell .actions .icon-button img {
+  width: 14px;
+  height: 14px;
+  filter: none;
+  opacity: 0.7;
+  transition: opacity 0.2s ease;
+}
+
+.category-cell .actions .icon-button:hover img {
+  opacity: 1;
 }

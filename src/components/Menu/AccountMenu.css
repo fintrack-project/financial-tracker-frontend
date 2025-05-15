@@ -43,7 +43,7 @@
   z-index: 1000;
   display: flex;
   flex-direction: column;
-  align-items: center;
+  align-items: flex-start;
   min-height: 180px;
 }
 
@@ -59,6 +59,7 @@
   color: #3462db;
   margin-bottom: 10px;
   box-shadow: 0 2px 8px rgba(52, 98, 219, 0.08);
+  align-self: center;
 }
 
 .account-menu .user-id {
@@ -67,6 +68,15 @@
   color: #64748b;
   margin-bottom: 14px;
   text-align: center;
+  align-self: center;
+  width: 100%;
+}
+
+.account-menu .menu-items {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
 }
 
 .account-menu .dropdown-item {
@@ -80,6 +90,7 @@
   border-radius: 6px;
   transition: background 0.15s, color 0.15s;
   margin-bottom: 6px;
+  width: calc(100% - 24px);
 }
 
 .account-menu .dropdown-item:hover, .account-menu .dropdown-item.active {
@@ -102,6 +113,7 @@
   margin-top: 10px;
   box-shadow: 0 2px 8px rgba(255, 77, 79, 0.08);
   transition: background 0.15s, box-shadow 0.15s;
+  align-self: stretch;
 }
 
 .account-menu .logout-button:hover {

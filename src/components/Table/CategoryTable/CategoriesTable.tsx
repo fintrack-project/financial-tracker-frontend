@@ -182,15 +182,19 @@ const CategoriesTable: React.FC<CategoriesTableProps> = ({
                         onEdit={() => handleEditSubcategory(category, subIndex)}
                         onRemove={() => handleRemoveSubcategory(category, subIndex)}
                         placeholder="Enter subcategory"
+                        isSubcategory={true}
                       />
                     </li>
                   ))}
                 </ul>
-                <IconButton
-                  type="add"
-                  onClick={() => subcategoryService.addSubcategory(category)}
-                  label="Add Subcategory"
-                />
+                <div className="add-subcategory-container">
+                  <IconButton
+                    type="add"
+                    size="large"
+                    onClick={() => subcategoryService.addSubcategory(category)}
+                    label="Add Subcategory"
+                  />
+                </div>
               </td>
             </tr>
           ))}
@@ -199,6 +203,7 @@ const CategoriesTable: React.FC<CategoriesTableProps> = ({
               <td colSpan={2}>
                 <IconButton
                   type="add"
+                  size="large"
                   onClick={() => categoryService.addCategory()}
                   label="Add Category"
                 />

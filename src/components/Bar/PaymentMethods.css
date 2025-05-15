@@ -1,13 +1,11 @@
 .payment-methods {
-  padding: 24px 20px;
-  background: linear-gradient(135deg, #f9fafc 60%, #e3e9f6 100%);
-  border-radius: 16px;
-  box-shadow: 0 4px 16px rgba(52, 98, 219, 0.06);
-  border: 1px solid #e0e6ed;
+  padding: 24px;
+  max-width: 1200px;
+  margin: 0 auto;
 }
 
 .payment-methods h3 {
-  margin-bottom: 20px;
+  margin: 0 0 16px 0;
   color: #2c3e50;
   font-size: 1.3rem;
   font-weight: 700;

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { CardElement, useStripe, useElements } from '@stripe/react-stripe-js';
 import './PaymentForm.css';
 
@@ -6,13 +6,23 @@ interface PaymentFormProps {
   onSuccess: (paymentMethodId: string) => void;
   onCancel: () => void;
   onError?: (error: Error) => void;
+  reset?: boolean;
 }
 
-const PaymentForm: React.FC<PaymentFormProps> = ({ onSuccess, onCancel, onError }) => {
+const PaymentForm: React.FC<PaymentFormProps> = ({ onSuccess, onCancel, onError, reset }) => {
   const stripe = useStripe();
   const elements = useElements();
-  const [error, setError] = useState<string | null>(null);
   const [processing, setProcessing] = useState(false);
+
+  useEffect(() => {
+    if (reset) {
+      setProcessing(false);
+      const cardElement = elements?.getElement(CardElement);
+      if (cardElement) {
+        cardElement.clear();
+      }
+    }
+  }, [reset, elements]);
 
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
@@ -22,12 +32,10 @@ const PaymentForm: React.FC<PaymentFormProps> = ({ onSuccess, onCancel, onError 
     }
 
     setProcessing(true);
-    setError(null);
 
     const cardElement = elements.getElement(CardElement);
     if (!cardElement) {
       const errorMessage = 'Card element not found';
-      setError(errorMessage);
       onError?.(new Error(errorMessage));
       setProcessing(false);
       return;
@@ -40,8 +48,10 @@ const PaymentForm: React.FC<PaymentFormProps> = ({ onSuccess, onCancel, onError 
       });
 
       if (stripeError) {
-        const errorMessage = stripeError.message || 'An error occurred while processing your card';
-        setError(errorMessage);
+        const errorMessage = typeof stripeError === 'string' 
+          ? stripeError 
+          : stripeError.message || 'An error occurred while processing your card';
+        
         onError?.(new Error(errorMessage));
         setProcessing(false);
         return;
@@ -49,16 +59,35 @@ const PaymentForm: React.FC<PaymentFormProps> = ({ onSuccess, onCancel, onError 
 
       if (!paymentMethod) {
         const errorMessage = 'Failed to create payment method';
-        setError(errorMessage);
         onError?.(new Error(errorMessage));
         setProcessing(false);
         return;
       }
 
-      onSuccess(paymentMethod.id);
-    } catch (err) {
-      const errorMessage = 'An unexpected error occurred';
-      setError(errorMessage);
+      try {
+        await onSuccess(paymentMethod.id);
+      } catch (parentError: any) {
+        let errorMessage = 'An error occurred while processing your payment';
+        
+        if (parentError?.response?.data?.message) {
+          const apiMessage = parentError.response.data.message;
+          if (apiMessage.includes('card_declined')) {
+            errorMessage = 'Your card was declined.';
+          } else {
+            errorMessage = String(apiMessage);
+          }
+        } else if (parentError?.message) {
+          errorMessage = String(parentError.message);
+        }
+
+        onError?.(new Error(errorMessage));
+        setProcessing(false);
+      }
+    } catch (err: any) {
+      const errorMessage = typeof err === 'string' 
+        ? err 
+        : err?.message || 'An unexpected error occurred';
+      
       onError?.(err instanceof Error ? err : new Error(errorMessage));
       setProcessing(false);
     }
@@ -66,7 +95,7 @@ const PaymentForm: React.FC<PaymentFormProps> = ({ onSuccess, onCancel, onError 
 
   return (
     <form onSubmit={handleSubmit} className="payment-form">
-      <div className="form-row">
+      <div className="payment-form-row">
         <CardElement
           options={{
             style: {
@@ -84,19 +113,18 @@ const PaymentForm: React.FC<PaymentFormProps> = ({ onSuccess, onCancel, onError 
           }}
         />
       </div>
-      {error && <div className="error-message">{error}</div>}
-      <div className="form-actions">
+      <div className="payment-form-actions-container">
         <button
           type="submit"
           disabled={!stripe || processing}
-          className="submit-button"
+          className="payment-form-submit-btn"
         >
           {processing ? 'Processing...' : 'Add Payment Method'}
         </button>
         <button
           type="button"
           onClick={onCancel}
-          className="cancel-button"
+          className="payment-form-cancel-btn"
           disabled={processing}
         >
           Cancel

@@ -253,15 +253,15 @@ const PaymentMethodSelectionPopup: React.FC<SubscriptionPaymentMethodSelectionPo
                   Add New Payment Method
                 </button>
                 <div className="subscription-action-buttons">
-                  <button type="button" className="subscription-secondary-button" onClick={onCancel}>
-                    Cancel
-                  </button>
                   <button 
                     type="submit" 
                     className="subscription-primary-button"
                     disabled={!selectedPaymentMethodId || isProcessing || !stripe}
                   >
                     {isProcessing ? paymentStatus : 'Pay Now'}
+                  </button>
+                  <button type="button" className="subscription-secondary-button" onClick={onCancel}>
+                    Cancel
                   </button>
                 </div>
               </div>

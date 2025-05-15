@@ -22,7 +22,7 @@ const QRCodePopup: React.FC<QRCodePopupProps> = ({
         <p>{instructions}</p>
         <img src={qrCode} alt="QR Code" className="qr-code-image" />
         <div className="popup-actions">
-          <button onClick={onClose}>Close</button>
+          <button className="secondary" onClick={onClose}>Close</button>
         </div>
       </div>
     </div>

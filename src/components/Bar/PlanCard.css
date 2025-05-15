@@ -1,21 +1,25 @@
 .plan-card {
-  background: white;
-  border-radius: 8px;
-  border: 2px solid;
+  background: linear-gradient(135deg, #f9fafc 60%, #e3e9f6 100%);
+  border-radius: 16px;
+  border: 1px solid #e0e6ed;
   overflow: hidden;
   position: relative;
-  transition: transform 0.2s ease;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  box-shadow: 0 4px 16px rgba(52, 98, 219, 0.10);
+  padding: 24px;
 }
 
 .plan-card:hover {
   transform: translateY(-4px);
+  box-shadow: 0 8px 24px rgba(52, 98, 219, 0.15);
 }
 
-.plan-card.current-plan {
-  box-shadow: 0 0 0 2px #28a745;
+.plan-card.current {
+  border: 2px solid #28a745;
 }
 
-.current-plan-badge {
+.plan-card.current::before {
+  content: 'Current Plan';
   position: absolute;
   top: 12px;
   right: -30px;
@@ -25,48 +29,47 @@
   transform: rotate(45deg);
   font-size: 12px;
   font-weight: 500;
-  z-index: 1;
 }
 
-.plan-header {
-  padding: 20px;
+.plan-card-header {
   text-align: center;
-  color: white;
+  margin-bottom: 24px;
 }
 
-.plan-header h3 {
-  margin: 0;
+.plan-card-name {
   font-size: 24px;
   font-weight: 600;
+  color: #2c3e50;
+  margin-bottom: 8px;
 }
 
-.plan-price {
+.plan-card-price {
   font-size: 36px;
   font-weight: 700;
-  margin: 16px 0;
+  color: #2c3e50;
+  margin-bottom: 8px;
 }
 
-.price-period {
+.plan-card-price .period {
   font-size: 16px;
+  color: #6c757d;
   font-weight: normal;
 }
 
-.annual-price {
+.plan-card-price .savings {
+  display: block;
   font-size: 14px;
-  opacity: 0.9;
+  color: #28a745;
+  font-weight: normal;
 }
 
-.plan-features {
-  padding: 20px;
-}
-
-.plan-features ul {
+.plan-card-features {
   list-style: none;
   padding: 0;
-  margin: 0;
+  margin: 0 0 24px 0;
 }
 
-.plan-features li {
+.plan-card-features li {
   padding: 8px 0;
   color: #495057;
   display: flex;
@@ -74,27 +77,45 @@
   gap: 8px;
 }
 
-.plan-features li::before {
+.plan-card-features li::before {
   content: '✓';
   color: #28a745;
   font-weight: bold;
 }
 
-.select-plan-button {
+.plan-card .select-plan-button {
   width: 100%;
-  padding: 12px;
+  padding: 10px 24px;
   border: none;
-  color: white;
-  font-weight: 500;
+  border-radius: 6px;
   cursor: pointer;
-  transition: opacity 0.2s ease;
+  font-size: 1.08rem;
+  font-weight: 600;
+  transition: background 0.15s, color 0.15s, box-shadow 0.15s;
+  box-shadow: 0 2px 8px rgba(52, 98, 219, 0.08);
+  background: #4d7df2;
+  color: white;
 }
 
-.select-plan-button:hover {
-  opacity: 0.9;
+.plan-card .select-plan-button:hover {
+  background: #3462db;
+  box-shadow: 0 4px 16px rgba(52, 98, 219, 0.12);
 }
 
-.select-plan-button:disabled {
-  opacity: 0.5;
+.plan-card .select-plan-button:disabled {
+  background: #cbd5e1;
+  color: #94a3b8;
   cursor: not-allowed;
+  box-shadow: none;
+}
+
+.plan-card .select-plan-button.secondary {
+  background: #cbd5e1;
+  color: #334155;
+}
+
+.plan-card .select-plan-button.secondary:hover {
+  background: #94a3b8;
+  color: #1e293b;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
 } 

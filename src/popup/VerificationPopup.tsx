@@ -64,9 +64,9 @@ const VerificationPopup: React.FC<VerificationPopupProps> = ({
           Time left: {Math.floor(timeLeft / 60)}:{String(timeLeft % 60).padStart(2, '0')}
         </div>
         <div className="popup-actions">
-          {onVerify && <button onClick={handleVerify}>Verify</button>}
-          {onResend && <button onClick={handleResend}>Resend</button>}
-          <button onClick={onClose}>Close</button>
+          {onVerify && <button className="primary" onClick={handleVerify}>Verify</button>}
+          {onResend && <button className="primary" onClick={handleResend}>Resend</button>}
+          <button className="secondary" onClick={onClose}>Close</button>
         </div>
       </div>
     </div>
