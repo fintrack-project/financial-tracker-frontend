@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Elements } from '@stripe/react-stripe-js';
-import { PaymentMethod, PaymentError } from '../../types/PaymentMethods';
+import { PaymentMethod } from '../../types/PaymentMethods';
 import { UserDetails } from '../../types/UserDetails';
 import PaymentForm from '../Payment/PaymentForm';
 import TestCardDetails from '../Payment/TestCardDetails';
@@ -17,7 +17,7 @@ interface PaymentMethodsProps {
 
 interface ErrorState {
   message: string;
-  type: 'payment_error' | 'internal_error';
+  type: string;
   code?: string;
 }
 
@@ -28,7 +28,6 @@ const PaymentMethods: React.FC<PaymentMethodsProps> = ({
   onDelete,
   onAttach
 }) => {
-  const [showPaymentForm, setShowPaymentForm] = useState(false);
   const [error, setError] = useState<ErrorState | null>(null);
 
   // Log payment methods for debugging
@@ -39,13 +38,11 @@ const PaymentMethods: React.FC<PaymentMethodsProps> = ({
   // Validate user details exist
   if (!userDetails) return null;
 
-  const handlePaymentError = (error: Error) => {
-    // Format error for display
-    if (error instanceof PaymentError) {
+  const handlePaymentError = (error: any) => {
+    if (error instanceof Error) {
       setError({
         message: error.message,
-        type: error.type as 'payment_error' | 'internal_error',
-        code: error.code || undefined
+        type: 'error'
       });
     } else {
       setError({
@@ -150,7 +147,7 @@ const PaymentMethods: React.FC<PaymentMethodsProps> = ({
                 }
               }}
               onError={handlePaymentError}
-              onCancel={() => setShowPaymentForm(false)}
+              onCancel={() => setError(null)}
               reset={!error}
             />
           </Elements>

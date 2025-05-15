@@ -37,9 +37,6 @@ const Security: React.FC<SecurityProps> = ({ accountId }) => {
   const [editState, setEditState] = useState<{ [key: string]: string | null }>({});
   const [editModes, setEditModes] = useState<{ [key: string]: boolean }>({});
   const [loading, setLoading] = useState<boolean>(true);
-  const [password, setPassword] = useState('');
-  const [confirmPassword, setConfirmPassword] = useState('');
-  const [passwordError, setPasswordError] = useState<string | null>(null);
 
   useEffect(() => {
     const loadUserDetails = async () => {
@@ -223,7 +220,6 @@ const Security: React.FC<SecurityProps> = ({ accountId }) => {
         <PasswordInputPopup
           onConfirm={(password) => passwordHandlers.handlePasswordConfirm(password)}
           onClose={() => passwordHandlers.handlePasswordClose()}
-          errorMessage={passwordError}
         />
       )}
       {showOtpPopup && (

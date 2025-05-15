@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useMemo } from 'react';
+import React, { useEffect, useState, useMemo, useCallback } from 'react';
 import useUserDetails from '../../hooks/useUserDetails';
 import { updateUserPhone, updateUserAddress, updateUserEmail } from '../../services/userService';
 import useVerification from '../../hooks/useVerification';
@@ -76,7 +76,7 @@ const ProfileDetail: React.FC<ProfileDetailProps> = ({ accountId }) => {
     }
   }, [isFetch, refreshUserDetails]);
   
-  const handleEditClick = (label: string, currentValue: string | null) => {
+  const handleEditClick = useCallback((label: string, currentValue: string | null) => {
     if (label === 'Email' || label === 'Phone' || label === 'Address') {
       const handlers = authenticate({
         accountId,
@@ -111,9 +111,9 @@ const ProfileDetail: React.FC<ProfileDetailProps> = ({ accountId }) => {
       setEditState((prevState) => ({ ...prevState, [label]: currentValue }));
       setEditModes((prevModes) => ({ ...prevModes, [label]: true }));
     }
-  };
+  }, [userDetails, accountId, authenticate]);
 
-  const handleConfirmClick = async (label: string) => {
+  const handleConfirmClick = useCallback(async (label: string) => {
     if (!editModes[label]) {
       return; // Do nothing if the field is not in edit mode
     }
@@ -231,11 +231,11 @@ const ProfileDetail: React.FC<ProfileDetailProps> = ({ accountId }) => {
       console.error(`Failed to update ${label}:`, error);
       alert(`Failed to update ${label}. Please try again later.`);
     }
-  };
+  }, [userDetails, accountId, editState, editModes, sendVerification, setUserDetails]);
 
-  const handleVerificationClick = (type: 'phone' | 'email') => {
+  const handleVerificationClick = useCallback((type: 'phone' | 'email') => {
     sendVerification(type);
-  };
+  }, [sendVerification]);
 
   const handlePopupResend = () => {
     resendVerification();
@@ -382,7 +382,7 @@ const ProfileDetail: React.FC<ProfileDetailProps> = ({ accountId }) => {
         value: formatDate(userDetails.lastActivityDate),
       },
     ];
-  }, [userDetails, editState]);
+  }, [userDetails, editState, accountId, countries, editModes, handleConfirmClick, handleEditClick, handleVerificationClick]);
 
   if (loading) {
     return <p>Loading user details...</p>;

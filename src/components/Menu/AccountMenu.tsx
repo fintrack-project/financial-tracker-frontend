@@ -5,13 +5,6 @@ import { logoutUser } from '../../services/authService';
 import { fetchCurrentAccountApi } from '../../api/accountApi';
 import './AccountMenu.css';
 
-interface Account {
-  accountId: string;
-  userId: string;
-  createdAt: string;
-  updatedAt: string;
-}
-
 interface AccountMenuProps {
   onAccountChange: (accountId: string) => void;
 }

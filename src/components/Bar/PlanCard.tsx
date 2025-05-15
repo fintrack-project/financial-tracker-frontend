@@ -70,15 +70,15 @@ export const handleButtonDisplay = (
   const isCurrentFreePlan = currentPlan?.plan_group_id === 'free';
   const isFreePlan = plan.plan_group_id === 'free';
   const isBetterPlan = 
-    ((plan.plan_group_id === 'premium') && (currentPlan?.plan_group_id === 'basic' || currentPlan?.plan_group_id === 'free')) ||
+    ((plan.plan_group_id === 'premium') && ((currentPlan?.plan_group_id === 'basic') || (currentPlan?.plan_group_id === 'free'))) ||
     ((plan.plan_group_id === 'basic') && (currentPlan?.plan_group_id === 'free'));
   const isCurrentPlanGroupId = currentPlan?.plan_group_id === plan.plan_group_id;
-  const isSameBillingCycle = (currentPlan?.interval === 'year' && plan.isAnnual) || (currentPlan?.interval === 'month' && !plan.isAnnual);
+  const isSameBillingCycle = ((currentPlan?.interval === 'year') && plan.isAnnual) || ((currentPlan?.interval === 'month') && !plan.isAnnual);
 
-  const displayUpgradeButton = (isBetterPlan || !isCurrentFreePlan && (isCurrentPlanGroupId && (currentPlan?.interval === 'month' && plan.isAnnual)));
+  const displayUpgradeButton = (isBetterPlan || (!isCurrentFreePlan && (isCurrentPlanGroupId && ((currentPlan?.interval === 'month') && plan.isAnnual))));
   const displayCancelButton = !isCancelling && (!isCurrentFreePlan && (isCurrentPlanGroupId && isSameBillingCycle));
   const displayReactivateButton = isCancelling && (!isCurrentFreePlan && (isCurrentPlanGroupId && isSameBillingCycle));
-  const displayCurrentPlanButton = (isCurrentFreePlan && isFreePlan) || (!isCurrentFreePlan && (isCurrentPlanGroupId && (currentPlan?.interval === 'year' && !plan.isAnnual)));
+  const displayCurrentPlanButton = (isCurrentFreePlan && isFreePlan) || (!isCurrentFreePlan && (isCurrentPlanGroupId && ((currentPlan?.interval === 'year') && !plan.isAnnual)));
   const displayDowngradeButton = !isCurrentFreePlan && (plan.plan_group_id === 'basic' && currentPlan?.plan_group_id === 'premium');
 
   return {

@@ -17,11 +17,9 @@ interface SubscriptionProps {
 }
 
 const Subscription: React.FC<SubscriptionProps> = ({ accountId }) => {
-
   const [userDetails, setUserDetails] = useState<UserDetails | null>(null);
   const [subscription, setSubscription] = useState<UserSubscription | null>(null);
   const [paymentMethods, setPaymentMethods] = useState<PaymentMethod[]>([]);
-  const [defaultPaymentMethod, setDefaultPaymentMethodState] = useState<PaymentMethod | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
   const [activeTab, setActiveTab] = useState<'overview' | 'plans' | 'payment'>('overview');
@@ -63,17 +61,9 @@ const Subscription: React.FC<SubscriptionProps> = ({ accountId }) => {
       } catch (error) {
       }
       
-      let defaultMethod = null;
-      try {
-        defaultMethod = await getDefaultPaymentMethod(accountId);
-      } catch (error) {
-        console.log('⚠️ No default payment method found');
-      }
-
       setUserDetails(userData);
       setSubscription(subscriptionData);
       setPaymentMethods(methods);
-      setDefaultPaymentMethodState(defaultMethod);
       setError(null);
     } catch (err) {
       console.error('❌ Error in loadData:', err);
@@ -81,7 +71,6 @@ const Subscription: React.FC<SubscriptionProps> = ({ accountId }) => {
       setUserDetails(null);
       setSubscription(null);
       setPaymentMethods([]);
-      setDefaultPaymentMethodState(null);
     } finally {
       setLoading(false);
       console.log('🏁 Data loading completed');
@@ -91,7 +80,7 @@ const Subscription: React.FC<SubscriptionProps> = ({ accountId }) => {
   useEffect(() => {
     console.log('🔄 useEffect triggered, loading data...');
     loadData();
-  }, [accountId]);
+  }, [accountId, loadData]);
 
   const handleDeletePaymentMethod = async (paymentMethodId: string) => {
     try {
@@ -164,8 +153,6 @@ const Subscription: React.FC<SubscriptionProps> = ({ accountId }) => {
     });
 
     try {
-      const response = await upgradeSubscription(accountId, planName, paymentMethodId);
-
       // Fetch fresh subscription data
       const updatedSubscription = await fetchUserSubscription(accountId);
 
