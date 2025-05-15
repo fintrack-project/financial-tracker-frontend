@@ -13,7 +13,7 @@ const Category: React.FC<CategoryProps> = ({
   children,
   showActions = true, // Default to true if not provided
   isSubcategory = false, // Default to false if not provided
-  color = CategoryColor.SIENNA,
+  color = CategoryColor.DARK_OLIVE_GREEN,
 }) => {
   return (
     <div className={`category-cell ${isSubcategory ? 'subcategory' : ''}`}>
