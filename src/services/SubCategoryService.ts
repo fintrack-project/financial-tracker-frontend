@@ -2,7 +2,9 @@ import {
   addSubcategoryApi,
   updateSubcategoryNameApi,
   removeSubcategoryApi,
+  updateSubcategoryColorApi,
 } from '../api/subCategoryApi';
+import { CategoryColor } from '../types/CategoryTypes';
 
 export interface subCategoryService {
   subcategories: { [category: string]: string[] }; // Holds the subcategories for each category
@@ -105,4 +107,21 @@ export const createSubcategoryService = (
     removeSubcategory,
     confirmSubcategory,
   };
+};
+
+export const updateSubcategoryColor = async (
+  accountId: string,
+  categoryName: string,
+  subcategoryName: string,
+  color: CategoryColor
+): Promise<void> => {
+  try {
+    const response = await updateSubcategoryColorApi(accountId, categoryName, subcategoryName, color);
+    if (!response.success) {
+      throw new Error(response.message || 'Failed to update subcategory color');
+    }
+  } catch (error) {
+    console.error('Error updating subcategory color:', error);
+    throw error;
+  }
 };

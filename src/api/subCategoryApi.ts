@@ -1,5 +1,6 @@
 import { apiClient } from '../utils/apiClient';
 import { ApiResponse } from '../types/ApiTypes';
+import { CategoryColor } from '../types/CategoryTypes';
 
 // Add a new subcategory
 export const addSubcategoryApi = async (
@@ -54,6 +55,27 @@ export const removeSubcategoryApi = async (
     return response.data;
   } catch (error) {
     console.error('Error removing subcategory:', error);
+    throw error;
+  }
+};
+
+// Update subcategory color
+export const updateSubcategoryColorApi = async (
+  accountId: string,
+  categoryName: string,
+  subcategoryName: string,
+  color: CategoryColor
+): Promise<ApiResponse<void>> => {
+  try {
+    const response = await apiClient.post<ApiResponse<void>>('/api/categories/subcategories/color/update', {
+      accountId,
+      category_name: categoryName,
+      subcategory_name: subcategoryName,
+      color: color,
+    });
+    return response.data;
+  } catch (error) {
+    console.error('Error updating subcategory color:', error);
     throw error;
   }
 };

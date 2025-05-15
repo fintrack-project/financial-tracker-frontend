@@ -54,6 +54,8 @@ export interface CategoryProps {
   showActions?: boolean;
   isSubcategory?: boolean;
   color?: CategoryColor;
+  accountId?: string | null;
+  categoryName?: string;
 }
 
 export interface CategoryDisplayCellProps extends CategoryProps {}

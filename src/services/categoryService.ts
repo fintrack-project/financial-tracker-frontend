@@ -5,8 +5,9 @@ import {
   addCategoryApi,
   updateCategoryNameApi,
   removeCategoryApi,
+  updateCategoryColorApi,
 } from '../api/categoryApi';
-import { Category, Subcategory, CategoryAndSubcategories } from '../types/CategoryTypes';
+import { Category, Subcategory, CategoryAndSubcategories, CategoryColor } from '../types/CategoryTypes';
 
 export interface CategoryService {
   categories: string[];
@@ -161,6 +162,23 @@ export const removeCategory = async (accountId: string, category: string): Promi
     }
   } catch (error) {
     console.error('Error removing category:', error);
+    throw error;
+  }
+};
+
+export const updateCategoryColor = async (
+  accountId: string,
+  categoryName: string,
+  color: CategoryColor
+): Promise<Category> => {
+  try {
+    const response = await updateCategoryColorApi(accountId, categoryName, color);
+    if (!response.success || !response.data) {
+      throw new Error(response.message || 'Failed to update category color');
+    }
+    return response.data;
+  } catch (error) {
+    console.error('Error updating category color:', error);
     throw error;
   }
 };

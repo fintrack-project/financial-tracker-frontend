@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import IconButton from '../../Button/IconButton';
 import CategoryColorDropdown from '../../DropDown/CategoryColorDropdown';
 import { CategoryProps, CategoryColor } from '../../../types/CategoryTypes';
+import { updateCategoryColor } from '../../../services/categoryService';
+import { updateSubcategoryColor } from '../../../services/subCategoryService';
 import './Category.css'; // Optional: Add styles for the cell
 
 const Category: React.FC<CategoryProps> = ({
@@ -14,20 +16,36 @@ const Category: React.FC<CategoryProps> = ({
   children,
   showActions = true, // Default to true if not provided
   isSubcategory = false, // Default to false if not provided
-  color: initialColor = CategoryColor.DARK_OLIVE_GREEN,
+  color,
+  accountId,
+  categoryName,
 }) => {
-  const [currentColor, setCurrentColor] = useState(initialColor);
+  const [currentColor, setCurrentColor] = useState(color || CategoryColor.BLUE);
 
-  const handleColorSelect = (newColor: CategoryColor) => {
-    setCurrentColor(newColor);
-    // Update the background color of the category cell
-    const categoryCell = document.querySelector('.category-cell-edit');
-    if (categoryCell) {
-      (categoryCell as HTMLElement).style.backgroundColor = newColor;
-    }
-    // Call onChange with the current value to trigger a re-render
-    if (onChange) {
-      onChange(value);
+  const handleColorSelect = async (newColor: CategoryColor) => {
+    try {
+      if (accountId && value) {
+        if (isSubcategory && categoryName) {
+          // Update subcategory color
+          await updateSubcategoryColor(accountId, categoryName, value, newColor);
+        } else {
+          // Update category color
+          await updateCategoryColor(accountId, value, newColor);
+        }
+        setCurrentColor(newColor);
+        // Update the background color of the category cell
+        const categoryCell = document.querySelector('.category-cell-edit');
+        if (categoryCell) {
+          (categoryCell as HTMLElement).style.backgroundColor = newColor;
+        }
+        // Call onChange with the current value to trigger a re-render
+        if (onChange) {
+          onChange(value);
+        }
+      }
+    } catch (error) {
+      console.error('Error updating color:', error);
+      alert('Failed to update color. Please try again.');
     }
   };
 

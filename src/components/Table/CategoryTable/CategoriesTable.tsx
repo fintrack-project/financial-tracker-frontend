@@ -159,13 +159,12 @@ const CategoriesTable: React.FC<CategoriesTableProps> = ({
                 <CategoryInputCell
                   value={category}
                   isEditing={editCategoryIndex === index}
-                  onChange={
-                    (newValue) => categoryService.editCategory(index, newValue)
-                  }
+                  onChange={(newValue) => categoryService.editCategory(index, newValue)}
                   onConfirm={() => handleConfirmCategory(index)}
                   onEdit={() => handleEditCategory(index)}
                   onRemove={() => handleRemoveCategory(index)}
                   placeholder="Enter category name"
+                  accountId={accountId}
                 />
               </td>
               <td>
@@ -181,20 +180,22 @@ const CategoriesTable: React.FC<CategoriesTableProps> = ({
                         onConfirm={() => handleConfirmSubcategory(category, subIndex)}
                         onEdit={() => handleEditSubcategory(category, subIndex)}
                         onRemove={() => handleRemoveSubcategory(category, subIndex)}
-                        placeholder="Enter subcategory"
+                        placeholder="Enter subcategory name"
                         isSubcategory={true}
+                        accountId={accountId}
+                        categoryName={category}
                       />
                     </li>
                   ))}
+                  <li className="add-subcategory-container">
+                    <IconButton
+                      type="add"
+                      onClick={() => subcategoryService.addSubcategory(category)}
+                      label="Add Subcategory"
+                      size="large"
+                    />
+                  </li>
                 </ul>
-                <div className="add-subcategory-container">
-                  <IconButton
-                    type="add"
-                    size="large"
-                    onClick={() => subcategoryService.addSubcategory(category)}
-                    label="Add Subcategory"
-                  />
-                </div>
               </td>
             </tr>
           ))}
