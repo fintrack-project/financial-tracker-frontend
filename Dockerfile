@@ -1,5 +1,5 @@
 # Stage 1: Build the application
-FROM node:16 AS builder
+FROM node:20-alpine AS builder
 
 # Set the working directory
 WORKDIR /app
@@ -17,7 +17,7 @@ COPY . .
 RUN npm run build
 
 # Stage 2: Serve the application using a lightweight web server
-FROM nginx:alpine
+FROM nginx:1.25-alpine
 
 # Copy the build output from the builder stage to the Nginx web server
 COPY --from=builder /app/build /usr/share/nginx/html
