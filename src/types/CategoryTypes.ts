@@ -55,3 +55,15 @@ export interface CategoryProps {
   isSubcategory?: boolean;
   color?: CategoryColor;
 }
+
+export interface CategoryDisplayCellProps extends CategoryProps {}
+
+export interface CategoryDropdownCellProps extends Omit<CategoryProps, 'onChange'> {
+  options: string[];
+  onChange: (newValue: string) => void;
+}
+
+export interface CategoryInputCellProps extends Omit<CategoryProps, 'onChange'> {
+  placeholder?: string;
+  onChange: (newValue: string) => void;
+}
