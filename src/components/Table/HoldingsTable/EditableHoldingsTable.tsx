@@ -8,11 +8,12 @@ import { createCategoryService } from '../../../services/categoryService';
 import { createHoldingsCategoriesService } from 'services/holdingsCategoriesService';
 import ResetCategoryPopup from '../../Popup/ResetCategoryPopup';
 import './HoldingsTable.css'; // Reuse the CSS from HoldingsTable
+import { CategoryColor } from '../../../types/CategoryTypes';
 
-interface EditableHoldingsTableProps {
+export interface EditableHoldingsTableProps {
   accountId: string | null;
   categories: string[];
-  subcategories: {[category: string]: string[]};
+  subcategories: { [category: string]: string[] };
   categoryService: ReturnType<typeof createCategoryService>;
   holdingsCategoriesService: ReturnType<typeof createHoldingsCategoriesService>;
   confirmedHoldingsCategories: {
@@ -21,6 +22,8 @@ interface EditableHoldingsTableProps {
     };
   };
   resetHasFetched: () => void;
+  categoryColors: { [category: string]: CategoryColor };
+  subcategoryColors: { [category: string]: { [subcategory: string]: CategoryColor } };
 }
 
 const EditableHoldingsTable: React.FC<EditableHoldingsTableProps> = ({ 
@@ -30,7 +33,9 @@ const EditableHoldingsTable: React.FC<EditableHoldingsTableProps> = ({
   categoryService,
   holdingsCategoriesService,
   confirmedHoldingsCategories,
-  resetHasFetched
+  resetHasFetched,
+  categoryColors,
+  subcategoryColors
 }) => {
   const { holdings, portfolioData, loading } = useHoldingsData(accountId);
   const { baseCurrency, usdToBaseCurrencyRate, loading: baseCurrencyLoading, error: baseCurrencyError } = useBaseCurrency(accountId);

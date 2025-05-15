@@ -3,16 +3,19 @@ import IconButton from '../../Button/IconButton';
 import CategoryInputCell from './CategoryInputCell';
 import { createCategoryService, fetchCategoriesAndSubcategoriesNamesMap } from '../../../services/categoryService';
 import { createSubcategoryService } from '../../../services/subCategoryService';
+import { CategoryColor } from '../../../types/CategoryTypes';
 import './CategoriesTable.css'; // Add styles for the table
 
-interface CategoriesTableProps {
+export interface CategoriesTableProps {
   accountId: string | null;
   categories: string[];
-  subcategories: {[category: string]: string[]};
+  subcategories: { [category: string]: string[] };
   categoryService: ReturnType<typeof createCategoryService>;
   subcategoryService: ReturnType<typeof createSubcategoryService>;
-  onUpdateCategories: (categories: string[], subcategories: {[category: string]: string[]}) => void;
+  onUpdateCategories: (updatedCategories: string[]) => void;
   resetHasFetched: () => void;
+  categoryColors: { [category: string]: CategoryColor };
+  subcategoryColors: { [category: string]: { [subcategory: string]: CategoryColor } };
 }
 
 const CategoriesTable: React.FC<CategoriesTableProps> = ({
@@ -23,6 +26,8 @@ const CategoriesTable: React.FC<CategoriesTableProps> = ({
   subcategoryService,
   onUpdateCategories,
   resetHasFetched,
+  categoryColors,
+  subcategoryColors,
 }) => {
   const [editCategoryIndex, setEditCategoryIndex] = useState<number | null>(null); // Tracks which category is being edited
   const [subcategoryEditMode, setSubcategoryEditMode] = useState<{ [category: string]: { [subIndex: number]: boolean } }>({}); // Tracks which subcategories are being edited
@@ -109,7 +114,7 @@ const CategoriesTable: React.FC<CategoriesTableProps> = ({
         await fetchCategoriesAndSubcategoriesNamesMap(accountId);
   
       // Update the state with the fetched data
-      onUpdateCategories(updatedCategories, updatedSubcategories);
+      onUpdateCategories(updatedCategories);
       resetHasFetched(); // Reset the fetched state
     } catch (error) {
       console.error(`Failed to remove category "${categoryToRemove}".`, error);
@@ -135,7 +140,7 @@ const CategoriesTable: React.FC<CategoriesTableProps> = ({
         await fetchCategoriesAndSubcategoriesNamesMap(accountId);
 
       // Update the state with the fetched data
-      onUpdateCategories(updatedCategories, updatedSubcategories);
+      onUpdateCategories(updatedCategories);
       resetHasFetched(); // Reset the fetched state
     } catch (error) {
       console.error(`Failed to remove subcategory "${subcategoryToRemove}" from category "${category}".`, error);
@@ -165,6 +170,7 @@ const CategoriesTable: React.FC<CategoriesTableProps> = ({
                   onRemove={() => handleRemoveCategory(index)}
                   placeholder="Enter category name"
                   accountId={accountId}
+                  color={categoryColors[category]}
                 />
               </td>
               <td>
@@ -184,6 +190,7 @@ const CategoriesTable: React.FC<CategoriesTableProps> = ({
                         isSubcategory={true}
                         accountId={accountId}
                         categoryName={category}
+                        color={subcategoryColors[category]?.[subcategory]}
                       />
                     </li>
                   ))}

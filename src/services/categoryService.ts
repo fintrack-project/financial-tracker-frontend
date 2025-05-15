@@ -183,3 +183,18 @@ export const updateCategoryColor = async (
     throw error;
   }
 };
+
+export const fetchCategoryColorMap = async (
+  accountId: string
+): Promise<{ [category: string]: CategoryColor }> => {
+  try {
+    const response = await fetchCategoryColorMapApi(accountId);
+    if (!response.success || !response.data) {
+      throw new Error(response.message || 'Failed to fetch category color map');
+    }
+    return response.data.categoryColors;
+  } catch (error) {
+    console.error('Error fetching category color map:', error);
+    throw error;
+  }
+};
