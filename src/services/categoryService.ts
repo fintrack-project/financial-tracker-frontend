@@ -174,10 +174,11 @@ export const updateCategoryColor = async (
 ): Promise<Category> => {
   try {
     const response = await updateCategoryColorApi(accountId, categoryName, color);
-    if (!response.success || !response.data) {
+    if (!response.success) {
       throw new Error(response.message || 'Failed to update category color');
     }
-    return response.data;
+    // If we have data, return it, otherwise return a minimal Category object
+    return response.data || { id: '', name: categoryName, subcategories: [] };
   } catch (error) {
     console.error('Error updating category color:', error);
     throw error;
