@@ -39,7 +39,6 @@
   align-items: center;
   justify-content: center;
   gap: 4px;
-  background-color: #3b82f6;
   border-radius: 6px;
   padding: 6px 12px;
   transition: all 0.2s ease;
@@ -50,7 +49,7 @@
 
 .category-cell-view:hover,
 .category-cell-edit:hover {
-  background-color: #2563eb;
+  filter: brightness(0.9);
 }
 
 .category-cell-view span {
@@ -93,7 +92,7 @@
 /* Subcategory specific styles */
 .category-cell.subcategory .category-cell-view,
 .category-cell.subcategory .category-cell-edit {
-  background-color: #60a5fa;
+  filter: brightness(1.1);
 }
 
 .category-cell.subcategory .category-cell-edit input,
@@ -110,13 +109,13 @@
   display: inline-flex;
   align-items: center;
   gap: 4px;
-  background-color: transparent;
+  background-color: inherit;
   color: #64748b;
   font-size: 0.875rem;
 }
 
 .category-cell .actions .icon-button:hover {
-  background-color: #f8fafc;
+  background-color: rgba(0, 0, 0, 0.1);
   transform: translateY(-1px);
   color: #3b82f6;
 }

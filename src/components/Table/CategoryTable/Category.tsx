@@ -18,7 +18,10 @@ const Category: React.FC<CategoryProps> = ({
   return (
     <div className={`category-cell ${isSubcategory ? 'subcategory' : ''}`}>
       {isEditing ? (
-        <div className="category-cell-edit">
+        <div 
+          className="category-cell-edit"
+          style={{ backgroundColor: color }}
+        >
           {children}
           {showActions && (
             <div className="actions">
@@ -28,7 +31,10 @@ const Category: React.FC<CategoryProps> = ({
           )}
         </div>
       ) : (
-        <div className="category-cell-view">
+        <div 
+          className="category-cell-view"
+          style={{ backgroundColor: color }}
+        >
           <span>{value || 'Unnamed'}</span>
           {showActions && (
             <div className="actions">
