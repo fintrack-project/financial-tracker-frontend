@@ -140,6 +140,29 @@ const PortfolioCombinedBarChart: React.FC<PortfolioCombinedBarChartProps> = ({ a
     )
   );
 
+  // Format date based on timeRange
+  const formatLineBarChartDate = (dateStr: string) => {
+    const date = new Date(dateStr);
+    const isCurrentDate = date.toDateString() === new Date().toDateString();
+
+    if (isCurrentDate) {
+      // For current date, show full date
+      return date.toISOString().split('T')[0]; // YYYY-MM-DD
+    }
+
+    switch (timeRange) {
+      case 'Monthly':
+        return `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}`; // YYYY-MM
+      case 'Quarterly':
+        const quarter = Math.floor(date.getMonth() / 3) + 1;
+        return `${date.getFullYear()} Q${quarter}`; // YYYY QN
+      case 'Annual':
+        return `${date.getFullYear()}`; // YYYY
+      default:
+        return dateStr;
+    }
+  };
+
   // Custom Tooltip Component
   const CustomTooltip = ({ active, payload, label }: any) => {
     if (!active || !payload || !payload.length) return null;
@@ -149,7 +172,7 @@ const PortfolioCombinedBarChart: React.FC<PortfolioCombinedBarChartProps> = ({ a
 
     return (
       <div className="custom-tooltip">
-        <p>{`Date: ${label}`}</p>
+        <p>{`${formatLineBarChartDate(label)}`}</p>
         {filteredPayload.map((item: any, index: number) => {
           // Find the corresponding asset data to get the percentage
           const assetData = filteredData.find(entry => entry.date === label)?.assets.find(
@@ -197,7 +220,13 @@ const PortfolioCombinedBarChart: React.FC<PortfolioCombinedBarChartProps> = ({ a
         <ResponsiveContainer width="100%" height={calculateChartHeight()}>
           <ComposedChart data={filteredData}>
             <CartesianGrid strokeDasharray="3 3" />
-            <XAxis dataKey="date" />
+            <XAxis 
+              dataKey="date" 
+              tickFormatter={formatLineBarChartDate}
+              angle={-45}
+              textAnchor="end"
+              height={60}
+            />
             <YAxis />
             <Tooltip content={<CustomTooltip />} />
             <Legend />
