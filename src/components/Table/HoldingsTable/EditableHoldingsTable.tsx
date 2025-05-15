@@ -177,6 +177,8 @@ const EditableHoldingsTable: React.FC<EditableHoldingsTableProps> = ({
                         onEdit={() => handleEditCategoryColumn(categoryIndex)}
                         onRemove={() => handleResetCategoryColumn(categoryIndex)}
                         showActions={true}
+                        color={categoryColors[category]}
+                        resetHasFetched={resetHasFetched}
                       />
                     </th>
                   );
@@ -199,26 +201,31 @@ const EditableHoldingsTable: React.FC<EditableHoldingsTableProps> = ({
                     <td>{holding.assetType}</td>
                     <td>{formatNumber(holding.priceInBaseCurrency, holding.assetType === 'FOREX' ? 6 : 2)}</td>
                     <td>{formatNumber(holding.totalValueInBaseCurrency)}</td>
-                    {categoryColumns.map((category, categoryIndex) => (
-                      <td key={`${rowIndex}-${categoryIndex}`}>
-                        <CategoryDropdownCell
-                          value={subcategoryColumns[categoryIndex]?.[rowIndex] || ''}
-                          isEditing={editingColumns.has(categoryIndex)}
-                          options={subcategories[category] || []}
-                          onChange={(newValue) =>
-                            setSubcategoryColumns((prev) => {
-                              const updated = [...prev];
-                              updated[categoryIndex][rowIndex] = newValue;
-                              return updated;
-                            })
-                          }
-                          onConfirm={() => {}}
-                          onEdit={() => {}}
-                          onRemove={() => {}}
-                          showActions={false}
-                        />
-                      </td>
-                    ))}
+                    {categoryColumns.map((category, categoryIndex) => {
+                      const selectedSubcategory = subcategoryColumns[categoryIndex]?.[rowIndex] || '';
+                      return (
+                        <td key={`${rowIndex}-${categoryIndex}`}>
+                          <CategoryDropdownCell
+                            value={selectedSubcategory}
+                            isEditing={editingColumns.has(categoryIndex)}
+                            options={subcategories[category] || []}
+                            onChange={(newValue) =>
+                              setSubcategoryColumns((prev) => {
+                                const updated = [...prev];
+                                updated[categoryIndex][rowIndex] = newValue;
+                                return updated;
+                              })
+                            }
+                            onConfirm={() => {}}
+                            onEdit={() => {}}
+                            onRemove={() => {}}
+                            showActions={false}
+                            color={selectedSubcategory ? subcategoryColors[category]?.[selectedSubcategory] : undefined}
+                            resetHasFetched={resetHasFetched}
+                          />
+                        </td>
+                      );
+                    })}
                   </tr>
                 ))
               )}

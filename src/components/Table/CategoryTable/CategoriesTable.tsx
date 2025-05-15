@@ -171,6 +171,7 @@ const CategoriesTable: React.FC<CategoriesTableProps> = ({
                   placeholder="Enter category name"
                   accountId={accountId}
                   color={categoryColors[category]}
+                  resetHasFetched={resetHasFetched}
                 />
               </td>
               <td>
@@ -191,6 +192,7 @@ const CategoriesTable: React.FC<CategoriesTableProps> = ({
                         accountId={accountId}
                         categoryName={category}
                         color={subcategoryColors[category]?.[subcategory]}
+                        resetHasFetched={resetHasFetched}
                       />
                     </li>
                   ))}

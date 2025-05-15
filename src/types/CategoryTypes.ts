@@ -56,6 +56,7 @@ export interface CategoryProps {
   color?: CategoryColor;
   accountId?: string | null;
   categoryName?: string;
+  resetHasFetched?: () => void;
 }
 
 export interface CategoryDisplayCellProps extends CategoryProps {}

@@ -19,8 +19,16 @@ const Category: React.FC<CategoryProps> = ({
   color,
   accountId,
   categoryName,
+  resetHasFetched,
 }) => {
   const [currentColor, setCurrentColor] = useState(color || CategoryColor.BLUE);
+
+  // Update currentColor when color prop changes
+  React.useEffect(() => {
+    if (color) {
+      setCurrentColor(color);
+    }
+  }, [color]);
 
   const handleColorSelect = async (newColor: CategoryColor) => {
     try {
@@ -33,11 +41,12 @@ const Category: React.FC<CategoryProps> = ({
           await updateCategoryColor(accountId, value, newColor);
         }
         setCurrentColor(newColor);
-        // Update the background color of the category cell
-        const categoryCell = document.querySelector('.category-cell-edit');
-        if (categoryCell) {
-          (categoryCell as HTMLElement).style.backgroundColor = newColor;
+        
+        // Call resetHasFetched to trigger a refresh of the data
+        if (resetHasFetched) {
+          resetHasFetched();
         }
+
         // Call onChange with the current value to trigger a re-render
         if (onChange) {
           onChange(value);
