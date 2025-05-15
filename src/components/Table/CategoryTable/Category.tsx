@@ -17,8 +17,15 @@ const Category: React.FC<CategoryProps> = ({
   color = CategoryColor.DARK_OLIVE_GREEN,
 }) => {
   const handleColorSelect = (newColor: CategoryColor) => {
-    // TODO: Implement color change handler
-    console.log('Color selected:', newColor);
+    // Apply the color change immediately
+    if (onChange) {
+      onChange(value); // Keep the same value but trigger a re-render
+    }
+    // Update the background color of the category cell
+    const categoryCell = document.querySelector('.category-cell-edit');
+    if (categoryCell) {
+      (categoryCell as HTMLElement).style.backgroundColor = newColor;
+    }
   };
 
   return (

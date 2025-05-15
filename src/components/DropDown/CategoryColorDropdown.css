@@ -1,9 +1,9 @@
-.category-color-dropdown {
+.category-cell .actions .category-color-dropdown {
   position: relative;
   display: inline-block;
 }
 
-.color-selector {
+.category-cell .actions .category-color-dropdown .color-selector {
   background: #ffffff;
   border: none;
   border-radius: 4px;
@@ -12,46 +12,46 @@
   align-items: center;
   justify-content: center;
   transition: all 0.2s ease;
-  width: 18px;
-  height: 18px;
+  width: 10px;
+  height: 10px;
   padding: 2px;
 }
 
-.color-selector:hover {
+.category-cell .actions .category-color-dropdown .color-selector:hover {
   transform: translateY(-1px);
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
-.selected-color {
+.category-cell .actions .category-color-dropdown .selected-color {
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 14px;
-  height: 14px;
+  width: 10px;
+  height: 10px;
 }
 
-.color-options {
+.category-cell .actions .category-color-dropdown .color-options {
   position: absolute;
-  top: 100%;
+  top: calc(100% + 4px);
   left: 0;
-  margin-top: 4px;
   background: #ffffff;
   border: 1px solid #e2e8f0;
   border-radius: 8px;
-  padding: 8px;
+  padding: 12px;
   display: grid;
   grid-template-columns: repeat(5, 1fr);
-  gap: 8px;
-  z-index: 1000;
+  gap: 12px;
+  z-index: 9999;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  min-width: 200px;
+  min-width: 280px;
+  width: max-content;
 }
 
-.color-option {
+.category-cell .actions .category-color-dropdown .color-option {
   background: #ffffff;
   border: 1px solid #e2e8f0;
   border-radius: 6px;
-  padding: 6px;
+  padding: 8px;
   cursor: pointer;
   display: flex;
   align-items: center;
@@ -59,19 +59,19 @@
   transition: all 0.2s ease;
 }
 
-.color-option:hover {
+.category-cell .actions .category-color-dropdown .color-option:hover {
   transform: translateY(-1px);
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
-.color-circle {
+.category-cell .actions .category-color-dropdown .color-circle {
   border-radius: 50%;
   border: 1px solid rgba(0, 0, 0, 0.1);
   transition: transform 0.2s ease;
-  width: 14px;
-  height: 14px;
+  width: 10px;
+  height: 10px;
 }
 
-.color-option:hover .color-circle {
+.category-cell .actions .category-color-dropdown .color-option:hover .color-circle {
   transform: scale(1.1);
 } 
