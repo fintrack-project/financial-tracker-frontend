@@ -1,0 +1,75 @@
+.category-cell .actions .category-color-dropdown {
+  position: relative;
+  display: inline-block;
+}
+
+.category-cell .actions .category-color-dropdown .color-selector {
+  background: #ffffff;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+  width: 18px;
+  height: 18px;
+  padding: 2px;
+}
+
+.category-cell .actions .category-color-dropdown .color-selector:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.category-cell .actions .category-color-dropdown .selected-color {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 14px;
+  height: 14px;
+}
+
+.category-cell .actions .category-color-dropdown .color-circle {
+  border-radius: 50%;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  transition: transform 0.2s ease;
+  width: 14px;
+  height: 14px;
+}
+
+.category-cell .actions .category-color-dropdown .color-options {
+  position: absolute;
+  top: calc(100% + 4px);
+  left: 0;
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  padding: 6px;
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  z-index: var(--z-index-popover);
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  width: max-content;
+}
+
+.category-cell .actions .category-color-dropdown .color-option {
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 6px;
+  padding: 8px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+}
+
+.category-cell .actions .category-color-dropdown .color-option:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.category-cell .actions .category-color-dropdown .color-option:hover .color-circle {
+  transform: scale(1.1);
+} 

@@ -1,12 +1,14 @@
 // import axios from 'axios';
 import {
   fetchCategoryNamesApi,
-  fetchCategoriesAndSubcategoriesApi,
+  fetchCategoriesAndSubcategoriesNamesMapApi,
   addCategoryApi,
   updateCategoryNameApi,
   removeCategoryApi,
+  updateCategoryColorApi,
+  fetchCategoryColorMapApi,
 } from '../api/categoryApi';
-import { Category, Subcategory, CategoryAndSubcategories } from '../types/CategoryTypes';
+import { Category, Subcategory, CategoryAndSubcategoriesNamesMap, CategoryColor } from '../types/CategoryTypes';
 
 export interface CategoryService {
   categories: string[];
@@ -108,9 +110,9 @@ export const fetchCategoryNames = async (accountId: string): Promise<string[]> =
   }
 };
 
-export const fetchCategoriesAndSubcategories = async (accountId: string): Promise<CategoryAndSubcategories> => {
+export const fetchCategoriesAndSubcategoriesNamesMap = async (accountId: string): Promise<CategoryAndSubcategoriesNamesMap> => {
   try {
-    const response = await fetchCategoriesAndSubcategoriesApi(accountId);
+    const response = await fetchCategoriesAndSubcategoriesNamesMapApi(accountId);
     if (!response.success || !response.data) {
       throw new Error(response.message || 'Failed to fetch categories and subcategories');
     }
@@ -161,6 +163,39 @@ export const removeCategory = async (accountId: string, category: string): Promi
     }
   } catch (error) {
     console.error('Error removing category:', error);
+    throw error;
+  }
+};
+
+export const updateCategoryColor = async (
+  accountId: string,
+  categoryName: string,
+  color: CategoryColor
+): Promise<Category> => {
+  try {
+    const response = await updateCategoryColorApi(accountId, categoryName, color);
+    if (!response.success) {
+      throw new Error(response.message || 'Failed to update category color');
+    }
+    // If we have data, return it, otherwise return a minimal Category object
+    return response.data || { id: '', name: categoryName, subcategories: [] };
+  } catch (error) {
+    console.error('Error updating category color:', error);
+    throw error;
+  }
+};
+
+export const fetchCategoryColorMap = async (
+  accountId: string
+): Promise<{ [category: string]: CategoryColor }> => {
+  try {
+    const response = await fetchCategoryColorMapApi(accountId);
+    if (!response.success || !response.data) {
+      throw new Error(response.message || 'Failed to fetch category color map');
+    }
+    return response.data.categoryColors;
+  } catch (error) {
+    console.error('Error fetching category color map:', error);
     throw error;
   }
 };

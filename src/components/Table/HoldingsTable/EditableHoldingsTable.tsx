@@ -8,11 +8,12 @@ import { createCategoryService } from '../../../services/categoryService';
 import { createHoldingsCategoriesService } from 'services/holdingsCategoriesService';
 import ResetCategoryPopup from '../../Popup/ResetCategoryPopup';
 import './HoldingsTable.css'; // Reuse the CSS from HoldingsTable
+import { CategoryColor } from '../../../types/CategoryTypes';
 
-interface EditableHoldingsTableProps {
+export interface EditableHoldingsTableProps {
   accountId: string | null;
   categories: string[];
-  subcategories: {[category: string]: string[]};
+  subcategories: { [category: string]: string[] };
   categoryService: ReturnType<typeof createCategoryService>;
   holdingsCategoriesService: ReturnType<typeof createHoldingsCategoriesService>;
   confirmedHoldingsCategories: {
@@ -21,6 +22,8 @@ interface EditableHoldingsTableProps {
     };
   };
   resetHasFetched: () => void;
+  categoryColors: { [category: string]: CategoryColor };
+  subcategoryColors: { [category: string]: { [subcategory: string]: CategoryColor } };
 }
 
 const EditableHoldingsTable: React.FC<EditableHoldingsTableProps> = ({ 
@@ -30,7 +33,9 @@ const EditableHoldingsTable: React.FC<EditableHoldingsTableProps> = ({
   categoryService,
   holdingsCategoriesService,
   confirmedHoldingsCategories,
-  resetHasFetched
+  resetHasFetched,
+  categoryColors,
+  subcategoryColors
 }) => {
   const { holdings, portfolioData, loading } = useHoldingsData(accountId);
   const { baseCurrency, usdToBaseCurrencyRate, loading: baseCurrencyLoading, error: baseCurrencyError } = useBaseCurrency(accountId);
@@ -172,6 +177,8 @@ const EditableHoldingsTable: React.FC<EditableHoldingsTableProps> = ({
                         onEdit={() => handleEditCategoryColumn(categoryIndex)}
                         onRemove={() => handleResetCategoryColumn(categoryIndex)}
                         showActions={true}
+                        color={categoryColors[category]}
+                        resetHasFetched={resetHasFetched}
                       />
                     </th>
                   );
@@ -194,26 +201,31 @@ const EditableHoldingsTable: React.FC<EditableHoldingsTableProps> = ({
                     <td>{holding.assetType}</td>
                     <td>{formatNumber(holding.priceInBaseCurrency, holding.assetType === 'FOREX' ? 6 : 2)}</td>
                     <td>{formatNumber(holding.totalValueInBaseCurrency)}</td>
-                    {categoryColumns.map((category, categoryIndex) => (
-                      <td key={`${rowIndex}-${categoryIndex}`}>
-                        <CategoryDropdownCell
-                          value={subcategoryColumns[categoryIndex]?.[rowIndex] || ''}
-                          isEditing={editingColumns.has(categoryIndex)}
-                          options={subcategories[category] || []}
-                          onChange={(newValue) =>
-                            setSubcategoryColumns((prev) => {
-                              const updated = [...prev];
-                              updated[categoryIndex][rowIndex] = newValue;
-                              return updated;
-                            })
-                          }
-                          onConfirm={() => {}}
-                          onEdit={() => {}}
-                          onRemove={() => {}}
-                          showActions={false}
-                        />
-                      </td>
-                    ))}
+                    {categoryColumns.map((category, categoryIndex) => {
+                      const selectedSubcategory = subcategoryColumns[categoryIndex]?.[rowIndex] || '';
+                      return (
+                        <td key={`${rowIndex}-${categoryIndex}`}>
+                          <CategoryDropdownCell
+                            value={selectedSubcategory}
+                            isEditing={editingColumns.has(categoryIndex)}
+                            options={subcategories[category] || []}
+                            onChange={(newValue) =>
+                              setSubcategoryColumns((prev) => {
+                                const updated = [...prev];
+                                updated[categoryIndex][rowIndex] = newValue;
+                                return updated;
+                              })
+                            }
+                            onConfirm={() => {}}
+                            onEdit={() => {}}
+                            onRemove={() => {}}
+                            showActions={false}
+                            color={selectedSubcategory ? subcategoryColors[category]?.[selectedSubcategory] : undefined}
+                            resetHasFetched={resetHasFetched}
+                          />
+                        </td>
+                      );
+                    })}
                   </tr>
                 ))
               )}

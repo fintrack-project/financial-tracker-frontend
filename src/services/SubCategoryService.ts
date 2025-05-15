@@ -2,7 +2,10 @@ import {
   addSubcategoryApi,
   updateSubcategoryNameApi,
   removeSubcategoryApi,
+  updateSubcategoryColorApi,
+  fetchSubcategoryColorMapApi
 } from '../api/subCategoryApi';
+import { CategoryColor } from '../types/CategoryTypes';
 
 export interface subCategoryService {
   subcategories: { [category: string]: string[] }; // Holds the subcategories for each category
@@ -105,4 +108,37 @@ export const createSubcategoryService = (
     removeSubcategory,
     confirmSubcategory,
   };
+};
+
+export const updateSubcategoryColor = async (
+  accountId: string,
+  categoryName: string,
+  subcategoryName: string,
+  color: CategoryColor
+): Promise<void> => {
+  try {
+    const response = await updateSubcategoryColorApi(accountId, categoryName, subcategoryName, color);
+    if (!response.success) {
+      throw new Error(response.message || 'Failed to update subcategory color');
+    }
+  } catch (error) {
+    console.error('Error updating subcategory color:', error);
+    throw error;
+  }
+};
+
+export const fetchSubcategoryColorMap = async (
+  accountId: string,
+  categoryName: string
+): Promise<{ [subcategory: string]: CategoryColor }> => {
+  try {
+    const response = await fetchSubcategoryColorMapApi(accountId, categoryName);
+    if (!response.success || !response.data) {
+      throw new Error(response.message || 'Failed to fetch subcategory color map');
+    }
+    return response.data.subcategoryColors;
+  } catch (error) {
+    console.error('Error fetching subcategory color map:', error);
+    throw error;
+  }
 };

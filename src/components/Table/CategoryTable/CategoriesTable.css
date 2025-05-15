@@ -4,7 +4,7 @@
   background-color: #fff;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
   margin-bottom: 20px;
-  overflow: hidden;
+  overflow: visible; /* Change from hidden to visible to show dropdowns */
 }
 
 .categories-table {
@@ -13,6 +13,7 @@
   border-spacing: 0;
   font-size: 0.95rem;
   table-layout: fixed; /* Enable fixed table layout */
+  position: relative; /* Add position relative to ensure proper stacking context */
 }
 
 /* Column widths */
@@ -24,6 +25,7 @@
 .categories-table th:last-child,
 .categories-table td:last-child {
   width: 70%;
+  position: relative; /* Add position relative to ensure proper stacking context */
 }
 
 .categories-table th {

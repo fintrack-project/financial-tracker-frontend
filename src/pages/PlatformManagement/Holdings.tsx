@@ -2,9 +2,10 @@ import React, { useState, useEffect } from 'react';
 import _, { set } from 'lodash';
 import EditableHoldingsTable from '../../components/Table/HoldingsTable/EditableHoldingsTable';
 import CategoriesTable from '../../components/Table/CategoryTable/CategoriesTable';
-import { createCategoryService, fetchCategoriesAndSubcategories } from '../../services/categoryService';
-import { createSubcategoryService } from '../../services/subCategoryService';
+import { createCategoryService, fetchCategoriesAndSubcategoriesNamesMap, fetchCategoryColorMap } from '../../services/categoryService';
+import { createSubcategoryService, fetchSubcategoryColorMap } from '../../services/subCategoryService';
 import { createHoldingsCategoriesService, fetchHoldingsCategories } from 'services/holdingsCategoriesService';
+import { CategoryColor } from '../../types/CategoryTypes';
 import './Holdings.css'; // Import the CSS file
 
 interface HoldingsProps {
@@ -15,6 +16,8 @@ const Holdings: React.FC<HoldingsProps> = ({ accountId }) => {
   const [categories, setCategories] = useState<string[]>([]);
   const [subcategories, setSubcategories] = useState<{ [category: string]: string[] }>({});
   const [hasFetched, setHasFetched] = useState(false);
+  const [categoryColors, setCategoryColors] = useState<{ [category: string]: CategoryColor }>({});
+  const [subcategoryColors, setSubcategoryColors] = useState<{ [category: string]: { [subcategory: string]: CategoryColor } }>({});
 
   const [confirmedCategories, setConfirmedCategories] = useState<string[]>([]);; // Track confirmed categories
   const [confirmedSubcategories, setConfirmedSubcategories] = useState<{ [category: string]: string[] }>({}); // Track confirmed subcategories
@@ -40,14 +43,28 @@ const Holdings: React.FC<HoldingsProps> = ({ accountId }) => {
       try {
         // Fetch categories and subcategories from the API
         const { categories: fetchedCategories, subcategories: fetchedSubcategories } =
-          await fetchCategoriesAndSubcategories(accountId);
+          await fetchCategoriesAndSubcategoriesNamesMap(accountId);
 
         // Fetch holdings categories from the API
         const response = await fetchHoldingsCategories(accountId);
 
+        // Fetch color maps
+        const categoryColorMap = await fetchCategoryColorMap(accountId);
+        const subcategoryColorMapPromises = fetchedCategories.map(async (category) => {
+          const colors = await fetchSubcategoryColorMap(accountId, category);
+          return { category, colors };
+        });
+        const subcategoryColorMapResults = await Promise.all(subcategoryColorMapPromises);
+        const subcategoryColorMap = subcategoryColorMapResults.reduce((acc, { category, colors }) => {
+          acc[category] = colors;
+          return acc;
+        }, {} as { [category: string]: { [subcategory: string]: CategoryColor } });
+
         // Use the onUpdateCategories callback to update the parent state
         setCategories([... fetchedCategories]);
         setSubcategories(_.cloneDeep(fetchedSubcategories));
+        setCategoryColors(categoryColorMap);
+        setSubcategoryColors(subcategoryColorMap);
 
         // Update confirmedCategories
         setConfirmedCategories([... fetchedCategories]);
@@ -59,6 +76,7 @@ const Holdings: React.FC<HoldingsProps> = ({ accountId }) => {
         setHasFetched(true); // Mark as fetched
 
       } catch (error) {
+        console.error('Error fetching data:', error);
         alert('Failed to fetch categories. Please try again.');
       }
     };
@@ -98,6 +116,8 @@ const Holdings: React.FC<HoldingsProps> = ({ accountId }) => {
           confirmedHoldingsCategories={confirmedHoldingsCategories}
           holdingsCategoriesService={holdingsCategoriesService}
           resetHasFetched={resetHasFetched}
+          categoryColors={categoryColors}
+          subcategoryColors={subcategoryColors}
         />
       </div>
       <h2 className="fintrack-section-title">Categories</h2>
@@ -110,6 +130,8 @@ const Holdings: React.FC<HoldingsProps> = ({ accountId }) => {
           subcategoryService={subcategoryService}
           onUpdateCategories={handleUpdateCategories}
           resetHasFetched={resetHasFetched}
+          categoryColors={categoryColors}
+          subcategoryColors={subcategoryColors}
         />
       </div>
     </div>

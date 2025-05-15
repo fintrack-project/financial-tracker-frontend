@@ -12,14 +12,12 @@
   align-items: center;
   opacity: 0;
   transition: all 0.2s ease;
-  padding: 2px;
-  gap: 2px;
   border-radius: 4px;
   background-color: transparent;
   width: 0;
   min-width: 0;
   max-width: 0;
-  overflow: hidden;
+  overflow: visible;
   margin-left: 0;
   flex-shrink: 0;
 }
@@ -39,7 +37,6 @@
   align-items: center;
   justify-content: center;
   gap: 4px;
-  background-color: #3b82f6;
   border-radius: 6px;
   padding: 6px 12px;
   transition: all 0.2s ease;
@@ -50,7 +47,7 @@
 
 .category-cell-view:hover,
 .category-cell-edit:hover {
-  background-color: #2563eb;
+  filter: brightness(0.9);
 }
 
 .category-cell-view span {
@@ -93,7 +90,13 @@
 /* Subcategory specific styles */
 .category-cell.subcategory .category-cell-view,
 .category-cell.subcategory .category-cell-edit {
-  background-color: #60a5fa;
+  filter: brightness(1.1);
+}
+
+/* Add the same brightness to category cells */
+.category-cell:not(.subcategory) .category-cell-view,
+.category-cell:not(.subcategory) .category-cell-edit {
+  filter: brightness(1.1);
 }
 
 .category-cell.subcategory .category-cell-edit input,
@@ -102,28 +105,32 @@
 }
 
 /* Icon button styling within cells */
-.category-cell .actions .icon-button {
+.category-cell .actions .icon-button,
+.category-cell .actions .category-color-dropdown {
   border-radius: 4px;
-  padding: 4px;
+  padding: 2px;
   transition: all 0.2s ease;
   flex-shrink: 0;
   display: inline-flex;
   align-items: center;
   gap: 4px;
-  background-color: transparent;
-  color: #64748b;
+  background-color: #ffffff !important;
+  color: #64748b !important;
   font-size: 0.875rem;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
 }
 
-.category-cell .actions .icon-button:hover {
-  background-color: #f8fafc;
+.category-cell .actions .icon-button:hover,
+.category-cell .actions .category-color-dropdown:hover {
   transform: translateY(-1px);
-  color: #3b82f6;
+  color: #3b82f6 !important;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  background-color: #ffffff !important;
 }
 
 .category-cell .actions .icon-button img {
-  width: 14px;
-  height: 14px;
+  width: 18px;
+  height: 18px;
   filter: none;
   opacity: 0.7;
   transition: opacity 0.2s ease;
@@ -131,4 +138,23 @@
 
 .category-cell .actions .icon-button:hover img {
   opacity: 1;
+}
+/* Color dropdown specific styles */
+.category-cell .actions .category-color-dropdown .color-selector {
+  width: 14px;
+  height: 14px;
+  padding: 2px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.category-cell .actions .category-color-dropdown .selected-color {
+  width: 12px;
+  height: 12px;
+}
+
+.category-cell .actions .category-color-dropdown .color-circle {
+  width: 12px;
+  height: 12px;
 }
