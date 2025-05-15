@@ -1,5 +1,6 @@
 import React from 'react';
 import IconButton from '../../Button/IconButton';
+import CategoryColorDropdown from '../../DropDown/CategoryColorDropdown';
 import { CategoryProps, CategoryColor } from '../../../types/CategoryTypes';
 import './Category.css'; // Optional: Add styles for the cell
 
@@ -15,6 +16,11 @@ const Category: React.FC<CategoryProps> = ({
   isSubcategory = false, // Default to false if not provided
   color = CategoryColor.DARK_OLIVE_GREEN,
 }) => {
+  const handleColorSelect = (newColor: CategoryColor) => {
+    // TODO: Implement color change handler
+    console.log('Color selected:', newColor);
+  };
+
   return (
     <div className={`category-cell ${isSubcategory ? 'subcategory' : ''}`}>
       {isEditing ? (
@@ -26,6 +32,10 @@ const Category: React.FC<CategoryProps> = ({
           {showActions && (
             <div className="actions">
               <IconButton type="confirm" onClick={onConfirm} label="Confirm" size="small" />
+              <CategoryColorDropdown
+                selectedColor={color}
+                onColorSelect={handleColorSelect}
+              />
               <IconButton type="delete" onClick={onRemove} label="Remove" size="small" />
             </div>
           )}

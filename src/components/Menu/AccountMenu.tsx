@@ -61,25 +61,25 @@ const AccountMenu: React.FC<AccountMenuProps> = ({ onAccountChange }) => {
           </div>
           <p className="user-id">Logged in as: {userId || 'Guest'}</p>
           <div className="menu-items">
-            <NavLink
-              to="/platform/profile"
-              className={({ isActive }) =>
-                isActive ? 'dropdown-item active' : 'dropdown-item'
-              }
-            >
-              Profile
-            </NavLink>
-            <NavLink
-              to="/platform/support"
-              className={({ isActive }) =>
-                isActive ? 'dropdown-item active' : 'dropdown-item'
-              }
-            >
-              Support
-            </NavLink>
-            <button className="logout-button" onClick={handleLogout}>
-              Logout
-            </button>
+          <NavLink
+            to="/platform/profile"
+            className={({ isActive }) =>
+              isActive ? 'dropdown-item active' : 'dropdown-item'
+            }
+          >
+            Profile
+          </NavLink>
+          <NavLink
+            to="/platform/support"
+            className={({ isActive }) =>
+              isActive ? 'dropdown-item active' : 'dropdown-item'
+            }
+          >
+            Support
+          </NavLink>
+          <button className="logout-button" onClick={handleLogout}>
+            Logout
+          </button>
           </div>
         </div>
       )}

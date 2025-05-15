@@ -101,9 +101,10 @@
 }
 
 /* Icon button styling within cells */
-.category-cell .actions .icon-button {
+.category-cell .actions .icon-button,
+.category-cell .actions .category-color-dropdown {
   border-radius: 4px;
-  padding: 4px;
+  padding: 2px;
   transition: all 0.2s ease;
   flex-shrink: 0;
   display: inline-flex;
@@ -115,7 +116,8 @@
   box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
 }
 
-.category-cell .actions .icon-button:hover {
+.category-cell .actions .icon-button:hover,
+.category-cell .actions .category-color-dropdown:hover {
   transform: translateY(-1px);
   color: #3b82f6 !important;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
@@ -132,4 +134,24 @@
 
 .category-cell .actions .icon-button:hover img {
   opacity: 1;
+}
+
+/* Color dropdown specific styles */
+.category-cell .actions .category-color-dropdown .color-selector {
+  width: 18px;
+  height: 18px;
+  padding: 2px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.category-cell .actions .category-color-dropdown .selected-color {
+  width: 14px;
+  height: 14px;
+}
+
+.category-cell .actions .category-color-dropdown .color-circle {
+  width: 14px;
+  height: 14px;
 }
