@@ -1,5 +1,5 @@
 import React from 'react';
-import CategoryCell from './CategoryCell';
+import Category from './Category';
 
 interface CategoryInputCellProps {
   value: string;
@@ -10,7 +10,7 @@ interface CategoryInputCellProps {
   onRemove: () => void;
   placeholder?: string;
   showActions?: boolean; // Optional prop to control action button visibility
-  isSubcategory?: boolean;
+  isSubcategory?: boolean; // Whether this is a subcategory cell
 }
 
 const CategoryInputCell: React.FC<CategoryInputCellProps> = ({
@@ -22,16 +22,16 @@ const CategoryInputCell: React.FC<CategoryInputCellProps> = ({
   onRemove,
   placeholder = 'Enter value',
   showActions = true, // Default to true if not provided
-  isSubcategory = false,
+  isSubcategory = false, // Default to false if not provided
 }) => {
   return (
-    <CategoryCell
+    <Category
       value={value}
       isEditing={isEditing}
       onConfirm={onConfirm}
       onEdit={onEdit}
       onRemove={onRemove}
-      showActions={showActions} // Pass showActions prop to CategoryCell
+      showActions={showActions}
       isSubcategory={isSubcategory}
     >
       <input
@@ -40,7 +40,7 @@ const CategoryInputCell: React.FC<CategoryInputCellProps> = ({
         onChange={(e) => onChange(e.target.value)}
         placeholder={placeholder}
       />
-    </CategoryCell>
+    </Category>
   );
 };
 

@@ -1,5 +1,5 @@
 import React from 'react';
-import CategoryCell from './CategoryCell';
+import Category from './Category';
 
 interface CategoryDisplayCellProps {
   value: string;
@@ -21,7 +21,7 @@ const CategoryDisplayCell: React.FC<CategoryDisplayCellProps> = ({
   isSubcategory = false,
 }) => {
   return (
-    <CategoryCell
+    <Category
       value={value}
       isEditing={isEditing}
       onConfirm={onConfirm}
@@ -31,7 +31,7 @@ const CategoryDisplayCell: React.FC<CategoryDisplayCellProps> = ({
       isSubcategory={isSubcategory}
     >
       <span>{value}</span>
-    </CategoryCell>
+    </Category>
   );
 };
 

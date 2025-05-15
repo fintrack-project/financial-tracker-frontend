@@ -1,5 +1,5 @@
 import React from 'react';
-import CategoryCell from './CategoryCell';
+import Category from './Category';
 
 interface CategoryDropdownCellProps {
   value: string;
@@ -23,13 +23,13 @@ const CategoryDropdownCell: React.FC<CategoryDropdownCellProps> = ({
   showActions = true, // Default to true if not provided
 }) => {
   return (
-    <CategoryCell
+    <Category
       value={value}
       isEditing={isEditing}
       onConfirm={onConfirm}
       onEdit={onEdit}
       onRemove={onRemove}
-      showActions={showActions} // Pass showActions prop to CategoryCell
+      showActions={showActions}
     >
       <select value={value} onChange={(e) => onChange(e.target.value)}>
         <option value="">Select an option</option>
@@ -39,7 +39,7 @@ const CategoryDropdownCell: React.FC<CategoryDropdownCellProps> = ({
           </option>
         ))}
       </select>
-    </CategoryCell>
+    </Category>
   );
 };
 

@@ -1,20 +1,20 @@
 import React from 'react';
 import IconButton from '../../Button/IconButton';
-import './CategoryCell.css'; // Optional: Add styles for the cell
+import './Category.css'; // Optional: Add styles for the cell
 
-interface CategoryCellProps {
+interface CategoryProps {
   value: string; // The current value of the category or subcategory
   isEditing: boolean; // Whether the cell is in edit mode
-  onChange?: (newValue: string) => void; // Handler for input changes
-  onConfirm: () => void; // Handler for confirming the value
-  onEdit: () => void; // Handler for entering edit mode
-  onRemove: () => void; // Handler for removing the category or subcategory
-  children: React.ReactNode; // Content to render inside the cell (e.g., input or dropdown)
-  showActions?: boolean; // Optional prop to control action button visibility
-  isSubcategory?: boolean;
+  onChange?: (newValue: string) => void; // Handle value changes
+  onConfirm: () => void; // Handle confirm action
+  onEdit: () => void; // Handle edit action
+  onRemove: () => void; // Handle remove action
+  children?: React.ReactNode; // Optional children components
+  showActions?: boolean; // Control action button visibility
+  isSubcategory?: boolean; // Whether this is a subcategory cell
 }
 
-const CategoryCell: React.FC<CategoryCellProps> = ({
+const Category: React.FC<CategoryProps> = ({
   value,
   isEditing,
   onChange,
@@ -23,7 +23,7 @@ const CategoryCell: React.FC<CategoryCellProps> = ({
   onRemove,
   children,
   showActions = true, // Default to true if not provided
-  isSubcategory = false,
+  isSubcategory = false, // Default to false if not provided
 }) => {
   return (
     <div className={`category-cell ${isSubcategory ? 'subcategory' : ''}`}>
@@ -52,4 +52,4 @@ const CategoryCell: React.FC<CategoryCellProps> = ({
   );
 };
 
-export default CategoryCell;
+export default Category;
