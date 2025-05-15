@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React from 'react';
 import './SixDigitInput.css'; // Add styles for the input boxes
 
 interface SixDigitInputProps {
@@ -7,7 +7,7 @@ interface SixDigitInputProps {
 }
 
 const SixDigitInput: React.FC<SixDigitInputProps> = ({ value, onChange }) => {
-  const inputRefs = useRef<HTMLInputElement[]>([]);
+  const inputRefs = React.useRef<HTMLInputElement[]>([]);
 
   const handleChange = (index: number, digit: string) => {
     if (!/^\d?$/.test(digit)) return; // Allow only single digits

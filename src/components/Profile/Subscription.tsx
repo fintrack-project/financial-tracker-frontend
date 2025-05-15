@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { fetchUserDetails } from '../../services/userService';
 import { fetchUserSubscription, upgradeSubscription } from '../../services/userSubscriptionService';
-import { fetchPaymentMethods, getDefaultPaymentMethod, deletePaymentMethod, setDefaultPaymentMethod, confirmPayment, attachPaymentMethod } from '../../services/paymentMethodService';
+import { fetchPaymentMethods, getDefaultPaymentMethod, deletePaymentMethod, setDefaultPaymentMethod, attachPaymentMethod } from '../../services/paymentMethodService';
 import { UserDetails } from '../../types/UserDetails';
 import { UserSubscription } from '../../types/UserSubscription';
 import { PaymentMethod, PaymentError } from '../../types/PaymentMethods';

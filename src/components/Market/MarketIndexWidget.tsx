@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from 'react';
-import { fetchMarketIndices, MARKET_INDEX_NAMES } from '../../services/marketIndexService';
+import React, { useState } from 'react';
+import { fetchMarketIndices } from '../../services/marketIndexService';
 import { MarketIndexData } from '../../types/MarketData';
 import { useRefreshCycle } from '../../hooks/useRefreshCycle';
 import { SubscriptionPlanType } from '../../types/SubscriptionPlan';

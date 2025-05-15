@@ -3,25 +3,32 @@ import { useNavigate, NavLink } from 'react-router-dom';
 import UserSession from '../../utils/UserSession';
 import { logoutUser } from '../../services/authService';
 import { fetchCurrentAccountApi } from '../../api/accountApi';
+import { ApiResponse } from '../../types/ApiTypes';
 import './AccountMenu.css';
 
+interface Account {
+  accountId: string;
+  userId: string;
+  createdAt: string;
+  updatedAt: string;
+}
+
 interface AccountMenuProps {
-  onAccountChange: (accountId: string) => void; // Callback to pass the accountId
+  onAccountChange: (accountId: string) => void;
 }
 
 const AccountMenu: React.FC<AccountMenuProps> = ({ onAccountChange }) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [userId, setUserId] = useState<string | null>(null);
-  const [accountId, setAccountId] = useState<string | null>(null); // State to store the accountId
+  const [loading, setLoading] = useState<boolean>(true);
+  const [accounts, setAccounts] = useState<Account[]>([]);
   const navigate = useNavigate();
 
   useEffect(() => {
-    // Retrieve the user ID from the UserSession singleton
     const session = UserSession.getInstance();
     const storedUserId = session.getUserId();
     setUserId(storedUserId);
 
-    // Fetch the currently logged-in account ID dynamically
     const fetchAccountId = async () => {
       try {
         const response = await fetchCurrentAccountApi();
@@ -29,7 +36,7 @@ const AccountMenu: React.FC<AccountMenuProps> = ({ onAccountChange }) => {
           throw new Error(response.message || 'Failed to fetch account ID');
         }
 
-        setAccountId(response.data.accountId);
+        setAccounts([response.data]);
         onAccountChange(response.data.accountId);
       } catch (error) {
         console.error('Error fetching account ID:', error);

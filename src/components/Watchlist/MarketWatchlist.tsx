@@ -1,4 +1,4 @@
-import React, { useState, useEffect, Dispatch, SetStateAction } from 'react';
+import React from 'react';
 import EditableWatchlistTable from './EditableWatchlistTable';
 import { useWatchlist } from '../../hooks/useWatchlist';
 import { useMarketData } from '../../hooks/useMarketData';
@@ -74,7 +74,7 @@ const MarketWatchlist: React.FC<MarketWatchlistProps> = ({
     }
   };
 
-  const handleSetRows: Dispatch<SetStateAction<MarketDataDisplay[]>> = (value) => {
+  const handleSetRows = (value: MarketDataDisplay[] | ((prevRows: MarketDataDisplay[]) => MarketDataDisplay[])) => {
     if (typeof value === 'function') {
       // Handle function updater
       const newRows = value(rows);

@@ -10,7 +10,7 @@ interface AccountDetailAndMenuProps {
 
 const AccountDetailAndMenu: React.FC<AccountDetailAndMenuProps> = ({ accountId }) => {
   const [userId, setUserId] = useState<string | null>(null); // State to store the userId
-  const [error, setError] = useState<string | null>(null); // State to handle errors
+  const [loading, setLoading] = useState<boolean>(true);
   const navigate = useNavigate();
 
   useEffect(() => {

@@ -24,8 +24,6 @@ const Security: React.FC<SecurityProps> = ({ accountId }) => {
     verifyOtp,
     closeOtpPopup,
     showPasswordPopup,
-    passwordError,
-    setPasswordError,
     showOtpPopup,
     otpError,
   } = useAuthService();
@@ -39,6 +37,9 @@ const Security: React.FC<SecurityProps> = ({ accountId }) => {
   const [editState, setEditState] = useState<{ [key: string]: string | null }>({});
   const [editModes, setEditModes] = useState<{ [key: string]: boolean }>({});
   const [loading, setLoading] = useState<boolean>(true);
+  const [password, setPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
+  const [passwordError, setPasswordError] = useState<string | null>(null);
 
   useEffect(() => {
     const loadUserDetails = async () => {
