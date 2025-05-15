@@ -5,16 +5,14 @@ import { logoutUser } from 'services/authService';
 import './AccountDetailAndMenu.css';
 
 interface AccountDetailAndMenuProps {
-  accountId: string; // Name or email of the logged-in user
+  accountId: string;
 }
 
 const AccountDetailAndMenu: React.FC<AccountDetailAndMenuProps> = ({ accountId }) => {
-  const [userId, setUserId] = useState<string | null>(null); // State to store the userId
-  const [loading, setLoading] = useState<boolean>(true);
+  const [userId, setUserId] = useState<string | null>(null);
   const navigate = useNavigate();
 
   useEffect(() => {
-    // Retrieve the user ID from the UserSession singleton
     const session = UserSession.getInstance();
     const storedUserId = session.getUserId();
     setUserId(storedUserId);

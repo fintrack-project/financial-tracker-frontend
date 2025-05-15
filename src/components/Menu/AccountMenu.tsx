@@ -3,7 +3,6 @@ import { useNavigate, NavLink } from 'react-router-dom';
 import UserSession from '../../utils/UserSession';
 import { logoutUser } from '../../services/authService';
 import { fetchCurrentAccountApi } from '../../api/accountApi';
-import { ApiResponse } from '../../types/ApiTypes';
 import './AccountMenu.css';
 
 interface Account {
@@ -20,8 +19,6 @@ interface AccountMenuProps {
 const AccountMenu: React.FC<AccountMenuProps> = ({ onAccountChange }) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [userId, setUserId] = useState<string | null>(null);
-  const [loading, setLoading] = useState<boolean>(true);
-  const [accounts, setAccounts] = useState<Account[]>([]);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -36,7 +33,6 @@ const AccountMenu: React.FC<AccountMenuProps> = ({ onAccountChange }) => {
           throw new Error(response.message || 'Failed to fetch account ID');
         }
 
-        setAccounts([response.data]);
         onAccountChange(response.data.accountId);
       } catch (error) {
         console.error('Error fetching account ID:', error);
