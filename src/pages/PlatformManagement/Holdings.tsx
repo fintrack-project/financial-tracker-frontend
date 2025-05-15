@@ -3,8 +3,8 @@ import _, { set } from 'lodash';
 import EditableHoldingsTable from '../../components/Table/HoldingsTable/EditableHoldingsTable';
 import CategoriesTable from '../../components/Table/CategoryTable/CategoriesTable';
 import { createCategoryService, fetchCategoriesAndSubcategoriesNamesMap, fetchCategoryColorMap } from '../../services/categoryService';
-import { createSubcategoryService, fetchSubcategoryColorMap } from 'services/subCategoryService';
-import { createHoldingsCategoriesService, fetchHoldingsCategories } from 'services/holdingsCategoriesService';
+import { createSubcategoryService, fetchSubcategoryColorMap } from '../../services/subCategoryService';
+import { createHoldingsCategoriesService, fetchHoldingsCategories } from '../../services/holdingsCategoriesService';
 import { CategoryColor } from '../../types/CategoryTypes';
 import './Holdings.css'; // Import the CSS file
 
