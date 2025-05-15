@@ -12,8 +12,6 @@
   align-items: center;
   opacity: 0;
   transition: all 0.2s ease;
-  padding: 2px;
-  gap: 2px;
   border-radius: 4px;
   background-color: transparent;
   width: 0;
@@ -92,6 +90,12 @@
 /* Subcategory specific styles */
 .category-cell.subcategory .category-cell-view,
 .category-cell.subcategory .category-cell-edit {
+  filter: brightness(1.1);
+}
+
+/* Add the same brightness to category cells */
+.category-cell:not(.subcategory) .category-cell-view,
+.category-cell:not(.subcategory) .category-cell-edit {
   filter: brightness(1.1);
 }
 
