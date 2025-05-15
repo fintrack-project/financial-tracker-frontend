@@ -6,6 +6,7 @@ import CategoryDropdownCell from '../../Table/CategoryTable/CategoryDropdownCell
 import CategoryDisplayCell from '../../Table/CategoryTable/CategoryDisplayCell';
 import { createCategoryService } from '../../../services/categoryService';
 import { createHoldingsCategoriesService } from 'services/holdingsCategoriesService';
+import ResetCategoryPopup from '../../Popup/ResetCategoryPopup';
 import './HoldingsTable.css'; // Reuse the CSS from HoldingsTable
 
 interface EditableHoldingsTableProps {
@@ -35,7 +36,9 @@ const EditableHoldingsTable: React.FC<EditableHoldingsTableProps> = ({
   const { baseCurrency, usdToBaseCurrencyRate, loading: baseCurrencyLoading, error: baseCurrencyError } = useBaseCurrency(accountId);
   const [categoryColumns, setCategoryColumns] = useState<string[]>([]); // Manage categories as state
   const [subcategoryColumns, setSubcategoryColumns] = useState<string[][]>([]); // Manage subcategories as state
-   const [editingColumns, setEditingColumns] = useState<Set<number>>(new Set()); // Track which columns are in edit mode
+  const [editingColumns, setEditingColumns] = useState<Set<number>>(new Set()); // Track which columns are in edit mode
+  const [showResetPopup, setShowResetPopup] = useState(false);
+  const [categoryToReset, setCategoryToReset] = useState<string | null>(null);
 
   // Synchronize categoryColumns and subcategoryColumns with the categories prop
   useEffect(() => {
@@ -101,11 +104,17 @@ const EditableHoldingsTable: React.FC<EditableHoldingsTableProps> = ({
     }
   
     const category = categoryColumns[index];
-  
+    setCategoryToReset(category);
+    setShowResetPopup(true);
+  };
+
+  const confirmResetCategory = async () => {
+    if (!accountId || !categoryToReset) return;
+
     try {
       // Reset all subcategories for this category to null
       const payload = {
-        [category]: holdings.reduce((assetAcc: { [assetName: string]: string | null }, holding) => {
+        [categoryToReset]: holdings.reduce((assetAcc: { [assetName: string]: string | null }, holding) => {
           assetAcc[holding.assetName] = null;
           return assetAcc;
         }, {}),
@@ -115,16 +124,25 @@ const EditableHoldingsTable: React.FC<EditableHoldingsTableProps> = ({
       await holdingsCategoriesService.updateHoldingsCategories(accountId, payload);
   
       // Update the state to reset subcategories for this category
-      const updatedSubcategoryColumns = [...subcategoryColumns];
-      updatedSubcategoryColumns[index] = holdings.map(() => ''); // Reset all subcategories to empty string
+      const categoryIndex = categoryColumns.indexOf(categoryToReset);
+      if (categoryIndex !== -1) {
+        const updatedSubcategoryColumns = [...subcategoryColumns];
+        updatedSubcategoryColumns[categoryIndex] = holdings.map(() => ''); // Reset all subcategories to empty string
+        setSubcategoryColumns(updatedSubcategoryColumns);
+      }
   
-      setSubcategoryColumns(updatedSubcategoryColumns);
-  
-      console.log(`Subcategories for category "${category}" reset successfully.`);
+      console.log(`Subcategories for category "${categoryToReset}" reset successfully.`);
+      setShowResetPopup(false);
+      setCategoryToReset(null);
     } catch (error) {
       console.error('Error resetting category subcategories:', error);
-      alert(`Failed to reset subcategories for category "${category}".`);
+      alert(`Failed to reset subcategories for category "${categoryToReset}".`);
     }
+  };
+
+  const cancelResetCategory = () => {
+    setShowResetPopup(false);
+    setCategoryToReset(null);
   };
 
   if (loading) {
@@ -132,76 +150,84 @@ const EditableHoldingsTable: React.FC<EditableHoldingsTableProps> = ({
   }
 
   return (
-    <div className="holdings-table-container">
-      <div className="scrollable-content">
-        <table className="holdings-table">
-          <thead>
-            <tr>
-              <th>Name</th>
-              <th>Symbol</th>
-              <th>Quantity</th>
-              <th>Asset Unit</th>
-              <th>Price ({baseCurrency || 'N/A'})</th>
-              <th>Total Value ({baseCurrency || 'N/A'})</th>
-              {categoryColumns.map((category, categoryIndex) => {
-                return (
-                  <th key={categoryIndex}>
-                    <CategoryDisplayCell
-                      value={category}
-                      isEditing={editingColumns.has(categoryIndex)}
-                      onConfirm={() => handleConfirmCategoryColumn(categoryIndex)}
-                      onEdit={() => handleEditCategoryColumn(categoryIndex)}
-                      onRemove={() => handleResetCategoryColumn(categoryIndex)}
-                      showActions={true}
-                    />
-                  </th>
-                );
-              })}
-            </tr>
-          </thead>
-          <tbody>
-            {portfolioData.length === 0 ? (
+    <>
+      <div className="holdings-table-container">
+        <div className="scrollable-content">
+          <table className="holdings-table">
+            <thead>
               <tr>
-                <td colSpan={6} className="no-holdings-row">
-                  No holdings
-                </td>
-              </tr>
-            ) : (
-              portfolioData.map((holding, rowIndex) => (
-                <tr key={rowIndex}>
-                  <td>{holding.assetName}</td>
-                  <td>{holding.symbol}</td>
-                  <td>{formatNumber(holding.quantity)}</td>
-                  <td>{holding.assetType}</td>
-                  <td>{formatNumber(holding.priceInBaseCurrency, holding.assetType === 'FOREX' ? 6 : 2)}</td>
-                  <td>{formatNumber(holding.totalValueInBaseCurrency)}</td>
-                  {categoryColumns.map((category, categoryIndex) => (
-                    <td key={`${rowIndex}-${categoryIndex}`}>
-                      <CategoryDropdownCell
-                        value={subcategoryColumns[categoryIndex]?.[rowIndex] || ''}
+                <th>Name</th>
+                <th>Symbol</th>
+                <th>Quantity</th>
+                <th>Asset Unit</th>
+                <th>Price ({baseCurrency || 'N/A'})</th>
+                <th>Total Value ({baseCurrency || 'N/A'})</th>
+                {categoryColumns.map((category, categoryIndex) => {
+                  return (
+                    <th key={categoryIndex}>
+                      <CategoryDisplayCell
+                        value={category}
                         isEditing={editingColumns.has(categoryIndex)}
-                        options={subcategories[category] || []}
-                        onChange={(newValue) =>
-                          setSubcategoryColumns((prev) => {
-                            const updated = [...prev];
-                            updated[categoryIndex][rowIndex] = newValue;
-                            return updated;
-                          })
-                        }
-                        onConfirm={() => {}}
-                        onEdit={() => {}}
-                        onRemove={() => {}}
-                        showActions={false}
+                        onConfirm={() => handleConfirmCategoryColumn(categoryIndex)}
+                        onEdit={() => handleEditCategoryColumn(categoryIndex)}
+                        onRemove={() => handleResetCategoryColumn(categoryIndex)}
+                        showActions={true}
                       />
-                    </td>
-                  ))}
+                    </th>
+                  );
+                })}
+              </tr>
+            </thead>
+            <tbody>
+              {portfolioData.length === 0 ? (
+                <tr>
+                  <td colSpan={6} className="no-holdings-row">
+                    No holdings
+                  </td>
                 </tr>
-              ))
-            )}
-          </tbody>
-        </table>
+              ) : (
+                portfolioData.map((holding, rowIndex) => (
+                  <tr key={rowIndex}>
+                    <td>{holding.assetName}</td>
+                    <td>{holding.symbol}</td>
+                    <td>{formatNumber(holding.quantity)}</td>
+                    <td>{holding.assetType}</td>
+                    <td>{formatNumber(holding.priceInBaseCurrency, holding.assetType === 'FOREX' ? 6 : 2)}</td>
+                    <td>{formatNumber(holding.totalValueInBaseCurrency)}</td>
+                    {categoryColumns.map((category, categoryIndex) => (
+                      <td key={`${rowIndex}-${categoryIndex}`}>
+                        <CategoryDropdownCell
+                          value={subcategoryColumns[categoryIndex]?.[rowIndex] || ''}
+                          isEditing={editingColumns.has(categoryIndex)}
+                          options={subcategories[category] || []}
+                          onChange={(newValue) =>
+                            setSubcategoryColumns((prev) => {
+                              const updated = [...prev];
+                              updated[categoryIndex][rowIndex] = newValue;
+                              return updated;
+                            })
+                          }
+                          onConfirm={() => {}}
+                          onEdit={() => {}}
+                          onRemove={() => {}}
+                          showActions={false}
+                        />
+                      </td>
+                    ))}
+                  </tr>
+                ))
+              )}
+            </tbody>
+          </table>
+        </div>
       </div>
-    </div>
+      <ResetCategoryPopup
+        isOpen={showResetPopup}
+        onConfirm={confirmResetCategory}
+        onClose={cancelResetCategory}
+        categoryName={categoryToReset || ''}
+      />
+    </>
   );
 };
 
