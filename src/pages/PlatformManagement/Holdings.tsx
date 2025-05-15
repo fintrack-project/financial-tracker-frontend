@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import _, { set } from 'lodash';
 import EditableHoldingsTable from '../../components/Table/HoldingsTable/EditableHoldingsTable';
 import CategoriesTable from '../../components/Table/CategoryTable/CategoriesTable';
-import { createCategoryService, fetchCategoriesAndSubcategories } from '../../services/categoryService';
+import { createCategoryService, fetchCategoriesAndSubcategoriesNamesMap } from '../../services/categoryService';
 import { createSubcategoryService } from '../../services/subCategoryService';
 import { createHoldingsCategoriesService, fetchHoldingsCategories } from 'services/holdingsCategoriesService';
 import './Holdings.css'; // Import the CSS file
@@ -40,7 +40,7 @@ const Holdings: React.FC<HoldingsProps> = ({ accountId }) => {
       try {
         // Fetch categories and subcategories from the API
         const { categories: fetchedCategories, subcategories: fetchedSubcategories } =
-          await fetchCategoriesAndSubcategories(accountId);
+          await fetchCategoriesAndSubcategoriesNamesMap(accountId);
 
         // Fetch holdings categories from the API
         const response = await fetchHoldingsCategories(accountId);

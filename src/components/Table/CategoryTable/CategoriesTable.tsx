@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import IconButton from '../../Button/IconButton';
 import CategoryInputCell from './CategoryInputCell';
-import { createCategoryService, fetchCategoriesAndSubcategories } from '../../../services/categoryService';
+import { createCategoryService, fetchCategoriesAndSubcategoriesNamesMap } from '../../../services/categoryService';
 import { createSubcategoryService } from '../../../services/subCategoryService';
 import './CategoriesTable.css'; // Add styles for the table
 
@@ -106,7 +106,7 @@ const CategoriesTable: React.FC<CategoriesTableProps> = ({
   
       // Fetch updated categories and subcategories from the backend
       const { categories: updatedCategories, subcategories: updatedSubcategories } =
-        await fetchCategoriesAndSubcategories(accountId);
+        await fetchCategoriesAndSubcategoriesNamesMap(accountId);
   
       // Update the state with the fetched data
       onUpdateCategories(updatedCategories, updatedSubcategories);
@@ -132,7 +132,7 @@ const CategoriesTable: React.FC<CategoriesTableProps> = ({
 
       // Fetch updated categories and subcategories from the backend
       const { categories: updatedCategories, subcategories: updatedSubcategories } =
-        await fetchCategoriesAndSubcategories(accountId);
+        await fetchCategoriesAndSubcategoriesNamesMap(accountId);
 
       // Update the state with the fetched data
       onUpdateCategories(updatedCategories, updatedSubcategories);

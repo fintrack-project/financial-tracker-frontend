@@ -1,13 +1,14 @@
 // import axios from 'axios';
 import {
   fetchCategoryNamesApi,
-  fetchCategoriesAndSubcategoriesApi,
+  fetchCategoriesAndSubcategoriesNamesMapApi,
   addCategoryApi,
   updateCategoryNameApi,
   removeCategoryApi,
   updateCategoryColorApi,
+  fetchCategoryColorMapApi,
 } from '../api/categoryApi';
-import { Category, Subcategory, CategoryAndSubcategories, CategoryColor } from '../types/CategoryTypes';
+import { Category, Subcategory, CategoryAndSubcategoriesNamesMap, CategoryColor } from '../types/CategoryTypes';
 
 export interface CategoryService {
   categories: string[];
@@ -109,9 +110,9 @@ export const fetchCategoryNames = async (accountId: string): Promise<string[]> =
   }
 };
 
-export const fetchCategoriesAndSubcategories = async (accountId: string): Promise<CategoryAndSubcategories> => {
+export const fetchCategoriesAndSubcategoriesNamesMap = async (accountId: string): Promise<CategoryAndSubcategoriesNamesMap> => {
   try {
-    const response = await fetchCategoriesAndSubcategoriesApi(accountId);
+    const response = await fetchCategoriesAndSubcategoriesNamesMapApi(accountId);
     if (!response.success || !response.data) {
       throw new Error(response.message || 'Failed to fetch categories and subcategories');
     }

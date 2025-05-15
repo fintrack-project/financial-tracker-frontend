@@ -79,3 +79,22 @@ export const updateSubcategoryColorApi = async (
     throw error;
   }
 };
+
+// Fetch subcategory color map
+export const fetchSubcategoryColorMapApi = async (
+  accountId: string,
+  categoryName: string
+): Promise<ApiResponse<{ subcategoryColors: { [subcategory: string]: CategoryColor }, categoryName: string }>> => {
+  try {
+    const response = await apiClient.get<ApiResponse<{ subcategoryColors: { [subcategory: string]: CategoryColor }, categoryName: string }>>(
+      '/api/categories/subcategories/fetch/color-map',
+      {
+        params: { accountId, categoryName },
+      }
+    );
+    return response.data;
+  } catch (error) {
+    console.error('Error fetching subcategory color map:', error);
+    throw error;
+  }
+};

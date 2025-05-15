@@ -17,7 +17,7 @@ export interface Subcategory {
   categoryId: string;
 }
 
-export interface CategoryAndSubcategories {
+export interface CategoryAndSubcategoriesNamesMap {
   categories: string[];
   subcategories: {
     [category: string]: string[];
