@@ -190,6 +190,7 @@ const CategoriesTable: React.FC<CategoriesTableProps> = ({
                 <div className="add-subcategory-container">
                   <IconButton
                     type="add"
+                    size="large"
                     onClick={() => subcategoryService.addSubcategory(category)}
                     label="Add Subcategory"
                   />
@@ -202,6 +203,7 @@ const CategoriesTable: React.FC<CategoriesTableProps> = ({
               <td colSpan={2}>
                 <IconButton
                   type="add"
+                  size="large"
                   onClick={() => categoryService.addCategory()}
                   label="Add Category"
                 />

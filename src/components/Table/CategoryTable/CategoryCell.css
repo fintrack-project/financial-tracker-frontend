@@ -1,10 +1,10 @@
 /* Ensure the actions container does not affect layout */
 .category-cell {
   position: relative;
-  display: inline-flex;
   align-items: center;
   width: fit-content;
   min-width: fit-content;
+  max-width: fit-content;
 }
 
 .category-cell .actions {
@@ -13,21 +13,24 @@
   opacity: 0;
   transition: all 0.2s ease;
   padding: 2px;
-  gap: 5px;
+  gap: 2px;
   border-radius: 4px;
   background-color: transparent;
   width: 0;
   min-width: 0;
+  max-width: 0;
   overflow: hidden;
   margin-left: 0;
   flex-shrink: 0;
 }
 
-/* Show actions on hover */
+/* Show actions on hover with more controlled expansion */
 .category-cell:hover .actions {
   opacity: 1;
   width: auto;
-  margin-left: 8px;
+  min-width: auto;
+  max-width: none;
+  margin-left: 4px;
 }
 
 .category-cell-view,
@@ -35,89 +38,97 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: 8px;
-  background-color: #3b82f6; /* Blue background */
+  gap: 4px;
+  background-color: #3b82f6;
   border-radius: 6px;
-  padding: 8px 16px;
+  padding: 6px 12px;
   transition: all 0.2s ease;
   width: fit-content;
-  min-width: fit-content; /* Ensure minimum width fits content */
+  min-width: fit-content;
+  max-width: fit-content;
 }
 
 .category-cell-view:hover,
 .category-cell-edit:hover {
-  background-color: #2563eb; /* Darker blue on hover */
+  background-color: #2563eb;
 }
 
 .category-cell-view span {
   font-size: 0.95rem;
-  font-weight: 600; /* Make text bold */
-  color: #ffffff; /* White text for better contrast */
-  letter-spacing: 0.01em; /* Slight letter spacing for better readability */
-  text-shadow: 0 1px 1px rgba(0, 0, 0, 0.1); /* Subtle text shadow for depth */
+  font-weight: 600;
+  color: #ffffff;
+  letter-spacing: 0.01em;
+  text-shadow: 0 1px 1px rgba(0, 0, 0, 0.1);
   white-space: nowrap;
   text-align: center;
-  flex: 1;
-  min-width: 0;
 }
 
-.category-cell input,
-.category-cell select {
+/* Make selectors more specific to override CategoriesTable.css */
+.category-cell .category-cell-edit input,
+.category-cell .category-cell-edit select {
   padding: 8px 12px;
   font-size: 0.95rem;
   font-weight: 600;
   border: 1px solid rgba(255, 255, 255, 0.2);
   border-radius: 4px;
-  background-color: rgba(255, 255, 255, 0.1);
-  color: #ffffff;
+  background-color: rgba(255, 255, 255, 0.9) !important;
+  color: #1e293b !important;
   transition: all 0.2s ease;
-  min-width: 120px; /* Minimum width for input */
-  width: fit-content;
+  min-width: 120px;
+  width: 100%;
 }
 
-.category-cell input::placeholder {
-  color: rgba(255, 255, 255, 0.7);
+.category-cell .category-cell-edit input::placeholder {
+  color: #94a3b8 !important;
 }
 
-.category-cell input:focus,
-.category-cell select:focus {
+.category-cell .category-cell-edit input:focus,
+.category-cell .category-cell-edit select:focus {
   outline: none;
   border-color: rgba(255, 255, 255, 0.4);
-  background-color: rgba(255, 255, 255, 0.15);
+  background-color: #ffffff !important;
   box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.1);
 }
 
 /* Subcategory specific styles */
-.category-cell.subcategory {
-  margin-left: 16px;
-}
-
 .category-cell.subcategory .category-cell-view,
 .category-cell.subcategory .category-cell-edit {
-  background-color: #60a5fa; /* Lighter blue for subcategories */
-  border: none;
+  background-color: #60a5fa;
 }
 
-.category-cell.subcategory .category-cell-view:hover,
-.category-cell.subcategory .category-cell-edit:hover {
-  background-color: #3b82f6; /* Same as parent on hover */
+.category-cell.subcategory .category-cell-edit input,
+.category-cell.subcategory .category-cell-edit select {
+  background-color: rgba(255, 255, 255, 0.95) !important;
 }
 
 /* Icon button styling within cells */
-.category-cell .icon-button {
+.category-cell .actions .icon-button {
   border-radius: 4px;
   padding: 4px;
   transition: all 0.2s ease;
   flex-shrink: 0;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  background-color: transparent;
+  color: #64748b;
+  font-size: 0.875rem;
 }
 
-.category-cell .icon-button:hover {
+.category-cell .actions .icon-button:hover {
   background-color: #f8fafc;
   transform: translateY(-1px);
+  color: #3b82f6;
 }
 
-.category-cell .icon-button img {
+.category-cell .actions .icon-button img {
   width: 14px;
   height: 14px;
-  filter: none; /* Remove the white filter to show original colors */
+  filter: none;
+  opacity: 0.7;
+  transition: opacity 0.2s ease;
+}
+
+.category-cell .actions .icon-button:hover img {
+  opacity: 1;
 }
