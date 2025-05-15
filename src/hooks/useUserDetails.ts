@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { fetchUserDetails } from '../services/userService';
 import { UserDetails } from '../types/UserDetails';
 
@@ -7,11 +7,7 @@ const useUserDetails = (accountId: string) => {
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
 
-  useEffect(() => {
-    loadUserDetails();
-  }, [accountId]);
-
-  const loadUserDetails = async () => {
+  const loadUserDetails = useCallback(async () => {
     try {
       setLoading(true);
       const data = await fetchUserDetails(accountId);
@@ -25,7 +21,11 @@ const useUserDetails = (accountId: string) => {
     } finally {
       setLoading(false);
     }
-  };
+  }, [accountId]);
+
+  useEffect(() => {
+    loadUserDetails();
+  }, [loadUserDetails]);
 
   return { userDetails, setUserDetails, loading, error, refreshUserDetails: loadUserDetails };
 };

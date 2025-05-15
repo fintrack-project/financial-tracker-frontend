@@ -4,6 +4,7 @@ import { SubscriptionPlanType } from '../types/SubscriptionPlan';
 interface UseRefreshCycleProps {
   subscriptionPlan: SubscriptionPlanType;
   onRefresh: () => Promise<void>;
+  onError?: (error: Error) => void;
 }
 
 // US Market closing time (4:00 PM ET)
@@ -57,7 +58,7 @@ const getMillisecondsUntilNextBasicRefresh = (): number => {
   return msUntilNextRefresh;
 };
 
-export const useRefreshCycle = ({ subscriptionPlan, onRefresh }: UseRefreshCycleProps) => {
+export const useRefreshCycle = ({ subscriptionPlan, onRefresh, onError }: UseRefreshCycleProps) => {
   
   const [lastUpdated, setLastUpdated] = useState<Date | null>(null);
   const [hasFetched, setHasFetched] = useState(false);
@@ -100,6 +101,18 @@ export const useRefreshCycle = ({ subscriptionPlan, onRefresh }: UseRefreshCycle
     return shouldRefreshNow;
   }, [lastUpdated, getRefreshInterval, subscriptionPlan]);
 
+  const handleRefresh = useCallback(() => {
+    if (onRefresh) {
+      onRefresh();
+    }
+  }, [onRefresh]);
+
+  const handleError = useCallback((error: Error) => {
+    if (onError) {
+      onError(error);
+    }
+  }, [onError]);
+
   const refresh = useCallback(async () => {
     try {
       setLoading(true);
@@ -110,10 +123,13 @@ export const useRefreshCycle = ({ subscriptionPlan, onRefresh }: UseRefreshCycle
     } catch (err) {
       console.error('[useRefreshCycle] Refresh error:', err);
       setError(err instanceof Error ? err.message : 'Failed to refresh data');
+      if (onError && err instanceof Error) {
+        onError(err);
+      }
     } finally {
       setLoading(false);
     }
-  }, [onRefresh, subscriptionPlan]);
+  }, [onRefresh, onError]);
 
   useEffect(() => {
     if (!hasFetched) {
@@ -134,7 +150,7 @@ export const useRefreshCycle = ({ subscriptionPlan, onRefresh }: UseRefreshCycle
     return () => {
       clearInterval(interval);
     };
-  }, [hasFetched, lastUpdated, refresh, shouldRefresh, getRefreshInterval, subscriptionPlan]);
+  }, [hasFetched, shouldRefresh, refresh, getRefreshInterval]);
 
   return { lastUpdated, hasFetched, loading, error };
 }; 

@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 import { fetchWatchlistData, addWatchlistItem, removeWatchlistItem } from '../services/watchlistDataService';
 import { WatchlistItem } from '../types/MarketData';
 
@@ -36,10 +36,15 @@ export const useWatchlist = (accountId: string | null, assetTypes: string[]) => 
     }
   };
 
+  const shouldFetchWatchlist = useMemo(() => {
+    return accountId && assetTypes.length > 0;
+  }, [accountId, assetTypes]);
+
   useEffect(() => {
-    console.log('🔄 Watchlist effect triggered:', { accountId, assetTypes });
-    fetchWatchlist();
-  }, [accountId, JSON.stringify(assetTypes)]);
+    if (shouldFetchWatchlist) {
+      fetchWatchlist();
+    }
+  }, [shouldFetchWatchlist, fetchWatchlist]);
 
   const addRow = () => {
     console.log('➕ Adding new row to watchlist');

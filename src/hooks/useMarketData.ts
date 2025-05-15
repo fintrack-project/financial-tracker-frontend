@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect } from 'react';
 import { useRefreshCycle } from './useRefreshCycle';
 import { fetchMarketData } from '../services/marketDataService';
 import { SubscriptionPlanType } from '../types/SubscriptionPlan';
@@ -35,7 +35,7 @@ export const useMarketData = ({ accountId, symbols, subscriptionPlan }: UseMarke
   // Initial fetch
   useEffect(() => {
     fetchData();
-  }, [accountId, JSON.stringify(symbols)]);
+  }, [accountId, symbols]);
 
   // Refresh cycle
   const { lastUpdated: cycleLastUpdated } = useRefreshCycle({
