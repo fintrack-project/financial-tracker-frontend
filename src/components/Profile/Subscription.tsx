@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { fetchUserDetails } from '../../services/userService';
 import { fetchUserSubscription, upgradeSubscription } from '../../services/userSubscriptionService';
 import { fetchPaymentMethods, deletePaymentMethod, setDefaultPaymentMethod, attachPaymentMethod } from '../../services/paymentMethodService';
@@ -25,7 +25,7 @@ const Subscription: React.FC<SubscriptionProps> = ({ accountId }) => {
   const [loading, setLoading] = useState<boolean>(true);
   const [activeTab, setActiveTab] = useState<'overview' | 'plans' | 'payment'>('overview');
 
-  const loadData = async () => {
+  const loadData = useCallback(async () => {
     try {
       setLoading(true);
       const userData = await fetchUserDetails(accountId);
@@ -76,12 +76,12 @@ const Subscription: React.FC<SubscriptionProps> = ({ accountId }) => {
       setLoading(false);
       console.log('🏁 Data loading completed');
     }
-  };
+  }, [accountId]);
 
   useEffect(() => {
     console.log('🔄 useEffect triggered, loading data...');
     loadData();
-  }, [accountId]);
+  }, [loadData]);
 
   const handleDeletePaymentMethod = async (paymentMethodId: string) => {
     try {
