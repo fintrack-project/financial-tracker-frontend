@@ -33,7 +33,7 @@ const PortfolioCombinedBarChart: React.FC<PortfolioCombinedBarChartProps> = ({ a
   const [timeRange, setTimeRange] = useState<string>('Quarterly'); // Default time range
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
-  const { baseCurrency, loading: baseCurrencyLoading } = useBaseCurrency(accountId);
+  const { baseCurrency } = useBaseCurrency(accountId);
 
   // Calculate dynamic height based on data points and asset names
   const calculateChartHeight = () => {

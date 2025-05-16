@@ -11,7 +11,7 @@ import { fetchSubscriptionDetails } from '../../services/subscriptionDetailsServ
 import { stripePromise } from '../../config/stripe';
 import PlanCard from './PlanCard';
 import './Plans.css';
-import { cancelSubscriptionApi, confirmSubscriptionPaymentApi, reactivateSubscriptionApi, downgradeSubscriptionApi } from '../../api/userSubscriptionApi';
+import { cancelSubscriptionApi, reactivateSubscriptionApi, downgradeSubscriptionApi } from '../../api/userSubscriptionApi';
 
 export const ANNUAL_DISCOUNT_RATE = 0.2; // 20% discount for annual plans
 
@@ -44,7 +44,6 @@ const Plans: React.FC<PlansProps> = ({
   const [isCancelling, setIsCancelling] = useState(false);
   const [loading, setLoading] = useState(true);
   const [billingCycle, setBillingCycle] = useState<'monthly' | 'annual'>('monthly');
-  const [successMessage, setSuccessMessage] = useState<string | null>(null);
 
   const plans: (SubscriptionPlan & { color: string })[] = [
     {
@@ -138,7 +137,6 @@ const Plans: React.FC<PlansProps> = ({
 
       // Refresh subscription details
       await onSubscriptionComplete(subscription.stripeSubscriptionId);
-      setSuccessMessage('Successfully cancelled subscription');
     } catch (error) {
       console.error('Error cancelling subscription:', error);
       setError(error instanceof Error ? error.message : 'Failed to cancel subscription');
@@ -176,7 +174,6 @@ const Plans: React.FC<PlansProps> = ({
 
       // Refresh subscription details
       await onSubscriptionComplete(subscription.stripeSubscriptionId);
-      setSuccessMessage('Successfully reactivated subscription');
       setIsCancelling(false);
     } catch (error) {
       console.error('Error reactivating subscription:', error);
@@ -253,7 +250,6 @@ const Plans: React.FC<PlansProps> = ({
 
       // Refresh subscription details
       await onSubscriptionComplete(subscription.stripeSubscriptionId);
-      setSuccessMessage('Successfully downgraded subscription');
     } catch (error) {
       console.error('Error downgrading subscription:', error);
       setError(error instanceof Error ? error.message : 'Failed to downgrade subscription');
