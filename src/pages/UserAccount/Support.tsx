@@ -1,7 +1,6 @@
 import React from 'react';
 import BaseUserAccountPage from './BaseUserAccountPage';
 import AccountDetailAndMenu from '../../components/Menu/AccountDetailAndMenu';
-import { useCurrencyManagement } from '../../hooks/useCurrencyManagement';
 import './Support.css';
 
 interface SupportProps {
@@ -9,14 +8,6 @@ interface SupportProps {
 }
 
 const Support: React.FC<SupportProps> = ({ accountId }) => {
-  const {
-    currencies,
-    baseCurrency,
-    error,
-    successMessage,
-    handleBaseCurrencyChange
-  } = useCurrencyManagement({ accountId });
-
   const leftContent = (
     <AccountDetailAndMenu
       accountId={accountId || 'Guest'}
