@@ -8,7 +8,7 @@ import {
   updateCategoryColorApi,
   fetchCategoryColorMapApi,
 } from '../api/categoryApi';
-import { Category, Subcategory, CategoryAndSubcategoriesNamesMap, CategoryColor } from '../types/CategoryTypes';
+import { Category, CategoryAndSubcategoriesNamesMap, CategoryColor } from '../types/CategoryTypes';
 
 export interface CategoryService {
   categories: string[];

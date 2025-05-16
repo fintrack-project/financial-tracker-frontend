@@ -150,7 +150,6 @@ const PaymentMethods: React.FC<PaymentMethodsProps> = ({
               }}
               onError={handlePaymentError}
               onCancel={() => {}}
-              reset={!error}
             />
           </Elements>
           
