@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React, { useRef } from 'react';
 import './SixDigitInput.css'; // Add styles for the input boxes
 
 interface SixDigitInputProps {

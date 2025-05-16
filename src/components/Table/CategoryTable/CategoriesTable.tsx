@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import IconButton from '../../Button/IconButton';
 import CategoryInputCell from './CategoryInputCell';
 import { createCategoryService, fetchCategoriesAndSubcategoriesNamesMap } from '../../../services/categoryService';
@@ -109,8 +109,8 @@ const CategoriesTable: React.FC<CategoriesTableProps> = ({
       await categoryService.removeCategory(accountId, categoryToRemove);
       console.log(`Category "${categoryToRemove}" removed successfully.`);
   
-      // Fetch updated categories and subcategories from the backend
-      const { categories: updatedCategories, subcategories: updatedSubcategories } =
+      // Fetch the updated categories and subcategories
+      const { categories: updatedCategories } =
         await fetchCategoriesAndSubcategoriesNamesMap(accountId);
   
       // Update the state with the fetched data
@@ -135,8 +135,8 @@ const CategoriesTable: React.FC<CategoriesTableProps> = ({
       await subcategoryService.removeSubcategory(accountId, category, subcategoryToRemove);
       console.log(`Subcategory "${subcategoryToRemove}" removed successfully from category "${category}".`);
 
-      // Fetch updated categories and subcategories from the backend
-      const { categories: updatedCategories, subcategories: updatedSubcategories } =
+      // Fetch the updated categories and subcategories
+      const { categories: updatedCategories } =
         await fetchCategoriesAndSubcategoriesNamesMap(accountId);
 
       // Update the state with the fetched data

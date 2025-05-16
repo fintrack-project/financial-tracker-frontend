@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import { parseCSVFile, parseXLSXFile, exportToCSV, exportToXLSX } from '../../../services/fileService';
 import { uploadPreviewTransactions } from '../../../services/transactionService';
 import { Transaction } from 'types/Transaction';
-import BlankTransactionRow from './BlankTransactionRow';
 import InputTransactionRow from './InputTransactionRow';
 import FileActionsDropdown from 'components/DropDown/FileActionsDropdown';
 import { FaFileInvoiceDollar, FaUpload } from 'react-icons/fa';
