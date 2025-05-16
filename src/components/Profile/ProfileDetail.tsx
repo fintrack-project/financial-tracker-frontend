@@ -382,7 +382,16 @@ const ProfileDetail: React.FC<ProfileDetailProps> = ({ accountId }) => {
         value: formatDate(userDetails.lastActivityDate),
       },
     ];
-  }, [userDetails, editState]);
+  }, [
+    userDetails,
+    editState,
+    editModes,
+    countries,
+    handleVerificationClick,
+    handleEditClick,
+    handleConfirmClick,
+    accountId
+  ]);
 
   if (loading) {
     return <p>Loading user details...</p>;
