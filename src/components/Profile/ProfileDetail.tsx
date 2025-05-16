@@ -231,7 +231,7 @@ const ProfileDetail: React.FC<ProfileDetailProps> = ({ accountId }) => {
       console.error(`Failed to update ${label}:`, error);
       alert(`Failed to update ${label}. Please try again later.`);
     }
-  }, [accountId, editModes, editState, userDetails, sendVerification]);
+  }, [accountId, editModes, editState, userDetails, sendVerification, setUserDetails]);
 
   const handleVerificationClick = useCallback((type: 'phone' | 'email') => {
     sendVerification(type);
