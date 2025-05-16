@@ -1,4 +1,4 @@
-import React, { Dispatch, SetStateAction } from 'react';
+import React, { Dispatch, SetStateAction, useMemo } from 'react';
 import EditableWatchlistTable from './EditableWatchlistTable';
 import { useWatchlist } from '../../hooks/useWatchlist';
 import { useMarketData } from '../../hooks/useMarketData';
@@ -15,7 +15,7 @@ const MarketWatchlist: React.FC<MarketWatchlistProps> = ({
   accountId,
   subscriptionPlan = 'FREE'
 }) => {
-  const marketWatchAssetTypes = ['STOCK', 'CRYPTO', 'COMMODITY'];
+  const marketWatchAssetTypes = useMemo(() => ['STOCK', 'CRYPTO', 'COMMODITY'], []);
   const { watchlistItems, setWatchlistItems, error: watchlistError, loading: watchlistLoading, addRow, confirmRow, removeRow } = useWatchlist(accountId, marketWatchAssetTypes);
   
   // Only fetch market data for confirmed items

@@ -1,4 +1,4 @@
-import React, { Dispatch, SetStateAction } from 'react';
+import React, { Dispatch, SetStateAction, useMemo } from 'react';
 import EditableWatchlistTable from './EditableWatchlistTable';
 import { useWatchlist } from '../../hooks/useWatchlist';
 import { useMarketData } from '../../hooks/useMarketData';
@@ -15,7 +15,7 @@ const ForexWatchlist: React.FC<ForexWatchlistProps> = ({
   accountId,
   subscriptionPlan = 'FREE'
 }) => {
-  const forexAssetTypes = ['FOREX'];
+  const forexAssetTypes = useMemo(() => ['FOREX'], []);
   const { watchlistItems, setWatchlistItems, error: watchlistError, loading: watchlistLoading, addRow, confirmRow, removeRow } = useWatchlist(accountId, forexAssetTypes);
   
   // Only fetch market data for confirmed items

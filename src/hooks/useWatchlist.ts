@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { fetchWatchlistData, addWatchlistItem, removeWatchlistItem } from '../services/watchlistDataService';
 import { WatchlistItem } from '../types/MarketData';
 
@@ -7,7 +7,7 @@ export const useWatchlist = (accountId: string | null, assetTypes: string[]) => 
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
 
-  const fetchWatchlist = async () => {
+  const fetchWatchlist = useCallback(async () => {
     if (!accountId) {
       console.log('❌ No accountId provided, skipping fetch');
       setLoading(false);
@@ -34,12 +34,12 @@ export const useWatchlist = (accountId: string | null, assetTypes: string[]) => 
     } finally {
       setLoading(false);
     }
-  };
+  }, [accountId, assetTypes]);
 
   useEffect(() => {
     console.log('🔄 Watchlist effect triggered:', { accountId, assetTypes });
     fetchWatchlist();
-  }, [accountId, JSON.stringify(assetTypes)]);
+  }, [accountId, assetTypes, fetchWatchlist]);
 
   const addRow = () => {
     console.log('➕ Adding new row to watchlist');

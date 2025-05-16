@@ -64,7 +64,6 @@ export const useRefreshCycle = ({ subscriptionPlan, onRefresh }: UseRefreshCycle
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  // eslint-disable-next-line react-hooks/exhaustive-deps -- subscriptionPlan is needed for refresh cycle logic
   const getRefreshInterval = useCallback(() => {
     switch (subscriptionPlan) {
       case 'FREE':
@@ -84,7 +83,6 @@ export const useRefreshCycle = ({ subscriptionPlan, onRefresh }: UseRefreshCycle
     }
   }, [subscriptionPlan]);
 
-  // eslint-disable-next-line react-hooks/exhaustive-deps -- subscriptionPlan is needed for refresh cycle logic
   const shouldRefresh = useCallback(() => {
     if (!lastUpdated) {
       return true;
@@ -100,7 +98,7 @@ export const useRefreshCycle = ({ subscriptionPlan, onRefresh }: UseRefreshCycle
     const shouldRefreshNow = timeSinceLastUpdate >= refreshInterval;
     
     return shouldRefreshNow;
-  }, [lastUpdated, getRefreshInterval, subscriptionPlan]);
+  }, [lastUpdated, getRefreshInterval]);
 
   const refresh = useCallback(async () => {
     try {
@@ -115,7 +113,7 @@ export const useRefreshCycle = ({ subscriptionPlan, onRefresh }: UseRefreshCycle
     } finally {
       setLoading(false);
     }
-  }, [onRefresh, subscriptionPlan]);
+  }, [onRefresh]);
 
   useEffect(() => {
     if (!hasFetched) {
@@ -136,7 +134,7 @@ export const useRefreshCycle = ({ subscriptionPlan, onRefresh }: UseRefreshCycle
     return () => {
       clearInterval(interval);
     };
-  }, [hasFetched, lastUpdated, refresh, shouldRefresh, getRefreshInterval, subscriptionPlan]);
+  }, [hasFetched, lastUpdated, refresh, shouldRefresh, getRefreshInterval]);
 
   return { lastUpdated, hasFetched, loading, error };
 }; 
