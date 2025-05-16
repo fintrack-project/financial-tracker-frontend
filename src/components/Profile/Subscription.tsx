@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { fetchUserDetails } from '../../services/userService';
 import { fetchUserSubscription, upgradeSubscription } from '../../services/userSubscriptionService';
-import { fetchPaymentMethods, getDefaultPaymentMethod, deletePaymentMethod, setDefaultPaymentMethod, attachPaymentMethod } from '../../services/paymentMethodService';
+import { fetchPaymentMethods, deletePaymentMethod, setDefaultPaymentMethod, attachPaymentMethod } from '../../services/paymentMethodService';
 import { UserDetails } from '../../types/UserDetails';
 import { UserSubscription } from '../../types/UserSubscription';
 import { PaymentMethod, PaymentError } from '../../types/PaymentMethods';
@@ -62,13 +62,6 @@ const Subscription: React.FC<SubscriptionProps> = ({ accountId }) => {
       } catch (error) {
       }
       
-      let defaultMethod = null;
-      try {
-        defaultMethod = await getDefaultPaymentMethod(accountId);
-      } catch (error) {
-        console.log('⚠️ No default payment method found');
-      }
-
       setUserDetails(userData);
       setSubscription(subscriptionData);
       setPaymentMethods(methods);
@@ -161,7 +154,7 @@ const Subscription: React.FC<SubscriptionProps> = ({ accountId }) => {
     });
 
     try {
-      const response = await upgradeSubscription(accountId, planName, paymentMethodId);
+      await upgradeSubscription(accountId, planName, paymentMethodId);
 
       // Fetch fresh subscription data
       const updatedSubscription = await fetchUserSubscription(accountId);
