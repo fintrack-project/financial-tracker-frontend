@@ -292,7 +292,7 @@ const Plans: React.FC<PlansProps> = ({
     };
 
     loadSubscriptionPlan();
-  }, [userDetails?.accountId]);
+  }, [userDetails?.accountId, plans]);
 
   const handleRedirectToPayment = () => {
     setShowNoPaymentMethodPopup(false);
