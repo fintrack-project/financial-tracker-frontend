@@ -1,4 +1,4 @@
-import React, { useState, useEffect, Dispatch, SetStateAction } from 'react';
+import React, { Dispatch, SetStateAction } from 'react';
 import EditableWatchlistTable from './EditableWatchlistTable';
 import { useWatchlist } from '../../hooks/useWatchlist';
 import { useMarketData } from '../../hooks/useMarketData';

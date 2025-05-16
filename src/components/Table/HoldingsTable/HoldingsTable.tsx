@@ -26,7 +26,7 @@ const EmptyState: React.FC<EmptyStateProps> = ({ icon, text, subtext }) => (
 
 const HoldingsTable: React.FC<HoldingsTableProps> = ({ accountId }) => {
   const { holdings, portfolioData, loading } = useHoldingsData(accountId);
-  const { baseCurrency, usdToBaseCurrencyRate, loading: baseCurrencyLoading, error: baseCurrencyError } = useBaseCurrency(accountId);
+  const { baseCurrency, loading: baseCurrencyLoading } = useBaseCurrency(accountId);
   
   if (loading || baseCurrencyLoading) {
     return (

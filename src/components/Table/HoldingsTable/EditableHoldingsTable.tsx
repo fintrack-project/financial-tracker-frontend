@@ -38,7 +38,7 @@ const EditableHoldingsTable: React.FC<EditableHoldingsTableProps> = ({
   subcategoryColors
 }) => {
   const { holdings, portfolioData, loading } = useHoldingsData(accountId);
-  const { baseCurrency, usdToBaseCurrencyRate, loading: baseCurrencyLoading, error: baseCurrencyError } = useBaseCurrency(accountId);
+  const { baseCurrency } = useBaseCurrency(accountId);
   const [categoryColumns, setCategoryColumns] = useState<string[]>([]); // Manage categories as state
   const [subcategoryColumns, setSubcategoryColumns] = useState<string[][]>([]); // Manage subcategories as state
   const [editingColumns, setEditingColumns] = useState<Set<number>>(new Set()); // Track which columns are in edit mode

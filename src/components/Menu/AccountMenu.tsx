@@ -12,7 +12,6 @@ interface AccountMenuProps {
 const AccountMenu: React.FC<AccountMenuProps> = ({ onAccountChange }) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [userId, setUserId] = useState<string | null>(null);
-  const [accountId, setAccountId] = useState<string | null>(null); // State to store the accountId
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -29,7 +28,6 @@ const AccountMenu: React.FC<AccountMenuProps> = ({ onAccountChange }) => {
           throw new Error(response.message || 'Failed to fetch account ID');
         }
 
-        setAccountId(response.data.accountId);
         onAccountChange(response.data.accountId);
       } catch (error) {
         console.error('Error fetching account ID:', error);
