@@ -22,7 +22,7 @@ const MarketWatchlist: React.FC<MarketWatchlistProps> = ({
   const confirmedItems = watchlistItems.filter(item => item.confirmed);
   const { marketData, loading: marketLoading, error: marketError, lastUpdated } = useMarketData({
     accountId,
-    symbols: confirmedItems,
+    items: confirmedItems,
     subscriptionPlan
   });
 
