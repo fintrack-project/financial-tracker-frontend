@@ -13,11 +13,6 @@ const REQUIRED_COLUMNS = [
   'debit',
 ];
 
-// Validate columns
-const validateColumns = (columns: string[]): boolean => {
-  return REQUIRED_COLUMNS.every((requiredColumn) => columns.includes(requiredColumn));
-};
-
 // Generic function to parse CSV file
 export const parseCSVFile = <T extends Transaction | OverviewTransaction>(
   file: File
