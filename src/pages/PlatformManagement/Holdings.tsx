@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import _, { set } from 'lodash';
+import _ from 'lodash';
 import EditableHoldingsTable from '../../components/Table/HoldingsTable/EditableHoldingsTable';
 import CategoriesTable from '../../components/Table/CategoryTable/CategoriesTable';
 import { createCategoryService, fetchCategoriesAndSubcategoriesNamesMap, fetchCategoryColorMap } from '../../services/categoryService';

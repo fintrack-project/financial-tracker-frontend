@@ -8,7 +8,7 @@
  * - Include at least one special character
  */
 export const isStrongPassword = (password: string): boolean => {
-  const strongPasswordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()_+\-=\[{}\];':"|,.<>\/?])[A-Za-z\d!@#$%^&*()_+\-=\[{}\];':"|,.<>\/?]{8,}$/;
+  const strongPasswordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()_+\-=[\]{};':"|,.<>/?])[A-Za-z\d!@#$%^&*()_+\-=[\]{};':"|,.<>/?]{8,}$/;
   return strongPasswordRegex.test(password);
 };
 
