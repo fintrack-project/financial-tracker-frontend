@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useMemo } from 'react';
+import React, { useEffect, useState, useMemo, useCallback } from 'react';
 import useUserDetails from '../../hooks/useUserDetails';
 import { updateUserPhone, updateUserAddress, updateUserEmail } from '../../services/userService';
 import useVerification from '../../hooks/useVerification';
@@ -76,7 +76,7 @@ const ProfileDetail: React.FC<ProfileDetailProps> = ({ accountId }) => {
     }
   }, [isFetch, refreshUserDetails]);
   
-  const handleEditClick = (label: string, currentValue: string | null) => {
+  const handleEditClick = useCallback((label: string, currentValue: string | null) => {
     if (label === 'Email' || label === 'Phone' || label === 'Address') {
       const handlers = authenticate({
         accountId,
@@ -111,9 +111,9 @@ const ProfileDetail: React.FC<ProfileDetailProps> = ({ accountId }) => {
       setEditState((prevState) => ({ ...prevState, [label]: currentValue }));
       setEditModes((prevModes) => ({ ...prevModes, [label]: true }));
     }
-  };
+  }, [accountId, userDetails, authenticate]);
 
-  const handleConfirmClick = async (label: string) => {
+  const handleConfirmClick = useCallback(async (label: string) => {
     if (!editModes[label]) {
       return; // Do nothing if the field is not in edit mode
     }
@@ -158,8 +158,8 @@ const ProfileDetail: React.FC<ProfileDetailProps> = ({ accountId }) => {
         }));
   
         // Trigger SMS verification
-        sendVerification('phone', `+${getCountryCallingCode(countryCode as CountryCode)}${phoneNumber}`); // Use the hook function
-        setIsFetch(true); // Set isFetch to true to trigger refreshUserDetails
+        sendVerification('phone', `+${getCountryCallingCode(countryCode as CountryCode)}${phoneNumber}`);
+        setIsFetch(true);
       }
   
       if (label === 'Email') {
@@ -173,23 +173,23 @@ const ProfileDetail: React.FC<ProfileDetailProps> = ({ accountId }) => {
   
         if (!newValue) {
           alert('Email cannot be blank.');
-          setEditState((prevState) => ({ ...prevState, [label]: null })); // Revert to previous value
-          setEditModes((prevModes) => ({ ...prevModes, [label]: false })); // Exit edit mode for Email
+          setEditState((prevState) => ({ ...prevState, [label]: null }));
+          setEditModes((prevModes) => ({ ...prevModes, [label]: false }));
           return;
         }
   
         if (!isValidEmail(newValue)) {
           console.error(`Invalid email format:`, newValue);
           alert('Invalid email format.');
-          setEditState((prevState) => ({ ...prevState, [label]: null })); // Revert to previous value
-          setEditModes((prevModes) => ({ ...prevModes, [label]: false })); // Exit edit mode for Email
+          setEditState((prevState) => ({ ...prevState, [label]: null }));
+          setEditModes((prevModes) => ({ ...prevModes, [label]: false }));
           return;
         }
   
         const confirmChange = window.confirm('Are you sure you want to change your email?');
         if (!confirmChange) {
-          setEditState((prevState) => ({ ...prevState, [label]: null })); // Revert to previous value
-          setEditModes((prevModes) => ({ ...prevModes, [label]: false })); // Exit edit mode for Email
+          setEditState((prevState) => ({ ...prevState, [label]: null }));
+          setEditModes((prevModes) => ({ ...prevModes, [label]: false }));
           return;
         }
   
@@ -201,8 +201,8 @@ const ProfileDetail: React.FC<ProfileDetailProps> = ({ accountId }) => {
         }));
   
         // Trigger email verification
-        sendVerification('email'); // Use the hook function
-        setIsFetch(true); // Set isFetch to true to trigger refreshUserDetails
+        sendVerification('email');
+        setIsFetch(true);
       }
 
       if (label === 'Address') {
@@ -220,7 +220,7 @@ const ProfileDetail: React.FC<ProfileDetailProps> = ({ accountId }) => {
           ...prev!,
           address: newValue || '',
         }));
-        setIsFetch(true); // Set isFetch to true to trigger refreshUserDetails
+        setIsFetch(true);
       }
   
       // Exit edit mode for the field
@@ -231,11 +231,11 @@ const ProfileDetail: React.FC<ProfileDetailProps> = ({ accountId }) => {
       console.error(`Failed to update ${label}:`, error);
       alert(`Failed to update ${label}. Please try again later.`);
     }
-  };
+  }, [accountId, editModes, editState, userDetails, sendVerification, setUserDetails]);
 
-  const handleVerificationClick = (type: 'phone' | 'email') => {
+  const handleVerificationClick = useCallback((type: 'phone' | 'email') => {
     sendVerification(type);
-  };
+  }, [sendVerification]);
 
   const handlePopupResend = () => {
     resendVerification();
@@ -382,7 +382,16 @@ const ProfileDetail: React.FC<ProfileDetailProps> = ({ accountId }) => {
         value: formatDate(userDetails.lastActivityDate),
       },
     ];
-  }, [userDetails, editState]);
+  }, [
+    userDetails,
+    editState,
+    editModes,
+    countries,
+    handleVerificationClick,
+    handleEditClick,
+    handleConfirmClick,
+    accountId
+  ]);
 
   if (loading) {
     return <p>Loading user details...</p>;

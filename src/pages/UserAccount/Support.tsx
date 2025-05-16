@@ -1,23 +1,45 @@
 import React from 'react';
 import BaseUserAccountPage from './BaseUserAccountPage';
-import AccountDetailAndMenu from '../../components/Menu/AccountDetailAndMenu'; // Import AccountDetailAndMenu
+import AccountDetailAndMenu from '../../components/Menu/AccountDetailAndMenu';
 import './Support.css';
 
 interface SupportProps {
-  accountId: string | null; // Receive accountId as a prop
+  accountId: string | null;
 }
 
 const Support: React.FC<SupportProps> = ({ accountId }) => {
   const leftContent = (
     <AccountDetailAndMenu
-      accountId={accountId || 'Guest'} // Display accountId or "Guest" if accountId is null
+      accountId={accountId || 'Guest'}
     />
   );
 
   const rightContent = (
-    <div>
-      <h2>Help Center</h2>
-      <p>Browse our FAQ section or submit a support ticket for further assistance.</p>
+    <div className="support-container">
+      <h2>Support</h2>
+      <div className="support-content">
+        <section className="support-section">
+          <h3>Need Help?</h3>
+          <p>Our support team is here to help you with any questions or issues you may have.</p>
+          <div className="support-options">
+            <div className="support-option">
+              <h4>Contact Support</h4>
+              <p>Get in touch with our support team for personalized assistance.</p>
+              <button className="support-button">Contact Us</button>
+            </div>
+            <div className="support-option">
+              <h4>FAQ</h4>
+              <p>Find answers to commonly asked questions.</p>
+              <button className="support-button">View FAQs</button>
+            </div>
+            <div className="support-option">
+              <h4>Documentation</h4>
+              <p>Access our comprehensive documentation and guides.</p>
+              <button className="support-button">View Docs</button>
+            </div>
+          </div>
+        </section>
+      </div>
     </div>
   );
 

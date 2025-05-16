@@ -1,7 +1,7 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { fetchUserDetails } from '../../services/userService';
 import { fetchUserSubscription, upgradeSubscription } from '../../services/userSubscriptionService';
-import { fetchPaymentMethods, getDefaultPaymentMethod, deletePaymentMethod, setDefaultPaymentMethod, confirmPayment, attachPaymentMethod } from '../../services/paymentMethodService';
+import { fetchPaymentMethods, deletePaymentMethod, setDefaultPaymentMethod, attachPaymentMethod } from '../../services/paymentMethodService';
 import { UserDetails } from '../../types/UserDetails';
 import { UserSubscription } from '../../types/UserSubscription';
 import { PaymentMethod, PaymentError } from '../../types/PaymentMethods';
@@ -21,12 +21,11 @@ const Subscription: React.FC<SubscriptionProps> = ({ accountId }) => {
   const [userDetails, setUserDetails] = useState<UserDetails | null>(null);
   const [subscription, setSubscription] = useState<UserSubscription | null>(null);
   const [paymentMethods, setPaymentMethods] = useState<PaymentMethod[]>([]);
-  const [defaultPaymentMethod, setDefaultPaymentMethodState] = useState<PaymentMethod | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
   const [activeTab, setActiveTab] = useState<'overview' | 'plans' | 'payment'>('overview');
 
-  const loadData = async () => {
+  const loadData = useCallback(async () => {
     try {
       setLoading(true);
       const userData = await fetchUserDetails(accountId);
@@ -63,17 +62,9 @@ const Subscription: React.FC<SubscriptionProps> = ({ accountId }) => {
       } catch (error) {
       }
       
-      let defaultMethod = null;
-      try {
-        defaultMethod = await getDefaultPaymentMethod(accountId);
-      } catch (error) {
-        console.log('⚠️ No default payment method found');
-      }
-
       setUserDetails(userData);
       setSubscription(subscriptionData);
       setPaymentMethods(methods);
-      setDefaultPaymentMethodState(defaultMethod);
       setError(null);
     } catch (err) {
       console.error('❌ Error in loadData:', err);
@@ -81,17 +72,16 @@ const Subscription: React.FC<SubscriptionProps> = ({ accountId }) => {
       setUserDetails(null);
       setSubscription(null);
       setPaymentMethods([]);
-      setDefaultPaymentMethodState(null);
     } finally {
       setLoading(false);
       console.log('🏁 Data loading completed');
     }
-  };
+  }, [accountId]);
 
   useEffect(() => {
     console.log('🔄 useEffect triggered, loading data...');
     loadData();
-  }, [accountId]);
+  }, [loadData]);
 
   const handleDeletePaymentMethod = async (paymentMethodId: string) => {
     try {
@@ -164,7 +154,7 @@ const Subscription: React.FC<SubscriptionProps> = ({ accountId }) => {
     });
 
     try {
-      const response = await upgradeSubscription(accountId, planName, paymentMethodId);
+      await upgradeSubscription(accountId, planName, paymentMethodId);
 
       // Fetch fresh subscription data
       const updatedSubscription = await fetchUserSubscription(accountId);

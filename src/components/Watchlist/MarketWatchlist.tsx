@@ -1,4 +1,4 @@
-import React, { useState, useEffect, Dispatch, SetStateAction } from 'react';
+import React, { Dispatch, SetStateAction } from 'react';
 import EditableWatchlistTable from './EditableWatchlistTable';
 import { useWatchlist } from '../../hooks/useWatchlist';
 import { useMarketData } from '../../hooks/useMarketData';
@@ -22,7 +22,7 @@ const MarketWatchlist: React.FC<MarketWatchlistProps> = ({
   const confirmedItems = watchlistItems.filter(item => item.confirmed);
   const { marketData, loading: marketLoading, error: marketError, lastUpdated } = useMarketData({
     accountId,
-    symbols: confirmedItems,
+    items: confirmedItems,
     subscriptionPlan
   });
 

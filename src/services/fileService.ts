@@ -3,21 +3,6 @@ import * as XLSX from 'xlsx';
 import { Transaction } from '../types/Transaction';
 import { OverviewTransaction } from '../types/OverviewTransaction';
 
-// Required columns for validation
-const REQUIRED_COLUMNS = [
-  'date',
-  'assetName',
-  'assetType',
-  'symbol',
-  'credit',
-  'debit',
-];
-
-// Validate columns
-const validateColumns = (columns: string[]): boolean => {
-  return REQUIRED_COLUMNS.every((requiredColumn) => columns.includes(requiredColumn));
-};
-
 // Generic function to parse CSV file
 export const parseCSVFile = <T extends Transaction | OverviewTransaction>(
   file: File

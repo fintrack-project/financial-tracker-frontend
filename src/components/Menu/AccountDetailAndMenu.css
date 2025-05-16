@@ -82,3 +82,44 @@
   background: linear-gradient(90deg, #e04344 60%, #ffb3b3 100%);
   box-shadow: 0 4px 16px rgba(255, 77, 79, 0.12);
 }
+
+.account-detail-and-menu-currency {
+  margin: 20px 0;
+  padding: 15px;
+  background-color: #f5f5f5;
+  border-radius: 8px;
+}
+
+.account-detail-and-menu-currency label {
+  display: block;
+  margin-bottom: 8px;
+  font-weight: 500;
+  color: #333;
+}
+
+.account-detail-and-menu-select {
+  width: 100%;
+  padding: 8px 12px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 14px;
+  background-color: white;
+}
+
+.account-detail-and-menu-select:focus {
+  outline: none;
+  border-color: #007bff;
+  box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.25);
+}
+
+.account-detail-and-menu-error {
+  color: #dc3545;
+  margin-top: 8px;
+  font-size: 14px;
+}
+
+.account-detail-and-menu-success {
+  color: #28a745;
+  margin-top: 8px;
+  font-size: 14px;
+}

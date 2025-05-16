@@ -1,6 +1,6 @@
 import { apiClient } from '../utils/apiClient';
 import { ApiResponse } from '../types/ApiTypes';
-import { Category, Subcategory, CategoryAndSubcategoriesNamesMap, CategoryColor } from '../types/CategoryTypes';
+import { Category, CategoryAndSubcategoriesNamesMap, CategoryColor } from '../types/CategoryTypes';
 
 // Fetch category names
 export const fetchCategoryNamesApi = async (accountId: string): Promise<ApiResponse<string[]>> => {

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import _, { set } from 'lodash';
+import _ from 'lodash';
 import EditableHoldingsTable from '../../components/Table/HoldingsTable/EditableHoldingsTable';
 import CategoriesTable from '../../components/Table/CategoryTable/CategoriesTable';
 import { createCategoryService, fetchCategoriesAndSubcategoriesNamesMap, fetchCategoryColorMap } from '../../services/categoryService';
@@ -61,13 +61,13 @@ const Holdings: React.FC<HoldingsProps> = ({ accountId }) => {
         }, {} as { [category: string]: { [subcategory: string]: CategoryColor } });
 
         // Use the onUpdateCategories callback to update the parent state
-        setCategories([... fetchedCategories]);
+        setCategories([...fetchedCategories]);
         setSubcategories(_.cloneDeep(fetchedSubcategories));
         setCategoryColors(categoryColorMap);
         setSubcategoryColors(subcategoryColorMap);
 
         // Update confirmedCategories
-        setConfirmedCategories([... fetchedCategories]);
+        setConfirmedCategories([...fetchedCategories]);
         setConfirmedSubcategories(_.cloneDeep(fetchedSubcategories));
 
         // Update holdings categories

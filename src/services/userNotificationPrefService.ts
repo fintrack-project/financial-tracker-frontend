@@ -1,14 +1,8 @@
-import axios from 'axios';
 import {
   fetchNotificationPreferencesApi,
   updateNotificationPreferenceApi,
 } from '../api/userNotificationPrefApi'; // Adjust the import path as necessary
 import { NotificationPreferences } from '../types/NotificationPreferences';
-
-interface NotificationPreferenceResponse {
-  notification_type: string;
-  is_enabled: boolean;
-}
 
 export const fetchNotificationPreferences = async (accountId: string): Promise<NotificationPreferences> => {
   try {

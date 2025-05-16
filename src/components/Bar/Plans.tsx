@@ -11,9 +11,74 @@ import { fetchSubscriptionDetails } from '../../services/subscriptionDetailsServ
 import { stripePromise } from '../../config/stripe';
 import PlanCard from './PlanCard';
 import './Plans.css';
-import { cancelSubscriptionApi, confirmSubscriptionPaymentApi, reactivateSubscriptionApi, downgradeSubscriptionApi } from '../../api/userSubscriptionApi';
+import { cancelSubscriptionApi, reactivateSubscriptionApi, downgradeSubscriptionApi } from '../../api/userSubscriptionApi';
 
 export const ANNUAL_DISCOUNT_RATE = 0.2; // 20% discount for annual plans
+
+// Move plans array outside component
+const PLANS: (SubscriptionPlan & { color: string })[] = [
+  {
+    id: 'plan_free',
+    plan_group_id: 'free',
+    name: 'Free',
+    amount: 0,
+    currency: 'USD',
+    interval: 'month',
+    color: '#6c757d',
+    features: [
+      '1 year transaction history',
+      'Up to 2 custom categories',
+      'Daily market data updates',
+      'Basic dashboard',
+      '1GB storage',
+      'Basic reports',
+      'Manual data entry',
+      'Basic export (CSV)'
+    ]
+  },
+  {
+    id: 'plan_basic',
+    plan_group_id: 'basic',
+    name: 'Basic',
+    amount: 4.99,
+    currency: 'USD',
+    interval: 'month',
+    color: '#28a745',
+    features: [
+      '5 years transaction history',
+      'Unlimited custom categories',
+      '4x daily market data updates',
+      'Advanced dashboard',
+      '10GB storage',
+      'Custom reports',
+      'Multiple export formats',
+      'Basic data visualization',
+      'Email support'
+    ]
+  },
+  {
+    id: 'plan_premium',
+    plan_group_id: 'premium',
+    name: 'Premium',
+    amount: 9.99,
+    currency: 'USD',
+    interval: 'month',
+    color: '#007bff',
+    features: [
+      'Unlimited transaction history',
+      'Unlimited custom categories',
+      'Live market data updates',
+      'Customizable dashboard',
+      '50GB storage',
+      'Advanced reports',
+      'Multiple export formats',
+      'Advanced data visualization',
+      'Priority support',
+      'Advanced search and filtering',
+      'Custom integrations'
+    ]
+  }
+];
 
 interface PlansProps {
   userDetails: UserDetails;
@@ -44,75 +109,10 @@ const Plans: React.FC<PlansProps> = ({
   const [isCancelling, setIsCancelling] = useState(false);
   const [loading, setLoading] = useState(true);
   const [billingCycle, setBillingCycle] = useState<'monthly' | 'annual'>('monthly');
-  const [successMessage, setSuccessMessage] = useState<string | null>(null);
-
-  const plans: (SubscriptionPlan & { color: string })[] = [
-    {
-      id: 'plan_free',
-      plan_group_id: 'free',
-      name: 'Free',
-      amount: 0,
-      currency: 'USD',
-      interval: 'month',
-      color: '#6c757d',
-      features: [
-        '1 year transaction history',
-        'Up to 2 custom categories',
-        'Daily market data updates',
-        'Basic dashboard',
-        '1GB storage',
-        'Basic reports',
-        'Manual data entry',
-        'Basic export (CSV)'
-      ]
-    },
-    {
-      id: 'plan_basic',
-      plan_group_id: 'basic',
-      name: 'Basic',
-      amount: 4.99,
-      currency: 'USD',
-      interval: 'month',
-      color: '#28a745',
-      features: [
-        '5 years transaction history',
-        'Unlimited custom categories',
-        '4x daily market data updates',
-        'Advanced dashboard',
-        '10GB storage',
-        'Custom reports',
-        'Multiple export formats',
-        'Basic data visualization',
-        'Email support'
-      ]
-    },
-    {
-      id: 'plan_premium',
-      plan_group_id: 'premium',
-      name: 'Premium',
-      amount: 9.99,
-      currency: 'USD',
-      interval: 'month',
-      color: '#007bff',
-      features: [
-        'Unlimited transaction history',
-        'Unlimited custom categories',
-        'Live market data updates',
-        'Customizable dashboard',
-        '50GB storage',
-        'Advanced reports',
-        'Multiple export formats',
-        'Advanced data visualization',
-        'Priority support',
-        'Advanced search and filtering',
-        'Custom integrations'
-      ]
-    }
-  ];
 
   const handleCancelPlan = async (planId: string) => {
     const basePlanId = planId.replace('_annual', '');
-    const selectedPlan = plans.find(p => p.id === basePlanId);
+    const selectedPlan = PLANS.find(p => p.id === basePlanId);
 
     if (!selectedPlan) {
       setError('Invalid plan selected');
@@ -138,7 +138,6 @@ const Plans: React.FC<PlansProps> = ({
 
       // Refresh subscription details
       await onSubscriptionComplete(subscription.stripeSubscriptionId);
-      setSuccessMessage('Successfully cancelled subscription');
     } catch (error) {
       console.error('Error cancelling subscription:', error);
       setError(error instanceof Error ? error.message : 'Failed to cancel subscription');
@@ -149,7 +148,7 @@ const Plans: React.FC<PlansProps> = ({
 
   const handleReactivatePlan = async (planId: string) => {
     const basePlanId = planId.replace('_annual', '');
-    const selectedPlan = plans.find(p => p.id === basePlanId);
+    const selectedPlan = PLANS.find(p => p.id === basePlanId);
 
     if (!selectedPlan) {
       setError('Invalid plan selected');
@@ -176,7 +175,6 @@ const Plans: React.FC<PlansProps> = ({
 
       // Refresh subscription details
       await onSubscriptionComplete(subscription.stripeSubscriptionId);
-      setSuccessMessage('Successfully reactivated subscription');
       setIsCancelling(false);
     } catch (error) {
       console.error('Error reactivating subscription:', error);
@@ -188,7 +186,7 @@ const Plans: React.FC<PlansProps> = ({
 
   const handleUpgradePlan = async (planId: string) => {
     const basePlanId = planId.replace('_annual', '');
-    const selectedPlan = plans.find(p => p.id === basePlanId);
+    const selectedPlan = PLANS.find(p => p.id === basePlanId);
 
     if (!selectedPlan) {
       setError('Invalid plan selected');
@@ -220,7 +218,7 @@ const Plans: React.FC<PlansProps> = ({
 
   const handleDowngradePlan = async (planId: string) => {
     const basePlanId = planId.replace('_annual', '');
-    const selectedPlan = plans.find(p => p.id === basePlanId);
+    const selectedPlan = PLANS.find(p => p.id === basePlanId);
 
     if (!selectedPlan) {
       setError('Invalid plan selected');
@@ -253,7 +251,6 @@ const Plans: React.FC<PlansProps> = ({
 
       // Refresh subscription details
       await onSubscriptionComplete(subscription.stripeSubscriptionId);
-      setSuccessMessage('Successfully downgraded subscription');
     } catch (error) {
       console.error('Error downgrading subscription:', error);
       setError(error instanceof Error ? error.message : 'Failed to downgrade subscription');
@@ -276,7 +273,7 @@ const Plans: React.FC<PlansProps> = ({
         setLoading(true);
         const response = await fetchSubscriptionDetails(userDetails.accountId);
         const basePlanId = response.plan.id.replace('_annual', '');
-        const plan = plans.find(p => p.id === basePlanId);
+        const plan = PLANS.find(p => p.id === basePlanId);
         if (plan) {
           const subscriptionPlan: SubscriptionPlan = {
             ...response.plan,
@@ -308,7 +305,7 @@ const Plans: React.FC<PlansProps> = ({
       try {
         console.log('Processing payment for plan:', selectedPlan);
         const basePlanId = selectedPlan.replace('_annual', '');
-        const selectedPlanObj = plans.find(p => p.id === basePlanId);
+        const selectedPlanObj = PLANS.find(p => p.id === basePlanId);
         if (!selectedPlanObj) {
           throw new Error('Invalid plan selected');
         }
@@ -345,8 +342,8 @@ const Plans: React.FC<PlansProps> = ({
 
   // Filter plans based on current subscription
   const filteredPlans = currentPlan && currentPlan.id === 'plan_free'
-    ? plans
-    : plans.filter(plan => plan.id !== 'plan_free');
+    ? PLANS
+    : PLANS.filter(plan => plan.id !== 'plan_free');
 
   return (
     <div className="plans-container">

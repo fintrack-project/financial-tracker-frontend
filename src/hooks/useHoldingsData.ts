@@ -9,7 +9,6 @@ export const useHoldingsData = (accountId: string | null) => {
   const [holdings, setHoldings] = useState<Holding[]>([]);
   const [portfolioData, setPortfolioData] = useState<PortfolioData[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
-  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     if (!accountId) {
@@ -41,7 +40,6 @@ export const useHoldingsData = (accountId: string | null) => {
         console.log('Fetched portfolio data:', portfolioDataResponse);
 
         setPortfolioData(portfolioDataResponse);
-        setError(null); // Clear any previous errors
       } catch (error) {
         console.error('Error loading holdings or market data:', error);
       } finally {

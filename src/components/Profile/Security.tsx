@@ -24,8 +24,6 @@ const Security: React.FC<SecurityProps> = ({ accountId }) => {
     verifyOtp,
     closeOtpPopup,
     showPasswordPopup,
-    passwordError,
-    setPasswordError,
     showOtpPopup,
     otpError,
   } = useAuthService();
@@ -222,7 +220,6 @@ const Security: React.FC<SecurityProps> = ({ accountId }) => {
         <PasswordInputPopup
           onConfirm={(password) => passwordHandlers.handlePasswordConfirm(password)}
           onClose={() => passwordHandlers.handlePasswordClose()}
-          errorMessage={passwordError}
         />
       )}
       {showOtpPopup && (

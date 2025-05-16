@@ -28,7 +28,6 @@ const PaymentMethods: React.FC<PaymentMethodsProps> = ({
   onDelete,
   onAttach
 }) => {
-  const [showPaymentForm, setShowPaymentForm] = useState(false);
   const [error, setError] = useState<ErrorState | null>(null);
 
   // Log payment methods for debugging
@@ -150,8 +149,7 @@ const PaymentMethods: React.FC<PaymentMethodsProps> = ({
                 }
               }}
               onError={handlePaymentError}
-              onCancel={() => setShowPaymentForm(false)}
-              reset={!error}
+              onCancel={() => {}}
             />
           </Elements>
           

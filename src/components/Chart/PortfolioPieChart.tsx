@@ -25,7 +25,7 @@ const PortfolioPieChart: React.FC<PortfolioPieChartProps> = ({ accountId }) => {
   const [chartData, setChartData] = useState<any[]>([]); // Data for the pie chart
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
-  const { baseCurrency, loading: baseCurrencyLoading } = useBaseCurrency(accountId);
+  const { baseCurrency } = useBaseCurrency(accountId);
 
   // Fetch category names when the component loads
   useEffect(() => {
