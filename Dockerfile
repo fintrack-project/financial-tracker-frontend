@@ -1,14 +1,11 @@
 # Stage 1: Build the application
 FROM node:18-alpine AS builder
 
-# Set the working directory
 WORKDIR /app
 
-# Copy package.json and package-lock.json
+# Install dependencies first for better cache
 COPY package*.json ./
-
-# Install dependencies
-RUN npm install
+RUN npm install --frozen-lockfile
 
 # Copy the rest of the application code
 COPY . .
@@ -25,8 +22,6 @@ COPY --from=builder /app/build /usr/share/nginx/html
 # Copy the custom Nginx configuration file
 COPY nginx.conf /etc/nginx/conf.d/default.conf
 
-# Expose the port Nginx will serve on
 EXPOSE 80
 
-# Start Nginx
 CMD ["nginx", "-g", "daemon off;"]
