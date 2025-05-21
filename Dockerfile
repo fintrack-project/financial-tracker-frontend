@@ -13,8 +13,22 @@ COPY . .
 # Build the application
 RUN npm run build
 
-# Stage 2: Serve the application using a lightweight web server
-FROM nginx:1.25-alpine
+# Stage 2: Development environment
+FROM node:18-alpine AS dev
+
+WORKDIR /app
+
+COPY package*.json ./
+RUN npm install --frozen-lockfile
+
+COPY . .
+
+EXPOSE 3000
+
+CMD ["npm", "start"]
+
+# Stage 3: Serve the application using a lightweight web server
+FROM nginx:1.25-alpine AS prod
 
 # Copy the build output from the builder stage to the Nginx web server
 COPY --from=builder /app/build /usr/share/nginx/html
