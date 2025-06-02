@@ -1,5 +1,5 @@
 # Stage 1: Build the application
-FROM node:18-alpine AS builder
+FROM node:24-alpine3.20 AS builder
 
 WORKDIR /app
 
@@ -14,7 +14,7 @@ COPY . .
 RUN npm run build
 
 # Stage 2: Development environment
-FROM node:18-alpine AS dev
+FROM node:24-alpine3.20 AS dev
 
 WORKDIR /app
 
@@ -28,7 +28,7 @@ EXPOSE 3000
 CMD ["npm", "start"]
 
 # Stage 3: Serve the application using a lightweight web server
-FROM nginx:1.25-alpine AS prod
+FROM nginx:1.28.0-alpine-slim AS prod
 
 # Copy the build output from the builder stage to the Nginx web server
 COPY --from=builder /app/build /usr/share/nginx/html
