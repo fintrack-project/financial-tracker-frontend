@@ -23,7 +23,7 @@ export const fetchMarketDataApi = async (
 // Fetch market index data for specified symbols
 export const fetchMarketIndexDataApi = async (symbols: string[]): Promise<ApiResponse<Record<string, any>>> => {
   try {
-    // URL encode each symbol correctly
+    // URL encode each symbol correctly and join with commas
     const encodedSymbols = symbols.map(symbol => encodeURIComponent(symbol)).join(',');
     
     const response = await apiClient.get<ApiResponse<Record<string, any>>>('/api/market-index-data/fetch', {
