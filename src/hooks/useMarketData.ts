@@ -18,14 +18,15 @@ export const useMarketData = ({ accountId, items, subscriptionPlan }: UseMarketD
   const hasInitialFetch = useRef(false);
 
   // Memoize confirmed items
-  const confirmedItems = useMemo(() => 
-    items.filter(item => item.confirmed),
-    [items]
-  );
+  const confirmedItems = useMemo(() => {
+    const filtered = items.filter(item => item.confirmed);
+    console.log('🔍 Confirmed items after filtering:', filtered);
+    return filtered;
+  }, [items]);
 
   const fetchData = useCallback(async () => {
     if (!accountId || confirmedItems.length === 0) {
-      console.log('Skipping fetch - no valid items:', { 
+      console.log('⏭️ Skipping fetch - no valid items:', { 
         hasAccountId: !!accountId, 
         itemsCount: confirmedItems.length 
       });
@@ -33,15 +34,24 @@ export const useMarketData = ({ accountId, items, subscriptionPlan }: UseMarketD
     }
 
     try {
-      console.log('Fetching market data for:', confirmedItems);
+      console.log('🔄 Starting market data fetch for items:', confirmedItems);
       setLoading(true);
       const data = await fetchMarketData(accountId, confirmedItems);
+      console.log('✅ Market data fetch successful:', {
+        itemsCount: data.length,
+        items: data.map(item => ({
+          symbol: item.symbol,
+          assetType: item.assetType,
+          price: item.price,
+          change: item.change
+        }))
+      });
       setMarketData(data);
       setLastUpdated(new Date());
       hasInitialFetch.current = true;
     } catch (err) {
+      console.error('❌ Error fetching market data:', err);
       setError('Failed to fetch market data');
-      console.error('Error fetching market data:', err);
     } finally {
       setLoading(false);
     }
@@ -50,7 +60,11 @@ export const useMarketData = ({ accountId, items, subscriptionPlan }: UseMarketD
   // Initial fetch
   useEffect(() => {
     if (!hasInitialFetch.current && accountId && confirmedItems.length > 0) {
-      console.log('Performing initial fetch');
+      console.log('🚀 Performing initial fetch with:', {
+        accountId,
+        itemsCount: confirmedItems.length,
+        items: confirmedItems
+      });
       fetchData();
     }
   }, [accountId, confirmedItems, fetchData]);
@@ -60,6 +74,16 @@ export const useMarketData = ({ accountId, items, subscriptionPlan }: UseMarketD
     subscriptionPlan,
     onRefresh: fetchData
   });
+
+  // Log state changes
+  useEffect(() => {
+    console.log('📊 Market data state updated:', {
+      dataCount: marketData.length,
+      loading,
+      error,
+      lastUpdated: lastUpdated?.toISOString()
+    });
+  }, [marketData, loading, error, lastUpdated]);
 
   return {
     marketData,
