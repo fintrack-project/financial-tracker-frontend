@@ -33,9 +33,6 @@ FROM nginx:1.28.0-alpine-slim AS prod
 # Copy the build output from the builder stage to the Nginx web server
 COPY --from=builder /app/build /usr/share/nginx/html
 
-# Copy the custom Nginx configuration file
-COPY nginx.conf /etc/nginx/conf.d/default.conf
-
 EXPOSE 80
 EXPOSE 443
 

@@ -1,10 +1,2 @@
 node_modules
 .env
-
-# SSL Certificates and Private Keys
-ssl-certificates/
-*.crt
-*.key
-*.pem
-*.p12
-*.pfx
