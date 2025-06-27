@@ -27,13 +27,18 @@ EXPOSE 3000
 
 CMD ["npm", "start"]
 
-# Stage 3: Serve the application using a lightweight web server
-FROM nginx:1.28.0-alpine-slim AS prod
+# Stage 3: Production environment - Simple web server
+FROM node:24-alpine3.20 AS prod
 
-# Copy the build output from the builder stage to the Nginx web server
-COPY --from=builder /app/build /usr/share/nginx/html
+WORKDIR /app
 
-EXPOSE 80
-EXPOSE 443
+# Install serve package for serving static files
+RUN npm install -g serve
 
-CMD ["nginx", "-g", "daemon off;"]
+# Copy the build output from the builder stage
+COPY --from=builder /app/build ./build
+
+EXPOSE 3000
+
+# Serve the React app on port 3000
+CMD ["serve", "-s", "build", "-l", "3000"]
