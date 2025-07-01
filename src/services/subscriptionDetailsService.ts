@@ -1,5 +1,5 @@
-import { SubscriptionDetails } from '../types/SubscriptionPlan';
-import { fetchSubscriptionDetailsApi } from '../api/subscriptionDetailsApi';
+import { SubscriptionDetails } from '../features/subscription/types/SubscriptionPlan';
+import { fetchSubscriptionDetailsApi } from '../features/subscription/api/subscriptionDetailsApi';
 
 /**
  * Fetch subscription details including the plan information

@@ -3,7 +3,7 @@ import EditableWatchlistTable from './EditableWatchlistTable';
 import { useWatchlist } from '../../hooks/useWatchlist';
 import { useMarketData } from '../../hooks/useMarketData';
 import { MarketDataDisplay } from '../../types/MarketData';
-import { SubscriptionPlanType } from '../../types/SubscriptionPlan';
+import { SubscriptionPlanType } from '../../features/subscription/types/SubscriptionPlan';
 import './Watchlist.css';
 
 interface ForexWatchlistProps {

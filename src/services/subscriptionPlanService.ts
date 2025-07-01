@@ -1,5 +1,5 @@
-import { SubscriptionResponse } from '../types/SubscriptionPlan';
-import { confirmSubscriptionPaymentApi } from '../api/userSubscriptionApi';
+import { SubscriptionResponse } from '../features/subscription/types/SubscriptionPlan';
+import { confirmSubscriptionPaymentApi } from '../features/subscription/api/userSubscriptionApi';
 
 export const finalizeSubscription = async (
   subscriptionId: string,

@@ -1,6 +1,6 @@
-import { UserSubscription } from '../types/UserSubscription';
-import { fetchUserSubscriptionApi, upgradeSubscriptionApi } from '../api/userSubscriptionApi';
-import { SubscriptionUpdateResponse } from '../types/SubscriptionPlan';
+import { UserSubscription } from '../features/subscription/types/UserSubscription';
+import { fetchUserSubscriptionApi, upgradeSubscriptionApi } from '../features/subscription/api/userSubscriptionApi';
+import { SubscriptionUpdateResponse } from '../features/subscription/types/SubscriptionPlan';
 
 export const fetchUserSubscription = async (accountId: string): Promise<UserSubscription> => {
   try {

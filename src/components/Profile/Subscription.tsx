@@ -3,7 +3,7 @@ import { fetchUserDetails } from '../../services/userService';
 import { fetchUserSubscription, upgradeSubscription } from '../../services/userSubscriptionService';
 import { fetchPaymentMethods, deletePaymentMethod, setDefaultPaymentMethod, attachPaymentMethod } from '../../services/paymentMethodService';
 import { UserDetails } from '../../types/UserDetails';
-import { UserSubscription } from '../../types/UserSubscription';
+import { UserSubscription } from '../../features/subscription/types/UserSubscription';
 import { PaymentMethod, PaymentError } from '../../types/PaymentMethods';
 import { formatDate } from '../../utils/FormatDate';
 import AccountTier from './AccountTier';

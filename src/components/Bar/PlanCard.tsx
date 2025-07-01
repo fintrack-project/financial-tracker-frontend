@@ -1,5 +1,5 @@
 import React from 'react';
-import { SubscriptionPlan } from '../../types/SubscriptionPlan';
+import { SubscriptionPlan } from '../../features/subscription/types/SubscriptionPlan';
 import { ANNUAL_DISCOUNT_RATE } from './Plans';
 import './PlanCard.css';
 

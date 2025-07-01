@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { fetchMarketIndices } from '../../services/marketIndexService';
 import { MarketIndexData } from '../../types/MarketData';
 import { useRefreshCycle } from '../../hooks/useRefreshCycle';
-import { SubscriptionPlanType } from '../../types/SubscriptionPlan';
+import { SubscriptionPlanType } from '../../features/subscription/types/SubscriptionPlan';
 import './MarketIndexWidget.css';
 
 interface MarketIndexWidgetProps {

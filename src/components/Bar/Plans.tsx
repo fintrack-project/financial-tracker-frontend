@@ -5,13 +5,13 @@ import SubscriptionPaymentMethodSelectionPopup from '../../popup/SubscriptionPay
 import SubscriptionNoPaymentMethodPopup from '../../popup/SubscriptionNoPaymentMethodPopup';
 import { PaymentMethod } from '../../types/PaymentMethods';
 import { UserDetails } from '../../types/UserDetails';
-import { UserSubscription } from '../../types/UserSubscription';
-import { SubscriptionPlan } from '../../types/SubscriptionPlan';
+import { UserSubscription } from '../../features/subscription/types/UserSubscription';
+import { SubscriptionPlan } from '../../features/subscription/types/SubscriptionPlan';
 import { fetchSubscriptionDetails } from '../../services/subscriptionDetailsService';
 import { stripePromise } from '../../config/stripe';
 import PlanCard from './PlanCard';
 import './Plans.css';
-import { cancelSubscriptionApi, reactivateSubscriptionApi, downgradeSubscriptionApi } from '../../api/userSubscriptionApi';
+import { cancelSubscriptionApi, reactivateSubscriptionApi, downgradeSubscriptionApi } from '../../features/subscription/api/userSubscriptionApi';
 
 export const ANNUAL_DISCOUNT_RATE = 0.2; // 20% discount for annual plans
 

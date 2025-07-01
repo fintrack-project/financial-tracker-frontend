@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import './AccountTier.css'; // Import styles for the component
-import { SubscriptionPlan } from '../../types/SubscriptionPlan';
+import { SubscriptionPlan } from '../../features/subscription/types/SubscriptionPlan';
 import { fetchSubscriptionDetails } from '../../services/subscriptionDetailsService';
 
 interface AccountTierProps {
