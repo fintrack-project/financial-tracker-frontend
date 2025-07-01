@@ -1,0 +1,19 @@
+{
+  "files": {
+    "main.css": "/static/css/main.614a257f.css",
+    "main.js": "/static/js/main.e480feb5.js",
+    "static/media/FinTrackGif.gif": "/static/media/FinTrackGif.9f0bb9107a601333b351.gif",
+    "static/media/FinTrackLogo.png": "/static/media/FinTrackLogo.635d8dc859b7cd448c6a.png",
+    "static/media/confirm.png": "/static/media/confirm.af2a744f043c0183e3bc.png",
+    "static/media/deleteCancel.png": "/static/media/deleteCancel.c3e7d0f07842c316014b.png",
+    "static/media/add.png": "/static/media/add.94c8a526c03879287062.png",
+    "static/media/remove.png": "/static/media/remove.583ed3cc773ab07981d6.png",
+    "index.html": "/index.html",
+    "main.614a257f.css.map": "/static/css/main.614a257f.css.map",
+    "main.e480feb5.js.map": "/static/js/main.e480feb5.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.614a257f.css",
+    "static/js/main.e480feb5.js"
+  ]
+}

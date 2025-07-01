@@ -9,9 +9,9 @@ import Dashboard from './pages/PlatformManagement/Dashboard';
 import Holdings from './pages/PlatformManagement/Holdings';
 import Balance from './pages/PlatformManagement/Balance';
 import PortfolioOverview from './pages/PlatformManagement/PortfolioOverview';
-import Profile from './pages/UserAccount/Profile';
-import Settings from './pages/UserAccount/Settings';
-import Support from './pages/UserAccount/Support';
+import Profile from './features/profile/pages/UserAccount/Profile';
+import Settings from './features/profile/pages/UserAccount/Settings';
+import Support from './features/profile/pages/UserAccount/Support';
 import VerifyEmail from './pages/Authentication/VerifyEmail';
 import NotFound from './pages/ErrorPages/NotFound';
 

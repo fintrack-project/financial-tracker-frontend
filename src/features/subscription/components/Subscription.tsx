@@ -6,7 +6,7 @@ import { UserDetails } from '../../../shared/types/UserDetails';
 import { UserSubscription } from '../types/UserSubscription';
 import { PaymentMethod, PaymentError } from '../../../shared/types/PaymentMethods';
 import { formatDate } from '../../../shared/utils/FormatDate';
-import AccountTier from '../../../components/Profile/AccountTier';
+import AccountTier from '../../profile/components/Profile/AccountTier';
 import './Subscription.css';
 import SubscriptionTabs from './UI/SubscriptionTabs';
 import PaymentMethods from './Payment/PaymentMethods';

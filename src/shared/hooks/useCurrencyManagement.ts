@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { fetchCurrencies, updateBaseCurrency, AccountCurrency } from '../../services/accountCurrencyService';
+import { fetchCurrencies, updateBaseCurrency, AccountCurrency } from '../../features/profile/services/accountCurrencyService';
 
 interface UseCurrencyManagementProps {
   accountId: string | null;

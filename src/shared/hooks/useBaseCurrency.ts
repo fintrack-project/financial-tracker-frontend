@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { fetchCurrencies, AccountCurrency } from '../../services/accountCurrencyService'
+import { fetchCurrencies, AccountCurrency } from '../../features/profile/services/accountCurrencyService'
 import { fetchMarketData } from '../../services/marketDataService';
 
 export const useBaseCurrency = (accountId: string | null) => {

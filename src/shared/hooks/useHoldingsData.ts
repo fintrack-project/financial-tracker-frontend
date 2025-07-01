@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { fetchHoldings } from '../../services/holdingsService';
 import { fetchPortfolioData } from '../../services/portfolioService';
-import { fetchCurrencies, AccountCurrency } from '../../services/accountCurrencyService';
+import { fetchCurrencies, AccountCurrency } from '../../features/profile/services/accountCurrencyService';
 import { PortfolioData } from '../types/PortfolioData';
 import { Holding } from '../types/Holding';
 
