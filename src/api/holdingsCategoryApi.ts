@@ -1,6 +1,6 @@
-import { apiClient } from '../utils/apiClient';
-import { ApiResponse } from '../types/ApiTypes';
-import { HoldingsCategories } from '../types/HoldingsCategoriesTypes';
+import { apiClient } from '../shared/utils/apiClient';
+import { ApiResponse } from '../shared/types/ApiTypes';
+import { HoldingsCategories } from '../shared/types/HoldingsCategoriesTypes';
 
 // Add a new holdings category
 export const addHoldingsCategoryApi = async (

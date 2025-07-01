@@ -1,7 +1,7 @@
 import React from 'react';
 import BaseUserAccountPage from './BaseUserAccountPage';
 import AccountDetailAndMenu from '../../components/Menu/AccountDetailAndMenu';
-import { useCurrencyManagement } from '../../hooks/useCurrencyManagement';
+import { useCurrencyManagement } from '../../shared/hooks/useCurrencyManagement';
 import './Settings.css';
 
 interface SettingsProps {

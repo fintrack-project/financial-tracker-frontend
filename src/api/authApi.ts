@@ -1,7 +1,7 @@
-import { apiClient } from '../utils/apiClient';
-import { LoginRequest } from '../types/Requests';
-import { AuthResponse } from '../types/AuthTypes';
-import { ApiResponse } from '../types/ApiTypes';
+import { apiClient } from '../shared/utils/apiClient';
+import { LoginRequest } from '../shared/types/Requests';
+import { AuthResponse } from '../shared/types/AuthTypes';
+import { ApiResponse } from '../shared/types/ApiTypes';
 import { AxiosError } from 'axios';
 
 export const loginApi = async (loginData: LoginRequest): Promise<ApiResponse<AuthResponse>> => {

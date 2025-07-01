@@ -1,5 +1,5 @@
-import { apiClient } from '../utils/apiClient';
-import { ApiResponse } from '../types/ApiTypes';
+import { apiClient } from '../shared/utils/apiClient';
+import { ApiResponse } from '../shared/types/ApiTypes';
 
 interface Currency {
   name: string;

@@ -1,5 +1,5 @@
 import React from 'react';
-import HoldingsTable from '../../components/Table/HoldingsTable/HoldingsTable';
+import HoldingsTable from '../../shared/components/Table/HoldingsTable/HoldingsTable';
 import ForexWatchlist from '../../components/Watchlist/ForexWatchlist';
 import MarketWatchlist from '../../components/Watchlist/MarketWatchlist';
 import MarketIndexWidget from '../../components/Market/MarketIndexWidget';

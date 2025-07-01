@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import VerificationPopup from './VerificationPopup';
-import SixDigitInput from '../components/InputField/SixDigitInput'; // Import the SixDigitInput component
+import SixDigitInput from '../shared/components/InputField/SixDigitInput'; // Import the SixDigitInput component
 
 interface OTPVerificationPopupProps {
   onClose: () => void;

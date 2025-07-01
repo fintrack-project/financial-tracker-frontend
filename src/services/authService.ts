@@ -1,10 +1,10 @@
 import { loginApi, registerApi, requestPasswordResetApi, validateResetTokenApi, resetPasswordApi } from '../api/authApi';
 import { sendEmailVerificationApi, verifyEmailApi, checkEmailVerifiedApi } from '../api/emailApi';
 import { sendPhoneVerifiedApi } from '../api/phoneApi';
-import { LoginRequest, RegisterRequest } from '../types/Requests';
+import { LoginRequest, RegisterRequest } from '../shared/types/Requests';
 import { RecaptchaVerifier, signInWithPhoneNumber } from 'firebase/auth';
-import { auth } from '../config/firebaseConfig'; // Ensure `auth` is correctly initialized
-import UserSession from '../utils/UserSession';
+import { auth } from '../shared/config/firebaseConfig'; // Ensure `auth` is correctly initialized
+import UserSession from '../shared/utils/UserSession';
 
 export const loginUser = async (loginData: LoginRequest): Promise<void> => {
   console.log('Login request data:', loginData);

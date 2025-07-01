@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { Elements } from '@stripe/react-stripe-js';
-import { PaymentMethod, PaymentError } from '../../../../types/PaymentMethods';
-import { UserDetails } from '../../../../types/UserDetails';
+import { PaymentMethod, PaymentError } from '../../../../shared/types/PaymentMethods';
+import { UserDetails } from '../../../../shared/types/UserDetails';
 import PaymentForm from '../../../../components/Payment/PaymentForm';
 import TestCardDetails from '../../../../components/Payment/TestCardDetails';
-import { stripePromise } from '../../../../config/stripe';
+import { stripePromise } from '../../../../shared/config/stripe';
 import './PaymentMethods.css';
 
 interface PaymentMethodsProps {

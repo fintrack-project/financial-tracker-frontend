@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import VerificationPopup from './VerificationPopup'; // Import the generalized component
-import SixDigitInput from '../components/InputField/SixDigitInput'; // Import the six-digit input component
+import SixDigitInput from '../shared/components/InputField/SixDigitInput'; // Import the six-digit input component
 
 interface PhoneVerificationPopupProps {
   onClose: () => void; // Callback to close the popup

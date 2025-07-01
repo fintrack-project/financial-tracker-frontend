@@ -1,7 +1,7 @@
 import React from 'react';
-import AssetTypeDropDown from '../DropDown/AssetTypeDropDown';
-import IconButton from '../Button/IconButton';
-import { formatNumber } from '../../utils/FormatNumber';
+import AssetTypeDropDown from '../../shared/components/DropDown/AssetTypeDropDown';
+import IconButton from '../../shared/components/Button/IconButton';
+import { formatNumber } from '../../shared/utils/FormatNumber';
 
 interface EditableWatchlistRowProps<T> {
   row: T;

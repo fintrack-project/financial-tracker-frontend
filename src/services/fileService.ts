@@ -1,7 +1,7 @@
 import Papa from 'papaparse';
 import * as XLSX from 'xlsx';
-import { Transaction } from '../types/Transaction';
-import { OverviewTransaction } from '../types/OverviewTransaction';
+import { Transaction } from '../shared/types/Transaction';
+import { OverviewTransaction } from '../shared/types/OverviewTransaction';
 
 // Generic function to parse CSV file
 export const parseCSVFile = <T extends Transaction | OverviewTransaction>(

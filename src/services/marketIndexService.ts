@@ -1,5 +1,5 @@
 import { fetchMarketIndexDataApi } from '../api/marketDataApi';
-import { MarketIndexData } from '../types/MarketData';
+import { MarketIndexData } from '../shared/types/MarketData';
 // Default symbols to fetch
 const DEFAULT_SYMBOLS = ['^GSPC', '^NDX', '^DJI', '^RUT', 'GC=F', 'SI=F', 'CL=F'];
 

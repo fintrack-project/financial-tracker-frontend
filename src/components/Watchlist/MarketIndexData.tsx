@@ -1,5 +1,5 @@
 import React from 'react';
-import { formatNumber } from '../../utils/FormatNumber';
+import { formatNumber } from '../../shared/utils/FormatNumber';
 import './MarketIndexData.css'; // Add styles for the component
 
 interface MarketIndexDataProps {

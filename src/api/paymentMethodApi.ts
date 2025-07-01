@@ -1,5 +1,5 @@
-import { apiClient } from '../utils/apiClient';
-import { PaymentMethod, StripePaymentMethod, ErrorResponse, PaymentError } from '../types/PaymentMethods';
+import { apiClient } from '../shared/utils/apiClient';
+import { PaymentMethod, StripePaymentMethod, ErrorResponse, PaymentError } from '../shared/types/PaymentMethods';
 
 const handleApiError = (error: unknown): never => {
   if (error instanceof Error) {

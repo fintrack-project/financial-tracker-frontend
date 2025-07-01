@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate, NavLink } from 'react-router-dom';
-import UserSession from '../../utils/UserSession';
+import UserSession from '../../shared/utils/UserSession';
 import { logoutUser } from '../../services/authService';
 import { fetchCurrentAccountApi } from '../../api/accountApi';
 import './AccountMenu.css';

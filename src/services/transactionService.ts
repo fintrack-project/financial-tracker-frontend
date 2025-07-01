@@ -1,12 +1,12 @@
 import {
   fetchOverviewTransactionsApi,
-  uploadPreviewTransactionsApi,
   fetchPreviewTransactionsApi,
+  uploadPreviewTransactionsApi,
   confirmTransactionsApi,
 } from '../api/transactionApi';
-import { PreviewTransaction } from 'types/PreviewTransaction';
-import { OverviewTransaction } from 'types/OverviewTransaction';
-import { Transaction } from '../types/Transaction';
+import { PreviewTransaction } from '../shared/types/PreviewTransaction';
+import { OverviewTransaction } from '../shared/types/OverviewTransaction';
+import { Transaction } from '../shared/types/Transaction';
 
 export const fetchOverviewTransactions = async (accountId: string): Promise<OverviewTransaction[]> => {
   try {

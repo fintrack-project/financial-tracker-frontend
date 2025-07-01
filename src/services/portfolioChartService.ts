@@ -2,8 +2,8 @@ import {
   fetchPortfolioPieChartDataApi,
   fetchPortfolioCombinedBarChartDataApi,
 } from '../api/portfolioChartApi';
-import { ChartData, RawChartDataEntry } from '../types/ChartData';
-import { CombinedChartData } from '../types/CombinedChartData';
+import { ChartData, RawChartDataEntry } from '../shared/types/ChartData';
+import { CombinedChartData } from '../shared/types/CombinedChartData';
 
 export const fetchPortfolioPieChartData = async (
   accountId: string,

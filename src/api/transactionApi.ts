@@ -1,8 +1,8 @@
-import { apiClient } from '../utils/apiClient';
-import { Transaction } from '../types/Transaction';
-import { PreviewTransaction } from '../types/PreviewTransaction';
-import { OverviewTransaction } from '../types/OverviewTransaction';
-import { ApiResponse } from '../types/ApiTypes';
+import { apiClient } from '../shared/utils/apiClient';
+import { Transaction } from '../shared/types/Transaction';
+import { PreviewTransaction } from '../shared/types/PreviewTransaction';
+import { OverviewTransaction } from '../shared/types/OverviewTransaction';
+import { ApiResponse } from '../shared/types/ApiTypes';
 
 // Fetch overview transactions
 export const fetchOverviewTransactionsApi = async (accountId: string): Promise<ApiResponse<OverviewTransaction[]>> => {

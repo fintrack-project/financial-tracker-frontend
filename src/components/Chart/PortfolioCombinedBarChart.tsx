@@ -13,12 +13,12 @@ import {
 } from 'recharts';
 import { fetchPortfolioCombinedBarChartData } from '../../services/portfolioChartService'; // Services to fetch data
 import { fetchCategoryNames } from '../../services/categoryService';
-import { useBaseCurrency } from '../../hooks/useBaseCurrency'; // Custom hook to get base currency
-import { formatNumber } from '../../utils/FormatNumber';
-import { ChartData } from '../../types/ChartData';
-import { CombinedChartData } from '../../types/CombinedChartData';
-import CategoryDropdown from '../DropDown/CategoryDropdown';
-import TimeRangeDropdown from '../DropDown/TimeRangeDropDown';
+import { useBaseCurrency } from '../../shared/hooks/useBaseCurrency'; // Custom hook to get base currency
+import { formatNumber } from '../../shared/utils/FormatNumber';
+import { ChartData } from '../../shared/types/ChartData';
+import { CombinedChartData } from '../../shared/types/CombinedChartData';
+import CategoryDropdown from '../../shared/components/DropDown/CategoryDropdown';
+import TimeRangeDropdown from '../../shared/components/DropDown/TimeRangeDropDown';
 import './PortfolioCombinedBarChart.css';
 
 interface PortfolioCombinedBarChartProps {

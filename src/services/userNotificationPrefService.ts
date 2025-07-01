@@ -2,7 +2,7 @@ import {
   fetchNotificationPreferencesApi,
   updateNotificationPreferenceApi,
 } from '../api/userNotificationPrefApi'; // Adjust the import path as necessary
-import { NotificationPreferences } from '../types/NotificationPreferences';
+import { NotificationPreferences } from '../shared/types/NotificationPreferences';
 
 export const fetchNotificationPreferences = async (accountId: string): Promise<NotificationPreferences> => {
   try {
@@ -13,7 +13,7 @@ export const fetchNotificationPreferences = async (accountId: string): Promise<N
 
     // Transform the array into the NotificationPreferences object
     const preferences = response.data.reduce<NotificationPreferences>(
-      (acc, pref) => {
+      (acc: NotificationPreferences, pref: any) => {
         if (pref.notification_type === 'EMAIL') acc.email = pref.is_enabled;
         if (pref.notification_type === 'SMS') acc.sms = pref.is_enabled;
         if (pref.notification_type === 'PUSH') acc.push = pref.is_enabled;

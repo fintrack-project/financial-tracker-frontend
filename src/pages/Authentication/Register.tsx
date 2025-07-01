@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { isStrongPassword, isValidEmail } from '../../utils/validationUtils';
-import InputField from '../../components/InputField/InputField';
-import Button from 'components/Button/Button';
+import { isStrongPassword, isValidEmail } from '../../shared/utils/validationUtils';
+import InputField from '../../shared/components/InputField/InputField';
+import Button from '../../shared/components/Button/Button';
 import AuthBasePage from './AuthBasePage';
-import { registerUser } from 'services/authService';
+import { registerUser } from '../../services/authService';
 import './Register.css';
 
 const Register: React.FC = () => {

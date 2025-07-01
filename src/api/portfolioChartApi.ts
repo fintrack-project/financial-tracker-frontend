@@ -1,6 +1,6 @@
-import { apiClient } from '../utils/apiClient';
-import { ChartData, RawChartDataEntry } from '../types/ChartData';
-import { ApiResponse } from '../types/ApiTypes';
+import { apiClient } from '../shared/utils/apiClient';
+import { ChartData, RawChartDataEntry } from '../shared/types/ChartData';
+import { ApiResponse } from '../shared/types/ApiTypes';
 
 // Fetch portfolio pie chart data
 export const fetchPortfolioPieChartDataApi = async (

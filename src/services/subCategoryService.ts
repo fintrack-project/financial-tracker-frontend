@@ -5,7 +5,7 @@ import {
   updateSubcategoryColorApi,
   fetchSubcategoryColorMapApi
 } from '../api/subCategoryApi';
-import { CategoryColor } from '../types/CategoryTypes';
+import { CategoryColor } from '../shared/types/CategoryTypes';
 
 export interface subCategoryService {
   subcategories: { [category: string]: string[] }; // Holds the subcategories for each category

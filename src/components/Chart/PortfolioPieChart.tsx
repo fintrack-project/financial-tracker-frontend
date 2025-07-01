@@ -9,9 +9,9 @@ import {
 } from 'recharts';
 import { fetchPortfolioPieChartData } from '../../services/portfolioChartService'; // Service to fetch chart data
 import { fetchCategoryNames } from '../../services/categoryService'; // Service to fetch categories
-import { useBaseCurrency } from '../../hooks/useBaseCurrency'; // Custom hook to get base currency 
-import { formatNumber } from '../../utils/FormatNumber'; // Utility function to format numbers
-import CategoryDropdown from '../DropDown/CategoryDropdown';
+import { useBaseCurrency } from '../../shared/hooks/useBaseCurrency'; // Custom hook to get base currency 
+import { formatNumber } from '../../shared/utils/FormatNumber'; // Utility function to format numbers
+import CategoryDropdown from '../../shared/components/DropDown/CategoryDropdown';
 import './PortfolioPieChart.css';
 
 

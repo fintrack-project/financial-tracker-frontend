@@ -7,7 +7,7 @@ import {
   createPaymentIntentApi,
   confirmPaymentApi,
 } from '../api/paymentMethodApi';
-import { PaymentMethod } from '../types/PaymentMethods';
+import { PaymentMethod } from '../shared/types/PaymentMethods';
 
 export const fetchPaymentMethods = async (accountId: string): Promise<PaymentMethod[]> => {
   try {

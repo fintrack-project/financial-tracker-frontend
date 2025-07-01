@@ -1,6 +1,6 @@
-import { apiClient } from '../utils/apiClient';
-import { Holding } from '../types/Holding';
-import { ApiResponse } from '../types/ApiTypes';
+import { apiClient } from '../shared/utils/apiClient';
+import { Holding } from '../shared/types/Holding';
+import { ApiResponse } from '../shared/types/ApiTypes';
 
 // Fetch holdings for a specific account
 export const fetchHoldingsApi = async (accountId: string): Promise<ApiResponse<Holding[]>> => {

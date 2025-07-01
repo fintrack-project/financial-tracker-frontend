@@ -1,17 +1,17 @@
 import React, { useEffect, useState } from 'react';
 import { fetchUserDetails, updateTwoFactorStatus } from '../../services/userService';
-import { UserDetails } from '../../types/UserDetails';
+import { UserDetails } from '../../shared/types/UserDetails';
 import { updatePassword } from '../../api/userApi';
 import { setup2FA } from '../../api/twoFactorApi';
-import { isStrongPassword } from '../../utils/validationUtils';
+import { isStrongPassword } from '../../shared/utils/validationUtils';
 import QRCodePopup from '../../popup/QRCodePopup';
-import ProfileTable from '../../components/Table/ProfileTable/ProfileTable';
-import Toggle from '../../components/Toggle/Toggle';
-import IconButton from '../../components/Button/IconButton';
+import ProfileTable from '../../shared/components/Table/ProfileTable/ProfileTable';
+import Toggle from '../../shared/components/Toggle/Toggle';
+import IconButton from '../../shared/components/Button/IconButton';
 import OTPVerificationPopup from '../../popup/OTPVerificationPopup';
 import PasswordInputPopup from '../../popup/PasswordInputPopup';
-import { useAuthService } from '../../hooks/useAuthService';
-import { formatDate } from '../../utils/FormatDate';
+import { useAuthService } from '../../shared/hooks/useAuthService';
+import { formatDate } from '../../shared/utils/FormatDate';
 import './Security.css'; // Add styles for the security section
 
 interface SecurityProps {

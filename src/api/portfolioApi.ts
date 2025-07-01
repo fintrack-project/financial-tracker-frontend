@@ -1,6 +1,6 @@
-import { apiClient } from '../utils/apiClient';
-import { PortfolioData } from '../types/PortfolioData';
-import { ApiResponse } from '../types/ApiTypes';
+import { apiClient } from '../shared/utils/apiClient';
+import { PortfolioData } from '../shared/types/PortfolioData';
+import { ApiResponse } from '../shared/types/ApiTypes';
 
 // Fetch portfolio data
 export const fetchPortfolioDataApi = async (accountId: string, baseCurrency: string): Promise<ApiResponse<PortfolioData[]>> => {

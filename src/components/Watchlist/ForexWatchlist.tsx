@@ -1,8 +1,8 @@
 import React, { Dispatch, SetStateAction, useMemo } from 'react';
 import EditableWatchlistTable from './EditableWatchlistTable';
-import { useWatchlist } from '../../hooks/useWatchlist';
-import { useMarketData } from '../../hooks/useMarketData';
-import { MarketDataDisplay } from '../../types/MarketData';
+import { useWatchlist } from '../../shared/hooks/useWatchlist';
+import { useMarketData } from '../../shared/hooks/useMarketData';
+import { MarketDataDisplay } from '../../shared/types/MarketData';
 import { SubscriptionPlanType } from '../../features/subscription/types/SubscriptionPlan';
 import './Watchlist.css';
 

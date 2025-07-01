@@ -1,7 +1,7 @@
-import { apiClient } from '../utils/apiClient';
-import { MarketData } from '../types/MarketData';
-import { ApiResponse } from '../types/ApiTypes';
-import { Asset } from '../types/Asset';
+import { apiClient } from '../shared/utils/apiClient';
+import { MarketData } from '../shared/types/MarketData';
+import { ApiResponse } from '../shared/types/ApiTypes';
+import { Asset } from '../shared/types/Asset';
 
 // Fetch market data for a specific account and assets
 export const fetchMarketDataApi = async (

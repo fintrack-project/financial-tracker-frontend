@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import { PreviewTransaction } from '../../types/PreviewTransaction';
+import { PreviewTransaction } from '../../shared/types/PreviewTransaction';
 import BalanceNavigationBar from '../../components/Bar/BalanceNavigationBar';
-import BalanceOverviewTable from '../../components/Table/BalanceTable/BalanceOverviewTable';
-import BalancePreviewTable from '../../components/Table/BalanceTable/BalancePreviewTable';
-import UploadBalanceTable from '../../components/Table/BalanceTable/UploadBalanceTable';
-import { OverviewTransaction } from '../../types/OverviewTransaction';
-import { Transaction } from '../../types/Transaction';
+import BalanceOverviewTable from '../../shared/components/Table/BalanceTable/BalanceOverviewTable';
+import BalancePreviewTable from '../../shared/components/Table/BalanceTable/BalancePreviewTable';
+import UploadBalanceTable from '../../shared/components/Table/BalanceTable/UploadBalanceTable';
+import { OverviewTransaction } from '../../shared/types/OverviewTransaction';
+import { Transaction } from '../../shared/types/Transaction';
 import { fetchOverviewTransactions, confirmTransactions } from '../../services/transactionService';
 import './Balance.css';
 

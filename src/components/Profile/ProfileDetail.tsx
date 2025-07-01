@@ -1,19 +1,19 @@
 import React, { useEffect, useState, useMemo, useCallback } from 'react';
-import useUserDetails from '../../hooks/useUserDetails';
+import useUserDetails from '../../shared/hooks/useUserDetails';
 import { updateUserPhone, updateUserAddress, updateUserEmail } from '../../services/userService';
-import useVerification from '../../hooks/useVerification';
-import { useAuthService } from '../../hooks/useAuthService';
-import { UserDetails } from '../../types/UserDetails';
-import ProfileTable from '../../components/Table/ProfileTable/ProfileTable';
-import IconButton from '../../components/Button/IconButton';
-import { isValidEmail } from '../../utils/validationUtils';
+import useVerification from '../../shared/hooks/useVerification';
+import { useAuthService } from '../../shared/hooks/useAuthService';
+import { UserDetails } from '../../shared/types/UserDetails';
+import ProfileTable from '../../shared/components/Table/ProfileTable/ProfileTable';
+import IconButton from '../../shared/components/Button/IconButton';
+import { isValidEmail } from '../../shared/utils/validationUtils';
 import { getCountries, getCountryCallingCode, parsePhoneNumberFromString, CountryCode } from 'libphonenumber-js';
 import EmailVerificationPopup from '../../popup/EmailVerificationPopup';
 import PhoneVerificationPopup from '../../popup/PhoneVerificationPopup';
 import PasswordInputPopup from '../../popup/PasswordInputPopup';
 import OTPVerificationPopup from '../../popup/OTPVerificationPopup';
 import AccountTier from '../../components/Profile/AccountTier';
-import { formatDate } from '../../utils/FormatDate';
+import { formatDate } from '../../shared/utils/FormatDate';
 import './ProfileDetail.css'; // Add styles for the profile detail section
 
 interface ProfileDetailProps {

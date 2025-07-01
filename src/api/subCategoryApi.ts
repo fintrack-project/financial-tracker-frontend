@@ -1,6 +1,6 @@
-import { apiClient } from '../utils/apiClient';
-import { ApiResponse } from '../types/ApiTypes';
-import { CategoryColor } from '../types/CategoryTypes';
+import { apiClient } from '../shared/utils/apiClient';
+import { ApiResponse } from '../shared/types/ApiTypes';
+import { CategoryColor } from '../shared/types/CategoryTypes';
 
 // Add a new subcategory
 export const addSubcategoryApi = async (

@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { fetchMarketIndices } from '../../services/marketIndexService';
-import { MarketIndexData } from '../../types/MarketData';
-import { useRefreshCycle } from '../../hooks/useRefreshCycle';
+import { MarketIndexData } from '../../shared/types/MarketData';
+import { useRefreshCycle } from '../../shared/hooks/useRefreshCycle';
 import { SubscriptionPlanType } from '../../features/subscription/types/SubscriptionPlan';
 import './MarketIndexWidget.css';
 

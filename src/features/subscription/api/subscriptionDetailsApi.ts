@@ -1,6 +1,6 @@
-import { apiClient } from '../../../utils/apiClient';
+import { apiClient } from '../../../shared/utils/apiClient';
 import { SubscriptionDetails } from '../types/SubscriptionPlan';
-import { ApiResponse } from '../../../types/ApiTypes';
+import { ApiResponse } from '../../../shared/types/ApiTypes';
 
 export interface SubscriptionDetailsError {
   type: 'subscription_error' | 'internal_error';

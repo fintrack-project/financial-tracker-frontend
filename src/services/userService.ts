@@ -5,7 +5,7 @@ import {
   updateUserEmailApi,
   updateTwoFactorStatusApi,
 } from '../api/userApi';
-import { UserDetails } from '../types/UserDetails';
+import { UserDetails } from '../shared/types/UserDetails';
 
 export const fetchUserDetails = async (accountId: string): Promise<UserDetails> => {
   try {

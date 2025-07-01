@@ -1,6 +1,6 @@
 import React, { Dispatch, SetStateAction } from 'react';
 import EditableWatchlistRow from './EditableWatchlistRow';
-import IconButton from '../Button/IconButton';
+import IconButton from '../../shared/components/Button/IconButton';
 import './EditableWatchlistTable.css';
 
 interface EditableWatchlistTableProps<T> {

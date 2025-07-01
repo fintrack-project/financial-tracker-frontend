@@ -1,5 +1,5 @@
 import { fetchHoldingsApi } from '../api/holdingsApi';
-import { Holding } from '../types/Holding';
+import { Holding } from '../shared/types/Holding';
 
 export const fetchHoldings = async (accountId: string): Promise<Holding[]> => {
   try {

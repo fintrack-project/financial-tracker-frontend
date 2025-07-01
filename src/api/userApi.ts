@@ -1,6 +1,6 @@
-import { apiClient } from '../utils/apiClient';
-import { UserDetails } from '../types/UserDetails';
-import { ApiResponse } from '../types/ApiTypes';
+import { apiClient } from '../shared/utils/apiClient';
+import { UserDetails } from '../shared/types/UserDetails';
+import { ApiResponse } from '../shared/types/ApiTypes';
 
 // Fetch user details
 export const fetchUserDetailsApi = async (accountId: string): Promise<ApiResponse<UserDetails>> => {

@@ -4,7 +4,7 @@ import {
   addWatchlistItemApi,
   removeWatchlistItemApi
 } from '../api/watchlistApi';
-import { WatchlistItem } from '../types/MarketData';
+import { WatchlistItem } from '../shared/types/MarketData';
 
 export const fetchWatchlistData = async (accountId: string, assetTypes: string[]): Promise<WatchlistItem[]> => {
   try {

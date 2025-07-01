@@ -1,5 +1,5 @@
 import { fetchPortfolioDataApi } from '../api/portfolioApi';
-import { PortfolioData } from '../types/PortfolioData';
+import { PortfolioData } from '../shared/types/PortfolioData';
 
 export const fetchPortfolioData = async (accountId: string, baseCurrency: string): Promise<PortfolioData[]> => {
   try {

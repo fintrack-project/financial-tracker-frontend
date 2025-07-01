@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import { fetchUserDetails  } from '../../services/userService';
 import { fetchNotificationPreferences, updateNotificationPreference } from '../../services/userNotificationPrefService';
-import { UserDetails } from '../../types/UserDetails';
-import { NotificationPreferences } from '../../types/NotificationPreferences';
-import ProfileTable from '../../components/Table/ProfileTable/ProfileTable';
-import Toggle from '../Toggle/Toggle'; // Import the toggle component
+import { UserDetails } from '../../shared/types/UserDetails';
+import { NotificationPreferences } from '../../shared/types/NotificationPreferences';
+import ProfileTable from '../../shared/components/Table/ProfileTable/ProfileTable';
+import Toggle from '../../shared/components/Toggle/Toggle'; // Import the toggle component
 import './Notification.css'; // Add styles for the notification section
 
 interface NotificationProps {
