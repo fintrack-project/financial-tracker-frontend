@@ -1,0 +1,28 @@
+.page-top-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 20px;
+  background-color: #f9f9f9;
+  border-bottom: 1px solid #ddd;
+}
+
+.logo-container {
+  display: flex;
+  align-items: center;
+}
+
+.page-top-bar .fintrack-logo {
+  height: 40px; /* Adjust the height to fit well with the navigation bar */
+  width: auto; /* Maintain aspect ratio */
+  margin-bottom: 0px;;
+}
+
+.navigation-bar {
+  flex: 1; /* Allow the navigation bar to take up remaining space */
+  margin-left: 10px; /* Add spacing between the logo and navigation bar */
+}
+
+.account-menu {
+  margin-left: auto; /* Push the account menu to the far right */
+}
