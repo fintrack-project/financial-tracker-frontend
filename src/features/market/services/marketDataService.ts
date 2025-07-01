@@ -1,6 +1,6 @@
 // import axios from 'axios';
 import { fetchMarketDataApi } from '../api/marketDataApi';
-import { MarketData } from '../shared/types/MarketData';
+import { MarketData } from '../types/MarketData';
 
 export const fetchMarketData = async (
   accountId: string,

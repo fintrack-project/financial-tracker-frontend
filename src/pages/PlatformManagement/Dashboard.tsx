@@ -1,8 +1,8 @@
 import React from 'react';
 import HoldingsTable from '../../shared/components/Table/HoldingsTable/HoldingsTable';
-import ForexWatchlist from '../../components/Watchlist/ForexWatchlist';
-import MarketWatchlist from '../../components/Watchlist/MarketWatchlist';
-import MarketIndexWidget from '../../components/Market/MarketIndexWidget';
+import ForexWatchlist from '../../features/market/components/Watchlist/ForexWatchlist';
+import MarketWatchlist from '../../features/market/components/Watchlist/MarketWatchlist';
+import MarketIndexWidget from '../../features/market/components/Market/MarketIndexWidget';
 import { SubscriptionPlanType } from '../../features/subscription/types/SubscriptionPlan';
 import './Dashboard.css'; // Import the CSS file
 

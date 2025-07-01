@@ -1,5 +1,5 @@
 import React from 'react';
-import { formatNumber } from '../../shared/utils/FormatNumber';
+import { formatNumber } from '../../../../shared/utils/FormatNumber';
 import './MarketIndexData.css'; // Add styles for the component
 
 interface MarketIndexDataProps {
@@ -13,7 +13,7 @@ interface MarketIndexDataProps {
   } | null;
 }
 
-const MarketIndexData: React.FC<MarketIndexDataProps> = ({ indexName, marketData }) => {
+const MarketIndexDataComponent: React.FC<MarketIndexDataProps> = ({ indexName, marketData }) => {
   if (!marketData) {
     return <p>Loading...</p>;
   }
@@ -38,4 +38,4 @@ const MarketIndexData: React.FC<MarketIndexDataProps> = ({ indexName, marketData
   );
 };
 
-export default MarketIndexData;
+export default MarketIndexDataComponent;

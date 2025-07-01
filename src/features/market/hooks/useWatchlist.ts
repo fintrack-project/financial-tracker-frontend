@@ -1,5 +1,5 @@
 import { useState, useEffect, useCallback } from 'react';
-import { fetchWatchlistData, addWatchlistItem, removeWatchlistItem } from '../../services/watchlistDataService';
+import { fetchWatchlistData, addWatchlistItem, removeWatchlistItem } from '../services/watchlistDataService';
 import { WatchlistItem } from '../types/MarketData';
 
 export const useWatchlist = (accountId: string | null, assetTypes: string[]) => {

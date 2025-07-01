@@ -1,22 +1,22 @@
 import React, { Dispatch, SetStateAction, useMemo } from 'react';
 import EditableWatchlistTable from './EditableWatchlistTable';
-import { useWatchlist } from '../../shared/hooks/useWatchlist';
-import { useMarketData } from '../../shared/hooks/useMarketData';
-import { MarketDataDisplay } from '../../shared/types/MarketData';
-import { SubscriptionPlanType } from '../../features/subscription/types/SubscriptionPlan';
+import { useWatchlist } from '../../hooks/useWatchlist';
+import { useMarketData } from '../../hooks/useMarketData';
+import { MarketDataDisplay } from '../../types/MarketData';
+import { SubscriptionPlanType } from '../../../subscription/types/SubscriptionPlan';
 import './Watchlist.css';
 
-interface ForexWatchlistProps {
+interface MarketWatchlistProps {
   accountId: string | null;
   subscriptionPlan: SubscriptionPlanType;
 }
 
-const ForexWatchlist: React.FC<ForexWatchlistProps> = ({ 
+const MarketWatchlist: React.FC<MarketWatchlistProps> = ({ 
   accountId,
   subscriptionPlan = 'FREE'
 }) => {
-  const forexAssetTypes = useMemo(() => ['FOREX'], []);
-  const { watchlistItems, setWatchlistItems, error: watchlistError, loading: watchlistLoading, addRow, confirmRow, removeRow } = useWatchlist(accountId, forexAssetTypes);
+  const marketWatchAssetTypes = useMemo(() => ['STOCK', 'CRYPTO', 'COMMODITY'], []);
+  const { watchlistItems, setWatchlistItems, error: watchlistError, loading: watchlistLoading, addRow, confirmRow, removeRow } = useWatchlist(accountId, marketWatchAssetTypes);
   
   // Only fetch market data for confirmed items
   const confirmedItems = watchlistItems.filter(item => item.confirmed);
@@ -32,7 +32,7 @@ const ForexWatchlist: React.FC<ForexWatchlistProps> = ({
     if (!item.confirmed) {
       return {
         symbol: item.symbol,
-        assetType: 'FOREX', // Always FOREX for forex watchlist
+        assetType: item.assetType,
         price: 0,
         priceChange: 0,
         percentChange: 0,
@@ -46,7 +46,7 @@ const ForexWatchlist: React.FC<ForexWatchlistProps> = ({
     const marketItem = marketData.find(m => m.symbol === item.symbol && m.assetType === item.assetType);
     return {
       symbol: item.symbol,
-      assetType: 'FOREX', // Always FOREX for forex watchlist
+      assetType: item.assetType,
       price: marketItem?.price ?? 0,
       priceChange: marketItem?.change ?? 0,
       percentChange: marketItem?.percentChange ?? 0,
@@ -57,17 +57,18 @@ const ForexWatchlist: React.FC<ForexWatchlistProps> = ({
   });
 
   const columns: { key: keyof MarketDataDisplay; label: string; editable?: boolean; placeholder?: string }[] = [
-    { key: 'symbol', label: 'Symbol', editable: true, placeholder: 'USD/AUD' },
-    { key: 'price', label: 'Price Ratio' },
-    { key: 'priceChange', label: 'Price Ratio Change' },
+    { key: 'symbol', label: 'Symbol', editable: true, placeholder: 'AAPL' },
+    { key: 'assetType', label: 'Asset Type', editable: true, placeholder: 'STOCK' },
+    { key: 'price', label: 'Price (USD)' },
+    { key: 'priceChange', label: 'Price Change (USD)' },
     { key: 'percentChange', label: '% Change' },
-    { key: 'high', label: 'High' },
-    { key: 'low', label: 'Low' }
+    { key: 'high', label: 'High (USD)' },
+    { key: 'low', label: 'Low (USD)' }
   ];
 
   const handleConfirmRow = async (index: number) => {
     try {
-      await confirmRow(index, 'FOREX');
+      await confirmRow(index);
     } catch (error) {
       console.error('Error confirming row:', error);
     }
@@ -80,7 +81,7 @@ const ForexWatchlist: React.FC<ForexWatchlistProps> = ({
       // Update the watchlist items with the new values
       const updatedItems = newRows.map(row => ({
         symbol: row.symbol,
-        assetType: 'FOREX', // Always FOREX for forex watchlist
+        assetType: row.assetType,
         confirmed: row.confirmed
       }));
       setWatchlistItems(updatedItems);
@@ -88,7 +89,7 @@ const ForexWatchlist: React.FC<ForexWatchlistProps> = ({
       // Handle direct value
       const updatedItems = value.map(row => ({
         symbol: row.symbol,
-        assetType: 'FOREX', // Always FOREX for forex watchlist
+        assetType: row.assetType,
         confirmed: row.confirmed
       }));
       setWatchlistItems(updatedItems);
@@ -98,7 +99,7 @@ const ForexWatchlist: React.FC<ForexWatchlistProps> = ({
   return (
     <div className="watchlist-container">
       <div className="watchlist-header">
-        <h2>Forex Watchlist</h2>
+        <h2>Market Watchlist</h2>
         {lastUpdated && (
           <div className="last-updated">
             Last updated: {lastUpdated.toLocaleTimeString()}
@@ -122,4 +123,4 @@ const ForexWatchlist: React.FC<ForexWatchlistProps> = ({
   );
 };
 
-export default ForexWatchlist;
+export default MarketWatchlist;
