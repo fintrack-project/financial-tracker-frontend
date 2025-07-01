@@ -2,13 +2,13 @@ import React, { useState, useEffect } from 'react';
 import { useHoldingsData } from '../../hooks/useHoldingsData';
 import { useBaseCurrency } from '../../../../shared/hooks/useBaseCurrency';
 import { formatNumber } from '../../../../shared/utils/FormatNumber';
-import CategoryDropdownCell from '../../../../shared/components/Table/CategoryTable/CategoryDropdownCell';
-import CategoryDisplayCell from '../../../../shared/components/Table/CategoryTable/CategoryDisplayCell';
-import { createCategoryService } from '../../../../services/categoryService';
+import CategoryDropdownCell from '../../../categories/components/CategoryTable/CategoryDropdownCell';
+import CategoryDisplayCell from '../../../categories/components/CategoryTable/CategoryDisplayCell';
+import { createCategoryService } from '../../../categories/services/categoryService';
 import { createHoldingsCategoriesService } from '../../services/holdingsCategoriesService';
 import ResetCategoryPopup from '../../../../components/Popup/ResetCategoryPopup';
 import './HoldingsTable.css'; // Reuse the CSS from HoldingsTable
-import { CategoryColor } from '../../../../shared/types/CategoryTypes';
+import { CategoryColor } from '../../../categories/types/CategoryTypes';
 
 export interface EditableHoldingsTableProps {
   accountId: string | null;

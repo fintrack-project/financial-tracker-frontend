@@ -12,7 +12,7 @@ import {
   Cell,
 } from 'recharts';
 import { fetchPortfolioCombinedBarChartData } from '../../services/portfolioChartService'; // Services to fetch data
-import { fetchCategoryNames } from '../../../../services/categoryService';
+import { fetchCategoryNames } from '../../../categories/services/categoryService';
 import { useBaseCurrency } from '../../../../shared/hooks/useBaseCurrency'; // Custom hook to get base currency
 import { formatNumber } from '../../../../shared/utils/FormatNumber';
 import { ChartData } from '../../types/ChartData';

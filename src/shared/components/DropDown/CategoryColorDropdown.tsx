@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { CategoryColor } from '../../types/CategoryTypes';
+import { CategoryColor } from '../../../features/categories/types/CategoryTypes';
 import './CategoryColorDropdown.css';
 
 interface CategoryColorDropdownProps {

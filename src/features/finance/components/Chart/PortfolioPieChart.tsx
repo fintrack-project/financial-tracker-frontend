@@ -8,7 +8,7 @@ import {
   Legend,
 } from 'recharts';
 import { fetchPortfolioPieChartData } from '../../services/portfolioChartService'; // Service to fetch chart data
-import { fetchCategoryNames } from '../../../../services/categoryService'; // Service to fetch categories
+import { fetchCategoryNames } from '../../../categories/services/categoryService'; // Service to fetch categories
 import { useBaseCurrency } from '../../../../shared/hooks/useBaseCurrency'; // Custom hook to get base currency 
 import { formatNumber } from '../../../../shared/utils/FormatNumber'; // Utility function to format numbers
 import CategoryDropdown from '../../../../shared/components/DropDown/CategoryDropdown';

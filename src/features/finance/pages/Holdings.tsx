@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import _ from 'lodash';
 import EditableHoldingsTable from '../components/HoldingsTable/EditableHoldingsTable';
-import CategoriesTable from '../../../shared/components/Table/CategoryTable/CategoriesTable';
-import { createCategoryService, fetchCategoriesAndSubcategoriesNamesMap, fetchCategoryColorMap } from '../../../services/categoryService';
-import { createSubcategoryService, fetchSubcategoryColorMap } from '../../../services/subCategoryService';
+import CategoriesTable from '../../categories/components/CategoryTable/CategoriesTable';
+import { createCategoryService, fetchCategoriesAndSubcategoriesNamesMap, fetchCategoryColorMap } from '../../categories/services/categoryService';
+import { createSubcategoryService, fetchSubcategoryColorMap } from '../../categories/services/subCategoryService';
 import { createHoldingsCategoriesService, fetchHoldingsCategories } from '../services/holdingsCategoriesService';
-import { CategoryColor } from '../../../shared/types/CategoryTypes';
+import { CategoryColor } from '../../categories/types/CategoryTypes';
 import './Holdings.css'; // Import the CSS file
 
 interface HoldingsProps {
