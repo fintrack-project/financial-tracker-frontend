@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import './AccountTier.css'; // Import styles for the component
 import { SubscriptionPlan } from '../../features/subscription/types/SubscriptionPlan';
-import { fetchSubscriptionDetails } from '../../services/subscriptionDetailsService';
+import { fetchSubscriptionDetails } from '../../features/subscription/services/subscriptionDetailsService';
 
 interface AccountTierProps {
   accountId: string;

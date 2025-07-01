@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { fetchUserDetails } from '../../services/userService';
-import { fetchUserSubscription, upgradeSubscription } from '../../services/userSubscriptionService';
+import { fetchUserSubscription, upgradeSubscription } from '../../features/subscription/services/userSubscriptionService';
 import { fetchPaymentMethods, deletePaymentMethod, setDefaultPaymentMethod, attachPaymentMethod } from '../../services/paymentMethodService';
 import { UserDetails } from '../../types/UserDetails';
 import { UserSubscription } from '../../features/subscription/types/UserSubscription';

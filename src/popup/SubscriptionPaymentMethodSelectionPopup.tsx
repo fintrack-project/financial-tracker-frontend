@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useStripe, useElements } from '@stripe/react-stripe-js';
 import { PaymentMethod } from '../types/PaymentMethods';
 import { upgradeSubscriptionApi, fetchUserSubscriptionApi } from '../features/subscription/api/userSubscriptionApi';
-import { finalizeSubscription } from '../services/subscriptionPlanService';
+import { finalizeSubscription } from '../features/subscription/services/subscriptionPlanService';
 import SubscriptionBasePopup from './SubscriptionBasePopup';
 import './SubscriptionBasePopup.css';
 import './PaymentMethodSelection.css';

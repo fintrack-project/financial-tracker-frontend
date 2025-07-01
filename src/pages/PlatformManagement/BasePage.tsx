@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import PageTopBar from '../../components/Bar/PageTopBar';
 import { SubscriptionPlanType } from '../../features/subscription/types/SubscriptionPlan';
-import { fetchSubscriptionDetails } from '../../services/subscriptionDetailsService';
+import { fetchSubscriptionDetails } from '../../features/subscription/services/subscriptionDetailsService';
 import './BasePage.css';
 
 interface BasePageProps {

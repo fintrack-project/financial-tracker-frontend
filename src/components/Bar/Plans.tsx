@@ -7,7 +7,7 @@ import { PaymentMethod } from '../../types/PaymentMethods';
 import { UserDetails } from '../../types/UserDetails';
 import { UserSubscription } from '../../features/subscription/types/UserSubscription';
 import { SubscriptionPlan } from '../../features/subscription/types/SubscriptionPlan';
-import { fetchSubscriptionDetails } from '../../services/subscriptionDetailsService';
+import { fetchSubscriptionDetails } from '../../features/subscription/services/subscriptionDetailsService';
 import { stripePromise } from '../../config/stripe';
 import PlanCard from './PlanCard';
 import './Plans.css';
