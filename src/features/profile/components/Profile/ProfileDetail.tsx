@@ -7,10 +7,10 @@ import ProfileTable from '../../../../shared/components/Table/ProfileTable/Profi
 import IconButton from '../../../../shared/components/Button/IconButton';
 import { isValidEmail } from '../../../../shared/utils/validationUtils';
 import { getCountries, getCountryCallingCode, parsePhoneNumberFromString, CountryCode } from 'libphonenumber-js';
-import EmailVerificationPopup from '../../../../popup/EmailVerificationPopup';
-import PhoneVerificationPopup from '../../../../popup/PhoneVerificationPopup';
-import PasswordInputPopup from '../../../../popup/PasswordInputPopup';
-import OTPVerificationPopup from '../../../../popup/OTPVerificationPopup';
+import EmailVerificationPopup from '../../../auth/components/Popup/EmailVerificationPopup';
+import PhoneVerificationPopup from '../../../auth/components/Popup/PhoneVerificationPopup';
+import PasswordInputPopup from '../../../auth/components/Popup/PasswordInputPopup';
+import OTPVerificationPopup from '../../../auth/components/Popup/OTPVerificationPopup';
 import AccountTier from './AccountTier';
 import { formatDate } from '../../../../shared/utils/FormatDate';
 import './ProfileDetail.css'; // Add styles for the profile detail section

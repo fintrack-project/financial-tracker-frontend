@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import ProfileSettingsNavigationBar from '../../../../components/Bar/ProfileSettingsNavigationBar';
+import ProfileSettingsNavigationBar from '../../../../shared/components/Bar/ProfileSettingsNavigationBar';
 import ProfileDetail from '../../../../features/profile/components/Profile/ProfileDetail'; // Import ProfileDetail component
 import Security from '../../../../features/profile/components/Profile/Security';
 import Subscription from '../../../../features/subscription/components/Subscription';

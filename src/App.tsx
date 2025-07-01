@@ -1,19 +1,19 @@
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import Login from './pages/Authentication/Login';
-import Register from './pages/Authentication/Register';
-import RequestPasswordReset from './pages/Authentication/RequestPasswordReset';
-import ResetPassword from './pages/Authentication/ResetPassword';
-import BasePage from './pages/PlatformManagement/BasePage';
-import Dashboard from './pages/PlatformManagement/Dashboard';
+import Login from './features/auth/pages/Authentication/Login';
+import Register from './features/auth/pages/Authentication/Register';
+import RequestPasswordReset from './features/auth/pages/Authentication/RequestPasswordReset';
+import ResetPassword from './features/auth/pages/Authentication/ResetPassword';
+import BasePage from './shared/pages/PlatformManagement/BasePage';
+import Dashboard from './shared/pages/PlatformManagement/Dashboard';
 import Holdings from './features/finance/pages/Holdings';
 import Balance from './features/finance/pages/Balance';
 import PortfolioOverview from './features/finance/pages/PortfolioOverview';
 import Profile from './features/profile/pages/UserAccount/Profile';
 import Settings from './features/profile/pages/UserAccount/Settings';
 import Support from './features/profile/pages/UserAccount/Support';
-import VerifyEmail from './pages/Authentication/VerifyEmail';
-import NotFound from './pages/ErrorPages/NotFound';
+import VerifyEmail from './features/auth/pages/Authentication/VerifyEmail';
+import NotFound from './shared/pages/ErrorPages/NotFound';
 
 const App: React.FC = () => {
   return (

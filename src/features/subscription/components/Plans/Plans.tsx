@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Elements } from '@stripe/react-stripe-js';
-import PaymentForm from '../../../../components/Payment/PaymentForm';
+import PaymentForm from '../Payment/PaymentForm';
 import SubscriptionPaymentMethodSelectionPopup from '../Modals/SubscriptionPaymentMethodSelectionPopup';
 import SubscriptionNoPaymentMethodPopup from '../Modals/SubscriptionNoPaymentMethodPopup';
 import { PaymentMethod } from '../../../../shared/types/PaymentMethods';

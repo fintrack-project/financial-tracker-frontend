@@ -1,6 +1,6 @@
 import React from 'react';
 import BaseUserAccountPage from './BaseUserAccountPage';
-import AccountDetailAndMenu from '../../../../components/Menu/AccountDetailAndMenu';
+import AccountDetailAndMenu from '../../../../shared/components/Menu/AccountDetailAndMenu';
 import ProfileSettings from './ProfileSettings';
 import './Profile.css';
 

@@ -6,7 +6,7 @@ import CategoryDropdownCell from '../../../categories/components/CategoryTable/C
 import CategoryDisplayCell from '../../../categories/components/CategoryTable/CategoryDisplayCell';
 import { createCategoryService } from '../../../categories/services/categoryService';
 import { createHoldingsCategoriesService } from '../../services/holdingsCategoriesService';
-import ResetCategoryPopup from '../../../../components/Popup/ResetCategoryPopup';
+import ResetCategoryPopup from '../../../categories/components/Popup/ResetCategoryPopup';
 import './HoldingsTable.css'; // Reuse the CSS from HoldingsTable
 import { CategoryColor } from '../../../categories/types/CategoryTypes';
 

@@ -2,8 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { Elements } from '@stripe/react-stripe-js';
 import { PaymentMethod, PaymentError } from '../../../../shared/types/PaymentMethods';
 import { UserDetails } from '../../../../shared/types/UserDetails';
-import PaymentForm from '../../../../components/Payment/PaymentForm';
-import TestCardDetails from '../../../../components/Payment/TestCardDetails';
+import PaymentForm from '../Payment/PaymentForm';
+import TestCardDetails from '../Payment/TestCardDetails';
 import { stripePromise } from '../../../../shared/config/stripe';
 import './PaymentMethods.css';
 

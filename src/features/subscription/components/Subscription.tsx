@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { fetchUserDetails } from '../../../features/auth/services/userService';
 import { fetchUserSubscription, upgradeSubscription } from '../services/userSubscriptionService';
-import { fetchPaymentMethods, deletePaymentMethod, setDefaultPaymentMethod, attachPaymentMethod } from '../../../services/paymentMethodService';
+import { fetchPaymentMethods, deletePaymentMethod, setDefaultPaymentMethod, attachPaymentMethod } from '../services/paymentMethodService';
 import { UserDetails } from '../../../shared/types/UserDetails';
 import { UserSubscription } from '../types/UserSubscription';
 import { PaymentMethod, PaymentError } from '../../../shared/types/PaymentMethods';

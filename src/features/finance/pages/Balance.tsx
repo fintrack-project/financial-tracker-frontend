@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { PreviewTransaction } from '../types/PreviewTransaction';
-import BalanceNavigationBar from '../../../components/Bar/BalanceNavigationBar';
+import BalanceNavigationBar from '../../../shared/components/Bar/BalanceNavigationBar';
 import BalanceOverviewTable from '../components/BalanceTable/BalanceOverviewTable';
 import BalancePreviewTable from '../components/BalanceTable/BalancePreviewTable';
 import UploadBalanceTable from '../components/BalanceTable/UploadBalanceTable';

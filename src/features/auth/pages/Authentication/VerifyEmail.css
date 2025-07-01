@@ -1,0 +1,58 @@
+.verify-email-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background-color: #f9f9f9;
+  padding: 20px;
+}
+
+.verify-email-card {
+  background-color: #ffffff;
+  padding: 40px 30px;
+  border-radius: 10px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  text-align: center;
+  max-width: 400px;
+  width: 100%;
+}
+
+.verify-email-card .fintrack-logo {
+  height: 50px; /* Adjust the height of the logo */
+  width: auto; /* Maintain aspect ratio */
+  margin-bottom: 20px; /* Add spacing below the logo */
+}
+
+.verify-email-card h1 {
+  font-size: 1.8rem;
+  color: #333;
+  margin-bottom: 20px;
+}
+
+.status-message {
+  font-size: 1rem;
+  margin-bottom: 20px;
+}
+
+.status-message.success {
+  color: #28a745; /* Green for success */
+}
+
+.status-message.error {
+  color: #dc3545; /* Red for error */
+}
+
+.retry-button {
+  background-color: #007bff;
+  color: #ffffff;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.retry-button:hover {
+  background-color: #0056b3;
+}
