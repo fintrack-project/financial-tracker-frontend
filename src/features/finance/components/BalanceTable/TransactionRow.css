@@ -1,0 +1,32 @@
+/* General row styling */
+tr {
+  border-bottom: 1px solid #ddd;
+}
+
+td {
+  padding: 8px;
+  text-align: center;
+  vertical-align: middle;
+}
+
+/* Highlighted row */
+.highlight-row {
+  background-color: #ffe6e6 !important;
+}
+
+.marked-for-deletion {
+  text-decoration: line-through;
+  color: gray;
+  opacity: 0.6;
+}
+
+/* Editable input fields */
+input {
+  width: 100%;
+  padding: 6px;
+  box-sizing: border-box;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  text-align: center;
+}
+
