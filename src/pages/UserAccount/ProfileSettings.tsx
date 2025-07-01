@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import ProfileSettingsNavigationBar from '../../components/Bar/ProfileSettingsNavigationBar';
 import ProfileDetail from '../../components/Profile/ProfileDetail'; // Import ProfileDetail component
 import Security from '../../components/Profile/Security';
-import Subscription from '../../components/Profile/Subscription';
+import Subscription from '../../features/subscription/components/Subscription';
 import Notification from '../../components/Profile/Notification';
 import './ProfileSettings.css'; // Add styles for horizontal alignment
 

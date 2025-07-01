@@ -1,0 +1,121 @@
+.plan-card {
+  background: linear-gradient(135deg, #f9fafc 60%, #e3e9f6 100%);
+  border-radius: 16px;
+  border: 1px solid #e0e6ed;
+  overflow: hidden;
+  position: relative;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  box-shadow: 0 4px 16px rgba(52, 98, 219, 0.10);
+  padding: 24px;
+}
+
+.plan-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 24px rgba(52, 98, 219, 0.15);
+}
+
+.plan-card.current {
+  border: 2px solid #28a745;
+}
+
+.plan-card.current::before {
+  content: 'Current Plan';
+  position: absolute;
+  top: 12px;
+  right: -30px;
+  background: #28a745;
+  color: white;
+  padding: 4px 40px;
+  transform: rotate(45deg);
+  font-size: 12px;
+  font-weight: 500;
+}
+
+.plan-card-header {
+  text-align: center;
+  margin-bottom: 24px;
+}
+
+.plan-card-name {
+  font-size: 24px;
+  font-weight: 600;
+  color: #2c3e50;
+  margin-bottom: 8px;
+}
+
+.plan-card-price {
+  font-size: 36px;
+  font-weight: 700;
+  color: #2c3e50;
+  margin-bottom: 8px;
+}
+
+.plan-card-price .period {
+  font-size: 16px;
+  color: #6c757d;
+  font-weight: normal;
+}
+
+.plan-card-price .savings {
+  display: block;
+  font-size: 14px;
+  color: #28a745;
+  font-weight: normal;
+}
+
+.plan-card-features {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 24px 0;
+}
+
+.plan-card-features li {
+  padding: 8px 0;
+  color: #495057;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.plan-card-features li::before {
+  content: '✓';
+  color: #28a745;
+  font-weight: bold;
+}
+
+.plan-card .select-plan-button {
+  width: 100%;
+  padding: 10px 24px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 1.08rem;
+  font-weight: 600;
+  transition: background 0.15s, color 0.15s, box-shadow 0.15s;
+  box-shadow: 0 2px 8px rgba(52, 98, 219, 0.08);
+  background: #4d7df2;
+  color: white;
+}
+
+.plan-card .select-plan-button:hover {
+  background: #3462db;
+  box-shadow: 0 4px 16px rgba(52, 98, 219, 0.12);
+}
+
+.plan-card .select-plan-button:disabled {
+  background: #cbd5e1;
+  color: #94a3b8;
+  cursor: not-allowed;
+  box-shadow: none;
+}
+
+.plan-card .select-plan-button.secondary {
+  background: #cbd5e1;
+  color: #334155;
+}
+
+.plan-card .select-plan-button.secondary:hover {
+  background: #94a3b8;
+  color: #1e293b;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+} 
