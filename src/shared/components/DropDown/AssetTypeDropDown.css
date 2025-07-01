@@ -1,0 +1,55 @@
+/* Container for the dropdown */
+.asset-type-dropdown {
+  position: relative;
+  display: inline-block;
+  width: 100%;
+}
+
+/* Style for the select element */
+.dropdown-select {
+  width: 100%;
+  padding: 4px 8px; /* Adjust padding to match input fields */
+  font-size: 0.875rem; /* Match font size with table row input fields */
+  color: #333;
+  background-color: #fff;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  height: 32px; /* Match height with table row input fields */
+  appearance: none; /* Remove default browser styles */
+  cursor: pointer;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+/* Add a hover effect */
+.dropdown-select:hover {
+  border-color: #888;
+}
+
+/* Add focus styles */
+.dropdown-select:focus {
+  outline: none;
+  border-color: #007bff;
+  box-shadow: 0 0 4px rgba(0, 123, 255, 0.5);
+}
+
+/* Disabled state */
+.asset-type-dropdown.disabled .dropdown-select {
+  background-color: #f9f9f9;
+  color: #aaa;
+  cursor: not-allowed;
+}
+
+/* Add a custom arrow for the dropdown */
+.dropdown-select::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  right: 12px;
+  width: 0;
+  height: 0;
+  border-left: 5px solid transparent;
+  border-right: 5px solid transparent;
+  border-top: 5px solid #333;
+  transform: translateY(-50%);
+  pointer-events: none;
+}

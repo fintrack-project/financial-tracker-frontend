@@ -1,0 +1,89 @@
+.dashboard-container {
+  text-align: center;
+  padding: 20px;
+}
+
+.dashboard-container h1 {
+  color: #333;
+  font-size: 2.5rem;
+  margin-bottom: 20px;
+}
+
+.dashboard-container p {
+  color: #555;
+  font-size: 1.2rem;
+  margin: 10px 0;
+}
+
+.dashboard-data-container {
+  display: flex;
+  flex-direction: column;
+  gap: 16px; /* Consistent spacing between all main sections */
+}
+
+.market-data-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 16px;
+  width: 100%;
+}
+
+.market-index,
+.holdings-section {
+  flex: 1;
+  padding: 16px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  background-color: #f9f9f9;
+  box-sizing: border-box;
+}
+
+.market-index {
+  margin-right: 8px;
+}
+
+.holdings-section {
+  margin-left: 8px;
+}
+
+.market-index-items {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+}
+
+.market-item {
+  margin-bottom: 10px;
+}
+
+.market-item h3 {
+  margin: 0;
+  font-size: 1.2em;
+}
+
+.market-item p {
+  margin: 5px 0;
+}
+
+.watchlist,
+.live-price {
+  padding: 24px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  background-color: #f9f9f9;
+}
+
+.change {
+  font-weight: bold;
+}
+
+.change.positive {
+  color: green;
+}
+
+.change.negative {
+  color: red;
+}

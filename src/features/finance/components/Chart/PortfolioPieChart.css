@@ -1,0 +1,159 @@
+/* Center the chart title */
+.chart-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 16px 24px;
+  border-bottom: 1px solid #f0f0f0;
+  margin-bottom: 24px;
+}
+
+/* Style the chart title */
+.fintrack-subsection-title {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: #2c3e50;
+  margin: 0;
+}
+
+/* Position the dropdown at the right-top corner */
+.portfolio-pie-chart .dropdown-container {
+  position: static;
+  display: flex;
+  gap: 12px;
+  align-items: center;
+}
+
+.portfolio-pie-chart {
+  width: 100%;
+  margin: 32px auto;
+  padding: 24px;
+  background-color: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+  transition: box-shadow 0.3s ease;
+  min-height: 600px;
+  display: flex;
+  flex-direction: column;
+}
+
+.portfolio-pie-chart:hover {
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.12);
+}
+
+/* Tooltip fade-in animation */
+@keyframes tooltipFadeIn {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.portfolio-pie-chart .custom-tooltip {
+  background-color: #fff;
+  border-radius: 6px;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.18);
+  padding: 12px 16px;
+  border: none;
+  animation: tooltipFadeIn 0.2s ease;
+  transition: box-shadow 0.2s;
+}
+
+.portfolio-pie-chart .custom-tooltip p {
+  margin: 6px 0;
+  font-size: 0.95rem;
+  color: #2c3e50;
+  white-space: nowrap;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.portfolio-pie-chart .custom-tooltip .color-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  display: inline-block;
+  margin-right: 6px;
+}
+
+.portfolio-pie-chart .custom-tooltip p:first-child {
+  font-weight: 600;
+  font-size: 1.08rem;
+  margin-bottom: 8px;
+}
+
+/* Dropdown hover/focus */
+.portfolio-pie-chart .dropdown-container select:focus,
+.portfolio-pie-chart .dropdown-container select:hover {
+  border-color: #3498db;
+  box-shadow: 0 0 0 2px rgba(52,152,219,0.15);
+}
+
+/* Legend hover effect */
+.portfolio-pie-chart .recharts-legend-item:hover .recharts-legend-item-text {
+  text-decoration: underline;
+  color: #3498db !important;
+  cursor: pointer;
+}
+
+/* Cursor pointer for interactive chart elements */
+.portfolio-pie-chart .recharts-sector:hover,
+.portfolio-pie-chart .recharts-bar-rectangle:hover {
+  filter: drop-shadow(0 2px 8px rgba(52,152,219,0.18));
+  cursor: pointer;
+}
+
+/* Error message styling */
+.error-message {
+  color: #e74c3c;
+  font-size: 1rem;
+  padding: 16px;
+  background-color: #fdf0ef;
+  border-radius: 8px;
+  text-align: center;
+  margin: 16px 0;
+}
+
+/* Empty state styling */
+.no-holdings-message {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 400px;
+  font-size: 1.25rem;
+  color: #95a5a6;
+  font-weight: 500;
+  background-color: #f8f9fa;
+  border-radius: 8px;
+  border: 2px dashed #e0e0e0;
+}
+
+/* Loading state */
+.loading-state {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 400px;
+  color: #3498db;
+  font-size: 1.1rem;
+}
+
+/* Chart container */
+.recharts-wrapper {
+  margin: 0 auto;
+}
+
+/* Legend styling */
+.portfolio-pie-chart .recharts-legend-wrapper {
+  padding-left: 20px !important;
+  border-left: 1px solid #f0f0f0;
+  background-color: #fff;
+}
+
+.portfolio-pie-chart .recharts-legend-item {
+  margin: 8px 0 !important;
+}
+
+.portfolio-pie-chart .recharts-legend-item-text {
+  color: #2c3e50 !important;
+  font-size: 0.9rem !important;
+}

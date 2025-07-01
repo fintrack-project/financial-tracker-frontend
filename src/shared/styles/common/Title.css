@@ -1,0 +1,79 @@
+/* Common title styles for all sections */
+.fintrack-title {
+  font-size: 2rem;
+  font-weight: 600;
+  color: #1e293b;
+  margin-bottom: 1.5rem;
+  padding-bottom: 0.75rem;
+  position: relative;
+  text-align: left;
+}
+
+/* Add an underline accent */
+.fintrack-title::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 60px;
+  height: 3px;
+  background: linear-gradient(to right, #2563eb, #3b82f6);
+  border-radius: 2px;
+}
+
+/* Section title - for main sections like Dashboard, Holdings, etc. */
+.fintrack-section-title {
+  font-size: 2.25rem;
+  margin-bottom: 2rem;
+  text-align: center;
+}
+
+.fintrack-section-title::after {
+  left: 50%;
+  transform: translateX(-50%);
+  width: 80px;
+}
+
+/* Subsection title - for components within sections */
+.fintrack-subsection-title {
+  font-size: 1.75rem;
+  margin-bottom: 1.25rem;
+}
+
+/* Card title - for individual cards/widgets */
+.fintrack-card-title {
+  font-size: 1.5rem;
+  margin-bottom: 1rem;
+  padding-bottom: 0.5rem;
+}
+
+.fintrack-card-title::after {
+  width: 40px;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .fintrack-title,
+  .fintrack-subsection-title {
+    font-size: 1.5rem;
+  }
+
+  .fintrack-section-title {
+    font-size: 1.75rem;
+  }
+
+  .fintrack-card-title {
+    font-size: 1.25rem;
+  }
+}
+
+/* Dark mode support */
+@media (prefers-color-scheme: dark) {
+  .fintrack-title {
+    color: #f1f5f9;
+  }
+
+  .fintrack-title::after {
+    background: linear-gradient(to right, #3b82f6, #60a5fa);
+  }
+} 

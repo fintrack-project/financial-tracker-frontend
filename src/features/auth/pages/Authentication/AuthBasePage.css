@@ -1,0 +1,50 @@
+.auth-base-container {
+  display: flex;
+  height: 100vh; /* Full viewport height */
+  width: 100%;
+  background-color: #f9f9f9;
+}
+
+.auth-left {
+  flex: 1; /* Take up less space */
+  display: flex;
+  flex-direction: column;
+  justify-content: center; /* Center vertically */
+  align-items: center; /* Center horizontally */
+  padding: 32px;
+  background-color: #ffffff; /* White background for the form */
+  box-shadow: 4px 0 6px rgba(0, 0, 0, 0.1); /* Subtle shadow for separation */
+}
+
+.auth-right {
+  flex: 2; /* Take up more space */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #eaf4ff; /* Light blue background for contrast */
+}
+
+.large-logo {
+  max-width: 80%;
+  max-height: 80%;
+  object-fit: contain;
+}
+
+.auth-header {
+  width: 100%;
+  text-align: center;
+  margin-bottom: 24px; /* Space below the title */
+}
+
+h1 {
+  font-size: 28px;
+  font-weight: bold;
+  margin: 0;
+}
+
+.auth-content {
+  width: 100%;
+  max-width: 400px; /* Limit the width of the form */
+  display: flex;
+  gap: 16px; /* Space between input fields */
+}
