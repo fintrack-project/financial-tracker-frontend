@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate, NavLink } from 'react-router-dom';
 import UserSession from '../../shared/utils/UserSession';
-import { logoutUser } from 'services/authService';
+import { logoutUser } from '../../features/auth/services/authService';
 import './AccountDetailAndMenu.css';
 
 interface AccountDetailAndMenuProps {

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useSearchParams, useNavigate } from 'react-router-dom';
-import { verifyEmail } from '../../services/authService'; // Backend service for email verification
+import { verifyEmail } from '../../features/auth/services/authService'; // Backend service for email verification
 import FinTrackLogo from '../../assets/logo/FinTrackLogo.png'; // Import the FinTrack logo
 import './VerifyEmail.css'; // Import the CSS file for styling
 

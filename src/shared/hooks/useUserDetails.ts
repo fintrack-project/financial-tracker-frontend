@@ -1,5 +1,5 @@
 import { useState, useEffect, useCallback } from 'react';
-import { fetchUserDetails } from '../../services/userService';
+import { fetchUserDetails } from '../../features/auth/services/userService';
 import { UserDetails } from '../types/UserDetails';
 
 const useUserDetails = (accountId: string) => {

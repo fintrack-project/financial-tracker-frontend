@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import { fetchUserDetails } from '../../../services/userService';
+import { fetchUserDetails } from '../../../features/auth/services/userService';
 import { fetchUserSubscription, upgradeSubscription } from '../services/userSubscriptionService';
 import { fetchPaymentMethods, deletePaymentMethod, setDefaultPaymentMethod, attachPaymentMethod } from '../../../services/paymentMethodService';
 import { UserDetails } from '../../../shared/types/UserDetails';

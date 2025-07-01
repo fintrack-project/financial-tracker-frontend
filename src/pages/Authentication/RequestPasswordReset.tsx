@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { requestPasswordReset } from '../../services/authService';
+import { requestPasswordReset } from '../../features/auth/services/authService';
 import './AuthPages.css';
 
 const RequestPasswordReset: React.FC = () => {

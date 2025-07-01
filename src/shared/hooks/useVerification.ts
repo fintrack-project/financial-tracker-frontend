@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { sendSMSVerification, verifySMSCode, sendEmailVerification, checkEmailVerified } from '../../services/authService';
+import { sendSMSVerification, verifySMSCode, sendEmailVerification, checkEmailVerified } from '../../features/auth/services/authService';
 import { getCountryCallingCode, CountryCode } from 'libphonenumber-js';
 import { UserDetails } from '../types/UserDetails'; // Adjust the import path as necessary
 

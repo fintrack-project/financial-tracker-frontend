@@ -1,8 +1,7 @@
 import React, { useEffect, useState, useMemo, useCallback } from 'react';
 import useUserDetails from '../../../../shared/hooks/useUserDetails';
-import { updateUserPhone, updateUserAddress, updateUserEmail } from '../../../../services/userService';
+import { updateUserPhone, updateUserAddress, updateUserEmail } from '../../../auth/services/userService';
 import useVerification from '../../../../shared/hooks/useVerification';
-import { useAuthService } from '../../../../shared/hooks/useAuthService';
 import { UserDetails } from '../../../../shared/types/UserDetails';
 import ProfileTable from '../../../../shared/components/Table/ProfileTable/ProfileTable';
 import IconButton from '../../../../shared/components/Button/IconButton';
@@ -15,6 +14,7 @@ import OTPVerificationPopup from '../../../../popup/OTPVerificationPopup';
 import AccountTier from './AccountTier';
 import { formatDate } from '../../../../shared/utils/FormatDate';
 import './ProfileDetail.css'; // Add styles for the profile detail section
+import { useAuthService } from '../../../auth/hooks/useAuthService';
 
 interface ProfileDetailProps {
   accountId: string; // Account ID to fetch user details
@@ -35,6 +35,14 @@ const ProfileDetail: React.FC<ProfileDetailProps> = ({ accountId }) => {
     verifyCode,
     closePopup,
   } = useVerification(accountId, userDetails, setUserDetails);
+  const [passwordHandlers, setPasswordHandlers] = useState<{
+    handlePasswordConfirm: (password: string) => void;
+    handlePasswordClose: () => void;
+  } | null>(null);
+  const [countries, setCountries] = useState<{ code: string; phoneCode: string }[]>([]);
+  const [editState, setEditState] = useState<{ [key: string]: string | null }>({});
+  const [editModes, setEditModes] = useState<{ [key: string]: boolean }>({});
+  const [isFetch, setIsFetch] = useState(false); // Boolean to control fetching
   const {
     authenticate,
     verifyOtp,
@@ -44,14 +52,6 @@ const ProfileDetail: React.FC<ProfileDetailProps> = ({ accountId }) => {
     showOtpPopup,
     otpError,
   } = useAuthService();
-  const [passwordHandlers, setPasswordHandlers] = useState<{
-    handlePasswordConfirm: (password: string) => void;
-    handlePasswordClose: () => void;
-  } | null>(null);
-  const [countries, setCountries] = useState<{ code: string; phoneCode: string }[]>([]);
-  const [editState, setEditState] = useState<{ [key: string]: string | null }>({});
-  const [editModes, setEditModes] = useState<{ [key: string]: boolean }>({});
-  const [isFetch, setIsFetch] = useState(false); // Boolean to control fetching
 
   useEffect(() => {
     const loadCountries = () => {

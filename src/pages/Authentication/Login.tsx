@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import InputField from '../../shared/components/InputField/InputField';
 import Button from '../../shared/components/Button/Button';
 import AuthBasePage from './AuthBasePage';
-import { loginUser } from '../../services/authService';
+import { loginUser } from '../../features/auth/services/authService';
 import './Login.css';
 
 const Login: React.FC = () => {

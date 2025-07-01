@@ -4,7 +4,7 @@ import { isStrongPassword, isValidEmail } from '../../shared/utils/validationUti
 import InputField from '../../shared/components/InputField/InputField';
 import Button from '../../shared/components/Button/Button';
 import AuthBasePage from './AuthBasePage';
-import { registerUser } from '../../services/authService';
+import { registerUser } from '../../features/auth/services/authService';
 import './Register.css';
 
 const Register: React.FC = () => {

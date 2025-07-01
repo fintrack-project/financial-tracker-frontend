@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { fetchUserDetails  } from '../../../../services/userService';
+import { fetchUserDetails  } from '../../../auth/services/userService';
 import { fetchNotificationPreferences, updateNotificationPreference } from '../../../../features/profile/services/userNotificationPrefService';
 import { UserDetails } from '../../../../shared/types/UserDetails';
 import { NotificationPreferences } from '../../../../features/profile/types/NotificationPreferences';

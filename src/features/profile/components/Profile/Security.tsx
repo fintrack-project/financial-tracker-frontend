@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
-import { fetchUserDetails, updateTwoFactorStatus } from '../../../../services/userService';
+import { fetchUserDetails, updateTwoFactorStatus } from '../../../auth/services/userService';
 import { UserDetails } from '../../../../shared/types/UserDetails';
-import { updatePassword } from '../../../../api/userApi';
-import { setup2FA } from '../../../../api/twoFactorApi';
+import { updatePassword } from '../../../auth/api/userApi';
+import { setup2FA } from '../../../auth/api/twoFactorApi';
 import { isStrongPassword } from '../../../../shared/utils/validationUtils';
 import QRCodePopup from '../../../../popup/QRCodePopup';
 import ProfileTable from '../../../../shared/components/Table/ProfileTable/ProfileTable';
@@ -10,9 +10,9 @@ import Toggle from '../../../../shared/components/Toggle/Toggle';
 import IconButton from '../../../../shared/components/Button/IconButton';
 import OTPVerificationPopup from '../../../../popup/OTPVerificationPopup';
 import PasswordInputPopup from '../../../../popup/PasswordInputPopup';
-import { useAuthService } from '../../../../shared/hooks/useAuthService';
 import { formatDate } from '../../../../shared/utils/FormatDate';
 import './Security.css'; // Add styles for the security section
+import { useAuthService } from '../../../auth/hooks/useAuthService';
 
 interface SecurityProps {
   accountId: string; // Account ID to fetch user details
