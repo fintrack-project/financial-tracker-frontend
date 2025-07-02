@@ -1,0 +1,64 @@
+.time-range-display {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 14px;
+}
+
+.current-range {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.range-label {
+  color: #6c757d;
+  font-size: 12px;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.range-value {
+  color: #2c3e50;
+  font-weight: 600;
+  font-size: 14px;
+}
+
+.preset-indicator {
+  display: flex;
+  align-items: center;
+}
+
+.preset-badge {
+  background: #007bff;
+  color: #ffffff;
+  padding: 4px 8px;
+  border-radius: 12px;
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .time-range-display {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+  }
+  
+  .current-range {
+    width: 100%;
+  }
+  
+  .range-value {
+    font-size: 13px;
+  }
+  
+  .preset-badge {
+    font-size: 10px;
+    padding: 3px 6px;
+  }
+} 

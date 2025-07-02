@@ -7,6 +7,9 @@ import UploadBalanceTable from '../components/BalanceTable/UploadBalanceTable';
 import { OverviewTransaction } from '../types/OverviewTransaction';
 import { Transaction } from '../types/Transaction';
 import { fetchOverviewTransactions, confirmTransactions } from '../services/transactionService';
+import { TimeRangeSelector } from '../../../shared/components/TimeRangeSelector';
+import { TimeRange } from '../../../shared/types/TimeRange';
+import { getDefaultTimeRange, formatDateForAPI } from '../../../shared/utils/timeRangePresets';
 import './Balance.css';
 
 interface BalanceProps {
@@ -17,22 +20,29 @@ const Balance: React.FC<BalanceProps> = ({ accountId }) => {
   const [activeTab, setActiveTab] = useState<'overview' | 'edit'>('overview'); // State to manage active tab
   const [existingOverviewTransactions, setExistingOverviewTransactions] = useState<OverviewTransaction[]>([]); // Data from BalanceOverviewTable
   const [uploadedTransactions, setUploadedTransactions] = useState<Transaction[]>([]); // Data from UploadBalanceTable
+  const [timeRange, setTimeRange] = useState<TimeRange>(getDefaultTimeRange()); // Time range state
+  const [loading, setLoading] = useState(false); // Loading state for API calls
 
-  // Fetch existing transactions when accountId changes
+  // Fetch existing transactions when accountId or timeRange changes
   useEffect(() => {
     const fetchExistingTransactions = async () => {
       if (!accountId) return;
 
+      setLoading(true);
       try {
-        const overviewTransactions = await fetchOverviewTransactions(accountId);
+        const startDate = formatDateForAPI(timeRange.startDate);
+        const endDate = formatDateForAPI(timeRange.endDate);
+        const overviewTransactions = await fetchOverviewTransactions(accountId, startDate, endDate);
         setExistingOverviewTransactions(overviewTransactions);
       } catch (error) {
         console.error('Error fetching existing transactions:', error);
+      } finally {
+        setLoading(false);
       }
     };
 
     fetchExistingTransactions();
-  }, [accountId]);
+  }, [accountId, timeRange]);
 
   // Callback to handle the confirmation of transactions
   const handleConfirm = async (previewTransaction: PreviewTransaction[]) => {
@@ -48,7 +58,9 @@ const Balance: React.FC<BalanceProps> = ({ accountId }) => {
       setUploadedTransactions([]); // Clear the uploaded transactions
       // Fetch the updated transactions after confirmation 
       try {
-        const overviewTransactions = await fetchOverviewTransactions(accountId);
+        const startDate = formatDateForAPI(timeRange.startDate);
+        const endDate = formatDateForAPI(timeRange.endDate);
+        const overviewTransactions = await fetchOverviewTransactions(accountId, startDate, endDate);
         setExistingOverviewTransactions(overviewTransactions);
       } catch (error) {
         console.error('Error fetching existing transactions:', error);
@@ -56,6 +68,10 @@ const Balance: React.FC<BalanceProps> = ({ accountId }) => {
     } catch (error) {
       console.error('Error confirming transactions:', error);
     }
+  };
+
+  const handleTimeRangeChange = (newTimeRange: TimeRange) => {
+    setTimeRange(newTimeRange);
   };
 
   return (
@@ -68,11 +84,25 @@ const Balance: React.FC<BalanceProps> = ({ accountId }) => {
       <div className="balance-content">
         {activeTab === 'overview' && (
           <div className="balance-overview">
-            <BalanceOverviewTable accountId={accountId} />
+            <TimeRangeSelector
+              timeRange={timeRange}
+              onTimeRangeChange={handleTimeRangeChange}
+              loading={loading}
+            />
+            <BalanceOverviewTable 
+              accountId={accountId}
+              transactions={existingOverviewTransactions}
+              loading={loading}
+            />
           </div>
         )}
         {activeTab === 'edit' && (
           <div className="upload-balance">
+            <TimeRangeSelector
+              timeRange={timeRange}
+              onTimeRangeChange={handleTimeRangeChange}
+              loading={loading}
+            />
             <BalancePreviewTable
               accountId={accountId}
               existingTransactions={existingOverviewTransactions}

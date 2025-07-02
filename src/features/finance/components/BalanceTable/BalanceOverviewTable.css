@@ -149,3 +149,35 @@
   border-bottom-left-radius: 8px;
   border-bottom-right-radius: 8px;
 }
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .balance-overview-container {
+    padding: 16px;
+    margin-bottom: 16px;
+    min-width: auto;
+    max-width: 100%;
+    margin-top: 16px;
+  }
+  
+  .balance-overview-container h2 {
+    padding: 16px;
+    font-size: 1.1rem;
+  }
+  
+  .table-footer {
+    padding: 12px 16px;
+  }
+  
+  .actions-group {
+    flex-direction: column;
+    gap: 8px;
+    width: 100%;
+  }
+  
+  .button,
+  .dropdown-button {
+    width: 100%;
+    justify-content: center;
+  }
+}

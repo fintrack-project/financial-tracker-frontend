@@ -78,3 +78,33 @@
   color: #94a3b8;
   font-style: italic;
 }
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .balance-preview-container {
+    margin-top: 16px;
+    min-width: auto;
+    max-width: 100%;
+    min-height: 300px;
+  }
+  
+  .preview-table {
+    font-size: 0.85rem;
+    min-width: 600px; /* Ensure table doesn't get too cramped */
+  }
+  
+  .preview-table th,
+  .preview-table td {
+    padding: 8px 12px;
+    white-space: nowrap;
+  }
+  
+  .preview-table th {
+    font-size: 0.75rem;
+  }
+  
+  .no-preview-data {
+    padding: 32px 0;
+    font-size: 1rem;
+  }
+}
