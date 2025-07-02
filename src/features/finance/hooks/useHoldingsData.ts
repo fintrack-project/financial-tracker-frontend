@@ -1,46 +1,54 @@
-import { useState, useEffect } from 'react';
-import { fetchHoldingsApi } from '../api/holdingsApi';
-import { fetchPortfolioDataApi } from '../api/portfolioApi';
-import { useBaseCurrency } from '../../../shared/hooks/useBaseCurrency';
-import { Holding } from '../types/Holding';
+import { useEffect, useState } from 'react';
+import { fetchHoldings } from '../services/holdingsService';
+import { fetchPortfolioData } from '../services/portfolioService';
+import { fetchCurrencies, AccountCurrency } from '../../profile/services/accountCurrencyService';
 import { PortfolioData } from '../types/PortfolioData';
+import { Holding } from '../types/Holding';
 
 export const useHoldingsData = (accountId: string | null) => {
   const [holdings, setHoldings] = useState<Holding[]>([]);
   const [portfolioData, setPortfolioData] = useState<PortfolioData[]>([]);
-  const [loading, setLoading] = useState(true);
-  const { baseCurrency } = useBaseCurrency(accountId);
+  const [loading, setLoading] = useState<boolean>(true);
 
   useEffect(() => {
-    const loadHoldingsAndMarketData = async () => {
-      if (!accountId || !baseCurrency) {
-        setLoading(false);
-        return;
-      }
+    if (!accountId) {
+      console.warn('Account ID is null, skipping fetch');
+      setLoading(false);
+      return;
+    }
 
+    const loadHoldingsAndMarketData = async () => {
       try {
         setLoading(true);
-        
-        // Fetch holdings data
-        const holdingsResponse = await fetchHoldingsApi(accountId);
-        if (holdingsResponse.success && holdingsResponse.data) {
-          setHoldings(holdingsResponse.data);
+
+        // Step 1: Fetch holdings from the backend
+        const fetchedHoldings = await fetchHoldings(accountId);
+        setHoldings(fetchedHoldings);
+
+        // Step 2: Fetch the base currency of the user
+        const fetchedCurrencies = await fetchCurrencies(accountId);
+
+        // Find and get the base (default) currency
+        const baseCurrency = fetchedCurrencies.find((currency: AccountCurrency) => currency.default);
+        if (!baseCurrency) {
+          console.error('No default base currency found.');
+          return;
         }
 
-        // Fetch portfolio data
-        const portfolioResponse = await fetchPortfolioDataApi(accountId, baseCurrency);
-        if (portfolioResponse.success && portfolioResponse.data) {
-          setPortfolioData(portfolioResponse.data);
-        }
+        // Step 3: Fetch portfolio data using the new service
+        const portfolioDataResponse = await fetchPortfolioData(accountId, baseCurrency.currency);
+        console.log('Fetched portfolio data:', portfolioDataResponse);
+
+        setPortfolioData(portfolioDataResponse);
       } catch (error) {
-        console.error('Error loading holdings data:', error);
+        console.error('Error loading holdings or market data:', error);
       } finally {
         setLoading(false);
       }
     };
 
     loadHoldingsAndMarketData();
-  }, [accountId, baseCurrency]);
+  }, [accountId]);
 
   return { holdings, portfolioData, loading };
 }; 
