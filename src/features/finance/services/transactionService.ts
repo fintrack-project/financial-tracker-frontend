@@ -8,9 +8,13 @@ import { PreviewTransaction } from '../types/PreviewTransaction';
 import { OverviewTransaction } from '../types/OverviewTransaction';
 import { Transaction } from '../types/Transaction';
 
-export const fetchOverviewTransactions = async (accountId: string): Promise<OverviewTransaction[]> => {
+export const fetchOverviewTransactions = async (
+  accountId: string, 
+  startDate?: string, 
+  endDate?: string
+): Promise<OverviewTransaction[]> => {
   try {
-    const response = await fetchOverviewTransactionsApi(accountId);
+    const response = await fetchOverviewTransactionsApi(accountId, startDate, endDate);
     if (!response.success || !response.data) {
       throw new Error(response.message || 'Failed to fetch overview transactions');
     }

@@ -3,6 +3,7 @@
   display: flex;
   flex-direction: column;
   align-items: flex-start;
+  width: 100%;
 }
 
 .balance-container h1 {
@@ -40,4 +41,13 @@
 
 .balance-navigation-bar {
   margin-bottom: 28px;
+}
+
+.balance-content {
+  width: 100%;
+}
+
+.balance-overview,
+.upload-balance {
+  width: 100%;
 }
