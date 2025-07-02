@@ -1,0 +1,71 @@
+.preset-ranges {
+  margin-bottom: 16px;
+}
+
+.preset-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.preset-button {
+  padding: 8px 16px;
+  border: 1px solid #e1e5e9;
+  background: #ffffff;
+  color: #495057;
+  border-radius: 6px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  min-width: 60px;
+  text-align: center;
+}
+
+.preset-button:hover:not(:disabled) {
+  background: #f8f9fa;
+  border-color: #007bff;
+  color: #007bff;
+}
+
+.preset-button.active {
+  background: #007bff;
+  border-color: #007bff;
+  color: #ffffff;
+}
+
+.preset-button:disabled {
+  background: #f8f9fa;
+  color: #adb5bd;
+  cursor: not-allowed;
+  border-color: #e9ecef;
+}
+
+.custom-button {
+  background: #28a745;
+  border-color: #28a745;
+  color: #ffffff;
+}
+
+.custom-button:hover:not(:disabled) {
+  background: #218838;
+  border-color: #1e7e34;
+}
+
+.custom-button.active {
+  background: #218838;
+  border-color: #1e7e34;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .preset-buttons {
+    gap: 6px;
+  }
+  
+  .preset-button {
+    padding: 6px 12px;
+    font-size: 13px;
+    min-width: 50px;
+  }
+} 

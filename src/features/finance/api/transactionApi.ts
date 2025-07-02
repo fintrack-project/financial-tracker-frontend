@@ -5,9 +5,27 @@ import { OverviewTransaction } from '../types/OverviewTransaction';
 import { ApiResponse } from '../../../shared/types/ApiTypes';
 
 // Fetch overview transactions
-export const fetchOverviewTransactionsApi = async (accountId: string): Promise<ApiResponse<OverviewTransaction[]>> => {
+export const fetchOverviewTransactionsApi = async (
+  accountId: string, 
+  startDate?: string, 
+  endDate?: string
+): Promise<ApiResponse<OverviewTransaction[]>> => {
   try {
-    const response = await apiClient.get<ApiResponse<OverviewTransaction[]>>(`/api/accounts/${accountId}/overview-transactions`);
+    let url = `/api/accounts/${accountId}/overview-transactions`;
+    const params = new URLSearchParams();
+    
+    if (startDate) {
+      params.append('startDate', startDate);
+    }
+    if (endDate) {
+      params.append('endDate', endDate);
+    }
+    
+    if (params.toString()) {
+      url += `?${params.toString()}`;
+    }
+    
+    const response = await apiClient.get<ApiResponse<OverviewTransaction[]>>(url);
     return response.data;
   } catch (error) {
     console.error('Error fetching overview transactions:', error);

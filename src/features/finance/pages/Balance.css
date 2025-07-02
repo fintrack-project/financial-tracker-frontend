@@ -3,6 +3,7 @@
   display: flex;
   flex-direction: column;
   align-items: flex-start;
+  width: 100%;
 }
 
 .balance-container h1 {
@@ -40,4 +41,42 @@
 
 .balance-navigation-bar {
   margin-bottom: 28px;
+}
+
+.balance-content {
+  width: 100%;
+}
+
+.balance-overview,
+.upload-balance {
+  width: 100%;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .balance-container {
+    padding: 16px;
+  }
+  
+  .balance-container h1 {
+    font-size: 2rem;
+    margin-bottom: 16px;
+  }
+  
+  .balance-container p {
+    font-size: 1rem;
+  }
+  
+  .left-section,
+  .right-section {
+    padding: 16px;
+  }
+  
+  .right-section form {
+    max-width: 100%;
+  }
+  
+  .balance-navigation-bar {
+    margin-bottom: 20px;
+  }
 }

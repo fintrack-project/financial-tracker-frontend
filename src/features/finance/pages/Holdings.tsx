@@ -106,7 +106,7 @@ const Holdings: React.FC<HoldingsProps> = ({ accountId }) => {
 
   return (
     <div className="holdings-container">
-      <h2 className="fintrack-section-title">Holdings</h2>
+      <h1 className="fintrack-section-title">Holdings</h1>
       <div className="holdings-section">
         <EditableHoldingsTable 
           accountId={accountId}
@@ -120,7 +120,7 @@ const Holdings: React.FC<HoldingsProps> = ({ accountId }) => {
           subcategoryColors={subcategoryColors}
         />
       </div>
-      <h2 className="fintrack-section-title">Categories</h2>
+      <h1 className="fintrack-section-title">Categories</h1>
       <div className="categories-section">
         <CategoriesTable 
           accountId={accountId}
