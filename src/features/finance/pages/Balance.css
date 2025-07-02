@@ -51,3 +51,32 @@
 .upload-balance {
   width: 100%;
 }
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .balance-container {
+    padding: 16px;
+  }
+  
+  .balance-container h1 {
+    font-size: 2rem;
+    margin-bottom: 16px;
+  }
+  
+  .balance-container p {
+    font-size: 1rem;
+  }
+  
+  .left-section,
+  .right-section {
+    padding: 16px;
+  }
+  
+  .right-section form {
+    max-width: 100%;
+  }
+  
+  .balance-navigation-bar {
+    margin-bottom: 20px;
+  }
+}
