@@ -1,8 +1,9 @@
 /* Table Container */
 .table-container {
-  background-color: var(--neutral-100);
+  background-color: var(--primary-100);
   border-radius: var(--border-radius-lg);
-  box-shadow: var(--shadow-md);
+  box-shadow: var(--nav-shadow);
+  border: 1px solid var(--table-header-border);
   overflow: hidden;
   width: 100%;
   display: flex;
@@ -14,8 +15,8 @@
 /* Table Header */
 .table-header {
   padding: var(--card-padding-mobile);
-  background-color: var(--neutral-200);
-  border-bottom: 1px solid var(--neutral-300);
+  background: var(--table-header-bg);
+  border-bottom: 1px solid var(--table-header-border);
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -27,7 +28,7 @@
   font-family: var(--font-family-primary);
   font-size: var(--font-size-lg);
   font-weight: 600;
-  color: var(--neutral-900);
+  color: var(--primary-800);
   margin: 0;
 }
 
@@ -37,30 +38,30 @@
   align-items: center;
 }
 
-/* Data Table - UPDATED FOR COMPACT SIZING */
+/* Data Table - UPDATED FOR LIGHT BLUE THEME */
 .data-table {
   width: 100%;
   border-collapse: collapse;
   font-family: var(--font-family-primary);
-  font-size: var(--table-font-size-compact); /* Use compact font size for dashboard */
-  background-color: var(--neutral-100);
+  font-size: var(--table-font-size-compact);
+  background-color: var(--primary-100);
 }
 
 .data-table th,
 .data-table td {
-  padding: var(--spacing-sm) var(--spacing-md); /* More compact padding */
-  text-align: left;
-  border-bottom: 1px solid var(--neutral-200);
+  padding: var(--spacing-sm) var(--spacing-md);
+  text-align: center;
+  border-bottom: 1px solid var(--table-border);
   vertical-align: middle;
-  line-height: 1.4; /* Tighter line height */
+  line-height: 1.4;
 }
 
 .data-table th {
-  background-color: var(--neutral-200);
+  background: var(--table-header-bg);
   font-weight: 600;
-  color: var(--neutral-800);
+  color: var(--primary-800);
   text-transform: uppercase;
-  font-size: var(--table-font-size-header); /* Compact header font */
+  font-size: var(--table-font-size-header);
   letter-spacing: 0.5px;
   position: sticky;
   top: 0;
@@ -72,7 +73,7 @@
 }
 
 .data-table tbody tr:hover {
-  background-color: var(--neutral-200);
+  background-color: var(--table-hover-bg);
 }
 
 .data-table tbody tr:last-child td {
@@ -83,13 +84,13 @@
 .data-table .numeric-value {
   font-family: 'Monaco', 'Courier New', monospace;
   text-align: right;
-  font-size: var(--table-font-size-numeric); /* Specific size for numbers */
+  font-size: var(--table-font-size-numeric);
 }
 
 /* Symbol styling */
 .data-table .symbol-text {
   font-weight: 500;
-  color: var(--primary-600);
+  color: var(--primary-500);
 }
 
 /* Cell height consistency */
@@ -137,8 +138,8 @@
   justify-content: space-between;
   align-items: center;
   padding: var(--card-padding-mobile);
-  background-color: #f8fafc;
-  border-top: 1px solid #e2e8f0;
+  background: var(--table-header-bg);
+  border-top: 1px solid var(--table-header-border);
   margin-top: auto;
   flex-wrap: wrap;
   gap: 12px;
@@ -164,17 +165,17 @@
   }
   
   .data-table {
-    font-size: var(--table-font-size-compact); /* Keep compact size on desktop */
+    font-size: var(--table-font-size-compact);
   }
   
   .data-table th,
   .data-table td {
-    padding: var(--spacing-xs) var(--spacing-sm); /* Even more compact padding on desktop */
-    line-height: 1.3; /* Tighter line height on desktop */
+    padding: var(--spacing-xs) var(--spacing-sm);
+    line-height: 1.3;
   }
   
   .data-table td {
-    min-height: var(--table-cell-height-compact); /* Use compact height variable */
+    min-height: var(--table-cell-height-compact);
   }
   
   .table-footer {
@@ -204,7 +205,7 @@
   }
   
   .data-table {
-    font-size: var(--font-size-xs); /* Use responsive size on mobile */
+    font-size: var(--font-size-xs);
   }
   
   .data-table th,

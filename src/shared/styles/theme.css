@@ -1,14 +1,22 @@
 :root {
-  /* Primary Colors */
-  --primary-100: #E3F2FD;  /* Lightest */
-  --primary-200: #BBDEFB;
-  --primary-300: #90CAF9;
-  --primary-400: #64B5F6;
-  --primary-500: #42A5F5;  /* Main Brand Color */
-  --primary-600: #2196F3;
-  --primary-700: #1E88E5;
-  --primary-800: #1976D2;
-  --primary-900: #1565C0;  /* Darkest */
+  /* Primary Colors - Updated with light blue theme */
+  --primary-100: #f9fafc;  /* Very light blue-gray */
+  --primary-200: #e3e9f6;  /* Light blue (matches balance nav) */
+  --primary-300: #bbd0f0;  /* Medium light blue */
+  --primary-400: #90b7ea;  /* Medium blue */
+  --primary-500: #3462db;  /* Main Brand Color (blue) */
+  --primary-600: #2952c4;  /* Darker blue */
+  --primary-700: #1e42ad;  /* Even darker blue */
+  --primary-800: #1a3a7c;  /* Dark blue (matches balance nav active) */
+  --primary-900: #0f2350;  /* Darkest blue */
+
+  /* Light Blue Theme Colors for Tables and Navigation */
+  --table-header-bg: linear-gradient(135deg, #f9fafc 60%, #e3e9f6 100%);
+  --table-header-border: #e0e6ed;
+  --table-hover-bg: #f0f4f9;
+  --table-border: #e8eef5;
+  --nav-bg: linear-gradient(135deg, #f9fafc 60%, #e3e9f6 100%);
+  --nav-shadow: 0 4px 16px rgba(52, 98, 219, 0.06);
 
   /* Neutral Colors */
   --neutral-100: #FFFFFF;
