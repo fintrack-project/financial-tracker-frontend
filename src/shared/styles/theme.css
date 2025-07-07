@@ -18,6 +18,24 @@
   --nav-bg: linear-gradient(135deg, #f9fafc 60%, #e3e9f6 100%);
   --nav-shadow: 0 4px 16px rgba(52, 98, 219, 0.06);
 
+  /* Navigation Height Variables */
+  --nav-height-compact: 36px;      /* Compact height for smaller top bar */
+  --nav-height-normal: 44px;       /* Normal height - current account menu height */
+  --nav-height-large: 52px;        /* Larger height if needed */
+  
+  /* Navigation Padding Variables */
+  --nav-padding-vertical: 8px;     /* Vertical padding for nav items */
+  --nav-padding-horizontal: 16px;  /* Horizontal padding for nav items */
+  --nav-padding-compact: 6px 12px; /* Compact padding for smaller nav */
+  --nav-padding-normal: 8px 16px;  /* Normal padding for nav items */
+
+  /* Top Bar Height Variables */
+  --top-bar-height: 60px;          /* Total top bar height */
+  --top-bar-height-mobile: 48px;   /* Mobile top bar height */
+  --top-bar-padding: 8px 24px;     /* Top bar padding */
+  --top-bar-padding-mobile: 6px 16px; /* Mobile top bar padding */
+  --top-bar-shadow: 0 6px 24px rgba(52, 98, 219, 0.08); /* Slightly larger shadow for top bar */
+
   /* Neutral Colors */
   --neutral-100: #FFFFFF;
   --neutral-200: #F5F5F5;

@@ -2,62 +2,62 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: var(--spacing-sm) var(--spacing-lg);
-  background-color: #f9f9f9;
-  border-bottom: 1px solid #ddd;
-  gap: var(--spacing-md); /* Add gap between all main sections */
+  padding: var(--top-bar-padding);
+  height: var(--top-bar-height);
+  background: var(--nav-bg);
+  border-bottom: 1px solid var(--table-header-border);
+  box-shadow: var(--top-bar-shadow);
+  gap: var(--spacing-md);
 }
 
 @media (max-width: 768px) {
   .page-top-bar {
-    padding: var(--spacing-xs) var(--spacing-sm);
-    gap: var(--spacing-sm); /* Smaller gap on mobile */
-    /* Remove flex-wrap to keep everything on same line */
+    padding: var(--top-bar-padding-mobile);
+    height: var(--top-bar-height-mobile);
+    gap: var(--spacing-sm);
   }
 }
 
 .logo-container {
   display: flex;
   align-items: center;
-  flex-shrink: 0; /* Prevent logo from shrinking */
+  flex-shrink: 0;
 }
 
 .page-top-bar .fintrack-logo {
-  height: 40px;
+  height: var(--nav-height-normal);
   width: auto;
   margin-bottom: 0;
 }
 
 @media (max-width: 768px) {
   .page-top-bar .fintrack-logo {
-    height: 28px; /* Smaller logo for mobile */
+    height: var(--nav-height-compact);
   }
 }
 
 .navigation-bar {
   flex: 1;
   margin-left: var(--spacing-sm);
-  margin-right: var(--spacing-md); /* Add gap between nav and account menu */
+  margin-right: var(--spacing-md);
   display: flex;
-  justify-content: center; /* Center the navigation items */
+  justify-content: center;
 }
 
 @media (max-width: 768px) {
   .navigation-bar {
     margin-left: var(--spacing-xs);
-    margin-right: var(--spacing-sm); /* Smaller gap on mobile */
-    /* Remove order and flex-basis to keep on same line */
+    margin-right: var(--spacing-sm);
   }
 }
 
 .account-menu {
   margin-left: auto;
-  flex-shrink: 0; /* Prevent account menu from shrinking */
+  flex-shrink: 0;
 }
 
 @media (max-width: 768px) {
   .account-menu {
     margin-left: 0;
-    /* Remove order to keep on same line */
   }
 }
