@@ -1,64 +1,27 @@
-/* Base button style */
+/* Base button styles */
 button,
 .btn {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: 8px;
+  gap: var(--spacing-xs);
   padding: var(--spacing-sm) var(--spacing-md);
-  font-size: var(--font-size-sm);
-  font-family: var(--font-family-primary);
-  font-weight: 500;
-  color: white;
-  background-color: var(--primary-500);
   border: none;
   border-radius: var(--border-radius-md);
-  cursor: pointer;
-  text-align: center;
+  font-family: var(--font-family-primary);
+  font-size: var(--font-size-sm);
+  font-weight: 500;
+  line-height: 1.2;
   text-decoration: none;
+  cursor: pointer;
   transition: all var(--transition-normal);
   min-height: 40px;
-  width: auto;
+  box-sizing: border-box;
   white-space: nowrap;
   user-select: none;
-  -webkit-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
 }
 
-/* Hover effect */
-button:hover:not(:disabled),
-.btn:hover:not(:disabled) {
-  background-color: var(--primary-600);
-  transform: translateY(-1px);
-  box-shadow: var(--shadow-md);
-}
-
-/* Active state */
-button:active:not(:disabled),
-.btn:active:not(:disabled) {
-  transform: translateY(0);
-  box-shadow: var(--shadow-sm);
-}
-
-/* Focus state */
-button:focus,
-.btn:focus {
-  outline: none;
-  box-shadow: 0 0 0 3px rgba(66, 165, 245, 0.3);
-}
-
-/* Disabled button */
-button:disabled,
-.btn:disabled {
-  background-color: var(--neutral-400);
-  color: var(--neutral-600);
-  cursor: not-allowed;
-  transform: none;
-  box-shadow: none;
-}
-
-/* Button sizes */
+/* Size variants */
 .btn-sm {
   padding: var(--spacing-xs) var(--spacing-sm);
   font-size: var(--font-size-xs);
@@ -77,7 +40,22 @@ button:disabled,
   min-height: 56px;
 }
 
-/* Button variants */
+/* Disabled state */
+button:disabled,
+.btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none;
+}
+
+/* Focus state */
+button:focus,
+.btn:focus {
+  outline: 2px solid var(--primary-500);
+  outline-offset: 2px;
+}
+
+/* Color variants */
 .btn-primary {
   background-color: var(--primary-500);
   color: white;
@@ -85,12 +63,13 @@ button:disabled,
 
 .btn-primary:hover:not(:disabled) {
   background-color: var(--primary-600);
+  transform: translateY(-1px);
+  box-shadow: var(--shadow-md);
 }
 
 .btn-secondary {
   background-color: var(--neutral-200);
   color: var(--neutral-700);
-  border: 1px solid var(--neutral-300);
 }
 
 .btn-secondary:hover:not(:disabled) {
@@ -162,12 +141,12 @@ button:disabled,
 }
 
 /* Responsive Design */
-@media (min-width: 640px) {
+@media (min-width: 1024px) {
   button,
   .btn {
     font-size: var(--font-size-base);
     padding: var(--spacing-md) var(--spacing-lg);
-    min-height: 44px;
+    min-height: 48px;
   }
   
   .btn-sm {
@@ -189,17 +168,8 @@ button:disabled,
   }
 }
 
-@media (min-width: 1024px) {
-  button,
-  .btn {
-    font-size: var(--font-size-base);
-    padding: var(--spacing-md) var(--spacing-lg);
-    min-height: 48px;
-  }
-}
-
 /* Mobile-specific adjustments */
-@media (max-width: 639px) {
+@media (max-width: 768px) {
   button,
   .btn {
     font-size: var(--font-size-sm);

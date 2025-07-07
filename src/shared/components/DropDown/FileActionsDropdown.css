@@ -46,7 +46,7 @@
   border: 1px solid #e0e6ed;
   border-radius: 10px;
   box-shadow: 0 4px 16px rgba(52, 98, 219, 0.10);
-  z-index: 10;
+  z-index: 1000;
   min-width: 120px;
   padding: 6px 0;
   animation: fadeIn 0.18s;

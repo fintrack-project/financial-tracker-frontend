@@ -43,8 +43,19 @@
   color: #1a3a7c;
 }
 
-/* Responsive adjustments */
-@media (max-width: 639px) {
+/* Responsive Design */
+@media (min-width: 1024px) {
+  .balance-navigation-bar {
+    max-width: 600px;
+  }
+  
+  .tab {
+    padding: 14px 24px;
+    font-size: 1.1rem;
+  }
+}
+
+@media (max-width: 768px) {
   .balance-navigation-bar {
     max-width: 100%;
   }
@@ -52,24 +63,5 @@
   .tab {
     padding: 10px 12px;
     font-size: 1rem;
-  }
-}
-
-@media (min-width: 640px) {
-  .balance-navigation-bar {
-  }
-  
-  .tab {
-    padding: 12px 20px;
-  }
-}
-
-@media (min-width: 1024px) {
-  .balance-navigation-bar {
-  }
-  
-  .tab {
-    padding: 14px 24px;
-    font-size: 1.1rem;
   }
 }
