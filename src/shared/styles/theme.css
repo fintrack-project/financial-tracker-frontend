@@ -184,4 +184,14 @@
   --page-title-border-width: var(--spacing-xs);              /* 4-8px border width */
   --page-title-border-color: var(--info-color);              /* Blue accent */
   --page-title-padding-left: var(--spacing-xs);              /* Left padding */
+
+  /* Chart Responsive Sizing */
+  --chart-container-height-mobile: 400px;       /* Mobile chart container height */
+  --chart-container-height-tablet: 500px;       /* Tablet chart container height */
+  --chart-container-height-desktop: 600px;      /* Desktop chart container height */
+  --pie-chart-radius-mobile: 120px;             /* Mobile pie chart radius */
+  --pie-chart-radius-tablet: 160px;             /* Tablet pie chart radius */
+  --pie-chart-radius-desktop: 200px;            /* Desktop pie chart radius */
+  --chart-min-height-mobile: 300px;             /* Minimum chart height on mobile */
+  --chart-min-height-desktop: 400px;            /* Minimum chart height on desktop */
 } 

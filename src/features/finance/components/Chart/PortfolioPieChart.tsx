@@ -11,13 +11,43 @@ import { fetchPortfolioPieChartData } from '../../services/portfolioChartService
 import { fetchCategoryNames } from '../../../categories/services/categoryService'; // Service to fetch categories
 import { useBaseCurrency } from '../../../../shared/hooks/useBaseCurrency'; // Custom hook to get base currency 
 import { formatNumber } from '../../../../shared/utils/FormatNumber'; // Utility function to format numbers
+import { BREAKPOINTS } from '../../../../shared/utils/breakpoints'; // Common breakpoints
 import CategoryDropdown from '../../../../shared/components/DropDown/CategoryDropdown';
 import './PortfolioPieChart.css';
-
 
 interface PortfolioPieChartProps {
   accountId: string | null;
 }
+
+// Custom hook for responsive chart sizing
+const useChartSize = () => {
+  const [chartSize, setChartSize] = useState({
+    height: 400, // mobile default
+    outerRadius: 120 // mobile default
+  });
+
+  useEffect(() => {
+    const updateSize = () => {
+      const width = window.innerWidth;
+      if (width >= BREAKPOINTS.DESKTOP) {
+        // Desktop
+        setChartSize({ height: 600, outerRadius: 200 });
+      } else if (width >= BREAKPOINTS.TABLET) {
+        // Tablet
+        setChartSize({ height: 500, outerRadius: 160 });
+      } else {
+        // Mobile
+        setChartSize({ height: 400, outerRadius: 120 });
+      }
+    };
+
+    updateSize();
+    window.addEventListener('resize', updateSize);
+    return () => window.removeEventListener('resize', updateSize);
+  }, []);
+
+  return chartSize;
+};
 
 const PortfolioPieChart: React.FC<PortfolioPieChartProps> = ({ accountId }) => {
   const [categories, setCategories] = useState<string[]>([]); // Default category
@@ -26,6 +56,7 @@ const PortfolioPieChart: React.FC<PortfolioPieChartProps> = ({ accountId }) => {
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
   const { baseCurrency } = useBaseCurrency(accountId);
+  const { height, outerRadius } = useChartSize();
 
   // Fetch category names when the component loads
   useEffect(() => {
@@ -117,7 +148,7 @@ const PortfolioPieChart: React.FC<PortfolioPieChartProps> = ({ accountId }) => {
           No holdings
         </div>
       ) : (
-        <ResponsiveContainer width="100%" height={600}>
+        <ResponsiveContainer width="100%" height={height}>
           <PieChart>
             <Pie
               data={chartData}
@@ -125,7 +156,7 @@ const PortfolioPieChart: React.FC<PortfolioPieChartProps> = ({ accountId }) => {
               nameKey="assetName"
               cx="50%"
               cy="50%"
-              outerRadius={200}
+              outerRadius={outerRadius}
               fill="#8884d8"
               label={({ name, value }) => `${name}: ${formatNumber(value)}`}
             >
