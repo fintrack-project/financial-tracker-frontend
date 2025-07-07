@@ -16,7 +16,8 @@
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  gap: var(--spacing-md);
+  gap: var(--spacing-xs);
+  margin-bottom: var(--spacing-sm);
 }
 
 @media (min-width: 1024px) {
@@ -24,7 +25,8 @@
     flex-direction: row;
     justify-content: space-between;
     align-items: flex-start;
-    gap: var(--spacing-lg);
+    gap: var(--spacing-sm);
+    margin-bottom: var(--spacing-sm);
   }
 }
 
@@ -36,7 +38,6 @@
 }
 
 .balance-navigation-bar {
-  margin-bottom: var(--spacing-lg);
   width: 100%;
 }
 
@@ -44,7 +45,6 @@
 @media (min-width: 1024px) {
   .balance-navigation-bar {
     width: auto;
-    margin-bottom: 0;
     flex-shrink: 0;
   }
 }
@@ -53,7 +53,7 @@
   width: 100%;
   display: flex;
   flex-direction: column;
-  gap: var(--spacing-md);
+  gap: var(--spacing-sm);
 }
 
 .balance-overview,
@@ -61,7 +61,26 @@
   width: 100%;
   display: flex;
   flex-direction: column;
-  gap: var(--spacing-md);
+  gap: var(--spacing-sm);
+}
+
+/* Individual component spacing - consistent smaller margins */
+.balance-overview > *,
+.upload-balance > * {
+  margin-top: var(--spacing-sm);
+  margin-bottom: var(--spacing-sm);
+}
+
+/* First component doesn't need top margin */
+.balance-overview > *:first-child,
+.upload-balance > *:first-child {
+  margin-top: 0;
+}
+
+/* Last component doesn't need bottom margin */
+.balance-overview > *:last-child,
+.upload-balance > *:last-child {
+  margin-bottom: 0;
 }
 
 /* Responsive Design */
@@ -75,13 +94,29 @@
   }
   
   .balance-content {
-    gap: var(--spacing-md);
-    margin-top: var(--spacing-lg);
+    gap: var(--spacing-sm);
   }
   
   .balance-overview,
   .upload-balance {
-    gap: var(--spacing-md);
+    gap: var(--spacing-sm);
+  }
+
+  /* Desktop component spacing - even smaller for tighter layout */
+  .balance-overview > *,
+  .upload-balance > * {
+    margin-top: var(--spacing-sm);
+    margin-bottom: var(--spacing-sm);
+  }
+
+  .balance-overview > *:first-child,
+  .upload-balance > *:first-child {
+    margin-top: 0;
+  }
+
+  .balance-overview > *:last-child,
+  .upload-balance > *:last-child {
+    margin-bottom: 0;
   }
 }
 
@@ -94,8 +129,9 @@
     font-size: var(--font-size-sm);
   }
   
-  .balance-navigation-bar {
-    margin-bottom: var(--spacing-md);
+  .balance-header {
+    gap: var(--spacing-xs);
+    margin-bottom: var(--spacing-sm);
   }
   
   .balance-content {
@@ -105,5 +141,22 @@
   .balance-overview,
   .upload-balance {
     gap: var(--spacing-sm);
+  }
+
+  /* Mobile component spacing - even smaller */
+  .balance-overview > *,
+  .upload-balance > * {
+    margin-top: var(--spacing-sm);
+    margin-bottom: var(--spacing-sm);
+  }
+
+  .balance-overview > *:first-child,
+  .upload-balance > *:first-child {
+    margin-top: 0;
+  }
+
+  .balance-overview > *:last-child,
+  .upload-balance > *:last-child {
+    margin-bottom: 0;
   }
 }
