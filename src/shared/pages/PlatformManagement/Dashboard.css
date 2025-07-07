@@ -15,23 +15,4 @@
   }
 }
 
-.dashboard-container h1 {
-  color: var(--neutral-800);
-  font-size: var(--font-size-2xl);
-  font-weight: 700;
-  text-align: left;
-  padding-left: var(--spacing-sm);
-  border-left: var(--spacing-xs) solid var(--primary-600);
-}
-
-@media (min-width: 1024px) {
-  .dashboard-container h1 {
-    font-size: var(--font-size-3xl);
-  }
-}
-
-@media (max-width: 768px) {
-  .dashboard-container h1 {
-    font-size: var(--font-size-xl);
-  }
-}
+/* Dashboard title will now use the common .fintrack-section-title styling from Title.css */

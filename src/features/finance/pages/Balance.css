@@ -8,30 +8,7 @@
   box-sizing: border-box;
 }
 
-.balance-container h1 {
-  /* Remove conflicting styles - let fintrack-section-title handle it */
-}
-
-/* Override fintrack-section-title for Balance page to match Portfolio Overview */
-.balance-container .fintrack-section-title {
-  color: var(--neutral-800);
-  font-size: var(--font-size-2xl);
-  font-weight: 700;
-  padding-left: var(--spacing-xs);
-  border-left: var(--spacing-xs) solid var(--info-color);
-}
-
-@media (min-width: 1024px) {
-  .balance-container .fintrack-section-title {
-    font-size: var(--font-size-3xl);
-  }
-}
-
-@media (max-width: 768px) {
-  .balance-container .fintrack-section-title {
-    font-size: var(--font-size-xl);
-  }
-}
+/* Balance title will now use the common .fintrack-section-title styling from Title.css */
 
 /* Header section - NEW: Desktop horizontal layout */
 .balance-header {

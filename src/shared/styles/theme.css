@@ -68,6 +68,12 @@
   --neutral-700: #616161;
   --neutral-800: #424242;
   --neutral-900: #212121;
+  
+  /* Text Colors */
+  --text-black: #000000;          /* Pure black for titles and headings */
+  --text-dark: #1a1a1a;           /* Very dark gray for better readability */
+  --text-primary: #2c3e50;        /* Primary text color */
+  --text-secondary: #64748b;      /* Secondary text color */
 
   /* Accent Colors */
   --success-color: #4CAF50;
@@ -168,4 +174,14 @@
   /* Page Title Spacing */
   --page-title-margin-bottom: 32px;
   --page-title-margin-bottom-mobile: 24px;
+
+  /* Page Title Styling Variables */
+  --page-title-color: var(--text-black);                     /* Pure black for titles */
+  --page-title-font-weight: 700;
+  --page-title-font-size-mobile: var(--font-size-xl);        /* 1.25-1.5rem */
+  --page-title-font-size-tablet: var(--font-size-2xl);       /* 1.5-1.875rem */
+  --page-title-font-size-desktop: var(--font-size-3xl);      /* 1.875-2.25rem */
+  --page-title-border-width: var(--spacing-xs);              /* 4-8px border width */
+  --page-title-border-color: var(--info-color);              /* Blue accent */
+  --page-title-padding-left: var(--spacing-xs);              /* Left padding */
 } 

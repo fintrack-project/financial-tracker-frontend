@@ -1,10 +1,10 @@
 /* Common title styles for all sections */
 .fintrack-title {
-  font-size: 2rem;
+  font-size: var(--font-size-2xl);
   font-weight: 600;
-  color: #1e293b;
-  margin-bottom: 1.5rem;
-  padding-bottom: 0.75rem;
+  color: var(--page-title-color) !important;
+  margin-bottom: var(--spacing-lg);
+  padding-bottom: var(--spacing-sm);
   position: relative;
   text-align: left;
 }
@@ -17,14 +17,19 @@
   left: 0;
   width: 60px;
   height: 3px;
-  background: linear-gradient(to right, #2563eb, #3b82f6);
-  border-radius: 2px;
+  background: linear-gradient(to right, var(--primary-600), var(--primary-500));
+  border-radius: var(--border-radius-sm);
 }
 
 /* Section title - for main sections like Dashboard, Holdings, etc. */
 .fintrack-section-title {
-  font-size: 2.25rem;
+  color: #000000; /* Fallback black color */
+  color: var(--page-title-color) !important;
+  font-size: var(--page-title-font-size-tablet);
+  font-weight: var(--page-title-font-weight);
   margin-bottom: var(--page-title-margin-bottom);
+  padding-left: var(--page-title-padding-left);
+  border-left: var(--page-title-border-width) solid var(--page-title-border-color);
   text-align: left;
 }
 
@@ -36,15 +41,21 @@
 
 /* Subsection title - for components within sections */
 .fintrack-subsection-title {
-  font-size: 1.75rem;
-  margin-bottom: 1.25rem;
+  font-size: var(--font-size-xl);
+  font-weight: 600;
+  color: var(--page-title-color) !important;
+  margin-bottom: var(--spacing-md);
+  text-align: left;
 }
 
 /* Card title - for individual cards/widgets */
 .fintrack-card-title {
-  font-size: 1.5rem;
-  margin-bottom: 1rem;
-  padding-bottom: 0.5rem;
+  font-size: var(--font-size-lg);
+  font-weight: 600;
+  color: var(--page-title-color) !important;
+  margin-bottom: var(--spacing-sm);
+  padding-bottom: var(--spacing-xs);
+  text-align: left;
 }
 
 .fintrack-card-title::after {
@@ -52,29 +63,53 @@
 }
 
 /* Responsive adjustments */
-@media (max-width: 768px) {
-  .fintrack-title,
-  .fintrack-subsection-title {
-    font-size: 1.5rem;
-  }
-
+@media (min-width: 1024px) {
   .fintrack-section-title {
-    font-size: 1.75rem;
-    margin-bottom: var(--page-title-margin-bottom-mobile);
+    font-size: var(--page-title-font-size-desktop);
   }
-
+  
+  .fintrack-title {
+    font-size: var(--font-size-3xl);
+  }
+  
+  .fintrack-subsection-title {
+    font-size: var(--font-size-2xl);
+  }
+  
   .fintrack-card-title {
-    font-size: 1.25rem;
+    font-size: var(--font-size-xl);
   }
 }
 
-/* Dark mode support */
-@media (prefers-color-scheme: dark) {
-  .fintrack-title {
-    color: #f1f5f9;
+@media (max-width: 768px) {
+  .fintrack-section-title {
+    font-size: var(--page-title-font-size-mobile);
+    margin-bottom: var(--page-title-margin-bottom-mobile);
+  }
+  
+  .fintrack-title,
+  .fintrack-subsection-title {
+    font-size: var(--font-size-lg);
   }
 
-  .fintrack-title::after {
-    background: linear-gradient(to right, #3b82f6, #60a5fa);
+  .fintrack-card-title {
+    font-size: var(--font-size-base);
   }
+}
+
+/* Dark mode support - REMOVED problematic color override that was making titles white */
+@media (prefers-color-scheme: dark) {
+  .fintrack-title::after {
+    background: linear-gradient(to right, var(--primary-500), var(--primary-400));
+  }
+}
+
+/* FORCE BLACK COLOR - High specificity override to ensure titles are black */
+h1.fintrack-section-title,
+.dashboard-container h1.fintrack-section-title,
+.holdings-container h1.fintrack-section-title,
+.portfolio-overview-container h1.fintrack-section-title,
+.balance-container h1.fintrack-section-title,
+div h1.fintrack-section-title {
+  color: #000000 !important;
 } 
