@@ -20,7 +20,7 @@
 .charts-grid {
   display: grid;
   grid-template-columns: 1fr;
-  gap: 32px;
+  gap: var(--spacing-md);
   max-width: 1400px;
   margin: 0 auto;
 }
@@ -76,18 +76,18 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 20px;
-  padding: 10px 20px;
+  margin-bottom: var(--spacing-lg);
+  padding: var(--spacing-sm) var(--spacing-lg);
   background-color: #ffffff; /* White background for the top bar */
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Subtle shadow for separation */
+  box-shadow: var(--shadow-sm); /* Subtle shadow for separation */
 }
 
 /* Chart container styling */
 .chart-container {
-  margin: 20px auto;
-  padding: 10px;
+  margin: var(--spacing-lg) auto;
+  padding: var(--spacing-sm);
   background-color: #ffffff; /* White background for the chart container */
-  border-radius: 8px; /* Rounded corners */
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+  border-radius: var(--border-radius-md); /* Rounded corners */
+  box-shadow: var(--shadow-md); /* Subtle shadow for depth */
   max-width: 800px; /* Limit the width of the chart container */
 }

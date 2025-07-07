@@ -3,9 +3,9 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 0 16px 24px;
+  padding: 0 var(--spacing-md) var(--spacing-lg);
   border-bottom: 1px solid #f0f0f0;
-  margin-bottom: 24px;
+  margin-bottom: var(--spacing-lg);
 }
 
 /* Style the chart title */
@@ -26,11 +26,11 @@
 
 .portfolio-pie-chart {
   width: 100%;
-  margin: 32px auto;
-  padding: 24px;
+  margin: var(--spacing-md) auto;
+  padding: var(--spacing-md);
   background-color: #ffffff;
-  border-radius: 12px;
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+  border-radius: var(--border-radius-lg);
+  box-shadow: var(--shadow-md);
   transition: box-shadow 0.3s ease;
   min-height: 600px;
   display: flex;
