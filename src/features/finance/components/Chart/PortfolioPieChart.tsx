@@ -11,7 +11,7 @@ import { fetchPortfolioPieChartData } from '../../services/portfolioChartService
 import { fetchCategoryNames } from '../../../categories/services/categoryService'; // Service to fetch categories
 import { useBaseCurrency } from '../../../../shared/hooks/useBaseCurrency'; // Custom hook to get base currency 
 import { formatNumber } from '../../../../shared/utils/FormatNumber'; // Utility function to format numbers
-import { BREAKPOINTS } from '../../../../shared/utils/breakpoints'; // Common breakpoints
+import { getCurrentBreakpoint, createBreakpointListener } from '../../../../shared/utils/breakpoints'; // New breakpoint utilities
 import CategoryDropdown from '../../../../shared/components/DropDown/CategoryDropdown';
 import './PortfolioPieChart.css';
 
@@ -21,29 +21,53 @@ interface PortfolioPieChartProps {
 
 // Custom hook for responsive chart sizing
 const useChartSize = () => {
-  const [chartSize, setChartSize] = useState({
-    height: 400, // mobile default
-    outerRadius: 120 // mobile default
+  const [chartSize, setChartSize] = useState(() => {
+    // Initialize with current breakpoint
+    const current = getCurrentBreakpoint();
+    switch (current) {
+      case 'mobile':
+        return { height: 400, outerRadius: 120 };
+      case 'tablet':
+        return { height: 500, outerRadius: 160 };
+      case 'desktop':
+        return { height: 600, outerRadius: 200 };
+      default:
+        return { height: 400, outerRadius: 120 };
+    }
   });
 
   useEffect(() => {
     const updateSize = () => {
-      const width = window.innerWidth;
-      if (width >= BREAKPOINTS.DESKTOP) {
-        // Desktop
-        setChartSize({ height: 600, outerRadius: 200 });
-      } else if (width >= BREAKPOINTS.TABLET) {
-        // Tablet
-        setChartSize({ height: 500, outerRadius: 160 });
-      } else {
-        // Mobile
-        setChartSize({ height: 400, outerRadius: 120 });
+      const current = getCurrentBreakpoint();
+      switch (current) {
+        case 'mobile':
+          // Mobile: Compact chart for small screens
+          setChartSize({ height: 400, outerRadius: 120 });
+          break;
+        case 'tablet':
+          // Tablet: Medium-sized chart for balanced view
+          setChartSize({ height: 500, outerRadius: 160 });
+          break;
+        case 'desktop':
+          // Desktop: Large chart for detailed view
+          setChartSize({ height: 600, outerRadius: 200 });
+          break;
+        default:
+          setChartSize({ height: 400, outerRadius: 120 });
       }
     };
 
+    // Initial size update
     updateSize();
-    window.addEventListener('resize', updateSize);
-    return () => window.removeEventListener('resize', updateSize);
+
+    // Create listeners for all breakpoints
+    const cleanupFunctions = [
+      createBreakpointListener('mobile', updateSize),
+      createBreakpointListener('tablet', updateSize),
+      createBreakpointListener('desktop', updateSize)
+    ];
+
+    return () => cleanupFunctions.forEach(cleanup => cleanup());
   }, []);
 
   return chartSize;

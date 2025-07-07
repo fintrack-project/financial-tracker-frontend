@@ -3,27 +3,86 @@
   align-items: center;
   justify-content: space-between;
   padding: var(--top-bar-padding);
-  height: var(--top-bar-height);
+  min-height: var(--top-bar-height);
   background: var(--nav-bg);
   border-bottom: 1px solid var(--table-header-border);
   box-shadow: var(--top-bar-shadow);
   gap: var(--spacing-md);
 }
 
-@media (max-width: 768px) {
+/* Mobile and Tablet Layout: Two-line structure */
+@media (max-width: 1023px) {
   .page-top-bar {
+    flex-direction: column;
+    align-items: stretch;
     padding: var(--top-bar-padding-mobile);
-    height: var(--top-bar-height-mobile);
-    gap: var(--spacing-sm);
+    min-height: auto;
+    gap: var(--spacing-xs);
   }
 }
 
-.logo-container {
+/* Desktop: Single-line layout */
+@media (min-width: 1024px) {
+  .page-top-bar {
+    padding: var(--top-bar-padding);
+    height: var(--top-bar-height);
+    gap: var(--spacing-md);
+  }
+}
+
+/* Mobile and Tablet Header Row: Logo and Account Menu */
+.page-top-bar-mobile-header {
+  display: none; /* Hidden on desktop */
+}
+
+@media (max-width: 1023px) {
+  .page-top-bar-mobile-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: var(--spacing-xs) 0;
+    min-height: var(--top-bar-height-mobile);
+  }
+}
+
+/* Desktop Logo Container - hidden on mobile and tablet */
+.page-top-bar > .logo-container {
   display: flex;
   align-items: center;
   flex-shrink: 0;
 }
 
+@media (max-width: 1023px) {
+  .page-top-bar > .logo-container {
+    display: none; /* Hidden on mobile and tablet - using mobile header instead */
+  }
+}
+
+/* Desktop Account Menu - hidden on mobile and tablet */
+.page-top-bar > .account-menu {
+  margin-left: auto;
+  flex-shrink: 0;
+}
+
+@media (max-width: 1023px) {
+  .page-top-bar > .account-menu {
+    display: none; /* Hidden on mobile and tablet - using mobile header instead */
+  }
+}
+
+/* Mobile and Tablet Header Logo */
+.page-top-bar-mobile-header .logo-container {
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+}
+
+/* Mobile and Tablet Header Account Menu */
+.page-top-bar-mobile-header .account-menu {
+  flex-shrink: 0;
+}
+
+/* Logo Styling */
 .page-top-bar .fintrack-logo {
   height: var(--nav-height-normal);
   width: auto;
@@ -36,7 +95,20 @@
   }
 }
 
-.navigation-bar {
+@media (min-width: 769px) and (max-width: 1023px) {
+  .page-top-bar .fintrack-logo {
+    height: var(--nav-height-normal);
+  }
+}
+
+@media (min-width: 1024px) {
+  .page-top-bar .fintrack-logo {
+    height: var(--nav-height-normal);
+  }
+}
+
+/* Navigation Bar Container */
+.page-top-bar > .navigation-bar {
   flex: 1;
   margin-left: var(--spacing-sm);
   margin-right: var(--spacing-md);
@@ -44,20 +116,63 @@
   justify-content: center;
 }
 
+/* Mobile: Navigation on separate line with horizontal scroll */
 @media (max-width: 768px) {
-  .navigation-bar {
-    margin-left: var(--spacing-xs);
-    margin-right: var(--spacing-sm);
+  .page-top-bar > .navigation-bar {
+    margin: 0;
+    width: 100%;
+    overflow-x: auto;
+    overflow-y: hidden;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none; /* Firefox */
+    -ms-overflow-style: none; /* IE and Edge */
+    /* Remove padding to prevent overflow */
+    padding: var(--spacing-xs) 0;
+    /* Ensure the container doesn't exceed page width */
+    max-width: 100%;
+    box-sizing: border-box;
+    /* Add position relative for fade effect */
+    position: relative;
+    /* Ensure proper containment */
+    display: flex;
+    align-items: center;
+  }
+  
+  .page-top-bar > .navigation-bar::-webkit-scrollbar {
+    display: none; /* Chrome, Safari, Opera */
+  }
+  
+  /* Add fade effect on right side to indicate more content */
+  .page-top-bar > .navigation-bar::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 20px;
+    height: 100%;
+    background: linear-gradient(to left, var(--nav-bg), transparent);
+    pointer-events: none;
+    z-index: 1;
   }
 }
 
-.account-menu {
-  margin-left: auto;
-  flex-shrink: 0;
+/* Tablet: Navigation on separate line, centered */
+@media (min-width: 769px) and (max-width: 1023px) {
+  .page-top-bar > .navigation-bar {
+    margin: 0;
+    width: 100%;
+    justify-content: center;
+    display: flex;
+    align-items: center;
+    padding: var(--spacing-xs) 0;
+  }
 }
 
-@media (max-width: 768px) {
-  .account-menu {
-    margin-left: 0;
+/* Desktop: Centered navigation */
+@media (min-width: 1024px) {
+  .page-top-bar > .navigation-bar {
+    margin-left: var(--spacing-lg);
+    margin-right: var(--spacing-lg);
+    justify-content: center;
   }
 }

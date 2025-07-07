@@ -1,4 +1,15 @@
 :root {
+  /* RESPONSIVE BREAKPOINTS - Platform Standard */
+  --breakpoint-mobile-max: 768px;      /* Mobile: 768px and below */
+  --breakpoint-tablet-min: 769px;      /* Tablet: 769px to 1023px */
+  --breakpoint-tablet-max: 1023px;     
+  --breakpoint-desktop-min: 1024px;    /* Desktop: 1024px and above */
+  
+  /* BREAKPOINT MEDIA QUERY STRINGS */
+  --media-mobile: '(max-width: 768px)';
+  --media-tablet: '(min-width: 769px) and (max-width: 1023px)';
+  --media-desktop: '(min-width: 1024px)';
+
   /* Primary Colors - Updated with light blue theme */
   --primary-100: #f9fafc;  /* Very light blue-gray */
   --primary-200: #e3e9f6;  /* Light blue (matches balance nav) */
@@ -15,8 +26,17 @@
   --table-header-border: #e0e6ed;
   --table-hover-bg: #f0f4f9;
   --table-border: #e8eef5;
+  --table-row-border: #e8eef5;
   --nav-bg: linear-gradient(135deg, #f9fafc 60%, #e3e9f6 100%);
   --nav-shadow: 0 4px 16px rgba(52, 98, 219, 0.06);
+
+  /* Success/Error Light Colors for Tables */
+  --success-light: #e8f5e8;
+  --success-dark: #2e7d32;
+  --error-light: #ffebee;
+  --error-dark: #c62828;
+  --warning-light: #fff8e1;
+  --warning-dark: #f57c00;
 
   /* Navigation Height Variables */
   --nav-height-compact: 36px;      /* Compact height for smaller top bar */
@@ -84,6 +104,7 @@
   /* Typography */
   --font-family-primary: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
   --font-family-secondary: 'Poppins', sans-serif;
+  --font-family-mono: 'Monaco', 'Courier New', monospace;
   
   /* Responsive Typography */
   --font-size-xs: clamp(0.75rem, 0.7rem + 0.25vw, 0.875rem);    /* 12-14px */
@@ -169,6 +190,7 @@
   --table-max-width-desktop: 1400px;
 
   --page-container-padding: 20px;
+  --page-container-padding-mobile: 16px;
   --page-container-padding-desktop: 32px;
   
   /* Page Title Spacing */

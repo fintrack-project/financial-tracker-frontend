@@ -1,7 +1,6 @@
 .navigation-bar {
   display: flex;
   align-items: center;
-  flex: 1;
   justify-content: space-between;
   gap: var(--spacing-lg);
   background: transparent;
@@ -11,12 +10,42 @@
   height: var(--nav-height-normal);
 }
 
+/* Mobile: Horizontal scrollable navigation */
 @media (max-width: 768px) {
   .navigation-bar {
-    gap: var(--spacing-sm);
-    justify-content: space-between;
-    padding: calc(var(--nav-padding-vertical) - 2px);
+    justify-content: flex-start; /* Allow items to flow naturally for scroll */
+    gap: var(--spacing-xs); /* Smaller gap to fit more items */
+    padding: calc(var(--nav-padding-vertical) - 2px) 0; /* Remove horizontal padding */
     height: var(--nav-height-compact);
+    overflow: visible; /* Let parent handle overflow */
+    min-width: max-content; /* Ensure nav items don't shrink */
+    border-radius: 10px;
+    /* Ensure proper containment within scroll container */
+    width: max-content;
+    display: flex;
+    align-items: center;
+    /* Add margin for first and last items instead of container padding */
+    margin: 0 var(--spacing-sm);
+  }
+}
+
+/* Tablet: Balanced spacing */
+@media (min-width: 769px) and (max-width: 1023px) {
+  .navigation-bar {
+    gap: var(--spacing-md);
+    justify-content: space-between;
+    padding: var(--nav-padding-vertical);
+    height: var(--nav-height-normal);
+  }
+}
+
+/* Desktop: Optimal spacing */
+@media (min-width: 1024px) {
+  .navigation-bar {
+    gap: var(--spacing-lg);
+    justify-content: space-between;
+    padding: var(--nav-padding-vertical);
+    height: var(--nav-height-normal);
   }
 }
 
@@ -35,7 +64,6 @@
   border-radius: 6px;
   transition: var(--transition-normal);
   white-space: nowrap;
-  flex: 1;
   text-align: center;
   border: none;
   background: none;
@@ -49,10 +77,38 @@
   height: calc(var(--nav-height-normal) - 2 * var(--nav-padding-vertical));
 }
 
+/* Mobile: Compact nav links for scrolling */
 @media (max-width: 768px) {
   .nav-link {
-    font-size: var(--font-size-sm);
+    font-size: var(--font-size-xs); /* Use compact font size from theme */
     padding: var(--nav-padding-compact);
+    flex-shrink: 0; /* Prevent shrinking for scroll */
+    min-width: max-content; /* Ensure text doesn't wrap */
+    margin: 0; /* Remove margin to save space */
+    border-radius: 4px;
+    /* Ensure proper height for touch targets */
+    height: auto;
+    min-height: 32px;
+  }
+}
+
+/* Tablet: Balanced nav links */
+@media (min-width: 769px) and (max-width: 1023px) {
+  .nav-link {
+    font-size: var(--font-size-base);
+    padding: var(--nav-padding-normal);
+    flex: 1; /* Equal width distribution */
+    margin: 0 2px;
+  }
+}
+
+/* Desktop: Optimal nav links */
+@media (min-width: 1024px) {
+  .nav-link {
+    font-size: var(--font-size-lg);
+    padding: 10px 20px;
+    flex: 1; /* Equal width distribution */
+    margin: 0 2px;
   }
 }
 
@@ -67,17 +123,4 @@
   background: var(--primary-200);
   color: var(--primary-800);
   text-decoration: none;
-}
-
-/* Desktop specific styles */
-@media (min-width: 1024px) {
-  .navigation-bar {
-    padding: var(--nav-padding-vertical);
-    height: var(--nav-height-normal);
-  }
-  
-  .nav-link {
-    padding: 10px 20px;
-    font-size: var(--font-size-lg);
-  }
 }
