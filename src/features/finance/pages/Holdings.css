@@ -14,16 +14,13 @@
   }
 }
 
+/* Consistent spacing for both sections - reduced for tighter layout */
 .holdings-container 
 .holdings-section,
 .holdings-container 
 .categories-section {
-  margin-bottom: var(--spacing-2xl);
+  margin-top: var(--spacing-md);
+  margin-bottom: var(--spacing-md);
 }
 
 /* Holdings title will now use the common .fintrack-section-title styling from Title.css */
-
-/* Add spacing between sections */
-.categories-section {
-  margin-top: var(--spacing-2xl);
-}
