@@ -1,17 +1,28 @@
 .dashboard-container {
   text-align: center;
   padding: var(--page-container-padding);
+  /* Remove width constraints to use full available space */
+  width: 100%;
+  max-width: none;
 }
 
+/* Desktop: Use full available width */
 @media (min-width: 1024px) {
   .dashboard-container {
     padding: var(--page-container-padding-desktop);
+    /* Ensure full width usage */
+    width: 100%;
+    max-width: none;
   }
 }
 
-@media (max-width: 768px) {
+/* Tablet and Mobile: Allow horizontal scroll for tables */
+@media (max-width: 1023px) {
   .dashboard-container {
     padding: var(--page-container-padding);
+    /* Enable horizontal scrolling container */
+    overflow-x: auto;
+    width: 100%;
   }
 }
 

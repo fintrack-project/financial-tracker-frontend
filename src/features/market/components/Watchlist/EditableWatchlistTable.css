@@ -55,7 +55,8 @@
 }
 
 /* Watchlist table container */
-.watchlist-table-container {
+.watchlist-table-container,
+.editable-watchlist-table-container {
   border: 1px solid var(--neutral-300);
   border-radius: var(--border-radius-lg);
   background-color: var(--neutral-100);
@@ -65,19 +66,38 @@
   flex-direction: column;
   min-height: 300px;
   width: 100%;
-  min-width: 320px;
-  max-width: var(--table-max-width-desktop);
 }
 
-@media (min-width: 768px) {
-  .watchlist-table-container {
-    min-width: 600px;
+/* Mobile: Enable horizontal scrolling and reduce font size */
+@media (max-width: 768px) {
+  .watchlist-table-container,
+  .editable-watchlist-table-container {
+    min-width: 320px;
+    /* Enable horizontal scrolling */
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
   }
 }
 
+/* Tablet: Enable horizontal scrolling */
+@media (min-width: 769px) and (max-width: 1023px) {
+  .watchlist-table-container,
+  .editable-watchlist-table-container {
+    min-width: 600px;
+    /* Enable horizontal scrolling */
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+}
+
+/* Desktop: Use full available width */
 @media (min-width: 1024px) {
-  .watchlist-table-container {
-    min-width: var(--table-min-width-desktop);
+  .watchlist-table-container,
+  .editable-watchlist-table-container {
+    /* Remove width constraints to use full available space */
+    min-width: 100%;
+    max-width: none;
+    width: 100%;
   }
 }
 
@@ -89,6 +109,38 @@
   font-family: var(--font-family-primary);
   font-size: var(--table-font-size-normal);
   background-color: var(--primary-100);
+}
+
+/* Mobile: Smaller font sizes and minimum width for scrolling */
+@media (max-width: 768px) {
+  .editable-watchlist-table {
+    font-size: var(--table-font-size-compact); /* Smaller font for mobile */
+    min-width: 500px; /* Force horizontal scrolling if table is wider than container */
+  }
+  
+  .editable-watchlist-table th {
+    font-size: var(--font-size-xs); /* Smaller header font */
+    padding: var(--spacing-xs) var(--spacing-sm); /* Tighter padding */
+    white-space: nowrap; /* Prevent header text wrapping */
+  }
+  
+  .editable-watchlist-table td {
+    font-size: var(--table-font-size-compact); /* Smaller cell font */
+    padding: var(--spacing-xs) var(--spacing-sm); /* Tighter padding */
+    white-space: nowrap; /* Prevent cell content wrapping */
+  }
+}
+
+/* Tablet: Minimum width for scrolling if needed */
+@media (min-width: 769px) and (max-width: 1023px) {
+  .editable-watchlist-table {
+    min-width: 700px; /* Force horizontal scrolling if table is wider than container */
+  }
+  
+  .editable-watchlist-table th,
+  .editable-watchlist-table td {
+    white-space: nowrap; /* Prevent content wrapping */
+  }
 }
 
 .editable-watchlist-table th,
