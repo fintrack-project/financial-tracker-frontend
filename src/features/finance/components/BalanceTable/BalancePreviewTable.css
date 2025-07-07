@@ -1,21 +1,42 @@
 .balance-preview-container {
   margin-top: var(--spacing-sm);
   border: 1px solid var(--table-header-border);
-  border-radius: 12px;
-  background-color: var(--primary-100);
+  border-radius: var(--border-radius-lg);
+  background-color: var(--neutral-100);
   box-shadow: var(--nav-shadow);
   overflow: hidden;
-  min-width: 900px;
-  max-width: 1400px;
+  display: flex;
+  flex-direction: column;
+  min-width: var(--table-min-width-desktop);
+  max-width: var(--table-max-width-desktop);
   width: 100%;
   min-height: 400px;
+}
+
+/* Header matching Balance Overview style */
+.balance-preview-container h2 {
+  margin: 0;
+  padding: var(--spacing-sm);
+  background: var(--table-header-bg);
+  border-bottom: 1px solid var(--table-header-border);
+  color: var(--text-dark);
+  font-size: var(--font-size-xl);
+  font-weight: 600;
+  font-family: var(--font-family-primary);
+}
+
+/* Table wrapper */
+.table-wrapper {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
 }
 
 .preview-table {
   width: 100%;
   border-collapse: separate;
   border-spacing: 0;
-  font-size: 0.95rem;
+  font-size: var(--font-size-sm);
   margin-bottom: 0;
   font-family: var(--font-family-primary);
 }
@@ -33,7 +54,7 @@
   font-weight: 600;
   color: var(--primary-800);
   text-transform: uppercase;
-  font-size: 0.85rem;
+  font-size: var(--font-size-xs);
   letter-spacing: 0.05em;
   font-family: var(--font-family-primary);
   text-align: center;
@@ -44,19 +65,19 @@
 }
 
 .preview-table tbody tr {
-  transition: all 0.2s ease;
+  transition: var(--transition-fast);
 }
 
 .preview-table tbody tr:hover {
   background-color: var(--table-hover-bg);
   transform: translateY(-1px);
-  box-shadow: 0 2px 4px rgba(52, 98, 219, 0.02);
+  box-shadow: var(--shadow-sm);
 }
 
 /* Credit and Debit columns - RIGHT ALIGNED */
 .preview-table td.debit-column,
 .preview-table th.debit-column {
-  color: #dc2626;
+  color: var(--error-color);
   font-weight: 500;
   font-family: 'Monaco', 'Courier New', monospace;
   text-align: right;
@@ -64,7 +85,7 @@
 
 .preview-table td.credit-column,
 .preview-table th.credit-column {
-  color: #16a34a;
+  color: var(--success-color);
   font-weight: 500;
   font-family: 'Monaco', 'Courier New', monospace;
   text-align: right;
@@ -87,13 +108,61 @@
 .no-preview-data {
   text-align: center;
   padding: var(--spacing-lg) 0;
-  font-size: 1.1rem;
-  color: #94a3b8;
+  font-size: var(--font-size-lg);
+  color: var(--text-secondary);
   font-style: italic;
   font-family: var(--font-family-primary);
 }
 
-/* Responsive Design */
+/* Desktop (1024px+) - Compact design */
+@media (min-width: 1024px) {
+  .balance-preview-container {
+    min-width: var(--table-min-width-desktop);
+    max-width: var(--table-max-width-desktop);
+  }
+  
+  .balance-preview-container h2 {
+    padding: var(--spacing-sm);
+    font-size: var(--font-size-xl);
+  }
+  
+  .preview-table {
+    font-size: var(--font-size-sm);
+  }
+  
+  .preview-table th {
+    font-size: var(--font-size-xs);
+  }
+}
+
+/* Tablet (769px-1023px) - Medium design */
+@media (min-width: 769px) and (max-width: 1023px) {
+  .balance-preview-container {
+    min-width: auto;
+    max-width: 100%;
+    min-height: 350px;
+  }
+  
+  .balance-preview-container h2 {
+    padding: var(--spacing-sm);
+    font-size: var(--font-size-xl);
+  }
+  
+  .preview-table {
+    font-size: var(--font-size-sm);
+    min-width: 700px;
+  }
+  
+  .preview-table th {
+    font-size: var(--font-size-xs);
+  }
+  
+  .no-preview-data {
+    font-size: var(--font-size-base);
+  }
+}
+
+/* Mobile (768px and below) - Touch-friendly design */
 @media (max-width: 768px) {
   .balance-preview-container {
     margin-top: var(--spacing-sm);
@@ -102,8 +171,13 @@
     min-height: 300px;
   }
   
+  .balance-preview-container h2 {
+    padding: var(--spacing-sm);
+    font-size: var(--font-size-lg);
+  }
+  
   .preview-table {
-    font-size: 0.85rem;
+    font-size: var(--font-size-xs);
     min-width: 600px; /* Ensure table doesn't get too cramped */
   }
   
@@ -123,11 +197,11 @@
   }
   
   .preview-table th {
-    font-size: 0.75rem;
+    font-size: var(--font-size-xs);
   }
   
   .no-preview-data {
     padding: var(--spacing-lg) 0;
-    font-size: 1rem;
+    font-size: var(--font-size-base);
   }
 }

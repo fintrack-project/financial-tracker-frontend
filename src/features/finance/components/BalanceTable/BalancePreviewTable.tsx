@@ -112,7 +112,7 @@ const BalancePreviewTable: React.FC<BalancePreviewTableProps> = ({
 
   return (
     <div className="balance-preview-container">
-      <h2 className="fintrack-subsection-title">Balance Preview Table</h2>
+      <h2 className="fintrack-subsection-title">Balance Preview</h2>
       <TransactionTable
         transactions={previewTransactions}
         isHighlighted={(transaction) => 
