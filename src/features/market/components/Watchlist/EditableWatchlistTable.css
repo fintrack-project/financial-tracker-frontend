@@ -7,11 +7,19 @@
 
 .editable-watchlist-table th,
 .editable-watchlist-table td {
-  padding: 12px 16px;
+  padding: var(--spacing-sm) var(--spacing-md);
   text-align: left;
   border-bottom: 1px solid #edf2f7;
   word-wrap: break-word;
   vertical-align: middle;
+}
+
+@media (max-width: 768px) {
+  .editable-watchlist-table th,
+  .editable-watchlist-table td {
+    padding: var(--spacing-xs) var(--spacing-sm);
+    font-size: 0.875rem;
+  }
 }
 
 .editable-watchlist-table th {
@@ -46,7 +54,7 @@
 .editable-watchlist-table tbody tr:hover {
   background-color: #f8fafc;
   transform: translateY(-1px);
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.02);
+  box-shadow: var(--shadow-sm);
 }
 
 /* Column width adjustments */
@@ -58,6 +66,18 @@
 .editable-watchlist-table th:nth-child(2),
 .editable-watchlist-table td:nth-child(2) {
   width: 12%;
+}
+
+@media (max-width: 768px) {
+  .editable-watchlist-table th:nth-child(1),
+  .editable-watchlist-table td:nth-child(1) {
+    width: 25%;
+  }
+
+  .editable-watchlist-table th:nth-child(2),
+  .editable-watchlist-table td:nth-child(2) {
+    width: 20%;
+  }
 }
 
 /* Numeric columns styling */
@@ -80,13 +100,21 @@
 /* Input styling */
 .editable-watchlist-table input {
   width: 100%;
-  padding: 8px 12px;
+  padding: var(--spacing-sm) var(--spacing-md);
   border: 1px solid #e2e8f0;
-  border-radius: 6px;
+  border-radius: var(--border-radius-sm);
   font-size: 0.95rem;
   transition: all 0.2s ease;
   height: 36px;
   box-sizing: border-box;
+}
+
+@media (max-width: 768px) {
+  .editable-watchlist-table input {
+    padding: var(--spacing-xs) var(--spacing-sm);
+    font-size: 0.875rem;
+    height: 32px;
+  }
 }
 
 .editable-watchlist-table input:focus {
@@ -98,13 +126,19 @@
 /* Button group styling */
 .editable-watchlist-table td .button-group {
   display: flex;
-  gap: 8px;
+  gap: var(--spacing-sm);
   opacity: 0;
   transition: opacity 0.2s ease;
   align-items: center;
   justify-content: flex-start;
   height: 100%;
   flex-direction: row;
+}
+
+@media (max-width: 768px) {
+  .editable-watchlist-table td .button-group {
+    gap: var(--spacing-xs);
+  }
 }
 
 tr:hover .button-group {
@@ -123,16 +157,29 @@ tr:hover .button-group {
 /* Empty state styling */
 .no-data-row {
   text-align: center;
-  padding: 48px 0;
+  padding: var(--spacing-2xl) 0;
   font-size: 1.1rem;
   color: #94a3b8;
   font-style: italic;
+}
+
+@media (max-width: 768px) {
+  .no-data-row {
+    padding: var(--spacing-xl) 0;
+    font-size: 1rem;
+  }
 }
 
 /* Ensure consistent height for all cells */
 .editable-watchlist-table td {
   height: 52px;
   line-height: 1.5;
+}
+
+@media (max-width: 768px) {
+  .editable-watchlist-table td {
+    height: 44px;
+  }
 }
 
 /* Ensure consistent alignment for all text content */

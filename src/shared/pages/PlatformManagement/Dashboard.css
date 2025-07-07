@@ -20,8 +20,8 @@
   font-size: 2rem;
   font-weight: 700;
   text-align: left;
-  padding-left: 8px;
-  border-left: 4px solid #3498db;
+  padding-left: var(--spacing-sm);
+  border-left: var(--spacing-xs) solid #3498db;
 }
 
 @media (min-width: 1024px) {
@@ -45,45 +45,76 @@
 .dashboard-data-container {
   display: flex;
   flex-direction: column;
-  gap: 16px; /* Consistent spacing between all main sections */
+  gap: var(--spacing-md);
+}
+
+/* Responsive layout for desktop */
+@media (min-width: 1024px) {
+  .dashboard-data-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--spacing-lg);
+  }
+  
+  .holdings-section {
+    grid-column: 1 / -1; /* Full width on desktop */
+  }
 }
 
 .market-data-container {
   display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  align-items: flex-start;
-  margin-bottom: 16px;
+  flex-direction: column;
+  gap: var(--spacing-md);
+  margin-bottom: var(--spacing-md);
   width: 100%;
+}
+
+/* Responsive layout for desktop */
+@media (min-width: 1024px) {
+  .market-data-container {
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: flex-start;
+  }
 }
 
 .market-index,
 .holdings-section {
   flex: 1;
-  padding: 16px;
+  padding: var(--spacing-md);
   border: 1px solid #ddd;
-  border-radius: 8px;
+  border-radius: var(--border-radius-md);
   background-color: #f9f9f9;
   box-sizing: border-box;
 }
 
-.market-index {
-  margin-right: 8px;
-}
+@media (min-width: 1024px) {
+  .market-index {
+    margin-right: var(--spacing-sm);
+  }
 
-.holdings-section {
-  margin-left: 8px;
+  .holdings-section {
+    margin-left: var(--spacing-sm);
+  }
 }
 
 .market-index-items {
   display: flex;
   justify-content: center;
   align-items: center;
-  gap: 10px;
+  gap: var(--spacing-sm);
+  flex-wrap: wrap;
+}
+
+@media (max-width: 768px) {
+  .market-index-items {
+    flex-direction: column;
+    gap: var(--spacing-xs);
+  }
 }
 
 .market-item {
-  margin-bottom: 10px;
+  margin-bottom: var(--spacing-sm);
 }
 
 .market-item h3 {
@@ -92,15 +123,22 @@
 }
 
 .market-item p {
-  margin: 5px 0;
+  margin: var(--spacing-xs) 0;
 }
 
 .watchlist,
 .live-price {
-  padding: 24px;
+  padding: var(--spacing-lg);
   border: 1px solid #ddd;
-  border-radius: 8px;
+  border-radius: var(--border-radius-md);
   background-color: #f9f9f9;
+}
+
+@media (max-width: 768px) {
+  .watchlist,
+  .live-price {
+    padding: var(--spacing-md);
+  }
 }
 
 .change {
@@ -108,9 +146,9 @@
 }
 
 .change.positive {
-  color: green;
+  color: var(--success-color);
 }
 
 .change.negative {
-  color: red;
+  color: var(--error-color);
 }

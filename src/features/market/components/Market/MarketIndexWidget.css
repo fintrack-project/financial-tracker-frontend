@@ -1,9 +1,9 @@
 .market-index-widget {
   background-color: white;
-  border-radius: 8px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-  padding: 16px;
-  margin-bottom: 20px;
+  border-radius: var(--border-radius-md);
+  box-shadow: var(--shadow-md);
+  padding: var(--spacing-md);
+  margin-bottom: var(--spacing-lg);
   width: 100%;
 }
 
@@ -11,8 +11,8 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 12px;
-  padding-bottom: 8px;
+  margin-bottom: var(--spacing-sm);
+  padding-bottom: var(--spacing-sm);
   border-bottom: 1px solid #e5e7eb;
 }
 
@@ -26,7 +26,7 @@
 .market-widget-actions {
   display: flex;
   align-items: center;
-  gap: 12px;
+  gap: var(--spacing-sm);
 }
 
 .last-updated {
@@ -60,18 +60,31 @@
 
 .market-index-list {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-  gap: 12px;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: var(--spacing-sm);
+}
+
+@media (max-width: 768px) {
+  .market-index-list {
+    grid-template-columns: 1fr;
+    gap: var(--spacing-xs);
+  }
 }
 
 .market-index-item {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 10px 12px;
-  border-radius: 6px;
+  padding: var(--spacing-sm) var(--spacing-md);
+  border-radius: var(--border-radius-sm);
   background-color: #f9fafb;
   transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+@media (max-width: 768px) {
+  .market-index-item {
+    padding: var(--spacing-xs) var(--spacing-sm);
+  }
 }
 
 .market-index-item:hover {
