@@ -11,8 +11,8 @@
   display: flex;
   align-items: center;
   opacity: 0;
-  transition: all 0.2s ease;
-  border-radius: 4px;
+  transition: all var(--transition-normal);
+  border-radius: var(--border-radius-sm);
   background-color: transparent;
   width: 0;
   min-width: 0;
@@ -28,7 +28,7 @@
   width: auto;
   min-width: auto;
   max-width: none;
-  margin-left: 4px;
+  margin-left: var(--spacing-xs);
 }
 
 .category-cell-view,
@@ -36,10 +36,10 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: 4px;
-  border-radius: 6px;
-  padding: 6px 12px;
-  transition: all 0.2s ease;
+  gap: var(--spacing-xs);
+  border-radius: var(--border-radius-sm);
+  padding: var(--spacing-xs) var(--spacing-sm);
+  transition: all var(--transition-normal);
   width: fit-content;
   min-width: fit-content;
   max-width: fit-content;
@@ -51,9 +51,9 @@
 }
 
 .category-cell-view span {
-  font-size: 0.95rem;
+  font-size: var(--font-size-sm);
   font-weight: 600;
-  color: #ffffff;
+  color: var(--neutral-100);
   letter-spacing: 0.01em;
   text-shadow: 0 1px 1px rgba(0, 0, 0, 0.1);
   white-space: nowrap;
@@ -63,27 +63,27 @@
 /* Make selectors more specific to override CategoriesTable.css */
 .category-cell .category-cell-edit input,
 .category-cell .category-cell-edit select {
-  padding: 8px 12px;
-  font-size: 0.95rem;
+  padding: var(--spacing-xs) var(--spacing-sm);
+  font-size: var(--font-size-sm);
   font-weight: 600;
   border: 1px solid rgba(255, 255, 255, 0.2);
-  border-radius: 4px;
+  border-radius: var(--border-radius-sm);
   background-color: rgba(255, 255, 255, 0.9) !important;
-  color: #1e293b !important;
-  transition: all 0.2s ease;
+  color: var(--neutral-800) !important;
+  transition: all var(--transition-normal);
   min-width: 120px;
   width: 100%;
 }
 
 .category-cell .category-cell-edit input::placeholder {
-  color: #94a3b8 !important;
+  color: var(--neutral-500) !important;
 }
 
 .category-cell .category-cell-edit input:focus,
 .category-cell .category-cell-edit select:focus {
   outline: none;
   border-color: rgba(255, 255, 255, 0.4);
-  background-color: #ffffff !important;
+  background-color: var(--neutral-100) !important;
   box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.1);
 }
 
@@ -107,25 +107,25 @@
 /* Icon button styling within cells */
 .category-cell .actions .icon-button,
 .category-cell .actions .category-color-dropdown {
-  border-radius: 4px;
-  padding: 2px;
-  transition: all 0.2s ease;
+  border-radius: var(--border-radius-sm);
+  padding: var(--spacing-xs);
+  transition: all var(--transition-normal);
   flex-shrink: 0;
   display: inline-flex;
   align-items: center;
-  gap: 4px;
-  background-color: #ffffff !important;
-  color: #64748b !important;
-  font-size: 0.875rem;
-  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+  gap: var(--spacing-xs);
+  background-color: var(--neutral-100) !important;
+  color: var(--neutral-600) !important;
+  font-size: var(--font-size-xs);
+  box-shadow: var(--shadow-sm);
 }
 
 .category-cell .actions .icon-button:hover,
 .category-cell .actions .category-color-dropdown:hover {
   transform: translateY(-1px);
-  color: #3b82f6 !important;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  background-color: #ffffff !important;
+  color: var(--primary-600) !important;
+  box-shadow: var(--shadow-md);
+  background-color: var(--neutral-100) !important;
 }
 
 .category-cell .actions .icon-button img {
@@ -133,17 +133,18 @@
   height: 18px;
   filter: none;
   opacity: 0.7;
-  transition: opacity 0.2s ease;
+  transition: opacity var(--transition-normal);
 }
 
 .category-cell .actions .icon-button:hover img {
   opacity: 1;
 }
+
 /* Color dropdown specific styles */
 .category-cell .actions .category-color-dropdown .color-selector {
   width: 14px;
   height: 14px;
-  padding: 2px;
+  padding: var(--spacing-xs);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -157,4 +158,141 @@
 .category-cell .actions .category-color-dropdown .color-circle {
   width: 12px;
   height: 12px;
+}
+
+/* Category cell content container */
+.category-cell-content {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: var(--spacing-xs);
+  min-height: var(--spacing-xl);
+  padding: var(--spacing-xs) 0;
+  font-family: var(--font-family-primary);
+}
+
+/* Color indicator */
+.category-color-indicator {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  border: 2px solid var(--neutral-300);
+  flex-shrink: 0;
+  margin-right: var(--spacing-sm);
+}
+
+/* Category name styling */
+.category-name {
+  font-weight: 500;
+  color: var(--primary-600);
+  font-family: var(--font-family-primary);
+  font-size: var(--font-size-sm);
+  margin-right: var(--spacing-sm);
+}
+
+/* Edit mode styling */
+.category-cell-edit {
+  background-color: var(--neutral-100);
+  padding: var(--spacing-xs);
+  border-radius: var(--border-radius-sm);
+  border: 1px solid var(--neutral-400);
+  box-shadow: var(--shadow-sm);
+  z-index: var(--z-index-dropdown);
+  position: relative;
+  min-width: 200px;
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-xs);
+}
+
+/* Input field in edit mode */
+.category-cell-edit input {
+  width: 100%;
+  padding: var(--spacing-xs);
+  font-family: var(--font-family-primary);
+  font-size: var(--font-size-sm);
+  border: 1px solid var(--neutral-400);
+  border-radius: var(--border-radius-sm);
+  background-color: var(--neutral-100);
+  transition: border-color var(--transition-fast);
+}
+
+.category-cell-edit input:focus {
+  outline: none;
+  border-color: var(--primary-600);
+  box-shadow: 0 0 0 2px rgba(33, 150, 243, 0.1);
+}
+
+/* Action buttons */
+.category-action-buttons {
+  display: flex;
+  gap: var(--spacing-xs);
+  align-items: center;
+  margin-left: auto;
+  opacity: 0;
+  transition: opacity var(--transition-normal);
+}
+
+.category-cell-content:hover .category-action-buttons {
+  opacity: 1;
+}
+
+.category-action-button {
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  color: var(--neutral-600);
+  font-family: var(--font-family-primary);
+  transition: color var(--transition-fast);
+  padding: var(--spacing-xs);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.category-action-button:hover {
+  color: var(--primary-600);
+}
+
+.category-action-button.delete:hover {
+  color: var(--error-color);
+}
+
+/* Confirmation buttons */
+.category-confirm-buttons {
+  display: flex;
+  gap: var(--spacing-xs);
+  margin-top: var(--spacing-xs);
+}
+
+.category-confirm-button {
+  padding: var(--spacing-xs) var(--spacing-sm);
+  border: none;
+  border-radius: var(--border-radius-sm);
+  font-family: var(--font-family-primary);
+  font-size: var(--font-size-xs);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.category-confirm-button.save {
+  background-color: var(--success-color);
+  color: var(--neutral-100);
+}
+
+.category-confirm-button.cancel {
+  background-color: var(--neutral-400);
+  color: var(--neutral-100);
+}
+
+.category-confirm-button:hover {
+  transform: translateY(-1px);
+  box-shadow: var(--shadow-sm);
+}
+
+/* Loading state */
+.category-loading {
+  font-family: var(--font-family-primary);
+  color: var(--neutral-500);
+  font-style: italic;
 }

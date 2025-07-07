@@ -41,6 +41,12 @@
   --font-size-3xl: clamp(1.875rem, 1.6rem + 1.375vw, 2.25rem);  /* 30-36px */
   --font-size-4xl: clamp(2.25rem, 1.9rem + 1.75vw, 3rem);       /* 36-48px */
 
+  /* Table-specific Typography */
+  --table-font-size-compact: clamp(0.7rem, 0.65rem + 0.25vw, 0.8rem);     /* 11.2-12.8px - Very compact for dashboard */
+  --table-font-size-normal: clamp(0.8rem, 0.75rem + 0.25vw, 0.9rem);      /* 12.8-14.4px - Normal for main pages */
+  --table-font-size-header: clamp(0.65rem, 0.6rem + 0.25vw, 0.75rem);     /* 10.4-12px - Compact headers */
+  --table-font-size-numeric: clamp(0.7rem, 0.65rem + 0.25vw, 0.8rem);     /* 11.2-12.8px - Numbers */
+
   /* Responsive Spacing */
   --spacing-xs: clamp(0.25rem, 0.2rem + 0.25vw, 0.5rem);        /* 4-8px */
   --spacing-sm: clamp(0.5rem, 0.4rem + 0.5vw, 1rem);            /* 8-16px */
@@ -48,6 +54,10 @@
   --spacing-lg: clamp(1.5rem, 1.2rem + 1.5vw, 2rem);            /* 24-32px */
   --spacing-xl: clamp(2rem, 1.6rem + 2vw, 3rem);                /* 32-48px */
   --spacing-2xl: clamp(3rem, 2.4rem + 3vw, 4rem);               /* 48-64px */
+
+  /* Table-specific Spacing - REDUCED for more compact desktop tables */
+  --table-cell-height-compact: clamp(1.5rem, 1.4rem + 0.5vw, 1.8rem);     /* 24-28.8px - More compact for dashboard */
+  --table-cell-height-normal: clamp(1.8rem, 1.6rem + 0.75vw, 2.2rem);     /* 28.8-35.2px - Reduced normal height */
 
   /* Border Radius */
   --border-radius-sm: 0.25rem;  /* 4px */

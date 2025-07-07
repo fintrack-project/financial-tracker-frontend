@@ -17,13 +17,15 @@
   border-spacing: 0;
   font-size: 0.95rem;
   margin-bottom: 0;
+  font-family: var(--font-family-primary);
 }
 
 .preview-table th,
 .preview-table td {
   padding: 12px 16px;
-  text-align: left;
+  text-align: center; /* CENTER ALIGN ALL CELLS BY DEFAULT */
   border-bottom: 1px solid #edf2f7;
+  font-family: var(--font-family-primary);
 }
 
 .preview-table th {
@@ -33,6 +35,8 @@
   text-transform: uppercase;
   font-size: 0.85rem;
   letter-spacing: 0.05em;
+  font-family: var(--font-family-primary);
+  text-align: center; /* CENTER ALIGN HEADERS */
 }
 
 .preview-table tr:last-child td {
@@ -49,25 +53,34 @@
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.02);
 }
 
-/* Numeric columns styling */
-.preview-table td.amount,
-.preview-table td.balance {
-  font-family: 'Monaco', 'Courier New', monospace;
-  text-align: right;
-}
-
-.preview-table td.debit-column {
+/* Credit and Debit columns - RIGHT ALIGNED */
+.preview-table td.debit-column,
+.preview-table th.debit-column {
   color: #dc2626;
   font-weight: 500;
   font-family: 'Monaco', 'Courier New', monospace;
-  text-align: right;
+  text-align: right; /* RIGHT ALIGN DEBIT */
 }
 
-.preview-table td.credit-column {
+.preview-table td.credit-column,
+.preview-table th.credit-column {
   color: #16a34a;
   font-weight: 500;
   font-family: 'Monaco', 'Courier New', monospace;
-  text-align: right;
+  text-align: right; /* RIGHT ALIGN CREDIT */
+}
+
+/* Other numeric columns - CENTER ALIGNED */
+.preview-table td.amount,
+.preview-table td.balance {
+  font-family: 'Monaco', 'Courier New', monospace;
+  text-align: center; /* CENTER ALIGN OTHER NUMERIC VALUES */
+}
+
+/* Ensure all other columns stay center-aligned */
+.preview-table td:not(.debit-column):not(.credit-column),
+.preview-table th:not(.debit-column):not(.credit-column) {
+  text-align: center; /* CENTER ALIGN ALL NON-CREDIT/DEBIT COLUMNS */
 }
 
 /* Empty state styling */
@@ -77,6 +90,7 @@
   font-size: 1.1rem;
   color: #94a3b8;
   font-style: italic;
+  font-family: var(--font-family-primary);
 }
 
 /* Responsive Design */
@@ -97,6 +111,15 @@
   .preview-table td {
     padding: 8px 12px;
     white-space: nowrap;
+    text-align: center; /* MAINTAIN CENTER ALIGNMENT ON MOBILE */
+  }
+  
+  /* Maintain specific alignments on mobile */
+  .preview-table td.debit-column,
+  .preview-table th.debit-column,
+  .preview-table td.credit-column,
+  .preview-table th.credit-column {
+    text-align: right; /* MAINTAIN RIGHT ALIGNMENT FOR CREDIT/DEBIT ON MOBILE */
   }
   
   .preview-table th {
