@@ -1,5 +1,17 @@
 .holdings-container {
-  padding: 20px;
+  padding: var(--page-container-padding);
+}
+
+@media (min-width: 1024px) {
+  .holdings-container {
+    padding: var(--page-container-padding-desktop);
+  }
+}
+
+@media (max-width: 768px) {
+  .holdings-container {
+    padding: var(--page-container-padding);
+  }
 }
 
 .holdings-container 
@@ -11,23 +23,26 @@
 
 /* Use the common fintrack-section-title class from Title.css */
 .holdings-container .fintrack-section-title {
-  margin-bottom: 24px;
   color: #1e293b;
+  font-size: 2rem;
+  font-weight: 700;
+  padding-left: 8px;
+  border-left: 4px solid #3498db;
+}
+
+@media (min-width: 1024px) {
+  .holdings-container .fintrack-section-title {
+    font-size: 2.25rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .holdings-container .fintrack-section-title {
+    font-size: 1.75rem;
+  }
 }
 
 /* Add spacing between sections */
 .categories-section {
   margin-top: 48px;
-}
-
-.holdings-container h1 {
-  font-size: 2.5rem;
-  color: #333;
-  margin-bottom: 20px;
-}
-
-.holdings-container p {
-  font-size: 1.2rem;
-  color: #555;
-  margin: 10px 0;
 }

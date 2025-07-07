@@ -1,8 +1,9 @@
 /* General container styling */
 .portfolio-overview-container {
-  padding: 32px;
+  padding: var(--page-container-padding);
   background-color: #f8f9fa;
   min-height: 100vh;
+  text-align: center;
 }
 
 /* Section title styling */
@@ -10,8 +11,7 @@
   color: #2c3e50;
   font-size: 2rem;
   font-weight: 700;
-  margin-bottom: 32px;
-  text-align: left;
+  margin-bottom: var(--page-title-margin-bottom);
   padding-left: 8px;
   border-left: 4px solid #3498db;
 }
@@ -26,9 +26,9 @@
 }
 
 /* Responsive design */
-@media (min-width: 1200px) {
+@media (min-width: 1024px) {
   .portfolio-overview-container {
-    padding: 40px;
+    padding: var(--page-container-padding-desktop);
   }
   
   .fintrack-section-title {
@@ -38,12 +38,12 @@
 
 @media (max-width: 768px) {
   .portfolio-overview-container {
-    padding: 20px;
+    padding: var(--page-container-padding);
   }
   
   .fintrack-section-title {
     font-size: 1.75rem;
-    margin-bottom: 24px;
+    margin-bottom: var(--page-title-margin-bottom-mobile);
   }
 }
 
@@ -69,25 +69,7 @@
   100% { transform: rotate(360deg); }
 }
 
-/* General container styling */
-.portfolio-overview-container {
-  text-align: center;
-  padding: 20px;
-  background-color: #f9f9f9; /* Light background for better contrast */
-  min-height: 100vh; /* Ensure the page takes up the full viewport height */
-}
 
-.portfolio-overview-container h1 {
-  color: #333;
-  font-size: 2.5rem;
-  margin-bottom: 20px;
-}
-
-.portfolio-overview-container p {
-  color: #555;
-  font-size: 1.2rem;
-  margin: 10px 0;
-}
 
 /* Top bar styling */
 .top-bar {

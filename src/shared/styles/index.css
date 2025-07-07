@@ -1,3 +1,91 @@
+@import './theme.css';
 @import './common/Title.css';
 
-/* ... existing code ... */ 
+/* Reset and base styles */
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: var(--font-family-primary);
+  background-color: var(--neutral-200);
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+#root {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+/* Responsive typography */
+html {
+  font-size: 14px; /* Base font size for mobile */
+}
+
+@media (min-width: 768px) {
+  html {
+    font-size: 16px; /* Base font size for desktop */
+  }
+}
+
+/* Responsive utilities */
+.hidden-xs { display: none; }
+.hidden-sm { display: none; }
+.hidden-md { display: none; }
+.hidden-lg { display: none; }
+.hidden-xl { display: none; }
+
+@media (min-width: 640px) {
+  .hidden-xs { display: block; }
+  .hidden-sm { display: none; }
+}
+
+@media (min-width: 768px) {
+  .hidden-sm { display: block; }
+  .hidden-md { display: none; }
+}
+
+@media (min-width: 1024px) {
+  .hidden-md { display: block; }
+  .hidden-lg { display: none; }
+}
+
+@media (min-width: 1280px) {
+  .hidden-lg { display: block; }
+  .hidden-xl { display: none; }
+}
+
+@media (min-width: 1536px) {
+  .hidden-xl { display: block; }
+}
+
+/* Mobile-first responsive grid */
+.responsive-grid {
+  display: grid;
+  gap: var(--spacing-sm);
+  grid-template-columns: 1fr;
+}
+
+@media (min-width: 640px) {
+  .responsive-grid {
+    gap: var(--spacing-md);
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (min-width: 1024px) {
+  .responsive-grid {
+    gap: var(--spacing-lg);
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+@media (min-width: 1280px) {
+  .responsive-grid {
+    grid-template-columns: repeat(4, 1fr);
+  }
+} 
