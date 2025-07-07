@@ -76,11 +76,13 @@ const Balance: React.FC<BalanceProps> = ({ accountId }) => {
 
   return (
     <div className="balance-container">
-      <h1 className="fintrack-section-title">Balance</h1>
-      <BalanceNavigationBar
-        activeTab={activeTab}
-        onTabChange={setActiveTab}
-      />
+      <div className="balance-header">
+        <h1 className="fintrack-section-title">Balance</h1>
+        <BalanceNavigationBar
+          activeTab={activeTab}
+          onTabChange={setActiveTab}
+        />
+      </div>
       <div className="balance-content">
         {activeTab === 'overview' && (
           <div className="balance-overview">

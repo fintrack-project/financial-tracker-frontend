@@ -14,22 +14,40 @@
 
 /* Override fintrack-section-title for Balance page to match Portfolio Overview */
 .balance-container .fintrack-section-title {
-  color: #2c3e50;
-  font-size: 2rem;
+  color: var(--neutral-800);
+  font-size: var(--font-size-2xl);
   font-weight: 700;
-  padding-left: 8px;
-  border-left: 4px solid #3498db;
+  padding-left: var(--spacing-xs);
+  border-left: var(--spacing-xs) solid var(--info-color);
 }
 
 @media (min-width: 1024px) {
   .balance-container .fintrack-section-title {
-    font-size: 2.25rem;
+    font-size: var(--font-size-3xl);
   }
 }
 
 @media (max-width: 768px) {
   .balance-container .fintrack-section-title {
-    font-size: 1.75rem;
+    font-size: var(--font-size-xl);
+  }
+}
+
+/* Header section - NEW: Desktop horizontal layout */
+.balance-header {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--spacing-md);
+}
+
+@media (min-width: 1024px) {
+  .balance-header {
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: var(--spacing-lg);
   }
 }
 
@@ -43,6 +61,15 @@
 .balance-navigation-bar {
   margin-bottom: var(--spacing-lg);
   width: 100%;
+}
+
+/* Desktop: Right-align and smaller navigation bar */
+@media (min-width: 1024px) {
+  .balance-navigation-bar {
+    width: auto;
+    margin-bottom: 0;
+    flex-shrink: 0;
+  }
 }
 
 .balance-content {
@@ -70,12 +97,9 @@
     font-size: var(--font-size-lg);
   }
   
-  .balance-navigation-bar {
-    margin-bottom: var(--spacing-lg);
-  }
-  
   .balance-content {
     gap: var(--spacing-md);
+    margin-top: var(--spacing-lg);
   }
   
   .balance-overview,

@@ -2,31 +2,31 @@
   display: flex;
   justify-content: flex-start;
   gap: 0;
-  background: linear-gradient(135deg, #f9fafc 60%, #e3e9f6 100%);
-  border-radius: 14px;
-  box-shadow: 0 4px 16px rgba(52, 98, 219, 0.06);
-  border: 1px solid #e0e6ed;
-  padding: 8px;
+  background: var(--nav-bg);
+  border-radius: var(--balance-nav-border-radius-mobile);
+  box-shadow: var(--nav-shadow);
+  border: 1px solid var(--table-header-border);
+  padding: var(--balance-nav-padding-mobile);
   overflow: hidden;
-  width: 100%;
-  max-width: 520px;
-  min-width: 200px;
+  width: var(--balance-nav-width-mobile);
+  max-width: var(--balance-nav-max-width-mobile);
+  min-width: var(--spacing-2xl);
 }
 
 .tab {
   flex: 1;
-  padding: 12px 16px;
+  padding: var(--balance-tab-padding-mobile);
   cursor: pointer;
-  font-size: 1.08rem;
+  font-size: var(--balance-tab-font-size-mobile);
   font-weight: 600;
   border: none;
   background: none;
-  color: #3462db;
-  border-radius: 6px;
-  transition: background 0.15s, color 0.15s;
+  color: var(--primary-500);
+  border-radius: var(--balance-tab-border-radius-mobile);
+  transition: background var(--transition-fast), color var(--transition-fast);
   position: relative;
   outline: none;
-  margin: 0 2px;
+  margin: var(--balance-tab-margin-mobile);
   text-align: center;
   display: flex;
   align-items: center;
@@ -34,34 +34,39 @@
 }
 
 .tab.active {
-  background: #e3e9f6;
-  color: #1a3a7c;
+  background: var(--primary-200);
+  color: var(--primary-800);
 }
 
 .tab:hover:not(.active) {
-  background: #e3e9f6;
-  color: #1a3a7c;
+  background: var(--primary-200);
+  color: var(--primary-800);
 }
 
 /* Responsive Design */
 @media (min-width: 1024px) {
   .balance-navigation-bar {
-    max-width: 600px;
+    max-width: var(--balance-nav-width-desktop);
+    min-width: var(--balance-nav-min-width);
+    padding: var(--balance-nav-padding-desktop);
+    border-radius: var(--balance-nav-border-radius-desktop);
   }
   
   .tab {
-    padding: 14px 24px;
-    font-size: 1.1rem;
+    padding: var(--balance-tab-padding-desktop);
+    font-size: var(--balance-tab-font-size-desktop);
+    border-radius: var(--balance-tab-border-radius-desktop);
+    margin: var(--balance-tab-margin-desktop);
   }
 }
 
 @media (max-width: 768px) {
   .balance-navigation-bar {
-    max-width: 100%;
+    max-width: var(--balance-nav-width-mobile);
   }
   
   .tab {
-    padding: 10px 12px;
-    font-size: 1rem;
+    padding: var(--balance-tab-padding-mobile-small);
+    font-size: var(--balance-tab-font-size-mobile-small);
   }
 }
