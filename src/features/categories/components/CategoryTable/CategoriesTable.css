@@ -1,11 +1,11 @@
 @import '../../../../shared/components/Table/shared/TableStyles.css';
 
-/* Categories table container */
+/* Categories table container - UPDATED FOR LIGHT BLUE THEME */
 .categories-table-container {
-  border: 1px solid var(--neutral-300);
+  border: 1px solid var(--table-border);
   border-radius: var(--border-radius-lg);
-  background-color: var(--neutral-100);
-  box-shadow: var(--shadow-sm);
+  background-color: var(--primary-100);
+  box-shadow: var(--shadow-md);
   overflow: hidden;
   display: flex;
   flex-direction: column;
@@ -33,41 +33,44 @@
   border-collapse: separate;
   border-spacing: 0;
   font-family: var(--font-family-primary);
-  font-size: var(--font-size-sm);
+  font-size: var(--table-font-size-normal);
+  background-color: var(--primary-100);
 }
 
 .categories-table thead {
   position: sticky;
   top: 0;
   z-index: var(--z-index-sticky);
-  background-color: var(--neutral-100);
 }
 
-/* Table headers - using CSS variables */
+/* Table headers - UPDATED FOR LIGHT BLUE THEME */
 .categories-table th {
-  background-color: var(--neutral-200);
+  background: var(--table-header-bg);
   font-family: var(--font-family-primary);
   font-weight: 600;
-  color: var(--neutral-700);
+  color: var(--primary-800);
   text-transform: uppercase;
-  font-size: var(--font-size-xs);
-  letter-spacing: 0.05em;
+  font-size: var(--table-font-size-header);
+  letter-spacing: 0.5px;
   padding: var(--table-cell-padding-desktop);
-  text-align: left;
-  border-bottom: 1px solid var(--neutral-300);
-  box-shadow: var(--shadow-sm);
+  text-align: center;
+  border-bottom: 1px solid var(--table-border);
+  position: sticky;
+  top: 0;
+  z-index: 1;
 }
 
-/* Table cells - using CSS variables */
+/* Table cells - using CSS variables with center alignment */
 .categories-table th,
 .categories-table td {
   padding: var(--table-cell-padding-desktop);
-  text-align: left;
-  border-bottom: 1px solid var(--neutral-300);
-  line-height: 1.5;
+  text-align: center;
+  border-bottom: 1px solid var(--table-border);
+  line-height: 1.4;
   word-wrap: break-word;
   vertical-align: middle;
   font-family: var(--font-family-primary);
+  min-height: var(--table-cell-height-normal);
 }
 
 @media (max-width: 768px) {
@@ -75,6 +78,7 @@
   .categories-table td {
     padding: var(--table-cell-padding-mobile);
     font-size: var(--font-size-xs);
+    min-height: var(--table-cell-height-compact);
   }
 }
 
@@ -89,13 +93,14 @@
   border-bottom: none;
 }
 
-/* Row hover effects - using CSS variables */
+/* Row hover effects - UPDATED FOR LIGHT BLUE THEME */
 .categories-table tbody tr {
   transition: all var(--transition-normal);
+  background-color: transparent;
 }
 
 .categories-table tbody tr:hover {
-  background-color: var(--neutral-200);
+  background-color: var(--table-hover-bg);
   transform: translateY(-1px);
   box-shadow: var(--shadow-sm);
 }
@@ -114,7 +119,7 @@
   height: 20px;
   border-radius: 50%;
   margin-right: var(--spacing-sm);
-  border: 2px solid var(--neutral-300);
+  border: 2px solid var(--table-border);
   vertical-align: middle;
 }
 
@@ -141,19 +146,19 @@
 /* Input fields in table - using CSS variables */
 .categories-table input {
   width: 100%;
-  border: 1px solid var(--neutral-400);
+  border: 1px solid var(--table-border);
   border-radius: var(--border-radius-sm);
   padding: var(--spacing-xs);
   font-family: var(--font-family-primary);
   font-size: var(--font-size-sm);
-  background-color: var(--neutral-100);
+  background-color: var(--primary-100);
   transition: border-color var(--transition-fast);
 }
 
 .categories-table input:focus {
   outline: none;
   border-color: var(--primary-600);
-  box-shadow: 0 0 0 2px rgba(33, 150, 243, 0.1);
+  box-shadow: 0 0 0 2px rgba(52, 98, 219, 0.1);
 }
 
 /* Empty state styling - using CSS variables */
@@ -175,11 +180,52 @@
 
 /* Cell height consistency - using CSS variables */
 .categories-table td {
-  min-height: var(--spacing-2xl);
+  min-height: var(--table-cell-height-normal);
 }
 
 @media (max-width: 768px) {
   .categories-table td {
-    min-height: var(--spacing-xl);
+    min-height: var(--table-cell-height-compact);
+  }
+}
+
+/* Subcategory list styling - center aligned */
+.categories-table ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--spacing-xs);
+}
+
+.categories-table li {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+}
+
+/* Add category/subcategory button container */
+.add-subcategory-container {
+  display: flex;
+  justify-content: center;
+  margin-top: var(--spacing-xs);
+}
+
+/* Desktop optimizations */
+@media (min-width: 1024px) {
+  .categories-table {
+    font-size: var(--table-font-size-normal);
+  }
+  
+  .categories-table th,
+  .categories-table td {
+    padding: var(--spacing-sm) var(--spacing-md);
+    line-height: 1.3;
+  }
+  
+  .categories-table td {
+    min-height: var(--table-cell-height-normal);
   }
 }
