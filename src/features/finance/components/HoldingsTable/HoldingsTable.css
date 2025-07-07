@@ -1,19 +1,71 @@
 @import '../../../../shared/components/Table/shared/TableStyles.css';
 
+/* Holdings widget container - matches MarketIndexWidget */
+.holdings-table-widget {
+  background-color: var(--neutral-100);
+  border-radius: var(--border-radius-md);
+  box-shadow: var(--shadow-md);
+  padding: var(--spacing-sm);
+  margin-bottom: var(--spacing-md);
+  width: 100%;
+}
+
+/* Holdings widget header - matches MarketIndexWidget */
+.holdings-widget-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: var(--spacing-xs);
+  padding-bottom: var(--spacing-xs);
+  border-bottom: 1px solid var(--neutral-300);
+}
+
+.holdings-widget-header h3 {
+  margin: 0;
+  font-size: var(--font-size-lg);
+  font-weight: 600;
+  color: var(--neutral-900);
+}
+
+/* Holdings widget loading - matches MarketIndexWidget */
+.holdings-widget-loading {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: var(--spacing-md) 0;
+  text-align: center;
+}
+
+.holdings-widget-loading .loading-spinner {
+  border: 3px solid var(--neutral-300);
+  border-top: 3px solid var(--primary-600);
+  border-radius: 50%;
+  width: 24px;
+  height: 24px;
+  animation: spin 1s linear infinite;
+  margin-bottom: var(--spacing-sm);
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
 /* Holdings specific styles */
 .holdings-table-container {
-  border: 1px solid #e2e8f0;
+  border: 1px solid var(--neutral-300);
   border-radius: var(--border-radius-lg);
-  background-color: #fff;
+  background-color: var(--neutral-100);
   box-shadow: var(--shadow-sm);
-  margin-bottom: var(--spacing-lg);
+  margin-bottom: 0; /* Remove margin since it's now inside widget */
   overflow: hidden;
   display: flex;
   flex-direction: column;
-  min-height: 400px;
+  min-height: 300px; /* This is a specific requirement, but could use a variable if we create one */
   width: 100%;
   min-width: 320px;
-  max-width: 1400px;
+  max-width: var(--table-max-width-desktop);
 }
 
 @media (min-width: 768px) {
@@ -24,7 +76,7 @@
 
 @media (min-width: 1024px) {
   .holdings-table-container {
-    min-width: 900px;
+    min-width: var(--table-min-width-desktop);
   }
 }
 
@@ -32,31 +84,31 @@
   width: 100%;
   border-collapse: separate;
   border-spacing: 0;
-  font-size: 0.95rem;
+  font-size: var(--font-size-sm);
 }
 
 .holdings-table thead {
   position: sticky;
   top: 0;
-  z-index: 10;
-  background-color: #fff;
+  z-index: var(--z-index-sticky);
+  background-color: var(--neutral-100);
 }
 
 .holdings-table th {
-  background-color: #f8fafc;
+  background-color: var(--neutral-200);
   font-weight: 600;
-  color: #475569;
+  color: var(--neutral-700);
   text-transform: uppercase;
-  font-size: 0.85rem;
+  font-size: var(--font-size-xs);
   letter-spacing: 0.05em;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+  box-shadow: var(--shadow-sm);
 }
 
 .holdings-table th,
 .holdings-table td {
   padding: var(--spacing-sm) var(--spacing-md);
   text-align: left;
-  border-bottom: 1px solid #edf2f7;
+  border-bottom: 1px solid var(--neutral-300);
   line-height: 1.4;
 }
 
@@ -64,7 +116,7 @@
   .holdings-table th,
   .holdings-table td {
     padding: var(--spacing-xs) var(--spacing-sm);
-    font-size: 0.875rem;
+    font-size: var(--font-size-xs);
   }
 }
 
@@ -73,13 +125,13 @@
 }
 
 .holdings-table tbody tr {
-  transition: all 0.2s ease;
+  transition: all var(--transition-normal);
 }
 
 .holdings-table tbody tr:hover {
-  background-color: #f8fafc;
+  background-color: var(--neutral-200);
   transform: translateY(-1px);
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.02);
+  box-shadow: var(--shadow-sm);
 }
 
 /* Style for numeric columns */
@@ -92,14 +144,14 @@
 /* Symbol column styling */
 .holdings-table td:nth-child(2) {
   font-weight: 500;
-  color: #2563eb;
+  color: var(--primary-600);
 }
 
 .no-holdings-row {
   text-align: center;
-  padding: 48px 0;
-  font-size: 1.1rem;
-  color: #94a3b8;
+  padding: var(--spacing-2xl) 0;
+  font-size: var(--font-size-lg);
+  color: var(--neutral-500);
   font-style: italic;
 }
 
@@ -108,18 +160,18 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 8px 16px;
+  padding: var(--spacing-xs) var(--spacing-md);
 }
 
 .category-header input {
   width: 70%;
-  padding: 4px;
-  font-size: 0.9rem;
-  border: 1px solid #ccc;
-  border-radius: 4px;
+  padding: var(--spacing-xs);
+  font-size: var(--font-size-sm);
+  border: 1px solid var(--neutral-400);
+  border-radius: var(--border-radius-sm);
   box-sizing: border-box;
 }
 
 .category-header .icon-button {
-  margin-left: 4px;
+  margin-left: var(--spacing-xs);
 }

@@ -1,62 +1,82 @@
-.watchlist-container {
-  width: 100%;
-  margin: var(--spacing-lg) 0;
-  background: white;
+/* Watchlist widget container - matches MarketIndexWidget and HoldingsTable */
+.watchlist-widget {
+  background-color: var(--neutral-100);
   border-radius: var(--border-radius-md);
-  box-shadow: var(--shadow-sm);
+  box-shadow: var(--shadow-md);
+  padding: var(--spacing-sm);
+  margin-bottom: var(--spacing-md);
+  width: 100%;
 }
 
-.watchlist-header {
+/* Watchlist widget header - matches MarketIndexWidget and HoldingsTable */
+.watchlist-widget-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: var(--spacing-md) var(--spacing-lg);
-  border-bottom: 1px solid #e0e0e0;
+  margin-bottom: var(--spacing-xs);
+  padding-bottom: var(--spacing-xs);
+  border-bottom: 1px solid var(--neutral-300);
 }
 
-@media (max-width: 768px) {
-  .watchlist-header {
-    padding: var(--spacing-sm) var(--spacing-md);
-    flex-direction: column;
-    align-items: flex-start;
-    gap: var(--spacing-xs);
-  }
-}
-
-.watchlist-header h2 {
+.watchlist-widget-header h3 {
   margin: 0;
-  font-size: 1.5rem;
-  color: #333;
+  font-size: var(--font-size-lg);
+  font-weight: 600;
+  color: var(--neutral-900);
 }
 
-.last-updated {
-  font-size: 0.875rem;
-  color: #666;
-  font-style: italic;
+.watchlist-widget-header .last-updated {
+  font-size: var(--font-size-xs);
+  color: var(--neutral-600);
 }
 
+/* Watchlist content */
 .watchlist-content {
-  padding: var(--spacing-md) var(--spacing-lg);
-}
-
-@media (max-width: 768px) {
-  .watchlist-content {
-    padding: var(--spacing-sm) var(--spacing-md);
-  }
+  /* Remove any container styling - content flows directly */
 }
 
 .error-message {
   color: var(--error-color);
-  margin-bottom: var(--spacing-md);
+  font-size: var(--font-size-sm);
   padding: var(--spacing-sm);
-  background-color: #ffebee;
+  background-color: var(--neutral-200);
   border-radius: var(--border-radius-sm);
+  margin-bottom: var(--spacing-sm);
 }
 
 .loading-message {
-  color: var(--info-color);
-  margin-bottom: var(--spacing-md);
+  color: var(--neutral-600);
+  font-size: var(--font-size-sm);
   padding: var(--spacing-sm);
-  background-color: #e3f2fd;
-  border-radius: var(--border-radius-sm);
+  text-align: center;
+}
+
+/* Remove old container styles */
+.watchlist-container {
+  /* Remove this styling */
+}
+
+.watchlist-header {
+  /* Remove this styling */
+}
+
+.watchlist-header h2 {
+  /* Remove this styling */
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .watchlist-widget {
+    padding: var(--spacing-xs);
+  }
+  
+  .watchlist-widget-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--spacing-xs);
+  }
+  
+  .watchlist-widget-header .last-updated {
+    align-self: flex-end;
+  }
 } 

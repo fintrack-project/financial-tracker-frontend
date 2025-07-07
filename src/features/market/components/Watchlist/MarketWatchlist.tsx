@@ -97,13 +97,13 @@ const MarketWatchlist: React.FC<MarketWatchlistProps> = ({
   };
 
   return (
-    <div className="watchlist-container">
-      <div className="watchlist-header">
-        <h2>Market Watchlist</h2>
+    <div className="watchlist-widget">
+      <div className="watchlist-widget-header">
+        <h3>Market Watchlist</h3>
         {lastUpdated && (
-          <div className="last-updated">
+          <span className="last-updated">
             Last updated: {lastUpdated.toLocaleTimeString()}
-          </div>
+          </span>
         )}
       </div>
       <div className="watchlist-content">
