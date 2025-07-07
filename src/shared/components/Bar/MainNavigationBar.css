@@ -2,7 +2,15 @@
   display: flex;
   align-items: center; /* Vertically align items */
   flex: 1; /* Allow the navigation bar to grow and fill available space */
-  justify-content: flex-start; /* Align content to the left */
+  justify-content: space-between; /* Spread items across available space */
+  gap: var(--spacing-lg); /* Increased spacing between items */
+}
+
+@media (max-width: 768px) {
+  .navigation-bar {
+    gap: var(--spacing-sm); /* More spacing on mobile */
+    justify-content: space-between; /* Spread items evenly on mobile too */
+  }
 }
 
 .navigation-bar > * {
@@ -11,14 +19,24 @@
 }
 
 .nav-link {
-  margin-right: 20px;
+  margin-right: 0; /* Remove margin, use gap instead */
   text-decoration: none;
   color: #3462db;
-  font-size: 1.08rem;
+  font-size: var(--font-size-base); /* Use CSS variable */
   font-weight: 600;
-  padding: 8px 12px;
-  border-radius: 6px;
-  transition: background 0.15s, color 0.15s;
+  padding: var(--spacing-sm) var(--spacing-lg); /* Increased horizontal padding */
+  border-radius: var(--border-radius-sm);
+  transition: var(--transition-normal);
+  white-space: nowrap; /* Prevent text wrapping */
+  flex: 1; /* Allow each nav item to take equal space */
+  text-align: center; /* Center text within each nav item */
+}
+
+@media (max-width: 768px) {
+  .nav-link {
+    font-size: var(--font-size-sm); /* Smaller font on mobile */
+    padding: var(--spacing-xs) var(--spacing-sm);
+  }
 }
 
 .nav-link:hover {
