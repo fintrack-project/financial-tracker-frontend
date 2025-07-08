@@ -7,8 +7,6 @@
   overflow: hidden;
   display: flex;
   flex-direction: column;
-  min-width: var(--table-min-width-desktop);
-  max-width: var(--table-max-width-desktop);
   width: 100%;
   min-height: 400px;
 }
@@ -116,11 +114,6 @@
 
 /* Desktop (1024px+) - Compact design */
 @media (min-width: 1024px) {
-  .balance-preview-container {
-    min-width: var(--table-min-width-desktop);
-    max-width: var(--table-max-width-desktop);
-  }
-  
   .balance-preview-container h2 {
     padding: var(--spacing-sm);
     font-size: var(--font-size-xl);
@@ -137,12 +130,6 @@
 
 /* Tablet (769px-1023px) - Medium design */
 @media (min-width: 769px) and (max-width: 1023px) {
-  .balance-preview-container {
-    min-width: auto;
-    max-width: 100%;
-    min-height: 350px;
-  }
-  
   .balance-preview-container h2 {
     padding: var(--spacing-sm);
     font-size: var(--font-size-xl);
@@ -164,13 +151,6 @@
 
 /* Mobile (768px and below) - Touch-friendly design */
 @media (max-width: 768px) {
-  .balance-preview-container {
-    margin-top: var(--spacing-sm);
-    min-width: auto;
-    max-width: 100%;
-    min-height: 300px;
-  }
-  
   .balance-preview-container h2 {
     padding: var(--spacing-sm);
     font-size: var(--font-size-lg);
