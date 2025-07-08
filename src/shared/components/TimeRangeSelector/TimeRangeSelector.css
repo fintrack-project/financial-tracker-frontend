@@ -18,6 +18,10 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
+  font-family: var(--font-family-primary);
+  font-size: var(--table-font-size-header);
+  font-weight: 600;
+  color: var(--primary-800);
 }
 
 .time-range-title {

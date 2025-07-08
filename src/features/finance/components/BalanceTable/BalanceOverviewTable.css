@@ -1,8 +1,9 @@
+/* Container Styles */
 .balance-overview-container {
-  border: 1px solid var(--table-header-border);
+  border: 1px solid var(--neutral-300);
   border-radius: var(--border-radius-lg);
   background-color: var(--neutral-100);
-  box-shadow: var(--nav-shadow);
+  box-shadow: var(--shadow-sm);
   margin-top: var(--spacing-sm);
   margin-bottom: var(--spacing-sm);
   overflow: hidden;
@@ -12,6 +13,7 @@
   width: 100%;
 }
 
+/* Header Styles */
 .balance-overview-container h2 {
   margin: 0;
   padding: var(--spacing-sm);
@@ -23,14 +25,14 @@
   font-family: var(--font-family-primary);
 }
 
-/* Table wrapper */
+/* Table Wrapper */
 .table-wrapper {
   display: flex;
   flex-direction: column;
   flex: 1;
 }
 
-/* Loading state */
+/* Loading State */
 .loading-message {
   display: flex;
   justify-content: center;
@@ -42,7 +44,7 @@
   font-family: var(--font-family-primary);
 }
 
-/* Table footer */
+/* Table Footer */
 .table-footer {
   display: flex;
   justify-content: flex-end;
@@ -59,7 +61,7 @@
   gap: var(--spacing-xs);
 }
 
-/* Button and dropdown styles - matching the common pattern */
+/* Button and Dropdown Styles */
 .button {
   display: inline-flex;
   align-items: center;
@@ -87,7 +89,7 @@
   box-shadow: var(--shadow-sm);
 }
 
-/* Dropdown styling */
+/* Dropdown Styling */
 .dropdown-container {
   position: relative;
   display: inline-block;
@@ -153,66 +155,72 @@
   border-bottom-right-radius: var(--border-radius-md);
 }
 
-/* Desktop (1024px+) - Compact design */
+/* Header Styles for Balance Overview Table */
+.balance-overview-table th {
+  background: var(--table-header-bg);
+  font-family: var(--font-family-primary);
+  font-weight: 600;
+  color: var(--primary-800);
+  text-transform: uppercase;
+  font-size: var(--table-font-size-header);
+  letter-spacing: 0.5px;
+  padding: var(--table-cell-padding-desktop);
+  text-align: center;
+  border-bottom: 1px solid var(--table-border);
+}
+
+/* Media Queries */
+
+/* Desktop (1024px+) - Compact Design */
 @media (min-width: 1024px) {
-  
   .balance-overview-container h2 {
     padding: var(--spacing-sm);
     font-size: var(--font-size-xl);
   }
-  
   .table-footer {
     padding: var(--spacing-xs) var(--spacing-sm);
   }
-  
   .actions-group {
     gap: var(--spacing-xs);
   }
-  
   .button,
   .dropdown-button {
     font-size: var(--font-size-sm);
   }
 }
 
-/* Tablet (769px-1023px) - Medium design */
+/* Tablet (769px-1023px) - Medium Design */
 @media (min-width: 769px) and (max-width: 1023px) {
   .balance-overview-container h2 {
     padding: var(--spacing-sm);
     font-size: var(--font-size-lg);
   }
-  
   .table-footer {
     padding: var(--spacing-xs) var(--spacing-sm);
   }
-  
   .actions-group {
     gap: var(--spacing-xs);
   }
-  
   .button,
   .dropdown-button {
     font-size: var(--font-size-sm);
   }
 }
 
-/* Mobile (768px and below) - Touch-friendly design */
+/* Mobile (768px and below) - Touch-Friendly Design */
 @media (max-width: 768px) {
   .balance-overview-container h2 {
     padding: var(--spacing-sm);
     font-size: var(--font-size-lg);
   }
-  
   .table-footer {
     padding: var(--spacing-xs) var(--spacing-sm);
   }
-  
   .actions-group {
     flex-direction: column;
     gap: var(--spacing-xs);
     width: 100%;
   }
-  
   .button,
   .dropdown-button {
     width: 100%;
