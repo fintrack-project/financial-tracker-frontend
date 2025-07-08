@@ -1,0 +1,95 @@
+/* Responsive and Consistent Design for CategoryColorDropdown */
+.category-cell .actions .category-color-dropdown {
+  position: relative;
+  display: inline-block;
+}
+
+.category-cell .actions .category-color-dropdown .color-selector {
+  background: var(--neutral-100);
+  border: none;
+  border-radius: var(--border-radius-sm);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all var(--transition-normal);
+  width: var(--button-size-small);
+  height: var(--button-size-small);
+  padding: var(--spacing-xs);
+}
+
+.category-cell .actions .category-color-dropdown .color-selector:hover {
+  transform: translateY(-1px);
+  box-shadow: var(--shadow-sm);
+}
+
+.category-cell .actions .category-color-dropdown .selected-color {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--button-size-small);
+  height: var(--button-size-small);
+}
+
+.category-cell .actions .category-color-dropdown .color-circle {
+  border-radius: 50%;
+  border: 1px solid var(--neutral-300);
+  transition: transform var(--transition-normal);
+  width: var(--button-size-small);
+  height: var(--button-size-small);
+}
+
+.category-cell .actions .category-color-dropdown .color-options {
+  position: absolute;
+  top: calc(100% + var(--spacing-xs));
+  left: 0;
+  background: var(--neutral-100);
+  border: 1px solid var(--neutral-300);
+  border-radius: var(--border-radius-md);
+  padding: var(--spacing-xs);
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  z-index: var(--z-index-popover);
+  box-shadow: var(--shadow-md);
+  width: max-content;
+}
+
+.category-cell .actions .category-color-dropdown .color-option {
+  background: var(--neutral-100);
+  border: 1px solid var(--neutral-300);
+  border-radius: var(--border-radius-sm);
+  padding: var(--spacing-xs);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all var(--transition-normal);
+}
+
+.category-cell .actions .category-color-dropdown .color-option:hover {
+  transform: translateY(-1px);
+  box-shadow: var(--shadow-sm);
+}
+
+.category-cell .actions .category-color-dropdown .color-option:hover .color-circle {
+  transform: scale(1.1);
+}
+
+/* Responsive Styles */
+@media (max-width: var(--breakpoint-mobile-max)) {
+  .category-cell .actions .category-color-dropdown {
+    width: 100%;
+  }
+}
+
+@media (min-width: var(--breakpoint-tablet-min)) and (max-width: var(--breakpoint-tablet-max)) {
+  .category-cell .actions .category-color-dropdown {
+    width: 100%;
+  }
+}
+
+@media (min-width: var(--breakpoint-desktop-min)) {
+  .category-cell .actions .category-color-dropdown {
+    width: fit-content;
+  }
+} 

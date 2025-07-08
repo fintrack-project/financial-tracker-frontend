@@ -216,4 +216,9 @@
   --pie-chart-radius-desktop: 200px;            /* Desktop pie chart radius */
   --chart-min-height-mobile: 300px;             /* Minimum chart height on mobile */
   --chart-min-height-desktop: 400px;            /* Minimum chart height on desktop */
+  --icon-button-size: 24px; /* Standard size for square icon buttons */
+  --button-size-small: 16px; /* Small button size */
+  --button-size-medium: 24px; /* Medium button size */
+  --button-size-large: 32px; /* Large button size */
+  --button-size-xlarge: 56px; /* Extra Large button size */
 } 

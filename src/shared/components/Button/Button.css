@@ -15,7 +15,6 @@ button,
   text-decoration: none;
   cursor: pointer;
   transition: all var(--transition-normal);
-  min-height: 40px;
   box-sizing: border-box;
   white-space: nowrap;
   user-select: none;
@@ -25,19 +24,22 @@ button,
 .btn-sm {
   padding: var(--spacing-xs) var(--spacing-sm);
   font-size: var(--font-size-xs);
-  min-height: 32px;
+  min-height: var(--button-size-small);
+  min-width: var(--button-size-small);
 }
 
 .btn-lg {
   padding: var(--spacing-md) var(--spacing-lg);
   font-size: var(--font-size-base);
-  min-height: 48px;
+  min-height: var(--button-size-large);
+  min-width: var(--button-size-large);
 }
 
 .btn-xl {
   padding: var(--spacing-lg) var(--spacing-xl);
   font-size: var(--font-size-lg);
-  min-height: 56px;
+  min-height: var(--button-size-xlarge);
+  min-width: var(--button-size-xlarge);
 }
 
 /* Disabled state */
@@ -123,20 +125,20 @@ button:focus,
 /* Icon button */
 .btn-icon {
   padding: var(--spacing-sm);
-  min-width: 40px;
-  min-height: 40px;
+  min-width: var(--button-size-medium);
+  min-height: var(--button-size-medium);
   border-radius: var(--border-radius-full);
 }
 
 .btn-icon.btn-sm {
-  min-width: 32px;
-  min-height: 32px;
+  min-width: var(--button-size-small);
+  min-height: var(--button-size-small);
   padding: var(--spacing-xs);
 }
 
 .btn-icon.btn-lg {
-  min-width: 48px;
-  min-height: 48px;
+  min-width: var(--button-size-large);
+  min-height: var(--button-size-large);
   padding: var(--spacing-md);
 }
 
@@ -146,25 +148,29 @@ button:focus,
   .btn {
     font-size: var(--font-size-base);
     padding: var(--spacing-md) var(--spacing-lg);
-    min-height: 48px;
+    min-height: var(--button-size-large);
+    min-width: var(--button-size-large);
   }
   
   .btn-sm {
     padding: var(--spacing-sm) var(--spacing-md);
     font-size: var(--font-size-sm);
-    min-height: 36px;
+    min-height: var(--button-size-small);
+    min-width: var(--button-size-small);
   }
   
   .btn-lg {
     padding: var(--spacing-lg) var(--spacing-xl);
     font-size: var(--font-size-lg);
-    min-height: 52px;
+    min-height: var(--button-size-large);
+    min-width: var(--button-size-large);
   }
   
   .btn-xl {
     padding: var(--spacing-xl) var(--spacing-2xl);
     font-size: var(--font-size-xl);
-    min-height: 60px;
+    min-height: var(--button-size-xlarge);
+    min-width: var(--button-size-xlarge);
   }
 }
 
@@ -174,26 +180,22 @@ button:focus,
   .btn {
     font-size: var(--font-size-sm);
     padding: var(--spacing-sm) var(--spacing-md);
-    min-height: 40px;
     border-radius: var(--border-radius-md);
   }
   
   .btn-sm {
     padding: var(--spacing-xs) var(--spacing-sm);
     font-size: var(--font-size-xs);
-    min-height: 32px;
   }
   
   .btn-lg {
     padding: var(--spacing-md) var(--spacing-lg);
     font-size: var(--font-size-base);
-    min-height: 48px;
   }
   
   .btn-xl {
     padding: var(--spacing-lg) var(--spacing-xl);
     font-size: var(--font-size-lg);
-    min-height: 56px;
   }
   
   /* Make buttons more touch-friendly on mobile */
@@ -215,8 +217,8 @@ button:focus,
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  width: 16px;
-  height: 16px;
+  width: var(--button-size-medium);
+  height: var(--button-size-medium);
   border: 2px solid transparent;
   border-top: 2px solid currentColor;
   border-radius: 50%;

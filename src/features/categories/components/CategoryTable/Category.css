@@ -113,7 +113,8 @@
   position: relative;
   min-width: 200px;
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
+  align-items: center;
   gap: var(--spacing-xs);
 }
 
@@ -146,7 +147,8 @@
 }
 
 .category-confirm-button {
-  padding: var(--spacing-xs) var(--spacing-sm);
+  width: var(--button-size-medium);
+  height: var(--button-size-medium);
   border: none;
   border-radius: var(--border-radius-sm);
   font-family: var(--font-family-primary);
@@ -195,19 +197,23 @@
   color: var(--primary-600) !important;
   box-shadow: var(--shadow-md);
   background-color: var(--neutral-100) !important;
+  outline: none;
 }
 
 .category-action-button:hover {
   color: var(--primary-600);
+  outline: none;
 }
 
 .category-action-button.delete:hover {
   color: var(--error-color);
+  outline: none;
 }
 
 .category-confirm-button:hover {
   transform: translateY(-1px);
   box-shadow: var(--shadow-sm);
+  outline: none;
 }
 
 .category-cell .category-cell-edit input:focus,
@@ -219,8 +225,8 @@
 }
 
 .category-cell .actions .icon-button img {
-  width: 18px;
-  height: 18px;
+  width: var(--button-size-small);
+  height: var(--button-size-small);
   filter: none;
   opacity: 0.7;
   transition: opacity var(--transition-normal);
@@ -230,23 +236,11 @@
   opacity: 1;
 }
 
-.category-cell .actions .category-color-dropdown .color-selector {
-  width: 14px;
-  height: 14px;
-  padding: var(--spacing-xs);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.category-cell .actions .category-color-dropdown .selected-color {
-  width: 12px;
-  height: 12px;
-}
-
+.category-cell .actions .category-color-dropdown .color-selector,
+.category-cell .actions .category-color-dropdown .selected-color,
 .category-cell .actions .category-color-dropdown .color-circle {
-  width: 12px;
-  height: 12px;
+  width: var(--button-size-small);
+  height: var(--button-size-small);
 }
 
 .category-cell .category-cell-edit input::placeholder {
@@ -265,4 +259,38 @@
 }
 
 /* Responsive Styles */
-/* Add any media queries or responsive styles here if needed */
+@media (max-width: var(--breakpoint-mobile-max)) {
+  .category-cell {
+    width: 100%;
+    min-width: 100%;
+    max-width: 100%;
+  }
+  .category-cell-content {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}
+
+@media (min-width: var(--breakpoint-tablet-min)) and (max-width: var(--breakpoint-tablet-max)) {
+  .category-cell {
+    width: 100%;
+    min-width: 100%;
+    max-width: 100%;
+  }
+  .category-cell-content {
+    flex-direction: row;
+    align-items: center;
+  }
+}
+
+@media (min-width: var(--breakpoint-desktop-min)) {
+  .category-cell {
+    width: fit-content;
+    min-width: fit-content;
+    max-width: fit-content;
+  }
+  .category-cell-content {
+    flex-direction: row;
+    align-items: center;
+  }
+}

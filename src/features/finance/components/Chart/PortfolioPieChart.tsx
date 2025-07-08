@@ -12,7 +12,7 @@ import { fetchCategoryNames } from '../../../categories/services/categoryService
 import { useBaseCurrency } from '../../../../shared/hooks/useBaseCurrency'; // Custom hook to get base currency 
 import { formatNumber } from '../../../../shared/utils/FormatNumber'; // Utility function to format numbers
 import { getCurrentBreakpoint, createBreakpointListener } from '../../../../shared/utils/breakpoints'; // New breakpoint utilities
-import CategoryDropdown from '../../../../shared/components/DropDown/CategoryDropdown';
+import CategoryDropdown from '../../../categories/components/DropDown/CategoryDropdown';
 import './PortfolioPieChart.css';
 
 interface PortfolioPieChartProps {

@@ -17,7 +17,7 @@ import { useBaseCurrency } from '../../../../shared/hooks/useBaseCurrency'; // C
 import { formatNumber } from '../../../../shared/utils/FormatNumber';
 import { ChartData } from '../../types/ChartData';
 import { CombinedChartData } from '../../types/CombinedChartData';
-import CategoryDropdown from '../../../../shared/components/DropDown/CategoryDropdown';
+import CategoryDropdown from '../../../categories/components/DropDown/CategoryDropdown';
 import TimeRangeDropdown from '../../../../shared/components/DropDown/TimeRangeDropDown';
 import './PortfolioCombinedBarChart.css';
 

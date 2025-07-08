@@ -1,30 +1,24 @@
 .icon-button {
-  background: none;
-  background-color: transparent;
-  border: none;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 4px;
+  width: var(--button-size-medium);
+  height: var(--button-size-medium);
 }
 
 .icon-button-small {
-  padding: 2px;
+  padding: var(--spacing-xs);
 }
 
 .icon-button-large {
-  padding: 8px; /* Larger padding for large buttons */
+  padding: var(--spacing-sm);
 }
 
 .icon-image {
-  width: 16px;
-  height: 16px;
+  width: var(--button-size-large);
+  height: var(--button-size-large);
 }
 
 .icon-button-large .icon-image {
-  width: 32px; /* Larger icon size for large buttons */
-  height: 32px;
+  width: var(--button-size-large);
+  height: var(--button-size-large);
 }
 
 .icon-button:hover {
