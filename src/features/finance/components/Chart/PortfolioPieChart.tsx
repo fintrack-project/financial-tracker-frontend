@@ -26,7 +26,7 @@ const useChartSize = () => {
     const current = getCurrentBreakpoint();
     switch (current) {
       case 'mobile':
-        return { height: 400, outerRadius: 120 };
+        return { height: 400, outerRadius: 100 };
       case 'tablet':
         return { height: 500, outerRadius: 160 };
       case 'desktop':
@@ -42,7 +42,7 @@ const useChartSize = () => {
       switch (current) {
         case 'mobile':
           // Mobile: Compact chart for small screens
-          setChartSize({ height: 400, outerRadius: 120 });
+          setChartSize({ height: 400, outerRadius: 100 });
           break;
         case 'tablet':
           // Tablet: Medium-sized chart for balanced view

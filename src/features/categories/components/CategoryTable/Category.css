@@ -1,34 +1,10 @@
-/* Ensure the actions container does not affect layout */
+/* General Styles */
 .category-cell {
   position: relative;
   align-items: center;
   width: fit-content;
   min-width: fit-content;
   max-width: fit-content;
-}
-
-.category-cell .actions {
-  display: flex;
-  align-items: center;
-  opacity: 0;
-  transition: all var(--transition-normal);
-  border-radius: var(--border-radius-sm);
-  background-color: transparent;
-  width: 0;
-  min-width: 0;
-  max-width: 0;
-  overflow: visible;
-  margin-left: 0;
-  flex-shrink: 0;
-}
-
-/* Show actions on hover with more controlled expansion */
-.category-cell:hover .actions {
-  opacity: 1;
-  width: auto;
-  min-width: auto;
-  max-width: none;
-  margin-left: var(--spacing-xs);
 }
 
 .category-cell-view,
@@ -45,9 +21,30 @@
   max-width: fit-content;
 }
 
-.category-cell-view:hover,
-.category-cell-edit:hover {
-  filter: brightness(0.9);
+.category-cell-content {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: var(--spacing-xs);
+  min-height: var(--spacing-xl);
+  padding: var(--spacing-xs) 0;
+  font-family: var(--font-family-primary);
+}
+
+/* Specific Element Styles */
+.category-cell .actions {
+  display: flex;
+  align-items: center;
+  opacity: 0;
+  transition: all var(--transition-normal);
+  border-radius: var(--border-radius-sm);
+  background-color: transparent;
+  width: 0;
+  min-width: 0;
+  max-width: 0;
+  overflow: visible;
+  margin-left: 0;
+  flex-shrink: 0;
 }
 
 .category-cell-view span {
@@ -60,7 +57,6 @@
   text-align: center;
 }
 
-/* Make selectors more specific to override CategoriesTable.css */
 .category-cell .category-cell-edit input,
 .category-cell .category-cell-edit select {
   padding: var(--spacing-xs) var(--spacing-sm);
@@ -75,36 +71,6 @@
   width: 100%;
 }
 
-.category-cell .category-cell-edit input::placeholder {
-  color: var(--neutral-500) !important;
-}
-
-.category-cell .category-cell-edit input:focus,
-.category-cell .category-cell-edit select:focus {
-  outline: none;
-  border-color: rgba(255, 255, 255, 0.4);
-  background-color: var(--neutral-100) !important;
-  box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.1);
-}
-
-/* Subcategory specific styles */
-.category-cell.subcategory .category-cell-view,
-.category-cell.subcategory .category-cell-edit {
-  filter: brightness(1.1);
-}
-
-/* Add the same brightness to category cells */
-.category-cell:not(.subcategory) .category-cell-view,
-.category-cell:not(.subcategory) .category-cell-edit {
-  filter: brightness(1.1);
-}
-
-.category-cell.subcategory .category-cell-edit input,
-.category-cell.subcategory .category-cell-edit select {
-  background-color: rgba(255, 255, 255, 0.95) !important;
-}
-
-/* Icon button styling within cells */
 .category-cell .actions .icon-button,
 .category-cell .actions .category-color-dropdown {
   border-radius: var(--border-radius-sm);
@@ -120,58 +86,6 @@
   box-shadow: var(--shadow-sm);
 }
 
-.category-cell .actions .icon-button:hover,
-.category-cell .actions .category-color-dropdown:hover {
-  transform: translateY(-1px);
-  color: var(--primary-600) !important;
-  box-shadow: var(--shadow-md);
-  background-color: var(--neutral-100) !important;
-}
-
-.category-cell .actions .icon-button img {
-  width: 18px;
-  height: 18px;
-  filter: none;
-  opacity: 0.7;
-  transition: opacity var(--transition-normal);
-}
-
-.category-cell .actions .icon-button:hover img {
-  opacity: 1;
-}
-
-/* Color dropdown specific styles */
-.category-cell .actions .category-color-dropdown .color-selector {
-  width: 14px;
-  height: 14px;
-  padding: var(--spacing-xs);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.category-cell .actions .category-color-dropdown .selected-color {
-  width: 12px;
-  height: 12px;
-}
-
-.category-cell .actions .category-color-dropdown .color-circle {
-  width: 12px;
-  height: 12px;
-}
-
-/* Category cell content container */
-.category-cell-content {
-  display: flex;
-  align-items: center;
-  flex-wrap: wrap;
-  gap: var(--spacing-xs);
-  min-height: var(--spacing-xl);
-  padding: var(--spacing-xs) 0;
-  font-family: var(--font-family-primary);
-}
-
-/* Color indicator */
 .category-color-indicator {
   width: 20px;
   height: 20px;
@@ -181,7 +95,6 @@
   margin-right: var(--spacing-sm);
 }
 
-/* Category name styling */
 .category-name {
   font-weight: 500;
   color: var(--primary-600);
@@ -190,7 +103,6 @@
   margin-right: var(--spacing-sm);
 }
 
-/* Edit mode styling */
 .category-cell-edit {
   background-color: var(--neutral-100);
   padding: var(--spacing-xs);
@@ -205,25 +117,6 @@
   gap: var(--spacing-xs);
 }
 
-/* Input field in edit mode */
-.category-cell-edit input {
-  width: 100%;
-  padding: var(--spacing-xs);
-  font-family: var(--font-family-primary);
-  font-size: var(--font-size-sm);
-  border: 1px solid var(--neutral-400);
-  border-radius: var(--border-radius-sm);
-  background-color: var(--neutral-100);
-  transition: border-color var(--transition-fast);
-}
-
-.category-cell-edit input:focus {
-  outline: none;
-  border-color: var(--primary-600);
-  box-shadow: 0 0 0 2px rgba(33, 150, 243, 0.1);
-}
-
-/* Action buttons */
 .category-action-buttons {
   display: flex;
   gap: var(--spacing-xs);
@@ -231,10 +124,6 @@
   margin-left: auto;
   opacity: 0;
   transition: opacity var(--transition-normal);
-}
-
-.category-cell-content:hover .category-action-buttons {
-  opacity: 1;
 }
 
 .category-action-button {
@@ -250,15 +139,6 @@
   justify-content: center;
 }
 
-.category-action-button:hover {
-  color: var(--primary-600);
-}
-
-.category-action-button.delete:hover {
-  color: var(--error-color);
-}
-
-/* Confirmation buttons */
 .category-confirm-buttons {
   display: flex;
   gap: var(--spacing-xs);
@@ -285,14 +165,104 @@
   color: var(--neutral-100);
 }
 
-.category-confirm-button:hover {
-  transform: translateY(-1px);
-  box-shadow: var(--shadow-sm);
-}
-
-/* Loading state */
 .category-loading {
   font-family: var(--font-family-primary);
   color: var(--neutral-500);
   font-style: italic;
 }
+
+/* State Styles */
+.category-cell:hover .actions {
+  opacity: 1;
+  width: auto;
+  min-width: auto;
+  max-width: none;
+  margin-left: var(--spacing-xs);
+}
+
+.category-cell-view:hover,
+.category-cell-edit:hover {
+  filter: brightness(0.9);
+}
+
+.category-cell-content:hover .category-action-buttons {
+  opacity: 1;
+}
+
+.category-cell .actions .icon-button:hover,
+.category-cell .actions .category-color-dropdown:hover {
+  transform: translateY(-1px);
+  color: var(--primary-600) !important;
+  box-shadow: var(--shadow-md);
+  background-color: var(--neutral-100) !important;
+}
+
+.category-action-button:hover {
+  color: var(--primary-600);
+}
+
+.category-action-button.delete:hover {
+  color: var(--error-color);
+}
+
+.category-confirm-button:hover {
+  transform: translateY(-1px);
+  box-shadow: var(--shadow-sm);
+}
+
+.category-cell .category-cell-edit input:focus,
+.category-cell .category-cell-edit select:focus {
+  outline: none;
+  border-color: rgba(255, 255, 255, 0.4);
+  background-color: var(--neutral-100) !important;
+  box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.1);
+}
+
+.category-cell .actions .icon-button img {
+  width: 18px;
+  height: 18px;
+  filter: none;
+  opacity: 0.7;
+  transition: opacity var(--transition-normal);
+}
+
+.category-cell .actions .icon-button:hover img {
+  opacity: 1;
+}
+
+.category-cell .actions .category-color-dropdown .color-selector {
+  width: 14px;
+  height: 14px;
+  padding: var(--spacing-xs);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.category-cell .actions .category-color-dropdown .selected-color {
+  width: 12px;
+  height: 12px;
+}
+
+.category-cell .actions .category-color-dropdown .color-circle {
+  width: 12px;
+  height: 12px;
+}
+
+.category-cell .category-cell-edit input::placeholder {
+  color: var(--neutral-500) !important;
+}
+
+.category-cell .category-cell-edit input {
+  width: 100%;
+  padding: var(--spacing-xs);
+  font-family: var(--font-family-primary);
+  font-size: var(--font-size-sm);
+  border: 1px solid var(--neutral-400);
+  border-radius: var(--border-radius-sm);
+  background-color: var(--neutral-100);
+  transition: border-color var(--transition-fast);
+}
+
+/* Responsive Styles */
+/* Add any media queries or responsive styles here if needed */
