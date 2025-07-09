@@ -18,7 +18,7 @@
   background: var(--nav-bg);
   color: var(--primary-500);
   border: none;
-  padding: var(--nav-padding-normal);
+  padding: var(--account-button-padding-tablet);
   border-radius: var(--border-radius-md);
   cursor: pointer;
   font-size: var(--font-size-base);
@@ -28,8 +28,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  width: var(--nav-padding-horizontal);
-  min-width: var(--account-button-min-width);
+  width: auto;
   height: var(--nav-height-normal);
   border: 1px solid var(--table-header-border);
 }
@@ -146,16 +145,16 @@
 /* Mobile Styles */
 @media (max-width: 768px) {
   .account-button {
-    padding: var(--nav-padding-compact);
+    padding: var(--account-button-padding-mobile);
     font-size: var(--font-size-xs);
-    width: var(--account-button-width-mobile);
+    width: auto;
     height: var(--nav-height-compact);
   }
   
   .account-menu .account-dropdown-menu {
     top: calc(var(--nav-height-compact) + var(--spacing-xs));
-    width: var(--account-menu-width-mobile);
-    padding: var(--spacing-sm) var(--spacing-xs);
+    width: var(--account-menu-width-mobile-compact);
+    padding: var(--account-dropdown-padding-mobile);
     min-height: var(--account-menu-min-height-mobile);
   }
   
@@ -187,6 +186,7 @@
 /* Tablet Styles */
 @media (min-width: 769px) and (max-width: 1023px) {
   .account-button {
+    padding: var(--account-button-padding-tablet);
     font-size: var(--font-size-base);
   }
   
@@ -216,6 +216,7 @@
 /* Desktop Styles */
 @media (min-width: 1024px) {
   .account-button {
+    padding: var(--account-button-padding-desktop);
     font-size: var(--font-size-lg);
   }
   

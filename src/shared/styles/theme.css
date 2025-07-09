@@ -147,6 +147,15 @@
   --nav-padding-horizontal: 16px;  /* Horizontal padding for nav items */
   --nav-padding-compact: 6px 12px; /* Compact padding for smaller nav */
   --nav-padding-normal: 8px 16px;  /* Normal padding for nav items */
+  
+  /* Account Button Specific Padding */
+  --account-button-padding-mobile: 2px 12px;   /* Slightly wider mobile padding */
+  --account-button-padding-tablet: 8px 20px;  /* Wider tablet padding */
+  --account-button-padding-desktop: 8px 20px; /* Wider desktop padding */
+  
+  /* Mobile Account Menu Specific */
+  --account-menu-width-mobile-compact: 200px;  /* Reduced mobile menu width */
+  --account-dropdown-padding-mobile: 8px 12px; /* More padding for mobile dropdown */
 
   /* Balance Navigation Bar Variables */
   --balance-nav-width: 100%;              /* Full width on mobile/tablet */
