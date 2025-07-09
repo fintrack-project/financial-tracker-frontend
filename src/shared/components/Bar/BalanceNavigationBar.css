@@ -3,30 +3,22 @@
   justify-content: flex-start;
   gap: 0;
   background: var(--nav-bg);
-  border-radius: var(--balance-nav-border-radius-mobile);
   box-shadow: var(--nav-shadow);
   border: 1px solid var(--table-header-border);
-  padding: var(--balance-nav-padding-mobile);
   overflow: hidden;
-  width: var(--balance-nav-width-mobile);
-  max-width: var(--balance-nav-max-width-mobile);
   min-width: var(--spacing-2xl);
 }
 
 .tab {
   flex: 1;
-  padding: var(--balance-tab-padding-mobile);
   cursor: pointer;
-  font-size: var(--balance-tab-font-size-mobile);
   font-weight: 600;
   border: none;
   background: none;
   color: var(--primary-500);
-  border-radius: var(--balance-tab-border-radius-mobile);
   transition: background var(--transition-fast), color var(--transition-fast);
   position: relative;
   outline: none;
-  margin: var(--balance-tab-margin-mobile);
   text-align: center;
   display: flex;
   align-items: center;
@@ -44,8 +36,25 @@
 }
 
 /* Responsive Design */
+@media (max-width: 1023px) {
+  .balance-navigation-bar {
+    width: var(--balance-nav-width);
+    max-width: var(--balance-nav-max-width);
+    padding: var(--balance-nav-padding);
+    border-radius: var(--balance-nav-border-radius);
+  }
+  
+  .tab {
+    padding: var(--balance-tab-padding);
+    font-size: var(--balance-tab-font-size);
+    border-radius: var(--balance-tab-border-radius);
+    margin: var(--balance-tab-margin);
+  }
+}
+
 @media (min-width: 1024px) {
   .balance-navigation-bar {
+    width: var(--balance-nav-width-desktop);
     max-width: var(--balance-nav-width-desktop);
     min-width: var(--balance-nav-min-width);
     padding: var(--balance-nav-padding-desktop);
@@ -57,16 +66,5 @@
     font-size: var(--balance-tab-font-size-desktop);
     border-radius: var(--balance-tab-border-radius-desktop);
     margin: var(--balance-tab-margin-desktop);
-  }
-}
-
-@media (max-width: 768px) {
-  .balance-navigation-bar {
-    max-width: var(--balance-nav-width-mobile);
-  }
-  
-  .tab {
-    padding: var(--balance-tab-padding-mobile-small);
-    font-size: var(--balance-tab-font-size-mobile-small);
   }
 }
