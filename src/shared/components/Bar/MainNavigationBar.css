@@ -42,8 +42,8 @@
 /* Desktop: Optimal spacing */
 @media (min-width: 1024px) {
   .navigation-bar {
-    gap: var(--spacing-lg);
-    justify-content: space-between;
+    gap: var(--spacing-sm);
+    justify-content: center;
     padding: var(--nav-padding-vertical);
     height: var(--nav-height-normal);
   }
@@ -106,8 +106,8 @@
 @media (min-width: 1024px) {
   .nav-link {
     font-size: var(--font-size-lg);
-    padding: 10px 20px;
-    flex: 1; /* Equal width distribution */
+    padding: 8px 16px;
+    flex: 0 1 auto; /* Don't force equal width, let content determine size */
     margin: 0 2px;
   }
 }
