@@ -27,7 +27,7 @@
   font-size: var(--font-size-lg);
   font-weight: 600;
   margin: 0;
-  line-height: 1.4;
+  line-height: var(--table-line-height);
 }
 
 .card-subtitle {
@@ -35,7 +35,7 @@
   font-family: var(--font-family-primary);
   font-size: var(--font-size-sm);
   margin: var(--spacing-xs) 0 0;
-  line-height: 1.5;
+  line-height: var(--table-line-height);
 }
 
 .card-content {

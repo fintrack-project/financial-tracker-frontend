@@ -148,7 +148,7 @@ const UploadBalanceTable: React.FC<UploadBalanceTableProps> = ({
         </div>
       </div>
       <div className="scrollable-content">
-        <table className="data-table">
+        <table className="transaction-table">
           <colgroup>
             <col className="col-date" />
             <col className="col-asset-name" />

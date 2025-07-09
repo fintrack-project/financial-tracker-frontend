@@ -130,7 +130,10 @@
 
   /* Table-specific Spacing - REDUCED for more compact desktop tables */
   --table-cell-height-compact: clamp(1.5rem, 1.4rem + 0.5vw, 1.8rem);     /* 24-28.8px - More compact for dashboard */
-  --table-cell-height-normal: clamp(1.8rem, 1.6rem + 0.75vw, 2.2rem);     /* 28.8-35.2px - Reduced normal height */
+  --table-cell-height-normal: clamp(1.5rem, 1.4rem + 0.5vw, 1.8rem);     /* 24-28.8px - More compact normal height */
+  
+  /* Table Typography */
+  --table-line-height: 1.3;                                                /* Consistent line height for all tables */
 
   /* Border Radius */
   --border-radius-sm: 0.25rem;  /* 4px */
@@ -216,7 +219,7 @@
   --chart-min-height-desktop: 400px;            /* Minimum chart height on desktop */
   --icon-button-size: 24px; /* Standard size for square icon buttons */
   --button-size-small: 16px; /* Small button size */
-  --button-size-medium: 24px; /* Medium button size */
-  --button-size-large: 32px; /* Large button size */
-  --button-size-xlarge: 56px; /* Extra Large button size */
+--button-size-medium: 24px; /* Medium button size */
+--button-size-large: 32px; /* Large button size */
+--button-size-xlarge: 56px; /* Extra Large button size */
 } 

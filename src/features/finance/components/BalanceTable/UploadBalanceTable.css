@@ -397,7 +397,7 @@
   padding: var(--spacing-xs) var(--spacing-sm);
   text-align: left;
   border-bottom: 1px solid #edf2f7;
-  line-height: 1.4;
+  line-height: var(--table-line-height);
   font-family: var(--font-family-primary);
 }
 
@@ -522,7 +522,7 @@
   text-align: center;
   border-bottom: 1px solid var(--table-border);
   vertical-align: middle;
-  line-height: 1.4;
+  line-height: var(--table-line-height);
 }
 
 /* Header styles use shared styles from TableStyles.css */
@@ -667,8 +667,8 @@
   color: var(--neutral-500);
 }
 
-/* Cell Height Consistency */
-.upload-table td {
+/* Cell Height Consistency - Target the actual data-table class used in the component */
+.upload-balance-container .data-table td {
   min-height: var(--table-cell-height-normal);
 }
 
@@ -709,6 +709,9 @@
   }
   .upload-table {
     font-size: var(--font-size-sm);
+  }
+  .upload-balance-container .data-table td {
+    min-height: var(--table-cell-height-normal);
   }
   /* Table header styles use shared TableStyles.css */
   .upload-table td.debit-column,

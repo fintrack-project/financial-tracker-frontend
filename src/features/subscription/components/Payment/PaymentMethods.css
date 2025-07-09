@@ -61,7 +61,7 @@
 .payment-methods .error-text {
   color: #d32f2f;
   font-size: 14px;
-  line-height: 1.4;
+  line-height: var(--table-line-height);
   flex-grow: 1;
 }
 
@@ -249,7 +249,7 @@
 .add-payment-method .error-text {
   color: #d32f2f;
   font-size: 14px;
-  line-height: 1.4;
+  line-height: var(--table-line-height);
   flex-grow: 1;
 }
 

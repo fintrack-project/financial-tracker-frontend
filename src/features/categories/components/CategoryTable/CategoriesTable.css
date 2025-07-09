@@ -46,7 +46,7 @@
   padding: var(--table-cell-padding-desktop);
   text-align: center;
   border-bottom: 1px solid var(--table-border);
-  line-height: 1.4;
+  line-height: var(--table-line-height);
   word-wrap: break-word;
   vertical-align: middle;
   font-family: var(--font-family-primary);
@@ -253,7 +253,7 @@
     padding: var(--spacing-sm) var(--spacing-md);
     font-size: var(--font-size-base);
     min-height: var(--table-cell-height-normal);
-    line-height: 1.3;
+    line-height: var(--table-line-height);
   }
   
   .categories-table td {

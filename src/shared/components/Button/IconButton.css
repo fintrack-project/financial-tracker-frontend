@@ -41,11 +41,32 @@
   background: transparent !important;
   border: none !important;
   box-shadow: none !important;
+  outline: none !important;
+  padding: 0 !important;
+  margin: 0 !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
 }
 
 .icon-button:hover {
   background: transparent !important;
   border: none !important;
   box-shadow: none !important;
+  outline: none !important;
   opacity: 0.8; /* Add hover effect */
+}
+
+.icon-button:focus {
+  background: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+  outline: none !important;
+}
+
+.icon-button:active {
+  background: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+  outline: none !important;
 }

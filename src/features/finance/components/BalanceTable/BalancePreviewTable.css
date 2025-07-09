@@ -58,7 +58,7 @@
   text-transform: uppercase;
   font-size: var(--table-font-size-header);
   letter-spacing: 0.5px;
-  padding: var(--spacing-sm) var(--spacing-md);
+  padding: var(--spacing-xs) var(--spacing-sm);
   text-align: center;
   border-bottom: 1px solid var(--table-border);
 }
@@ -75,6 +75,11 @@
   background-color: var(--table-hover-bg);
   transform: translateY(-1px);
   box-shadow: var(--shadow-sm);
+}
+
+/* Cell height consistency */
+.preview-table td {
+  min-height: var(--table-cell-height-normal);
 }
 
 /* Column Alignment Styles */
@@ -129,6 +134,9 @@
   .preview-table th {
     font-size: var(--font-size-xs);
   }
+  .preview-table td {
+    min-height: var(--table-cell-height-normal);
+  }
 }
 
 /* Tablet (769px-1023px) - Medium Design */
@@ -139,7 +147,6 @@
   }
   .preview-table {
     font-size: var(--font-size-sm);
-    min-width: 700px;
   }
   .preview-table th {
     font-size: var(--font-size-xs);
@@ -157,7 +164,6 @@
   }
   .preview-table {
     font-size: var(--font-size-xs);
-    min-width: 600px;
   }
   .preview-table th,
   .preview-table td {

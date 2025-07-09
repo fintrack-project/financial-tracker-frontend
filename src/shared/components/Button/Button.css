@@ -11,7 +11,7 @@ button,
   font-family: var(--font-family-primary);
   font-size: var(--font-size-sm);
   font-weight: 500;
-  line-height: 1.2;
+  line-height: var(--table-line-height);
   text-decoration: none;
   cursor: pointer;
   transition: all var(--transition-normal);

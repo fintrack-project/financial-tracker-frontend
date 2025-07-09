@@ -34,7 +34,7 @@
 .popup-content p {
   color: #64748b;
   font-size: 1rem;
-  line-height: 1.5;
+  line-height: var(--table-line-height);
   margin-bottom: 24px;
   max-width: 280px;
 }

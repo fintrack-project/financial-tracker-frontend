@@ -9,7 +9,7 @@ body {
   font-family: var(--font-family-primary);
   background-color: var(--primary-100);
   color: var(--text-primary);
-  line-height: 1.6;
+  line-height: var(--table-line-height);
 }
 
 * {

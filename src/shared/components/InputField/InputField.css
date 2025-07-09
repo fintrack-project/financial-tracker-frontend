@@ -136,7 +136,7 @@
   resize: vertical;
   padding-top: var(--spacing-sm);
   padding-bottom: var(--spacing-sm);
-  line-height: 1.5;
+  line-height: var(--table-line-height);
 }
 
 /* Select */

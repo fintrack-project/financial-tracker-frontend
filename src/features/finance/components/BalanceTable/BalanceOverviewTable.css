@@ -164,7 +164,7 @@
   text-transform: uppercase;
   font-size: var(--table-font-size-header);
   letter-spacing: 0.5px;
-  padding: var(--table-cell-padding-desktop);
+  padding: var(--spacing-xs) var(--spacing-sm);
   text-align: center;
   border-bottom: 1px solid var(--table-border);
 }
