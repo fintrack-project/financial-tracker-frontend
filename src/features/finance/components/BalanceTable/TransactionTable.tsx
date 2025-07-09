@@ -85,6 +85,7 @@ const TransactionTable = <T extends {
           type="delete" 
           onClick={() => onDeleteClick(transaction)} 
           label="Delete Row"
+          size="small"
         />
       )
     };

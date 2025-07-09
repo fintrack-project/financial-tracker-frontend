@@ -139,10 +139,9 @@ const UploadBalanceTable: React.FC<UploadBalanceTableProps> = ({
 
   return (
     <div className="table-container upload-balance-container">
-      <div className="table-header" style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', position: 'relative', minHeight: 56, minWidth: 400, padding: '0 48px' }}>
-        <div style={{ position: 'absolute', left: 0 }}></div>
-        <h2 style={{ margin: 0, flex: 0, textAlign: 'center', width: '100%', whiteSpace: 'nowrap' }}>Upload Balance Table</h2>
-        <div style={{ position: 'absolute', right: 0 }}>
+      <div className="table-header">
+        <h2 className="table-title">Upload Balance Table</h2>
+        <div className="table-actions">
           <button className="button button-secondary" onClick={addRow}>
             + Add Transaction
           </button>

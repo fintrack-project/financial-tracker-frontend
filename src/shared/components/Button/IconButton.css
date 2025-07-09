@@ -4,16 +4,23 @@
 }
 
 .icon-button-small {
-  padding: var(--spacing-xs);
+  width: var(--button-size-small);
+  height: var(--button-size-small);
 }
 
 .icon-button-large {
-  padding: var(--spacing-sm);
+  width: var(--button-size-large);
+  height: var(--button-size-large);
 }
 
 .icon-image {
-  width: var(--button-size-large);
-  height: var(--button-size-large);
+  width: var(--button-size-medium);
+  height: var(--button-size-medium);
+}
+
+.icon-button-small .icon-image {
+  width: var(--button-size-small);
+  height: var(--button-size-small);
 }
 
 .icon-button-large .icon-image {
@@ -21,9 +28,24 @@
   height: var(--button-size-large);
 }
 
+/* Responsive Design */
+@media (max-width: 768px) {
+  .icon-button,
+  .icon-button-large {
+    width: var(--button-size-small);
+    height: var(--button-size-small);
+  }
+}
+
+.icon-button {
+  background: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+}
+
 .icon-button:hover {
-  background: none !important; /* Prevent global hover styles */
-  border: none !important; /* Prevent global hover borders */
-  box-shadow: none !important; /* Prevent global hover shadows */
+  background: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
   opacity: 0.8; /* Add hover effect */
 }

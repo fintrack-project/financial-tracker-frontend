@@ -35,6 +35,7 @@
 .category-cell .actions {
   display: flex;
   align-items: center;
+  justify-content: center;
   opacity: 0;
   transition: all var(--transition-normal);
   border-radius: var(--border-radius-sm);
@@ -83,7 +84,7 @@
   background-color: var(--neutral-100) !important;
   color: var(--neutral-600) !important;
   font-size: var(--font-size-xs);
-  box-shadow: var(--shadow-sm);
+  box-shadow: none;
 }
 
 .category-color-indicator {
@@ -195,8 +196,8 @@
 .category-cell .actions .category-color-dropdown:hover {
   transform: translateY(-1px);
   color: var(--primary-600) !important;
-  box-shadow: var(--shadow-md);
-  background-color: var(--neutral-100) !important;
+  box-shadow: none;
+  background-color: var(--neutral-200) !important;
   outline: none;
 }
 
