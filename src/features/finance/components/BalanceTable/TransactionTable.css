@@ -1,3 +1,5 @@
+@import '../../../../shared/components/Table/shared/TableStyles.css';
+
 .transaction-table-container {
   max-height: 400px;
   overflow-y: auto;
@@ -135,12 +137,7 @@
   background-color: #d32f2f;
 }
 
-/* Empty state */
-.transaction-empty-state {
-  text-align: center;
-  padding: var(--spacing-2xl);
-  color: var(--neutral-500);
-}
+
 
 /* Cell height consistency */
 .transaction-table td {
@@ -157,15 +154,7 @@
 .col-unit { width: 10%; }
 .col-delete { width: 8%; }
 
-/* Empty state styling */
-.no-transactions-message {
-  text-align: center;
-  padding: 48px 0;
-  font-size: 1.1rem;
-  color: #94a3b8;
-  font-style: italic;
-  font-family: var(--font-family-primary);
-}
+
 
 /* Scrollbar styling */
 .transaction-table-container::-webkit-scrollbar {

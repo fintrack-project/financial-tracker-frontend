@@ -1,3 +1,33 @@
+@import '../../../../shared/components/Table/shared/TableStyles.css';
+
+/* Responsive pie chart container */
+.portfolio-pie-chart {
+  width: 100%;
+  margin: var(--spacing-sm) auto;
+  padding: var(--spacing-sm);
+  background-color: var(--neutral-100);
+  border-radius: var(--border-radius-lg);
+  box-shadow: var(--shadow-md);
+  transition: box-shadow var(--transition-normal);
+  min-height: var(--chart-min-height-mobile);
+  display: flex;
+  flex-direction: column;
+}
+
+.portfolio-pie-chart:hover {
+  box-shadow: var(--shadow-lg);
+}
+
+/* Chart container */
+.recharts-wrapper {
+  margin: 0 auto;
+}
+
+/* Responsive chart container heights */
+.portfolio-pie-chart .recharts-responsive-container {
+  min-height: var(--chart-container-height-mobile) !important;
+}
+
 /* Center the chart title */
 .chart-header {
   display: flex;
@@ -25,27 +55,18 @@
   align-items: center;
 }
 
-/* Responsive pie chart container */
-.portfolio-pie-chart {
-  width: 100%;
-  margin: var(--spacing-sm) auto;
-  padding: var(--spacing-sm);
-  background-color: var(--neutral-100);
-  border-radius: var(--border-radius-lg);
-  box-shadow: var(--shadow-md);
-  transition: box-shadow var(--transition-normal);
-  min-height: var(--chart-min-height-mobile);
-  display: flex;
-  flex-direction: column;
+/* Dropdown hover/focus */
+.portfolio-pie-chart .dropdown-container select:focus,
+.portfolio-pie-chart .dropdown-container select:hover {
+  border-color: var(--primary-500);
+  box-shadow: 0 0 0 2px rgba(52, 98, 219, 0.15);
 }
 
-.portfolio-pie-chart:hover {
-  box-shadow: var(--shadow-lg);
-}
-
-/* Responsive chart container heights */
-.portfolio-pie-chart .recharts-responsive-container {
-  min-height: var(--chart-container-height-mobile) !important;
+/* Cursor pointer for interactive chart elements */
+.portfolio-pie-chart .recharts-sector:hover,
+.portfolio-pie-chart .recharts-bar-rectangle:hover {
+  filter: drop-shadow(0 2px 8px rgba(52, 98, 219, 0.18));
+  cursor: pointer;
 }
 
 /* Tooltip fade-in animation */
@@ -74,79 +95,18 @@
   gap: var(--spacing-xs);
 }
 
-.portfolio-pie-chart .custom-tooltip .color-dot {
-  width: 10px;
-  height: 10px;
-  border-radius: 50%;
-  display: inline-block;
-  margin-right: var(--spacing-xs);
-}
-
 .portfolio-pie-chart .custom-tooltip p:first-child {
   font-weight: 600;
   font-size: var(--font-size-base);
   margin-bottom: var(--spacing-xs);
 }
 
-/* Dropdown hover/focus */
-.portfolio-pie-chart .dropdown-container select:focus,
-.portfolio-pie-chart .dropdown-container select:hover {
-  border-color: var(--primary-500);
-  box-shadow: 0 0 0 2px rgba(52, 98, 219, 0.15);
-}
-
-/* Legend hover effect */
-.portfolio-pie-chart .recharts-legend-item:hover .recharts-legend-item-text {
-  text-decoration: underline;
-  color: var(--primary-500) !important;
-  cursor: pointer;
-}
-
-/* Cursor pointer for interactive chart elements */
-.portfolio-pie-chart .recharts-sector:hover,
-.portfolio-pie-chart .recharts-bar-rectangle:hover {
-  filter: drop-shadow(0 2px 8px rgba(52, 98, 219, 0.18));
-  cursor: pointer;
-}
-
-/* Error message styling */
-.error-message {
-  color: var(--error-color);
-  font-size: var(--font-size-base);
-  padding: var(--spacing-md);
-  background-color: var(--neutral-200);
-  border-radius: var(--border-radius-md);
-  text-align: center;
-  margin: var(--spacing-md) 0;
-}
-
-/* Empty state styling - responsive */
-.no-holdings-message {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: var(--chart-container-height-mobile);
-  font-size: var(--font-size-lg);
-  color: var(--neutral-500);
-  font-weight: 500;
-  background-color: var(--primary-100);
-  border-radius: var(--border-radius-md);
-  border: 2px dashed var(--neutral-300);
-}
-
-/* Loading state */
-.loading-state {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: var(--chart-container-height-mobile);
-  color: var(--primary-500);
-  font-size: var(--font-size-base);
-}
-
-/* Chart container */
-.recharts-wrapper {
-  margin: 0 auto;
+.portfolio-pie-chart .custom-tooltip .color-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  display: inline-block;
+  margin-right: var(--spacing-xs);
 }
 
 /* Legend styling - responsive */
@@ -165,6 +125,47 @@
   font-size: var(--font-size-sm) !important;
 }
 
+/* Legend hover effect */
+.portfolio-pie-chart .recharts-legend-item:hover .recharts-legend-item-text {
+  text-decoration: underline;
+  color: var(--primary-500) !important;
+  cursor: pointer;
+}
+
+/* Chart empty state styling */
+.chart-empty-state {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: var(--chart-container-height-mobile);
+  padding: var(--spacing-2xl);
+  background-color: var(--primary-100);
+  border-radius: var(--border-radius-md);
+  border: 2px dashed var(--neutral-300);
+}
+
+/* Loading state */
+.loading-state {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: var(--chart-container-height-mobile);
+  color: var(--primary-500);
+  font-size: var(--font-size-base);
+}
+
+/* Error message styling */
+.error-message {
+  color: var(--error-color);
+  font-size: var(--font-size-base);
+  padding: var(--spacing-md);
+  background-color: var(--neutral-200);
+  border-radius: var(--border-radius-md);
+  text-align: center;
+  margin: var(--spacing-md) 0;
+}
+
+/* Mobile Styles (768px and below) */
 @media (max-width: 768px) {
   .chart-header {
     flex-direction: column;
@@ -174,6 +175,7 @@
   }
 }
 
+/* Tablet Styles (769px to 1023px) */
 @media (min-width: 768px) {
   .portfolio-pie-chart {
     margin: var(--spacing-md) auto;
@@ -185,8 +187,8 @@
     min-height: var(--chart-container-height-tablet) !important;
   }
 
-  .no-holdings-message {
-    height: var(--chart-container-height-tablet);
+  .chart-empty-state {
+    min-height: var(--chart-container-height-tablet);
   }
 
   .loading-state {
@@ -195,6 +197,7 @@
   }
 }
 
+/* Desktop Styles (1024px and up) */
 @media (min-width: 1024px) {
   .fintrack-subsection-title {
     font-size: var(--font-size-xl);

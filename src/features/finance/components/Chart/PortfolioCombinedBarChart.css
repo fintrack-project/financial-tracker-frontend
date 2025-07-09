@@ -1,28 +1,4 @@
-/* Center the chart title */
-.chart-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: var(--spacing-md) var(--spacing-md);
-  border-bottom: 1px solid #f0f0f0;
-}
-
-/* Style the chart title */
-.fintrack-subsection-title {
-  font-size: var(--font-size-lg);
-  color: var(--text-primary);
-  margin: 0;
-  display: flex;
-  align-items: center;
-}
-
-/* Position the dropdown at the right-top corner */
-.portfolio-bar-chart .dropdown-container {
-  position: static;
-  display: flex;
-  gap: 12px;
-  align-items: center;
-}
+@import '../../../../shared/components/Table/shared/TableStyles.css';
 
 /* Chart container styling */
 .portfolio-bar-chart {
@@ -43,6 +19,56 @@
 
 .portfolio-bar-chart h2 {
   text-align: center;
+}
+
+/* Chart container */
+.recharts-wrapper {
+  margin: 0 auto;
+}
+
+/* Center the chart title */
+.chart-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: var(--spacing-md) var(--spacing-md);
+  border-bottom: 1px solid var(--table-border);
+  margin-bottom: var(--spacing-md);
+}
+
+/* Style the chart title */
+.fintrack-subsection-title {
+  font-size: var(--font-size-lg);
+  color: var(--text-primary);
+  margin: 0;
+  display: flex;
+  align-items: center;
+}
+
+/* Position the dropdown at the right-top corner */
+.portfolio-bar-chart .dropdown-container {
+  position: static;
+  display: flex;
+  gap: var(--spacing-sm);
+  align-items: center;
+}
+
+/* Chart grid styling */
+.recharts-cartesian-grid-horizontal line,
+.recharts-cartesian-grid-vertical line {
+  stroke: #e2e8f0 !important;
+}
+
+/* Axis styling */
+.recharts-xAxis .recharts-cartesian-axis-line,
+.recharts-yAxis .recharts-cartesian-axis-line {
+  stroke: #bdc3c7;
+}
+
+.recharts-xAxis .recharts-cartesian-axis-tick-value,
+.recharts-yAxis .recharts-cartesian-axis-tick-value {
+  fill: #64748b !important;
+  font-size: 0.85rem !important;
 }
 
 /* Custom tooltip styling */
@@ -75,59 +101,6 @@
   padding-bottom: 4px;
 }
 
-/* Error message styling */
-.error-message {
-  color: #e74c3c;
-  font-size: 1rem;
-  padding: 16px;
-  background-color: #fdf0ef;
-  border-radius: 8px;
-  text-align: center;
-  margin: 16px 0;
-}
-
-/* Empty state styling */
-.no-holdings-by-time-message {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 300px;
-  font-size: 1.25rem;
-  color: #95a5a6;
-  font-weight: 500;
-  background-color: #f8f9fa;
-  border-radius: 8px;
-  border: 2px dashed #e0e0e0;
-}
-
-/* Loading state */
-.loading-state {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 300px;
-  color: #3498db;
-  font-size: 1.1rem;
-}
-
-/* Chart grid styling */
-.recharts-cartesian-grid-horizontal line,
-.recharts-cartesian-grid-vertical line {
-  stroke: #e2e8f0 !important;
-}
-
-/* Axis styling */
-.recharts-xAxis .recharts-cartesian-axis-line,
-.recharts-yAxis .recharts-cartesian-axis-line {
-  stroke: #bdc3c7;
-}
-
-.recharts-xAxis .recharts-cartesian-axis-tick-value,
-.recharts-yAxis .recharts-cartesian-axis-tick-value {
-  fill: #64748b !important;
-  font-size: 0.85rem !important;
-}
-
 /* Legend styling */
 .recharts-default-legend {
   margin: 16px 0 !important;
@@ -150,7 +123,45 @@
   margin-left: 8px !important;
 }
 
-/* Chart container */
-.recharts-wrapper {
-  margin: 0 auto;
+/* Chart empty state styling */
+.chart-empty-state {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 300px;
+  padding: var(--spacing-2xl);
+  background-color: var(--primary-100);
+  border-radius: var(--border-radius-md);
+  border: 2px dashed var(--neutral-300);
+}
+
+/* Loading state */
+.loading-state {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 300px;
+  color: #3498db;
+  font-size: 1.1rem;
+}
+
+/* Error message styling */
+.error-message {
+  color: #e74c3c;
+  font-size: 1rem;
+  padding: 16px;
+  background-color: #fdf0ef;
+  border-radius: 8px;
+  text-align: center;
+  margin: 16px 0;
+}
+
+/* Mobile Styles (768px and below) */
+@media (max-width: 768px) {
+  .chart-header {
+    flex-direction: column;
+    gap: var(--spacing-sm);
+    align-items: center;
+    padding: var(--spacing-sm) var(--spacing-md);
+  }
 }

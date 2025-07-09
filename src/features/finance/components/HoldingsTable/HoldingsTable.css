@@ -121,11 +121,7 @@
   background-color: var(--error-color);
 }
 
-.holdings-empty-state {
-  text-align: center;
-  padding: var(--spacing-2xl);
-  color: var(--neutral-500);
-}
+
 
 .category-header {
   display: flex;

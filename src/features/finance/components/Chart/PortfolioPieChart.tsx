@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, ReactNode } from 'react';
 import {
   PieChart,
   Pie,
@@ -13,7 +13,23 @@ import { useBaseCurrency } from '../../../../shared/hooks/useBaseCurrency'; // C
 import { formatNumber } from '../../../../shared/utils/FormatNumber'; // Utility function to format numbers
 import { getCurrentBreakpoint, createBreakpointListener } from '../../../../shared/utils/breakpoints'; // New breakpoint utilities
 import CategoryDropdown from '../../../categories/components/DropDown/CategoryDropdown';
+import { FaChartPie } from 'react-icons/fa';
+import Icon from '../../../../shared/components/Card/Icon';
 import './PortfolioPieChart.css';
+
+interface EmptyStateProps {
+  icon: ReactNode;
+  text: string;
+  subtext: string;
+}
+
+const EmptyState: React.FC<EmptyStateProps> = ({ icon, text, subtext }) => (
+  <div className="empty-state">
+    <div className="empty-state-icon">{icon}</div>
+    <div className="empty-state-text">{text}</div>
+    {subtext && <div className="empty-state-subtext">{subtext}</div>}
+  </div>
+);
 
 interface PortfolioPieChartProps {
   accountId: string | null;
@@ -168,8 +184,12 @@ const PortfolioPieChart: React.FC<PortfolioPieChartProps> = ({ accountId }) => {
       ) : error ? (
         <p className="error-message">{error}</p>
       ) : chartData.length === 0 ? (
-        <div className="no-holdings-message">
-          No holdings
+        <div className="chart-empty-state">
+          <EmptyState
+            icon={<Icon icon={FaChartPie} className="empty-state-icon" aria-hidden={true} />}
+            text="No Holdings Data"
+            subtext="Add holdings to see your portfolio distribution"
+          />
         </div>
       ) : (
         <ResponsiveContainer width="100%" height={height}>

@@ -2,7 +2,7 @@ import React, { ReactNode } from 'react';
 import { useHoldingsData } from '../../hooks/useHoldingsData';
 import { useBaseCurrency } from '../../../../shared/hooks/useBaseCurrency';
 import { formatNumber } from '../../../../shared/utils/FormatNumber';
-import { FaCoins } from 'react-icons/fa6';
+import { FaChartLine } from 'react-icons/fa';
 import Icon from '../../../../shared/components/Card/Icon';
 import './HoldingsTable.css';
 
@@ -18,9 +18,9 @@ interface EmptyStateProps {
 
 const EmptyState: React.FC<EmptyStateProps> = ({ icon, text, subtext }) => (
   <div className="empty-state">
-    {icon}
+    <div className="empty-state-icon">{icon}</div>
     <div className="empty-state-text">{text}</div>
-    <div className="empty-state-subtext">{subtext}</div>
+    {subtext && <div className="empty-state-subtext">{subtext}</div>}
   </div>
 );
 
@@ -65,7 +65,7 @@ const HoldingsTable: React.FC<HoldingsTableProps> = ({ accountId }) => {
                 <tr>
                   <td colSpan={6}>
                     <EmptyState
-                      icon={<Icon icon={FaCoins} className="empty-state-icon" aria-hidden={true} />}
+                      icon={<Icon icon={FaChartLine} className="empty-state-icon" aria-hidden={true} />}
                       text="No Holdings Found"
                       subtext="Add holdings to start tracking your portfolio"
                     />
