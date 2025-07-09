@@ -47,11 +47,11 @@
 /* Table Headers and Cells */
 .data-table th,
 .data-table td {
-  padding: var(--spacing-sm) var(--spacing-md);
+  padding: var(--spacing-xs) var(--spacing-sm);
   text-align: center;
   border-bottom: 1px solid var(--table-border);
   vertical-align: middle;
-  line-height: 1.4;
+  line-height: 1.3;
 }
 
 .data-table th {
@@ -59,7 +59,7 @@
   font-weight: 600;
   color: var(--primary-800);
   text-transform: uppercase;
-  font-size: var(--table-font-size-header);
+  font-family: var(--font-family-primary);
   letter-spacing: 0.5px;
   position: sticky;
   top: 0;
@@ -177,40 +177,18 @@
   opacity: 0.8;
 }
 
-/* Desktop Styles (1024px and up) */
-@media (min-width: 1024px) {
-  .table-container {
-    /* Remove width constraints to use full available space */
-    min-width: 100%;
-    max-width: none;
-    width: 100%;
-  }
-  
-  .table-header {
-    padding: var(--card-padding-desktop);
-    font-size: var(--font-size-2xl);
-  }
-  
-  .data-table {
-    font-size: var(--table-font-size-compact);
-  }
-  
+/* Responsive font size and min-height for th/td */
+@media (max-width: 768px) {
   .data-table th,
   .data-table td {
-    padding: var(--spacing-xs) var(--spacing-sm);
-    line-height: 1.3;
+    font-size: var(--font-size-xs);
   }
-  
+}
+@media (min-width: 769px) and (max-width: 1023px), (min-width: 1024px) {
+  .data-table th,
   .data-table td {
-    min-height: var(--table-cell-height-compact);
-  }
-  
-  .table-footer {
-    padding: var(--card-padding-desktop);
-  }
-  
-  .table-footer .actions-group {
-    flex-wrap: nowrap;
+    font-size: var(--font-size-sm);
+    min-height: var(--table-cell-height-normal);
   }
 }
 
@@ -221,6 +199,12 @@
     /* Enable horizontal scrolling */
     overflow-x: auto;
     -webkit-overflow-scrolling: touch;
+  }
+  
+  .data-table th,
+  .data-table td {
+    font-size: var(--font-size-sm);
+    min-height: var(--table-cell-height-normal);
   }
 }
 
@@ -252,14 +236,9 @@
     font-size: var(--table-font-size-compact); /* Smaller font for mobile */
   }
   
-  .data-table th {
-    font-size: var(--font-size-xs); /* Smaller header font */
-    padding: var(--spacing-xs) var(--spacing-sm); /* Tighter padding */
-  }
-  
+  .data-table th,
   .data-table td {
-    font-size: var(--table-font-size-compact); /* Smaller cell font */
-    padding: var(--spacing-xs) var(--spacing-sm); /* Tighter padding */
+    font-size: var(--font-size-xs);
   }
   
   .table-footer {

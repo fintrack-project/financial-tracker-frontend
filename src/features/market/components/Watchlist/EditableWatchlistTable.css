@@ -114,20 +114,14 @@
 /* Mobile: Smaller font sizes and minimum width for scrolling */
 @media (max-width: 768px) {
   .editable-watchlist-table {
-    font-size: var(--table-font-size-compact); /* Smaller font for mobile */
+    font-size: var(--font-size-xs);
     min-width: 500px; /* Force horizontal scrolling if table is wider than container */
   }
   
-  .editable-watchlist-table th {
-    font-size: var(--font-size-xs); /* Smaller header font */
-    padding: var(--spacing-xs) var(--spacing-sm); /* Tighter padding */
-    white-space: nowrap; /* Prevent header text wrapping */
-  }
-  
+  .editable-watchlist-table th,
   .editable-watchlist-table td {
-    font-size: var(--table-font-size-compact); /* Smaller cell font */
-    padding: var(--spacing-xs) var(--spacing-sm); /* Tighter padding */
-    white-space: nowrap; /* Prevent cell content wrapping */
+    font-size: var(--font-size-xs);
+    white-space: nowrap; /* Prevent content wrapping */
   }
 }
 
@@ -139,17 +133,19 @@
   
   .editable-watchlist-table th,
   .editable-watchlist-table td {
+    font-size: var(--font-size-sm);
+    min-height: var(--table-cell-height-normal);
     white-space: nowrap; /* Prevent content wrapping */
   }
 }
 
 .editable-watchlist-table th,
 .editable-watchlist-table td {
-  padding: var(--spacing-sm) var(--spacing-md);
+  padding: var(--spacing-xs) var(--spacing-sm);
   text-align: center;
   border-bottom: 1px solid var(--table-border);
   vertical-align: middle;
-  line-height: 1.4;
+  line-height: 1.3;
 }
 
 .editable-watchlist-table th {
@@ -157,12 +153,11 @@
   font-weight: 600;
   color: var(--primary-800);
   text-transform: uppercase;
-  font-size: var(--table-font-size-header);
+  font-family: var(--font-family-primary);
   letter-spacing: 0.5px;
   position: sticky;
   top: 0;
   z-index: 1;
-  text-align: center;
 }
 
 .editable-watchlist-table tbody tr {
@@ -305,18 +300,9 @@
 
 /* Responsive Design */
 @media (min-width: 1024px) {
-  .editable-watchlist-table {
-    font-size: var(--table-font-size-normal);
-  }
-  
   .editable-watchlist-table th,
   .editable-watchlist-table td {
-    padding: var(--spacing-xs) var(--spacing-sm);
-    line-height: 1.3;
-    text-align: center;
-  }
-  
-  .editable-watchlist-table td {
+    font-size: var(--font-size-sm);
     min-height: var(--table-cell-height-normal);
   }
   
@@ -329,16 +315,6 @@
 
 /* Mobile-specific adjustments */
 @media (max-width: 768px) {
-  .editable-watchlist-table {
-    font-size: var(--font-size-xs);
-  }
-  
-  .editable-watchlist-table th,
-  .editable-watchlist-table td {
-    padding: var(--spacing-xs) var(--spacing-sm);
-    text-align: center;
-  }
-  
   .editable-watchlist-table .button-group {
     flex-direction: column;
     gap: 2px;
