@@ -33,6 +33,8 @@
 /* Watchlist content */
 .watchlist-content {
   /* Remove any container styling - content flows directly */
+  margin: 0;
+  padding: 0;
 }
 
 .error-message {
@@ -44,11 +46,22 @@
   margin-bottom: var(--spacing-sm);
 }
 
+/* Hide error message when empty to prevent gaps */
+.error-message:empty,
+.error-message:not(:has(*)) {
+  display: none !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  height: 0 !important;
+  overflow: hidden !important;
+}
+
 .loading-message {
   color: var(--neutral-600);
   font-size: var(--font-size-sm);
   padding: var(--spacing-sm);
   text-align: center;
+  margin: 0;
 }
 
 /* Remove old container styles */

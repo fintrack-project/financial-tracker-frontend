@@ -106,7 +106,9 @@ const ForexWatchlist: React.FC<ForexWatchlistProps> = ({
         )}
       </div>
       <div className="watchlist-content">
-        {(watchlistError || marketError) && <div className="error-message">{watchlistError || marketError}</div>}
+        {((watchlistError && watchlistError.trim()) || (marketError && marketError.trim())) && (
+          <div className="error-message">{watchlistError || marketError}</div>
+        )}
         {(watchlistLoading || marketLoading) && <div className="loading-message">Loading...</div>}
         <EditableWatchlistTable<MarketDataDisplay>
           columns={columns}
