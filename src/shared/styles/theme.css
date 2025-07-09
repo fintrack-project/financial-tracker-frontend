@@ -29,6 +29,45 @@
   --table-row-border: #e8eef5;
   --nav-bg: linear-gradient(135deg, #f9fafc 60%, #e3e9f6 100%);
   --nav-shadow: 0 4px 16px rgba(52, 98, 219, 0.06);
+  
+  /* Logout Button Gradients */
+  --logout-gradient: linear-gradient(90deg, #ff4d4f 60%, #ffb3b3 100%);
+  --logout-gradient-hover: linear-gradient(90deg, #e04344 60%, #ffb3b3 100%);
+  
+  /* Avatar Dimensions */
+  --avatar-size-mobile: 48px;
+  --avatar-size-tablet: 56px;
+  --avatar-size-desktop: 64px;
+  
+  /* Account Menu Dimensions */
+  --account-menu-width-mobile: 220px;
+  --account-menu-width-tablet: 280px;
+  --account-menu-width-desktop: 320px;
+  --account-menu-min-height-mobile: 120px;
+  --account-menu-min-height-tablet: 140px;
+  --account-menu-min-height-desktop: 150px;
+  --account-button-min-width: 100px;
+  --account-button-width-mobile: 90px;
+  
+  /* Account Detail Menu Dimensions */
+  --account-detail-min-height-desktop: 340px;
+  --account-detail-min-height-mobile: 300px;
+  
+  /* Background Colors */
+  --account-detail-bg: var(--nav-bg);
+  --account-detail-border: var(--table-header-border);
+  --currency-section-bg: var(--neutral-200);
+  --select-border: var(--neutral-300);
+  --select-focus-border: var(--primary-500);
+  --select-focus-shadow: 0 0 0 2px rgba(52, 98, 219, 0.25);
+  
+  /* Text Colors */
+  --account-detail-title-color: var(--text-dark);
+  --account-detail-user-color: var(--text-secondary);
+  --account-detail-link-color: var(--primary-500);
+  --account-detail-link-hover-bg: var(--primary-200);
+  --account-detail-link-hover-color: var(--primary-800);
+  --currency-label-color: var(--text-primary);
 
   /* Success/Error Light Colors for Tables */
   --success-light: #e8f5e8;

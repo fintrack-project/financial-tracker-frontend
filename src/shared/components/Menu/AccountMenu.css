@@ -1,3 +1,7 @@
+/* ==========================================================================
+   ACCOUNT MENU CONTAINER
+   ========================================================================== */
+
 .account-menu {
   position: relative;
   display: flex;
@@ -6,47 +10,28 @@
   margin-left: auto;
 }
 
+/* ==========================================================================
+   ACCOUNT BUTTON
+   ========================================================================== */
+
 .account-button {
   background: var(--nav-bg);
   color: var(--primary-500);
   border: none;
   padding: var(--nav-padding-normal);
-  border-radius: var(--border-radius-lg);
+  border-radius: var(--border-radius-md);
   cursor: pointer;
-  font-size: var(--font-size-base); /* Default font size to match navigation */
+  font-size: var(--font-size-base);
   font-weight: 600;
   box-shadow: var(--nav-shadow);
   transition: var(--transition-normal);
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 110px;
+  width: var(--nav-padding-horizontal);
+  min-width: var(--account-button-min-width);
   height: var(--nav-height-normal);
   border: 1px solid var(--table-header-border);
-}
-
-/* Mobile: Match navigation bar font size */
-@media (max-width: 768px) {
-  .account-button {
-    padding: var(--nav-padding-compact);
-    font-size: var(--font-size-xs); /* Match mobile navigation font size */
-    width: 90px;
-    height: var(--nav-height-compact);
-  }
-}
-
-/* Tablet: Match navigation bar font size */
-@media (min-width: 769px) and (max-width: 1023px) {
-  .account-button {
-    font-size: var(--font-size-base); /* Match tablet navigation font size */
-  }
-}
-
-/* Desktop: Match navigation bar font size */
-@media (min-width: 1024px) {
-  .account-button {
-    font-size: var(--font-size-lg); /* Match desktop navigation font size */
-  }
 }
 
 .account-button:hover {
@@ -55,71 +40,55 @@
   box-shadow: var(--shadow-md);
 }
 
+/* ==========================================================================
+   DROPDOWN MENU
+   ========================================================================== */
+
 .account-menu .account-dropdown-menu {
   position: absolute;
-  top: calc(var(--nav-height-normal) + 4px);
+  top: calc(var(--nav-height-normal) + var(--spacing-xs));
   right: 0;
   background: var(--nav-bg);
   border: 1px solid var(--table-header-border);
-  border-radius: var(--border-radius-lg);
+  border-radius: var(--border-radius-md);
   box-shadow: var(--shadow-lg);
-  padding: var(--spacing-lg) var(--spacing-md) var(--spacing-md) var(--spacing-md);
-  width: 220px;
-  z-index: 1000;
+  padding: var(--spacing-md) var(--spacing-sm);
+  width: var(--account-menu-width-tablet);
+  z-index: var(--z-index-dropdown);
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  min-height: 180px;
+  min-height: var(--account-menu-min-height-tablet);
 }
 
-@media (max-width: 768px) {
-  .account-menu .account-dropdown-menu {
-    top: calc(var(--nav-height-compact) + 4px);
-    width: 200px;
-    padding: var(--spacing-md) var(--spacing-sm) var(--spacing-sm) var(--spacing-sm);
-    min-height: 160px;
-  }
-}
+/* ==========================================================================
+   AVATAR
+   ========================================================================== */
 
 .account-menu-avatar {
-  width: 48px;
-  height: 48px;
   border-radius: 50%;
-  background: linear-gradient(135deg, #b2cfff 0%, #e3e9f6 100%);
+  background: linear-gradient(135deg, var(--primary-300) 0%, var(--primary-200) 100%);
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 1.5rem;
   color: var(--primary-500);
-  margin-bottom: var(--spacing-sm);
   box-shadow: var(--shadow-sm);
+  margin-bottom: var(--spacing-sm);
   align-self: center;
 }
 
-@media (max-width: 768px) {
-  .account-menu-avatar {
-    width: 40px;
-    height: 40px;
-    font-size: 1.25rem;
-    margin-bottom: var(--spacing-xs);
-  }
-}
+/* ==========================================================================
+   CONTENT ITEMS
+   ========================================================================== */
 
 .account-menu .user-id {
   display: block;
-  font-size: 1rem;
-  color: #64748b;
+  font-size: var(--font-size-base);
+  color: var(--text-secondary);
   margin-bottom: var(--spacing-md);
   text-align: center;
   align-self: center;
   width: 100%;
-}
-
-@media (max-width: 768px) {
-  .account-menu .user-id {
-    font-size: 0.9rem;
-    margin-bottom: var(--spacing-sm);
-  }
 }
 
 .account-menu .menu-items {
@@ -130,25 +99,17 @@
 }
 
 .account-menu .dropdown-item {
-  display: block;
-  font-size: 1.08rem;
+  font-size: var(--font-size-base);
   color: var(--primary-500);
-  cursor: pointer;
-  padding: var(--spacing-sm) var(--spacing-md);
-  text-align: left;
   text-decoration: none;
+  padding: var(--spacing-xs) var(--spacing-sm);
   border-radius: var(--border-radius-sm);
   transition: var(--transition-normal);
+  cursor: pointer;
+  display: block;
+  text-align: left;
   margin-bottom: var(--spacing-xs);
-  width: calc(100% - 24px);
-}
-
-@media (max-width: 768px) {
-  .account-menu .dropdown-item {
-    font-size: 1rem;
-    padding: var(--spacing-xs) var(--spacing-sm);
-    width: calc(100% - 16px);
-  }
+  width: 100%;
 }
 
 .account-menu .dropdown-item:hover, .account-menu .dropdown-item.active {
@@ -158,31 +119,125 @@
 }
 
 .account-menu .logout-button {
-  display: block;
-  background: linear-gradient(90deg, #ff4d4f 60%, #ffb3b3 100%);
+  background: var(--logout-gradient);
   color: white;
   border: none;
-  padding: var(--spacing-md) 0;
   border-radius: var(--border-radius-sm);
   cursor: pointer;
-  width: 100%;
-  font-size: 1.08rem;
   font-weight: 600;
-  margin-top: var(--spacing-sm);
   box-shadow: var(--shadow-sm);
   transition: var(--transition-normal);
+  width: 100%;
+  display: block;
+  font-size: var(--font-size-sm);
+  margin-top: var(--spacing-sm);
   align-self: stretch;
 }
 
+.account-menu .logout-button:hover {
+  background: var(--logout-gradient-hover);
+  box-shadow: var(--shadow-md);
+}
+
+/* ==========================================================================
+   RESPONSIVE DESIGN
+   ========================================================================== */
+
+/* Mobile Styles */
 @media (max-width: 768px) {
+  .account-button {
+    padding: var(--nav-padding-compact);
+    font-size: var(--font-size-xs);
+    width: var(--account-button-width-mobile);
+    height: var(--nav-height-compact);
+  }
+  
+  .account-menu .account-dropdown-menu {
+    top: calc(var(--nav-height-compact) + var(--spacing-xs));
+    width: var(--account-menu-width-mobile);
+    padding: var(--spacing-sm) var(--spacing-xs);
+    min-height: var(--account-menu-min-height-mobile);
+  }
+  
+  .account-menu-avatar {
+    width: var(--avatar-size-mobile);
+    height: var(--avatar-size-mobile);
+    font-size: var(--font-size-lg);
+    margin-bottom: var(--spacing-xs);
+  }
+  
+  .account-menu .user-id {
+    font-size: var(--font-size-sm);
+    margin-bottom: var(--spacing-sm);
+  }
+  
+  .account-menu .dropdown-item {
+    font-size: var(--font-size-sm);
+    padding: var(--spacing-xs) var(--spacing-xs);
+    width: 100%;
+  }
+  
   .account-menu .logout-button {
-    font-size: 1rem;
-    padding: var(--spacing-sm) 0;
+    font-size: var(--font-size-xs);
+    padding: var(--spacing-xs) var(--spacing-xs);
     margin-top: var(--spacing-xs);
   }
 }
 
-.account-menu .logout-button:hover {
-  background: linear-gradient(90deg, #e04344 60%, #ffb3b3 100%);
-  box-shadow: var(--shadow-md);
+/* Tablet Styles */
+@media (min-width: 769px) and (max-width: 1023px) {
+  .account-button {
+    font-size: var(--font-size-base);
+  }
+  
+  .account-menu .account-dropdown-menu {
+    width: var(--account-menu-width-tablet);
+    padding: var(--spacing-md) var(--spacing-md);
+    min-height: var(--account-menu-min-height-tablet);
+  }
+  
+  .account-menu-avatar {
+    width: var(--avatar-size-tablet);
+    height: var(--avatar-size-tablet);
+    font-size: var(--font-size-xl);
+  }
+  
+  .account-menu .dropdown-item {
+    font-size: var(--font-size-base);
+    padding: var(--spacing-xs) var(--spacing-sm);
+  }
+  
+  .account-menu .logout-button {
+    font-size: var(--font-size-base);
+    padding: var(--spacing-xs) var(--spacing-sm);
+  }
+}
+
+/* Desktop Styles */
+@media (min-width: 1024px) {
+  .account-button {
+    font-size: var(--font-size-lg);
+  }
+  
+  .account-menu .account-dropdown-menu {
+    width: var(--account-menu-width-desktop);
+    padding: var(--spacing-md) var(--spacing-lg);
+    min-height: var(--account-menu-min-height-desktop);
+  }
+  
+  .account-menu-avatar {
+    width: var(--avatar-size-desktop);
+    height: var(--avatar-size-desktop);
+    font-size: var(--font-size-2xl);
+  }
+  
+  .account-menu .dropdown-item {
+    font-size: var(--font-size-base);
+    padding: var(--spacing-sm) var(--spacing-md);
+  }
+  
+  .account-menu .logout-button {
+    font-size: var(--font-size-base);
+    padding: var(--spacing-sm) var(--spacing-md);
+  }
 }
