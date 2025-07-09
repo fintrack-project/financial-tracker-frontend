@@ -68,6 +68,66 @@
   --account-detail-link-hover-bg: var(--primary-200);
   --account-detail-link-hover-color: var(--primary-800);
   --currency-label-color: var(--text-primary);
+  
+  /* Profile/Account Colors */
+  --text-primary: #333;                    /* Dark text for headings */
+  --text-secondary: #555;                  /* Medium text for body */
+  --text-muted: #64748b;                   /* Muted text for descriptions */
+  --card-bg: #ffffff;                      /* White background for cards */
+  --section-bg: #f8fafc;                   /* Light background for sections */
+  --page-bg: #f9f9f9;                      /* Page background */
+  --border-light: #ddd;                    /* Light borders */
+  --border-lighter: #e2e8f0;               /* Even lighter borders */
+  
+  /* Input/Form Elements */
+  --input-border: #ccc;                    /* Default input border */
+  --input-focus-border: var(--primary-500); /* Input focus border */
+  --input-focus-shadow: 0 0 0 2px rgba(52, 98, 219, 0.1); /* Input focus shadow */
+  --input-disabled-bg: #f5f5f5;            /* Disabled input background */
+  --input-disabled-text: #aaa;             /* Disabled input text */
+  --input-height: 40px;                    /* Standard input height */
+  
+  /* Buttons */
+  --button-primary-bg: var(--primary-500); /* Primary button background */
+  --button-primary-hover: var(--primary-600); /* Primary button hover */
+  
+  /* Tier System */
+  --tier-border-radius: 20px;              /* Tier badge border radius */
+  --tier-free-bg: #6c757d;                 /* Free tier background */
+  --tier-premium-bg: var(--primary-500);   /* Premium tier background */
+  
+  /* Layout */
+  --sidebar-width: 340px;                  /* Left sidebar width */
+  --sidebar-min-width: 260px;              /* Left sidebar min width */
+  --content-width: 800px;                  /* Main content width */
+  --content-min-width: 400px;              /* Main content min width */
+  
+  /* Accent Colors */
+  --accent-color: #3b82f6;                 /* Accent blue for highlights */
+  
+  /* Popup/Modal Variables */
+  --popup-overlay-bg: rgba(0, 0, 0, 0.5);  /* Modal overlay background */
+  --popup-bg: var(--nav-bg);               /* Popup background (same as nav) */
+  --popup-border: var(--table-header-border); /* Popup border */
+  --popup-shadow: 0 4px 16px rgba(52, 98, 219, 0.10); /* Popup shadow */
+  --popup-width: 300px;                    /* Standard popup width */
+  --popup-padding: var(--spacing-xl);      /* Popup padding */
+  --popup-border-radius: var(--border-radius-lg); /* Popup border radius */
+  
+  /* Popup Button Colors */
+  --popup-button-primary-bg: #4d7df2;      /* Primary button in popups */
+  --popup-button-primary-hover: var(--primary-500); /* Primary button hover */
+  --popup-button-secondary-bg: #cbd5e1;    /* Secondary button background */
+  --popup-button-secondary-hover: #94a3b8; /* Secondary button hover */
+  --popup-button-secondary-text: #334155;  /* Secondary button text */
+  --popup-button-secondary-hover-text: #1e293b; /* Secondary button hover text */
+  --popup-button-shadow: 0 2px 8px rgba(52, 98, 219, 0.08); /* Button shadow */
+  --popup-button-hover-shadow: 0 4px 16px rgba(52, 98, 219, 0.12); /* Button hover shadow */
+  --popup-button-secondary-hover-shadow: 0 4px 16px rgba(0, 0, 0, 0.08); /* Secondary button hover shadow */
+  
+  /* QR Code Specific */
+  --qr-code-size: 200px;                   /* QR code image size */
+  --qr-code-shadow: 0 2px 8px rgba(52, 98, 219, 0.08); /* QR code shadow */
 
   /* Success/Error Light Colors for Tables */
   --success-light: #e8f5e8;
@@ -258,7 +318,7 @@
   --chart-min-height-desktop: 400px;            /* Minimum chart height on desktop */
   --icon-button-size: 24px; /* Standard size for square icon buttons */
   --button-size-small: 16px; /* Small button size */
---button-size-medium: 24px; /* Medium button size */
---button-size-large: 32px; /* Large button size */
---button-size-xlarge: 56px; /* Extra Large button size */
+  --button-size-medium: 24px; /* Medium button size */
+  --button-size-large: 32px; /* Large button size */
+  --button-size-xlarge: 56px; /* Extra Large button size */
 } 

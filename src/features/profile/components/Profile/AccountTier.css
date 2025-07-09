@@ -1,28 +1,28 @@
 .account-tier {
   display: inline-block;
-  padding: 0.5rem 1rem;
-  border-radius: 20px;
+  padding: var(--spacing-xs) var(--spacing-md);
+  border-radius: var(--tier-border-radius);
   color: white;
-  font-size: 0.875rem;
+  font-size: var(--font-size-sm);
   font-weight: 500;
   text-transform: capitalize;
 }
 
 .account-tier.free {
-  background-color: #6c757d;
+  background-color: var(--tier-free-bg);
 }
 
 .account-tier.premium {
-  background-color: #007bff;
+  background-color: var(--tier-premium-bg);
 }
 
 .tier-badge {
   display: inline-block;
-  padding: 0.25rem 0.75rem;
-  border-radius: 4px;
+  padding: var(--spacing-xs) var(--spacing-sm);
+  border-radius: var(--border-radius-sm);
   color: white;
   font-weight: 600;
-  margin-bottom: 1rem;
+  margin-bottom: var(--spacing-md);
 }
 
 .tier-features {
@@ -32,9 +32,9 @@
 }
 
 .tier-features li {
-  padding: 0.5rem 0;
-  border-bottom: 1px solid #eee;
-  font-size: 0.9rem;
+  padding: var(--spacing-sm) 0;
+  border-bottom: 1px solid var(--border-light);
+  font-size: var(--font-size-sm);
 }
 
 .tier-features li:last-child {

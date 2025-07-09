@@ -1,27 +1,27 @@
 .notification {
-  padding: 16px;
-  background-color: #f9f9f9;
-  border: 1px solid #ddd;
-  border-radius: 8px;
+  padding: var(--spacing-md);
+  background-color: var(--page-bg);
+  border: 1px solid var(--border-light);
+  border-radius: var(--border-radius-md);
 }
 
 .notification h2 {
-  font-size: 20px;
+  font-size: var(--font-size-xl);
   font-weight: bold;
-  margin-top: 4px;
-  margin-bottom: 16px;
+  margin-top: var(--spacing-xs);
+  margin-bottom: var(--spacing-sm);
 }
 
 .notification-preferences {
   display: flex;
   flex-direction: column;
-  gap: 15px;
+  gap: var(--spacing-sm);
 }
 
 .notification-error {
-  color: red;
-  font-size: 1rem;
-  margin-top: 10px;
+  color: var(--error-color);
+  font-size: var(--font-size-base);
+  margin-top: var(--spacing-sm);
 }
 
 .notification ul {
@@ -31,5 +31,5 @@
 }
 
 .notification ul li {
-  margin: 4px 0;
+  margin: var(--spacing-xs) 0;
 }
