@@ -1,49 +1,44 @@
 /* General container styling */
 .portfolio-overview-container {
-  padding: 32px;
-  background-color: #f8f9fa;
+  padding: var(--page-container-padding);
+  background-color: var(--primary-100);
   min-height: 100vh;
+  text-align: center;
 }
 
-/* Section title styling */
-.fintrack-section-title {
-  color: #2c3e50;
-  font-size: 2rem;
-  font-weight: 700;
-  margin-bottom: 32px;
-  text-align: left;
-  padding-left: 8px;
-  border-left: 4px solid #3498db;
-}
+/* Portfolio Overview title will now use the common .fintrack-section-title styling from Title.css */
 
-/* Chart grid layout */
+/* Chart grid layout with reduced spacing for tighter layout */
 .charts-grid {
   display: grid;
   grid-template-columns: 1fr;
-  gap: 32px;
-  max-width: 1400px;
-  margin: 0 auto;
+  gap: var(--spacing-sm);
+  max-width: var(--table-max-width-desktop);
+  margin: var(--spacing-sm) auto;
+  width: 100%;
 }
 
 /* Responsive design */
-@media (min-width: 1200px) {
+@media (min-width: 1024px) {
   .portfolio-overview-container {
-    padding: 40px;
+    padding: var(--page-container-padding-desktop);
   }
   
-  .fintrack-section-title {
-    font-size: 2.25rem;
+  .charts-grid {
+    gap: var(--spacing-md);
+    margin: var(--spacing-md) auto;
   }
 }
 
 @media (max-width: 768px) {
   .portfolio-overview-container {
-    padding: 20px;
+    padding: var(--page-container-padding);
   }
   
-  .fintrack-section-title {
-    font-size: 1.75rem;
-    margin-bottom: 24px;
+  .charts-grid {
+    gap: var(--spacing-xs);
+    margin: var(--spacing-xs) auto;
+    max-width: 100%;
   }
 }
 
@@ -56,11 +51,11 @@
 }
 
 .loading-spinner {
-  border: 4px solid #f3f3f3;
-  border-top: 4px solid #3498db;
+  border: var(--spacing-xs) solid var(--neutral-300);
+  border-top: var(--spacing-xs) solid var(--info-color);
   border-radius: 50%;
-  width: 40px;
-  height: 40px;
+  width: var(--spacing-2xl);
+  height: var(--spacing-2xl);
   animation: spin 1s linear infinite;
 }
 
@@ -69,43 +64,61 @@
   100% { transform: rotate(360deg); }
 }
 
-/* General container styling */
-.portfolio-overview-container {
-  text-align: center;
-  padding: 20px;
-  background-color: #f9f9f9; /* Light background for better contrast */
-  min-height: 100vh; /* Ensure the page takes up the full viewport height */
-}
-
-.portfolio-overview-container h1 {
-  color: #333;
-  font-size: 2.5rem;
-  margin-bottom: 20px;
-}
-
-.portfolio-overview-container p {
-  color: #555;
-  font-size: 1.2rem;
-  margin: 10px 0;
-}
-
-/* Top bar styling */
+/* Top bar styling with responsive spacing */
 .top-bar {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 20px;
-  padding: 10px 20px;
-  background-color: #ffffff; /* White background for the top bar */
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Subtle shadow for separation */
+  margin-top: var(--spacing-sm);
+  margin-bottom: var(--spacing-sm);
+  padding: var(--spacing-sm) var(--spacing-lg);
+  background-color: var(--neutral-100);
+  box-shadow: var(--shadow-sm);
+  border-radius: var(--border-radius-md);
 }
 
-/* Chart container styling */
+@media (min-width: 1024px) {
+  .top-bar {
+    margin-top: var(--spacing-md);
+    margin-bottom: var(--spacing-md);
+    padding: var(--spacing-md) var(--spacing-xl);
+  }
+}
+
+@media (max-width: 768px) {
+  .top-bar {
+    margin-top: var(--spacing-xs);
+    margin-bottom: var(--spacing-xs);
+    padding: var(--spacing-xs) var(--spacing-sm);
+    flex-direction: column;
+    gap: var(--spacing-xs);
+  }
+}
+
+/* Chart container styling with responsive spacing */
 .chart-container {
-  margin: 20px auto;
-  padding: 10px;
-  background-color: #ffffff; /* White background for the chart container */
-  border-radius: 8px; /* Rounded corners */
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
-  max-width: 800px; /* Limit the width of the chart container */
+  margin: var(--spacing-sm) auto;
+  padding: var(--spacing-sm);
+  background-color: var(--neutral-100);
+  border-radius: var(--border-radius-md);
+  box-shadow: var(--shadow-md);
+  max-width: var(--table-max-width-desktop);
+  width: 100%;
+}
+
+@media (min-width: 1024px) {
+  .chart-container {
+    margin: var(--spacing-md) auto;
+    padding: var(--spacing-md);
+    max-width: var(--table-max-width-desktop);
+  }
+}
+
+@media (max-width: 768px) {
+  .chart-container {
+    margin: var(--spacing-xs) auto;
+    padding: var(--spacing-xs);
+    max-width: 100%;
+    border-radius: var(--border-radius-sm);
+  }
 }

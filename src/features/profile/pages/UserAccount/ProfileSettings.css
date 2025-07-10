@@ -5,6 +5,46 @@
 }
 
 .profile-settings-content {
-  font-size: 14px;
-  color: #555;
+  font-size: var(--font-size-sm);
+  color: var(--text-secondary);
+}
+
+/* ==========================================================================
+   RESPONSIVE DESIGN
+   ========================================================================== */
+
+/* Mobile Styles (≤768px) - Touch-First Design */
+@media (max-width: 768px) {
+  .profile-settings {
+    padding: var(--spacing-sm);
+  }
+  
+  .profile-settings-content {
+    font-size: var(--font-size-base);
+    padding: 0;
+  }
+}
+
+/* Tablet Styles (769px-1023px) - Balanced Hybrid */
+@media (min-width: 769px) and (max-width: 1023px) {
+  .profile-settings {
+    padding: var(--spacing-sm);
+  }
+  
+  .profile-settings-content {
+    font-size: var(--font-size-base);
+    padding: 0;
+  }
+}
+
+/* Desktop Styles (≥1024px) - Current Design */
+@media (min-width: 1024px) {
+  .profile-settings {
+    padding: var(--spacing-sm);
+  }
+  
+  .profile-settings-content {
+    font-size: var(--font-size-sm);
+    padding: var(--spacing-sm);
+  }
 }

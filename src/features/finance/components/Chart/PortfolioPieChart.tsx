@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, ReactNode } from 'react';
 import {
   PieChart,
   Pie,
@@ -11,13 +11,83 @@ import { fetchPortfolioPieChartData } from '../../services/portfolioChartService
 import { fetchCategoryNames } from '../../../categories/services/categoryService'; // Service to fetch categories
 import { useBaseCurrency } from '../../../../shared/hooks/useBaseCurrency'; // Custom hook to get base currency 
 import { formatNumber } from '../../../../shared/utils/FormatNumber'; // Utility function to format numbers
-import CategoryDropdown from '../../../../shared/components/DropDown/CategoryDropdown';
+import { getCurrentBreakpoint, createBreakpointListener } from '../../../../shared/utils/breakpoints'; // New breakpoint utilities
+import CategoryDropdown from '../../../categories/components/DropDown/CategoryDropdown';
+import { FaChartPie } from 'react-icons/fa';
+import Icon from '../../../../shared/components/Card/Icon';
 import './PortfolioPieChart.css';
 
+interface EmptyStateProps {
+  icon: ReactNode;
+  text: string;
+  subtext: string;
+}
+
+const EmptyState: React.FC<EmptyStateProps> = ({ icon, text, subtext }) => (
+  <div className="empty-state">
+    <div className="empty-state-icon">{icon}</div>
+    <div className="empty-state-text">{text}</div>
+    {subtext && <div className="empty-state-subtext">{subtext}</div>}
+  </div>
+);
 
 interface PortfolioPieChartProps {
   accountId: string | null;
 }
+
+// Custom hook for responsive chart sizing
+const useChartSize = () => {
+  const [chartSize, setChartSize] = useState(() => {
+    // Initialize with current breakpoint
+    const current = getCurrentBreakpoint();
+    switch (current) {
+      case 'mobile':
+        return { height: 400, outerRadius: 100 };
+      case 'tablet':
+        return { height: 500, outerRadius: 160 };
+      case 'desktop':
+        return { height: 600, outerRadius: 200 };
+      default:
+        return { height: 400, outerRadius: 120 };
+    }
+  });
+
+  useEffect(() => {
+    const updateSize = () => {
+      const current = getCurrentBreakpoint();
+      switch (current) {
+        case 'mobile':
+          // Mobile: Compact chart for small screens
+          setChartSize({ height: 400, outerRadius: 100 });
+          break;
+        case 'tablet':
+          // Tablet: Medium-sized chart for balanced view
+          setChartSize({ height: 500, outerRadius: 160 });
+          break;
+        case 'desktop':
+          // Desktop: Large chart for detailed view
+          setChartSize({ height: 600, outerRadius: 200 });
+          break;
+        default:
+          setChartSize({ height: 400, outerRadius: 120 });
+      }
+    };
+
+    // Initial size update
+    updateSize();
+
+    // Create listeners for all breakpoints
+    const cleanupFunctions = [
+      createBreakpointListener('mobile', updateSize),
+      createBreakpointListener('tablet', updateSize),
+      createBreakpointListener('desktop', updateSize)
+    ];
+
+    return () => cleanupFunctions.forEach(cleanup => cleanup());
+  }, []);
+
+  return chartSize;
+};
 
 const PortfolioPieChart: React.FC<PortfolioPieChartProps> = ({ accountId }) => {
   const [categories, setCategories] = useState<string[]>([]); // Default category
@@ -26,6 +96,7 @@ const PortfolioPieChart: React.FC<PortfolioPieChartProps> = ({ accountId }) => {
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
   const { baseCurrency } = useBaseCurrency(accountId);
+  const { height, outerRadius } = useChartSize();
 
   // Fetch category names when the component loads
   useEffect(() => {
@@ -113,11 +184,15 @@ const PortfolioPieChart: React.FC<PortfolioPieChartProps> = ({ accountId }) => {
       ) : error ? (
         <p className="error-message">{error}</p>
       ) : chartData.length === 0 ? (
-        <div className="no-holdings-message">
-          No holdings
+        <div className="chart-empty-state">
+          <EmptyState
+            icon={<Icon icon={FaChartPie} className="empty-state-icon" aria-hidden={true} />}
+            text="No Holdings Data"
+            subtext="Add holdings to see your portfolio distribution"
+          />
         </div>
       ) : (
-        <ResponsiveContainer width="100%" height={600}>
+        <ResponsiveContainer width="100%" height={height}>
           <PieChart>
             <Pie
               data={chartData}
@@ -125,7 +200,7 @@ const PortfolioPieChart: React.FC<PortfolioPieChartProps> = ({ accountId }) => {
               nameKey="assetName"
               cx="50%"
               cy="50%"
-              outerRadius={200}
+              outerRadius={outerRadius}
               fill="#8884d8"
               label={({ name, value }) => `${name}: ${formatNumber(value)}`}
             >

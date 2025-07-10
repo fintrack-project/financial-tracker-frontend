@@ -88,7 +88,7 @@
 
 .popup-content p {
   color: #555;
-  line-height: 1.5;
+  line-height: var(--table-line-height);
   margin: 0 0 12px 0;
   font-size: 1rem;
 }

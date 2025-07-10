@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import IconButton from '../../../../shared/components/Button/IconButton';
-import CategoryColorDropdown from '../../../../shared/components/DropDown/CategoryColorDropdown';
+import CategoryColorDropdown from '../../components/DropDown/CategoryColorDropdown';
 import { CategoryProps, CategoryColor } from '../../types/CategoryTypes';
 import { updateCategoryColor } from '../../services/categoryService';
 import { updateSubcategoryColor } from '../../services/subCategoryService';

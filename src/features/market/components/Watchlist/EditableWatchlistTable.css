@@ -1,142 +1,329 @@
+@import '../../../../shared/components/Table/shared/TableStyles.css';
+
+/* Main watchlist container - Widget style */
+.watchlist-table-widget {
+  background-color: var(--neutral-100);
+  border-radius: var(--border-radius-md);
+  box-shadow: var(--shadow-md);
+  padding: var(--spacing-sm);
+  margin-bottom: var(--spacing-md);
+  width: 100%;
+}
+
+/* Widget header */
+.watchlist-widget-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: var(--spacing-xs);
+  padding-bottom: var(--spacing-xs);
+  border-bottom: 1px solid var(--neutral-300);
+}
+
+.watchlist-widget-header h3 {
+  margin: 0;
+  font-family: var(--font-family-primary);
+  font-size: var(--font-size-lg);
+  font-weight: 600;
+  color: var(--neutral-900);
+}
+
+/* Loading state */
+.watchlist-widget-loading {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: var(--spacing-md) 0;
+  text-align: center;
+  font-family: var(--font-family-primary);
+}
+
+.watchlist-widget-loading .loading-spinner {
+  border: 3px solid var(--neutral-300);
+  border-top: 3px solid var(--primary-600);
+  border-radius: 50%;
+  width: 24px;
+  height: 24px;
+  animation: spin 1s linear infinite;
+  margin-bottom: var(--spacing-sm);
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* Watchlist table container */
+.watchlist-table-container,
+.editable-watchlist-table-container {
+  border: 1px solid var(--neutral-300);
+  border-radius: var(--border-radius-lg);
+  background-color: var(--neutral-100);
+  box-shadow: var(--shadow-sm);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  min-height: 300px;
+  width: 100%;
+}
+
+/* Mobile: Enable horizontal scrolling and reduce font size */
+@media (max-width: 768px) {
+  .watchlist-table-container,
+  .editable-watchlist-table-container {
+    min-width: 320px;
+    /* Enable horizontal scrolling */
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+}
+
+/* Tablet: Enable horizontal scrolling */
+@media (min-width: 769px) and (max-width: 1023px) {
+  .watchlist-table-container,
+  .editable-watchlist-table-container {
+    min-width: 600px;
+    /* Enable horizontal scrolling */
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+}
+
+/* Desktop: Use full available width */
+@media (min-width: 1024px) {
+  .watchlist-table-container,
+  .editable-watchlist-table-container {
+    /* Remove width constraints to use full available space */
+    min-width: 100%;
+    max-width: none;
+    width: 100%;
+  }
+}
+
+/* Main table styles */
 .editable-watchlist-table {
   width: 100%;
-  border-collapse: separate;
-  border-spacing: 0;
-  font-size: 0.95rem;
+  border-collapse: collapse;
+  margin: 0;
+  font-family: var(--font-family-primary);
+  font-size: var(--table-font-size-normal);
+  background-color: var(--primary-100);
+}
+
+/* Mobile: Smaller font sizes and minimum width for scrolling */
+@media (max-width: 768px) {
+  .editable-watchlist-table {
+    font-size: var(--font-size-xs);
+    min-width: 500px; /* Force horizontal scrolling if table is wider than container */
+  }
+  
+  .editable-watchlist-table th,
+  .editable-watchlist-table td {
+    font-size: var(--font-size-xs);
+    white-space: nowrap; /* Prevent content wrapping */
+  }
+}
+
+/* Tablet: Minimum width for scrolling if needed */
+@media (min-width: 769px) and (max-width: 1023px) {
+  .editable-watchlist-table {
+    min-width: 700px; /* Force horizontal scrolling if table is wider than container */
+  }
+  
+  .editable-watchlist-table th,
+  .editable-watchlist-table td {
+    font-size: var(--font-size-sm);
+    min-height: var(--table-cell-height-normal);
+    white-space: nowrap; /* Prevent content wrapping */
+  }
 }
 
 .editable-watchlist-table th,
 .editable-watchlist-table td {
-  padding: 12px 16px;
-  text-align: left;
-  border-bottom: 1px solid #edf2f7;
-  word-wrap: break-word;
+  padding: var(--spacing-xs) var(--spacing-sm);
+  text-align: center;
+  border-bottom: 1px solid var(--table-border);
   vertical-align: middle;
+  line-height: var(--table-line-height);
 }
 
 .editable-watchlist-table th {
-  background-color: #f8fafc;
+  background: var(--table-header-bg);
   font-weight: 600;
-  color: #475569;
+  color: var(--primary-800);
   text-transform: uppercase;
-  font-size: 0.85rem;
-  letter-spacing: 0.05em;
+  font-family: var(--font-family-primary);
+  letter-spacing: 0.5px;
   position: sticky;
   top: 0;
-  z-index: 10;
-}
-
-/* Numeric column headers should also be right-aligned */
-.editable-watchlist-table th:nth-child(3),
-.editable-watchlist-table th:nth-child(4),
-.editable-watchlist-table th:nth-child(5),
-.editable-watchlist-table th:nth-child(6),
-.editable-watchlist-table th:nth-child(7) {
-  text-align: left;
-}
-
-.editable-watchlist-table tr:last-child td {
-  border-bottom: none;
+  z-index: 1;
 }
 
 .editable-watchlist-table tbody tr {
-  transition: all 0.2s ease;
+  transition: background-color var(--transition-fast);
 }
 
 .editable-watchlist-table tbody tr:hover {
-  background-color: #f8fafc;
-  transform: translateY(-1px);
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.02);
+  background-color: var(--table-hover-bg);
 }
 
-/* Column width adjustments */
-.editable-watchlist-table th:nth-child(1),
-.editable-watchlist-table td:nth-child(1) {
-  width: 15%;
+.editable-watchlist-table tbody tr:last-child td {
+  border-bottom: none;
 }
 
-.editable-watchlist-table th:nth-child(2),
-.editable-watchlist-table td:nth-child(2) {
-  width: 12%;
-}
-
-/* Numeric columns styling */
-.editable-watchlist-table td:nth-child(3),
-.editable-watchlist-table td:nth-child(4),
-.editable-watchlist-table td:nth-child(5),
-.editable-watchlist-table td:nth-child(6),
-.editable-watchlist-table td:nth-child(7) {
-  font-family: 'Monaco', 'Courier New', monospace;
-  text-align: left;
-  white-space: nowrap;
-}
-
-/* Symbol column styling */
-.editable-watchlist-table td:nth-child(1) {
-  font-weight: 500;
-  color: #2563eb;
-}
-
-/* Input styling */
-.editable-watchlist-table input {
-  width: 100%;
-  padding: 8px 12px;
-  border: 1px solid #e2e8f0;
-  border-radius: 6px;
-  font-size: 0.95rem;
-  transition: all 0.2s ease;
-  height: 36px;
-  box-sizing: border-box;
-}
-
-.editable-watchlist-table input:focus {
-  outline: none;
-  border-color: #2563eb;
-  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
-}
-
-/* Button group styling */
-.editable-watchlist-table td .button-group {
-  display: flex;
-  gap: 8px;
-  opacity: 0;
-  transition: opacity 0.2s ease;
-  align-items: center;
-  justify-content: flex-start;
-  height: 100%;
-  flex-direction: row;
-}
-
-tr:hover .button-group {
-  opacity: 1;
-}
-
-.confirmed-row .button-group {
-  visibility: visible;
-  opacity: 0;
-}
-
-.confirmed-row:hover .button-group {
-  opacity: 1;
-}
-
-/* Empty state styling */
-.no-data-row {
+/* Symbol column */
+.editable-watchlist-table .symbol {
+  font-weight: 600;
+  color: var(--primary-500);
   text-align: center;
-  padding: 48px 0;
-  font-size: 1.1rem;
-  color: #94a3b8;
-  font-style: italic;
 }
 
-/* Ensure consistent height for all cells */
+/* Price columns */
+.editable-watchlist-table .price,
+.editable-watchlist-table .change,
+.editable-watchlist-table .percentage {
+  font-family: 'Monaco', 'Courier New', monospace;
+  font-size: var(--table-font-size-numeric);
+  text-align: center;
+}
+
+/* Change colors */
+.editable-watchlist-table .positive {
+  color: var(--success-color);
+  font-weight: 500;
+}
+
+.editable-watchlist-table .negative {
+  color: var(--error-color);
+  font-weight: 500;
+}
+
+.editable-watchlist-table .neutral {
+  color: var(--neutral-600);
+}
+
+/* Button groups */
+.editable-watchlist-table .button-group {
+  display: flex;
+  gap: var(--spacing-xs);
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+}
+
+.editable-watchlist-table .button-group .btn {
+  padding: var(--spacing-xs) var(--spacing-sm);
+  border: none;
+  border-radius: var(--border-radius-sm);
+  font-size: var(--font-size-xs);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  font-family: var(--font-family-primary);
+}
+
+.editable-watchlist-table .button-group .btn-primary {
+  background-color: var(--primary-500);
+  color: var(--neutral-100);
+}
+
+.editable-watchlist-table .button-group .btn-primary:hover {
+  background-color: var(--primary-600);
+}
+
+.editable-watchlist-table .button-group .btn-danger {
+  background-color: var(--error-color);
+  color: var(--neutral-100);
+}
+
+.editable-watchlist-table .button-group .btn-danger:hover {
+  background-color: #d32f2f;
+}
+
+.editable-watchlist-table .button-group .btn-success {
+  background-color: var(--success-color);
+  color: var(--neutral-100);
+}
+
+.editable-watchlist-table .button-group .btn-success:hover {
+  background-color: #43a047;
+}
+
+.editable-watchlist-table .button-group .btn-secondary {
+  background-color: var(--neutral-500);
+  color: var(--neutral-100);
+}
+
+.editable-watchlist-table .button-group .btn-secondary:hover {
+  background-color: var(--neutral-600);
+}
+
+/* Input fields for editing */
+.editable-watchlist-table input[type="text"],
+.editable-watchlist-table input[type="number"] {
+  width: 100%;
+  padding: var(--spacing-xs);
+  border: 1px solid var(--table-header-border);
+  border-radius: var(--border-radius-sm);
+  font-family: var(--font-family-primary);
+  font-size: var(--font-size-sm);
+  background-color: var(--primary-100);
+  text-align: center;
+}
+
+.editable-watchlist-table input[type="text"]:focus,
+.editable-watchlist-table input[type="number"]:focus {
+  outline: none;
+  border-color: var(--primary-500);
+  box-shadow: 0 0 0 2px rgba(52, 98, 219, 0.2);
+}
+
+/* Empty state */
+.watchlist-empty-state {
+  text-align: center;
+  padding: var(--spacing-2xl);
+  color: var(--neutral-500);
+  font-family: var(--font-family-primary);
+}
+
+/* Loading state */
+.watchlist-loading {
+  text-align: center;
+  padding: var(--spacing-xl);
+  color: var(--neutral-500);
+  font-family: var(--font-family-primary);
+}
+
+/* Cell height consistency */
 .editable-watchlist-table td {
-  height: 52px;
-  line-height: 1.5;
+  min-height: var(--table-cell-height-normal);
 }
 
-/* Ensure consistent alignment for all text content */
-.editable-watchlist-table td > *:not(.button-group) {
-  vertical-align: middle;
-  display: inline-block;
+/* Responsive Design */
+@media (min-width: 1024px) {
+  .editable-watchlist-table th,
+  .editable-watchlist-table td {
+    font-size: var(--font-size-sm);
+    min-height: var(--table-cell-height-normal);
+  }
+  
+  .editable-watchlist-table .price,
+  .editable-watchlist-table .change,
+  .editable-watchlist-table .percentage {
+    text-align: center;
+  }
+}
+
+/* Mobile-specific adjustments */
+@media (max-width: 768px) {
+  .editable-watchlist-table .button-group {
+    flex-direction: column;
+    gap: 2px;
+    justify-content: center;
+  }
+  
+  .editable-watchlist-table .button-group .btn {
+    padding: 2px 6px;
+    font-size: 0.7rem;
+  }
 }

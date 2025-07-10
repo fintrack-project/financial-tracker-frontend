@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, ReactNode } from 'react';
 import { useHoldingsData } from '../../hooks/useHoldingsData';
 import { useBaseCurrency } from '../../../../shared/hooks/useBaseCurrency';
 import { formatNumber } from '../../../../shared/utils/FormatNumber';
@@ -7,8 +7,24 @@ import CategoryDisplayCell from '../../../categories/components/CategoryTable/Ca
 import { createCategoryService } from '../../../categories/services/categoryService';
 import { createHoldingsCategoriesService } from '../../services/holdingsCategoriesService';
 import ResetCategoryPopup from '../../../categories/components/Popup/ResetCategoryPopup';
+import { FaChartLine } from 'react-icons/fa';
+import Icon from '../../../../shared/components/Card/Icon';
 import './HoldingsTable.css'; // Reuse the CSS from HoldingsTable
 import { CategoryColor } from '../../../categories/types/CategoryTypes';
+
+interface EmptyStateProps {
+  icon: ReactNode;
+  text: string;
+  subtext: string;
+}
+
+const EmptyState: React.FC<EmptyStateProps> = ({ icon, text, subtext }) => (
+  <div className="empty-state">
+    <div className="empty-state-icon">{icon}</div>
+    <div className="empty-state-text">{text}</div>
+    {subtext && <div className="empty-state-subtext">{subtext}</div>}
+  </div>
+);
 
 export interface EditableHoldingsTableProps {
   accountId: string | null;
@@ -188,8 +204,12 @@ const EditableHoldingsTable: React.FC<EditableHoldingsTableProps> = ({
             <tbody>
               {portfolioData.length === 0 ? (
                 <tr>
-                  <td colSpan={6} className="no-holdings-row">
-                    No holdings
+                  <td colSpan={6 + categoryColumns.length}>
+                    <EmptyState
+                      icon={<Icon icon={FaChartLine} className="empty-state-icon" aria-hidden={true} />}
+                      text="No Holdings Found"
+                      subtext="Add holdings to start tracking your portfolio"
+                    />
                   </td>
                 </tr>
               ) : (

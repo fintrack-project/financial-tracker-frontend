@@ -1,47 +1,95 @@
-.watchlist-container {
+/* Watchlist widget container - matches MarketIndexWidget and HoldingsTable */
+.watchlist-widget {
+  background-color: var(--neutral-100);
+  border-radius: var(--border-radius-md);
+  box-shadow: var(--shadow-md);
+  padding: var(--spacing-sm);
+  margin-bottom: var(--spacing-md);
   width: 100%;
-  margin: 20px 0;
-  background: white;
-  border-radius: 8px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
-.watchlist-header {
+/* Watchlist widget header - matches MarketIndexWidget and HoldingsTable */
+.watchlist-widget-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 16px 24px;
-  border-bottom: 1px solid #e0e0e0;
+  margin-bottom: var(--spacing-xs);
+  padding-bottom: var(--spacing-xs);
+  border-bottom: 1px solid var(--neutral-300);
 }
 
-.watchlist-header h2 {
+.watchlist-widget-header h3 {
   margin: 0;
-  font-size: 1.5rem;
-  color: #333;
+  font-size: var(--font-size-lg);
+  font-weight: 600;
+  color: var(--neutral-900);
 }
 
-.last-updated {
-  font-size: 0.875rem;
-  color: #666;
-  font-style: italic;
+.watchlist-widget-header .last-updated {
+  font-size: var(--font-size-xs);
+  color: var(--neutral-600);
 }
 
+/* Watchlist content */
 .watchlist-content {
-  padding: 16px 24px;
+  /* Remove any container styling - content flows directly */
+  margin: 0;
+  padding: 0;
 }
 
 .error-message {
-  color: #d32f2f;
-  margin-bottom: 16px;
-  padding: 8px;
-  background-color: #ffebee;
-  border-radius: 4px;
+  color: var(--error-color);
+  font-size: var(--font-size-sm);
+  padding: var(--spacing-sm);
+  background-color: var(--neutral-200);
+  border-radius: var(--border-radius-sm);
+  margin-bottom: var(--spacing-sm);
+}
+
+/* Hide error message when empty to prevent gaps */
+.error-message:empty,
+.error-message:not(:has(*)) {
+  display: none !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  height: 0 !important;
+  overflow: hidden !important;
 }
 
 .loading-message {
-  color: #1976d2;
-  margin-bottom: 16px;
-  padding: 8px;
-  background-color: #e3f2fd;
-  border-radius: 4px;
+  color: var(--neutral-600);
+  font-size: var(--font-size-sm);
+  padding: var(--spacing-sm);
+  text-align: center;
+  margin: 0;
+}
+
+/* Remove old container styles */
+.watchlist-container {
+  /* Remove this styling */
+}
+
+.watchlist-header {
+  /* Remove this styling */
+}
+
+.watchlist-header h2 {
+  /* Remove this styling */
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .watchlist-widget {
+    padding: var(--spacing-xs);
+  }
+  
+  .watchlist-widget-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--spacing-xs);
+  }
+  
+  .watchlist-widget-header .last-updated {
+    align-self: flex-end;
+  }
 } 

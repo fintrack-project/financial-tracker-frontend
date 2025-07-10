@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, ReactNode } from 'react';
 import {
   ComposedChart,
   Bar,
@@ -17,9 +17,25 @@ import { useBaseCurrency } from '../../../../shared/hooks/useBaseCurrency'; // C
 import { formatNumber } from '../../../../shared/utils/FormatNumber';
 import { ChartData } from '../../types/ChartData';
 import { CombinedChartData } from '../../types/CombinedChartData';
-import CategoryDropdown from '../../../../shared/components/DropDown/CategoryDropdown';
+import CategoryDropdown from '../../../categories/components/DropDown/CategoryDropdown';
 import TimeRangeDropdown from '../../../../shared/components/DropDown/TimeRangeDropDown';
+import { FaChartBar } from 'react-icons/fa';
+import Icon from '../../../../shared/components/Card/Icon';
 import './PortfolioCombinedBarChart.css';
+
+interface EmptyStateProps {
+  icon: ReactNode;
+  text: string;
+  subtext: string;
+}
+
+const EmptyState: React.FC<EmptyStateProps> = ({ icon, text, subtext }) => (
+  <div className="empty-state">
+    <div className="empty-state-icon">{icon}</div>
+    <div className="empty-state-text">{text}</div>
+    {subtext && <div className="empty-state-subtext">{subtext}</div>}
+  </div>
+);
 
 interface PortfolioCombinedBarChartProps {
   accountId: string | null;
@@ -213,8 +229,12 @@ const PortfolioCombinedBarChart: React.FC<PortfolioCombinedBarChartProps> = ({ a
       ) : error ? (
         <p className="error-message">{error}</p>
       ) : filteredData.length === 0 ? (
-        <div className="no-holdings-by-time-message">
-          No {timeRange} holdings
+        <div className="chart-empty-state">
+          <EmptyState
+            icon={<Icon icon={FaChartBar} className="empty-state-icon" aria-hidden={true} />}
+            text={`No ${timeRange} Holdings Data`}
+            subtext="Add holdings to see your portfolio distribution over time"
+          />
         </div>
       ) : (
         <ResponsiveContainer width="100%" height={calculateChartHeight()}>

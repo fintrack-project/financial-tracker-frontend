@@ -36,7 +36,7 @@ const BlankTransactionRow: React.FC<BlankTransactionRowProps> = ({ onAddRow }) =
       </td>
       <td>
         <td>
-          <IconButton type="add" onClick={onAddRow} label="Add Row" />
+          <IconButton type="add" onClick={onAddRow} label="Add Row" size="small" />
         </td>
       </td>
     </tr>

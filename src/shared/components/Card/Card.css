@@ -5,6 +5,9 @@
   transition: transform var(--transition-normal), box-shadow var(--transition-normal);
   overflow: hidden;
   height: 100%;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
 }
 
 .card:hover {
@@ -13,8 +16,9 @@
 }
 
 .card-header {
-  padding: var(--spacing-md) var(--spacing-lg);
+  padding: var(--card-padding-mobile);
   border-bottom: 1px solid var(--neutral-200);
+  flex-shrink: 0;
 }
 
 .card-title {
@@ -23,7 +27,7 @@
   font-size: var(--font-size-lg);
   font-weight: 600;
   margin: 0;
-  line-height: 1.4;
+  line-height: var(--table-line-height);
 }
 
 .card-subtitle {
@@ -31,9 +35,88 @@
   font-family: var(--font-family-primary);
   font-size: var(--font-size-sm);
   margin: var(--spacing-xs) 0 0;
-  line-height: 1.5;
+  line-height: var(--table-line-height);
 }
 
 .card-content {
-  padding: var(--spacing-lg);
+  padding: var(--card-padding-mobile);
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.card-footer {
+  padding: var(--card-padding-mobile);
+  border-top: 1px solid var(--neutral-200);
+  flex-shrink: 0;
+}
+
+/* Responsive Design */
+@media (min-width: 1024px) {
+  .card-header {
+    padding: var(--card-padding-desktop);
+  }
+  
+  .card-content {
+    padding: var(--card-padding-desktop);
+  }
+  
+  .card-footer {
+    padding: var(--card-padding-desktop);
+  }
+  
+  .card-title {
+    font-size: var(--font-size-2xl);
+  }
+}
+
+/* Mobile-specific adjustments */
+@media (max-width: 768px) {
+  .card {
+    border-radius: var(--border-radius-md);
+  }
+  
+  .card-title {
+    font-size: var(--font-size-base);
+  }
+  
+  .card-subtitle {
+    font-size: var(--font-size-xs);
+  }
+}
+
+/* Card variants */
+.card-compact {
+  --card-padding-mobile: 0.75rem;
+  --card-padding-tablet: 1rem;
+  --card-padding-desktop: 1.5rem;
+}
+
+.card-spacious {
+  --card-padding-mobile: 1.5rem;
+  --card-padding-tablet: 2rem;
+  --card-padding-desktop: 2.5rem;
+}
+
+/* Card with image */
+.card-with-image .card-header {
+  padding: 0;
+  border-bottom: none;
+}
+
+.card-image {
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+  display: block;
+}
+
+.card-image + .card-content {
+  padding-top: var(--card-padding-mobile);
+}
+
+@media (min-width: 1024px) {
+  .card-image + .card-content {
+    padding-top: var(--card-padding-desktop);
+  }
 } 

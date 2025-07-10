@@ -1,88 +1,219 @@
+/* ==========================================================================
+   BASE LOGIN CONTAINER STYLES
+   ========================================================================== */
 .login-container {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 24px; /* Space between sections */
+  gap: var(--spacing-lg);
   width: 100%;
-  max-width: 400px;
-  margin: 20px auto 0 auto;
-  background: linear-gradient(135deg, #f9fafc 60%, #e3e9f6 100%);
-  border-radius: 16px;
-  box-shadow: 0 4px 16px rgba(52, 98, 219, 0.06);
-  border: 1px solid #e0e6ed;
-  padding: 32px 28px 28px 28px;
+  margin: 0 auto;
+  background: linear-gradient(135deg, var(--neutral-50) 60%, var(--primary-50) 100%);
+  border-radius: var(--border-radius-lg);
+  box-shadow: var(--shadow-lg);
+  border: 1px solid var(--neutral-200);
+  padding: var(--spacing-xl);
 }
 
-.register-link {
-  font-size: 1rem;
-  color: #3462db;
+/* ==========================================================================
+   REGISTER LINK STYLES
+   ========================================================================== */
+.login-container .register-link {
+  font-size: var(--font-size-base);
+  color: var(--primary-500);
   cursor: pointer;
-  transition: color 0.3s ease;
-  margin-bottom: 8px;
+  transition: var(--transition-normal);
+  margin-bottom: var(--spacing-sm);
+  text-align: center;
 }
 
-.register-link:hover {
-  color: #1a3a7c;
+.login-container .register-link:hover {
+  color: var(--primary-600);
+  text-decoration: underline;
 }
 
+/* ==========================================================================
+   INPUT FIELDS STYLES
+   ========================================================================== */
 .input-fields {
   display: flex;
   flex-direction: column;
-  margin-top: 20px;
-  gap: 16px; /* Space between input fields */
+  margin-top: var(--spacing-lg);
+  gap: var(--spacing-md);
   width: 100%;
-  max-width: 340px;
 }
 
 .input-fields input {
   width: 100%;
-  padding: 10px;
-  border: 1px solid #e2e8f0;
-  border-radius: 8px;
-  font-size: 1rem;
-  background: #fff;
-  transition: border-color 0.2s;
+  padding: var(--spacing-sm) var(--spacing-md);
+  border: 1px solid var(--neutral-300);
+  border-radius: var(--border-radius-md);
+  font-size: var(--font-size-base);
+  background: var(--neutral-100);
+  transition: var(--transition-normal);
+  color: var(--text-primary);
 }
 
 .input-fields input:focus {
-  border-color: #3462db;
+  border-color: var(--primary-500);
   outline: none;
+  box-shadow: 0 0 0 2px rgba(52, 98, 219, 0.1);
 }
 
+/* ==========================================================================
+   LOGIN ACTIONS STYLES
+   ========================================================================== */
 .login-actions {
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin-top: 20px;
-  gap: 8px; /* Space between the button and forgot password text */
+  margin-top: var(--spacing-lg);
+  gap: var(--spacing-sm);
   width: 100%;
 }
 
-.login-button {
+.login-container .login-button {
   width: 100%;
-  padding: 10px;
-  background: #3462db;
-  color: #fff;
+  padding: var(--spacing-xs) var(--spacing-sm);
+  background: var(--primary-500);
+  color: var(--neutral-100);
   border: none;
-  border-radius: 8px;
-  font-size: 1rem;
+  border-radius: var(--border-radius-md);
+  font-size: var(--font-size-sm);
   font-weight: 600;
   cursor: pointer;
-  transition: background 0.3s;
-  margin-bottom: 8px;
+  transition: var(--transition-normal);
+  margin-bottom: var(--spacing-sm);
 }
 
-.login-button:hover {
-  background: #1a3a7c;
+.login-container .login-button:hover {
+  background: var(--primary-600);
+  transform: translateY(-1px);
+  box-shadow: var(--shadow-md);
 }
 
 .forgot-password {
-  font-size: 0.95rem;
-  color: #3462db;
+  font-size: var(--font-size-sm);
+  color: var(--primary-500);
   cursor: pointer;
-  transition: color 0.3s;
+  transition: var(--transition-normal);
+  text-align: center;
 }
 
 .forgot-password:hover {
-  color: #1a3a7c;
+  color: var(--primary-600);
+  text-decoration: underline;
+}
+
+/* ==========================================================================
+   RESPONSIVE DESIGN
+   ========================================================================== */
+/* Mobile Styles (≤768px) - Touch-First Design */
+@media (max-width: 768px) {
+  .login-container {
+    gap: var(--spacing-sm);
+    padding: var(--spacing-md);
+    margin: var(--spacing-xs) auto;
+    border-radius: var(--border-radius-lg);
+    min-height: 50vh;
+    justify-content: center;
+  }
+  
+  .login-container .register-link {
+    font-size: var(--font-size-sm);
+    margin-bottom: var(--spacing-xs);
+  }
+  
+  .input-fields {
+    margin-top: var(--spacing-sm);
+    gap: var(--spacing-xs);
+    max-width: 100%;
+  }
+  
+  .input-fields input {
+    padding: var(--spacing-sm);
+    font-size: var(--font-size-sm);
+    border-radius: var(--border-radius-sm);
+    min-height: 32px;
+  }
+  
+  .login-actions {
+    margin-top: var(--spacing-sm);
+    gap: var(--spacing-xs);
+  }
+  
+  .forgot-password {
+    font-size: var(--font-size-sm);
+  }
+}
+
+/* Tablet Styles (769px-1023px) - Balanced Hybrid */
+@media (min-width: 769px) and (max-width: 1023px) {
+  .login-container {
+    gap: var(--spacing-md);
+    padding: var(--spacing-lg);
+    margin: var(--spacing-sm) auto;
+  }
+  
+  .login-container .register-link {
+    font-size: var(--font-size-sm);
+    margin-bottom: var(--spacing-xs);
+  }
+  
+  .input-fields {
+    margin-top: var(--spacing-md);
+    gap: var(--spacing-sm);
+    width: 100%;
+  }
+  
+  .input-fields input {
+    padding: var(--spacing-sm);
+    font-size: var(--font-size-sm);
+    border-radius: var(--border-radius-sm);
+    min-height: 36px;
+  }
+  
+  .login-actions {
+    margin-top: var(--spacing-md);
+    gap: var(--spacing-xs);
+  }
+  
+  .forgot-password {
+    font-size: var(--font-size-sm);
+  }
+}
+
+/* Desktop Styles (≥1024px) - Professional Layout */
+@media (min-width: 1024px) {
+  .login-container {
+    gap: var(--spacing-lg);
+    padding: var(--spacing-xl);
+    margin: var(--spacing-md) auto;
+  }
+  
+  .login-container .register-link {
+    font-size: var(--font-size-base);
+    margin-bottom: var(--spacing-sm);
+  }
+  
+  .input-fields {
+    margin-top: var(--spacing-lg);
+    gap: var(--spacing-sm);
+    width: 100%;
+  }
+  
+  .input-fields input {
+    padding: var(--spacing-xs) var(--spacing-sm);
+    font-size: var(--font-size-sm);
+    border-radius: var(--border-radius-md);
+  }
+  
+  .login-actions {
+    margin-top: var(--spacing-lg);
+    gap: var(--spacing-sm);
+  }
+  
+  .forgot-password {
+    font-size: var(--font-size-sm);
+  }
 }

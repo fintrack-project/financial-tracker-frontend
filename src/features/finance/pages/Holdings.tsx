@@ -107,32 +107,45 @@ const Holdings: React.FC<HoldingsProps> = ({ accountId }) => {
   return (
     <div className="holdings-container">
       <h1 className="fintrack-section-title">Holdings</h1>
-      <div className="holdings-section">
-        <EditableHoldingsTable 
-          accountId={accountId}
-          categories={categories}
-          subcategories={subcategories}
-          categoryService={categoryService}
-          confirmedHoldingsCategories={confirmedHoldingsCategories}
-          holdingsCategoriesService={holdingsCategoriesService}
-          resetHasFetched={resetHasFetched}
-          categoryColors={categoryColors}
-          subcategoryColors={subcategoryColors}
-        />
+      
+      {/* My Holdings Widget Container */}
+      <div className="holdings-widget">
+        <div className="holdings-widget-header">
+          <h3>My Holdings</h3>
+        </div>
+        <div className="holdings-section">
+          <EditableHoldingsTable 
+            accountId={accountId}
+            categories={categories}
+            subcategories={subcategories}
+            categoryService={categoryService}
+            confirmedHoldingsCategories={confirmedHoldingsCategories}
+            holdingsCategoriesService={holdingsCategoriesService}
+            resetHasFetched={resetHasFetched}
+            categoryColors={categoryColors}
+            subcategoryColors={subcategoryColors}
+          />
+        </div>
       </div>
-      <h1 className="fintrack-section-title">Categories</h1>
-      <div className="categories-section">
-        <CategoriesTable 
-          accountId={accountId}
-          categories={categories}
-          subcategories={subcategories}
-          categoryService={categoryService}
-          subcategoryService={subcategoryService}
-          onUpdateCategories={handleUpdateCategories}
-          resetHasFetched={resetHasFetched}
-          categoryColors={categoryColors}
-          subcategoryColors={subcategoryColors}
-        />
+
+      {/* My Categories Widget Container */}
+      <div className="categories-widget">
+        <div className="categories-widget-header">
+          <h3>My Categories</h3>
+        </div>
+        <div className="categories-section">
+          <CategoriesTable 
+            accountId={accountId}
+            categories={categories}
+            subcategories={subcategories}
+            categoryService={categoryService}
+            subcategoryService={subcategoryService}
+            onUpdateCategories={handleUpdateCategories}
+            resetHasFetched={resetHasFetched}
+            categoryColors={categoryColors}
+            subcategoryColors={subcategoryColors}
+          />
+        </div>
       </div>
     </div>
   );

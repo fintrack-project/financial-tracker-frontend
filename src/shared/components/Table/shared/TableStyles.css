@@ -1,154 +1,119 @@
-/* Common Styles for Table Containers */
+/* Base Table Container */
 .table-container {
-  border: 1px solid #e2e8f0;
-  border-radius: 12px;
-  background-color: #fff;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
-  margin-bottom: 20px;
+  background-color: var(--primary-100);
+  border-radius: var(--border-radius-lg);
+  box-shadow: var(--nav-shadow);
+  border: 1px solid var(--table-header-border);
   overflow: hidden;
+  width: 100%;
   display: flex;
   flex-direction: column;
-  min-height: 400px;
-  width: 100%;
-  min-width: 900px; /* Minimum consistent width for all tables */
-  max-width: 1400px; /* Maximum width to prevent excessive stretching */
 }
 
-/* Table Header */
 .table-header {
-  margin: 0;
-  padding: 20px;
-  background-color: #f8fafc;
-  border-bottom: 1px solid #e2e8f0;
-  color: #1e293b;
-  font-size: 1.25rem;
-  font-weight: 600;
-}
-
-/* Scrollable content area */
-.scrollable-content {
-  overflow-x: auto;
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  overflow-y: auto;
-  min-height: 200px;
-  max-height: 500px; /* Default max height to ensure scrolling for large datasets */
-}
-
-/* Base table styling */
-.data-table {
-  width: 100%;
-  border-collapse: separate;
-  border-spacing: 0;
-  font-size: 0.95rem;
-}
-
-.data-table thead {
-  position: sticky;
-  top: 0;
-  z-index: 10;
-  background-color: #fff;
-}
-
-.data-table th {
-  background-color: #f8fafc;
-  font-weight: 600;
-  color: #475569;
-  text-transform: uppercase;
-  font-size: 0.85rem;
-  letter-spacing: 0.05em;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
-}
-
-.data-table th,
-.data-table td {
-  padding: 12px 16px;
-  text-align: left;
-  border-bottom: 1px solid #edf2f7;
-  line-height: 1.4;
-}
-
-.data-table tr:last-child td {
-  border-bottom: none;
-}
-
-.data-table tbody tr {
-  transition: all 0.2s ease;
-}
-
-.data-table tbody tr:hover {
-  background-color: #f8fafc;
-  transform: translateY(-1px);
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.02);
-}
-
-/* Empty state styling */
-.empty-state {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  padding: 48px 0;
-  min-height: 200px;
-}
-
-.empty-state-icon {
-  font-size: 2.5rem;
-  color: #94a3b8;
-  margin-bottom: 16px;
-}
-
-.empty-state-text {
-  font-size: 1.25rem;
-  font-weight: 600;
-  color: #475569;
-  margin-bottom: 8px;
-}
-
-.empty-state-subtext {
-  font-size: 1rem;
-  color: #64748b;
-}
-
-/* Loading state */
-.loading-state {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  padding: 48px 0;
-  min-height: 200px;
-}
-
-.loading-spinner {
-  width: 40px;
-  height: 40px;
-  border: 4px solid #e2e8f0;
-  border-top: 4px solid #3b82f6;
-  border-radius: 50%;
-  animation: spin 1s linear infinite;
-  margin-bottom: 16px;
-}
-
-@keyframes spin {
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(360deg); }
-}
-
-/* Table footer */
-.table-footer {
-  padding: 16px;
-  background-color: #f8fafc;
-  border-top: 1px solid #e2e8f0;
+  padding: var(--card-padding-mobile);
+  background: var(--table-header-bg);
+  border-bottom: 1px solid var(--table-header-border);
   display: flex;
   justify-content: space-between;
   align-items: center;
+  flex-wrap: wrap;
+  gap: var(--spacing-sm);
 }
 
-/* Scrollbar styling */
+.table-title {
+  font-family: var(--font-family-primary);
+  font-size: var(--font-size-lg);
+  font-weight: 600;
+  color: var(--primary-800);
+  margin: 0;
+}
+
+.table-actions {
+  display: flex;
+  gap: var(--spacing-sm);
+  align-items: center;
+}
+
+/* Base Data Table */
+.data-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-family: var(--font-family-primary);
+  font-size: var(--table-font-size-compact);
+  background-color: var(--primary-100);
+}
+
+/* Table Headers and Cells */
+.data-table th,
+.data-table td {
+  padding: var(--spacing-xs) var(--spacing-sm);
+  text-align: center;
+  border-bottom: 1px solid var(--table-border);
+  vertical-align: middle;
+  line-height: var(--table-line-height);
+}
+
+.data-table th {
+  background: var(--table-header-bg);
+  font-weight: 600;
+  color: var(--primary-800);
+  text-transform: uppercase;
+  font-family: var(--font-family-primary);
+  letter-spacing: 0.5px;
+  position: sticky;
+  top: 0;
+  z-index: 1;
+}
+
+/* Table Rows */
+.data-table tbody tr {
+  transition: background-color var(--transition-fast);
+}
+
+.data-table tbody tr:hover {
+  background-color: var(--table-hover-bg);
+}
+
+.data-table tbody tr:last-child td {
+  border-bottom: none;
+}
+
+/* Cell height consistency */
+.data-table td {
+  min-height: var(--table-cell-height-compact);
+}
+
+/* Special Column Styling */
+.data-table .numeric-value {
+  font-family: 'Monaco', 'Courier New', monospace;
+  text-align: right;
+  font-size: var(--table-font-size-numeric);
+}
+
+.data-table .symbol-text {
+  font-weight: 500;
+  color: var(--primary-500);
+}
+
+/* Scrollable table body */
+.scrollable-tbody {
+  max-height: 400px;
+  overflow-y: auto;
+  display: block;
+}
+
+.scrollable-tbody thead,
+.scrollable-tbody tbody {
+  display: table;
+  width: 100%;
+  table-layout: fixed;
+}
+
+/* Scrollbar styling for webkit browsers */
 .scrollable-content::-webkit-scrollbar {
   width: 8px;
+  height: 8px;
 }
 
 .scrollable-content::-webkit-scrollbar-track {
@@ -165,14 +130,129 @@
   background: #94a3b8;
 }
 
-/* Numeric value styling */
-.numeric-value {
-  font-family: 'Monaco', 'Courier New', monospace;
-  text-align: right;
+.table-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: var(--card-padding-mobile);
+  background: var(--table-header-bg);
+  border-top: 1px solid var(--table-header-border);
+  margin-top: auto;
+  flex-wrap: wrap;
+  gap: 12px;
 }
 
-/* Symbol styling */
-.symbol-text {
-  font-weight: 500;
-  color: #2563eb;
+.table-footer .actions-group {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.empty-state {
+  text-align: center;
+  padding: var(--spacing-2xl);
+  color: var(--neutral-500);
+}
+
+.empty-state-icon {
+  font-size: 2.5rem;
+  color: #94a3b8;
+  margin-bottom: 16px;
+}
+
+.empty-state-text {
+  color: #94a3b8;
+  font-size: var(--font-size-base);
+  text-align: center;
+  font-family: var(--font-family-primary);
+  margin-bottom: var(--spacing-xs);
+}
+
+.empty-state-subtext {
+  color: #94a3b8;
+  font-size: var(--font-size-sm);
+  text-align: center;
+  font-family: var(--font-family-primary);
+  opacity: 0.8;
+}
+
+/* Responsive font size and min-height for th/td */
+@media (max-width: 768px) {
+  .data-table th,
+  .data-table td {
+    font-size: var(--font-size-xs);
+  }
+}
+@media (min-width: 769px) and (max-width: 1023px), (min-width: 1024px) {
+  .data-table th,
+  .data-table td {
+    font-size: var(--font-size-sm);
+    min-height: var(--table-cell-height-normal);
+  }
+}
+
+/* Tablet Styles (769px to 1023px) */
+@media (min-width: 769px) and (max-width: 1023px) {
+  .table-container {
+    min-width: 600px;
+    /* Enable horizontal scrolling */
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+  
+  .data-table th,
+  .data-table td {
+    font-size: var(--font-size-sm);
+    min-height: var(--table-cell-height-normal);
+  }
+}
+
+/* Mobile Styles (768px and below) */
+@media (max-width: 768px) {
+  .table-container {
+    min-width: 320px;
+    /* Enable horizontal scrolling */
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+  
+  .table-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--spacing-xs);
+  }
+  
+  .table-title {
+    font-size: var(--font-size-base);
+  }
+  
+  .table-actions {
+    width: 100%;
+    justify-content: flex-end;
+  }
+  
+  .data-table {
+    font-size: var(--table-font-size-compact); /* Smaller font for mobile */
+  }
+  
+  .data-table th,
+  .data-table td {
+    font-size: var(--font-size-xs);
+  }
+  
+  .table-footer {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  
+  .table-footer .actions-group {
+    justify-content: center;
+  }
+  
+  /* Touch-friendly scrollbar for mobile */
+  .scrollable-content::-webkit-scrollbar {
+    width: 12px;
+    height: 12px;
+  }
 } 

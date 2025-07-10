@@ -1,5 +1,5 @@
 .plans-container {
-  padding: 24px;
+  padding: var(--spacing-lg);
   max-width: 1200px;
   margin: 0 auto;
 }
@@ -7,97 +7,103 @@
 .billing-cycle-toggle {
   display: flex;
   justify-content: center;
-  gap: 16px;
-  margin-bottom: 32px;
+  gap: var(--spacing-md);
+  margin-bottom: var(--spacing-xl);
 }
 
 .toggle-button {
-  padding: 10px 24px;
+  padding: var(--spacing-sm) var(--spacing-lg);
   border: none;
-  border-radius: 6px;
+  border-radius: var(--border-radius-md);
   cursor: pointer;
-  font-size: 1.08rem;
+  font-size: var(--font-size-base);
   font-weight: 600;
-  transition: background 0.15s, color 0.15s, box-shadow 0.15s;
-  box-shadow: 0 2px 8px rgba(52, 98, 219, 0.08);
-  background: #cbd5e1;
-  color: #334155;
+  transition: var(--transition-fast);
+  box-shadow: var(--popup-button-shadow);
+  background: var(--popup-button-secondary-bg);
+  color: var(--popup-button-secondary-text);
+  outline: none;
+}
+
+.toggle-button:focus {
+  outline: none;
+  box-shadow: var(--popup-button-shadow);
 }
 
 .toggle-button:hover {
-  background: #94a3b8;
-  color: #1e293b;
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+  background: var(--popup-button-secondary-hover);
+  color: var(--popup-button-secondary-hover-text);
+  box-shadow: var(--popup-button-secondary-hover-shadow);
 }
 
 .toggle-button.active {
-  background: #4d7df2;
+  background: var(--popup-button-primary-bg);
   color: white;
 }
 
 .toggle-button.active:hover {
-  background: #3462db;
-  box-shadow: 0 4px 16px rgba(52, 98, 219, 0.12);
+  background: var(--popup-button-primary-hover);
+  box-shadow: var(--popup-button-hover-shadow);
 }
 
 .plans-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-  gap: 24px;
-  margin-top: 24px;
+  gap: var(--spacing-lg);
+  margin-top: var(--spacing-lg);
 }
 
 .error-message {
-  margin-top: 1rem;
-  padding: 0.75rem;
-  border-radius: 4px;
-  background-color: #fff3f3;
-  border: 1px solid #ffcdd2;
-  color: #d32f2f;
+  margin-top: var(--spacing-md);
+  padding: var(--spacing-sm);
+  border-radius: var(--border-radius-sm);
+  background-color: var(--error-light);
+  border: 1px solid var(--error-color);
+  color: var(--error-color);
   text-align: center;
-  font-size: 14px;
+  font-size: var(--font-size-sm);
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: var(--spacing-sm);
 }
 
 .error-message::before {
   content: "⚠️";
-  font-size: 16px;
+  font-size: var(--font-size-base);
 }
 
 .payment-form-container {
-  margin-top: 1rem;
-  padding: 1.25rem;
-  background: white;
-  border-radius: 8px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  margin-top: var(--spacing-md);
+  padding: var(--spacing-lg);
+  background: var(--card-bg);
+  border-radius: var(--border-radius-md);
+  box-shadow: var(--shadow-sm);
 }
 
 .payment-form-container h3 {
-  margin-bottom: 1.5rem;
-  color: #333;
+  margin-bottom: var(--spacing-lg);
+  color: var(--text-primary);
   text-align: center;
 }
 
 .cancel-button {
   width: 100%;
-  padding: 10px 24px;
+  padding: var(--spacing-sm) var(--spacing-lg);
   border: none;
-  border-radius: 6px;
+  border-radius: var(--border-radius-md);
   cursor: pointer;
-  font-size: 1.08rem;
+  font-size: var(--font-size-base);
   font-weight: 600;
-  transition: background 0.15s, color 0.15s, box-shadow 0.15s;
-  box-shadow: 0 2px 8px rgba(52, 98, 219, 0.08);
-  background: #cbd5e1;
-  color: #334155;
+  transition: var(--transition-fast);
+  box-shadow: var(--popup-button-shadow);
+  background: var(--popup-button-secondary-bg);
+  color: var(--popup-button-secondary-text);
 }
 
 .cancel-button:hover {
-  background: #94a3b8;
-  color: #1e293b;
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+  background: var(--popup-button-secondary-hover);
+  color: var(--popup-button-secondary-hover-text);
+  box-shadow: var(--popup-button-secondary-hover-shadow);
 }
 
 /* Custom scrollbar for the plans container */
@@ -120,13 +126,86 @@
 }
 
 /* Responsive adjustments */
+/* Mobile Styles (≤768px) - Compact Design */
 @media (max-width: 768px) {
-  .plans-grid {
-    grid-template-columns: 1fr;
+  .plans-container {
+    padding: var(--spacing-sm);
   }
   
   .billing-cycle-toggle {
+    gap: var(--spacing-sm);
+    margin-bottom: var(--spacing-md);
     flex-direction: column;
     align-items: stretch;
+  }
+  
+  .toggle-button {
+    padding: var(--spacing-xs) var(--spacing-sm);
+    font-size: var(--font-size-sm);
+  }
+  
+  .plans-grid {
+    grid-template-columns: 1fr;
+    gap: var(--spacing-sm);
+    margin-top: var(--spacing-sm);
+  }
+  
+  .cancel-button {
+    padding: var(--spacing-xs) var(--spacing-sm);
+    font-size: var(--font-size-sm);
+  }
+}
+
+/* Tablet Styles (769px-1023px) - Balanced Hybrid */
+@media (min-width: 769px) and (max-width: 1023px) {
+  .plans-container {
+    padding: var(--spacing-sm);
+  }
+  
+  .billing-cycle-toggle {
+    gap: var(--spacing-sm);
+    margin-bottom: var(--spacing-md);
+  }
+  
+  .toggle-button {
+    padding: var(--spacing-xs) var(--spacing-sm);
+    font-size: var(--font-size-sm);
+  }
+  
+  .plans-grid {
+    gap: var(--spacing-sm);
+    margin-top: var(--spacing-sm);
+  }
+  
+  .cancel-button {
+    padding: var(--spacing-xs) var(--spacing-sm);
+    font-size: var(--font-size-sm);
+  }
+}
+
+/* Desktop Styles (≥1024px) - Current Design (unchanged) */
+@media (min-width: 1024px) {
+  .plans-container {
+    padding: var(--spacing-lg);
+  }
+  
+  .billing-cycle-toggle {
+    gap: var(--spacing-md);
+    margin-bottom: var(--spacing-xl);
+  }
+  
+  .toggle-button {
+    padding: var(--spacing-sm) var(--spacing-lg);
+    font-size: var(--font-size-base);
+  }
+  
+  .plans-grid {
+    gap: var(--spacing-lg);
+    margin-top: var(--spacing-lg);
+  }
+  
+  .cancel-button {
+    padding: var(--spacing-sm) var(--spacing-lg);
+    font-size: var(--font-size-base);
   }
 } 

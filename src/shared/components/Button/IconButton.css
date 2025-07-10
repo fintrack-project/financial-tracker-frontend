@@ -1,35 +1,72 @@
 .icon-button {
-  background: none;
-  background-color: transparent;
-  border: none;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 4px;
+  width: var(--button-size-medium);
+  height: var(--button-size-medium);
 }
 
 .icon-button-small {
-  padding: 2px;
+  width: var(--button-size-small);
+  height: var(--button-size-small);
 }
 
 .icon-button-large {
-  padding: 8px; /* Larger padding for large buttons */
+  width: var(--button-size-large);
+  height: var(--button-size-large);
 }
 
 .icon-image {
-  width: 16px;
-  height: 16px;
+  width: var(--button-size-medium);
+  height: var(--button-size-medium);
+}
+
+.icon-button-small .icon-image {
+  width: var(--button-size-small);
+  height: var(--button-size-small);
 }
 
 .icon-button-large .icon-image {
-  width: 32px; /* Larger icon size for large buttons */
-  height: 32px;
+  width: var(--button-size-large);
+  height: var(--button-size-large);
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .icon-button,
+  .icon-button-large {
+    width: var(--button-size-small);
+    height: var(--button-size-small);
+  }
+}
+
+.icon-button {
+  background: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+  outline: none !important;
+  padding: 0 !important;
+  margin: 0 !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
 }
 
 .icon-button:hover {
-  background: none !important; /* Prevent global hover styles */
-  border: none !important; /* Prevent global hover borders */
-  box-shadow: none !important; /* Prevent global hover shadows */
+  background: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+  outline: none !important;
   opacity: 0.8; /* Add hover effect */
+}
+
+.icon-button:focus {
+  background: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+  outline: none !important;
+}
+
+.icon-button:active {
+  background: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+  outline: none !important;
 }
