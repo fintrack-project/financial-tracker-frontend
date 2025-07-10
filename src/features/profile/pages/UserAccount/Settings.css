@@ -105,6 +105,7 @@
   color: var(--text-primary);
   font-size: var(--font-size-lg);
   margin-bottom: var(--spacing-sm);
+  font-weight: 600;
 }
 
 .currency-info ul {
@@ -118,6 +119,7 @@
   padding: var(--spacing-sm) 0;
   position: relative;
   padding-left: var(--spacing-lg);
+  font-size: var(--font-size-sm);
 }
 
 .currency-info li:before {
@@ -143,6 +145,14 @@
   }
   
   .settings-section p {
+    font-size: var(--font-size-sm);
+  }
+  
+  .currency-info h4 {
+    font-size: var(--font-size-base);
+  }
+  
+  .currency-info li {
     font-size: var(--font-size-xs);
   }
 }
@@ -155,6 +165,14 @@
   }
   
   .settings-section p {
+    font-size: var(--font-size-sm);
+  }
+  
+  .currency-info h4 {
+    font-size: var(--font-size-base);
+  }
+  
+  .currency-info li {
     font-size: var(--font-size-xs);
   }
 }
