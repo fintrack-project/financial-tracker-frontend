@@ -1,135 +1,167 @@
-/* Base styling for all authentication pages */
-.auth-container {
-  display: flex;
-  justify-content: center;
-  align-items: center;
+/* ==========================================================================
+   BASE AUTH PAGES STYLES
+   ========================================================================== */
+.auth-pages {
   min-height: 100vh;
-  background-color: #f8fafc;
-  padding: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--primary-100);
+  padding: var(--spacing-md);
+  font-family: var(--font-family-primary);
 }
 
-.auth-card {
-  background-color: white;
-  border-radius: 12px;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1), 0 1px 3px rgba(0, 0, 0, 0.08);
-  padding: 32px;
+/* ==========================================================================
+   LAYOUT SECTIONS
+   ========================================================================== */
+.auth-pages-container {
+  background: var(--neutral-100);
+  border-radius: var(--border-radius-xl);
+  box-shadow: var(--shadow-2xl);
+  overflow: hidden;
   width: 100%;
-  max-width: 480px;
-  transition: transform 0.2s ease;
+  max-width: 400px;
+  position: relative;
+  padding: var(--spacing-xl);
 }
 
-.auth-card:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1), 0 4px 6px rgba(0, 0, 0, 0.05);
-}
-
-.auth-title {
-  color: #1e293b;
-  font-size: 1.75rem;
-  font-weight: 600;
-  margin-bottom: 8px;
+.auth-pages-title {
+  font-size: var(--font-size-2xl);
+  font-weight: 700;
+  color: var(--text-primary);
+  margin: 0 0 var(--spacing-md) 0;
   text-align: center;
 }
 
-.auth-description {
-  color: #64748b;
-  font-size: 1rem;
-  margin-bottom: 28px;
-  text-align: center;
+.auth-pages-form {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-md);
 }
 
-/* Form styling */
-.form-group {
-  margin-bottom: 20px;
-}
-
-.form-group label {
-  display: block;
-  font-size: 0.9rem;
-  font-weight: 500;
-  margin-bottom: 6px;
-  color: #475569;
-}
-
-.form-group input {
+.auth-pages-input {
   width: 100%;
-  padding: 12px 16px;
-  border: 1px solid #e2e8f0;
-  border-radius: 8px;
-  font-size: 1rem;
-  transition: border 0.2s ease;
+  padding: var(--spacing-sm) var(--spacing-md);
+  border: 1px solid var(--neutral-300);
+  border-radius: var(--border-radius-sm);
+  font-size: var(--font-size-base);
+  color: var(--text-primary);
+  background: var(--neutral-100);
+  transition: var(--transition-normal);
 }
 
-.form-group input:focus {
-  outline: none;
-  border-color: #3b82f6;
-  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
-}
-
-/* Button styling */
-.primary-button {
-  background-color: #2563eb;
+.auth-pages-button {
+  width: 100%;
+  padding: var(--spacing-sm) var(--spacing-md);
+  background: var(--primary-500);
   color: white;
   border: none;
-  border-radius: 8px;
-  padding: 12px 24px;
-  font-size: 1rem;
-  font-weight: 500;
+  border-radius: var(--border-radius-sm);
+  font-size: var(--font-size-base);
+  font-weight: 600;
   cursor: pointer;
-  width: 100%;
-  transition: all 0.2s ease;
+  transition: var(--transition-normal);
 }
 
-.primary-button:hover {
-  background-color: #1d4ed8;
-  transform: translateY(-1px);
-}
-
-.primary-button:disabled {
-  background-color: #93c5fd;
-  cursor: not-allowed;
-  transform: none;
-}
-
-/* Links styling */
-.auth-links {
-  margin-top: 24px;
+.auth-pages-footer {
+  padding: var(--spacing-lg) 0 0 0;
   text-align: center;
 }
 
-.auth-links a {
-  color: #2563eb;
+.auth-pages-link {
+  color: var(--primary-500);
   text-decoration: none;
-  font-size: 0.95rem;
-  transition: color 0.2s ease;
+  font-size: var(--font-size-sm);
+  cursor: pointer;
+  transition: var(--transition-normal);
 }
 
-.auth-links a:hover {
-  color: #1d4ed8;
+/* ==========================================================================
+   INTERACTIVE STATES
+   ========================================================================== */
+.auth-pages-input:focus {
+  outline: none;
+  border-color: var(--primary-500);
+  box-shadow: 0 0 0 2px rgba(52, 98, 219, 0.1);
+}
+
+.auth-pages-button:hover {
+  background: var(--primary-600);
+  transform: translateY(-1px);
+  box-shadow: var(--shadow-md);
+}
+
+.auth-pages-button:disabled {
+  background: var(--neutral-300);
+  color: var(--text-secondary);
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
+}
+
+.auth-pages-link:hover {
+  color: var(--primary-600);
   text-decoration: underline;
 }
 
-/* Success message styling */
-.success-message {
-  text-align: center;
-  color: #065f46;
-  background-color: #ecfdf5;
-  padding: 16px;
-  border-radius: 8px;
-  margin-bottom: 24px;
+/* ==========================================================================
+   RESPONSIVE DESIGN
+   ========================================================================== */
+@media (max-width: 768px) {
+  .auth-pages {
+    padding: var(--spacing-sm);
+  }
+  .auth-pages-container {
+    max-width: 100%;
+    border-radius: var(--border-radius-lg);
+    padding: var(--spacing-lg);
+  }
+  .auth-pages-title {
+    font-size: var(--font-size-xl);
+  }
+  .auth-pages-input {
+    padding: var(--spacing-sm);
+    font-size: var(--font-size-sm);
+  }
+  .auth-pages-button {
+    padding: var(--spacing-sm);
+    font-size: var(--font-size-sm);
+  }
+  .auth-pages-link {
+    font-size: var(--font-size-xs);
+  }
 }
-
-/* Error message styling */
-.error-message {
-  color: #dc2626;
-  background-color: #fee2e2;
-  padding: 12px;
-  border-radius: 8px;
-  font-size: 0.9rem;
-  margin-bottom: 16px;
+@media (min-width: 769px) and (max-width: 1023px) {
+  .auth-pages-container {
+    max-width: 450px;
+  }
+  .auth-pages-title {
+    font-size: var(--font-size-2xl);
+  }
+  .auth-pages-input {
+    font-size: var(--font-size-base);
+  }
+  .auth-pages-button {
+    font-size: var(--font-size-base);
+  }
+  .auth-pages-link {
+    font-size: var(--font-size-sm);
+  }
 }
-
-/* Helper classes */
-.mt-4 {
-  margin-top: 16px;
+@media (min-width: 1024px) {
+  .auth-pages-container {
+    max-width: 500px;
+  }
+  .auth-pages-title {
+    font-size: var(--font-size-3xl);
+  }
+  .auth-pages-input {
+    font-size: var(--font-size-base);
+  }
+  .auth-pages-button {
+    font-size: var(--font-size-base);
+  }
+  .auth-pages-link {
+    font-size: var(--font-size-sm);
+  }
 } 
