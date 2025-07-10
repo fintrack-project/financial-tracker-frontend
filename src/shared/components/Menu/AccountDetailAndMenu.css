@@ -225,7 +225,7 @@
 /* Tablet Styles */
 @media (min-width: 769px) and (max-width: 1023px) {
   .account-detail-and-menu {
-    padding: var(--spacing-md) var(--spacing-sm);
+    padding: var(--spacing-md) var(--spacing-md);
     margin-bottom: var(--spacing-sm);
     min-height: var(--account-detail-min-height-tablet);
   }
