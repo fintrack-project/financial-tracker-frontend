@@ -25,7 +25,6 @@ const Settings: React.FC<SettingsProps> = ({ accountId }) => {
 
   const rightContent = (
     <div className="settings-container">
-      <h2>Settings</h2>
       <div className="settings-section">
         <h3>Currency Settings</h3>
         <p>Manage your base currency preferences here. This will be used for all financial calculations and displays.</p>

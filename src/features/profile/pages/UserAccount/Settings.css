@@ -31,11 +31,13 @@
   font-size: var(--font-size-xl);
   color: var(--text-primary);
   margin-bottom: var(--spacing-sm);
+  font-weight: 600;
 }
 
 .settings-section p {
   color: var(--text-muted);
   margin-bottom: var(--spacing-lg);
+  font-size: var(--font-size-sm);
 }
 
 .currency-settings {
@@ -125,8 +127,42 @@
   left: var(--spacing-sm);
 }
 
+/* ==========================================================================
+   RESPONSIVE DESIGN
+   ========================================================================== */
+
+/* Mobile Styles (≤768px) - Touch-First Design */
 @media (max-width: 768px) {
   .currency-settings {
     grid-template-columns: 1fr;
+  }
+  
+  .settings-section h3 {
+    font-size: var(--font-size-lg);
+    margin-bottom: var(--spacing-xs);
+  }
+  
+  .settings-section p {
+    font-size: var(--font-size-xs);
+  }
+}
+
+/* Tablet Styles (769px-1023px) - Balanced Hybrid */
+@media (min-width: 769px) and (max-width: 1023px) {
+  .settings-section h3 {
+    font-size: var(--font-size-lg);
+    margin-bottom: var(--spacing-sm);
+  }
+  
+  .settings-section p {
+    font-size: var(--font-size-xs);
+  }
+}
+
+/* Desktop Styles (≥1024px) - Current Design */
+@media (min-width: 1024px) {
+  .settings-section h3 {
+    font-size: var(--font-size-xl);
+    margin-bottom: var(--spacing-sm);
   }
 }
