@@ -1,18 +1,18 @@
 .profile-container {
   text-align: center;
-  padding: 20px;
+  padding: var(--spacing-lg);
 }
 
 .profile-container h1 {
-  font-size: 2.5rem;
-  color: #333;
-  margin-bottom: 20px;
+  font-size: var(--font-size-3xl);
+  color: var(--text-primary);
+  margin-bottom: var(--spacing-lg);
 }
 
 .profile-container p {
-  font-size: 1.2rem;
-  color: #555;
-  margin: 10px 0;
+  font-size: var(--font-size-lg);
+  color: var(--text-secondary);
+  margin: var(--spacing-sm) 0;
 }
 
 .profile-container .profile-list {
@@ -21,32 +21,32 @@
 }
 
 .currency-selector {
-  margin-top: 20px;
+  margin-top: var(--spacing-lg);
 }
 
 .currency-selector label {
   display: block;
-  font-size: 1rem;
-  color: #333;
-  margin-bottom: 8px;
+  font-size: var(--font-size-base);
+  color: var(--text-primary);
+  margin-bottom: var(--spacing-sm);
 }
 
 .currency-selector select {
   width: 100%;
-  padding: 8px;
-  font-size: 1rem;
-  border: 1px solid #ddd;
-  border-radius: 4px;
-  background-color: #fff;
+  padding: var(--spacing-sm);
+  font-size: var(--font-size-base);
+  border: 1px solid var(--border-light);
+  border-radius: var(--border-radius-sm);
+  background-color: var(--card-bg);
 }
 
 .currency-selector select:disabled {
-  background-color: #f5f5f5;
-  color: #aaa;
+  background-color: var(--input-disabled-bg);
+  color: var(--input-disabled-text);
 }
 
 .error-message {
-  color: red;
-  font-size: 0.9rem;
-  margin-top: 10px;
+  color: var(--error-color);
+  font-size: var(--font-size-sm);
+  margin-top: var(--spacing-sm);
 }

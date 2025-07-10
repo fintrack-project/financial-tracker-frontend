@@ -112,10 +112,10 @@
 }
 
 .card-element-container {
-  padding: 12px;
-  border: 1px solid #e0e0e0;
-  border-radius: 4px;
-  background: white;
+  padding: var(--spacing-md);
+  border: 1px solid var(--neutral-300);
+  border-radius: var(--border-radius-sm);
+  background: var(--card-bg);
   transition: all 0.2s ease;
 }
 
@@ -210,4 +210,75 @@
   font-size: 12px;
   color: #87909c;
   font-style: italic;
+} 
+
+/* Tablet Styles (769px-1023px) */
+@media (min-width: 769px) and (max-width: 1023px) {
+  .payment-form {
+    padding: var(--spacing-md);
+  }
+  
+  .payment-form-submit-btn,
+  .payment-form-cancel-btn {
+    padding: var(--spacing-xs) var(--spacing-sm);
+    font-size: var(--font-size-xs);
+  }
+  
+  .form-group label {
+    font-size: var(--font-size-sm);
+  }
+  
+  .card-element-container {
+    padding: var(--spacing-sm);
+  }
+  
+  /* Customize Stripe CardElement for tablet */
+  .payment-form .StripeElement,
+  .payment-form .StripeElement--focus,
+  .payment-form .StripeElement--invalid {
+    font-size: var(--payment-form-font-size-tablet);
+  }
+}
+
+/* Mobile Styles (≤768px) */
+@media (max-width: 768px) {
+  .payment-form {
+    padding: var(--spacing-sm);
+  }
+  
+  .payment-form-actions-container {
+    flex-direction: column;
+    gap: var(--spacing-sm);
+  }
+  
+  .payment-form-submit-btn,
+  .payment-form-cancel-btn {
+    padding: var(--spacing-xs) var(--spacing-sm);
+    font-size: var(--font-size-xs);
+  }
+  
+  .form-group label {
+    font-size: var(--font-size-sm);
+  }
+  
+  .card-element-container {
+    padding: var(--spacing-sm);
+  }
+  
+  /* Customize Stripe CardElement for mobile */
+  .payment-form .StripeElement,
+  .payment-form .StripeElement--focus,
+  .payment-form .StripeElement--invalid {
+    font-size: var(--payment-form-font-size-mobile);
+  }
+}
+
+/* Desktop Styles (≥1024px) */
+@media (min-width: 1024px) {
+  /* Ensure desktop font size for Stripe CardElement */
+  .payment-form .StripeElement,
+  .payment-form .StripeElement--focus,
+  .payment-form .StripeElement--invalid {
+    font-size: var(--payment-form-font-size-desktop);
+  }
 } 

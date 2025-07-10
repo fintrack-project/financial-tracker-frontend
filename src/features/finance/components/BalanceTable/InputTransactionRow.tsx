@@ -63,7 +63,7 @@ const InputTransactionRow: React.FC<InputTransactionRowProps> = ({
       </td>
       <td>
         <td>
-          <IconButton type="remove" onClick={onRemoveRow} label="Remove Row" />
+          <IconButton type="remove" onClick={onRemoveRow} label="Remove Row" size="small" />
         </td>
       </td>
     </tr>

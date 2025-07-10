@@ -1,25 +1,26 @@
 .profile-detail {
-  padding: 16px;
-  background-color: #f9f9f9;
-  border: 1px solid #ddd;
-  border-radius: 8px;
+  padding: var(--spacing-md);
+  background-color: var(--page-bg);
+  border: 1px solid var(--border-light);
+  border-radius: var(--border-radius-md);
+  width: 100%;
 }
 
 .profile-detail h2 {
-  font-size: 20px;
+  font-size: var(--font-size-xl);
   font-weight: bold;
-  margin-top: 4px;
-  margin-bottom: 16px;
+  margin-top: var(--spacing-xs);
+  margin-bottom: var(--spacing-sm);
 }
 
 .profile-detail p {
-  font-size: 16px;
-  margin: 8px 0;
+  font-size: var(--font-size-base);
+  margin: var(--spacing-sm) 0;
 }
 
 .profile-detail-error {
-  color: red;
-  font-size: 14px;
+  color: var(--error-color);
+  font-size: var(--font-size-sm);
 }
 
 .actions {
@@ -31,20 +32,81 @@
 .phone-input-container {
   display: flex;
   align-items: center; /* Align items vertically in the center */
-  gap: 8px; /* Add spacing between the select and input */
+  gap: var(--spacing-sm); /* Add spacing between the select and input */
 }
 
 .phone-input-container select,
 .phone-input-container input {
-  height: 40px; /* Ensure consistent height for both elements */
-  font-size: 16px; /* Adjust font size for better readability */
-  padding: 4px 8px; /* Add padding for better spacing inside the elements */
-  border: 1px solid #ccc; /* Add a border for consistency */
-  border-radius: 4px; /* Add rounded corners */
+  height: var(--input-height); /* Ensure consistent height for both elements */
+  font-size: var(--font-size-base); /* Adjust font size for better readability */
+  padding: var(--spacing-xs) var(--spacing-sm); /* Add padding for better spacing inside the elements */
+  border: 1px solid var(--input-border); /* Add a border for consistency */
+  border-radius: var(--border-radius-sm); /* Add rounded corners */
 }
 
 .phone-input-container select:focus,
 .phone-input-container input:focus {
   outline: none;
-  border-color: #007bff; /* Highlight border on focus */
+  border-color: var(--input-focus-border); /* Highlight border on focus */
+}
+
+/* ==========================================================================
+   RESPONSIVE DESIGN
+   ========================================================================== */
+
+/* Mobile Styles (≤768px) - Touch-First Design */
+@media (max-width: 768px) {
+  .profile-detail {
+    padding: var(--spacing-md);
+  }
+  
+  .profile-detail h2 {
+    font-size: var(--font-size-lg);
+    margin-bottom: var(--spacing-md);
+  }
+  
+  .phone-input-container {
+    flex-direction: column;
+    gap: var(--spacing-sm);
+  }
+  
+  .phone-input-container select,
+  .phone-input-container input {
+    width: 100%;
+    min-height: 44px; /* Touch-friendly minimum height */
+    font-size: var(--font-size-base);
+  }
+  
+  .actions {
+    flex-direction: column;
+    gap: var(--spacing-sm);
+    width: 100%;
+  }
+}
+
+/* Tablet Styles (769px-1023px) - Balanced Hybrid */
+@media (min-width: 769px) and (max-width: 1023px) {
+  .profile-detail {
+    padding: var(--spacing-md);
+  }
+  
+  .phone-input-container {
+    gap: var(--spacing-md);
+  }
+  
+  .phone-input-container select,
+  .phone-input-container input {
+    min-height: 40px;
+  }
+}
+
+/* Desktop Styles (≥1024px) - Current Design */
+@media (min-width: 1024px) {
+  .profile-detail {
+    padding: var(--spacing-md);
+  }
+  
+  .phone-input-container {
+    gap: var(--spacing-sm);
+  }
 }

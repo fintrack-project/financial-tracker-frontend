@@ -1,0 +1,357 @@
+/* 
+ * FinTrack Platform - Responsive Breakpoints
+ * Standardized 3-breakpoint system for consistent responsive design
+ * 
+ * BREAKPOINT STRATEGY:
+ * - Mobile: 768px and below  (Touch-first, stacked layouts)
+ * - Tablet: 769px to 1023px  (Balanced hybrid experience)  
+ * - Desktop: 1024px and above (Compact professional layout)
+ */
+
+/* =============================================================================
+   STANDARD MEDIA QUERIES
+   ============================================================================= */
+
+/* Mobile (768px and below) - Touch-friendly design */
+@media (max-width: 768px) {
+  .responsive-mobile-only {
+    display: block;
+  }
+  
+  .responsive-mobile-hide {
+    display: none;
+  }
+  
+  .responsive-mobile-stack {
+    flex-direction: column;
+  }
+  
+  .responsive-mobile-full-width {
+    width: 100%;
+  }
+}
+
+/* Tablet (769px to 1023px) - Medium balanced design */
+@media (min-width: 769px) and (max-width: 1023px) {
+  .responsive-tablet-only {
+    display: block;
+  }
+  
+  .responsive-tablet-hide {
+    display: none;
+  }
+  
+  .responsive-tablet-grid-2 {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--spacing-md);
+  }
+}
+
+/* Desktop (1024px and above) - Compact professional design */
+@media (min-width: 1024px) {
+  .responsive-desktop-only {
+    display: block;
+  }
+  
+  .responsive-desktop-hide {
+    display: none;
+  }
+  
+  .responsive-desktop-grid-3 {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: var(--spacing-sm);
+  }
+  
+  .responsive-desktop-compact {
+    max-width: var(--table-max-width-desktop);
+    margin: 0 auto;
+  }
+}
+
+/* =============================================================================
+   RESPONSIVE UTILITY CLASSES
+   ============================================================================= */
+
+/* Typography Responsive Classes */
+.responsive-text {
+  font-size: var(--font-size-base);
+}
+
+@media (max-width: 768px) {
+  .responsive-text-mobile {
+    font-size: var(--font-size-lg);
+  }
+}
+
+@media (min-width: 769px) and (max-width: 1023px) {
+  .responsive-text-tablet {
+    font-size: var(--font-size-base);
+  }
+}
+
+@media (min-width: 1024px) {
+  .responsive-text-desktop {
+    font-size: var(--font-size-sm);
+  }
+}
+
+/* Spacing Responsive Classes */
+.responsive-padding {
+  padding: var(--spacing-md);
+}
+
+@media (max-width: 768px) {
+  .responsive-padding {
+    padding: var(--spacing-md);
+  }
+}
+
+@media (min-width: 769px) and (max-width: 1023px) {
+  .responsive-padding {
+    padding: var(--spacing-md);
+  }
+}
+
+@media (min-width: 1024px) {
+  .responsive-padding {
+    padding: var(--spacing-sm);
+  }
+}
+
+/* Container Responsive Classes */
+.responsive-container {
+  width: 100%;
+  max-width: 100%;
+  margin: 0 auto;
+  padding: var(--spacing-md);
+}
+
+@media (min-width: 769px) and (max-width: 1023px) {
+  .responsive-container {
+    max-width: 95%;
+    padding: var(--spacing-md);
+  }
+}
+
+@media (min-width: 1024px) {
+  .responsive-container {
+    max-width: var(--table-max-width-desktop);
+    padding: var(--spacing-sm);
+  }
+}
+
+/* =============================================================================
+   COMPONENT-SPECIFIC RESPONSIVE PATTERNS
+   ============================================================================= */
+
+/* Navigation Component Pattern */
+.responsive-nav {
+  display: flex;
+  align-items: center;
+  padding: var(--spacing-sm);
+}
+
+@media (max-width: 768px) {
+  .responsive-nav {
+    flex-direction: column;
+    gap: var(--spacing-sm);
+    padding: var(--spacing-md);
+  }
+}
+
+@media (min-width: 769px) and (max-width: 1023px) {
+  .responsive-nav {
+    justify-content: space-between;
+    padding: var(--spacing-sm);
+  }
+}
+
+@media (min-width: 1024px) {
+  .responsive-nav {
+    padding: var(--spacing-xs) var(--spacing-sm);
+  }
+}
+
+/* Table Component Pattern */
+.responsive-table-container {
+  width: 100%;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+@media (min-width: 769px) and (max-width: 1023px) {
+  .responsive-table-container {
+    overflow-x: auto;
+  }
+}
+
+@media (min-width: 1024px) {
+  .responsive-table-container {
+    overflow-x: visible;
+  }
+}
+
+/* Card Component Pattern */
+.responsive-card {
+  background: var(--neutral-100);
+  border: 1px solid var(--table-header-border);
+  border-radius: var(--border-radius-lg);
+  box-shadow: var(--nav-shadow);
+  padding: var(--spacing-md);
+  margin-bottom: var(--spacing-md);
+}
+
+@media (min-width: 769px) and (max-width: 1023px) {
+  .responsive-card {
+    padding: var(--spacing-md);
+    margin-bottom: var(--spacing-md);
+  }
+}
+
+@media (min-width: 1024px) {
+  .responsive-card {
+    padding: var(--spacing-sm);
+    margin-bottom: var(--spacing-sm);
+  }
+}
+
+/* =============================================================================
+   BREAKPOINT TESTING UTILITIES (Development Only)
+   ============================================================================= */
+
+/* Visible breakpoint indicators for development */
+.breakpoint-indicator {
+  position: fixed;
+  top: 10px;
+  right: 10px;
+  background: var(--error-color);
+  color: white;
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-size: 12px;
+  font-weight: bold;
+  z-index: 9999;
+  pointer-events: none;
+}
+
+@media (max-width: 768px) {
+  .breakpoint-indicator::after {
+    content: "MOBILE (≤768px)";
+  }
+}
+
+@media (min-width: 769px) and (max-width: 1023px) {
+  .breakpoint-indicator::after {
+    content: "TABLET (769-1023px)";
+    background: var(--warning-color);
+  }
+}
+
+@media (min-width: 1024px) {
+  .breakpoint-indicator::after {
+    content: "DESKTOP (≥1024px)";
+    background: var(--success-color);
+  }
+}
+
+/* Hide breakpoint indicator in production */
+.breakpoint-indicator {
+  display: none;
+}
+
+/* Enable with .debug-breakpoints class on body */
+.debug-breakpoints .breakpoint-indicator {
+  display: block;
+}
+
+/* =============================================================================
+   USAGE EXAMPLES AND DOCUMENTATION
+   ============================================================================= */
+
+/*
+USAGE EXAMPLES:
+
+1. STANDARD COMPONENT PATTERN:
+```css
+.my-component {
+  // Mobile-first base styles
+  padding: var(--spacing-md);
+  font-size: var(--font-size-base);
+}
+
+@media (min-width: 1024px) {
+  .my-component {
+    padding: var(--spacing-sm);
+    font-size: var(--font-size-sm);
+  }
+}
+
+@media (min-width: 769px) and (max-width: 1023px) {
+  .my-component {
+    padding: var(--spacing-md);
+    font-size: var(--font-size-base);
+  }
+}
+
+@media (max-width: 768px) {
+  .my-component {
+    padding: var(--spacing-md);
+    font-size: var(--font-size-lg);
+  }
+}
+```
+
+2. RESPONSIVE GRID LAYOUT:
+```css
+.grid-container {
+  display: grid;
+  gap: var(--spacing-md);
+  grid-template-columns: 1fr; // Mobile: single column
+}
+
+@media (min-width: 769px) and (max-width: 1023px) {
+  .grid-container {
+    grid-template-columns: 1fr 1fr; // Tablet: two columns
+  }
+}
+
+@media (min-width: 1024px) {
+  .grid-container {
+    grid-template-columns: 1fr 1fr 1fr; // Desktop: three columns
+    gap: var(--spacing-sm);
+  }
+}
+```
+
+3. RESPONSIVE NAVIGATION:
+```css
+.nav-menu {
+  display: flex;
+  flex-direction: column; // Mobile: stacked
+}
+
+@media (min-width: 769px) {
+  .nav-menu {
+    flex-direction: row; // Tablet+: horizontal
+  }
+}
+```
+
+BREAKPOINT VARIABLES AVAILABLE:
+- var(--breakpoint-mobile-max): 768px
+- var(--breakpoint-tablet-min): 769px  
+- var(--breakpoint-tablet-max): 1023px
+- var(--breakpoint-desktop-min): 1024px
+
+DESIGN PRINCIPLES:
+- Mobile: Touch-first, generous spacing, stacked layouts
+- Tablet: Balanced approach, hybrid layouts, readable fonts
+- Desktop: Compact professional, information-dense, multi-column
+
+TESTING:
+- Add .debug-breakpoints class to body to see current breakpoint
+- Test at 768px/769px and 1023px/1024px boundaries
+- Verify smooth transitions between breakpoints
+*/ 

@@ -23,35 +23,21 @@ const Dashboard: React.FC<DashboardProps> = ({
   return (
     <div className="dashboard-container">
       <h1 className="fintrack-section-title">Dashboard</h1>
-      
-      {/* Market Indices Widget */}
       <MarketIndexWidget 
         symbols={marketIndices} 
         subscriptionPlan={subscriptionPlan}
       />
-      
-      <div className="dashboard-data-container">
-        <div className="holdings-section">
-          <h2 className="fintrack-card-title">My Holdings</h2>
-          <HoldingsTable
-            accountId={accountId}
-          />
-        </div>
-        <div className="watchlist">
-          <h2 className="fintrack-card-title">Watchlist</h2>
-          <MarketWatchlist 
-            accountId={accountId}
-            subscriptionPlan={subscriptionPlan}
-          />
-        </div>
-        <div className="live-price">
-          <h2 className="fintrack-card-title">Currency</h2>
-          <ForexWatchlist 
-            accountId={accountId}
-            subscriptionPlan={subscriptionPlan}
-          />
-        </div>
-      </div>
+      <HoldingsTable
+        accountId={accountId}
+      />
+      <MarketWatchlist 
+        accountId={accountId}
+        subscriptionPlan={subscriptionPlan}
+      />
+      <ForexWatchlist 
+        accountId={accountId}
+        subscriptionPlan={subscriptionPlan}
+      />
     </div>
   );
 };

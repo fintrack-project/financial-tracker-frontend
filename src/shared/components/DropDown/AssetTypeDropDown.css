@@ -8,34 +8,34 @@
 /* Style for the select element */
 .dropdown-select {
   width: 100%;
-  padding: 4px 8px; /* Adjust padding to match input fields */
-  font-size: 0.875rem; /* Match font size with table row input fields */
-  color: #333;
-  background-color: #fff;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  height: 32px; /* Match height with table row input fields */
+  padding: var(--spacing-xs) var(--spacing-sm);
+  font-size: var(--font-size-sm);
+  color: var(--text-primary);
+  background-color: var(--neutral-100);
+  border: 1px solid var(--neutral-400);
+  border-radius: var(--border-radius-sm);
+  height: var(--table-cell-height-compact);
   appearance: none; /* Remove default browser styles */
   cursor: pointer;
-  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+  transition: var(--transition-normal);
 }
 
 /* Add a hover effect */
 .dropdown-select:hover {
-  border-color: #888;
+  border-color: var(--neutral-600);
 }
 
 /* Add focus styles */
 .dropdown-select:focus {
   outline: none;
-  border-color: #007bff;
-  box-shadow: 0 0 4px rgba(0, 123, 255, 0.5);
+  border-color: var(--info-color);
+  box-shadow: 0 0 0 2px rgba(33, 150, 243, 0.25);
 }
 
 /* Disabled state */
 .asset-type-dropdown.disabled .dropdown-select {
-  background-color: #f9f9f9;
-  color: #aaa;
+  background-color: var(--neutral-200);
+  color: var(--neutral-500);
   cursor: not-allowed;
 }
 
@@ -44,12 +44,12 @@
   content: '';
   position: absolute;
   top: 50%;
-  right: 12px;
+  right: var(--spacing-sm);
   width: 0;
   height: 0;
   border-left: 5px solid transparent;
   border-right: 5px solid transparent;
-  border-top: 5px solid #333;
+  border-top: 5px solid var(--text-primary);
   transform: translateY(-50%);
   pointer-events: none;
 }

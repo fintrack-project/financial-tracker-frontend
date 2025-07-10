@@ -1,14 +1,189 @@
 :root {
-  /* Primary Colors */
-  --primary-100: #E3F2FD;  /* Lightest */
-  --primary-200: #BBDEFB;
-  --primary-300: #90CAF9;
-  --primary-400: #64B5F6;
-  --primary-500: #42A5F5;  /* Main Brand Color */
-  --primary-600: #2196F3;
-  --primary-700: #1E88E5;
-  --primary-800: #1976D2;
-  --primary-900: #1565C0;  /* Darkest */
+  /* RESPONSIVE BREAKPOINTS - Platform Standard */
+  --breakpoint-mobile-max: 768px;      /* Mobile: 768px and below */
+  --breakpoint-tablet-min: 769px;      /* Tablet: 769px to 1023px */
+  --breakpoint-tablet-max: 1023px;     
+  --breakpoint-desktop-min: 1024px;    /* Desktop: 1024px and above */
+  
+  /* BREAKPOINT MEDIA QUERY STRINGS */
+  --media-mobile: '(max-width: 768px)';
+  --media-tablet: '(min-width: 769px) and (max-width: 1023px)';
+  --media-desktop: '(min-width: 1024px)';
+
+  /* Primary Colors - Updated with light blue theme */
+  --primary-100: #f9fafc;  /* Very light blue-gray */
+  --primary-200: #e3e9f6;  /* Light blue (matches balance nav) */
+  --primary-300: #bbd0f0;  /* Medium light blue */
+  --primary-400: #90b7ea;  /* Medium blue */
+  --primary-500: #3462db;  /* Main Brand Color (blue) */
+  --primary-600: #2952c4;  /* Darker blue */
+  --primary-700: #1e42ad;  /* Even darker blue */
+  --primary-800: #1a3a7c;  /* Dark blue (matches balance nav active) */
+  --primary-900: #0f2350;  /* Darkest blue */
+
+  /* Light Blue Theme Colors for Tables and Navigation */
+  --table-header-bg: linear-gradient(135deg, #f9fafc 60%, #e3e9f6 100%);
+  --table-header-border: #e0e6ed;
+  --table-hover-bg: #f0f4f9;
+  --table-border: #e8eef5;
+  --table-row-border: #e8eef5;
+  --nav-bg: linear-gradient(135deg, #f9fafc 60%, #e3e9f6 100%);
+  --nav-shadow: 0 4px 16px rgba(52, 98, 219, 0.06);
+  
+  /* Logout Button Gradients */
+  --logout-gradient: linear-gradient(90deg, #ff4d4f 60%, #ffb3b3 100%);
+  --logout-gradient-hover: linear-gradient(90deg, #e04344 60%, #ffb3b3 100%);
+  
+  /* Avatar Dimensions */
+  --avatar-size-mobile: 48px;
+  --avatar-size-tablet: 56px;
+  --avatar-size-desktop: 64px;
+  
+  /* Account Menu Dimensions */
+  --account-menu-width-mobile: 220px;
+  --account-menu-width-tablet: 280px;
+  --account-menu-width-desktop: 320px;
+  --account-menu-min-height-mobile: 120px;
+  --account-menu-min-height-tablet: 140px;
+  --account-menu-min-height-desktop: 150px;
+  --account-button-min-width: 100px;
+  --account-button-width-mobile: 90px;
+  
+  /* Account Detail Menu Dimensions */
+  --account-detail-min-height-desktop: 340px;
+  --account-detail-min-height-tablet: 280px;
+  --account-detail-min-height-mobile: 240px;
+  
+  /* Background Colors */
+  --account-detail-bg: var(--nav-bg);
+  --account-detail-border: var(--table-header-border);
+  --currency-section-bg: var(--neutral-200);
+  --select-border: var(--neutral-300);
+  --select-focus-border: var(--primary-500);
+  --select-focus-shadow: 0 0 0 2px rgba(52, 98, 219, 0.25);
+  
+  /* Text Colors */
+  --account-detail-title-color: var(--text-dark);
+  --account-detail-user-color: var(--text-secondary);
+  --account-detail-link-color: var(--primary-500);
+  --account-detail-link-hover-bg: var(--primary-200);
+  --account-detail-link-hover-color: var(--primary-800);
+  --currency-label-color: var(--text-primary);
+  
+  /* Profile/Account Colors */
+  --text-primary: #333;                    /* Dark text for headings */
+  --text-secondary: #555;                  /* Medium text for body */
+  --text-muted: #64748b;                   /* Muted text for descriptions */
+  --card-bg: #ffffff;                      /* White background for cards */
+  --section-bg: #f8fafc;                   /* Light background for sections */
+  --page-bg: #f9f9f9;                      /* Page background */
+  --border-light: #ddd;                    /* Light borders */
+  --border-lighter: #e2e8f0;               /* Even lighter borders */
+  
+  /* Input/Form Elements */
+  --input-border: #ccc;                    /* Default input border */
+  --input-focus-border: var(--primary-500); /* Input focus border */
+  --input-focus-shadow: 0 0 0 2px rgba(52, 98, 219, 0.1); /* Input focus shadow */
+  --input-disabled-bg: #f5f5f5;            /* Disabled input background */
+  --input-disabled-text: #aaa;             /* Disabled input text */
+  --input-height: 40px;                    /* Standard input height */
+  
+  /* Buttons */
+  --button-primary-bg: var(--primary-500); /* Primary button background */
+  --button-primary-hover: var(--primary-600); /* Primary button hover */
+  
+  /* Tier System */
+  --tier-border-radius: 20px;              /* Tier badge border radius */
+  --tier-free-bg: #6c757d;                 /* Free tier background */
+  --tier-premium-bg: var(--primary-500);   /* Premium tier background */
+  
+  /* Layout */
+  --sidebar-width: 340px;                  /* Left sidebar width */
+  --sidebar-min-width: 260px;              /* Left sidebar min width */
+  --content-width: 800px;                  /* Main content width */
+  --content-min-width: 400px;              /* Main content min width */
+  
+  /* Accent Colors */
+  --accent-color: #3b82f6;                 /* Accent blue for highlights */
+  
+  /* Popup/Modal Variables */
+  --popup-overlay-bg: rgba(0, 0, 0, 0.5);  /* Modal overlay background */
+  --popup-bg: var(--nav-bg);               /* Popup background (same as nav) */
+  --popup-border: var(--table-header-border); /* Popup border */
+  --popup-shadow: 0 4px 16px rgba(52, 98, 219, 0.10); /* Popup shadow */
+  --popup-width: 300px;                    /* Standard popup width */
+  --popup-padding: var(--spacing-xl);      /* Popup padding */
+  --popup-border-radius: var(--border-radius-lg); /* Popup border radius */
+  
+  /* Popup Button Colors */
+  --popup-button-primary-bg: #4d7df2;      /* Primary button in popups */
+  --popup-button-primary-hover: var(--primary-500); /* Primary button hover */
+  --popup-button-secondary-bg: #cbd5e1;    /* Secondary button background */
+  --popup-button-secondary-hover: #94a3b8; /* Secondary button hover */
+  --popup-button-secondary-text: #334155;  /* Secondary button text */
+  --popup-button-secondary-hover-text: #1e293b; /* Secondary button hover text */
+  --popup-button-shadow: 0 2px 8px rgba(52, 98, 219, 0.08); /* Button shadow */
+  --popup-button-hover-shadow: 0 4px 16px rgba(52, 98, 219, 0.12); /* Button hover shadow */
+  --popup-button-secondary-hover-shadow: 0 4px 16px rgba(0, 0, 0, 0.08); /* Secondary button hover shadow */
+  
+  /* QR Code Specific */
+  --qr-code-size: 200px;                   /* QR code image size */
+  --qr-code-shadow: 0 2px 8px rgba(52, 98, 219, 0.08); /* QR code shadow */
+
+  /* Success/Error Light Colors for Tables */
+  --success-light: #e8f5e8;
+  --success-dark: #2e7d32;
+  --error-light: #ffebee;
+  --error-dark: #c62828;
+  --warning-light: #fff8e1;
+  --warning-dark: #f57c00;
+
+  /* Navigation Height Variables */
+  --nav-height-compact: 36px;      /* Compact height for smaller top bar */
+  --nav-height-normal: 44px;       /* Normal height - current account menu height */
+  --nav-height-large: 52px;        /* Larger height if needed */
+  
+  /* Navigation Padding Variables */
+  --nav-padding-vertical: 8px;     /* Vertical padding for nav items */
+  --nav-padding-horizontal: 16px;  /* Horizontal padding for nav items */
+  --nav-padding-compact: 6px 12px; /* Compact padding for smaller nav */
+  --nav-padding-normal: 8px 16px;  /* Normal padding for nav items */
+  
+  /* Account Button Specific Padding */
+  --account-button-padding-mobile: 2px 12px;   /* Slightly wider mobile padding */
+  --account-button-padding-tablet: 8px 20px;  /* Wider tablet padding */
+  --account-button-padding-desktop: 8px 20px; /* Wider desktop padding */
+  
+  /* Mobile Account Menu Specific */
+  --account-menu-width-mobile-compact: 200px;  /* Reduced mobile menu width */
+  --account-dropdown-padding-mobile: 8px 12px; /* More padding for mobile dropdown */
+
+  /* Balance Navigation Bar Variables */
+  --balance-nav-width: 100%;              /* Full width on mobile/tablet */
+  --balance-nav-width-desktop: 400px;     /* Compact width on desktop */
+  --balance-nav-min-width: 300px;         /* Minimum width */
+  --balance-nav-max-width: 520px;         /* Max width on mobile/tablet */
+  --balance-nav-padding: 8px;             /* Normal padding on mobile/tablet */
+  --balance-nav-padding-desktop: 4px;     /* Compact padding on desktop */
+  --balance-nav-border-radius: 14px;      /* Normal radius on mobile/tablet */
+  --balance-nav-border-radius-desktop: 10px; /* Smaller radius on desktop */
+  
+  /* Balance Navigation Tab Variables */
+  --balance-tab-padding: 10px 12px;       /* Tab padding on mobile/tablet */
+  --balance-tab-padding-desktop: 8px 16px; /* Compact tab padding on desktop */
+  --balance-tab-font-size: 0.9rem;        /* Font size on mobile/tablet */
+  --balance-tab-font-size-desktop: 1.1rem; /* Larger font on desktop */
+  --balance-tab-border-radius: 6px;       /* Tab radius on mobile/tablet */
+  --balance-tab-border-radius-desktop: 4px; /* Smaller tab radius on desktop */
+  --balance-tab-margin: 0 2px;            /* Tab margin on mobile/tablet */
+  --balance-tab-margin-desktop: 0 1px;    /* Tight margin on desktop */
+
+  /* Top Bar Height Variables */
+  --top-bar-height: 60px;          /* Total top bar height */
+  --top-bar-height-mobile: 48px;   /* Mobile top bar height */
+  --top-bar-padding: 8px 24px;     /* Top bar padding */
+  --top-bar-padding-mobile: 6px 16px; /* Mobile top bar padding */
+  --top-bar-shadow: 0 6px 24px rgba(52, 98, 219, 0.08); /* Slightly larger shadow for top bar */
 
   /* Neutral Colors */
   --neutral-100: #FFFFFF;
@@ -20,6 +195,12 @@
   --neutral-700: #616161;
   --neutral-800: #424242;
   --neutral-900: #212121;
+  
+  /* Text Colors */
+  --text-black: #000000;          /* Pure black for titles and headings */
+  --text-dark: #1a1a1a;           /* Very dark gray for better readability */
+  --text-primary: #2c3e50;        /* Primary text color */
+  --text-secondary: #64748b;      /* Secondary text color */
 
   /* Accent Colors */
   --success-color: #4CAF50;
@@ -30,23 +211,38 @@
   /* Typography */
   --font-family-primary: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
   --font-family-secondary: 'Poppins', sans-serif;
+  --font-family-mono: 'Monaco', 'Courier New', monospace;
   
-  --font-size-xs: 0.75rem;    /* 12px */
-  --font-size-sm: 0.875rem;   /* 14px */
-  --font-size-base: 1rem;     /* 16px */
-  --font-size-lg: 1.125rem;   /* 18px */
-  --font-size-xl: 1.25rem;    /* 20px */
-  --font-size-2xl: 1.5rem;    /* 24px */
-  --font-size-3xl: 1.875rem;  /* 30px */
-  --font-size-4xl: 2.25rem;   /* 36px */
+  /* Responsive Typography */
+  --font-size-xs: clamp(0.75rem, 0.7rem + 0.25vw, 0.875rem);    /* 12-14px */
+  --font-size-sm: clamp(0.875rem, 0.8rem + 0.375vw, 1rem);      /* 14-16px */
+  --font-size-base: clamp(1rem, 0.9rem + 0.5vw, 1.125rem);      /* 16-18px */
+  --font-size-lg: clamp(1.125rem, 1rem + 0.625vw, 1.25rem);     /* 18-20px */
+  --font-size-xl: clamp(1.25rem, 1.1rem + 0.75vw, 1.5rem);      /* 20-24px */
+  --font-size-2xl: clamp(1.5rem, 1.3rem + 1vw, 1.875rem);       /* 24-30px */
+  --font-size-3xl: clamp(1.875rem, 1.6rem + 1.375vw, 2.25rem);  /* 30-36px */
+  --font-size-4xl: clamp(2.25rem, 1.9rem + 1.75vw, 3rem);       /* 36-48px */
 
-  /* Spacing */
-  --spacing-xs: 0.25rem;      /* 4px */
-  --spacing-sm: 0.5rem;       /* 8px */
-  --spacing-md: 1rem;         /* 16px */
-  --spacing-lg: 1.5rem;       /* 24px */
-  --spacing-xl: 2rem;         /* 32px */
-  --spacing-2xl: 3rem;        /* 48px */
+  /* Table-specific Typography */
+  --table-font-size-compact: clamp(0.7rem, 0.65rem + 0.25vw, 0.8rem);     /* 11.2-12.8px - Very compact for dashboard */
+  --table-font-size-normal: clamp(0.8rem, 0.75rem + 0.25vw, 0.9rem);      /* 12.8-14.4px - Normal for main pages */
+  --table-font-size-header: clamp(0.65rem, 0.6rem + 0.25vw, 0.75rem);     /* 10.4-12px - Compact headers */
+  --table-font-size-numeric: clamp(0.7rem, 0.65rem + 0.25vw, 0.8rem);     /* 11.2-12.8px - Numbers */
+
+  /* Responsive Spacing */
+  --spacing-xs: clamp(0.25rem, 0.2rem + 0.25vw, 0.5rem);        /* 4-8px */
+  --spacing-sm: clamp(0.5rem, 0.4rem + 0.5vw, 1rem);            /* 8-16px */
+  --spacing-md: clamp(1rem, 0.8rem + 1vw, 1.5rem);              /* 16-24px */
+  --spacing-lg: clamp(1.5rem, 1.2rem + 1.5vw, 2rem);            /* 24-32px */
+  --spacing-xl: clamp(2rem, 1.6rem + 2vw, 3rem);                /* 32-48px */
+  --spacing-2xl: clamp(3rem, 2.4rem + 3vw, 4rem);               /* 48-64px */
+
+  /* Table-specific Spacing - REDUCED for more compact desktop tables */
+  --table-cell-height-compact: clamp(1.5rem, 1.4rem + 0.5vw, 1.8rem);     /* 24-28.8px - More compact for dashboard */
+  --table-cell-height-normal: clamp(1.5rem, 1.4rem + 0.5vw, 1.8rem);     /* 24-28.8px - More compact normal height */
+  
+  /* Table Typography */
+  --table-line-height: 1.3;                                                /* Consistent line height for all tables */
 
   /* Border Radius */
   --border-radius-sm: 0.25rem;  /* 4px */
@@ -73,4 +269,83 @@
   --z-index-modal: 1050;
   --z-index-popover: 1060;
   --z-index-tooltip: 1070;
+
+  /* Responsive Layout */
+  --container-padding-mobile: 1rem;
+  --container-padding-tablet: 1.5rem;
+  --container-padding-desktop: 2rem;
+  
+  --card-padding-mobile: 1rem;
+  --card-padding-tablet: 1.5rem;
+  --card-padding-desktop: 2rem;
+  
+  --table-cell-padding-mobile: 0.5rem 0.75rem;
+  --table-cell-padding-tablet: 0.75rem 1rem;
+  --table-cell-padding-desktop: 1rem 1.5rem;
+
+  /* Component Widths */
+  --component-width-xs: 100%;
+  --component-width-sm: 100%;
+  --component-width-md: 100%;
+  --component-width-lg: 100%;
+  --component-width-xl: 100%;
+  
+  /* Table Responsive */
+  --table-min-width-mobile: 100%;
+  --table-min-width-tablet: 100%;
+  --table-min-width-desktop: 900px;
+  
+  --table-max-width-mobile: 100%;
+  --table-max-width-tablet: 100%;
+  --table-max-width-desktop: 1400px;
+
+  --page-container-padding: 20px;
+  --page-container-padding-mobile: 16px;
+  --page-container-padding-desktop: 32px;
+  
+  /* Page Title Spacing */
+  --page-title-margin-bottom: 12px;
+  --page-title-margin-bottom-mobile: 8px;
+
+  /* Page Title Styling Variables */
+  --page-title-color: var(--text-black);                     /* Pure black for titles */
+  --page-title-font-weight: 700;
+  --page-title-font-size-mobile: var(--font-size-xl);        /* 1.25-1.5rem */
+  --page-title-font-size-tablet: var(--font-size-2xl);       /* 1.5-1.875rem */
+  --page-title-font-size-desktop: var(--font-size-3xl);      /* 1.875-2.25rem */
+  --page-title-border-width: var(--spacing-xs);              /* 4-8px border width */
+  --page-title-border-color: var(--info-color);              /* Blue accent */
+  --page-title-padding-left: var(--spacing-xs);              /* Left padding */
+
+  /* Chart Responsive Sizing */
+  --chart-container-height-mobile: 400px;       /* Mobile chart container height */
+  --chart-container-height-tablet: 500px;       /* Tablet chart container height */
+  --chart-container-height-desktop: 600px;      /* Desktop chart container height */
+  --pie-chart-radius-mobile: 120px;             /* Mobile pie chart radius */
+  --pie-chart-radius-tablet: 160px;             /* Tablet pie chart radius */
+  --pie-chart-radius-desktop: 200px;            /* Desktop pie chart radius */
+  --chart-min-height-mobile: 300px;             /* Minimum chart height on mobile */
+  --chart-min-height-desktop: 400px;            /* Minimum chart height on desktop */
+  --icon-button-size: 24px; /* Standard size for square icon buttons */
+  --button-size-small: 16px; /* Small button size */
+  --button-size-medium: 24px; /* Medium button size */
+  --button-size-large: 32px; /* Large button size */
+  --button-size-xlarge: 56px; /* Extra Large button size */
+  
+  /* Plan Card Badge Variables */
+  --plan-badge-font-size-mobile: var(--font-size-xs);     /* Small badge on mobile */
+  --plan-badge-font-size-tablet: var(--font-size-sm);     /* Medium badge on tablet */
+  --plan-badge-font-size-desktop: var(--font-size-base);  /* Large badge on desktop */
+  --plan-badge-padding-mobile: 2px 40px;                  /* Compact padding on mobile */
+  --plan-badge-padding-tablet: 3px 45px;                  /* Medium padding on tablet */
+  --plan-badge-padding-desktop: 4px 50px;                 /* Large padding on desktop */
+  --plan-badge-right-mobile: -40px;                       /* Right position on mobile */
+  --plan-badge-right-tablet: -45px;                       /* Right position on tablet */
+  --plan-badge-right-desktop: -50px;                      /* Right position on desktop */
+  --plan-badge-top: var(--spacing-md);                    /* Top position for all breakpoints */
+  
+  /* Payment Form Variables */
+  --payment-form-font-size-desktop: 16px;                 /* Desktop card input font size */
+  --payment-form-font-size-tablet: 14px;                  /* Tablet card input font size */
+  --payment-form-font-size-mobile: 14px;                  /* Mobile card input font size */
 } 

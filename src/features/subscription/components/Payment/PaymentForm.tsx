@@ -2,6 +2,11 @@ import React, { useState, useEffect } from 'react';
 import { CardElement, useStripe, useElements } from '@stripe/react-stripe-js';
 import './PaymentForm.css';
 
+// Get CSS custom property value
+const getComputedStyleValue = (property: string): string => {
+  return getComputedStyle(document.documentElement).getPropertyValue(property).trim();
+};
+
 interface PaymentFormProps {
   onSuccess: (paymentMethodId: string) => void;
   onCancel: () => void;
@@ -13,6 +18,20 @@ const PaymentForm: React.FC<PaymentFormProps> = ({ onSuccess, onCancel, onError,
   const stripe = useStripe();
   const elements = useElements();
   const [processing, setProcessing] = useState(false);
+  
+  // Get responsive font size from theme based on screen size
+  const getResponsiveFontSize = (): string => {
+    const width = window.innerWidth;
+    if (width <= 768) {
+      return getComputedStyleValue('--payment-form-font-size-mobile');
+    } else if (width <= 1023) {
+      return getComputedStyleValue('--payment-form-font-size-tablet');
+    } else {
+      return getComputedStyleValue('--payment-form-font-size-desktop');
+    }
+  };
+  
+  const cardFontSize = getResponsiveFontSize();
 
   useEffect(() => {
     if (reset) {
@@ -100,7 +119,7 @@ const PaymentForm: React.FC<PaymentFormProps> = ({ onSuccess, onCancel, onError,
           options={{
             style: {
               base: {
-                fontSize: '16px',
+                fontSize: cardFontSize,
                 color: '#424770',
                 '::placeholder': {
                   color: '#aab7c4',

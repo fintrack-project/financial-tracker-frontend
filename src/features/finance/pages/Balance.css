@@ -1,82 +1,230 @@
 .balance-container {
-  padding: 20px;
+  padding: var(--page-container-padding);
   display: flex;
   flex-direction: column;
   align-items: flex-start;
   width: 100%;
+  max-width: 100%;
+  box-sizing: border-box;
 }
 
-.balance-container h1 {
-  font-size: 2.5rem;
-  color: #333;
-  margin-bottom: 20px;
+/* Balance title will now use the common .fintrack-section-title styling from Title.css */
+
+/* Header section - NEW: Desktop horizontal layout */
+.balance-header {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--spacing-xs);
+  margin-bottom: var(--spacing-sm);
+}
+
+@media (min-width: 1024px) {
+  .balance-header {
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: var(--spacing-sm);
+    margin-bottom: var(--spacing-sm);
+  }
 }
 
 .balance-container p {
-  font-size: 1.2rem;
-  color: #555;
-  margin: 10px 0;
-}
-
-.left-section {
-  flex: 1; /* Take up half the page */
-  padding: 20px;
-}
-  
-.right-section {
-  flex: 1; /* Take up half the page */
-  display: flex;
-  justify-content: center;
-  align-items: flex-start;
-  padding: 20px;
-  background-color: #fff;
-  box-shadow: -2px 0 4px rgba(0, 0, 0, 0.1);
-  border-left: 1px solid #ddd;
-}
-  
-.right-section form {
-  width: 100%;
-  max-width: 400px; /* Limit the width of the form */
+  font-size: var(--font-size-base);
+  color: var(--neutral-600);
+  margin: var(--spacing-sm) 0;
+  line-height: var(--table-line-height);
 }
 
 .balance-navigation-bar {
-  margin-bottom: 28px;
+  width: 100%;
+}
+
+/* Desktop: Right-align and smaller navigation bar */
+@media (min-width: 1024px) {
+  .balance-navigation-bar {
+    width: auto;
+    flex-shrink: 0;
+  }
 }
 
 .balance-content {
   width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-sm);
 }
 
 .balance-overview,
 .upload-balance {
   width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-sm);
+}
+
+/* Individual component spacing - consistent smaller margins */
+.balance-overview > *,
+.upload-balance > * {
+  margin-top: var(--spacing-sm);
+  margin-bottom: var(--spacing-sm);
+}
+
+/* First component doesn't need top margin */
+.balance-overview > *:first-child,
+.upload-balance > *:first-child {
+  margin-top: 0;
+}
+
+/* Last component doesn't need bottom margin */
+.balance-overview > *:last-child,
+.upload-balance > *:last-child {
+  margin-bottom: 0;
 }
 
 /* Responsive Design */
-@media (max-width: 768px) {
+@media (min-width: 1024px) {
   .balance-container {
-    padding: 16px;
-  }
-  
-  .balance-container h1 {
-    font-size: 2rem;
-    margin-bottom: 16px;
+    padding: var(--page-container-padding-desktop);
   }
   
   .balance-container p {
-    font-size: 1rem;
+    font-size: var(--font-size-lg);
   }
   
-  .left-section,
-  .right-section {
-    padding: 16px;
+  .balance-content {
+    gap: var(--spacing-sm);
   }
   
-  .right-section form {
-    max-width: 100%;
+  .balance-overview,
+  .upload-balance {
+    gap: var(--spacing-sm);
+  }
+
+  /* Desktop component spacing - even smaller for tighter layout */
+  .balance-overview > *,
+  .upload-balance > * {
+    margin-top: var(--spacing-sm);
+    margin-bottom: var(--spacing-sm);
+  }
+
+  .balance-overview > *:first-child,
+  .upload-balance > *:first-child {
+    margin-top: 0;
+  }
+
+  .balance-overview > *:last-child,
+  .upload-balance > *:last-child {
+    margin-bottom: 0;
+  }
+}
+
+@media (max-width: 768px) {
+  .balance-container {
+    padding: var(--page-container-padding);
   }
   
-  .balance-navigation-bar {
-    margin-bottom: 20px;
+  .balance-container p {
+    font-size: var(--font-size-sm);
+  }
+  
+  .balance-header {
+    gap: var(--spacing-xs);
+    margin-bottom: var(--spacing-sm);
+  }
+  
+  .balance-content {
+    gap: var(--spacing-sm);
+  }
+  
+  .balance-overview,
+  .upload-balance {
+    gap: var(--spacing-sm);
+  }
+
+  /* Mobile component spacing - even smaller */
+  .balance-overview > *,
+  .upload-balance > * {
+    margin-top: var(--spacing-sm);
+    margin-bottom: var(--spacing-sm);
+  }
+
+  .balance-overview > *:first-child,
+  .upload-balance > *:first-child {
+    margin-top: 0;
+  }
+
+  .balance-overview > *:last-child,
+  .upload-balance > *:last-child {
+    margin-bottom: 0;
+  }
+}
+
+/* Responsive Design for Balance Page */
+.balance-page {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: var(--spacing-md);
+  background-color: var(--neutral-100);
+}
+
+.balance-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-family: var(--font-family-primary);
+  font-size: var(--table-font-size-normal);
+  background-color: var(--primary-100);
+  box-shadow: var(--shadow-md);
+  border-radius: var(--border-radius-md);
+  overflow: hidden;
+}
+
+/* Responsive Styles */
+@media (max-width: var(--breakpoint-mobile-max)) {
+  .balance-page {
+    padding: var(--spacing-sm);
+  }
+
+  .balance-table {
+    font-size: var(--font-size-xs);
+  }
+
+  .balance-table th,
+  .balance-table td {
+    padding: var(--spacing-xs) var(--spacing-sm);
+  }
+}
+
+@media (min-width: var(--breakpoint-tablet-min)) and (max-width: var(--breakpoint-tablet-max)) {
+  .balance-page {
+    padding: var(--spacing-md);
+  }
+
+  .balance-table {
+    width: 100%;
+    max-width: 100%; /* Ensure full width on tablet */
+    font-size: var(--table-font-size-normal);
+  }
+
+  .custom-range-input {
+    width: 100%;
+    max-width: 100%; /* Ensure full width on tablet */
+  }
+}
+
+@media (min-width: var(--breakpoint-desktop-min)) {
+  .balance-page {
+    padding: var(--spacing-lg);
+  }
+
+  .balance-table {
+    width: 100%;
+    font-size: var(--table-font-size-normal);
+  }
+
+  .custom-range-input {
+    width: 100%;
   }
 }

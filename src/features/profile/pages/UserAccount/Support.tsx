@@ -16,7 +16,6 @@ const Support: React.FC<SupportProps> = ({ accountId }) => {
 
   const rightContent = (
     <div className="support-container">
-      <h2>Support</h2>
       <div className="support-content">
         <section className="support-section">
           <h3>Need Help?</h3>
@@ -25,6 +24,7 @@ const Support: React.FC<SupportProps> = ({ accountId }) => {
             <div className="support-option">
               <h4>Contact Support</h4>
               <p>Get in touch with our support team for personalized assistance.</p>
+              <p className="support-email">Email: <a href="mailto:admin@fintrack.johnmjkim.com">admin@fintrack.johnmjkim.com</a></p>
               <button className="support-button">Contact Us</button>
             </div>
             <div className="support-option">

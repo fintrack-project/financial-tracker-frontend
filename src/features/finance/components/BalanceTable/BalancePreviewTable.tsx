@@ -112,27 +112,29 @@ const BalancePreviewTable: React.FC<BalancePreviewTableProps> = ({
 
   return (
     <div className="balance-preview-container">
-      <h2 className="fintrack-subsection-title">Balance Preview Table</h2>
-      <TransactionTable
-        transactions={previewTransactions}
-        isHighlighted={(transaction) => 
-          transaction.transactionId === null && 
-          transaction.accountId === null
-        }
-        isMarkedForDeletion={(transaction) => transaction.markDelete}
-        onDeleteClick={(transaction) => {
-          const index = previewTransactions.findIndex(
-            (t) => t.transactionId === transaction.transactionId
-          );
-          toggleMarkDelete(index);
-        }}
-        onDeleteAllClick={() => {
-          const allMarked = previewTransactions.every((transaction) => transaction.markDelete);
-          setPreviewTransactions((prev) =>
-            prev.map((transaction) => ({ ...transaction, markDelete: !allMarked }))
-          );
-        }}
-      />
+      <h2 className="fintrack-subsection-title">Balance Preview</h2>
+      <div className="table-wrapper">
+        <TransactionTable
+          transactions={previewTransactions}
+          isHighlighted={(transaction) => 
+            transaction.transactionId === null && 
+            transaction.accountId === null
+          }
+          isMarkedForDeletion={(transaction) => transaction.markDelete}
+          onDeleteClick={(transaction) => {
+            const index = previewTransactions.findIndex(
+              (t) => t.transactionId === transaction.transactionId
+            );
+            toggleMarkDelete(index);
+          }}
+          onDeleteAllClick={() => {
+            const allMarked = previewTransactions.every((transaction) => transaction.markDelete);
+            setPreviewTransactions((prev) =>
+              prev.map((transaction) => ({ ...transaction, markDelete: !allMarked }))
+            );
+          }}
+        />
+      </div>
       <div className="table-footer">
         <button className="button button-primary" onClick={handleConfirm}>
           Confirm Changes

@@ -1,8 +1,24 @@
-import React from 'react';
+import React, { ReactNode } from 'react';
 import { format } from 'date-fns';
 import './TransactionTable.css';
 import { formatNumber } from '../../../../shared/utils/FormatNumber';
 import IconButton from '../../../../shared/components/Button/IconButton';
+import { FaExchangeAlt } from 'react-icons/fa';
+import Icon from '../../../../shared/components/Card/Icon';
+
+interface EmptyStateProps {
+  icon: ReactNode;
+  text: string;
+  subtext: string;
+}
+
+const EmptyState: React.FC<EmptyStateProps> = ({ icon, text, subtext }) => (
+  <div className="empty-state">
+    <div className="empty-state-icon">{icon}</div>
+    <div className="empty-state-text">{text}</div>
+    {subtext && <div className="empty-state-subtext">{subtext}</div>}
+  </div>
+);
 
 interface TransactionTableRow {
   date: string;
@@ -69,6 +85,7 @@ const TransactionTable = <T extends {
           type="delete" 
           onClick={() => onDeleteClick(transaction)} 
           label="Delete Row"
+          size="small"
         />
       )
     };
@@ -126,8 +143,36 @@ const TransactionTable = <T extends {
   if (transactions.length === 0) {
     return (
       <div className="transaction-table-container">
-        <div className="no-transactions-message">
-          No transactions
+        <div className="table-container">
+          <div className="scrollable-content">
+            <table className="data-table">
+              <thead>
+                <tr>
+                  <th>Date</th>
+                  <th>Asset Name</th>
+                  <th>Symbol</th>
+                  <th>Asset Type</th>
+                  <th>Credit (Increase)</th>
+                  <th>Debit (Decrease)</th>
+                  <th>Total Balance Before</th>
+                  <th>Total Balance After</th>
+                  <th>Unit</th>
+                  {onDeleteClick && <th>Delete All</th>}
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td colSpan={9 + (onDeleteClick ? 1 : 0)}>
+                    <EmptyState
+                      icon={<Icon icon={FaExchangeAlt} className="empty-state-icon" aria-hidden={true} />}
+                      text="No Transactions Found"
+                      subtext="Upload transactions or add new entries to start tracking your balance"
+                    />
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
         </div>
       </div>
     );

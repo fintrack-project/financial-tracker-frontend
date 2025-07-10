@@ -1,33 +1,57 @@
 .holdings-container {
-  padding: 20px;
+  padding: var(--page-container-padding);
 }
 
+/* Widget containers - match dashboard pattern */
+.holdings-widget,
+.categories-widget {
+  background-color: var(--neutral-100);
+  border-radius: var(--border-radius-md);
+  box-shadow: var(--shadow-md);
+  padding: var(--spacing-sm) 0;
+  margin-bottom: var(--spacing-md);
+  width: 100%;
+}
+
+/* Widget headers - match dashboard pattern */
+.holdings-widget-header,
+.categories-widget-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: var(--spacing-xs);
+  padding-bottom: var(--spacing-xs);
+  border-bottom: 1px solid var(--neutral-300);
+  padding-left: var(--spacing-sm);
+  padding-right: var(--spacing-sm);
+}
+
+.holdings-widget-header h3,
+.categories-widget-header h3 {
+  margin: 0;
+  font-family: var(--font-family-primary);
+  font-size: var(--font-size-lg);
+  font-weight: 600;
+  color: var(--neutral-900);
+}
+
+/* Consistent spacing for both sections - reduced for tighter layout */
 .holdings-container 
 .holdings-section,
 .holdings-container 
 .categories-section {
-  margin-bottom: 48px;
+  margin-top: 0;
+  margin-bottom: 0;
 }
 
-/* Use the common fintrack-section-title class from Title.css */
-.holdings-container .fintrack-section-title {
-  margin-bottom: 24px;
-  color: #1e293b;
+@media (max-width: 768px) {
+  .holdings-container {
+    padding: var(--page-container-padding);
+  }
 }
 
-/* Add spacing between sections */
-.categories-section {
-  margin-top: 48px;
-}
-
-.holdings-container h1 {
-  font-size: 2.5rem;
-  color: #333;
-  margin-bottom: 20px;
-}
-
-.holdings-container p {
-  font-size: 1.2rem;
-  color: #555;
-  margin: 10px 0;
+@media (min-width: 1024px) {
+  .holdings-container {
+    padding: var(--page-container-padding-desktop);
+  }
 }
