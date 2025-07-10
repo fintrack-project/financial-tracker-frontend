@@ -3,6 +3,7 @@
   background-color: var(--page-bg);
   border: 1px solid var(--border-light);
   border-radius: var(--border-radius-md);
+  width: 100%;
 }
 
 .notification h2 {
@@ -32,4 +33,46 @@
 
 .notification ul li {
   margin: var(--spacing-xs) 0;
+}
+
+/* ==========================================================================
+   RESPONSIVE DESIGN
+   ========================================================================== */
+
+/* Mobile Styles (≤768px) - Touch-First Design */
+@media (max-width: 768px) {
+  .notification {
+    padding: var(--spacing-md);
+  }
+  
+  .notification h2 {
+    font-size: var(--font-size-lg);
+    margin-bottom: var(--spacing-md);
+  }
+  
+  .notification-preferences {
+    gap: var(--spacing-md);
+  }
+}
+
+/* Tablet Styles (769px-1023px) - Balanced Hybrid */
+@media (min-width: 769px) and (max-width: 1023px) {
+  .notification {
+    padding: var(--spacing-lg);
+  }
+  
+  .notification-preferences {
+    gap: var(--spacing-md);
+  }
+}
+
+/* Desktop Styles (≥1024px) - Current Design */
+@media (min-width: 1024px) {
+  .notification {
+    padding: var(--spacing-md);
+  }
+  
+  .notification-preferences {
+    gap: var(--spacing-sm);
+  }
 }

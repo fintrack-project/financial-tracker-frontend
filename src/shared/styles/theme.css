@@ -51,7 +51,8 @@
   
   /* Account Detail Menu Dimensions */
   --account-detail-min-height-desktop: 340px;
-  --account-detail-min-height-mobile: 300px;
+  --account-detail-min-height-tablet: 280px;
+  --account-detail-min-height-mobile: 240px;
   
   /* Background Colors */
   --account-detail-bg: var(--nav-bg);

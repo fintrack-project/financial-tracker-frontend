@@ -221,3 +221,68 @@
     margin-top: var(--spacing-xs);
   }
 }
+
+/* Tablet Styles */
+@media (min-width: 769px) and (max-width: 1023px) {
+  .account-detail-and-menu {
+    padding: var(--spacing-md) var(--spacing-sm);
+    margin-bottom: var(--spacing-sm);
+    min-height: var(--account-detail-min-height-tablet);
+  }
+  
+  .account-detail-and-menu-avatar {
+    width: var(--avatar-size-tablet);
+    height: var(--avatar-size-tablet);
+    font-size: var(--font-size-xl);
+    margin-bottom: var(--spacing-sm);
+  }
+  
+  .account-detail-and-menu-title {
+    font-size: var(--font-size-xl);
+    margin-bottom: var(--spacing-xs);
+  }
+  
+  .account-detail-and-menu-user {
+    font-size: var(--font-size-sm);
+    margin-bottom: var(--spacing-sm);
+  }
+  
+  .account-detail-and-menu-nav {
+    gap: var(--spacing-sm);
+    margin-bottom: var(--spacing-md);
+  }
+  
+  .account-detail-and-menu-link {
+    font-size: var(--font-size-base);
+    padding: var(--spacing-xs) var(--spacing-xs);
+  }
+  
+  .account-detail-and-menu-logout {
+    padding: var(--spacing-xs) 0;
+  }
+  
+  .account-detail-and-menu-currency {
+    margin: var(--spacing-md) 0;
+    padding: var(--spacing-sm);
+  }
+  
+  .account-detail-and-menu-currency label {
+    margin-bottom: var(--spacing-xs);
+    font-size: var(--font-size-sm);
+  }
+  
+  .account-detail-and-menu-select {
+    padding: var(--spacing-xs) var(--spacing-sm);
+    font-size: var(--font-size-xs);
+  }
+  
+  .account-detail-and-menu-error {
+    font-size: var(--font-size-xs);
+    margin-top: var(--spacing-xs);
+  }
+  
+  .account-detail-and-menu-success {
+    font-size: var(--font-size-xs);
+    margin-top: var(--spacing-xs);
+  }
+}

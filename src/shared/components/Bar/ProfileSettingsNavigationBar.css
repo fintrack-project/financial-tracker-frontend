@@ -1,39 +1,128 @@
 .profile-settings-nav {
   display: flex;
-  gap: 16px;
-  margin-bottom: 24px;
-  border-bottom: 1px solid #e0e0e0;
-  padding-bottom: 8px;
+  margin-bottom: var(--spacing-sm);
+  border-bottom: 1px solid var(--border-light);
+  padding-bottom: var(--spacing-sm);
+  background: var(--neutral-100);
 }
 
 .nav-button {
-  padding: 8px 16px;
-  border: none;
   background: none;
+  border: none;
+  padding: var(--spacing-sm) var(--spacing-md);
+  font-size: var(--font-size-base);
+  color: var(--text-secondary);
   cursor: pointer;
-  font-size: 16px;
-  color: #666;
+  transition: var(--transition-normal);
   position: relative;
-  transition: all 0.3s ease;
+  font-weight: 500;
+  outline: none;
+  border-radius: 0;
+}
+
+.nav-button:focus {
+  outline: none;
+  border: none;
+  box-shadow: none;
 }
 
 .nav-button:hover {
-  color: #4a90e2;
-  background-color: #f5f8ff;
-  border-radius: 4px;
+  color: var(--text-primary);
 }
 
 .nav-button.active {
-  color: #4a90e2;
-  font-weight: 500;
+  color: var(--primary-500);
+  font-weight: 600;
 }
 
 .nav-button.active::after {
   content: '';
   position: absolute;
-  bottom: -9px;
+  bottom: calc(-1 * var(--spacing-sm) - 1px);
   left: 0;
   width: 100%;
   height: 2px;
-  background-color: #4a90e2;
+  background-color: var(--primary-500);
+}
+
+/* ==========================================================================
+   RESPONSIVE DESIGN
+   ========================================================================== */
+
+/* Mobile Styles (≤768px) - Touch-First Design */
+@media (max-width: 768px) {
+  .profile-settings-nav {
+    flex-direction: column;
+    gap: var(--spacing-xs);
+    border-bottom: none;
+    padding-bottom: 0;
+    margin-bottom: var(--spacing-sm);
+  }
+  
+  .nav-button {
+    width: 100%;
+    padding: var(--spacing-xs) var(--spacing-sm);
+    font-size: var(--font-size-sm);
+    text-align: left;
+    background: none;
+    border: none;
+    border-radius: 0;
+    min-height: 32px;
+    justify-content: flex-start;
+    position: relative;
+  }
+  
+  .nav-button:hover {
+    background: none;
+    color: var(--text-primary);
+  }
+  
+  .nav-button.active {
+    background: none;
+    color: var(--primary-500);
+    font-weight: 600;
+  }
+  
+  .nav-button.active::after {
+    display: none; /* Remove underline on mobile */
+  }
+  
+  .nav-button.active::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 3px;
+    height: 100%;
+    background-color: var(--primary-500);
+  }
+}
+
+/* Tablet Styles (769px-1023px) - Balanced Hybrid */
+@media (min-width: 769px) and (max-width: 1023px) {
+  .profile-settings-nav {
+    gap: var(--spacing-sm);
+    margin-bottom: var(--spacing-md);
+    flex-wrap: wrap;
+  }
+  
+  .nav-button {
+    padding: var(--spacing-sm) var(--spacing-md);
+    font-size: var(--font-size-sm);
+    min-width: 100px;
+    text-align: center;
+  }
+}
+
+/* Desktop Styles (≥1024px) - Original Design */
+@media (min-width: 1024px) {
+  .profile-settings-nav {
+    gap: var(--spacing-sm);
+    margin-bottom: var(--spacing-md);
+  }
+  
+  .nav-button {
+    padding: var(--spacing-sm) var(--spacing-md);
+    font-size: var(--font-size-base);
+  }
 }

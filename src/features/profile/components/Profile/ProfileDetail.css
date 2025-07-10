@@ -3,6 +3,7 @@
   background-color: var(--page-bg);
   border: 1px solid var(--border-light);
   border-radius: var(--border-radius-md);
+  width: 100%;
 }
 
 .profile-detail h2 {
@@ -47,4 +48,65 @@
 .phone-input-container input:focus {
   outline: none;
   border-color: var(--input-focus-border); /* Highlight border on focus */
+}
+
+/* ==========================================================================
+   RESPONSIVE DESIGN
+   ========================================================================== */
+
+/* Mobile Styles (≤768px) - Touch-First Design */
+@media (max-width: 768px) {
+  .profile-detail {
+    padding: var(--spacing-md);
+  }
+  
+  .profile-detail h2 {
+    font-size: var(--font-size-lg);
+    margin-bottom: var(--spacing-md);
+  }
+  
+  .phone-input-container {
+    flex-direction: column;
+    gap: var(--spacing-sm);
+  }
+  
+  .phone-input-container select,
+  .phone-input-container input {
+    width: 100%;
+    min-height: 44px; /* Touch-friendly minimum height */
+    font-size: var(--font-size-base);
+  }
+  
+  .actions {
+    flex-direction: column;
+    gap: var(--spacing-sm);
+    width: 100%;
+  }
+}
+
+/* Tablet Styles (769px-1023px) - Balanced Hybrid */
+@media (min-width: 769px) and (max-width: 1023px) {
+  .profile-detail {
+    padding: var(--spacing-lg);
+  }
+  
+  .phone-input-container {
+    gap: var(--spacing-md);
+  }
+  
+  .phone-input-container select,
+  .phone-input-container input {
+    min-height: 40px;
+  }
+}
+
+/* Desktop Styles (≥1024px) - Current Design */
+@media (min-width: 1024px) {
+  .profile-detail {
+    padding: var(--spacing-md);
+  }
+  
+  .phone-input-container {
+    gap: var(--spacing-sm);
+  }
 }

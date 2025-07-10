@@ -3,6 +3,7 @@
   background-color: var(--page-bg);
   border: 1px solid var(--border-light);
   border-radius: var(--border-radius-md);
+  width: 100%;
 }
 
 .security h2 {
@@ -35,4 +36,57 @@
 
 .change-password-button:hover {
   background-color: var(--button-primary-hover);
+}
+
+/* ==========================================================================
+   RESPONSIVE DESIGN
+   ========================================================================== */
+
+/* Mobile Styles (≤768px) - Touch-First Design */
+@media (max-width: 768px) {
+  .security {
+    padding: var(--spacing-md);
+  }
+  
+  .security h2 {
+    font-size: var(--font-size-lg);
+    margin-bottom: var(--spacing-md);
+  }
+  
+  .actions {
+    flex-direction: column;
+    gap: var(--spacing-sm);
+    width: 100%;
+  }
+  
+  .change-password-button {
+    width: 100%;
+    padding: var(--spacing-md);
+    font-size: var(--font-size-base);
+    min-height: 44px; /* Touch-friendly minimum height */
+  }
+}
+
+/* Tablet Styles (769px-1023px) - Balanced Hybrid */
+@media (min-width: 769px) and (max-width: 1023px) {
+  .security {
+    padding: var(--spacing-lg);
+  }
+  
+  .change-password-button {
+    padding: var(--spacing-sm) var(--spacing-md);
+    font-size: var(--font-size-base);
+  }
+}
+
+/* Desktop Styles (≥1024px) - Current Design */
+@media (min-width: 1024px) {
+  .security {
+    padding: var(--spacing-md);
+  }
+  
+  .change-password-button {
+    padding: var(--spacing-sm) var(--spacing-sm);
+    font-size: var(--font-size-sm);
+  }
 }
