@@ -331,4 +331,21 @@
   --button-size-medium: 24px; /* Medium button size */
   --button-size-large: 32px; /* Large button size */
   --button-size-xlarge: 56px; /* Extra Large button size */
+  
+  /* Plan Card Badge Variables */
+  --plan-badge-font-size-mobile: var(--font-size-xs);     /* Small badge on mobile */
+  --plan-badge-font-size-tablet: var(--font-size-sm);     /* Medium badge on tablet */
+  --plan-badge-font-size-desktop: var(--font-size-base);  /* Large badge on desktop */
+  --plan-badge-padding-mobile: 2px 40px;                  /* Compact padding on mobile */
+  --plan-badge-padding-tablet: 3px 45px;                  /* Medium padding on tablet */
+  --plan-badge-padding-desktop: 4px 50px;                 /* Large padding on desktop */
+  --plan-badge-right-mobile: -40px;                       /* Right position on mobile */
+  --plan-badge-right-tablet: -45px;                       /* Right position on tablet */
+  --plan-badge-right-desktop: -50px;                      /* Right position on desktop */
+  --plan-badge-top: var(--spacing-md);                    /* Top position for all breakpoints */
+  
+  /* Payment Form Variables */
+  --payment-form-font-size-desktop: 16px;                 /* Desktop card input font size */
+  --payment-form-font-size-tablet: 14px;                  /* Tablet card input font size */
+  --payment-form-font-size-mobile: 14px;                  /* Mobile card input font size */
 } 

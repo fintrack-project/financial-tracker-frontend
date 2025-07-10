@@ -70,7 +70,7 @@
 /* Tablet Styles (769px-1023px) - Balanced Hybrid */
 @media (min-width: 769px) and (max-width: 1023px) {
   .security {
-    padding: var(--spacing-lg);
+    padding: var(--spacing-md);
   }
   
   .change-password-button {

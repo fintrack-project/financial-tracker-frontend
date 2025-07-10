@@ -89,9 +89,24 @@
   }
 }
 
-/* Tablet and Desktop Styles (≥769px) - Horizontal Layout */
-@media (min-width: 769px) {
+/* Tablet Styles (769px-1023px) - Balanced Hybrid */
+@media (min-width: 769px) and (max-width: 1023px) {
   .subscription-tabs {
     gap: var(--spacing-md);
+  }
+  
+  .subscription-tabs button {
+    font-size: var(--font-size-sm);
+  }
+}
+
+/* Desktop Styles (≥1024px) - Horizontal Layout */
+@media (min-width: 1024px) {
+  .subscription-tabs {
+    gap: var(--spacing-md);
+  }
+  
+  .subscription-tabs button {
+    font-size: var(--font-size-base);
   }
 } 

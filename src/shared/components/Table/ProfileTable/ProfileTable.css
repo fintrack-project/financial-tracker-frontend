@@ -171,11 +171,7 @@
     padding-bottom: var(--spacing-xs);
   }
   
-  .profile-table-value {
-    font-size: var(--font-size-sm);
-    padding: var(--spacing-xs) 0;
-  }
-  
+  .profile-table-value,
   .profile-table-status {
     font-size: var(--font-size-sm);
     padding: var(--spacing-xs) 0;
@@ -188,9 +184,18 @@
   }
   
   .action-button {
-    padding: var(--spacing-xs) var(--spacing-sm);
+    padding: calc(var(--spacing-xs) / 2);
     font-size: var(--font-size-xs);
-    min-height: 36px; /* Reduced touch height */
+  }
+  
+  .profile-table .icon-button {
+    width: var(--button-size-small);
+    height: var(--button-size-small);
+  }
+  
+  .profile-table .icon-button .icon-image {
+    width: var(--button-size-small);
+    height: var(--button-size-small);
   }
   
   .profile-table input {
@@ -214,28 +219,33 @@
   .profile-table-row {
     grid-template-columns: 1fr 2fr 1fr 1fr;
     padding: var(--spacing-sm);
+    gap: var(--spacing-md);
   }
   
-  .profile-table-label {
-    font-size: var(--font-size-sm);
-  }
-  
-  .profile-table-value {
-    font-size: var(--font-size-sm);
-  }
-  
+  .profile-table-label,
+  .profile-table-value,
   .profile-table-status {
-    font-size: var(--font-size-sm);
+    font-size: var(--font-size-xs);
   }
   
   .action-button {
-    padding: var(--spacing-xs) var(--spacing-sm);
+    padding: calc(var(--spacing-xs) / 2);
     font-size: var(--font-size-xs);
+  }
+  
+  .profile-table .icon-button {
+    width: var(--button-size-small);
+    height: var(--button-size-small);
+  }
+  
+  .profile-table .icon-button .icon-image {
+    width: var(--button-size-small);
+    height: var(--button-size-small);
   }
   
   .profile-table input {
     padding: var(--spacing-xs) var(--spacing-sm);
-    font-size: var(--font-size-sm);
+    font-size: var(--font-size-xs);
   }
 }
 
@@ -247,17 +257,12 @@
   
   .profile-table-row {
     grid-template-columns: 1fr 2fr 1fr 1fr;
-    padding: var(--spacing-sm) var(--spacing-xs);
+    padding: var(--spacing-sm) var(--spacing-md);
+    gap: var(--spacing-md);
   }
   
-  .profile-table-label {
-    font-size: var(--font-size-sm);
-  }
-  
-  .profile-table-value {
-    font-size: var(--font-size-sm);
-  }
-  
+  .profile-table-label,
+  .profile-table-value,
   .profile-table-status {
     font-size: var(--font-size-sm);
   }
