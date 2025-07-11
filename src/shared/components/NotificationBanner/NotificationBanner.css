@@ -1,0 +1,95 @@
+.notification-banner {
+  padding: var(--spacing-sm) var(--spacing-md);
+  border-radius: var(--border-radius-md);
+  margin-bottom: var(--spacing-sm);
+  font-family: var(--font-family-primary);
+  font-size: var(--font-size-sm);
+  line-height: 1.4;
+  position: relative;
+  border: 1px solid transparent;
+}
+
+.notification-banner-content {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--spacing-sm);
+}
+
+.notification-banner-message {
+  flex: 1;
+  word-break: break-word;
+}
+
+.notification-banner-close {
+  background: none;
+  border: none;
+  font-size: var(--font-size-lg);
+  font-weight: bold;
+  cursor: pointer;
+  padding: 0;
+  width: 20px;
+  height: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: var(--border-radius-full);
+  transition: var(--transition-fast);
+  color: inherit;
+  opacity: 0.7;
+}
+
+.notification-banner-close:hover {
+  opacity: 1;
+  background-color: rgba(0, 0, 0, 0.1);
+}
+
+/* Type-specific styles */
+.notification-banner--info {
+  background-color: var(--info-bg, #e3f2fd);
+  color: var(--info-text, #0d47a1);
+  border-color: var(--info-border, #bbdefb);
+}
+
+.notification-banner--warning {
+  background-color: var(--warning-bg, #fff3e0);
+  color: var(--warning-text, #e65100);
+  border-color: var(--warning-border, #ffcc02);
+}
+
+.notification-banner--success {
+  background-color: var(--success-bg, #e8f5e8);
+  color: var(--success-text, #1b5e20);
+  border-color: var(--success-border, #a5d6a7);
+}
+
+.notification-banner--error {
+  background-color: var(--error-bg, #ffebee);
+  color: var(--error-text, #c62828);
+  border-color: var(--error-border, #ef9a9a);
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .notification-banner {
+    padding: var(--spacing-xs) var(--spacing-sm);
+    font-size: var(--font-size-xs);
+  }
+  
+  .notification-banner-content {
+    gap: var(--spacing-xs);
+  }
+  
+  .notification-banner-close {
+    width: 18px;
+    height: 18px;
+    font-size: var(--font-size-base);
+  }
+}
+
+@media (min-width: 1024px) {
+  .notification-banner {
+    padding: var(--spacing-md) var(--spacing-lg);
+    font-size: var(--font-size-base);
+  }
+} 
