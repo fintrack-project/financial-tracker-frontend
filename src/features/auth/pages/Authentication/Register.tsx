@@ -15,11 +15,6 @@ const Register: React.FC = () => {
   const [error, setError] = useState('');
   const navigate = useNavigate();
 
-  // TODO : check if registering really sends verification email
-  const sendEmailVerification = async (email: string) => {
-    alert(`Registration successful! A verification link has been sent to ${email}. Please verify your email.`);
-  };
-
   const handleRegister = async () => {
     if (!userId || !password || !email) {
       setError('User ID, Password, and Email are required.');
@@ -43,7 +38,8 @@ const Register: React.FC = () => {
 
     try {
       await registerUser({ userId, password, email });
-      await sendEmailVerification(email);
+      // Registration successful - redirect to login page
+      alert('Registration successful! You can now log in to your account.');
       navigate('/'); // Redirect to login page
     } catch (err: any) {
       setError(err.message);

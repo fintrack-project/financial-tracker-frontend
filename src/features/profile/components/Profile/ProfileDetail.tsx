@@ -15,6 +15,7 @@ import AccountTier from './AccountTier';
 import { formatDate } from '../../../../shared/utils/FormatDate';
 import './ProfileDetail.css'; // Add styles for the profile detail section
 import { useAuthService } from '../../../auth/hooks/useAuthService';
+import NotificationBanner from '../../../../shared/components/NotificationBanner/NotificationBanner';
 
 interface ProfileDetailProps {
   accountId: string; // Account ID to fetch user details
@@ -43,6 +44,7 @@ const ProfileDetail: React.FC<ProfileDetailProps> = ({ accountId }) => {
   const [editState, setEditState] = useState<{ [key: string]: string | null }>({});
   const [editModes, setEditModes] = useState<{ [key: string]: boolean }>({});
   const [isFetch, setIsFetch] = useState(false); // Boolean to control fetching
+  const [showEmailNotification, setShowEmailNotification] = useState(true);
   const {
     authenticate,
     verifyOtp,
@@ -408,6 +410,14 @@ const ProfileDetail: React.FC<ProfileDetailProps> = ({ accountId }) => {
   return (
     <div className="profile-detail">
       <h2>User Details</h2>
+      {showEmailNotification && !userDetails.emailVerified && (
+        <NotificationBanner
+          type="info"
+          message="Your email is not verified. You can verify your email address in your profile settings for enhanced security and account recovery options."
+          onClose={() => setShowEmailNotification(false)}
+          showCloseButton={true}
+        />
+      )}
       <ProfileTable data={tableData} />
       {showPopup === 'phone' && (
         <PhoneVerificationPopup
