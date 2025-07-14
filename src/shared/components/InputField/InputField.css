@@ -118,8 +118,13 @@
 .input-field-error {
   font-family: var(--font-family-primary);
   font-size: var(--font-size-xs);
-  color: var(--error-color);
   margin-top: var(--spacing-xs);
+  background-color: var(--error-message-bg);
+  border-color: var(--error-message-border);
+  color: var(--error-message-text);
+  box-shadow: var(--error-message-shadow);
+  padding: calc(var(--error-message-padding) * 0.5);
+  border-radius: var(--error-message-border-radius);
 }
 
 /* Help text */

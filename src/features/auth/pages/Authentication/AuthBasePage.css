@@ -17,7 +17,7 @@
 .auth-base-container {
   background-color: var(--neutral-50);
   display: flex;
-  height: 100vh;
+  min-height: 100vh;
   width: 100%;
 }
 
@@ -26,10 +26,11 @@
   box-shadow: 4px 0 6px rgba(0, 0, 0, 0.1);
   flex: 1 1;
   flex-direction: column;
-  padding: var(--spacing-xl);
+  padding: var(--spacing-lg);
   display: flex;
   align-items: center;
-  justify-content: center;
+  justify-content: flex-start;
+  overflow-y: auto;
 }
 
 .auth-right {
@@ -47,12 +48,12 @@
 }
 
 .auth-header {
-  margin-bottom: var(--spacing-xl);
+  margin-bottom: var(--spacing-md);
   text-align: center;
 }
 
 .auth-header h1 {
-  font-size: var(--font-size-3xl);
+  font-size: var(--font-size-2xl);
   font-weight: 700;
   color: var(--text-primary);
   margin: 0;
@@ -61,6 +62,8 @@
 .auth-content {
   width: 100%;
   max-width: 400px;
+  margin-top: var(--spacing-xs);
+  padding: var(--spacing-sm) 0;
 }
 
 /* ==========================================================================
@@ -191,35 +194,43 @@
   }
   
   .auth-left {
-    flex: 7;
-    padding: var(--spacing-sm);
-    padding-top: var(--spacing-md);
+    flex: 6; /* Reduced from 7 to give more space to logo */
+    padding: var(--spacing-xs);
+    padding-top: var(--spacing-sm);
+    justify-content: center; /* Center content vertically */
+    align-items: center;
   }
   
   .auth-right {
-    flex: 3;
+    flex: 4; /* Increased from 3 to give more space to logo */
     padding: var(--spacing-xs);
     justify-content: center;
   }
   
   .large-logo {
-    max-height: 70%;
-    max-width: 70%;
+    max-height: 80%; /* Increased from 70% to fill more space */
+    max-width: 80%; /* Increased from 70% to fill more space */
   }
   
   .auth-header {
-    margin-bottom: var(--spacing-sm);
+    margin-bottom: var(--spacing-xs);
     text-align: center;
+    margin-top: 0; /* Remove top margin */
   }
   
   .auth-header h1 {
-    font-size: var(--font-size-xl);
+    font-size: var(--font-size-lg);
     margin-bottom: var(--spacing-xs);
   }
   
   .auth-content {
     max-width: 100%;
     width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 0; /* Remove top margin to center properly */
+    padding: var(--spacing-xs) 0; /* Reduce padding */
   }
   
   .auth-base-page {
