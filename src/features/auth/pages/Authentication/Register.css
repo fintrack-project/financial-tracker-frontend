@@ -171,25 +171,31 @@
   width: 100%;
 }
 
-.register-container .register-button {
+/* ==========================================================================
+   AUTH BUTTON STYLES (strong specificity)
+   ========================================================================== */
+.register-container .primary-button.auth-btn {
   width: 100%;
-  padding: var(--spacing-xs) var(--spacing-sm); /* Standardized padding */
-  background: var(--button-primary-bg); /* Using theme variable */
+  background: var(--button-primary-bg);
   color: var(--neutral-100);
   border: none;
   border-radius: var(--border-radius-md);
-  font-size: var(--font-size-base); /* Standardized font size */
+  font-size: var(--font-size-base);
   font-weight: 600;
   cursor: pointer;
   transition: var(--transition-normal);
   margin-bottom: var(--spacing-xs);
-  /* Removed min-height - let content determine height naturally */
 }
 
-.register-container .register-button:hover {
-  background: var(--button-primary-hover); /* Using theme variable */
+.register-container .primary-button.auth-btn:hover {
+  background: var(--button-primary-hover);
   transform: translateY(-1px);
   box-shadow: var(--shadow-md);
+}
+
+.register-container .primary-button.auth-btn:focus {
+  outline: none;
+  box-shadow: 0 0 0 2px rgba(52, 98, 219, 0.2);
 }
 
 .register-container .secondary-button {
@@ -204,6 +210,11 @@
   cursor: pointer;
   transition: var(--transition-normal);
   /* Removed min-height - let content determine height naturally */
+}
+
+.register-container .secondary-button:focus {
+  outline: none; /* Remove blue outline */
+  box-shadow: 0 0 0 2px rgba(52, 98, 219, 0.2); /* Custom focus indicator */
 }
 
 /* ==========================================================================
@@ -243,11 +254,9 @@
     gap: var(--spacing-xs); /* Match login: keep xs for mobile */
   }
   
-  .register-container .register-button,
-  .register-container .secondary-button {
-    padding: var(--spacing-xs) var(--spacing-sm); /* Consistent padding */
-    font-size: var(--font-size-base); /* Consistent font size */
-    /* Removed min-height - let content determine height naturally */
+  .register-container .primary-button.auth-btn {
+    padding: var(--spacing-sm) var(--spacing-sm);
+    font-size: var(--font-size-base);
   }
   
   .register-container .message-container {
@@ -292,11 +301,9 @@
     gap: var(--spacing-xs); /* Match login: keep xs for tablet */
   }
   
-  .register-container .register-button,
-  .register-container .secondary-button {
-    padding: var(--spacing-xs) var(--spacing-sm); /* Consistent padding */
-    font-size: var(--font-size-base); /* Consistent font size */
-    min-height: 36px; /* Reduced height for better proportion */
+  .register-container .primary-button.auth-btn {
+    padding: var(--spacing-xs) var(--spacing-sm);
+    font-size: var(--font-size-base);
   }
   
   .register-container .message-container {
@@ -341,11 +348,9 @@
     gap: var(--spacing-xs); /* Match login: reduced from sm */
   }
   
-  .register-container .register-button,
-  .register-container .secondary-button {
-    padding: var(--spacing-xs) var(--spacing-sm); /* Consistent padding */
-    font-size: var(--font-size-base); /* Consistent font size */
-    min-height: 36px; /* Reduced height for better proportion */
+  .register-container .primary-button.auth-btn {
+    padding: var(--spacing-xs) var(--spacing-sm);
+    font-size: var(--font-size-base);
   }
   
   .register-container .message-container {
