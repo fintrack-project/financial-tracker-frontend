@@ -13,26 +13,35 @@ const Register: React.FC = () => {
   const [confirmPassword, setConfirmPassword] = useState('');
   const [email, setEmail] = useState('');
   const [error, setError] = useState('');
+  const [errorType, setErrorType] = useState<'error' | 'warning'>('error');
   const navigate = useNavigate();
 
   const handleRegister = async () => {
+    // Clear previous errors
+    setError('');
+    setErrorType('error');
+
     if (!userId || !password || !email) {
       setError('User ID, Password, and Email are required.');
+      setErrorType('error');
       return;
     }
 
     if (!isStrongPassword(password)) {
       setError('Password must be at least 8 characters long, include uppercase, lowercase, a number, and a special character.');
+      setErrorType('error');
       return;
     }
 
     if (password !== confirmPassword) {
       setError('Passwords do not match.');
+      setErrorType('error');
       return;
     }
 
     if (!isValidEmail(email)) {
       setError('Please enter a valid email address.');
+      setErrorType('error');
       return;
     }
 
@@ -42,7 +51,15 @@ const Register: React.FC = () => {
       alert('Registration successful! You can now log in to your account.');
       navigate('/'); // Redirect to login page
     } catch (err: any) {
-      setError(err.message);
+      const errorMessage = err.message;
+      setError(errorMessage);
+      
+      // Set error type based on the error message
+      if (errorMessage.includes('User ID already exists') || errorMessage.includes('Email already exists')) {
+        setErrorType('warning');
+      } else {
+        setErrorType('error');
+      }
     }
   };
 
@@ -78,7 +95,13 @@ const Register: React.FC = () => {
             onChange={(e) => setEmail(e.target.value)}
           />
         </div>
-        {error && <p className="error-message visible">{error}</p>}
+        <div className="message-container">
+          {error && (
+            <p className={`message ${errorType === 'warning' ? 'warning-message' : 'error-message'} visible`}>
+              {error}
+            </p>
+          )}
+        </div>
         <div className="register-actions">
           <Button onClick={handleRegister} className="register-button">
             Register

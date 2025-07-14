@@ -37,6 +37,17 @@
   width: 100%;
 }
 
+/* ==========================================================================
+   MESSAGE CONTAINER STYLES
+   ========================================================================== */
+.register-container .message-container {
+  min-height: 44px; /* Reserve space for message */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: var(--spacing-sm) 0;
+}
+
 .register-container .input-fields input {
   width: 100%;
   padding: var(--spacing-sm) var(--spacing-md);
@@ -55,21 +66,48 @@
 }
 
 /* ==========================================================================
-   ERROR MESSAGE STYLES
+   MESSAGE STYLES
    ========================================================================== */
-.register-container .error-message {
-  color: var(--error-color);
+.register-container .message {
   font-size: var(--font-size-sm);
   text-align: center;
-  margin: var(--spacing-sm) 0;
+  margin: 0;
   padding: var(--spacing-sm);
-  background-color: var(--error-light);
   border-radius: var(--border-radius-sm);
-  border: 1px solid var(--error-color);
+  min-height: 44px; /* Reserve space to prevent layout shifts */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 500;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
-.register-container .error-message.visible {
-  display: block;
+.register-container .error-message {
+  color: #ffffff;
+  background-color: #dc3545;
+  border: 1px solid #c82333;
+}
+
+.register-container .warning-message {
+  color: #ffffff;
+  background-color: #fd7e14;
+  border: 1px solid #e55a00;
+}
+
+.register-container .message.visible {
+  display: flex;
+  animation: fadeIn 0.3s ease-in-out;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 /* ==========================================================================
@@ -159,10 +197,15 @@
     gap: var(--spacing-xs);
   }
   
-  .register-container .error-message {
+  .register-container .message-container {
+    min-height: 40px;
+    margin: var(--spacing-xs) 0;
+  }
+  
+  .register-container .message {
     font-size: var(--font-size-xs);
     padding: var(--spacing-xs);
-    margin: var(--spacing-xs) 0;
+    min-height: 40px;
   }
 }
 
@@ -197,8 +240,14 @@
     gap: var(--spacing-xs);
   }
   
-  .register-container .error-message {
+  .register-container .message-container {
+    min-height: 44px;
+    margin: var(--spacing-sm) 0;
+  }
+  
+  .register-container .message {
     font-size: var(--font-size-xs);
+    min-height: 44px;
   }
 }
 
@@ -232,7 +281,13 @@
     gap: var(--spacing-xs);
   }
   
-  .register-container .error-message {
+  .register-container .message-container {
+    min-height: 44px;
+    margin: var(--spacing-sm) 0;
+  }
+  
+  .register-container .message {
     font-size: var(--font-size-sm);
+    min-height: 44px;
   }
 }
