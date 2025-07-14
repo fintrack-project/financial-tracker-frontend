@@ -207,15 +207,24 @@
 }
 
 /* ==========================================================================
-   SUCCESS MESSAGE STYLES
+   SUCCESS MESSAGE STYLES - Override global styles for auth pages
    ========================================================================== */
-.success-message {
+.login-container .success-message {
   text-align: center;
-  color: var(--success-color);
+  color: var(--text-primary);
   margin-bottom: var(--spacing-md);
+  /* Remove green box styling */
+  background-color: transparent;
+  border: none;
+  box-shadow: none;
+  padding: 0;
 }
 
-.success-message p {
+.login-container .success-message::before {
+  display: none; /* Remove check mark */
+}
+
+.login-container .success-message p {
   margin-bottom: var(--spacing-sm);
   line-height: 1.4;
 }
@@ -235,18 +244,27 @@
 }
 
 /* Ensure success message content is properly aligned */
-.success-message {
+.login-container .success-message {
   text-align: center;
-  color: var(--success-color);
+  color: var(--text-primary);
   margin-bottom: var(--spacing-md);
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   min-height: 80px;
+  /* Remove green box styling */
+  background-color: transparent;
+  border: none;
+  box-shadow: none;
+  padding: 0;
 }
 
-.success-message p {
+.login-container .success-message::before {
+  display: none; /* Remove check mark */
+}
+
+.login-container .success-message p {
   margin-bottom: var(--spacing-sm);
   line-height: 1.4;
   text-align: center;
