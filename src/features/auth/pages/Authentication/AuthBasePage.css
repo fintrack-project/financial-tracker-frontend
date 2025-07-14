@@ -194,25 +194,28 @@
   }
   
   .auth-left {
-    flex: 7;
+    flex: 6; /* Reduced from 7 to give more space to logo */
     padding: var(--spacing-xs);
     padding-top: var(--spacing-sm);
+    justify-content: center; /* Center content vertically */
+    align-items: center;
   }
   
   .auth-right {
-    flex: 3;
+    flex: 4; /* Increased from 3 to give more space to logo */
     padding: var(--spacing-xs);
     justify-content: center;
   }
   
   .large-logo {
-    max-height: 70%;
-    max-width: 70%;
+    max-height: 80%; /* Increased from 70% to fill more space */
+    max-width: 80%; /* Increased from 70% to fill more space */
   }
   
   .auth-header {
     margin-bottom: var(--spacing-xs);
     text-align: center;
+    margin-top: 0; /* Remove top margin */
   }
   
   .auth-header h1 {
@@ -223,6 +226,11 @@
   .auth-content {
     max-width: 100%;
     width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 0; /* Remove top margin to center properly */
+    padding: var(--spacing-xs) 0; /* Reduce padding */
   }
   
   .auth-base-page {
