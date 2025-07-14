@@ -57,11 +57,13 @@
 }
 
 .verification-popup .popup-error-message {
-  color: var(--error-color);
-  font-size: var(--font-size-sm);
   margin: var(--spacing-sm) 0;
   min-height: 20px;
   text-align: center;
+  background-color: var(--error-message-bg);
+  border-color: var(--error-message-border);
+  color: var(--error-message-text);
+  box-shadow: var(--error-message-shadow);
 }
 
 .verification-popup .popup-actions {

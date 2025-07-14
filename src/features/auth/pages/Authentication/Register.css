@@ -5,25 +5,27 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: var(--spacing-lg);
+  gap: var(--spacing-sm); /* Match login: reduced from lg */
   width: 100%;
+  max-width: 500px; /* Increased from default */
   margin: 0 auto;
   background: linear-gradient(135deg, var(--neutral-50) 60%, var(--primary-50) 100%);
   border-radius: var(--border-radius-lg);
   box-shadow: var(--shadow-lg);
   border: 1px solid var(--neutral-200);
-  padding: var(--spacing-xl);
+  padding: var(--spacing-md); /* Match login: reduced from xl */
+  /* Removed min-height to match login form flexibility */
 }
 
 /* ==========================================================================
    REGISTER COMMENT STYLES
    ========================================================================== */
 .register-container .register-comment {
-  font-size: var(--font-size-base);
+  font-size: var(--font-size-sm); /* Keep increased from xs */
   color: var(--text-secondary);
   text-align: center;
-  margin: 0 0 var(--spacing-sm) 0;
-  line-height: 1.5;
+  margin: 0 0 var(--spacing-xs) 0; /* Match login: reduced from sm */
+  line-height: 1.4; /* Keep increased line height */
 }
 
 /* ==========================================================================
@@ -32,20 +34,24 @@
 .register-container .input-fields {
   display: flex;
   flex-direction: column;
-  margin-top: var(--spacing-lg);
-  gap: var(--spacing-md);
+  margin-top: var(--spacing-sm); /* Match login: reduced from lg */
+  gap: var(--spacing-sm); /* Match login: reduced from md */
   width: 100%;
 }
 
+/* ==========================================================================
+   INPUT FIELDS STYLES
+   ========================================================================== */
 .register-container .input-fields input {
   width: 100%;
-  padding: var(--spacing-sm) var(--spacing-md);
+  padding: var(--spacing-sm) var(--spacing-md); /* Match login: increased from xs */
   border: 1px solid var(--neutral-300);
   border-radius: var(--border-radius-md);
-  font-size: var(--font-size-base);
+  font-size: var(--font-size-base); /* Match login: increased from sm */
   background: var(--neutral-100);
   transition: var(--transition-normal);
   color: var(--text-primary);
+  min-height: 44px; /* Match login: increased from 38px */
 }
 
 .register-container .input-fields input:focus {
@@ -55,21 +61,102 @@
 }
 
 /* ==========================================================================
-   ERROR MESSAGE STYLES
+   MESSAGE STYLES - Using Unique Class Names to Avoid Conflicts
    ========================================================================== */
-.register-container .error-message {
-  color: var(--error-color);
-  font-size: var(--font-size-sm);
-  text-align: center;
-  margin: var(--spacing-sm) 0;
-  padding: var(--spacing-sm);
-  background-color: var(--error-light);
-  border-radius: var(--border-radius-sm);
-  border: 1px solid var(--error-color);
+.register-container .message-container {
+  min-height: 32px; /* Match login: reduced from 40px */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: var(--spacing-xs) 0; /* Reduced from sm */
+  /* Debug: Add border to see container */
+  border: 1px solid transparent;
 }
 
-.register-container .error-message.visible {
-  display: block;
+/* Base message styles - hidden by default */
+.register-container .message {
+  display: none;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  width: 100%;
+  padding: var(--spacing-xs); /* Reduced from sm */
+  border-radius: var(--border-radius-sm);
+}
+
+/* Register-specific error message styles using unique class */
+.register-container .message.register-error-message {
+  background-color: var(--error-message-bg);
+  border: 1px solid var(--error-message-border);
+  color: var(--error-message-text);
+  box-shadow: var(--error-message-shadow);
+  margin: 0;
+  padding: var(--spacing-xs); /* Reduced from sm */
+  border-radius: var(--border-radius-sm);
+  font-size: var(--font-size-sm); /* Keep increased from xs */
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  width: 100%;
+  gap: var(--spacing-xs);
+  line-height: 1.4; /* Keep increased line height */
+  transition: all 0.3s ease-in-out;
+  word-break: break-word;
+}
+
+/* Register-specific warning message styles using unique class */
+.register-container .message.register-warning-message {
+  background-color: var(--warning-message-bg);
+  border: 1px solid var(--warning-message-border);
+  color: var(--warning-message-text);
+  box-shadow: var(--warning-message-shadow);
+  margin: 0;
+  padding: var(--spacing-xs); /* Reduced from sm */
+  border-radius: var(--border-radius-sm);
+  font-size: var(--font-size-sm); /* Keep increased from xs */
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  width: 100%;
+  gap: var(--spacing-xs);
+  line-height: 1.4; /* Keep increased line height */
+  transition: all 0.3s ease-in-out;
+  word-break: break-word;
+}
+
+/* Add icons to register error messages */
+.register-container .message.register-error-message::before {
+  content: "⚠️";
+  font-size: var(--font-size-sm); /* Keep increased from xs */
+  flex-shrink: 0;
+}
+
+.register-container .message.register-warning-message::before {
+  content: "⚠️";
+  font-size: var(--font-size-sm); /* Keep increased from xs */
+  flex-shrink: 0;
+}
+
+/* Show messages when visible */
+.register-container .message.register-error-message.visible,
+.register-container .message.register-warning-message.visible {
+  display: flex;
+  animation: fadeIn 0.3s ease-in-out;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 /* ==========================================================================
@@ -79,47 +166,44 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin-top: var(--spacing-lg);
-  gap: var(--spacing-sm);
+  margin-top: var(--spacing-sm); /* Match login: reduced from lg */
+  gap: var(--spacing-xs); /* Match login: reduced from sm */
   width: 100%;
 }
 
 .register-container .register-button {
   width: 100%;
-  padding: var(--spacing-xs) var(--spacing-sm);
-  background: var(--primary-500);
+  padding: var(--spacing-xs) var(--spacing-sm); /* Standardized padding */
+  background: var(--button-primary-bg); /* Using theme variable */
   color: var(--neutral-100);
   border: none;
   border-radius: var(--border-radius-md);
-  font-size: var(--font-size-sm);
+  font-size: var(--font-size-base); /* Standardized font size */
   font-weight: 600;
   cursor: pointer;
   transition: var(--transition-normal);
-  margin-bottom: var(--spacing-sm);
+  margin-bottom: var(--spacing-xs);
+  /* Removed min-height - let content determine height naturally */
 }
 
 .register-container .register-button:hover {
-  background: var(--primary-600);
+  background: var(--button-primary-hover); /* Using theme variable */
   transform: translateY(-1px);
   box-shadow: var(--shadow-md);
 }
 
 .register-container .secondary-button {
   width: 100%;
-  padding: var(--spacing-xs) var(--spacing-sm);
+  padding: var(--spacing-xs) var(--spacing-sm); /* Standardized padding */
   background: var(--neutral-200);
   color: var(--text-primary);
   border: 1px solid var(--neutral-300);
   border-radius: var(--border-radius-md);
-  font-size: var(--font-size-sm);
+  font-size: var(--font-size-base); /* Standardized font size */
   font-weight: 500;
   cursor: pointer;
   transition: var(--transition-normal);
-}
-
-.register-container .secondary-button:hover {
-  background: var(--neutral-300);
-  border-color: var(--neutral-400);
+  /* Removed min-height - let content determine height naturally */
 }
 
 /* ==========================================================================
@@ -128,111 +212,148 @@
 /* Mobile Styles (≤768px) - Touch-First Design */
 @media (max-width: 768px) {
   .register-container {
-    gap: var(--spacing-sm);
-    padding: var(--spacing-md);
+    gap: var(--spacing-xs); /* Match login: reduced from sm */
+    padding: var(--spacing-sm); /* Match login: reduced from md */
     margin: var(--spacing-xs) auto;
     border-radius: var(--border-radius-lg);
-    min-height: 50vh;
+    min-height: 40vh; /* Match login: changed from 240px to 40vh */
     justify-content: center;
   }
   
   .register-container .register-comment {
     font-size: var(--font-size-sm);
-    margin-bottom: var(--spacing-xs);
+    margin-bottom: var(--spacing-xs); /* Match login: keep xs for mobile */
   }
   
   .register-container .input-fields {
-    margin-top: var(--spacing-sm);
-    gap: var(--spacing-xs);
+    margin-top: var(--spacing-xs); /* Match login: reduced from sm */
+    gap: var(--spacing-xs); /* Match login: keep xs for mobile */
     max-width: 100%;
   }
   
   .register-container .input-fields input {
-    padding: var(--spacing-sm);
-    font-size: var(--font-size-sm);
+    padding: var(--spacing-sm); /* Match login: keep sm for mobile */
+    font-size: var(--font-size-sm); /* Match login: keep sm for mobile */
     border-radius: var(--border-radius-sm);
-    min-height: 32px;
+    min-height: 32px; /* Match login: keep 32px for mobile */
   }
   
   .register-container .register-actions {
-    margin-top: var(--spacing-sm);
-    gap: var(--spacing-xs);
+    margin-top: var(--spacing-xs); /* Match login: reduced from sm */
+    gap: var(--spacing-xs); /* Match login: keep xs for mobile */
   }
   
-  .register-container .error-message {
-    font-size: var(--font-size-xs);
-    padding: var(--spacing-xs);
+  .register-container .register-button,
+  .register-container .secondary-button {
+    padding: var(--spacing-xs) var(--spacing-sm); /* Consistent padding */
+    font-size: var(--font-size-base); /* Consistent font size */
+    /* Removed min-height - let content determine height naturally */
+  }
+  
+  .register-container .message-container {
     margin: var(--spacing-xs) 0;
+    min-height: 28px; /* Match login: reduced from 36px */
+  }
+  
+  .register-container .message {
+    font-size: var(--font-size-sm);
   }
 }
 
 /* Tablet Styles (769px-1023px) - Balanced Hybrid */
 @media (min-width: 769px) and (max-width: 1023px) {
   .register-container {
-    gap: var(--spacing-md);
-    padding: var(--spacing-lg);
-    margin: var(--spacing-sm) auto;
+    gap: var(--spacing-sm); /* Match login: reduced from md */
+    padding: var(--spacing-sm); /* Match login: reduced from lg */
+    margin: var(--spacing-xs) auto; /* Match login: reduced from sm */
+    /* Removed min-height to match login form flexibility */
   }
   
   .register-container .register-comment {
     font-size: var(--font-size-sm);
-    margin-bottom: var(--spacing-xs);
+    margin-bottom: var(--spacing-xs); /* Match login: keep xs for tablet */
   }
   
   .register-container .input-fields {
-    margin-top: var(--spacing-md);
-    gap: var(--spacing-sm);
+    margin-top: var(--spacing-sm); /* Match login: reduced from md */
+    gap: var(--spacing-xs); /* Match login: reduced from sm */
     width: 100%;
   }
   
   .register-container .input-fields input {
-    padding: var(--spacing-sm);
-    font-size: var(--font-size-sm);
+    padding: var(--spacing-sm); /* Match login: keep sm for tablet */
+    font-size: var(--font-size-sm); /* Match login: keep sm for tablet */
     border-radius: var(--border-radius-sm);
-    min-height: 36px;
+    min-height: 36px; /* Match login: keep 36px for tablet */
   }
   
   .register-container .register-actions {
-    margin-top: var(--spacing-md);
-    gap: var(--spacing-xs);
+    margin-top: var(--spacing-sm); /* Match login: reduced from md */
+    gap: var(--spacing-xs); /* Match login: keep xs for tablet */
   }
   
-  .register-container .error-message {
-    font-size: var(--font-size-xs);
+  .register-container .register-button,
+  .register-container .secondary-button {
+    padding: var(--spacing-xs) var(--spacing-sm); /* Consistent padding */
+    font-size: var(--font-size-base); /* Consistent font size */
+    min-height: 36px; /* Reduced height for better proportion */
+  }
+  
+  .register-container .message-container {
+    margin: var(--spacing-xs) 0;
+    min-height: 32px; /* Match login: reduced from 40px */
+  }
+  
+  .register-container .message {
+    font-size: var(--font-size-sm);
   }
 }
 
 /* Desktop Styles (≥1024px) - Professional Layout */
 @media (min-width: 1024px) {
   .register-container {
-    gap: var(--spacing-md);
-    padding: var(--spacing-lg);
-    margin: var(--spacing-sm) auto;
+    gap: var(--spacing-sm); /* Match login: reduced from lg */
+    padding: var(--spacing-md); /* Match login: reduced from xl */
+    margin: var(--spacing-sm) auto; /* Match login: reduced from md */
+    /* Removed min-height to match login form flexibility */
   }
   
   .register-container .register-comment {
-    font-size: var(--font-size-base);
-    margin-bottom: var(--spacing-xs);
+    font-size: var(--font-size-sm);
+    margin-bottom: var(--spacing-xs); /* Match login: reduced from sm */
   }
   
   .register-container .input-fields {
-    margin-top: var(--spacing-md);
-    gap: var(--spacing-xs);
+    margin-top: var(--spacing-sm); /* Match login: reduced from lg */
+    gap: var(--spacing-xs); /* Match login: reduced from sm */
     width: 100%;
   }
   
   .register-container .input-fields input {
-    padding: var(--spacing-xs) var(--spacing-sm);
-    font-size: var(--font-size-sm);
+    padding: var(--spacing-xs) var(--spacing-sm); /* Match login: keep xs sm for desktop */
+    font-size: var(--font-size-sm); /* Match login: keep sm for desktop */
     border-radius: var(--border-radius-md);
+    min-height: 38px; /* Match login: keep 38px for desktop */
   }
   
   .register-container .register-actions {
-    margin-top: var(--spacing-md);
-    gap: var(--spacing-xs);
+    margin-top: var(--spacing-sm); /* Match login: reduced from lg */
+    gap: var(--spacing-xs); /* Match login: reduced from sm */
   }
   
-  .register-container .error-message {
+  .register-container .register-button,
+  .register-container .secondary-button {
+    padding: var(--spacing-xs) var(--spacing-sm); /* Consistent padding */
+    font-size: var(--font-size-base); /* Consistent font size */
+    min-height: 36px; /* Reduced height for better proportion */
+  }
+  
+  .register-container .message-container {
+    margin: var(--spacing-xs) 0;
+    min-height: 32px; /* Match login: reduced from 40px */
+  }
+  
+  .register-container .message {
     font-size: var(--font-size-sm);
   }
 }

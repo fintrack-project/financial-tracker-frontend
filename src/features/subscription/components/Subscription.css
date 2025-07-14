@@ -334,9 +334,11 @@
 }
 
 .subscription-error {
-  color: #dc3545;
-  font-size: 14px;
   margin-top: 8px;
+  background-color: var(--error-message-bg);
+  border-color: var(--error-message-border);
+  color: var(--error-message-text);
+  box-shadow: var(--error-message-shadow);
 } 
 
 /* ==========================================================================

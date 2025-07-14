@@ -148,7 +148,6 @@ const PaymentMethods: React.FC<PaymentMethodsProps> = ({
               <div className="error-content">
                 <span className="error-text">
                   {error.message}
-                  {error.code && <span className="error-code"> (Error code: {error.code})</span>}
                 </span>
               </div>
               <button 

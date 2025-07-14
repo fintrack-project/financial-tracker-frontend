@@ -37,15 +37,6 @@
   padding: 0;
 }
 
-.error-message {
-  color: var(--error-color);
-  font-size: var(--font-size-sm);
-  padding: var(--spacing-sm);
-  background-color: var(--neutral-200);
-  border-radius: var(--border-radius-sm);
-  margin-bottom: var(--spacing-sm);
-}
-
 /* Hide error message when empty to prevent gaps */
 .error-message:empty,
 .error-message:not(:has(*)) {
