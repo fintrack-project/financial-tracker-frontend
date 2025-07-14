@@ -8,6 +8,7 @@ const RequestPasswordReset: React.FC = () => {
   const [identifier, setIdentifier] = useState('');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [warning, setWarning] = useState<string | null>(null);
   const [success, setSuccess] = useState(false);
   const navigate = useNavigate();
 
@@ -15,6 +16,7 @@ const RequestPasswordReset: React.FC = () => {
     e.preventDefault();
     setLoading(true);
     setError(null);
+    setWarning(null);
 
     try {
       if (!identifier.trim()) {
@@ -24,7 +26,15 @@ const RequestPasswordReset: React.FC = () => {
       await requestPasswordReset(identifier);
       setSuccess(true);
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'An error occurred while processing your request');
+      const errorMessage = err instanceof Error ? err.message : 'An error occurred while processing your request';
+      
+      // Check if it's a "not found" error and show as warning instead
+      if (errorMessage.toLowerCase().includes('no account found') || 
+          errorMessage.toLowerCase().includes('not found')) {
+        setWarning(errorMessage);
+      } else {
+        setError(errorMessage);
+      }
     } finally {
       setLoading(false);
     }
@@ -61,11 +71,16 @@ const RequestPasswordReset: React.FC = () => {
               />
             </div>
             
-            {/* Error message container */}
+            {/* Message container */}
             <div className="message-container">
               {error && (
                 <div className="message login-error-message visible">
                   {error}
+                </div>
+              )}
+              {warning && (
+                <div className="message login-warning-message visible">
+                  {warning}
                 </div>
               )}
             </div>

@@ -9,6 +9,7 @@ const ResetPassword: React.FC = () => {
   const [confirmPassword, setConfirmPassword] = useState('');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [warning, setWarning] = useState<string | null>(null);
   const [success, setSuccess] = useState(false);
   const [validToken, setValidToken] = useState(false);
   const [validatingToken, setValidatingToken] = useState(true);
@@ -21,7 +22,7 @@ const ResetPassword: React.FC = () => {
   useEffect(() => {
     const validateToken = async () => {
       if (!token) {
-        setError('Invalid or missing reset token');
+        setWarning('Invalid or missing reset token');
         setValidatingToken(false);
         return;
       }
@@ -30,7 +31,7 @@ const ResetPassword: React.FC = () => {
         const isValid = await validateResetToken(token);
         setValidToken(isValid);
       } catch (err) {
-        setError('The reset link is invalid or has expired');
+        setWarning('The reset link is invalid or has expired');
       } finally {
         setValidatingToken(false);
       }
@@ -43,6 +44,7 @@ const ResetPassword: React.FC = () => {
     e.preventDefault();
     setLoading(true);
     setError(null);
+    setWarning(null);
 
     try {
       // Basic validation
@@ -67,7 +69,16 @@ const ResetPassword: React.FC = () => {
       await resetPassword(token, newPassword);
       setSuccess(true);
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'An error occurred while processing your request');
+      const errorMessage = err instanceof Error ? err.message : 'An error occurred while processing your request';
+      
+      // Check if it's a token-related error and show as warning instead
+      if (errorMessage.toLowerCase().includes('invalid') || 
+          errorMessage.toLowerCase().includes('expired') ||
+          errorMessage.toLowerCase().includes('token')) {
+        setWarning(errorMessage);
+      } else {
+        setError(errorMessage);
+      }
     } finally {
       setLoading(false);
     }
@@ -94,7 +105,7 @@ const ResetPassword: React.FC = () => {
       <div className="login-container">
         <div className="error-content">
           <p className="auth-description">
-            {error || 'The password reset link is invalid or has expired.'}
+            {warning || 'The password reset link is invalid or has expired.'}
           </p>
           <div className="login-actions">
             <Link to="/request-password-reset" className="login-button">
@@ -153,11 +164,16 @@ const ResetPassword: React.FC = () => {
               />
             </div>
             
-            {/* Error message container */}
+            {/* Message container */}
             <div className="message-container">
               {error && (
                 <div className="message login-error-message visible">
                   {error}
+                </div>
+              )}
+              {warning && (
+                <div className="message login-warning-message visible">
+                  {warning}
                 </div>
               )}
             </div>

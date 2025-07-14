@@ -73,6 +73,41 @@
   border: 1px solid transparent;
 }
 
+/* Warning message styles for auth pages */
+.login-container .message.login-warning-message {
+  background-color: var(--warning-message-bg);
+  border: 1px solid var(--warning-message-border);
+  color: var(--warning-message-text);
+  box-shadow: var(--warning-message-shadow);
+  margin: 0;
+  padding: var(--spacing-xs);
+  border-radius: var(--border-radius-sm);
+  font-size: var(--font-size-sm);
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  width: 100%;
+  gap: var(--spacing-xs);
+  line-height: 1.4;
+  transition: all 0.3s ease-in-out;
+  word-break: break-word;
+}
+
+/* Add warning icon to warning messages */
+.login-container .message.login-warning-message::before {
+  content: "⚠️";
+  font-size: var(--font-size-sm);
+  flex-shrink: 0;
+}
+
+/* Show warning messages when visible */
+.login-container .message.login-warning-message.visible {
+  display: flex;
+  animation: fadeIn 0.3s ease-in-out;
+}
+
 /* Base message styles - hidden by default */
 .login-container .message {
   display: none;
