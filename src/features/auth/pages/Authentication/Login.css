@@ -142,24 +142,53 @@
   width: 100%;
 }
 
-.login-container .login-button {
+/* ==========================================================================
+   AUTH BUTTON STYLES (strong specificity)
+   ========================================================================== */
+.login-container .primary-button.auth-btn {
   width: 100%;
-  background: var(--button-primary-bg); /* Using theme variable */
+  background: var(--button-primary-bg);
   color: var(--neutral-100);
   border: none;
   border-radius: var(--border-radius-md);
-  font-size: var(--font-size-base); /* Standardized font size */
+  font-size: var(--font-size-base);
   font-weight: 600;
   cursor: pointer;
   transition: var(--transition-normal);
   margin-bottom: var(--spacing-xs);
+}
+
+.login-container .primary-button.auth-btn:hover {
+  background: var(--button-primary-hover);
+  transform: translateY(-1px);
+  box-shadow: var(--shadow-md);
+}
+
+.login-container .primary-button.auth-btn:focus {
+  outline: none;
+  box-shadow: 0 0 0 2px rgba(52, 98, 219, 0.2);
+}
+
+/* ==========================================================================
+   SECONDARY BUTTON STYLES - For Back to Login buttons
+   ========================================================================== */
+.login-container .secondary-button {
+  width: 100%;
+  padding: var(--spacing-xs) var(--spacing-sm); /* Standardized padding */
+  background: var(--neutral-200);
+  color: var(--text-primary);
+  border: 1px solid var(--neutral-300);
+  border-radius: var(--border-radius-md);
+  font-size: var(--font-size-base); /* Standardized font size */
+  font-weight: 500;
+  cursor: pointer;
+  transition: var(--transition-normal);
   /* Removed min-height - let content determine height naturally */
 }
 
-.login-container .login-button:hover {
-  background: var(--button-primary-hover); /* Using theme variable */
-  transform: translateY(-1px);
-  box-shadow: var(--shadow-md);
+.login-container .secondary-button:focus {
+  outline: none; /* Remove blue outline */
+  box-shadow: 0 0 0 2px rgba(52, 98, 219, 0.2); /* Custom focus indicator */
 }
 
 .forgot-password {
@@ -175,6 +204,70 @@
 .forgot-password:hover {
   color: var(--primary-600);
   text-decoration: underline;
+}
+
+/* ==========================================================================
+   SUCCESS MESSAGE STYLES
+   ========================================================================== */
+.success-message {
+  text-align: center;
+  color: var(--success-color);
+  margin-bottom: var(--spacing-md);
+}
+
+.success-message p {
+  margin-bottom: var(--spacing-sm);
+  line-height: 1.4;
+}
+
+/* ==========================================================================
+   PASSWORD RESET SPECIFIC STYLES
+   ========================================================================== */
+/* Ensure proper vertical alignment for password reset components */
+.login-container .auth-description {
+  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 40px;
+  line-height: 1.4;
+  margin: 0 0 var(--spacing-md) 0; /* Increased spacing for better visual separation */
+}
+
+/* Ensure success message content is properly aligned */
+.success-message {
+  text-align: center;
+  color: var(--success-color);
+  margin-bottom: var(--spacing-md);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 80px;
+}
+
+.success-message p {
+  margin-bottom: var(--spacing-sm);
+  line-height: 1.4;
+  text-align: center;
+}
+
+/* Ensure loading and error states are properly aligned */
+.login-container .loading-content,
+.login-container .error-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 120px;
+  text-align: center;
+}
+
+/* ==========================================================================
+   UTILITY CLASSES
+   ========================================================================== */
+.mt-4 {
+  margin-top: var(--spacing-md);
 }
 
 /* ==========================================================================
@@ -214,10 +307,9 @@
     gap: var(--spacing-xs);
   }
   
-  .login-container .login-button {
-    padding: var(--spacing-sm) var(--spacing-sm); /* Consistent padding */
-    font-size: var(--font-size-base); /* Consistent font size */
-    /* Removed min-height - let content determine height naturally */
+  .login-container .primary-button.auth-btn {
+    padding: var(--spacing-sm) var(--spacing-sm);
+    font-size: var(--font-size-base);
   }
   
   .forgot-password {
@@ -266,10 +358,9 @@
     gap: var(--spacing-xs);
   }
   
-  .login-container .login-button {
-    padding: var(--spacing-xs) var(--spacing-sm); /* Consistent padding */
-    font-size: var(--font-size-base); /* Consistent font size */
-    /* Removed min-height - let content determine height naturally */
+  .login-container .primary-button.auth-btn {
+    padding: var(--spacing-xs) var(--spacing-sm);
+    font-size: var(--font-size-base);
   }
   
   .forgot-password {
@@ -318,10 +409,9 @@
     gap: var(--spacing-xs); /* Reduced from sm to fit in one view */
   }
   
-  .login-container .login-button {
-    padding: var(--spacing-xs) var(--spacing-sm); /* Consistent padding */
-    font-size: var(--font-size-base); /* Consistent font size */
-    /* Removed min-height - let content determine height naturally */
+  .login-container .primary-button.auth-btn {
+    padding: var(--spacing-xs) var(--spacing-sm);
+    font-size: var(--font-size-base);
   }
   
   .forgot-password {

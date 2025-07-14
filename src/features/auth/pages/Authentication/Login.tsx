@@ -56,7 +56,7 @@ const Login: React.FC = () => {
         </div>
 
         <div className="login-actions">
-          <Button onClick={handleLogin} className="login-button">
+          <Button onClick={handleLogin} className="primary-button auth-btn">
             Login
           </Button>
           <div 

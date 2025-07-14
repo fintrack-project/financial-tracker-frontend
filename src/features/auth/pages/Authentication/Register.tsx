@@ -103,7 +103,7 @@ const Register: React.FC = () => {
           )}
         </div>
         <div className="register-actions">
-          <Button onClick={handleRegister} className="register-button">
+          <Button onClick={handleRegister} className="primary-button auth-btn">
             Register
           </Button>
           <Button onClick={() => navigate('/')} className="secondary-button">
