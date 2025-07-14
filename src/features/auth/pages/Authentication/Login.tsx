@@ -56,7 +56,7 @@ const Login: React.FC = () => {
         </div>
 
         <div className="login-actions">
-          <Button onClick={handleLogin} className="login-button">
+          <Button onClick={handleLogin} className="primary-button auth-btn">
             Login
           </Button>
           <div 
@@ -66,7 +66,15 @@ const Login: React.FC = () => {
             Forgot password?
           </div>
         </div>
-        {error && <p style={{ color: 'red' }}>{error}</p>}
+        
+        {/* Error message container */}
+        <div className="message-container">
+          {error && (
+            <div className={`message login-error-message visible`}>
+              {error}
+            </div>
+          )}
+        </div>
       </div>
     </AuthBasePage>
   );

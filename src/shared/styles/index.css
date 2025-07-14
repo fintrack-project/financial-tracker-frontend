@@ -149,10 +149,193 @@ textarea:focus {
 
 /* Error states */
 .error {
-  color: var(--error-color);
+  color: var(--error-message-text);
 }
 
 /* Success states */
 .success {
   color: var(--success-color);
+}
+
+/* ==========================================================================
+   STANDARDIZED ERROR MESSAGE SYSTEM
+   ========================================================================== */
+
+/* Base error message styles */
+.error-message,
+.warning-message,
+.info-message,
+.success-message {
+  display: flex;
+  align-items: center;
+  gap: var(--error-message-gap);
+  padding: var(--error-message-padding);
+  border-radius: var(--error-message-border-radius);
+  font-size: var(--error-message-font-size);
+  font-weight: var(--error-message-font-weight);
+  line-height: var(--error-message-line-height);
+  margin: var(--error-message-margin);
+  border: 1px solid transparent;
+  box-shadow: var(--error-message-shadow);
+  transition: var(--error-message-transition);
+  animation: var(--error-message-animation);
+  word-break: break-word;
+}
+
+/* Error message variant */
+.error-message {
+  background-color: var(--error-message-bg);
+  border-color: var(--error-message-border);
+  color: var(--error-message-text);
+  box-shadow: var(--error-message-shadow);
+}
+
+/* Warning message variant */
+.warning-message {
+  background-color: var(--warning-message-bg);
+  border-color: var(--warning-message-border);
+  color: var(--warning-message-text);
+  box-shadow: var(--warning-message-shadow);
+}
+
+/* Info message variant */
+.info-message {
+  background-color: var(--info-message-bg);
+  border-color: var(--info-message-border);
+  color: var(--info-message-text);
+  box-shadow: var(--info-message-shadow);
+}
+
+/* Success message variant */
+.success-message {
+  background-color: var(--success-message-bg);
+  border-color: var(--success-message-border);
+  color: var(--success-message-text);
+  box-shadow: var(--success-message-shadow);
+}
+
+/* Error message icon */
+.error-message::before,
+.warning-message::before,
+.info-message::before,
+.success-message::before {
+  content: "";
+  width: var(--error-message-icon-size);
+  height: var(--error-message-icon-size);
+  flex-shrink: 0;
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+}
+
+.error-message::before {
+  content: "⚠️";
+  font-size: var(--error-message-icon-size);
+}
+
+.warning-message::before {
+  content: "⚠️";
+  font-size: var(--error-message-icon-size);
+}
+
+.info-message::before {
+  content: "ℹ️";
+  font-size: var(--error-message-icon-size);
+}
+
+.success-message::before {
+  content: "✅";
+  font-size: var(--error-message-icon-size);
+}
+
+/* Error message without icon */
+.error-message.no-icon::before,
+.warning-message.no-icon::before,
+.info-message.no-icon::before,
+.success-message.no-icon::before {
+  display: none;
+}
+
+/* Error message with custom icon */
+.error-message.custom-icon::before,
+.warning-message.custom-icon::before,
+.info-message.custom-icon::before,
+.success-message.custom-icon::before {
+  content: "";
+  background-image: var(--custom-icon-url);
+}
+
+/* Compact error message */
+.error-message.compact,
+.warning-message.compact,
+.info-message.compact,
+.success-message.compact {
+  padding: calc(var(--error-message-padding) * 0.75);
+  font-size: var(--font-size-xs);
+  margin: calc(var(--error-message-margin) * 0.5);
+}
+
+/* Large error message */
+.error-message.large,
+.warning-message.large,
+.info-message.large,
+.success-message.large {
+  padding: calc(var(--error-message-padding) * 1.5);
+  font-size: var(--font-size-base);
+  margin: calc(var(--error-message-margin) * 1.5);
+}
+
+/* Error message with action button */
+.error-message-with-action {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-sm);
+}
+
+.error-message-with-action .error-message,
+.error-message-with-action .warning-message,
+.error-message-with-action .info-message,
+.error-message-with-action .success-message {
+  margin: 0;
+}
+
+.error-message-action {
+  display: flex;
+  justify-content: flex-end;
+  gap: var(--spacing-sm);
+}
+
+/* Error message animation */
+@keyframes fadeInError {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Responsive error messages */
+@media (max-width: 768px) {
+  .error-message,
+  .warning-message,
+  .info-message,
+  .success-message {
+    padding: calc(var(--error-message-padding) * 0.9);
+    font-size: var(--font-size-xs);
+    margin: calc(var(--error-message-margin) * 0.8);
+  }
+}
+
+@media (min-width: 1024px) {
+  .error-message,
+  .warning-message,
+  .info-message,
+  .success-message {
+    padding: var(--error-message-padding);
+    font-size: var(--error-message-font-size);
+    margin: var(--error-message-margin);
+  }
 } 

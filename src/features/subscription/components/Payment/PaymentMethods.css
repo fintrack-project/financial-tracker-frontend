@@ -20,31 +20,26 @@
 
 .payment-methods .error-message {
   margin: var(--spacing-lg) 0;
-  padding: var(--spacing-md);
-  border-radius: var(--border-radius-md);
-  background-color: var(--error-light);
-  border: 1px solid var(--error-color);
-  animation: fadeIn 0.3s ease-in-out;
   display: block !important;
   position: relative;
   z-index: 1000;
-  color: var(--error-color);
-  font-size: var(--font-size-sm);
   text-align: left;
   height: auto;
   visibility: visible;
 }
 
 .payment-methods .error-message.payment_error {
-  background-color: var(--error-light);
-  border-color: var(--error-color);
-  box-shadow: 0 2px 8px rgba(244, 67, 54, 0.1);
+  background-color: var(--error-message-bg);
+  border-color: var(--error-message-border);
+  color: var(--error-message-text);
+  box-shadow: var(--error-message-shadow);
 }
 
 .payment-methods .error-message.internal_error {
-  background-color: var(--warning-light);
-  border-color: var(--warning-color);
-  box-shadow: 0 2px 8px rgba(255, 193, 7, 0.1);
+  background-color: var(--warning-message-bg);
+  border-color: var(--warning-message-border);
+  color: var(--warning-message-text);
+  box-shadow: var(--warning-message-shadow);
 }
 
 .payment-methods .error-content {
@@ -208,31 +203,26 @@
 /* Make error message styles more specific */
 .add-payment-method .error-message {
   margin: 16px 0 0 0;
-  padding: 15px;
-  border-radius: 6px;
-  background-color: #fff3f3;
-  border: 1px solid #ffcdd2;
-  animation: fadeIn 0.3s ease-in-out;
   display: block !important;
   position: relative;
   z-index: 1000;
-  color: #d32f2f;
-  font-size: 14px;
   text-align: left;
   height: auto;
   visibility: visible;
 }
 
 .add-payment-method .error-message.payment_error {
-  background-color: #fff3f3;
-  border-color: #ffcdd2;
-  box-shadow: 0 2px 8px rgba(244, 67, 54, 0.1);
+  background-color: var(--error-message-bg);
+  border-color: var(--error-message-border);
+  color: var(--error-message-text);
+  box-shadow: var(--error-message-shadow);
 }
 
 .add-payment-method .error-message.internal_error {
-  background-color: #fff8e1;
-  border-color: #ffe082;
-  box-shadow: 0 2px 8px rgba(255, 193, 7, 0.1);
+  background-color: var(--warning-message-bg);
+  border-color: var(--warning-message-border);
+  color: var(--warning-message-text);
+  box-shadow: var(--warning-message-shadow);
 }
 
 .add-payment-method .error-content {

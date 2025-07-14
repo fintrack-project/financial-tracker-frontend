@@ -142,9 +142,11 @@
    ========================================================================== */
 
 .account-detail-and-menu-error {
-  color: var(--error-color);
   margin-top: var(--spacing-sm);
-  font-size: var(--font-size-sm);
+  background-color: var(--error-message-bg);
+  border-color: var(--error-message-border);
+  color: var(--error-message-text);
+  box-shadow: var(--error-message-shadow);
 }
 
 .account-detail-and-menu-success {

@@ -1,13 +1,15 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { validateResetToken, resetPassword } from '../../services/authService';
-import './AuthPages.css';
+import AuthBasePage from './AuthBasePage';
+import './Login.css'; // Use login styles for consistency
 
 const ResetPassword: React.FC = () => {
   const [newPassword, setNewPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [warning, setWarning] = useState<string | null>(null);
   const [success, setSuccess] = useState(false);
   const [validToken, setValidToken] = useState(false);
   const [validatingToken, setValidatingToken] = useState(true);
@@ -20,7 +22,7 @@ const ResetPassword: React.FC = () => {
   useEffect(() => {
     const validateToken = async () => {
       if (!token) {
-        setError('Invalid or missing reset token');
+        setWarning('Invalid or missing reset token');
         setValidatingToken(false);
         return;
       }
@@ -29,7 +31,7 @@ const ResetPassword: React.FC = () => {
         const isValid = await validateResetToken(token);
         setValidToken(isValid);
       } catch (err) {
-        setError('The reset link is invalid or has expired');
+        setWarning('The reset link is invalid or has expired');
       } finally {
         setValidatingToken(false);
       }
@@ -42,6 +44,7 @@ const ResetPassword: React.FC = () => {
     e.preventDefault();
     setLoading(true);
     setError(null);
+    setWarning(null);
 
     try {
       // Basic validation
@@ -66,108 +69,143 @@ const ResetPassword: React.FC = () => {
       await resetPassword(token, newPassword);
       setSuccess(true);
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'An error occurred while processing your request');
+      const errorMessage = err instanceof Error ? err.message : 'An error occurred while processing your request';
+      
+      // Check if it's a token-related error and show as warning instead
+      if (errorMessage.toLowerCase().includes('invalid') || 
+          errorMessage.toLowerCase().includes('expired') ||
+          errorMessage.toLowerCase().includes('token')) {
+        setWarning(errorMessage);
+      } else {
+        setError(errorMessage);
+      }
     } finally {
       setLoading(false);
     }
   };
 
   if (validatingToken) {
-    return (
-      <div className="auth-container">
-        <div className="auth-card">
-          <h1 className="auth-title">Reset Password</h1>
+    const loadingContent = (
+      <div className="login-container">
+        <div className="loading-content">
           <p className="auth-description">Validating your reset link...</p>
         </div>
       </div>
     );
+
+    return (
+      <AuthBasePage title="Reset Password">
+        {loadingContent}
+      </AuthBasePage>
+    );
   }
 
   if (!validToken && !validatingToken) {
-    return (
-      <div className="auth-container">
-        <div className="auth-card">
-          <h1 className="auth-title">Invalid Reset Link</h1>
+    const invalidTokenContent = (
+      <div className="login-container">
+        <div className="error-content">
           <p className="auth-description">
-            {error || 'The password reset link is invalid or has expired.'}
+            {warning || 'The password reset link is invalid or has expired.'}
           </p>
-          <div className="auth-links">
-            <Link to="/request-password-reset" className="primary-button">
+          <div className="login-actions">
+            <Link to="/request-password-reset" className="login-button">
               Request a new reset link
             </Link>
-            <Link to="/login" className="mt-4">
-              Back to Login
-            </Link>
+          </div>
+          <div className="auth-links">
+            <Link to="/login">Back to Login</Link>
           </div>
         </div>
       </div>
     );
+
+    return (
+      <AuthBasePage title="Invalid Reset Link">
+        {invalidTokenContent}
+      </AuthBasePage>
+    );
   }
 
-  return (
-    <div className="auth-container">
-      <div className="auth-card">
-        <h1 className="auth-title">Reset Password</h1>
-        
-        {success ? (
-          <div className="success-message">
-            <p>Your password has been reset successfully.</p>
-            <button 
-              className="primary-button mt-4" 
-              onClick={() => navigate('/login')}
-            >
-              Proceed to Login
-            </button>
-          </div>
-        ) : (
-          <>
-            <p className="auth-description">
-              Please enter your new password below.
-            </p>
+  const content = (
+    <div className="login-container">
+      {success ? (
+        <div className="success-message">
+          <p>Your password has been reset successfully.</p>
+          <button 
+            className="primary-button auth-btn mt-4" 
+            onClick={() => navigate('/login')}
+          >
+            Proceed to Login
+          </button>
+        </div>
+      ) : (
+        <div>
+          <p className="auth-description">
+            Please enter your new password below.
+          </p>
+          
+          <form onSubmit={handleSubmit}>
+            <div className="input-fields">
+              <input
+                type="password"
+                id="newPassword"
+                value={newPassword}
+                onChange={(e) => setNewPassword(e.target.value)}
+                placeholder="Enter your new password"
+                required
+              />
+              <input
+                type="password"
+                id="confirmPassword"
+                value={confirmPassword}
+                onChange={(e) => setConfirmPassword(e.target.value)}
+                placeholder="Confirm your new password"
+                required
+              />
+            </div>
             
-            <form onSubmit={handleSubmit}>
-              <div className="form-group">
-                <label htmlFor="newPassword">New Password</label>
-                <input
-                  type="password"
-                  id="newPassword"
-                  value={newPassword}
-                  onChange={(e) => setNewPassword(e.target.value)}
-                  placeholder="Enter your new password"
-                  required
-                />
-              </div>
-              
-              <div className="form-group">
-                <label htmlFor="confirmPassword">Confirm Password</label>
-                <input
-                  type="password"
-                  id="confirmPassword"
-                  value={confirmPassword}
-                  onChange={(e) => setConfirmPassword(e.target.value)}
-                  placeholder="Confirm your new password"
-                  required
-                />
-              </div>
-              
-              {error && <div className="error-message">{error}</div>}
-              
+            {/* Message container */}
+            <div className="message-container">
+              {error && (
+                <div className="message login-error-message visible">
+                  {error}
+                </div>
+              )}
+              {warning && (
+                <div className="message login-warning-message visible">
+                  {warning}
+                </div>
+              )}
+            </div>
+            
+            <div className="login-actions">
               <button 
                 type="submit" 
-                className="primary-button" 
+                className="primary-button auth-btn" 
                 disabled={loading}
               >
                 {loading ? 'Resetting...' : 'Reset Password'}
               </button>
-            </form>
-            
-            <div className="auth-links">
-              <Link to="/login">Back to Login</Link>
             </div>
-          </>
-        )}
-      </div>
+          </form>
+          <div className="login-actions">
+            <button
+              type="button"
+              className="secondary-button"
+              onClick={() => navigate('/login')}
+            >
+              Back to Login
+            </button>
+          </div>
+        </div>
+      )}
     </div>
+  );
+
+  return (
+    <AuthBasePage title="Reset Password">
+      {content}
+    </AuthBasePage>
   );
 };
 

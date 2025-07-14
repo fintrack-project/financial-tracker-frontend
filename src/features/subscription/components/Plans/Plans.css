@@ -55,21 +55,14 @@
 
 .error-message {
   margin-top: var(--spacing-md);
-  padding: var(--spacing-sm);
-  border-radius: var(--border-radius-sm);
-  background-color: var(--error-light);
-  border: 1px solid var(--error-color);
-  color: var(--error-color);
   text-align: center;
-  font-size: var(--font-size-sm);
   display: flex;
   align-items: center;
   gap: var(--spacing-sm);
-}
-
-.error-message::before {
-  content: "⚠️";
-  font-size: var(--font-size-base);
+  background-color: var(--error-message-bg);
+  border-color: var(--error-message-border);
+  color: var(--error-message-text);
+  box-shadow: var(--error-message-shadow);
 }
 
 .payment-form-container {
