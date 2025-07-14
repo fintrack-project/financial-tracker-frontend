@@ -156,13 +156,12 @@
 
 /* Error message styling */
 .error-message {
-  color: var(--error-color);
-  font-size: var(--font-size-base);
-  padding: var(--spacing-md);
-  background-color: var(--neutral-200);
-  border-radius: var(--border-radius-md);
   text-align: center;
   margin: var(--spacing-md) 0;
+  background-color: var(--error-message-bg);
+  border-color: var(--error-message-border);
+  color: var(--error-message-text);
+  box-shadow: var(--error-message-shadow);
 }
 
 /* Mobile Styles (768px and below) */

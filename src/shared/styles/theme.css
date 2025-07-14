@@ -348,4 +348,39 @@
   --payment-form-font-size-desktop: 16px;                 /* Desktop card input font size */
   --payment-form-font-size-tablet: 14px;                  /* Tablet card input font size */
   --payment-form-font-size-mobile: 14px;                  /* Mobile card input font size */
+
+  /* Standardized Error Message System */
+  --error-message-bg: #fef2f2;                            /* Light red background */
+  --error-message-border: #dc3545;                        /* Red border */
+  --error-message-text: #dc2626;                          /* Dark red text */
+  --error-message-shadow: 0 2px 8px rgba(220, 53, 69, 0.1); /* Subtle red shadow */
+  
+  --warning-message-bg: #fff8e1;                          /* Light yellow background */
+  --warning-message-border: #ffc107;                      /* Yellow border */
+  --warning-message-text: #e65100;                        /* Dark orange text */
+  --warning-message-shadow: 0 2px 8px rgba(255, 193, 7, 0.1); /* Subtle yellow shadow */
+  
+  --info-message-bg: #e3f2fd;                             /* Light blue background */
+  --info-message-border: #2196f3;                         /* Blue border */
+  --info-message-text: #0d47a1;                           /* Dark blue text */
+  --info-message-shadow: 0 2px 8px rgba(33, 150, 243, 0.1); /* Subtle blue shadow */
+  
+  --success-message-bg: #e8f5e8;                          /* Light green background */
+  --success-message-border: #4caf50;                      /* Green border */
+  --success-message-text: #1b5e20;                        /* Dark green text */
+  --success-message-shadow: 0 2px 8px rgba(76, 175, 80, 0.1); /* Subtle green shadow */
+  
+  /* Error Message Layout */
+  --error-message-padding: 12px;                          /* Standard padding */
+  --error-message-border-radius: 6px;                     /* Border radius */
+  --error-message-font-size: var(--font-size-sm);         /* Font size */
+  --error-message-font-weight: 500;                       /* Font weight */
+  --error-message-line-height: 1.4;                       /* Line height */
+  --error-message-gap: 8px;                               /* Gap between icon and text */
+  --error-message-margin: 16px 0;                         /* Top/bottom margin */
+  --error-message-icon-size: 16px;                        /* Icon size */
+  
+  /* Error Message Animation */
+  --error-message-transition: all 0.3s ease-in-out;       /* Smooth transitions */
+  --error-message-animation: fadeInError 0.3s ease-in-out; /* Fade in animation */
 } 

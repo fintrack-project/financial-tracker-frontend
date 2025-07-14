@@ -97,7 +97,7 @@ const Register: React.FC = () => {
         </div>
         <div className="message-container">
           {error && (
-            <p className={`message ${errorType === 'warning' ? 'warning-message' : 'error-message'} visible`}>
+            <p className={`message ${errorType === 'warning' ? 'register-warning-message' : 'register-error-message'} visible`}>
               {error}
             </p>
           )}

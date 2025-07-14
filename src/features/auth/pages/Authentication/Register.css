@@ -5,25 +5,26 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: var(--spacing-lg);
+  gap: var(--spacing-md);
   width: 100%;
   margin: 0 auto;
   background: linear-gradient(135deg, var(--neutral-50) 60%, var(--primary-50) 100%);
   border-radius: var(--border-radius-lg);
   box-shadow: var(--shadow-lg);
   border: 1px solid var(--neutral-200);
-  padding: var(--spacing-xl);
+  padding: var(--spacing-lg);
+  min-height: 280px;
 }
 
 /* ==========================================================================
    REGISTER COMMENT STYLES
    ========================================================================== */
 .register-container .register-comment {
-  font-size: var(--font-size-base);
+  font-size: var(--font-size-sm);
   color: var(--text-secondary);
   text-align: center;
-  margin: 0 0 var(--spacing-sm) 0;
-  line-height: 1.5;
+  margin: 0 0 var(--spacing-xs) 0;
+  line-height: 1.4;
 }
 
 /* ==========================================================================
@@ -32,28 +33,20 @@
 .register-container .input-fields {
   display: flex;
   flex-direction: column;
-  margin-top: var(--spacing-lg);
-  gap: var(--spacing-md);
+  margin-top: var(--spacing-sm);
+  gap: var(--spacing-sm);
   width: 100%;
 }
 
 /* ==========================================================================
-   MESSAGE CONTAINER STYLES
+   INPUT FIELDS STYLES
    ========================================================================== */
-.register-container .message-container {
-  min-height: 44px; /* Reserve space for message */
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin: var(--spacing-sm) 0;
-}
-
 .register-container .input-fields input {
   width: 100%;
-  padding: var(--spacing-sm) var(--spacing-md);
+  padding: var(--spacing-xs) var(--spacing-sm);
   border: 1px solid var(--neutral-300);
   border-radius: var(--border-radius-md);
-  font-size: var(--font-size-base);
+  font-size: var(--font-size-sm);
   background: var(--neutral-100);
   transition: var(--transition-normal);
   color: var(--text-primary);
@@ -66,35 +59,89 @@
 }
 
 /* ==========================================================================
-   MESSAGE STYLES
+   MESSAGE STYLES - Using Unique Class Names to Avoid Conflicts
    ========================================================================== */
-.register-container .message {
-  font-size: var(--font-size-sm);
-  text-align: center;
-  margin: 0;
-  padding: var(--spacing-sm);
-  border-radius: var(--border-radius-sm);
-  min-height: 44px; /* Reserve space to prevent layout shifts */
+.register-container .message-container {
+  min-height: 44px; /* Reserve space for message */
   display: flex;
   align-items: center;
   justify-content: center;
+  margin: var(--spacing-xs) 0;
+  /* Debug: Add border to see container */
+  border: 1px solid transparent;
+}
+
+/* Base message styles - hidden by default */
+.register-container .message {
+  display: none;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  width: 100%;
+  padding: var(--spacing-xs);
+  border-radius: var(--border-radius-sm);
+}
+
+/* Register-specific error message styles using unique class */
+.register-container .message.register-error-message {
+  background-color: var(--error-message-bg);
+  border: 1px solid var(--error-message-border);
+  color: var(--error-message-text);
+  box-shadow: var(--error-message-shadow);
+  margin: 0;
+  padding: var(--spacing-xs);
+  border-radius: var(--border-radius-sm);
+  font-size: var(--font-size-sm);
   font-weight: 500;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  width: 100%;
+  gap: var(--spacing-xs);
+  line-height: 1.4;
+  transition: all 0.3s ease-in-out;
+  word-break: break-word;
 }
 
-.register-container .error-message {
-  color: #ffffff;
-  background-color: #dc3545;
-  border: 1px solid #c82333;
+/* Register-specific warning message styles using unique class */
+.register-container .message.register-warning-message {
+  background-color: var(--warning-message-bg);
+  border: 1px solid var(--warning-message-border);
+  color: var(--warning-message-text);
+  box-shadow: var(--warning-message-shadow);
+  margin: 0;
+  padding: var(--spacing-xs);
+  border-radius: var(--border-radius-sm);
+  font-size: var(--font-size-sm);
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  width: 100%;
+  gap: var(--spacing-xs);
+  line-height: 1.4;
+  transition: all 0.3s ease-in-out;
+  word-break: break-word;
 }
 
-.register-container .warning-message {
-  color: #ffffff;
-  background-color: #fd7e14;
-  border: 1px solid #e55a00;
+/* Add icons to register error messages */
+.register-container .message.register-error-message::before {
+  content: "⚠️";
+  font-size: var(--font-size-sm);
+  flex-shrink: 0;
 }
 
-.register-container .message.visible {
+.register-container .message.register-warning-message::before {
+  content: "⚠️";
+  font-size: var(--font-size-sm);
+  flex-shrink: 0;
+}
+
+/* Show messages when visible */
+.register-container .message.register-error-message.visible,
+.register-container .message.register-warning-message.visible {
   display: flex;
   animation: fadeIn 0.3s ease-in-out;
 }
@@ -117,8 +164,8 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin-top: var(--spacing-lg);
-  gap: var(--spacing-sm);
+  margin-top: var(--spacing-sm);
+  gap: var(--spacing-xs);
   width: 100%;
 }
 
@@ -133,7 +180,7 @@
   font-weight: 600;
   cursor: pointer;
   transition: var(--transition-normal);
-  margin-bottom: var(--spacing-sm);
+  margin-bottom: var(--spacing-xs);
 }
 
 .register-container .register-button:hover {
@@ -166,11 +213,11 @@
 /* Mobile Styles (≤768px) - Touch-First Design */
 @media (max-width: 768px) {
   .register-container {
-    gap: var(--spacing-sm);
-    padding: var(--spacing-md);
+    gap: var(--spacing-xs);
+    padding: var(--spacing-sm);
     margin: var(--spacing-xs) auto;
     border-radius: var(--border-radius-lg);
-    min-height: 50vh;
+    min-height: 240px;
     justify-content: center;
   }
   
@@ -180,7 +227,7 @@
   }
   
   .register-container .input-fields {
-    margin-top: var(--spacing-sm);
+    margin-top: var(--spacing-xs);
     gap: var(--spacing-xs);
     max-width: 100%;
   }
@@ -193,19 +240,16 @@
   }
   
   .register-container .register-actions {
-    margin-top: var(--spacing-sm);
+    margin-top: var(--spacing-xs);
     gap: var(--spacing-xs);
   }
   
   .register-container .message-container {
-    min-height: 40px;
     margin: var(--spacing-xs) 0;
   }
   
   .register-container .message {
     font-size: var(--font-size-xs);
-    padding: var(--spacing-xs);
-    min-height: 40px;
   }
 }
 
@@ -241,13 +285,11 @@
   }
   
   .register-container .message-container {
-    min-height: 44px;
     margin: var(--spacing-sm) 0;
   }
   
   .register-container .message {
     font-size: var(--font-size-xs);
-    min-height: 44px;
   }
 }
 
@@ -282,12 +324,10 @@
   }
   
   .register-container .message-container {
-    min-height: 44px;
     margin: var(--spacing-sm) 0;
   }
   
   .register-container .message {
     font-size: var(--font-size-sm);
-    min-height: 44px;
   }
 }

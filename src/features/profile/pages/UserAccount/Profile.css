@@ -46,7 +46,9 @@
 }
 
 .error-message {
-  color: var(--error-color);
-  font-size: var(--font-size-sm);
   margin-top: var(--spacing-sm);
+  background-color: var(--error-message-bg);
+  border-color: var(--error-message-border);
+  color: var(--error-message-text);
+  box-shadow: var(--error-message-shadow);
 }

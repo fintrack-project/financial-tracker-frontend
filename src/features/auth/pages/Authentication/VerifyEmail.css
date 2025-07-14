@@ -39,7 +39,10 @@
 }
 
 .status-message.error {
-  color: #dc3545; /* Red for error */
+  background-color: var(--error-message-bg);
+  border-color: var(--error-message-border);
+  color: var(--error-message-text);
+  box-shadow: var(--error-message-shadow);
 }
 
 .retry-button {
