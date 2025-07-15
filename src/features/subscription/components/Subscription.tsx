@@ -45,7 +45,7 @@ const Subscription: React.FC<SubscriptionProps> = ({ accountId }) => {
         subscriptionData = {
           id: 0,
           accountId: accountId,
-          status: 'inactive',
+          status: 'incomplete',
           isActive: false,
           subscriptionStartDate: new Date().toISOString(),
           subscriptionEndDate: null,
@@ -198,6 +198,8 @@ const Subscription: React.FC<SubscriptionProps> = ({ accountId }) => {
     }
   };
 
+
+
   const renderOverview = () => {
     if (!userDetails || !subscription) {
       return null;
@@ -247,6 +249,8 @@ const Subscription: React.FC<SubscriptionProps> = ({ accountId }) => {
             </div>
           </div>
         </div>
+        
+
       </div>
     );
   };

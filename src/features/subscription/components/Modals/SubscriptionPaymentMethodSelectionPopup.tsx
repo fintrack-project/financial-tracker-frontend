@@ -81,15 +81,15 @@ const PaymentMethodSelectionPopup: React.FC<SubscriptionPaymentMethodSelectionPo
       });
 
       setPaymentStatus('Creating subscription...');
+      
+      // Create return URL for 3D Secure authentication
+      const returnUrl = `${window.location.origin}/subscription/confirm?accountId=${accountId}&planId=${selectedPlanId}`;
+      
       const response = await upgradeSubscriptionApi(
         accountId,
         selectedPlanId,
         selectedPaymentMethodId,
-        null // TODO: Handle 3D Secure cards in the future
-        // For 3D Secure cards, we'll need to:
-        // 1. Check if card requires 3D Secure
-        // 2. If yes, provide returnUrl for redirect
-        // 3. Handle the redirect back from 3D Secure authentication
+        returnUrl // Pass return URL for 3D Secure support
       );
 
       if (!response.success || !response.data) {
@@ -103,7 +103,10 @@ const PaymentMethodSelectionPopup: React.FC<SubscriptionPaymentMethodSelectionPo
         hasClientSecret: !!subscriptionData.clientSecret
       });
 
+      // Check if payment requires confirmation
       if (subscriptionData.paymentRequired && subscriptionData.clientSecret) {
+        // For non-3D Secure cards, we need to confirm the payment
+        // For 3D Secure cards, the payment is already confirmed but may require authentication
         setConfirmationData({
           subscriptionId: subscriptionData.subscriptionId,
           clientSecret: subscriptionData.clientSecret
@@ -111,6 +114,7 @@ const PaymentMethodSelectionPopup: React.FC<SubscriptionPaymentMethodSelectionPo
         setShowConfirmation(true);
         setPaymentStatus('Please confirm your payment details');
       } else {
+        // Payment already completed (3D Secure card that was confirmed immediately)
         await completeSubscription(subscriptionData.subscriptionId);
       }
     } catch (err) {
@@ -150,18 +154,32 @@ const PaymentMethodSelectionPopup: React.FC<SubscriptionPaymentMethodSelectionPo
       setError(null);
       setPaymentStatus('Processing payment...');
 
-      // Finalize the subscription using the simplified flow
+      // Create return URL for 3D Secure authentication
+      const returnUrl = `${window.location.origin}/subscription/confirm?accountId=${accountId}&planId=${selectedPlanId}`;
+
+      // Finalize the subscription with 3D Secure support
       const finalizedSubscription = await finalizeSubscription(
         confirmationData.subscriptionId,
         confirmationData.clientSecret,
         stripe,
-        selectedPaymentMethodId
+        selectedPaymentMethodId,
+        returnUrl // Pass return URL for 3D Secure authentication
       );
 
       console.log('✅ Payment finalized successfully:', {
         subscriptionId: confirmationData.subscriptionId,
-        status: finalizedSubscription.status
+        status: finalizedSubscription.status,
+        paymentRequired: finalizedSubscription.paymentRequired
       });
+
+      // Check if payment requires additional authentication (3D Secure)
+      if (finalizedSubscription.status === 'incomplete' && finalizedSubscription.paymentRequired) {
+        console.log('🔐 Payment requires 3D Secure authentication');
+        setPaymentStatus('Payment requires additional authentication. Please complete the verification process.');
+        // The user will be redirected to 3D Secure authentication
+        // The payment will be completed when they return via the return URL
+        return;
+      }
 
       // Complete the subscription
       await completeSubscription(confirmationData.subscriptionId);
@@ -207,92 +225,76 @@ const PaymentMethodSelectionPopup: React.FC<SubscriptionPaymentMethodSelectionPo
           </div>
         </div>
       ) : (
-        <>
-          <p>
-            You've selected the <strong>{selectedPlanName}</strong> plan. 
-            Please select a payment method to complete your subscription.
-          </p>
-          {paymentMethods.length > 0 ? (
-            <form onSubmit={handleSubmit}>
-              <div className="subscription-payment-methods-list">
-                {paymentMethods.map(method => (
-                  <div 
-                    key={method.stripePaymentMethodId} 
-                    className={`subscription-payment-method-item ${
-                      selectedPaymentMethodId === method.stripePaymentMethodId ? 'selected' : ''
-                    }`}
-                    onClick={() => setSelectedPaymentMethodId(method.stripePaymentMethodId)}
-                  >
-                    <div className="subscription-payment-method-details">
-                      <div className="subscription-card-brand">{method.cardBrand}</div>
-                      <div className="subscription-card-last4">**** **** **** {method.cardLast4 || method.last4}</div>
-                      <div className="subscription-card-expiry">Expires: {method.cardExpMonth}/{method.cardExpYear}</div>
-                    </div>
-                    <div className="subscription-payment-method-default">
-                      {method.default && <span className="subscription-default-badge">Default</span>}
-                    </div>
-                    <input 
-                      type="radio"
-                      className="subscription-input-radio"
-                      name="paymentMethod"
-                      value={method.stripePaymentMethodId}
-                      checked={selectedPaymentMethodId === method.stripePaymentMethodId}
-                      onChange={() => setSelectedPaymentMethodId(method.stripePaymentMethodId)}
-                    />
-                  </div>
-                ))}
-              </div>
-              
-              <div className="subscription-popup-actions">
-                <button 
-                  type="button" 
-                  className="subscription-add-payment-method" 
-                  onClick={onAddPaymentMethod}
+        <form onSubmit={handleSubmit}>
+          <div className="payment-method-selection">
+            <h3>Select Payment Method</h3>
+            <p>Choose how you'd like to pay for your {selectedPlanName} subscription.</p>
+            
+            <div className="payment-methods-list">
+              {paymentMethods.map((method) => (
+                <div 
+                  key={method.stripePaymentMethodId}
+                  className={`payment-method-option ${selectedPaymentMethodId === method.stripePaymentMethodId ? 'selected' : ''}`}
+                  onClick={() => setSelectedPaymentMethodId(method.stripePaymentMethodId)}
                 >
-                  <span className="subscription-plus-icon"></span>
-                  Add New Payment Method
-                </button>
-                <div className="subscription-action-buttons">
-                  <button 
-                    type="submit" 
-                    className="subscription-primary-button"
-                    disabled={!selectedPaymentMethodId || isProcessing || !stripe}
-                  >
-                    {isProcessing ? paymentStatus : 'Pay Now'}
-                  </button>
-                  <button type="button" className="subscription-secondary-button" onClick={onCancel}>
-                    Cancel
-                  </button>
+                  <input
+                    type="radio"
+                    name="paymentMethod"
+                    value={method.stripePaymentMethodId}
+                    checked={selectedPaymentMethodId === method.stripePaymentMethodId}
+                    onChange={() => setSelectedPaymentMethodId(method.stripePaymentMethodId)}
+                  />
+                  <div className="payment-method-details">
+                    <span className="card-brand">{method.cardBrand}</span>
+                    <span className="card-last4">•••• {method.cardLast4}</span>
+                    <span className="card-expiry">Expires {method.cardExpMonth}/{method.cardExpYear}</span>
+                    {method.default && <span className="default-badge">Default</span>}
+                  </div>
                 </div>
-              </div>
-            </form>
-          ) : (
-            <div className="subscription-no-payment-methods">
-              <div className="subscription-alert-icon"></div>
-              <p>You don't have any payment methods set up yet.</p>
+              ))}
+            </div>
+            
+            <div className="add-payment-method-section">
               <button 
-                className="subscription-add-payment-method primary" 
+                type="button"
+                className="add-payment-method-button"
                 onClick={onAddPaymentMethod}
               >
-                <span className="subscription-plus-icon"></span>
-                Add Payment Method
-              </button>
-              <button className="subscription-secondary-button" onClick={onCancel}>
-                Cancel
+                + Add New Payment Method
               </button>
             </div>
+          </div>
+          
+          {error && (
+            <div className="error-message">
+              <span>{error}</span>
+            </div>
           )}
-        </>
-      )}
-      {error && (
-        <div className="subscription-error-message">
-          {error}
-        </div>
-      )}
-      {paymentStatus && !error && (
-        <div className="subscription-status-message">
-          {paymentStatus}
-        </div>
+          
+          {paymentStatus && (
+            <div className="payment-status">
+              <span>{paymentStatus}</span>
+            </div>
+          )}
+          
+          <div className="popup-actions">
+            <button 
+              type="submit"
+              className="subscription-primary-button"
+              disabled={isProcessing || !selectedPaymentMethodId}
+            >
+              {isProcessing ? 'Processing...' : 'Continue'}
+            </button>
+            <button 
+              type="button"
+              className="subscription-secondary-button"
+              onClick={onCancel}
+              disabled={isProcessing}
+            >
+              Cancel
+            </button>
+          </div>
+        </form>
       )}
     </SubscriptionBasePopup>
   );
