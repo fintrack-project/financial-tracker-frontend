@@ -298,9 +298,18 @@ const PaymentMethodSelectionPopup: React.FC<SubscriptionPaymentMethodSelectionPo
             <button 
               type="submit"
               className="subscription-primary-button"
-              disabled={isProcessing || !selectedPaymentMethodId || !stripe || paymentMethods.length === 0}
+              disabled={
+                isProcessing ||
+                !selectedPaymentMethodId ||
+                paymentMethods.length === 0 ||
+                (!stripe && !paymentMethods.some(m => m.default))
+              }
             >
-              {isProcessing ? 'Processing...' : paymentMethods.length === 0 ? 'Add Payment Method First' : 'Continue'}
+              {isProcessing
+                ? 'Processing...'
+                : paymentMethods.length === 0
+                  ? 'Add Payment Method First'
+                  : 'Continue'}
             </button>
             <button 
               type="button"
