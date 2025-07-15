@@ -109,8 +109,13 @@ const PlanCard: React.FC<PlanCardProps> = ({ plan, loading, currentPlan, onCance
         <div className="plan-card-price">
           ${price}
           <span className="period">/{plan.isAnnual ? 'year' : 'month'}</span>
-          {plan.isAnnual && savings > 0 && (
-            <span className="savings">Save {savings}% with annual billing</span>
+          {plan.isAnnual && (
+            <>
+              <span className="per-month">(${(plan.annualPrice / 12).toFixed(2)}/month billed annually)</span>
+              {savings > 0 && (
+                <span className="savings">Save {savings}% with annual billing</span>
+              )}
+            </>
           )}
         </div>
       </div>
