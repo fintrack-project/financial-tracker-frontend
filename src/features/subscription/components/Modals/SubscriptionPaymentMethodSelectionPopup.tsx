@@ -302,7 +302,7 @@ const PaymentMethodSelectionPopup: React.FC<SubscriptionPaymentMethodSelectionPo
                 isProcessing ||
                 !selectedPaymentMethodId ||
                 paymentMethods.length === 0 ||
-                (!stripe && !paymentMethods.some(m => m.default))
+                ((!stripe || !elements) && !paymentMethods.some(m => m.default))
               }
             >
               {isProcessing
