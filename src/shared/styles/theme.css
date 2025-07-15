@@ -112,7 +112,7 @@
   --popup-border: var(--table-header-border); /* Popup border */
   --popup-shadow: 0 4px 16px rgba(52, 98, 219, 0.10); /* Popup shadow */
   --popup-width: 300px;                    /* Standard popup width */
-  --popup-padding: var(--spacing-xl);      /* Popup padding */
+  --popup-padding: var(--spacing-md);      /* Popup padding - further reduced */
   --popup-border-radius: var(--border-radius-lg); /* Popup border radius */
   
   /* Popup Button Colors */
@@ -271,9 +271,9 @@
   --z-index-tooltip: 1070;
 
   /* Responsive Layout */
-  --container-padding-mobile: 1rem;
-  --container-padding-tablet: 1.5rem;
-  --container-padding-desktop: 2rem;
+  --container-padding-mobile: 0.25rem;      /* Further reduced mobile popup padding */
+  --container-padding-tablet: 0.5rem;        /* Further reduced tablet popup padding */
+  --container-padding-desktop: 0.75rem;    /* Further reduced desktop popup padding */
   
   --card-padding-mobile: 1rem;
   --card-padding-tablet: 1.5rem;
