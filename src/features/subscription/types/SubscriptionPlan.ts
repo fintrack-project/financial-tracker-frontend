@@ -1,7 +1,7 @@
 import type { UserSubscription } from './UserSubscription';
 
 export type SubscriptionPlanType = 'FREE' | 'BASIC' | 'PREMIUM';
-export type SubscriptionStatus = 'active' | 'pending' | 'failed' | 'incomplete';
+export type SubscriptionStatus = 'active' | 'canceled' | 'incomplete' | 'incomplete_expired' | 'past_due' | 'trialing' | 'unpaid' | 'paused';
 
 export interface SubscriptionPlan {
   id: string;
@@ -63,7 +63,7 @@ export interface SubscriptionUpdateResponse {
   paymentRequired: boolean;
   amount: number;
   currency: string;
-  paymentStatus: 'incomplete' | 'active' | 'canceled' | 'past_due' | 'trialing' | 'unpaid';
+  paymentStatus: 'incomplete' | 'incomplete_expired' | 'active' | 'canceled' | 'past_due' | 'trialing' | 'unpaid' | 'paused';
 }
 
 export interface UserSubscriptionDetailsResponse {
