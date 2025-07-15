@@ -230,39 +230,56 @@ const PaymentMethodSelectionPopup: React.FC<SubscriptionPaymentMethodSelectionPo
             <h3>Select Payment Method</h3>
             <p>Choose how you'd like to pay for your {selectedPlanName} subscription.</p>
             
-            <div className="payment-methods-list">
-              {paymentMethods.map((method) => (
-                <div 
-                  key={method.stripePaymentMethodId}
-                  className={`payment-method-option ${selectedPaymentMethodId === method.stripePaymentMethodId ? 'selected' : ''}`}
-                  onClick={() => setSelectedPaymentMethodId(method.stripePaymentMethodId)}
+            {paymentMethods.length === 0 ? (
+              <div className="no-payment-methods">
+                <div className="no-payment-methods-icon">💳</div>
+                <h4>No Payment Methods Found</h4>
+                <p>You need to add a payment method to complete your subscription.</p>
+                <button 
+                  type="button"
+                  className="add-payment-method-button primary"
+                  onClick={onAddPaymentMethod}
                 >
-                  <input
-                    type="radio"
-                    name="paymentMethod"
-                    value={method.stripePaymentMethodId}
-                    checked={selectedPaymentMethodId === method.stripePaymentMethodId}
-                    onChange={() => setSelectedPaymentMethodId(method.stripePaymentMethodId)}
-                  />
-                  <div className="payment-method-details">
-                    <span className="card-brand">{method.cardBrand}</span>
-                    <span className="card-last4">•••• {method.cardLast4}</span>
-                    <span className="card-expiry">Expires {method.cardExpMonth}/{method.cardExpYear}</span>
-                    {method.default && <span className="default-badge">Default</span>}
-                  </div>
+                  + Add Payment Method
+                </button>
+              </div>
+            ) : (
+              <>
+                <div className="payment-methods-list">
+                  {paymentMethods.map((method) => (
+                    <div 
+                      key={method.stripePaymentMethodId}
+                      className={`payment-method-option ${selectedPaymentMethodId === method.stripePaymentMethodId ? 'selected' : ''}`}
+                      onClick={() => setSelectedPaymentMethodId(method.stripePaymentMethodId)}
+                    >
+                      <input
+                        type="radio"
+                        name="paymentMethod"
+                        value={method.stripePaymentMethodId}
+                        checked={selectedPaymentMethodId === method.stripePaymentMethodId}
+                        onChange={() => setSelectedPaymentMethodId(method.stripePaymentMethodId)}
+                      />
+                      <div className="payment-method-details">
+                        <span className="card-brand">{method.cardBrand}</span>
+                        <span className="card-last4">•••• {method.cardLast4}</span>
+                        <span className="card-expiry">Expires {method.cardExpMonth}/{method.cardExpYear}</span>
+                        {method.default && <span className="default-badge">Default</span>}
+                      </div>
+                    </div>
+                  ))}
                 </div>
-              ))}
-            </div>
-            
-            <div className="add-payment-method-section">
-              <button 
-                type="button"
-                className="add-payment-method-button"
-                onClick={onAddPaymentMethod}
-              >
-                + Add New Payment Method
-              </button>
-            </div>
+                
+                <div className="add-payment-method-section">
+                  <button 
+                    type="button"
+                    className="add-payment-method-button"
+                    onClick={onAddPaymentMethod}
+                  >
+                    + Add New Payment Method
+                  </button>
+                </div>
+              </>
+            )}
           </div>
           
           {error && (
@@ -281,9 +298,18 @@ const PaymentMethodSelectionPopup: React.FC<SubscriptionPaymentMethodSelectionPo
             <button 
               type="submit"
               className="subscription-primary-button"
-              disabled={isProcessing || !selectedPaymentMethodId}
+              disabled={
+                isProcessing ||
+                !selectedPaymentMethodId ||
+                paymentMethods.length === 0 ||
+                ((!stripe || !elements) && !paymentMethods.some(m => m.default))
+              }
             >
-              {isProcessing ? 'Processing...' : 'Continue'}
+              {isProcessing
+                ? 'Processing...'
+                : paymentMethods.length === 0
+                  ? 'Add Payment Method First'
+                  : 'Continue'}
             </button>
             <button 
               type="button"
