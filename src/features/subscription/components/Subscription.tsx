@@ -45,7 +45,7 @@ const Subscription: React.FC<SubscriptionProps> = ({ accountId }) => {
         subscriptionData = {
           id: 0,
           accountId: accountId,
-          status: 'inactive',
+          status: 'incomplete',
           isActive: false,
           subscriptionStartDate: new Date().toISOString(),
           subscriptionEndDate: null,
@@ -198,6 +198,79 @@ const Subscription: React.FC<SubscriptionProps> = ({ accountId }) => {
     }
   };
 
+  // Debug function to manually sync subscription status
+  const handleManualSync = async () => {
+    if (!subscription?.stripeSubscriptionId) {
+      setError('No subscription ID available for sync');
+      return;
+    }
+
+    try {
+      setError(null);
+      console.log('🔄 Manual sync requested for subscription:', subscription.stripeSubscriptionId);
+      
+      const response = await fetch('/api/user/subscriptions/sync-status', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${localStorage.getItem('token')}`
+        },
+        body: JSON.stringify({
+          stripeSubscriptionId: subscription.stripeSubscriptionId
+        })
+      });
+
+      const result = await response.json();
+      
+      if (result.success) {
+        console.log('✅ Manual sync successful:', result.data);
+        setError('Sync completed successfully! Stripe: ' + result.data.stripeStatus + ', Database: ' + result.data.databaseStatus);
+        
+        // Reload data to show updated status
+        await loadData();
+      } else {
+        console.error('❌ Manual sync failed:', result.message);
+        setError('Sync failed: ' + result.message);
+      }
+    } catch (err) {
+      console.error('❌ Error during manual sync:', err);
+      setError('Sync failed: ' + (err instanceof Error ? err.message : 'Unknown error'));
+    }
+  };
+
+  // Debug function to get subscription status
+  const handleGetStatus = async () => {
+    if (!subscription?.stripeSubscriptionId) {
+      setError('No subscription ID available');
+      return;
+    }
+
+    try {
+      setError(null);
+      console.log('🔍 Getting status for subscription:', subscription.stripeSubscriptionId);
+      
+      const response = await fetch(`/api/user/subscriptions/status/${subscription.stripeSubscriptionId}`, {
+        method: 'GET',
+        headers: {
+          'Authorization': `Bearer ${localStorage.getItem('token')}`
+        }
+      });
+
+      const result = await response.json();
+      
+      if (result.success) {
+        console.log('📊 Subscription status:', result.data);
+        setError('Status retrieved successfully! Check console for details.');
+      } else {
+        console.error('❌ Failed to get status:', result.message);
+        setError('Failed to get status: ' + result.message);
+      }
+    } catch (err) {
+      console.error('❌ Error getting status:', err);
+      setError('Failed to get status: ' + (err instanceof Error ? err.message : 'Unknown error'));
+    }
+  };
+
   const renderOverview = () => {
     if (!userDetails || !subscription) {
       return null;
@@ -247,6 +320,31 @@ const Subscription: React.FC<SubscriptionProps> = ({ accountId }) => {
             </div>
           </div>
         </div>
+        
+        {/* Debug section - Development only */}
+        {process.env.NODE_ENV === 'development' && subscription?.stripeSubscriptionId && (
+          <div className="debug-section" style={{ marginTop: '20px', padding: '15px', border: '1px solid #ddd', borderRadius: '5px', backgroundColor: '#f8f9fa' }}>
+            <h4>🔧 Debug Tools (Development Only)</h4>
+            <p><strong>Stripe Subscription ID:</strong> {subscription.stripeSubscriptionId}</p>
+            <p><strong>Current Status:</strong> {subscription.status}</p>
+            <p><strong>Is Active:</strong> {subscription.isActive ? 'Yes' : 'No'}</p>
+            
+            <div style={{ marginTop: '10px' }}>
+              <button 
+                onClick={handleManualSync}
+                style={{ marginRight: '10px', padding: '8px 16px', backgroundColor: '#007bff', color: 'white', border: 'none', borderRadius: '4px', cursor: 'pointer' }}
+              >
+                🔄 Manual Sync
+              </button>
+              <button 
+                onClick={handleGetStatus}
+                style={{ padding: '8px 16px', backgroundColor: '#28a745', color: 'white', border: 'none', borderRadius: '4px', cursor: 'pointer' }}
+              >
+                📊 Get Status
+              </button>
+            </div>
+          </div>
+        )}
       </div>
     );
   };

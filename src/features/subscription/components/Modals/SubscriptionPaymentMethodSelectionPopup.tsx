@@ -173,7 +173,7 @@ const PaymentMethodSelectionPopup: React.FC<SubscriptionPaymentMethodSelectionPo
       });
 
       // Check if payment requires additional authentication (3D Secure)
-      if (finalizedSubscription.status === 'pending' && finalizedSubscription.paymentRequired) {
+      if (finalizedSubscription.status === 'incomplete' && finalizedSubscription.paymentRequired) {
         console.log('🔐 Payment requires 3D Secure authentication');
         setPaymentStatus('Payment requires additional authentication. Please complete the verification process.');
         // The user will be redirected to 3D Secure authentication
