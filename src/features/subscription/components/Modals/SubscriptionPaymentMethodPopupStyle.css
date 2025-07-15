@@ -1,23 +1,27 @@
-/* Shared popup styles with improved design */
+/* Legacy SubscriptionPaymentMethodPopupStyle - Refactored to use theme variables */
+
+/* ===== LAYOUT/STRUCTURE STYLES ===== */
+/* Legacy overlay styles (should use base popup instead) */
 .popup-overlay {
   position: fixed;
   top: 0;
   left: 0;
   right: 0;
   bottom: 0;
-  background-color: rgba(0, 0, 0, 0.5);
+  background-color: var(--popup-overlay-bg);
   display: flex;
   justify-content: center;
   align-items: center;
-  z-index: 1000;
+  z-index: var(--z-index-modal-backdrop);
   backdrop-filter: blur(3px);
   animation: fadeIn 0.2s ease-out;
 }
 
+/* Legacy container styles (should use base popup instead) */
 .popup-container {
-  background: linear-gradient(135deg, #f9fafc 60%, #e3e9f6 100%);
-  border-radius: 16px;
-  box-shadow: 0 4px 16px rgba(52, 98, 219, 0.10);
+  background: var(--popup-bg);
+  border-radius: var(--popup-border-radius);
+  box-shadow: var(--popup-shadow);
   width: 100%;
   max-width: 520px;
   max-height: 90vh;
@@ -25,36 +29,42 @@
   display: flex;
   flex-direction: column;
   animation: scaleIn 0.2s ease-out;
-  border: 1px solid #e0e6ed;
+  border: 1px solid var(--popup-border);
+  font-family: var(--font-family-primary);
 }
 
+/* ===== HEADER STYLES ===== */
+/* Legacy header styles (should use base popup instead) */
 .popup-header {
   display: flex;
   justify-content: center;
   align-items: center;
-  padding: 20px 24px;
-  border-bottom: 1px solid #eee;
-  background-color: #f8f9fa;
-  border-top-left-radius: 12px;
-  border-top-right-radius: 12px;
+  padding: var(--spacing-md) var(--spacing-lg);
+  border-bottom: 1px solid var(--popup-border);
+  background-color: var(--section-bg);
+  border-top-left-radius: var(--popup-border-radius);
+  border-top-right-radius: var(--popup-border-radius);
   position: relative;
 }
 
 .popup-header h3 {
   margin: 0;
-  font-size: 1.25rem;
-  color: #2c3e50;
+  font-size: var(--page-title-font-size-mobile);
+  color: var(--page-title-color);
   font-weight: 600;
+  font-family: var(--font-family-primary);
 }
 
+/* Legacy close button styles (should use base popup instead) */
 .close-button {
   background: none;
   border: none;
-  font-size: 24px;
+  font-size: var(--font-size-2xl);
   cursor: pointer;
-  color: #666;
+  color: var(--text-secondary);
   width: 36px;
   height: 36px;
+  aspect-ratio: 1/1;
   border-radius: 50%;
   display: flex;
   align-items: center;
@@ -65,21 +75,24 @@
   top: 50%;
   transform: translateY(-50%);
 }
-
 .close-button:hover {
   background-color: rgba(0, 0, 0, 0.07);
-  color: #333;
+  color: var(--text-primary);
 }
 
+/* ===== CONTENT STYLES ===== */
+/* Legacy content styles (should use base popup instead) */
 .popup-content {
-  padding: 24px;
+  padding: var(--spacing-lg);
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  min-height: 200px; /* Ensure enough vertical space */
+  min-height: 200px;
   margin: 0 auto;
   width: 90%;
+  font-size: var(--font-size-base);
+  color: var(--text-primary);
 }
 
 .popup-content form {
@@ -87,14 +100,14 @@
 }
 
 .popup-content p {
-  color: #555;
+  color: var(--text-secondary);
   line-height: var(--table-line-height);
-  margin: 0 0 12px 0;
-  font-size: 1rem;
+  margin: 0 0 var(--spacing-sm) 0;
+  font-size: var(--font-size-base);
 }
 
 .popup-content strong {
-  color: #333;
+  color: var(--text-primary);
   font-weight: 600;
 }
 
@@ -103,37 +116,38 @@
   width: 100%;
 }
 
-/* Payment methods list styles */
+/* ===== COMPONENT-SPECIFIC STYLES ===== */
+/* Legacy payment methods list styles (should use PaymentMethodSelection.css instead) */
 .subscription-payment-methods-list {
-  margin: 15px 0 15px;
-  border-radius: 8px;
+  margin: var(--spacing-md) 0;
+  border-radius: var(--border-radius-md);
   overflow: hidden;
-  border: 1px solid #eee;
+  border: 1px solid var(--popup-border);
   width: 100%;
 }
 
 .subscription-payment-methods-list .payment-method-item {
   display: flex;
   align-items: center;
-  padding: 16px;
-  margin: 5px;
-  background-color: #fff;
-  border-bottom: 1px solid #eee;
+  padding: var(--spacing-md);
+  margin: var(--spacing-xs);
+  background-color: var(--neutral-100);
+  border-bottom: 1px solid var(--popup-border);
   cursor: pointer;
   transition: all 0.2s ease;
 }
 
 .subscription-payment-methods-list .payment-method-item.selected {
-  border-color: #007bff;
-  background-color: #f0f7ff;
+  border-color: var(--primary-500);
+  background-color: var(--primary-100);
 }
 
 .subscription-payment-methods-list .payment-method-item:hover {
-  background-color: #f8f9fa;
+  background-color: var(--neutral-200);
 }
 
 .subscription-payment-methods-list .payment-method-details {
-  margin-left: 16px;
+  margin-left: var(--spacing-md);
   flex: 1;
 }
 
@@ -141,152 +155,43 @@
   width: 10%;
 }
 
+/* Legacy card styles (should use PaymentMethodSelection.css instead) */
 .card-brand {
   font-weight: 600;
-  color: #333;
-  margin-bottom: 4px;
-  font-size: 1rem;
+  color: var(--text-primary);
+  margin-bottom: var(--spacing-xs);
+  font-size: var(--font-size-base);
 }
 
 .card-last4 {
-  color: #555;
-  font-size: 0.9rem;
+  color: var(--text-secondary);
+  font-size: var(--font-size-sm);
 }
 
 .card-expiry {
-  color: #777;
-  font-size: 0.85rem;
-  margin-top: 2px;
+  color: var(--text-muted);
+  font-size: var(--font-size-xs);
+  margin-top: var(--spacing-xs);
 }
 
+/* Legacy default badge (should use PaymentMethodSelection.css instead) */
 .default-badge {
   display: inline-block;
-  background-color: #28a745;
+  background-color: var(--success-color);
   color: white;
-  font-size: 0.75rem;
-  padding: 3px 8px;
-  border-radius: 12px;
-  margin-left: 8px;
+  font-size: var(--font-size-xs);
+  padding: var(--spacing-xs) var(--spacing-sm);
+  border-radius: var(--border-radius-full);
+  margin-left: var(--spacing-sm);
   font-weight: 500;
   text-transform: uppercase;
   letter-spacing: 0.5px;
 }
 
-/* Action buttons */
-.popup-actions {
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-  margin-top: 24px;
-}
-
-.action-buttons {
-  display: flex;
-  justify-content: center;
-  gap: 12px;
-  align-items: center;
-}
-
-/* All buttons should have the same height */
-.action-buttons button {
-  height: 48px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 0 16px;
-  font-size: 1.08rem;
-  font-weight: 600;
-  transition: background 0.15s, color 0.15s, box-shadow 0.15s;
-  box-shadow: 0 2px 8px rgba(52, 98, 219, 0.08);
-}
-
-.subscription-add-payment-method {
-  color: #4d7df2;
-  background: none;
-  border: none;
-  cursor: pointer;
-  padding: 10px 0;
-  text-align: left;
-  font-weight: 500;
-  display: flex;
-  align-items: center;
-  font-size: 0.95rem;
-  height: 48px;
-}
-
-.subscription-add-payment-method:hover {
-  color: #3462db;
-  text-decoration: underline;
-}
-
-.subscription-add-payment-method.primary {
-  background: #4d7df2;
-  color: white;
-  border-radius: 6px;
-  padding: 12px 24px;
-  text-align: center;
-  margin-bottom: 12px;
-  font-weight: 600;
-  border: none;
-  transition: background 0.15s, color 0.15s, box-shadow 0.15s;
-  height: 48px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  white-space: nowrap;
-  box-shadow: 0 2px 8px rgba(52, 98, 219, 0.08);
-}
-
-.subscription-add-payment-method.primary:hover {
-  background: #3462db;
-  box-shadow: 0 4px 16px rgba(52, 98, 219, 0.12);
-  text-decoration: none;
-}
-
-.primary-button {
-  background: #4d7df2;
-  color: white;
-  border: none;
-  border-radius: 6px;
-  flex: 1.5;
-  cursor: pointer;
-  font-weight: 600;
-  transition: background 0.15s, color 0.15s, box-shadow 0.15s;
-  white-space: nowrap;
-  box-shadow: 0 2px 8px rgba(52, 98, 219, 0.08);
-}
-
-.primary-button:hover {
-  background: #3462db;
-  box-shadow: 0 4px 16px rgba(52, 98, 219, 0.12);
-}
-
-.primary-button:disabled {
-  background: #cbd5e1;
-  cursor: not-allowed;
-}
-
-.secondary-button {
-  background: #cbd5e1;
-  color: #334155;
-  border: none;
-  border-radius: 6px;
-  flex: 1;
-  cursor: pointer;
-  font-weight: 600;
-  transition: background 0.15s, color 0.15s, box-shadow 0.15s;
-  box-shadow: 0 2px 8px rgba(52, 98, 219, 0.08);
-}
-
-.secondary-button:hover {
-  background: #94a3b8;
-  color: #1e293b;
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
-}
-
+/* Legacy no payment methods (should use PaymentMethodSelection.css instead) */
 .no-payment-methods {
   text-align: center;
-  padding: 20px 0;
+  padding: var(--spacing-lg) 0;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -294,10 +199,128 @@
 }
 
 .no-payment-methods p {
-  margin-bottom: 20px;
+  margin-bottom: var(--spacing-lg);
+  color: var(--text-secondary);
 }
 
-/* Center content vertically */
+/* ===== INTERACTIVE ELEMENTS ===== */
+/* Legacy action buttons (should use base popup instead) */
+.popup-actions {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-sm);
+  margin-top: var(--spacing-lg);
+}
+
+.action-buttons {
+  display: flex;
+  justify-content: center;
+  gap: var(--spacing-sm);
+  align-items: center;
+}
+
+/* Legacy button styles (should use base popup instead) */
+.action-buttons button {
+  height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 var(--spacing-md);
+  font-size: var(--font-size-base);
+  font-weight: 600;
+  transition: background 0.15s, color 0.15s, box-shadow 0.15s;
+  box-shadow: var(--popup-button-shadow);
+}
+
+/* Legacy add payment method button (should use PaymentMethodSelection.css instead) */
+.subscription-add-payment-method {
+  color: var(--primary-500);
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: var(--spacing-sm) 0;
+  text-align: left;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  font-size: var(--font-size-sm);
+  height: 48px;
+}
+
+.subscription-add-payment-method:hover {
+  color: var(--primary-600);
+  text-decoration: underline;
+}
+
+.subscription-add-payment-method.primary {
+  background: var(--primary-500);
+  color: var(--neutral-100);
+  border-radius: var(--border-radius-md);
+  padding: var(--spacing-sm) var(--spacing-lg);
+  text-align: center;
+  margin-bottom: var(--spacing-sm);
+  font-weight: 600;
+  border: none;
+  transition: background 0.15s, color 0.15s, box-shadow 0.15s;
+  height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  white-space: nowrap;
+  box-shadow: var(--popup-button-shadow);
+}
+
+.subscription-add-payment-method.primary:hover {
+  background: var(--primary-600);
+  box-shadow: var(--popup-button-hover-shadow);
+  text-decoration: none;
+}
+
+/* Legacy primary button (should use base popup instead) */
+.primary-button {
+  background: var(--popup-button-primary-bg);
+  color: var(--neutral-100);
+  border: none;
+  border-radius: var(--border-radius-md);
+  flex: 1.5;
+  cursor: pointer;
+  font-weight: 600;
+  transition: background 0.15s, color 0.15s, box-shadow 0.15s;
+  white-space: nowrap;
+  box-shadow: var(--popup-button-shadow);
+}
+
+.primary-button:hover {
+  background: var(--popup-button-primary-hover);
+  box-shadow: var(--popup-button-hover-shadow);
+}
+
+.primary-button:disabled {
+  background: var(--popup-button-secondary-bg);
+  cursor: not-allowed;
+}
+
+/* Legacy secondary button (should use base popup instead) */
+.secondary-button {
+  background: var(--popup-button-secondary-bg);
+  color: var(--popup-button-secondary-text);
+  border: none;
+  border-radius: var(--border-radius-md);
+  flex: 1;
+  cursor: pointer;
+  font-weight: 600;
+  transition: background 0.15s, color 0.15s, box-shadow 0.15s;
+  box-shadow: var(--popup-button-shadow);
+}
+
+.secondary-button:hover {
+  background: var(--popup-button-secondary-hover);
+  color: var(--popup-button-secondary-hover-text);
+  box-shadow: var(--popup-button-secondary-hover-shadow);
+}
+
+/* ===== UTILITY STYLES ===== */
+/* Legacy center content (should use base popup instead) */
 .content-centered {
   display: flex;
   flex-direction: column;
@@ -307,33 +330,13 @@
   flex: 1;
 }
 
-/* Animations */
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-  }
-  to {
-    opacity: 1;
-  }
-}
-
-@keyframes scaleIn {
-  from {
-    transform: scale(0.95);
-    opacity: 0;
-  }
-  to {
-    transform: scale(1);
-    opacity: 1;
-  }
-}
-
-/* Plus icon for add payment method */
+/* ===== ICON STYLES ===== */
+/* Legacy plus icon (should use base popup instead) */
 .plus-icon {
   display: inline-block;
   width: 16px;
   height: 16px;
-  margin-right: 8px;
+  margin-right: var(--spacing-sm);
   position: relative;
 }
 
@@ -358,24 +361,84 @@
   top: 7px;
 }
 
-/* Alert icon for no payment methods */
+/* Legacy alert icon (should use base popup instead) */
 .alert-icon {
   display: inline-block;
   width: 24px;
   height: 24px;
-  margin-bottom: 12px;
+  margin-bottom: var(--spacing-sm);
   position: relative;
-  border: 2px solid #dc3545;
+  border: 2px solid var(--error-color);
   border-radius: 50%;
 }
 
 .alert-icon:before {
   content: '!';
   position: absolute;
-  color: #dc3545;
+  color: var(--error-color);
   font-weight: bold;
-  font-size: 16px;
+  font-size: var(--font-size-base);
   left: 50%;
   top: 50%;
   transform: translate(-50%, -50%);
+}
+
+/* ===== ANIMATIONS ===== */
+/* Legacy animations (should use base popup instead) */
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes scaleIn {
+  from { transform: scale(0.95); opacity: 0; }
+  to { transform: scale(1); opacity: 1; }
+}
+
+/* ===== RESPONSIVE ADJUSTMENTS ===== */
+/* Mobile styles */
+@media (max-width: var(--breakpoint-mobile-max)) {
+  .popup-container {
+    max-width: 95vw;
+    margin: var(--spacing-sm);
+  }
+  
+  .popup-content {
+    padding: var(--spacing-md);
+    width: 95%;
+  }
+  
+  .action-buttons {
+    flex-direction: column;
+    gap: var(--spacing-sm);
+  }
+  
+  .action-buttons button {
+    width: 100%;
+    height: 44px;
+    font-size: var(--font-size-sm);
+  }
+  
+  .subscription-add-payment-method.primary {
+    height: 44px;
+    font-size: var(--font-size-sm);
+  }
+}
+
+/* Tablet styles */
+@media (min-width: var(--breakpoint-tablet-min)) and (max-width: var(--breakpoint-tablet-max)) {
+  .popup-container {
+    max-width: 90vw;
+  }
+  
+  .popup-header h3 {
+    font-size: var(--page-title-font-size-tablet);
+  }
+}
+
+/* Desktop styles */
+@media (min-width: var(--breakpoint-desktop-min)) {
+  .popup-header h3 {
+    font-size: var(--page-title-font-size-desktop);
+  }
 } 
