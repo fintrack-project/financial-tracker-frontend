@@ -147,6 +147,12 @@ const handlePaymentIntentStatus = async (
 
   if (paymentIntent.status === 'succeeded') {
     console.log('✅ Payment succeeded, confirming with backend...');
+    console.log('🔍 Payment Intent Details:', {
+      id: paymentIntent.id,
+      status: paymentIntent.status,
+      amount: paymentIntent.amount,
+      currency: paymentIntent.currency
+    });
     
     try {
       const response = await confirmSubscriptionPaymentApi(
@@ -160,21 +166,15 @@ const handlePaymentIntentStatus = async (
       }
 
       console.log('✅ Backend payment confirmation successful:', response.data);
+      console.log('🔍 Backend Response Details:', {
+        status: response.data.status,
+        paymentRequired: response.data.paymentRequired
+      });
       return response.data;
     } catch (error) {
-      console.error('❌ Backend confirmation error, but payment succeeded in Stripe:', error);
-      // Even if backend confirmation fails, the payment succeeded in Stripe
-      // Return a success response to prevent user confusion
-      return {
-        subscriptionId: subscriptionId,
-        status: 'active' as SubscriptionStatus,
-        currentPeriodEnd: new Date().toISOString(),
-        planId: '',
-        paymentRequired: false,
-        amount: 0,
-        currency: '',
-        clientSecret: undefined
-      } as SubscriptionResponse;
+      console.error('❌ Backend confirmation error:', error);
+      // Don't override backend status - let the backend handle the actual status
+      throw new Error('Failed to confirm subscription payment: ' + (error instanceof Error ? error.message : 'Unknown error'));
     }
   }
 
