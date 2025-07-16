@@ -198,28 +198,23 @@
   color: var(--primary-600) !important;
   box-shadow: none;
   background-color: var(--neutral-200) !important;
-  outline: none;
 }
 
 .category-action-button:hover {
   color: var(--primary-600);
-  outline: none;
 }
 
 .category-action-button.delete:hover {
   color: var(--error-color);
-  outline: none;
 }
 
 .category-confirm-button:hover {
   transform: translateY(-1px);
   box-shadow: var(--shadow-sm);
-  outline: none;
 }
 
 .category-cell .category-cell-edit input:focus,
 .category-cell .category-cell-edit select:focus {
-  outline: none;
   border-color: rgba(255, 255, 255, 0.4);
   background-color: var(--neutral-100) !important;
   box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.1);

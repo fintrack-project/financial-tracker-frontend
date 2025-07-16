@@ -16,12 +16,10 @@
   transition: var(--transition-normal);
   position: relative;
   font-weight: 500;
-  outline: none;
   border-radius: 0;
 }
 
 .nav-button:focus {
-  outline: none;
   border: none;
   box-shadow: none;
 }

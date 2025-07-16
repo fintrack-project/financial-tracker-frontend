@@ -14,12 +14,10 @@
   cursor: pointer;
   transition: var(--transition-normal);
   position: relative;
-  outline: none;
   border-radius: 0;
 }
 
 .subscription-tabs button:focus {
-  outline: none;
   border: none;
   box-shadow: none;
 }

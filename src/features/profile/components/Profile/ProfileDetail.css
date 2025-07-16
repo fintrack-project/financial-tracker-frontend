@@ -46,7 +46,6 @@
 
 .phone-input-container select:focus,
 .phone-input-container input:focus {
-  outline: none;
   border-color: var(--input-focus-border); /* Highlight border on focus */
 }
 

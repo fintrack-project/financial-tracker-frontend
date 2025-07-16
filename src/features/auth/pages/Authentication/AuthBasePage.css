@@ -159,7 +159,6 @@
    INTERACTIVE STATES
    ========================================================================== */
 .auth-base-page-input:focus {
-  outline: none;
   border-color: var(--primary-500);
   box-shadow: 0 0 0 2px rgba(52, 98, 219, 0.1);
 }

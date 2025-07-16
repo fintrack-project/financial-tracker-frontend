@@ -273,7 +273,6 @@
 
 .editable-watchlist-table input[type="text"]:focus,
 .editable-watchlist-table input[type="number"]:focus {
-  outline: none;
   border-color: var(--primary-500);
   box-shadow: 0 0 0 2px rgba(52, 98, 219, 0.2);
 }
