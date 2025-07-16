@@ -1,0 +1,43 @@
+/* =============================
+   Notification Container
+   ============================= */
+.notification-container {
+  position: fixed;
+  top: var(--spacing-md);
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: var(--z-index-notification, 9999);
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-sm);
+  max-width: 90vw;
+  width: 100%;
+  max-width: 600px;
+  pointer-events: none;
+}
+
+.notification-container .notification-banner {
+  pointer-events: auto;
+  box-shadow: var(--shadow-lg);
+  border: 1px solid var(--border-light);
+}
+
+/* =============================
+   Responsive Design
+   ============================= */
+@media (max-width: 768px) {
+  .notification-container {
+    top: var(--spacing-sm);
+    left: var(--spacing-sm);
+    right: var(--spacing-sm);
+    transform: none;
+    max-width: none;
+  }
+}
+
+@media (min-width: 1024px) {
+  .notification-container {
+    top: var(--spacing-lg);
+    max-width: 500px;
+  }
+} 

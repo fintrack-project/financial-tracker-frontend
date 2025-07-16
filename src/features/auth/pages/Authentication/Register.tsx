@@ -5,6 +5,7 @@ import InputField from '../../../../shared/components/InputField/InputField';
 import Button from '../../../../shared/components/Button/Button';
 import AuthBasePage from './AuthBasePage';
 import { registerUser } from '../../services/authService';
+import { useNotification } from '../../../../shared/contexts/NotificationContext';
 import './Register.css';
 
 const Register: React.FC = () => {
@@ -15,6 +16,7 @@ const Register: React.FC = () => {
   const [error, setError] = useState('');
   const [errorType, setErrorType] = useState<'error' | 'warning'>('error');
   const navigate = useNavigate();
+  const { showNotification } = useNotification();
 
   const handleRegister = async () => {
     // Clear previous errors
@@ -48,7 +50,7 @@ const Register: React.FC = () => {
     try {
       await registerUser({ userId, password, email });
       // Registration successful - redirect to login page
-      alert('Registration successful! You can now log in to your account.');
+      showNotification('success', 'Registration successful! You can now log in to your account.');
       navigate('/'); // Redirect to login page
     } catch (err: any) {
       const errorMessage = err.message;

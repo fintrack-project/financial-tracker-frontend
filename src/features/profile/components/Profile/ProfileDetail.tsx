@@ -16,6 +16,7 @@ import { formatDate } from '../../../../shared/utils/FormatDate';
 import './ProfileDetail.css'; // Add styles for the profile detail section
 import { useAuthService } from '../../../auth/hooks/useAuthService';
 import NotificationBanner from '../../../../shared/components/NotificationBanner/NotificationBanner';
+import { useNotification } from '../../../../shared/contexts/NotificationContext';
 
 interface ProfileDetailProps {
   accountId: string; // Account ID to fetch user details
@@ -54,7 +55,9 @@ const ProfileDetail: React.FC<ProfileDetailProps> = ({ accountId }) => {
     showOtpPopup,
     otpError,
   } = useAuthService();
+  const { showNotification } = useNotification();
 
+  // Load countries data
   useEffect(() => {
     const loadCountries = () => {
       const countryList = getCountries().map((code) => ({
@@ -77,7 +80,7 @@ const ProfileDetail: React.FC<ProfileDetailProps> = ({ accountId }) => {
       fetchDetails();
     }
   }, [isFetch, refreshUserDetails]);
-  
+
   const handleEditClick = useCallback((label: string, currentValue: string | null) => {
     if (label === 'Email' || label === 'Phone' || label === 'Address') {
       const handlers = authenticate({
@@ -103,7 +106,7 @@ const ProfileDetail: React.FC<ProfileDetailProps> = ({ accountId }) => {
         },
         onError: (error) => {
           console.error(`Authentication failed for ${label}:`, error);
-          alert(error);
+          showNotification('error', error);
         },
       });
 
@@ -113,7 +116,7 @@ const ProfileDetail: React.FC<ProfileDetailProps> = ({ accountId }) => {
       setEditState((prevState) => ({ ...prevState, [label]: currentValue }));
       setEditModes((prevModes) => ({ ...prevModes, [label]: true }));
     }
-  }, [accountId, userDetails, authenticate]);
+  }, [accountId, userDetails, authenticate, showNotification]);
 
   const handleConfirmClick = useCallback(async (label: string) => {
     if (!editModes[label]) {
@@ -147,7 +150,7 @@ const ProfileDetail: React.FC<ProfileDetailProps> = ({ accountId }) => {
           `+${getCountryCallingCode(countryCode as CountryCode)}${phoneNumber}`
         );
         if (!parsedPhoneNumber || !parsedPhoneNumber.isValid()) {
-          alert('Invalid phone number. Please enter a valid phone number.');
+          showNotification('error', 'Invalid phone number. Please enter a valid phone number.');
           return;
         }
   
@@ -174,7 +177,7 @@ const ProfileDetail: React.FC<ProfileDetailProps> = ({ accountId }) => {
         }
   
         if (!newValue) {
-          alert('Email cannot be blank.');
+          showNotification('error', 'Email cannot be blank.');
           setEditState((prevState) => ({ ...prevState, [label]: null }));
           setEditModes((prevModes) => ({ ...prevModes, [label]: false }));
           return;
@@ -182,7 +185,7 @@ const ProfileDetail: React.FC<ProfileDetailProps> = ({ accountId }) => {
   
         if (!isValidEmail(newValue)) {
           console.error(`Invalid email format:`, newValue);
-          alert('Invalid email format.');
+          showNotification('error', 'Invalid email format.');
           setEditState((prevState) => ({ ...prevState, [label]: null }));
           setEditModes((prevModes) => ({ ...prevModes, [label]: false }));
           return;
@@ -231,9 +234,9 @@ const ProfileDetail: React.FC<ProfileDetailProps> = ({ accountId }) => {
       console.log(`Exiting edit mode for ${label}`);
     } catch (error) {
       console.error(`Failed to update ${label}:`, error);
-      alert(`Failed to update ${label}. Please try again later.`);
+      showNotification('error', `Failed to update ${label}. Please try again later.`);
     }
-  }, [accountId, editModes, editState, userDetails, sendVerification, setUserDetails]);
+  }, [accountId, editModes, editState, userDetails, sendVerification, setUserDetails, showNotification]);
 
   const handleVerificationClick = useCallback((type: 'phone' | 'email') => {
     sendVerification(type);

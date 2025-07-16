@@ -6,7 +6,8 @@ import { UserDetails } from '../types/UserDetails'; // Adjust the import path as
 const useVerification = (
   accountId: string,
   userDetails: UserDetails | null,
-  setUserDetails: React.Dispatch<React.SetStateAction<any>>
+  setUserDetails: React.Dispatch<React.SetStateAction<any>>,
+  showNotification?: (type: 'success' | 'error' | 'warning' | 'info', message: string) => void
 ) => {
   const [showPopup, setShowPopup] = useState<'phone' | 'email' | null>(null);
 
@@ -24,7 +25,7 @@ const useVerification = (
       }
     } catch (error) {
       console.error(`Failed to send ${type} verification:`, error);
-      alert(`Failed to send ${type} verification. Please try again.`);
+      showNotification?.('error', `Failed to send ${type} verification. Please try again.`);
     }
   };
 
@@ -34,15 +35,15 @@ const useVerification = (
         const fullPhoneNumber = `+${getCountryCallingCode(userDetails?.countryCode as CountryCode || 'US')}${userDetails?.phone}`;
         console.log(`Resending SMS verification to: ${fullPhoneNumber}`);
         await sendSMSVerification(fullPhoneNumber);
-        alert('Verification SMS has been resent.');
+        showNotification?.('success', 'Verification SMS has been resent.');
       } else if (showPopup === 'email') {
         console.log(`Resending email verification to: ${userDetails?.email}`);
         await sendEmailVerification(accountId, userDetails?.email || '');
-        alert('Verification email has been resent.');
+        showNotification?.('success', 'Verification email has been resent.');
       }
     } catch (error) {
       console.error(`Failed to resend ${showPopup} verification:`, error);
-      alert(`Failed to resend ${showPopup} verification. Please try again.`);
+      showNotification?.('error', `Failed to resend ${showPopup} verification. Please try again.`);
     }
   };
 

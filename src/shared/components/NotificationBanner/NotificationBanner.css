@@ -1,3 +1,6 @@
+/* =============================
+   Notification Banner
+   ============================= */
 .notification-banner {
   padding: var(--spacing-sm) var(--spacing-md);
   border-radius: var(--border-radius-md);
@@ -21,6 +24,9 @@
   word-break: break-word;
 }
 
+/* =============================
+   Close Button (unified with popup/modal)
+   ============================= */
 .notification-banner-close {
   background: none;
   border: none;
@@ -35,51 +41,53 @@
   justify-content: center;
   border-radius: var(--border-radius-full);
   transition: var(--transition-fast);
-  color: inherit;
+  color: var(--text-secondary);
   opacity: 0.7;
 }
 
 .notification-banner-close:hover {
   opacity: 1;
-  background-color: rgba(0, 0, 0, 0.1);
+  background-color: var(--neutral-200);
 }
 
-/* Type-specific styles */
+/* =============================
+   Type-specific styles (using theme variables)
+   ============================= */
 .notification-banner--info {
-  background-color: var(--info-bg, #e3f2fd);
-  color: var(--info-text, #0d47a1);
-  border-color: var(--info-border, #bbdefb);
+  background-color: var(--info-message-bg);
+  color: var(--info-message-text);
+  border-color: var(--info-message-border);
 }
 
 .notification-banner--warning {
-  background-color: var(--warning-bg, #fff3e0);
-  color: var(--warning-text, #e65100);
-  border-color: var(--warning-border, #ffcc02);
+  background-color: var(--warning-message-bg);
+  color: var(--warning-message-text);
+  border-color: var(--warning-message-border);
 }
 
 .notification-banner--success {
-  background-color: var(--success-bg, #e8f5e8);
-  color: var(--success-text, #1b5e20);
-  border-color: var(--success-border, #a5d6a7);
+  background-color: var(--success-message-bg);
+  color: var(--success-message-text);
+  border-color: var(--success-message-border);
 }
 
 .notification-banner--error {
-  background-color: var(--error-bg, #ffebee);
-  color: var(--error-text, #c62828);
-  border-color: var(--error-border, #ef9a9a);
+  background-color: var(--error-message-bg);
+  color: var(--error-message-text);
+  border-color: var(--error-message-border);
 }
 
-/* Responsive Design */
+/* =============================
+   Responsive Design
+   ============================= */
 @media (max-width: 768px) {
   .notification-banner {
     padding: var(--spacing-xs) var(--spacing-sm);
     font-size: var(--font-size-xs);
   }
-  
   .notification-banner-content {
     gap: var(--spacing-xs);
   }
-  
   .notification-banner-close {
     width: 18px;
     height: 18px;

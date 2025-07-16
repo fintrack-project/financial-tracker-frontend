@@ -4,6 +4,7 @@ import { Transaction } from '../../types/Transaction';
 import { OverviewTransaction } from '../../types/OverviewTransaction';
 import { PreviewTransaction } from '../../types/PreviewTransaction';
 import TransactionTable from './TransactionTable';
+import { useNotification } from '../../../../shared/contexts/NotificationContext';
 
 interface BalancePreviewTableProps {
   accountId: string | null; // Account ID for the transactions
@@ -20,6 +21,7 @@ const BalancePreviewTable: React.FC<BalancePreviewTableProps> = ({
 }) => {
   // State to manage preview transactions
   const [previewTransactions, setPreviewTransactions] = useState<PreviewTransaction[]>([]);
+  const { showNotification } = useNotification();
 
   // Helper function to convert Transaction[] to OverviewTransaction[]
   const convertToOverviewTransactions = (
@@ -98,7 +100,7 @@ const BalancePreviewTable: React.FC<BalancePreviewTableProps> = ({
 
   const handleConfirm = async () => {
     if (!accountId) {
-      alert('Please select an account before confirming transactions.');
+      showNotification('error', 'Please select an account before confirming transactions.');
       return;
     }
     
