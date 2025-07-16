@@ -22,11 +22,9 @@
   box-shadow: var(--popup-button-shadow);
   background: var(--popup-button-secondary-bg);
   color: var(--popup-button-secondary-text);
-  outline: none;
 }
 
 .toggle-button:focus {
-  outline: none;
   box-shadow: var(--popup-button-shadow);
 }
 

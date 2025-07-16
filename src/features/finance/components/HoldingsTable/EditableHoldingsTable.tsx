@@ -1,16 +1,17 @@
 import React, { useState, useEffect, ReactNode } from 'react';
+import { FaChartLine } from 'react-icons/fa';
+import { CategoryColor } from '../../../categories/types/CategoryTypes';
+import { createCategoryService } from '../../../categories/services/categoryService';
+import { createHoldingsCategoriesService } from '../../services/holdingsCategoriesService';
 import { useHoldingsData } from '../../hooks/useHoldingsData';
 import { useBaseCurrency } from '../../../../shared/hooks/useBaseCurrency';
 import { formatNumber } from '../../../../shared/utils/FormatNumber';
-import CategoryDropdownCell from '../../../categories/components/CategoryTable/CategoryDropdownCell';
 import CategoryDisplayCell from '../../../categories/components/CategoryTable/CategoryDisplayCell';
-import { createCategoryService } from '../../../categories/services/categoryService';
-import { createHoldingsCategoriesService } from '../../services/holdingsCategoriesService';
+import CategoryDropdownCell from '../../../categories/components/CategoryTable/CategoryDropdownCell';
 import ResetCategoryPopup from '../../../categories/components/Popup/ResetCategoryPopup';
-import { FaChartLine } from 'react-icons/fa';
 import Icon from '../../../../shared/components/Card/Icon';
+import { useNotification } from '../../../../shared/contexts/NotificationContext';
 import './HoldingsTable.css'; // Reuse the CSS from HoldingsTable
-import { CategoryColor } from '../../../categories/types/CategoryTypes';
 
 interface EmptyStateProps {
   icon: ReactNode;
@@ -20,9 +21,9 @@ interface EmptyStateProps {
 
 const EmptyState: React.FC<EmptyStateProps> = ({ icon, text, subtext }) => (
   <div className="empty-state">
-    <div className="empty-state-icon">{icon}</div>
+    {icon}
     <div className="empty-state-text">{text}</div>
-    {subtext && <div className="empty-state-subtext">{subtext}</div>}
+    <div className="empty-state-subtext">{subtext}</div>
   </div>
 );
 
@@ -53,29 +54,29 @@ const EditableHoldingsTable: React.FC<EditableHoldingsTableProps> = ({
   categoryColors,
   subcategoryColors
 }) => {
-  const { holdings, portfolioData, loading } = useHoldingsData(accountId);
-  const { baseCurrency } = useBaseCurrency(accountId);
-  const [categoryColumns, setCategoryColumns] = useState<string[]>([]); // Manage categories as state
-  const [subcategoryColumns, setSubcategoryColumns] = useState<string[][]>([]); // Manage subcategories as state
-  const [editingColumns, setEditingColumns] = useState<Set<number>>(new Set()); // Track which columns are in edit mode
+  const { portfolioData, loading } = useHoldingsData(accountId);
+  const [categoryColumns, setCategoryColumns] = useState<string[]>([]);
+  const [subcategoryColumns, setSubcategoryColumns] = useState<string[][]>([]);
+  const [editingColumns, setEditingColumns] = useState<Set<number>>(new Set());
   const [showResetPopup, setShowResetPopup] = useState(false);
   const [categoryToReset, setCategoryToReset] = useState<string | null>(null);
+  const { baseCurrency } = useBaseCurrency(accountId);
+  const { showNotification } = useNotification();
 
-  // Synchronize categoryColumns and subcategoryColumns with the categories prop
+  // Update category columns when holdings or confirmedHoldingsCategories change
   useEffect(() => {
-
     const confirmedCategoryColumns = Object.keys(confirmedHoldingsCategories); // Extract categories
     const confirmedSubcategoryColumns = confirmedCategoryColumns.map((category) =>
-      holdings.map((holding) => confirmedHoldingsCategories[category]?.[holding.assetName] || '') // Extract subcategories for each category
+      portfolioData.map((holding) => confirmedHoldingsCategories[category]?.[holding.assetName] || '') // Extract subcategories for each category
     );
     
     setCategoryColumns(confirmedCategoryColumns);
     setSubcategoryColumns(confirmedSubcategoryColumns);
-  }, [holdings, confirmedHoldingsCategories]);
+  }, [portfolioData, confirmedHoldingsCategories]);
 
   const handleConfirmCategoryColumn = async (index: number) => {
     if (!accountId) {
-      alert('Account ID is required to confirm holdings categories.');
+      showNotification('error', 'Account ID is required to confirm holdings categories.', 5000);
       return;
     }
   
@@ -83,7 +84,7 @@ const EditableHoldingsTable: React.FC<EditableHoldingsTableProps> = ({
     
     // Construct the payload for the new column only
     const payload = {
-      [category]: holdings.reduce((assetAcc: { [assetName: string]: string | null }, holding, rowIndex) => {
+      [category]: portfolioData.reduce((assetAcc: { [assetName: string]: string | null }, holding, rowIndex) => {
         assetAcc[holding.assetName] = subcategoryColumns[index]?.[rowIndex] || null; // Use null if no subcategory is selected
         return assetAcc;
       }, {}),
@@ -108,7 +109,7 @@ const EditableHoldingsTable: React.FC<EditableHoldingsTableProps> = ({
       resetHasFetched(); // Reset the fetched state
     } catch (error) {
       console.error('Error confirming category column:', error);
-      alert(`Failed to confirm category "${category}".`);
+              showNotification('error', `Failed to confirm category "${category}".`, 5000);
     }
   };
 
@@ -120,7 +121,7 @@ const EditableHoldingsTable: React.FC<EditableHoldingsTableProps> = ({
 
   const handleResetCategoryColumn = async (index: number) => {
     if (!accountId) {
-      alert('Account ID is required to reset holdings categories.');
+      showNotification('error', 'Account ID is required to reset holdings categories.', 5000);
       return;
     }
   
@@ -135,7 +136,7 @@ const EditableHoldingsTable: React.FC<EditableHoldingsTableProps> = ({
     try {
       // Reset all subcategories for this category to null
       const payload = {
-        [categoryToReset]: holdings.reduce((assetAcc: { [assetName: string]: string | null }, holding) => {
+        [categoryToReset]: portfolioData.reduce((assetAcc: { [assetName: string]: string | null }, holding) => {
           assetAcc[holding.assetName] = null;
           return assetAcc;
         }, {}),
@@ -148,7 +149,7 @@ const EditableHoldingsTable: React.FC<EditableHoldingsTableProps> = ({
       const categoryIndex = categoryColumns.indexOf(categoryToReset);
       if (categoryIndex !== -1) {
         const updatedSubcategoryColumns = [...subcategoryColumns];
-        updatedSubcategoryColumns[categoryIndex] = holdings.map(() => ''); // Reset all subcategories to empty string
+        updatedSubcategoryColumns[categoryIndex] = portfolioData.map(() => ''); // Reset all subcategories to empty string
         setSubcategoryColumns(updatedSubcategoryColumns);
       }
   
@@ -157,7 +158,7 @@ const EditableHoldingsTable: React.FC<EditableHoldingsTableProps> = ({
       setCategoryToReset(null);
     } catch (error) {
       console.error('Error resetting category subcategories:', error);
-      alert(`Failed to reset subcategories for category "${categoryToReset}".`);
+              showNotification('error', `Failed to reset subcategories for category "${categoryToReset}".`, 5000);
     }
   };
 

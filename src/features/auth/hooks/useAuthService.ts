@@ -20,12 +20,16 @@ export const useAuthService = () => {
   { 
     handlePasswordConfirm: (password: string) => Promise<void>; handlePasswordClose: () => void 
   } => {
-    const { accountId, twoFactorEnabled, onSuccess, onError } = options;
+    const { accountId, twoFactorEnabled, onSuccess } = options;
 
     // Show the password popup to start the authentication process
     setShowPasswordPopup(true);
 
     const handlePasswordConfirm = async (password: string) => {
+      if (password.trim() === '') {
+        setPasswordError('Please enter your password.');
+        return;
+      }
       try {
         // Step 1: Verify Password
         const response = await verifyPassword(accountId, password);
@@ -61,9 +65,6 @@ export const useAuthService = () => {
     const handlePasswordClose = () => {
       setShowPasswordPopup(false);
       setPasswordError(null);
-      if (onError) {
-        onError('Authentication canceled.');
-      }
     };
 
     // Return handlers for the password popup

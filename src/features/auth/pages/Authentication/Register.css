@@ -56,7 +56,6 @@
 
 .register-container .input-fields input:focus {
   border-color: var(--primary-500);
-  outline: none;
   box-shadow: 0 0 0 2px rgba(52, 98, 219, 0.1);
 }
 
@@ -194,7 +193,6 @@
 }
 
 .register-container .primary-button.auth-btn:focus {
-  outline: none;
   box-shadow: 0 0 0 2px rgba(52, 98, 219, 0.2);
 }
 
@@ -213,7 +211,6 @@
 }
 
 .register-container .secondary-button:focus {
-  outline: none; /* Remove blue outline */
   box-shadow: 0 0 0 2px rgba(52, 98, 219, 0.2); /* Custom focus indicator */
 }
 

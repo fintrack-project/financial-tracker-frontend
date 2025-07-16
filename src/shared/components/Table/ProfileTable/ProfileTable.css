@@ -129,7 +129,6 @@
 }
 
 .profile-table input:focus {
-  outline: none;
   border-color: var(--primary-500);
   box-shadow: var(--input-focus-shadow);
 }

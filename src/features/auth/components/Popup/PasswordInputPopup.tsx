@@ -5,20 +5,23 @@ interface PasswordInputPopupProps {
   onConfirm: (password: string) => void;
   onClose: () => void;
   errorMessage?: string | null;
+  setErrorMessage?: (msg: string | null) => void;
 }
 
 const PasswordInputPopup: React.FC<PasswordInputPopupProps> = ({
   onConfirm,
   onClose,
   errorMessage,
+  setErrorMessage,
 }) => {
   const [password, setPassword] = useState('');
 
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setPassword(e.target.value);
+    if (setErrorMessage) setErrorMessage(null);
+  };
+
   const handleConfirm = () => {
-    if (password.trim() === '') {
-      alert('Please enter your password.');
-      return;
-    }
     onConfirm(password);
   };
 
@@ -29,10 +32,12 @@ const PasswordInputPopup: React.FC<PasswordInputPopupProps> = ({
         <input
           type="password"
           value={password}
-          onChange={(e) => setPassword(e.target.value)}
+          onChange={handleInputChange}
           placeholder="Enter your password"
         />
-        <p className="password-popup-error-message">{errorMessage || '\u00A0'}</p>
+        {errorMessage && (
+          <p className="password-popup-error-message has-error">{errorMessage}</p>
+        )}
         <div className="popup-actions">
           <button onClick={handleConfirm}>Confirm</button>
           <button onClick={onClose}>Cancel</button>

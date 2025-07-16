@@ -52,9 +52,21 @@ button:disabled,
 
 /* Focus state */
 button:focus,
-.btn:focus {
-  outline: 2px solid var(--primary-500);
-  outline-offset: 2px;
+.btn:focus,
+button:focus-visible,
+.btn:focus-visible {
+  outline: none !important;
+}
+
+/* Remove all possible outline sources */
+button,
+.btn {
+  outline: none;
+}
+
+button:active,
+.btn:active {
+  outline: none;
 }
 
 /* Color variants */

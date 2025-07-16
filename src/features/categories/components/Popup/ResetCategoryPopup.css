@@ -1,75 +1,121 @@
+/* =============================
+   Reset Category Popup Overlay
+   ============================= */
 .reset-category-popup-overlay {
   position: fixed;
   top: 0;
   left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(0, 0, 0, 0.5);
+  width: 100vw;
+  height: 100vh;
+  background-color: var(--popup-overlay-bg, rgba(0,0,0,0.5));
   display: flex;
   justify-content: center;
   align-items: center;
-  z-index: 1000;
+  z-index: var(--z-index-modal, 1000);
   backdrop-filter: blur(3px);
 }
 
+/* =============================
+   Popup Container
+   ============================= */
 .reset-category-popup {
-  background: linear-gradient(135deg, #f9fafc 60%, #e3e9f6 100%);
-  padding: 32px;
-  border-radius: 16px;
-  width: 400px;
-  box-shadow: 0 4px 16px rgba(52, 98, 219, 0.10);
-  border: 1px solid #e0e6ed;
+  background: var(--popup-bg, var(--neutral-100));
+  padding: var(--popup-padding, var(--spacing-2xl));
+  border-radius: var(--popup-border-radius, var(--border-radius-lg));
+  width: var(--popup-width, 400px);
+  max-width: 95vw;
+  box-shadow: var(--popup-shadow, var(--shadow-lg));
+  border: 1px solid var(--popup-border, var(--border-light));
   text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 .reset-category-popup h3 {
-  color: #2c3e50;
-  font-size: 1.5rem;
+  color: var(--popup-title-color, var(--text-primary));
+  font-size: var(--font-size-xl);
   font-weight: 600;
-  margin-bottom: 16px;
+  margin-bottom: var(--spacing-md);
 }
 
 .reset-category-popup p {
-  color: #64748b;
-  font-size: 1rem;
+  color: var(--popup-text-color, var(--text-secondary));
+  font-size: var(--font-size-base);
   line-height: var(--table-line-height);
-  margin-bottom: 24px;
+  margin-bottom: var(--spacing-xl);
 }
 
+/* =============================
+   Actions
+   ============================= */
 .popup-actions {
   display: flex;
   justify-content: center;
-  gap: 12px;
+  gap: var(--spacing-md);
+  width: 100%;
 }
 
+/* =============================
+   Buttons (use standardized popup button styles)
+   ============================= */
 .popup-actions button {
-  padding: 10px 24px;
+  padding: var(--popup-button-padding, var(--spacing-sm) var(--spacing-xl));
   border: none;
-  border-radius: 6px;
+  border-radius: var(--popup-button-radius, var(--border-radius-md));
   cursor: pointer;
-  font-size: 1.08rem;
+  font-size: var(--font-size-base);
   font-weight: 600;
-  transition: background 0.15s, color 0.15s, box-shadow 0.15s;
-  box-shadow: 0 2px 8px rgba(52, 98, 219, 0.08);
+  transition: background var(--transition-fast), color var(--transition-fast), box-shadow var(--transition-fast);
+  box-shadow: var(--popup-button-shadow, var(--shadow-sm));
 }
 
 .popup-actions button.primary {
-  background: #4d7df2;
-  color: white;
+  background: var(--popup-button-primary-bg, var(--primary-500));
+  color: var(--popup-button-primary-text, #fff);
 }
 
 .popup-actions button.primary:hover {
-  background: #3462db;
-  box-shadow: 0 4px 16px rgba(52, 98, 219, 0.12);
+  background: var(--popup-button-primary-hover, var(--primary-600));
+  box-shadow: var(--popup-button-hover-shadow, var(--shadow-md));
 }
 
 .popup-actions button.secondary {
-  background: #cbd5e1;
-  color: #334155;
+  background: var(--popup-button-secondary-bg, var(--neutral-300));
+  color: var(--popup-button-secondary-text, var(--text-primary));
 }
 
 .popup-actions button.secondary:hover {
-  background: #94a3b8;
-  color: #1e293b;
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+  background: var(--popup-button-secondary-hover, var(--neutral-400));
+  color: var(--popup-button-secondary-hover-text, var(--text-primary));
+  box-shadow: var(--popup-button-secondary-hover-shadow, var(--shadow-md));
+}
+
+/* =============================
+   Responsive Design
+   ============================= */
+@media (max-width: 768px) {
+  .reset-category-popup {
+    width: 95vw;
+    padding: var(--spacing-lg);
+    border-radius: var(--border-radius-md);
+  }
+  .reset-category-popup h3 {
+    font-size: var(--font-size-lg);
+  }
+  .reset-category-popup p {
+    font-size: var(--font-size-sm);
+  }
+  .popup-actions button {
+    font-size: var(--font-size-sm);
+    padding: var(--spacing-xs) var(--spacing-lg);
+  }
+}
+
+@media (min-width: 1024px) {
+  .reset-category-popup {
+    width: 400px;
+    padding: var(--spacing-2xl);
+    border-radius: var(--border-radius-lg);
+  }
 }

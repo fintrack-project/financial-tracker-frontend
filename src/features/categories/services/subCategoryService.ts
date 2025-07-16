@@ -27,7 +27,8 @@ export interface subCategoryService {
 export const createSubcategoryService = (
   subcategories: { [category: string]: string[] },
   setSubcategories: React.Dispatch<React.SetStateAction<{ [category: string]: string[] }>>,
-  confirmedSubcategories: { [category: string]: string[] } // Holds confirmed subcategories for each category
+  confirmedSubcategories: { [category: string]: string[] }, // Holds confirmed subcategories for each category
+  showNotification?: (type: 'success' | 'error' | 'warning' | 'info', message: string) => void
 ) : subCategoryService => {
 
   const addSubcategory = (category: string) => {
@@ -69,7 +70,7 @@ export const createSubcategoryService = (
     const subcategoryName = subcategories[category][subIndex];
   
     if (!subcategoryName.trim()) {
-      alert('Subcategory name cannot be empty.');
+      showNotification?.('error', 'Subcategory name cannot be empty.');
       return;
     }
   
@@ -96,7 +97,7 @@ export const createSubcategoryService = (
       }
     } catch (error) {
       console.error(`Error confirming subcategory "${subcategoryName}" in category "${category}":`, error);
-      alert(`Failed to confirm subcategory "${subcategoryName}" in category "${category}".`);
+      showNotification?.('error', `Failed to confirm subcategory "${subcategoryName}" in category "${category}".`);
     }
   };
 

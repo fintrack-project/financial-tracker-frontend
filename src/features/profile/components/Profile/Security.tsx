@@ -1,42 +1,44 @@
 import React, { useEffect, useState } from 'react';
 import { fetchUserDetails, updateTwoFactorStatus } from '../../../auth/services/userService';
 import { UserDetails } from '../../../../shared/types/UserDetails';
-import { updatePassword } from '../../../auth/api/userApi';
 import { setup2FA } from '../../../auth/api/twoFactorApi';
-import { isStrongPassword } from '../../../../shared/utils/validationUtils';
-import QRCodePopup from '../../../auth/components/Popup/QRCodePopup';
-import ProfileTable from '../../../../shared/components/Table/ProfileTable/ProfileTable';
-import Toggle from '../../../../shared/components/Toggle/Toggle';
-import IconButton from '../../../../shared/components/Button/IconButton';
-import OTPVerificationPopup from '../../../auth/components/Popup/OTPVerificationPopup';
-import PasswordInputPopup from '../../../auth/components/Popup/PasswordInputPopup';
-import { formatDate } from '../../../../shared/utils/FormatDate';
-import './Security.css'; // Add styles for the security section
+import { updatePassword } from '../../../auth/api/userApi';
 import { useAuthService } from '../../../auth/hooks/useAuthService';
+import { isStrongPassword } from '../../../../shared/utils/validationUtils';
+import { formatDate } from '../../../../shared/utils/FormatDate';
+import ProfileTable from '../../../../shared/components/Table/ProfileTable/ProfileTable';
+import IconButton from '../../../../shared/components/Button/IconButton';
+import Toggle from '../../../../shared/components/Toggle/Toggle';
+import QRCodePopup from '../../../auth/components/Popup/QRCodePopup';
+import PasswordInputPopup from '../../../auth/components/Popup/PasswordInputPopup';
+import OTPVerificationPopup from '../../../auth/components/Popup/OTPVerificationPopup';
+import { useNotification } from '../../../../shared/contexts/NotificationContext';
+import './Security.css';
 
 interface SecurityProps {
   accountId: string; // Account ID to fetch user details
 }
 
 const Security: React.FC<SecurityProps> = ({ accountId }) => {
+  const [userDetails, setUserDetails] = useState<UserDetails | null>(null);
+  const [editModes, setEditModes] = useState<{ [key: string]: boolean }>({});
+  const [editState, setEditState] = useState<{ [key: string]: string | null }>({});
+  const [passwordHandlers, setPasswordHandlers] = useState<any>(null);
+  const [qrCode, setQrCode] = useState<string | null>(null);
+  const [error, setError] = useState<string | null>(null);
+  const [loading, setLoading] = useState<boolean>(true);
+  const { showNotification } = useNotification();
+
   const {
     authenticate,
     verifyOtp,
     closeOtpPopup,
     showPasswordPopup,
+    passwordError,
+    setPasswordError,
     showOtpPopup,
     otpError,
   } = useAuthService();
-  const [passwordHandlers, setPasswordHandlers] = useState<{
-    handlePasswordConfirm: (password: string) => void;
-    handlePasswordClose: () => void;
-  } | null>(null);
-  const [userDetails, setUserDetails] = useState<UserDetails | null>(null);
-  const [qrCode, setQrCode] = useState<string | null>(null);
-  const [error, setError] = useState<string | null>(null);
-  const [editState, setEditState] = useState<{ [key: string]: string | null }>({});
-  const [editModes, setEditModes] = useState<{ [key: string]: boolean }>({});
-  const [loading, setLoading] = useState<boolean>(true);
 
   useEffect(() => {
     const loadUserDetails = async () => {
@@ -68,7 +70,7 @@ const Security: React.FC<SecurityProps> = ({ accountId }) => {
           setEditState((prevState) => ({ ...prevState, [label]: '' })); // Initialize password field
         },
         onError: (error) => {
-          alert(error);
+          showNotification('error', error, 5000);
         },
       });
 
@@ -91,18 +93,18 @@ const Security: React.FC<SecurityProps> = ({ accountId }) => {
         console.log(`New value for ${label}:`, newValue);
 
         if (!newValue || newValue === '') {
-          alert('Please enter a value.');
+          showNotification('error', 'Please enter a value.', 5000);
           return;
         }
 
         if (!isStrongPassword(newValue)) {
-          alert('Password must be at least 8 characters long, include uppercase, lowercase, a number, and a special character.');
+          showNotification('error', 'Password must be at least 8 characters long, include uppercase, lowercase, a number, and a special character.', 5000);
           return;
         }
 
         // Call the backend API to update the password
         await updatePassword(accountId, newValue);
-        alert('Password updated successfully!');
+        showNotification('success', 'Password updated successfully!', 5000);
 
         // Reset the edit mode and state for the password field
         setEditState((prevState) => ({ ...prevState, [label]: null }));
@@ -110,7 +112,7 @@ const Security: React.FC<SecurityProps> = ({ accountId }) => {
       }
     } catch (error) {
       console.error(`Failed to update ${label}:`, error);
-      alert(`Failed to update ${label}. Please try again.`);
+              showNotification('error', `Failed to update ${label}. Please try again.`, 5000);
     }
   };
 
@@ -125,7 +127,7 @@ const Security: React.FC<SecurityProps> = ({ accountId }) => {
       setQrCode(response.data?.qrCode || null); // Display the QR code
     } catch (err) {
       console.error('Failed to setup 2FA:', err);
-      alert('Failed to setup 2FA. Please try again.');
+      showNotification('error', 'Failed to setup 2FA. Please try again.', 5000);
     }
   };
 
@@ -136,7 +138,7 @@ const Security: React.FC<SecurityProps> = ({ accountId }) => {
       setUserDetails((prev) => prev && { ...prev, twoFactorEnabled: enabled }); // Update local state
     } catch (err) {
       console.error('Failed to update 2FA status:', err);
-      alert('Failed to update 2FA status. Please try again later.');
+      showNotification('error', 'Failed to update 2FA status. Please try again later.', 5000);
     }
   };
 
@@ -220,6 +222,8 @@ const Security: React.FC<SecurityProps> = ({ accountId }) => {
         <PasswordInputPopup
           onConfirm={(password) => passwordHandlers.handlePasswordConfirm(password)}
           onClose={() => passwordHandlers.handlePasswordClose()}
+          errorMessage={passwordError}
+          setErrorMessage={setPasswordError}
         />
       )}
       {showOtpPopup && (

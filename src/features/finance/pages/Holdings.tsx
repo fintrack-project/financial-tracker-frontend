@@ -6,6 +6,7 @@ import { createCategoryService, fetchCategoriesAndSubcategoriesNamesMap, fetchCa
 import { createSubcategoryService, fetchSubcategoryColorMap } from '../../categories/services/subCategoryService';
 import { createHoldingsCategoriesService, fetchHoldingsCategories } from '../services/holdingsCategoriesService';
 import { CategoryColor } from '../../categories/types/CategoryTypes';
+import { useNotification } from '../../../shared/contexts/NotificationContext';
 import './Holdings.css'; // Import the CSS file
 
 interface HoldingsProps {
@@ -31,6 +32,7 @@ const Holdings: React.FC<HoldingsProps> = ({ accountId }) => {
   const subcategoryService = createSubcategoryService(subcategories, setSubcategories, confirmedSubcategories);
   const holdingsCategoriesService = createHoldingsCategoriesService(
   );
+  const { showNotification } = useNotification();
     
   // Fetch categories and subcategories when the component mounts
   useEffect(() => {
@@ -77,14 +79,14 @@ const Holdings: React.FC<HoldingsProps> = ({ accountId }) => {
 
       } catch (error) {
         console.error('Error fetching data:', error);
-        alert('Failed to fetch categories. Please try again.');
+        showNotification('error', 'Failed to fetch categories. Please try again.', 5000);
       }
     };
 
     if (!hasFetched) {
       fetchData();
     }
-  }, [accountId, categoryService, subcategoryService, hasFetched]);
+  }, [accountId, categoryService, subcategoryService, hasFetched, showNotification]);
 
   // Callback to reset hasFetched state
   const resetHasFetched = () => {

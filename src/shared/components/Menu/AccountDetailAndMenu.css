@@ -132,7 +132,6 @@
 }
 
 .account-detail-and-menu-select:focus {
-  outline: none;
   border-color: var(--select-focus-border);
   box-shadow: var(--select-focus-shadow);
 }

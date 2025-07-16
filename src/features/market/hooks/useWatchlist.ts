@@ -2,7 +2,11 @@ import { useState, useEffect, useCallback } from 'react';
 import { fetchWatchlistData, addWatchlistItem, removeWatchlistItem } from '../services/watchlistDataService';
 import { WatchlistItem } from '../types/MarketData';
 
-export const useWatchlist = (accountId: string | null, assetTypes: string[]) => {
+export const useWatchlist = (
+  accountId: string | null, 
+  assetTypes: string[],
+  showNotification?: (type: 'success' | 'error' | 'warning' | 'info', message: string) => void
+) => {
   const [watchlistItems, setWatchlistItems] = useState<WatchlistItem[]>([]);
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
@@ -69,7 +73,7 @@ export const useWatchlist = (accountId: string | null, assetTypes: string[]) => 
         hasSymbol: !!item.symbol, 
         hasAssetType: !!assetType 
       });
-      alert('Symbol and Asset Type are required to confirm a row.');
+      showNotification?.('error', 'Symbol and Asset Type are required to confirm a row.');
       return;
     }
 
@@ -87,7 +91,7 @@ export const useWatchlist = (accountId: string | null, assetTypes: string[]) => 
       await fetchWatchlist();
     } catch (err) {
       console.error('❌ Error confirming watchlist item:', err);
-      alert('Failed to confirm watchlist item. Please try again.');
+      showNotification?.('error', 'Failed to confirm watchlist item. Please try again.');
     } finally {
       setLoading(false);
     }
@@ -126,7 +130,7 @@ export const useWatchlist = (accountId: string | null, assetTypes: string[]) => 
         hasSymbol: !!item.symbol, 
         hasAssetType: !!item.assetType 
       });
-      alert('Account ID, Symbol, and Asset Type are required to remove a watchlist item.');
+      showNotification?.('error', 'Account ID, Symbol, and Asset Type are required to remove a watchlist item.');
       return;
     }
 
@@ -144,7 +148,7 @@ export const useWatchlist = (accountId: string | null, assetTypes: string[]) => 
       await fetchWatchlist();
     } catch (err) {
       console.error('❌ Error removing watchlist item:', err);
-      alert('Failed to remove watchlist item. Please try again.');
+      showNotification?.('error', 'Failed to remove watchlist item. Please try again.');
     } finally {
       setLoading(false);
     }

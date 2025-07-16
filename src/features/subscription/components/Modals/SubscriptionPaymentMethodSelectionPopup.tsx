@@ -258,11 +258,14 @@ const PaymentMethodSelectionPopup: React.FC<SubscriptionPaymentMethodSelectionPo
                         value={method.stripePaymentMethodId}
                         checked={selectedPaymentMethodId === method.stripePaymentMethodId}
                         onChange={() => setSelectedPaymentMethodId(method.stripePaymentMethodId)}
+                        className="payment-method-radio"
                       />
-                      <div className="payment-method-details">
-                        <span className="card-brand">{method.cardBrand}</span>
-                        <span className="card-last4">•••• {method.cardLast4}</span>
-                        <span className="card-expiry">Expires {method.cardExpMonth}/{method.cardExpYear}</span>
+                      <div className="payment-method-info">
+                        <div className="payment-method-details">
+                          <span className="card-brand">{method.cardBrand}</span>
+                          <span className="card-last4">•••• {method.cardLast4}</span>
+                          <span className="card-expiry">Expires {method.cardExpMonth}/{method.cardExpYear}</span>
+                        </div>
                         {method.default && <span className="default-badge">Default</span>}
                       </div>
                     </div>
