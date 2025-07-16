@@ -106,7 +106,7 @@ const ProfileDetail: React.FC<ProfileDetailProps> = ({ accountId }) => {
         },
         onError: (error) => {
           console.error(`Authentication failed for ${label}:`, error);
-          showNotification('error', error);
+          showNotification('error', error, 5000);
         },
       });
 
@@ -150,7 +150,7 @@ const ProfileDetail: React.FC<ProfileDetailProps> = ({ accountId }) => {
           `+${getCountryCallingCode(countryCode as CountryCode)}${phoneNumber}`
         );
         if (!parsedPhoneNumber || !parsedPhoneNumber.isValid()) {
-          showNotification('error', 'Invalid phone number. Please enter a valid phone number.');
+          showNotification('error', 'Invalid phone number. Please enter a valid phone number.', 5000);
           return;
         }
   
@@ -177,7 +177,7 @@ const ProfileDetail: React.FC<ProfileDetailProps> = ({ accountId }) => {
         }
   
         if (!newValue) {
-          showNotification('error', 'Email cannot be blank.');
+          showNotification('error', 'Email cannot be blank.', 5000);
           setEditState((prevState) => ({ ...prevState, [label]: null }));
           setEditModes((prevModes) => ({ ...prevModes, [label]: false }));
           return;
@@ -185,7 +185,7 @@ const ProfileDetail: React.FC<ProfileDetailProps> = ({ accountId }) => {
   
         if (!isValidEmail(newValue)) {
           console.error(`Invalid email format:`, newValue);
-          showNotification('error', 'Invalid email format.');
+          showNotification('error', 'Invalid email format.', 5000);
           setEditState((prevState) => ({ ...prevState, [label]: null }));
           setEditModes((prevModes) => ({ ...prevModes, [label]: false }));
           return;
@@ -234,7 +234,7 @@ const ProfileDetail: React.FC<ProfileDetailProps> = ({ accountId }) => {
       console.log(`Exiting edit mode for ${label}`);
     } catch (error) {
       console.error(`Failed to update ${label}:`, error);
-      showNotification('error', `Failed to update ${label}. Please try again later.`);
+              showNotification('error', `Failed to update ${label}. Please try again later.`, 5000);
     }
   }, [accountId, editModes, editState, userDetails, sendVerification, setUserDetails, showNotification]);
 

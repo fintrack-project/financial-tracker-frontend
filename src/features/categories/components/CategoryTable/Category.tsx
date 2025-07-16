@@ -56,7 +56,7 @@ const Category: React.FC<CategoryProps> = ({
       }
     } catch (error) {
       console.error('Error updating color:', error);
-      showNotification('error', 'Failed to update color. Please try again.');
+              showNotification('error', 'Failed to update color. Please try again.', 5000);
     }
   };
 

@@ -100,7 +100,7 @@ const BalancePreviewTable: React.FC<BalancePreviewTableProps> = ({
 
   const handleConfirm = async () => {
     if (!accountId) {
-      showNotification('error', 'Please select an account before confirming transactions.');
+      showNotification('error', 'Please select an account before confirming transactions.', 5000);
       return;
     }
     

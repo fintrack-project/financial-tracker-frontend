@@ -70,7 +70,7 @@ const Security: React.FC<SecurityProps> = ({ accountId }) => {
           setEditState((prevState) => ({ ...prevState, [label]: '' })); // Initialize password field
         },
         onError: (error) => {
-          showNotification('error', error);
+          showNotification('error', error, 5000);
         },
       });
 
@@ -93,18 +93,18 @@ const Security: React.FC<SecurityProps> = ({ accountId }) => {
         console.log(`New value for ${label}:`, newValue);
 
         if (!newValue || newValue === '') {
-          showNotification('error', 'Please enter a value.');
+          showNotification('error', 'Please enter a value.', 5000);
           return;
         }
 
         if (!isStrongPassword(newValue)) {
-          showNotification('error', 'Password must be at least 8 characters long, include uppercase, lowercase, a number, and a special character.');
+          showNotification('error', 'Password must be at least 8 characters long, include uppercase, lowercase, a number, and a special character.', 5000);
           return;
         }
 
         // Call the backend API to update the password
         await updatePassword(accountId, newValue);
-        showNotification('success', 'Password updated successfully!');
+        showNotification('success', 'Password updated successfully!', 5000);
 
         // Reset the edit mode and state for the password field
         setEditState((prevState) => ({ ...prevState, [label]: null }));
@@ -112,7 +112,7 @@ const Security: React.FC<SecurityProps> = ({ accountId }) => {
       }
     } catch (error) {
       console.error(`Failed to update ${label}:`, error);
-      showNotification('error', `Failed to update ${label}. Please try again.`);
+              showNotification('error', `Failed to update ${label}. Please try again.`, 5000);
     }
   };
 
@@ -127,7 +127,7 @@ const Security: React.FC<SecurityProps> = ({ accountId }) => {
       setQrCode(response.data?.qrCode || null); // Display the QR code
     } catch (err) {
       console.error('Failed to setup 2FA:', err);
-      showNotification('error', 'Failed to setup 2FA. Please try again.');
+      showNotification('error', 'Failed to setup 2FA. Please try again.', 5000);
     }
   };
 
@@ -138,7 +138,7 @@ const Security: React.FC<SecurityProps> = ({ accountId }) => {
       setUserDetails((prev) => prev && { ...prev, twoFactorEnabled: enabled }); // Update local state
     } catch (err) {
       console.error('Failed to update 2FA status:', err);
-      showNotification('error', 'Failed to update 2FA status. Please try again later.');
+      showNotification('error', 'Failed to update 2FA status. Please try again later.', 5000);
     }
   };
 

@@ -76,7 +76,7 @@ const EditableHoldingsTable: React.FC<EditableHoldingsTableProps> = ({
 
   const handleConfirmCategoryColumn = async (index: number) => {
     if (!accountId) {
-      showNotification('error', 'Account ID is required to confirm holdings categories.');
+      showNotification('error', 'Account ID is required to confirm holdings categories.', 5000);
       return;
     }
   
@@ -109,7 +109,7 @@ const EditableHoldingsTable: React.FC<EditableHoldingsTableProps> = ({
       resetHasFetched(); // Reset the fetched state
     } catch (error) {
       console.error('Error confirming category column:', error);
-      showNotification('error', `Failed to confirm category "${category}".`);
+              showNotification('error', `Failed to confirm category "${category}".`, 5000);
     }
   };
 
@@ -121,7 +121,7 @@ const EditableHoldingsTable: React.FC<EditableHoldingsTableProps> = ({
 
   const handleResetCategoryColumn = async (index: number) => {
     if (!accountId) {
-      showNotification('error', 'Account ID is required to reset holdings categories.');
+      showNotification('error', 'Account ID is required to reset holdings categories.', 5000);
       return;
     }
   
@@ -158,7 +158,7 @@ const EditableHoldingsTable: React.FC<EditableHoldingsTableProps> = ({
       setCategoryToReset(null);
     } catch (error) {
       console.error('Error resetting category subcategories:', error);
-      showNotification('error', `Failed to reset subcategories for category "${categoryToReset}".`);
+              showNotification('error', `Failed to reset subcategories for category "${categoryToReset}".`, 5000);
     }
   };
 

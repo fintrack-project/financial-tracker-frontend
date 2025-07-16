@@ -50,12 +50,12 @@ const Balance: React.FC<BalanceProps> = ({ accountId }) => {
   const handleConfirm = async (previewTransaction: PreviewTransaction[]) => {
     try {
       if (!accountId) {
-        showNotification('error', 'Please select an account before confirming transactions.');
+        showNotification('error', 'Please select an account before confirming transactions.', 5000);
         return;
       }
 
       await confirmTransactions(accountId, previewTransaction);
-      showNotification('success', 'Transactions confirmed successfully.');
+      showNotification('success', 'Transactions confirmed successfully.', 5000);
       // setExistingTransactions(updatedTransactions); // Update the existing transactions
       setUploadedTransactions([]); // Clear the uploaded transactions
       // Fetch the updated transactions after confirmation 

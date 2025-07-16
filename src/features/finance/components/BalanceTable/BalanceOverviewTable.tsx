@@ -25,7 +25,7 @@ const BalanceOverviewTable: React.FC<BalanceOverviewTableProps> = ({
   // Handle file download
   const handleFileDownload = () => {
     if (transactions.length === 0) {
-      showNotification('error', 'No data available to download.');
+      showNotification('error', 'No data available to download.', 5000);
       return;
     }
 

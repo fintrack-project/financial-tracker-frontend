@@ -79,7 +79,7 @@ const Holdings: React.FC<HoldingsProps> = ({ accountId }) => {
 
       } catch (error) {
         console.error('Error fetching data:', error);
-        showNotification('error', 'Failed to fetch categories. Please try again.');
+        showNotification('error', 'Failed to fetch categories. Please try again.', 5000);
       }
     };
 

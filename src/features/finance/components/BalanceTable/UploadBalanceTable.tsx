@@ -67,13 +67,13 @@ const UploadBalanceTable: React.FC<UploadBalanceTableProps> = ({
       } else if (fileExtension === 'xlsx') {
         parsedTransactions = await parseXLSXFile(file);
       } else {
-        showNotification('error', 'Unsupported file format. Please upload a CSV or XLSX file.');
+        showNotification('error', 'Unsupported file format. Please upload a CSV or XLSX file.', 5000);
         return;
       }
 
       setTransactions((prev) => [...prev, ...parsedTransactions]);
     } catch (error) {
-      showNotification('error', 'Error parsing file. Please check the file format and try again.');
+              showNotification('error', 'Error parsing file. Please check the file format and try again.', 5000);
     } finally {
       setIsLoading(false);
     }
@@ -102,12 +102,12 @@ const UploadBalanceTable: React.FC<UploadBalanceTableProps> = ({
   // Handle upload to preview
   const handleUploadToPreview = async () => {
     if (!accountId) {
-      showNotification('error', 'Please select an account before uploading transactions.');
+      showNotification('error', 'Please select an account before uploading transactions.', 5000);
       return;
     }
 
     if (transactions.length === 0) {
-      showNotification('error', 'No transactions to upload. Please upload a file first.');
+      showNotification('error', 'No transactions to upload. Please upload a file first.', 5000);
       return;
     }
 
@@ -116,10 +116,10 @@ const UploadBalanceTable: React.FC<UploadBalanceTableProps> = ({
       const previewData = await uploadPreviewTransactions(accountId, transactions);
       onPreviewUpdate(previewData);
       setTransactions([]);
-      showNotification('success', 'Transactions uploaded to preview successfully.');
+              showNotification('success', 'Transactions uploaded to preview successfully.', 5000);
     } catch (error) {
       console.error('Error uploading transactions to preview:', error);
-      showNotification('error', 'Error uploading transactions. Please try again.');
+              showNotification('error', 'Error uploading transactions. Please try again.', 5000);
     } finally {
       setIsLoading(false);
     }

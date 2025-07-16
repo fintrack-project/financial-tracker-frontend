@@ -50,7 +50,7 @@ const Register: React.FC = () => {
     try {
       await registerUser({ userId, password, email });
       // Registration successful - redirect to login page
-      showNotification('success', 'Registration successful! You can now log in to your account.');
+      showNotification('success', 'Registration successful! You can now log in to your account.', 5000);
       navigate('/'); // Redirect to login page
     } catch (err: any) {
       const errorMessage = err.message;

@@ -40,7 +40,7 @@ const CategoriesTable: React.FC<CategoriesTableProps> = ({
 
   const handleConfirmCategory = async (index: number) => {
     if (!accountId) {
-      showNotification('error', 'Account ID is required to confirm categories.');
+      showNotification('error', 'Account ID is required to confirm categories.', 5000);
       return;
     }
 
@@ -51,7 +51,7 @@ const CategoriesTable: React.FC<CategoriesTableProps> = ({
       resetHasFetched(); // Reset the fetched state
     } catch (error) {
       console.error(`Failed to confirm category "${categories[index]}".`, error);
-      showNotification('error', `Failed to confirm category "${categories[index]}".`);
+              showNotification('error', `Failed to confirm category "${categories[index]}".`, 5000);
     }
 
     setEditCategoryIndex(null); // Exit edit mode
@@ -73,7 +73,7 @@ const CategoriesTable: React.FC<CategoriesTableProps> = ({
 
   const handleConfirmSubcategory = async (category: string, subIndex: number) => {
     if (!accountId) {
-      showNotification('error', 'Account ID is required to confirm subcategories.');
+      showNotification('error', 'Account ID is required to confirm subcategories.', 5000);
       return;
     }
 
@@ -83,7 +83,7 @@ const CategoriesTable: React.FC<CategoriesTableProps> = ({
       resetHasFetched(); // Reset the fetched state
     } catch (error) {
       console.error(`Failed to confirm subcategory "${subcategories[category][subIndex]}" in category "${category}".`, error);
-      showNotification('error', `Failed to confirm subcategory "${subcategories[category][subIndex]}" in category "${category}".`);
+              showNotification('error', `Failed to confirm subcategory "${subcategories[category][subIndex]}" in category "${category}".`, 5000);
     }
   
     // Exit edit mode for the subcategory
@@ -100,7 +100,7 @@ const CategoriesTable: React.FC<CategoriesTableProps> = ({
 
   const handleRemoveCategory = async (index: number) => {
     if (!accountId) {
-      showNotification('error', 'Account ID is required to remove categories.');
+      showNotification('error', 'Account ID is required to remove categories.', 5000);
       return;
     }
 
@@ -120,13 +120,13 @@ const CategoriesTable: React.FC<CategoriesTableProps> = ({
       resetHasFetched(); // Reset the fetched state
     } catch (error) {
       console.error(`Failed to remove category "${categoryToRemove}".`, error);
-      showNotification('error', `Failed to remove category "${categoryToRemove}".`);
+              showNotification('error', `Failed to remove category "${categoryToRemove}".`, 5000);
     }
   };
 
   const handleRemoveSubcategory = async (category: string, subIndex: number) => {
     if (!accountId) {
-      showNotification('error', 'Account ID is required to remove subcategories.');
+      showNotification('error', 'Account ID is required to remove subcategories.', 5000);
       return;
     }
 
@@ -146,7 +146,7 @@ const CategoriesTable: React.FC<CategoriesTableProps> = ({
       resetHasFetched(); // Reset the fetched state
     } catch (error) {
       console.error(`Failed to remove subcategory "${subcategoryToRemove}" from category "${category}".`, error);
-      showNotification('error', `Failed to remove subcategory "${subcategoryToRemove}" from category "${category}".`);
+              showNotification('error', `Failed to remove subcategory "${subcategoryToRemove}" from category "${category}".`, 5000);
     }
   };
 
