@@ -1,3 +1,6 @@
+/* QRCodePopup - Auth popup styles */
+
+/* ===== LAYOUT/STRUCTURE STYLES ===== */
 .qr-code-popup {
   position: fixed;
   top: 0;
@@ -9,6 +12,8 @@
   justify-content: center;
   align-items: center;
   z-index: var(--z-index-modal-backdrop);
+  backdrop-filter: blur(3px);
+  animation: fadeIn 0.2s ease-out;
 }
 
 .popup-content {
@@ -22,13 +27,17 @@
   display: flex;
   flex-direction: column;
   align-items: center;
+  font-family: var(--font-family-primary);
+  animation: scaleIn 0.2s ease-out;
 }
 
+/* ===== CONTENT STYLES ===== */
 .popup-content h2 {
   color: var(--text-primary);
-  font-size: var(--font-size-2xl);
+  font-size: var(--page-title-font-size-mobile);
   font-weight: 600;
   margin-bottom: var(--spacing-md);
+  font-family: var(--font-family-primary);
 }
 
 .popup-content p {
@@ -39,19 +48,23 @@
   max-width: 280px;
 }
 
+/* ===== COMPONENT-SPECIFIC STYLES ===== */
 .qr-code-image {
   width: var(--qr-code-size);
   height: var(--qr-code-size);
   margin: 0 0 var(--spacing-lg) 0;
   border-radius: var(--border-radius-md);
   box-shadow: var(--qr-code-shadow);
+  object-fit: contain;
 }
 
+/* ===== INTERACTIVE ELEMENTS ===== */
 .popup-actions {
   width: 100%;
   display: flex;
   justify-content: center;
   gap: var(--spacing-sm);
+  margin-top: var(--spacing-lg);
 }
 
 .popup-actions button {
@@ -63,6 +76,7 @@
   font-weight: 600;
   transition: var(--transition-fast);
   box-shadow: var(--popup-button-shadow);
+  min-width: 100px;
 }
 
 .qrcode-popup .popup-actions button.primary {
@@ -85,4 +99,74 @@
   background: var(--popup-button-secondary-hover);
   color: var(--popup-button-secondary-hover-text);
   box-shadow: var(--popup-button-secondary-hover-shadow);
+}
+
+/* ===== ANIMATIONS ===== */
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes scaleIn {
+  from { transform: scale(0.95); opacity: 0; }
+  to { transform: scale(1); opacity: 1; }
+}
+
+/* ===== RESPONSIVE ADJUSTMENTS ===== */
+/* Mobile styles */
+@media (max-width: var(--breakpoint-mobile-max)) {
+  .popup-content {
+    width: 95vw;
+    max-width: 400px;
+    padding: var(--spacing-lg);
+  }
+  
+  .popup-content h2 {
+    font-size: var(--page-title-font-size-mobile);
+  }
+  
+  .popup-content p {
+    max-width: 100%;
+    font-size: var(--font-size-sm);
+  }
+  
+  .qr-code-image {
+    width: 200px;
+    height: 200px;
+  }
+  
+  .popup-actions {
+    flex-direction: column;
+    gap: var(--spacing-sm);
+  }
+  
+  .popup-actions button {
+    width: 100%;
+    padding: var(--spacing-sm) var(--spacing-md);
+    font-size: var(--font-size-base);
+  }
+}
+
+/* Tablet styles */
+@media (min-width: var(--breakpoint-tablet-min)) and (max-width: var(--breakpoint-tablet-max)) {
+  .popup-content h2 {
+    font-size: var(--page-title-font-size-tablet);
+  }
+  
+  .qr-code-image {
+    width: 250px;
+    height: 250px;
+  }
+}
+
+/* Desktop styles */
+@media (min-width: var(--breakpoint-desktop-min)) {
+  .popup-content h2 {
+    font-size: var(--page-title-font-size-desktop);
+  }
+  
+  .qr-code-image {
+    width: 300px;
+    height: 300px;
+  }
 }

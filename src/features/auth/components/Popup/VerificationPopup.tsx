@@ -59,7 +59,9 @@ const VerificationPopup: React.FC<VerificationPopupProps> = ({
         <h2>{title}</h2>
         <p>{instructions}</p>
         {customInput !== undefined && customInput}
-        <p className="popup-error-message">{errorMessage || '\u00A0'}</p>
+        {errorMessage && (
+          <p className="popup-error-message has-error">{errorMessage}</p>
+        )}
         <div className="popup-timer">
           Time left: {Math.floor(timeLeft / 60)}:{String(timeLeft % 60).padStart(2, '0')}
         </div>

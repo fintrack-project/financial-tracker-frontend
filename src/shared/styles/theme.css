@@ -115,6 +115,22 @@
   --popup-padding: var(--spacing-md);      /* Popup padding - further reduced */
   --popup-border-radius: var(--border-radius-lg); /* Popup border radius */
   
+  /* Responsive Popup Width Variables */
+  --popup-width-mobile: 95vw;              /* Mobile popup width */
+  --popup-width-tablet: 400px;             /* Tablet popup width */
+  --popup-width-desktop: 420px;            /* Desktop popup width */
+  --popup-max-width-mobile: 95vw;          /* Mobile max width */
+  --popup-max-width-tablet: 400px;         /* Tablet max width */
+  --popup-max-width-desktop: 420px;        /* Desktop max width */
+  
+  /* Popup Button Variables */
+  --popup-button-min-width: 80px;          /* Minimum button width */
+  --popup-button-max-width-mobile: 120px;  /* Mobile button max width */
+  --popup-button-max-width-tablet: 130px;  /* Tablet button max width */
+  --popup-button-max-width-desktop: 140px; /* Desktop button max width */
+  --popup-button-gap: var(--spacing-sm);   /* Gap between buttons */
+  --popup-button-padding: var(--spacing-sm) var(--spacing-md); /* Button padding */
+  
   /* Popup Button Colors */
   --popup-button-primary-bg: #4d7df2;      /* Primary button in popups */
   --popup-button-primary-hover: var(--primary-500); /* Primary button hover */
