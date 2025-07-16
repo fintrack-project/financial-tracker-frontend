@@ -17,7 +17,6 @@ const SubscriptionBasePopup: React.FC<SubscriptionBasePopupProps> = ({
       <div className="subscription-popup-container">
         <div className="subscription-popup-header">
           <h3>{title}</h3>
-          <button className="subscription-close-button" onClick={onClose}>×</button>
         </div>
         <div className="subscription-popup-content">
           {children}

@@ -4,6 +4,7 @@ import CategoryInputCell from './CategoryInputCell';
 import { createCategoryService, fetchCategoriesAndSubcategoriesNamesMap } from '../../services/categoryService';
 import { createSubcategoryService } from '../../services/subCategoryService';
 import { CategoryColor } from '../../types/CategoryTypes';
+import { useNotification } from '../../../../shared/contexts/NotificationContext';
 import './CategoriesTable.css'; // Add styles for the table
 
 export interface CategoriesTableProps {
@@ -31,6 +32,7 @@ const CategoriesTable: React.FC<CategoriesTableProps> = ({
 }) => {
   const [editCategoryIndex, setEditCategoryIndex] = useState<number | null>(null); // Tracks which category is being edited
   const [subcategoryEditMode, setSubcategoryEditMode] = useState<{ [category: string]: { [subIndex: number]: boolean } }>({}); // Tracks which subcategories are being edited
+  const { showNotification } = useNotification();
 
   const handleEditCategory = (index: number) => {
     setEditCategoryIndex(index); // Enable edit mode for the selected category
@@ -38,7 +40,7 @@ const CategoriesTable: React.FC<CategoriesTableProps> = ({
 
   const handleConfirmCategory = async (index: number) => {
     if (!accountId) {
-      alert('Account ID is required to confirm categories.');
+      showNotification('error', 'Account ID is required to confirm categories.', 5000);
       return;
     }
 
@@ -49,7 +51,7 @@ const CategoriesTable: React.FC<CategoriesTableProps> = ({
       resetHasFetched(); // Reset the fetched state
     } catch (error) {
       console.error(`Failed to confirm category "${categories[index]}".`, error);
-      alert(`Failed to confirm category "${categories[index]}".`);
+              showNotification('error', `Failed to confirm category "${categories[index]}".`, 5000);
     }
 
     setEditCategoryIndex(null); // Exit edit mode
@@ -71,7 +73,7 @@ const CategoriesTable: React.FC<CategoriesTableProps> = ({
 
   const handleConfirmSubcategory = async (category: string, subIndex: number) => {
     if (!accountId) {
-      alert('Account ID is required to confirm subcategories.');
+      showNotification('error', 'Account ID is required to confirm subcategories.', 5000);
       return;
     }
 
@@ -81,7 +83,7 @@ const CategoriesTable: React.FC<CategoriesTableProps> = ({
       resetHasFetched(); // Reset the fetched state
     } catch (error) {
       console.error(`Failed to confirm subcategory "${subcategories[category][subIndex]}" in category "${category}".`, error);
-      alert(`Failed to confirm subcategory "${subcategories[category][subIndex]}" in category "${category}".`);
+              showNotification('error', `Failed to confirm subcategory "${subcategories[category][subIndex]}" in category "${category}".`, 5000);
     }
   
     // Exit edit mode for the subcategory
@@ -98,7 +100,7 @@ const CategoriesTable: React.FC<CategoriesTableProps> = ({
 
   const handleRemoveCategory = async (index: number) => {
     if (!accountId) {
-      alert('Account ID is required to remove categories.');
+      showNotification('error', 'Account ID is required to remove categories.', 5000);
       return;
     }
 
@@ -118,13 +120,13 @@ const CategoriesTable: React.FC<CategoriesTableProps> = ({
       resetHasFetched(); // Reset the fetched state
     } catch (error) {
       console.error(`Failed to remove category "${categoryToRemove}".`, error);
-      alert(`Failed to remove category "${categoryToRemove}".`);
+              showNotification('error', `Failed to remove category "${categoryToRemove}".`, 5000);
     }
   };
 
   const handleRemoveSubcategory = async (category: string, subIndex: number) => {
     if (!accountId) {
-      alert('Account ID is required to remove subcategories.');
+      showNotification('error', 'Account ID is required to remove subcategories.', 5000);
       return;
     }
 
@@ -144,7 +146,7 @@ const CategoriesTable: React.FC<CategoriesTableProps> = ({
       resetHasFetched(); // Reset the fetched state
     } catch (error) {
       console.error(`Failed to remove subcategory "${subcategoryToRemove}" from category "${category}".`, error);
-      alert(`Failed to remove subcategory "${subcategoryToRemove}" from category "${category}".`);
+              showNotification('error', `Failed to remove subcategory "${subcategoryToRemove}" from category "${category}".`, 5000);
     }
   };
 

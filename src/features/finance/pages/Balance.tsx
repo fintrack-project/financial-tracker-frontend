@@ -10,6 +10,7 @@ import { fetchOverviewTransactions, confirmTransactions } from '../services/tran
 import { TimeRangeSelector } from '../../../shared/components/TimeRangeSelector';
 import { TimeRange } from '../../../shared/types/TimeRange';
 import { getDefaultTimeRange, formatDateForAPI } from '../../../shared/utils/timeRangePresets';
+import { useNotification } from '../../../shared/contexts/NotificationContext';
 import './Balance.css';
 
 interface BalanceProps {
@@ -22,6 +23,7 @@ const Balance: React.FC<BalanceProps> = ({ accountId }) => {
   const [uploadedTransactions, setUploadedTransactions] = useState<Transaction[]>([]); // Data from UploadBalanceTable
   const [timeRange, setTimeRange] = useState<TimeRange>(getDefaultTimeRange()); // Time range state
   const [loading, setLoading] = useState(false); // Loading state for API calls
+  const { showNotification } = useNotification();
 
   // Fetch existing transactions when accountId or timeRange changes
   useEffect(() => {
@@ -48,12 +50,12 @@ const Balance: React.FC<BalanceProps> = ({ accountId }) => {
   const handleConfirm = async (previewTransaction: PreviewTransaction[]) => {
     try {
       if (!accountId) {
-        alert('Please select an account before confirming transactions.');
+        showNotification('error', 'Please select an account before confirming transactions.', 5000);
         return;
       }
 
       await confirmTransactions(accountId, previewTransaction);
-      alert('Transactions confirmed successfully.');
+      showNotification('success', 'Transactions confirmed successfully.', 5000);
       // setExistingTransactions(updatedTransactions); // Update the existing transactions
       setUploadedTransactions([]); // Clear the uploaded transactions
       // Fetch the updated transactions after confirmation 

@@ -29,9 +29,6 @@ const NoPaymentMethodPopup: React.FC<SubscriptionNoPaymentMethodPopupProps> = ({
       </div>
       
       <div className="subscription-action-buttons">
-        <button type="button" className="subscription-secondary-button" onClick={onCancel}>
-          Cancel
-        </button>
         <button 
           type="button" 
           className="subscription-primary-button"
@@ -39,6 +36,9 @@ const NoPaymentMethodPopup: React.FC<SubscriptionNoPaymentMethodPopupProps> = ({
         >
           <span className="subscription-plus-icon"></span>
           Add Payment Method
+        </button>
+        <button type="button" className="subscription-secondary-button" onClick={onCancel}>
+          Cancel
         </button>
       </div>
     </SubscriptionBasePopup>

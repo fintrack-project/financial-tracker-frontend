@@ -22,7 +22,8 @@ export interface CategoryService {
 export const createCategoryService = (
   categories: string[],
   setCategories: React.Dispatch<React.SetStateAction<string[]>>,
-  confirmedCategories: string[]
+  confirmedCategories: string[],
+  showNotification?: (type: 'success' | 'error' | 'warning' | 'info', message: string) => void
 ): CategoryService => {
 
   const addCategory = () => {
@@ -41,7 +42,7 @@ export const createCategoryService = (
     const categoryName = categories[index];
   
     if (!categoryName.trim()) {
-      alert('Category name cannot be empty.');
+      showNotification?.('error', 'Category name cannot be empty.');
       return;
     }
   
@@ -69,7 +70,7 @@ export const createCategoryService = (
       console.log(`Confirmed Categories after marking:"${Array.from(categories)}"`);
     } catch (error) {
       console.error(`Error confirming category "${categoryName}":`, error);
-      alert(`Failed to confirm category "${categoryName}".`);
+      showNotification?.('error', `Failed to confirm category "${categoryName}".`);
     }
   };
 

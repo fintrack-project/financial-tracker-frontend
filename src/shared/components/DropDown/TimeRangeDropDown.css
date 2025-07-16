@@ -37,7 +37,6 @@
   background: var(--table-hover-bg);
   color: var(--primary-600);
   box-shadow: var(--shadow-md);
-  outline: none;
 }
 
 /* Dropdown arrow styling */

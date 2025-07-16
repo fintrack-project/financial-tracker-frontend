@@ -1,11 +1,12 @@
 import React, { useState } from 'react';
-import { parseCSVFile, parseXLSXFile, exportToCSV, exportToXLSX } from '../../services/fileService';
-import { uploadPreviewTransactions } from '../../services/transactionService';
 import { Transaction } from '../../types/Transaction';
+import { uploadPreviewTransactions } from '../../services/transactionService';
+import { parseCSVFile, parseXLSXFile, exportToCSV, exportToXLSX } from '../../services/fileService';
 import InputTransactionRow from './InputTransactionRow';
 import FileActionsDropdown from '../../../../shared/components/DropDown/FileActionsDropdown';
 import Icon from '../../../../shared/components/Card/Icon';
 import { FaFileInvoiceDollar, FaUpload } from 'react-icons/fa';
+import { useNotification } from '../../../../shared/contexts/NotificationContext';
 import './UploadBalanceTable.css';
 
 interface UploadBalanceTableProps {
@@ -18,10 +19,11 @@ const UploadBalanceTable: React.FC<UploadBalanceTableProps> = ({
   onPreviewUpdate 
 }) => {
   const [transactions, setTransactions] = useState<Transaction[]>([]);
-  const [templateFormat, setTemplateFormat] = useState<'xlsx' | 'csv'>('csv'); // Default format is .xlsx
   const [isLoading, setIsLoading] = useState(false);
+  const [templateFormat, setTemplateFormat] = useState<'csv' | 'xlsx'>('csv');
+  const { showNotification } = useNotification();
 
-  // Add a new blank row
+  // Add a new row
   const addRow = () => {
     setTransactions((prev) => [
       ...prev,
@@ -65,13 +67,13 @@ const UploadBalanceTable: React.FC<UploadBalanceTableProps> = ({
       } else if (fileExtension === 'xlsx') {
         parsedTransactions = await parseXLSXFile(file);
       } else {
-        alert('Unsupported file format. Please upload a CSV or XLSX file.');
+        showNotification('error', 'Unsupported file format. Please upload a CSV or XLSX file.', 5000);
         return;
       }
 
       setTransactions((prev) => [...prev, ...parsedTransactions]);
     } catch (error) {
-      alert('Error parsing file. Please check the file format and try again.');
+              showNotification('error', 'Error parsing file. Please check the file format and try again.', 5000);
     } finally {
       setIsLoading(false);
     }
@@ -100,12 +102,12 @@ const UploadBalanceTable: React.FC<UploadBalanceTableProps> = ({
   // Handle upload to preview
   const handleUploadToPreview = async () => {
     if (!accountId) {
-      alert('Please select an account before uploading transactions.');
+      showNotification('error', 'Please select an account before uploading transactions.', 5000);
       return;
     }
 
     if (transactions.length === 0) {
-      alert('No transactions to upload. Please upload a file first.');
+      showNotification('error', 'No transactions to upload. Please upload a file first.', 5000);
       return;
     }
 
@@ -114,10 +116,10 @@ const UploadBalanceTable: React.FC<UploadBalanceTableProps> = ({
       const previewData = await uploadPreviewTransactions(accountId, transactions);
       onPreviewUpdate(previewData);
       setTransactions([]);
-      alert('Transactions uploaded to preview successfully.');
+              showNotification('success', 'Transactions uploaded to preview successfully.', 5000);
     } catch (error) {
       console.error('Error uploading transactions to preview:', error);
-      alert('Error uploading transactions. Please try again.');
+              showNotification('error', 'Error uploading transactions. Please try again.', 5000);
     } finally {
       setIsLoading(false);
     }

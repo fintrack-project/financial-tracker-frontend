@@ -3,6 +3,7 @@ import { exportToCSV, exportToXLSX } from '../../services/fileService';
 import TransactionTable from './TransactionTable';
 import FileActionsDropdown from '../../../../shared/components/DropDown/FileActionsDropdown';
 import { OverviewTransaction } from '../../types/OverviewTransaction';
+import { useNotification } from '../../../../shared/contexts/NotificationContext';
 import './BalanceOverviewTable.css';
 
 interface BalanceOverviewTableProps {
@@ -17,13 +18,14 @@ const BalanceOverviewTable: React.FC<BalanceOverviewTableProps> = ({
   loading = false 
 }) => {
   const [fileFormat, setFileFormat] = useState<'xlsx' | 'csv'>('csv'); // Default format is .xlsx
+  const { showNotification } = useNotification();
 
   // Use transactions passed as props instead of fetching internally
 
   // Handle file download
   const handleFileDownload = () => {
     if (transactions.length === 0) {
-      alert('No data available to download.');
+      showNotification('error', 'No data available to download.', 5000);
       return;
     }
 

@@ -11,7 +11,6 @@
   transition: all var(--transition-normal);
   min-height: 44px;
   box-sizing: border-box;
-  outline: none;
 }
 
 .input-field:focus {

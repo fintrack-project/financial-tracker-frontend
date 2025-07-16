@@ -200,7 +200,9 @@ const Plans: React.FC<PlansProps> = ({
     console.log('Selected plan ID:', finalPlanId, 'Billing cycle:', billingCycle);
     
     setSelectedPlan(finalPlanId);
-    setSelectedPlanName(selectedPlan.name);
+    // Add billing cycle to plan name for popup display
+    const planDisplayName = `${selectedPlan.name} ${billingCycle === 'annual' ? 'Annual' : 'Monthly'}`;
+    setSelectedPlanName(planDisplayName);
     setError(null);
 
     if (basePlanId === 'plan_free') {

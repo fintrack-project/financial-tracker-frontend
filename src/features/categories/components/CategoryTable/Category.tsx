@@ -4,6 +4,7 @@ import CategoryColorDropdown from '../../components/DropDown/CategoryColorDropdo
 import { CategoryProps, CategoryColor } from '../../types/CategoryTypes';
 import { updateCategoryColor } from '../../services/categoryService';
 import { updateSubcategoryColor } from '../../services/subCategoryService';
+import { useNotification } from '../../../../shared/contexts/NotificationContext';
 import './Category.css'; // Optional: Add styles for the cell
 
 const Category: React.FC<CategoryProps> = ({
@@ -22,6 +23,7 @@ const Category: React.FC<CategoryProps> = ({
   resetHasFetched,
 }) => {
   const [currentColor, setCurrentColor] = useState(color || CategoryColor.BLUE);
+  const { showNotification } = useNotification();
 
   // Update currentColor when color prop changes
   React.useEffect(() => {
@@ -54,7 +56,7 @@ const Category: React.FC<CategoryProps> = ({
       }
     } catch (error) {
       console.error('Error updating color:', error);
-      alert('Failed to update color. Please try again.');
+              showNotification('error', 'Failed to update color. Please try again.', 5000);
     }
   };
 

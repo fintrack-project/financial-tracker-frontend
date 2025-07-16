@@ -1,5 +1,7 @@
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { NotificationProvider } from './shared/contexts/NotificationContext';
+import NotificationContainer from './shared/components/NotificationContainer/NotificationContainer';
 import Login from './features/auth/pages/Authentication/Login';
 import Register from './features/auth/pages/Authentication/Register';
 import RequestPasswordReset from './features/auth/pages/Authentication/RequestPasswordReset';
@@ -17,73 +19,76 @@ import NotFound from './shared/pages/ErrorPages/NotFound';
 
 const App: React.FC = () => {
   return (
-    <Router>
-      <Routes>
-        <Route path="/" element={<Login />} />
-        <Route path="/login" element={<Login />} />
-        <Route path="/register" element={<Register />} />
-        <Route path="/request-password-reset" element={<RequestPasswordReset />} />
-        <Route path="/reset-password" element={<ResetPassword />} />
-        <Route
-          path="/platform/dashboard"
-          element={
-            <BasePage>
-              <Dashboard accountId={null} />
-            </BasePage>
-          }
-        />
-        <Route
-          path="/platform/holdings"
-          element={
-            <BasePage>
-              <Holdings accountId={null} />
-            </BasePage>
-          }
-        />
-        <Route
-          path="/platform/portfolio_overview"
-          element={
-            <BasePage>
-              <PortfolioOverview accountId={null} />
-            </BasePage>
-          }
-        />
-        <Route
-          path="/platform/balance"
-          element={
-            <BasePage>
-              <Balance accountId={null} />
-            </BasePage>
-          }
-        />
-        <Route
-          path="/platform/profile"
-          element={
-            <BasePage>
-              <Profile accountId={null} />
-            </BasePage>
-          }
-        />
-        <Route
-          path="/platform/settings"
-          element={
-            <BasePage>
-              <Settings accountId={null} />
-            </BasePage>
-          }
-        />
-        <Route
-          path="/platform/support"
-          element={
-            <BasePage>
-              <Support accountId={null} />
-            </BasePage>
-          }
-        />
-        <Route path="/verify-email" element={<VerifyEmail />} />
-        <Route path="*" element={<NotFound />} />
-      </Routes>
-    </Router>
+    <NotificationProvider>
+      <Router>
+        <NotificationContainer />
+        <Routes>
+          <Route path="/" element={<Login />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/register" element={<Register />} />
+          <Route path="/request-password-reset" element={<RequestPasswordReset />} />
+          <Route path="/reset-password" element={<ResetPassword />} />
+          <Route
+            path="/platform/dashboard"
+            element={
+              <BasePage>
+                <Dashboard accountId={null} />
+              </BasePage>
+            }
+          />
+          <Route
+            path="/platform/holdings"
+            element={
+              <BasePage>
+                <Holdings accountId={null} />
+              </BasePage>
+            }
+          />
+          <Route
+            path="/platform/portfolio_overview"
+            element={
+              <BasePage>
+                <PortfolioOverview accountId={null} />
+              </BasePage>
+            }
+          />
+          <Route
+            path="/platform/balance"
+            element={
+              <BasePage>
+                <Balance accountId={null} />
+              </BasePage>
+            }
+          />
+          <Route
+            path="/platform/profile"
+            element={
+              <BasePage>
+                <Profile accountId={null} />
+              </BasePage>
+            }
+          />
+          <Route
+            path="/platform/settings"
+            element={
+              <BasePage>
+                <Settings accountId={null} />
+              </BasePage>
+            }
+          />
+          <Route
+            path="/platform/support"
+            element={
+              <BasePage>
+                <Support accountId={null} />
+              </BasePage>
+            }
+          />
+          <Route path="/verify-email" element={<VerifyEmail />} />
+          <Route path="*" element={<NotFound />} />
+        </Routes>
+      </Router>
+    </NotificationProvider>
   );
 };
 

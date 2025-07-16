@@ -27,7 +27,6 @@
 
 /* Add focus styles */
 .dropdown-select:focus {
-  outline: none;
   border-color: var(--info-color);
   box-shadow: 0 0 0 2px rgba(33, 150, 243, 0.25);
 }
