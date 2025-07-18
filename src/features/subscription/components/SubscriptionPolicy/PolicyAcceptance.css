@@ -1,0 +1,176 @@
+.policy-acceptance {
+  background: #ffffff;
+  border-radius: 8px;
+  padding: 20px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+}
+
+.policy-acceptance.loading,
+.policy-acceptance.error,
+.policy-acceptance.accepted {
+  text-align: center;
+}
+
+.acceptance-loading,
+.acceptance-error,
+.acceptance-status {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+}
+
+.loading-spinner {
+  width: 32px;
+  height: 32px;
+  border: 3px solid #f3f3f3;
+  border-top: 3px solid #007bff;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+.error-icon,
+.accepted-icon {
+  font-size: 32px;
+  margin-bottom: 8px;
+}
+
+.accepted-icon {
+  color: #28a745;
+}
+
+.retry-button {
+  background: #007bff;
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 14px;
+  transition: background-color 0.2s ease;
+}
+
+.retry-button:hover {
+  background: #0056b3;
+}
+
+.acceptance-date {
+  font-size: 14px;
+  color: #666;
+  font-style: italic;
+}
+
+.acceptance-prompt {
+  text-align: center;
+}
+
+.prompt-title {
+  font-size: 18px;
+  font-weight: 600;
+  color: #333;
+  margin: 0 0 8px 0;
+}
+
+.prompt-description {
+  color: #666;
+  margin: 0 0 20px 0;
+  line-height: 1.5;
+}
+
+.acceptance-actions {
+  display: flex;
+  gap: 12px;
+  justify-content: center;
+  margin-bottom: 16px;
+}
+
+.accept-policy-button,
+.decline-policy-button {
+  padding: 10px 20px;
+  border-radius: 6px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  border: none;
+  transition: all 0.2s ease;
+  min-width: 100px;
+}
+
+.accept-policy-button {
+  background: #28a745;
+  color: white;
+}
+
+.accept-policy-button:hover:not(:disabled) {
+  background: #218838;
+  transform: translateY(-1px);
+}
+
+.accept-policy-button:disabled {
+  background: #6c757d;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.decline-policy-button {
+  background: #dc3545;
+  color: white;
+}
+
+.decline-policy-button:hover:not(:disabled) {
+  background: #c82333;
+  transform: translateY(-1px);
+}
+
+.decline-policy-button:disabled {
+  background: #6c757d;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.acceptance-note {
+  font-size: 12px;
+  color: #666;
+  margin: 0;
+  font-style: italic;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .policy-acceptance {
+    padding: 16px;
+  }
+
+  .prompt-title {
+    font-size: 16px;
+  }
+
+  .acceptance-actions {
+    flex-direction: column;
+  }
+
+  .accept-policy-button,
+  .decline-policy-button {
+    width: 100%;
+  }
+}
+
+@media (max-width: 480px) {
+  .policy-acceptance {
+    padding: 12px;
+  }
+
+  .prompt-title {
+    font-size: 14px;
+  }
+
+  .prompt-description {
+    font-size: 14px;
+  }
+} 

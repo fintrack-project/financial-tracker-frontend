@@ -1,0 +1,244 @@
+.next-billing-info {
+  background: #ffffff;
+  border-radius: 8px;
+  padding: 20px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+}
+
+.billing-title {
+  font-size: 18px;
+  font-weight: 600;
+  color: #333;
+  margin: 0 0 20px 0;
+  text-align: center;
+}
+
+.billing-summary {
+  background: #f8f9fa;
+  border-radius: 6px;
+  padding: 16px;
+  margin-bottom: 20px;
+}
+
+.plan-change {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.plan-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 4px 0;
+}
+
+.plan-label {
+  font-weight: 500;
+  color: #495057;
+  font-size: 14px;
+}
+
+.plan-name {
+  font-weight: 600;
+  color: #333;
+  font-size: 14px;
+}
+
+.plan-name.new-plan {
+  color: #007bff;
+}
+
+.billing-details {
+  margin-bottom: 20px;
+}
+
+.detail-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 12px 0;
+  border-bottom: 1px solid #e9ecef;
+}
+
+.detail-item:last-child {
+  border-bottom: none;
+}
+
+.detail-icon {
+  font-size: 20px;
+  margin-top: 2px;
+  flex-shrink: 0;
+}
+
+.detail-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.detail-label {
+  font-weight: 500;
+  color: #495057;
+  font-size: 14px;
+}
+
+.detail-value {
+  font-weight: 600;
+  color: #333;
+  font-size: 16px;
+}
+
+.billing-amount {
+  color: #007bff;
+  font-weight: 700;
+}
+
+.days-remaining {
+  font-size: 12px;
+  color: #666;
+  font-style: italic;
+}
+
+.billing-note {
+  background: #d1ecf1;
+  border: 1px solid #bee5eb;
+  border-radius: 6px;
+  padding: 12px;
+  margin-bottom: 16px;
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+}
+
+.note-icon {
+  font-size: 16px;
+  margin-top: 2px;
+  flex-shrink: 0;
+}
+
+.note-content p {
+  margin: 0;
+  font-size: 14px;
+  color: #0c5460;
+  line-height: 1.4;
+}
+
+.billing-warning {
+  background: #fff3cd;
+  border: 1px solid #ffeaa7;
+  border-radius: 6px;
+  padding: 12px;
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+}
+
+.warning-icon {
+  font-size: 16px;
+  margin-top: 2px;
+  flex-shrink: 0;
+}
+
+.warning-content p {
+  margin: 0;
+  font-size: 14px;
+  color: #856404;
+  line-height: 1.4;
+}
+
+.warning-content strong {
+  color: #856404;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .next-billing-info {
+    padding: 16px;
+  }
+
+  .billing-title {
+    font-size: 16px;
+  }
+
+  .plan-row {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 4px;
+  }
+
+  .plan-name {
+    align-self: flex-end;
+  }
+
+  .detail-item {
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .detail-icon {
+    align-self: flex-start;
+  }
+
+  .detail-content {
+    width: 100%;
+  }
+
+  .billing-note,
+  .billing-warning {
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .note-icon,
+  .warning-icon {
+    align-self: flex-start;
+  }
+}
+
+@media (max-width: 480px) {
+  .next-billing-info {
+    padding: 12px;
+  }
+
+  .billing-title {
+    font-size: 14px;
+  }
+
+  .billing-summary {
+    padding: 12px;
+  }
+
+  .plan-label,
+  .plan-name {
+    font-size: 13px;
+  }
+
+  .detail-item {
+    padding: 8px 0;
+  }
+
+  .detail-label {
+    font-size: 13px;
+  }
+
+  .detail-value {
+    font-size: 14px;
+  }
+
+  .days-remaining {
+    font-size: 11px;
+  }
+
+  .billing-note,
+  .billing-warning {
+    padding: 10px;
+  }
+
+  .note-content p,
+  .warning-content p {
+    font-size: 13px;
+  }
+} 

@@ -1,0 +1,277 @@
+.billing-impact-display {
+  background: #ffffff;
+  border-radius: 8px;
+  padding: 20px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+}
+
+.impact-title {
+  font-size: 18px;
+  font-weight: 600;
+  color: #333;
+  margin: 0 0 20px 0;
+  text-align: center;
+}
+
+.impact-summary {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+  margin-bottom: 20px;
+}
+
+.summary-card {
+  background: #f8f9fa;
+  border-radius: 8px;
+  padding: 16px;
+  text-align: center;
+  border: 2px solid transparent;
+  transition: border-color 0.2s ease;
+}
+
+.summary-card.current-plan {
+  border-color: #6c757d;
+}
+
+.summary-card.new-plan {
+  border-color: #007bff;
+}
+
+.card-title {
+  font-size: 14px;
+  font-weight: 600;
+  color: #495057;
+  margin: 0 0 8px 0;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.card-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.amount {
+  font-size: 24px;
+  font-weight: 700;
+  color: #333;
+  margin-bottom: 4px;
+}
+
+.period {
+  font-size: 12px;
+  color: #666;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.impact-details {
+  background: #e3f2fd;
+  border-radius: 6px;
+  padding: 16px;
+  margin-bottom: 20px;
+  border-left: 4px solid #2196f3;
+}
+
+.detail-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 0;
+  border-bottom: 1px solid #bbdefb;
+}
+
+.detail-row:last-child {
+  border-bottom: none;
+}
+
+.detail-label {
+  font-weight: 500;
+  color: #1976d2;
+  font-size: 14px;
+}
+
+.detail-value {
+  font-weight: 600;
+  font-size: 14px;
+  color: #333;
+}
+
+.proration-amount {
+  font-weight: 700;
+}
+
+.total-impact {
+  background: #fff3cd;
+  border: 2px solid;
+  border-radius: 8px;
+  padding: 16px;
+  margin-bottom: 16px;
+}
+
+.impact-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
+}
+
+.impact-label {
+  font-weight: 600;
+  color: #856404;
+  font-size: 16px;
+}
+
+.impact-value {
+  font-weight: 700;
+  font-size: 18px;
+}
+
+.savings-info {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-top: 8px;
+  border-top: 1px solid #ffeaa7;
+}
+
+.savings-label {
+  font-weight: 500;
+  color: #856404;
+  font-size: 14px;
+}
+
+.savings-value {
+  font-weight: 600;
+  font-size: 16px;
+}
+
+.impact-note {
+  background: #d1ecf1;
+  border: 1px solid #bee5eb;
+  border-radius: 6px;
+  padding: 12px;
+}
+
+.impact-note p {
+  margin: 0;
+  font-size: 14px;
+  color: #0c5460;
+  line-height: 1.4;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .billing-impact-display {
+    padding: 16px;
+  }
+
+  .impact-title {
+    font-size: 16px;
+  }
+
+  .impact-summary {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+
+  .summary-card {
+    padding: 12px;
+  }
+
+  .amount {
+    font-size: 20px;
+  }
+
+  .detail-row {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 4px;
+  }
+
+  .detail-value {
+    align-self: flex-end;
+  }
+
+  .impact-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 4px;
+  }
+
+  .impact-value {
+    align-self: flex-end;
+  }
+
+  .savings-info {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 4px;
+  }
+
+  .savings-value {
+    align-self: flex-end;
+  }
+}
+
+@media (max-width: 480px) {
+  .billing-impact-display {
+    padding: 12px;
+  }
+
+  .impact-title {
+    font-size: 14px;
+  }
+
+  .summary-card {
+    padding: 10px;
+  }
+
+  .card-title {
+    font-size: 12px;
+  }
+
+  .amount {
+    font-size: 18px;
+  }
+
+  .period {
+    font-size: 11px;
+  }
+
+  .impact-details {
+    padding: 12px;
+  }
+
+  .detail-label,
+  .detail-value {
+    font-size: 13px;
+  }
+
+  .total-impact {
+    padding: 12px;
+  }
+
+  .impact-label {
+    font-size: 14px;
+  }
+
+  .impact-value {
+    font-size: 16px;
+  }
+
+  .savings-label,
+  .savings-value {
+    font-size: 13px;
+  }
+
+  .impact-note {
+    padding: 10px;
+  }
+
+  .impact-note p {
+    font-size: 13px;
+  }
+} 
