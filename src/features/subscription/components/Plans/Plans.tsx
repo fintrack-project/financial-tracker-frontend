@@ -138,7 +138,7 @@ const Plans: React.FC<PlansProps> = ({
     setShowCancellationConfirmation(true);
   };
 
-  const handleConfirmCancellation = async (reason: string) => {
+  const handleConfirmCancellation = async () => {
     if (!planToCancel || !subscription?.stripeSubscriptionId) {
       setError('No plan selected for cancellation');
       return;
@@ -152,7 +152,7 @@ const Plans: React.FC<PlansProps> = ({
       return;
     }
 
-    console.log('Cancelling plan:', selectedPlan, 'Reason:', reason);
+    console.log('Cancelling plan:', selectedPlan);
 
     try {
       setLoading(true);
@@ -552,11 +552,6 @@ const Plans: React.FC<PlansProps> = ({
                 })()}
                 onConfirm={handleConfirmCancellation}
                 onCancel={() => {
-                  setShowCancellationConfirmation(false);
-                  setPlanToCancel(null);
-                }}
-                onPause={() => {
-                  // Handle pause functionality if needed
                   setShowCancellationConfirmation(false);
                   setPlanToCancel(null);
                 }}
