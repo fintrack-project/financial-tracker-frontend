@@ -186,7 +186,7 @@
   flex-wrap: wrap;
 }
 
-.plan-card {
+.downgrade-confirmation .plan-card {
   background: var(--section-bg);
   border-radius: var(--border-radius-md);
   padding: var(--spacing-md);
@@ -196,37 +196,37 @@
   transition: border-color var(--transition-normal);
 }
 
-.plan-card.current {
+.downgrade-confirmation .plan-card.current {
   border-color: var(--error-color);
   background: var(--error-message-bg);
 }
 
-.plan-card.new {
+.downgrade-confirmation .plan-card.new {
   border-color: var(--neutral-500);
 }
 
-.plan-name {
+.downgrade-confirmation .plan-name {
   font-size: var(--font-size-lg);
   font-weight: 600;
   color: var(--text-dark);
   margin: 0 0 var(--spacing-sm) 0;
 }
 
-.plan-price {
+.downgrade-confirmation .plan-price {
   font-size: var(--font-size-2xl);
   font-weight: 700;
   color: var(--accent-color);
   margin-bottom: var(--spacing-md);
 }
 
-.plan-features {
+.downgrade-confirmation .plan-features {
   list-style: none;
   padding: 0;
   margin: 0;
   text-align: left;
 }
 
-.plan-features li {
+.downgrade-confirmation .plan-features li {
   padding: 4px 0;
   font-size: var(--font-size-sm);
   color: var(--text-secondary);
@@ -234,7 +234,7 @@
   padding-left: var(--spacing-md);
 }
 
-.plan-features li::before {
+.downgrade-confirmation .plan-features li::before {
   content: "✓";
   position: absolute;
   left: 0;
@@ -364,7 +364,7 @@
     gap: var(--spacing-md);
   }
 
-  .plan-card {
+  .downgrade-confirmation .plan-card {
     min-width: auto;
     width: 100%;
   }

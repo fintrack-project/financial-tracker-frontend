@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { SubscriptionPlan } from '../../types/SubscriptionPlan';
 import { SubscriptionPolicy } from '../../types/SubscriptionPolicy';
 import { subscriptionPolicyApi } from '../../api/subscriptionPolicyApi';
@@ -63,11 +63,7 @@ const CancellationConfirmation: React.FC<CancellationConfirmationProps> = ({
     }
   ];
 
-  useEffect(() => {
-    loadCancellationData();
-  }, [accountId]);
-
-  const loadCancellationData = async () => {
+    const loadCancellationData = useCallback(async () => {
     try {
       setLoading(true);
       setError(null);
@@ -90,7 +86,11 @@ const CancellationConfirmation: React.FC<CancellationConfirmationProps> = ({
     } finally {
       setLoading(false);
     }
-  };
+  }, [accountId]);
+
+  useEffect(() => {
+    loadCancellationData();
+  }, [loadCancellationData]);
 
   const handlePolicyAccept = () => {
     setPolicyAccepted(true);
@@ -164,11 +164,8 @@ const CancellationConfirmation: React.FC<CancellationConfirmationProps> = ({
 
   return (
     <div className={`cancellation-confirmation ${className}`}>
-      <div className="confirmation-header">
-        <h2 className="confirmation-title">Cancel Subscription</h2>
-        <p className="confirmation-subtitle">
-          We're sorry to see you go. Your {currentPlan.name} plan will be cancelled.
-        </p>
+      <div className="confirmation-subtitle">
+        We're sorry to see you go. Your {currentPlan.name} plan will be cancelled.
       </div>
 
       {showAlternatives && (
@@ -218,7 +215,12 @@ const CancellationConfirmation: React.FC<CancellationConfirmationProps> = ({
             <NextBillingInfo
               currentPlan={currentPlan.name}
               newPlan="No Plan"
-              nextBillingDate={new Date(Date.now() + daysRemaining * 24 * 60 * 60 * 1000).toISOString()}
+              nextBillingDate={(() => {
+                // Validate daysRemaining to prevent invalid date creation
+                const validDaysRemaining = isNaN(daysRemaining) || daysRemaining < 0 ? 30 : Math.min(daysRemaining, 365);
+                const futureDate = new Date(Date.now() + validDaysRemaining * 24 * 60 * 60 * 1000);
+                return futureDate.toISOString();
+              })()}
               nextBillingAmount={0}
             />
           </div>

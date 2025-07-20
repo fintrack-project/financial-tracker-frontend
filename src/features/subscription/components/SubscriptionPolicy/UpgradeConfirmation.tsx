@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { SubscriptionPolicy, PolicyAcceptanceRequest } from '../../types';
 import { subscriptionPolicyApi } from '../../api/subscriptionPolicyApi';
 import NextBillingInfo from './NextBillingInfo';
@@ -39,11 +39,7 @@ const UpgradeConfirmation: React.FC<UpgradeConfirmationProps> = ({
   const [error, setError] = useState<string | null>(null);
   const [hasAcceptedPolicy, setHasAcceptedPolicy] = useState(false);
 
-  useEffect(() => {
-    loadPolicy();
-  }, []);
-
-  const loadPolicy = async () => {
+  const loadPolicy = useCallback(async () => {
     try {
       setLoading(true);
       setError(null);
@@ -65,7 +61,11 @@ const UpgradeConfirmation: React.FC<UpgradeConfirmationProps> = ({
     } finally {
       setLoading(false);
     }
-  };
+  }, [accountId]);
+
+  useEffect(() => {
+    loadPolicy();
+  }, [loadPolicy]);
 
   const handleAcceptPolicy = async () => {
     if (!policy) return;
@@ -185,7 +185,12 @@ const UpgradeConfirmation: React.FC<UpgradeConfirmationProps> = ({
         <NextBillingInfo
           currentPlan={currentPlan.name}
           newPlan={newPlan.name}
-          nextBillingDate={new Date(Date.now() + daysRemaining * 24 * 60 * 60 * 1000).toISOString()}
+          nextBillingDate={(() => {
+            // Validate daysRemaining to prevent invalid date creation
+            const validDaysRemaining = isNaN(daysRemaining) || daysRemaining < 0 ? 30 : Math.min(daysRemaining, 365);
+            const futureDate = new Date(Date.now() + validDaysRemaining * 24 * 60 * 60 * 1000);
+            return futureDate.toISOString();
+          })()}
           nextBillingAmount={newPlan.amount}
         />
       </div>

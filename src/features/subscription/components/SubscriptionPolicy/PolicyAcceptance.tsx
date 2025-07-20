@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { PolicyAcceptanceProps } from '../../types';
 import { subscriptionPolicyApi } from '../../api';
 import './PolicyAcceptance.css';
@@ -16,11 +16,7 @@ const PolicyAcceptance: React.FC<PolicyAcceptanceProps> = ({
   const [accepting, setAccepting] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  useEffect(() => {
-    checkAcceptanceStatus();
-  }, [accountId, policyType, policyVersion]);
-
-  const checkAcceptanceStatus = async () => {
+  const checkAcceptanceStatus = useCallback(async () => {
     try {
       setLoading(true);
       setError(null);
@@ -36,7 +32,11 @@ const PolicyAcceptance: React.FC<PolicyAcceptanceProps> = ({
     } finally {
       setLoading(false);
     }
-  };
+  }, [accountId, policyType, policyVersion]);
+
+    useEffect(() => {
+    checkAcceptanceStatus();
+  }, [checkAcceptanceStatus]);
 
   const handleAccept = async () => {
     try {

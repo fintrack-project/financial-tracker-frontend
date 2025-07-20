@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { SubscriptionPolicy, PolicyAcceptanceRequest } from '../../types';
 import { subscriptionPolicyApi } from '../../api/subscriptionPolicyApi';
 import NextBillingInfo from './NextBillingInfo';
@@ -40,11 +40,7 @@ const DowngradeConfirmation: React.FC<DowngradeConfirmationProps> = ({
   const [hasAcceptedPolicy, setHasAcceptedPolicy] = useState(false);
   const [showWarnings, setShowWarnings] = useState(true);
 
-  useEffect(() => {
-    loadPolicy();
-  }, []);
-
-  const loadPolicy = async () => {
+  const loadPolicy = useCallback(async () => {
     try {
       setLoading(true);
       setError(null);
@@ -66,7 +62,11 @@ const DowngradeConfirmation: React.FC<DowngradeConfirmationProps> = ({
     } finally {
       setLoading(false);
     }
-  };
+  }, [accountId]);
+
+  useEffect(() => {
+    loadPolicy();
+  }, [loadPolicy]);
 
   const handleAcceptPolicy = async () => {
     if (!policy) return;

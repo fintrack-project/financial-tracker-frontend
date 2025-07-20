@@ -10,6 +10,18 @@
   font-family: var(--font-family-primary);
 }
 
+/* Debug Information */
+.debug-info {
+  font-size: var(--font-size-xs);
+  color: var(--text-secondary);
+  font-style: italic;
+  margin-top: var(--spacing-sm);
+  padding: var(--spacing-sm);
+  background: var(--warning-message-bg);
+  border-radius: var(--border-radius-sm);
+  border: 1px solid var(--warning-color);
+}
+
 /* Loading and Error States */
 .proration-preview.loading,
 .proration-preview.error {
@@ -67,6 +79,68 @@
   text-align: center;
 }
 
+/* Payment Summary */
+.payment-summary {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--spacing-md);
+  margin-bottom: var(--spacing-lg);
+}
+
+.summary-section {
+  background: var(--card-bg);
+  border: 1px solid var(--border-light);
+  border-radius: var(--border-radius-md);
+  padding: var(--spacing-md);
+}
+
+.section-title {
+  font-size: var(--font-size-base);
+  font-weight: 600;
+  color: var(--text-dark);
+  margin: 0 0 var(--spacing-md) 0;
+  text-align: center;
+}
+
+.summary-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: var(--spacing-sm);
+}
+
+.summary-item .label {
+  color: var(--text-secondary);
+  font-size: var(--font-size-sm);
+}
+
+.summary-item .value {
+  font-weight: 600;
+  font-size: var(--font-size-base);
+}
+
+.summary-item .value.already-paid {
+  color: var(--success-color);
+}
+
+.summary-item .value.proration-amount {
+  color: var(--accent-color);
+}
+
+.summary-note {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+  font-size: var(--font-size-xs);
+  color: var(--text-secondary);
+  font-style: italic;
+}
+
+.summary-note .note-icon {
+  color: var(--success-color);
+  font-weight: bold;
+}
+
 /* Amount Breakdown */
 .amount-breakdown {
   background: var(--card-bg);
@@ -74,6 +148,14 @@
   border-radius: var(--border-radius-md);
   padding: var(--spacing-md);
   margin-bottom: var(--spacing-md);
+}
+
+.breakdown-title {
+  font-size: var(--font-size-base);
+  font-weight: 600;
+  color: var(--text-dark);
+  margin: 0 0 var(--spacing-md) 0;
+  text-align: center;
 }
 
 .breakdown-item {
@@ -116,6 +198,52 @@
 .breakdown-item .value {
   color: var(--text-dark);
   font-weight: 500;
+}
+
+/* Total Cost Summary */
+.total-cost-summary {
+  background: var(--info-message-bg);
+  border: 1px solid var(--info-message-border);
+  border-radius: var(--border-radius-md);
+  padding: var(--spacing-md);
+  margin-bottom: var(--spacing-md);
+}
+
+.total-cost-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: var(--spacing-sm) 0;
+  border-bottom: 1px solid var(--border-lighter);
+}
+
+.total-cost-item:last-child {
+  border-bottom: none;
+  padding-bottom: 0;
+}
+
+.total-cost-item.total {
+  border-top: 2px solid var(--border-light);
+  border-bottom: none;
+  padding-top: var(--spacing-md);
+  margin-top: var(--spacing-sm);
+  font-weight: 600;
+  font-size: var(--font-size-base);
+}
+
+.total-cost-item .label {
+  color: var(--text-primary);
+  font-size: var(--font-size-sm);
+}
+
+.total-cost-item .value {
+  color: var(--text-dark);
+  font-weight: 500;
+}
+
+.total-cost-item.total .value {
+  color: var(--accent-color);
+  font-size: var(--font-size-lg);
 }
 
 /* Information Notes */
@@ -177,6 +305,11 @@
     margin: var(--spacing-md) 0;
   }
   
+  .payment-summary {
+    grid-template-columns: 1fr;
+    gap: var(--spacing-md);
+  }
+  
   .amount-breakdown {
     padding: var(--spacing-md);
   }
@@ -188,6 +321,26 @@
   }
   
   .breakdown-item .value {
+    align-self: flex-end;
+  }
+  
+  .summary-item {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 4px;
+  }
+  
+  .summary-item .value {
+    align-self: flex-end;
+  }
+  
+  .total-cost-item {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 4px;
+  }
+  
+  .total-cost-item .value {
     align-self: flex-end;
   }
 } 

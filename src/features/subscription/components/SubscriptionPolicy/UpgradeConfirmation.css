@@ -94,7 +94,7 @@
   flex-wrap: wrap;
 }
 
-.plan-card {
+.upgrade-confirmation .plan-card {
   background: var(--section-bg);
   border-radius: var(--border-radius-md);
   padding: var(--spacing-md);
@@ -104,37 +104,37 @@
   transition: border-color var(--transition-normal);
 }
 
-.plan-card.current {
+.upgrade-confirmation .plan-card.current {
   border-color: var(--neutral-500);
 }
 
-.plan-card.new {
+.upgrade-confirmation .plan-card.new {
   border-color: var(--success-color);
   background: var(--success-message-bg);
 }
 
-.plan-name {
+.upgrade-confirmation .plan-name {
   font-size: var(--font-size-lg);
   font-weight: 600;
   color: var(--text-dark);
   margin: 0 0 var(--spacing-sm) 0;
 }
 
-.plan-price {
+.upgrade-confirmation .plan-price {
   font-size: var(--font-size-2xl);
   font-weight: 700;
   color: var(--accent-color);
   margin-bottom: var(--spacing-md);
 }
 
-.plan-features {
+.upgrade-confirmation .plan-features {
   list-style: none;
   padding: 0;
   margin: 0;
   text-align: left;
 }
 
-.plan-features li {
+.upgrade-confirmation .plan-features li {
   padding: 4px 0;
   font-size: var(--font-size-sm);
   color: var(--text-secondary);
@@ -142,7 +142,7 @@
   padding-left: var(--spacing-md);
 }
 
-.plan-features li::before {
+.upgrade-confirmation .plan-features li::before {
   content: "✓";
   position: absolute;
   left: 0;
@@ -272,7 +272,7 @@
     gap: var(--spacing-md);
   }
 
-  .plan-card {
+  .upgrade-confirmation .plan-card {
     min-width: auto;
     width: 100%;
   }
