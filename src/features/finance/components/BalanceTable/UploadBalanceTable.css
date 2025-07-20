@@ -693,64 +693,11 @@
   background-color: var(--primary-200);
 }
 
-/* Media Queries */
+/* ==========================================================================
+   RESPONSIVE DESIGN
+   ========================================================================== */
 
-/* Desktop (1024px+) - Compact Design */
-@media (min-width: 1024px) {
-  .upload-balance-container h2 {
-    padding: var(--spacing-sm);
-    font-size: var(--font-size-xl);
-  }
-  .upload-header {
-    padding: var(--spacing-xs) var(--spacing-sm);
-  }
-  .upload-title {
-    font-size: var(--font-size-xl);
-  }
-  .upload-table {
-    font-size: var(--font-size-sm);
-  }
-  .upload-balance-container .data-table td {
-    min-height: var(--table-cell-height-normal);
-  }
-  /* Table header styles use shared TableStyles.css */
-  .upload-table td.debit-column,
-  .upload-table th.debit-column,
-  .upload-table td.credit-column,
-  .upload-table th.credit-column {
-    text-align: right;
-  }
-}
-
-/* Tablet (769px-1023px) - Medium Design */
-@media (min-width: 769px) and (max-width: 1023px) {
-  .upload-balance-container h2 {
-    padding: var(--spacing-sm);
-    font-size: var(--font-size-lg);
-  }
-  .upload-header {
-    padding: var(--spacing-xs) var(--spacing-sm);
-  }
-  .upload-title {
-    font-size: var(--font-size-lg);
-  }
-  .upload-table {
-    font-size: var(--font-size-sm);
-    min-width: 700px;
-  }
-  /* Table header styles use shared TableStyles.css */
-  .upload-table td.debit-column,
-  .upload-table th.debit-column,
-  .upload-table td.credit-column,
-  .upload-table th.credit-column {
-    text-align: right;
-  }
-  .no-upload-data {
-    font-size: var(--font-size-base);
-  }
-}
-
-/* Mobile (768px and below) - Touch-Friendly Design */
+/* Mobile Styles (max-width: 768px) */
 @media (max-width: 768px) {
   .upload-balance-container h2 {
     padding: var(--spacing-sm);
@@ -838,5 +785,60 @@
   }
   .no-upload-data {
     font-size: var(--font-size-base);
+  }
+}
+
+/* Tablet Styles (769px to 1023px) */
+@media (min-width: 769px) and (max-width: 1023px) {
+  .upload-balance-container h2 {
+    padding: var(--spacing-sm);
+    font-size: var(--font-size-lg);
+  }
+  .upload-header {
+    padding: var(--spacing-xs) var(--spacing-sm);
+  }
+  .upload-title {
+    font-size: var(--font-size-lg);
+  }
+  .upload-table {
+    font-size: var(--font-size-sm);
+    min-width: 700px;
+  }
+  /* Table header styles use shared TableStyles.css */
+  .upload-table td.debit-column,
+  .upload-table th.debit-column,
+  .upload-table td.credit-column,
+  .upload-table th.credit-column {
+    text-align: right;
+  }
+  .no-upload-data {
+    font-size: var(--font-size-base);
+  }
+}
+
+/* Desktop Styles (1024px and up) */
+@media (min-width: 1024px) {
+  .upload-balance-container h2 {
+    padding: var(--spacing-sm);
+    font-size: var(--font-size-xl);
+  }
+  .upload-header {
+    padding: var(--spacing-xs) var(--spacing-sm);
+  }
+  .upload-title {
+    font-size: var(--font-size-xl);
+  }
+  .upload-table {
+    font-size: var(--font-size-sm);
+  }
+  .upload-balance-container .data-table td {
+    min-height: var(--table-cell-height-normal);
+  }
+  /* Table header styles use shared TableStyles.css */
+  .upload-table td.debit-column,
+  .upload-table th.debit-column,
+  .upload-table td.credit-column,
+  .upload-table th.credit-column {
+    text-align: right;
   }
 }

@@ -30,22 +30,6 @@ body {
   margin: 0 auto;
 }
 
-/* Tablet (769px to 1023px) - Medium balanced design */
-@media (min-width: 769px) and (max-width: 1023px) {
-  .main-content {
-    padding: var(--spacing-md);
-    max-width: 95%;
-  }
-
-  .hidden-tablet { display: none; }
-  .show-tablet-only { display: block; }
-
-  .responsive-grid {
-    gap: var(--spacing-md);
-    grid-template-columns: 1fr 1fr;
-  }
-}
-
 /* Base responsive typography */
 html {
   font-size: 16px; /* Base font size */
@@ -261,7 +245,55 @@ textarea:focus {
   }
 }
 
-/* Desktop Styles (1024px and up) - Merged responsive design */
+/* ==========================================================================
+   RESPONSIVE DESIGN
+   ========================================================================== */
+
+/* Mobile Styles (max-width: 768px) */
+@media (max-width: 768px) {
+  .main-content {
+    padding: var(--spacing-md);
+  }
+
+  html {
+    font-size: 15px; /* Slightly smaller for mobile */
+  }
+
+  .hidden-mobile { display: none; }
+  .show-mobile-only { display: block; }
+
+  .responsive-grid {
+    gap: var(--spacing-md);
+    grid-template-columns: 1fr;
+  }
+
+  .error-message,
+  .warning-message,
+  .info-message,
+  .success-message {
+    padding: calc(var(--error-message-padding) * 0.9);
+    font-size: var(--font-size-xs);
+    margin: calc(var(--error-message-margin) * 0.8);
+  }
+}
+
+/* Tablet Styles (769px to 1023px) */
+@media (min-width: 769px) and (max-width: 1023px) {
+  .main-content {
+    padding: var(--spacing-md);
+    max-width: 95%;
+  }
+
+  .hidden-tablet { display: none; }
+  .show-tablet-only { display: block; }
+
+  .responsive-grid {
+    gap: var(--spacing-md);
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+/* Desktop Styles (1024px and up) */
 @media (min-width: 1024px) {
   .main-content {
     padding: var(--spacing-sm);
@@ -287,33 +319,5 @@ textarea:focus {
     padding: var(--error-message-padding);
     font-size: var(--error-message-font-size);
     margin: var(--error-message-margin);
-  }
-}
-
-/* Mobile Styles (max-width: 768px) - Merged responsive design */
-@media (max-width: 768px) {
-  .main-content {
-    padding: var(--spacing-md);
-  }
-
-  html {
-    font-size: 15px; /* Slightly smaller for mobile */
-  }
-
-  .hidden-mobile { display: none; }
-  .show-mobile-only { display: block; }
-
-  .responsive-grid {
-    gap: var(--spacing-md);
-    grid-template-columns: 1fr;
-  }
-
-  .error-message,
-  .warning-message,
-  .info-message,
-  .success-message {
-    padding: calc(var(--error-message-padding) * 0.9);
-    font-size: var(--font-size-xs);
-    margin: calc(var(--error-message-margin) * 0.8);
   }
 } 

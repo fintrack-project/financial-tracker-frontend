@@ -120,43 +120,11 @@
   font-family: var(--font-family-primary);
 }
 
-/* Media Queries */
+/* ==========================================================================
+   RESPONSIVE DESIGN
+   ========================================================================== */
 
-/* Desktop (1024px+) - Compact Design */
-@media (min-width: 1024px) {
-  .balance-preview-container h2 {
-    padding: var(--spacing-sm);
-    font-size: var(--font-size-xl);
-  }
-  .preview-table {
-    font-size: var(--font-size-sm);
-  }
-  .preview-table th {
-    font-size: var(--font-size-xs);
-  }
-  .preview-table td {
-    min-height: var(--table-cell-height-normal);
-  }
-}
-
-/* Tablet (769px-1023px) - Medium Design */
-@media (min-width: 769px) and (max-width: 1023px) {
-  .balance-preview-container h2 {
-    padding: var(--spacing-sm);
-    font-size: var(--font-size-lg);
-  }
-  .preview-table {
-    font-size: var(--font-size-sm);
-  }
-  .preview-table th {
-    font-size: var(--font-size-xs);
-  }
-  .no-preview-data {
-    font-size: var(--font-size-base);
-  }
-}
-
-/* Mobile (768px and below) - Touch-Friendly Design */
+/* Mobile Styles (max-width: 768px) */
 @media (max-width: 768px) {
   .balance-preview-container h2 {
     padding: var(--spacing-sm);
@@ -183,5 +151,39 @@
   .no-preview-data {
     padding: var(--spacing-lg) 0;
     font-size: var(--font-size-base);
+  }
+}
+
+/* Tablet Styles (769px to 1023px) */
+@media (min-width: 769px) and (max-width: 1023px) {
+  .balance-preview-container h2 {
+    padding: var(--spacing-sm);
+    font-size: var(--font-size-lg);
+  }
+  .preview-table {
+    font-size: var(--font-size-sm);
+  }
+  .preview-table th {
+    font-size: var(--font-size-xs);
+  }
+  .no-preview-data {
+    font-size: var(--font-size-base);
+  }
+}
+
+/* Desktop Styles (1024px and up) */
+@media (min-width: 1024px) {
+  .balance-preview-container h2 {
+    padding: var(--spacing-sm);
+    font-size: var(--font-size-xl);
+  }
+  .preview-table {
+    font-size: var(--font-size-sm);
+  }
+  .preview-table th {
+    font-size: var(--font-size-xs);
+  }
+  .preview-table td {
+    min-height: var(--table-cell-height-normal);
   }
 }

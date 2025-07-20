@@ -51,21 +51,6 @@
   flex-shrink: 0;
 }
 
-/* Mobile-specific adjustments */
-@media (max-width: 768px) {
-  .card {
-    border-radius: var(--border-radius-md);
-  }
-  
-  .card-title {
-    font-size: var(--font-size-base);
-  }
-  
-  .card-subtitle {
-    font-size: var(--font-size-xs);
-  }
-}
-
 /* Card variants */
 .card-compact {
   --card-padding-mobile: 0.75rem;
@@ -96,7 +81,26 @@
   padding-top: var(--card-padding-mobile);
 }
 
-/* Desktop Styles (1024px and up) - Merged responsive design */
+/* ==========================================================================
+   RESPONSIVE DESIGN
+   ========================================================================== */
+
+/* Mobile Styles (max-width: 768px) */
+@media (max-width: 768px) {
+  .card {
+    border-radius: var(--border-radius-md);
+  }
+  
+  .card-title {
+    font-size: var(--font-size-base);
+  }
+  
+  .card-subtitle {
+    font-size: var(--font-size-xs);
+  }
+}
+
+/* Desktop Styles (1024px and up) */
 @media (min-width: 1024px) {
   .card-header,
   .card-content,

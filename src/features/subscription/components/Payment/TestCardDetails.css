@@ -59,13 +59,35 @@
   border-radius: var(--border-radius-sm);
 }
 
-/* Responsive adjustments */
-@media (min-width: 1024px) {
+/* ==========================================================================
+   RESPONSIVE DESIGN
+   ========================================================================== */
+
+/* Mobile Styles (max-width: 768px) */
+@media (max-width: 768px) {
   .test-cards-grid {
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: 1fr;
+  }
+  
+  .testing-card-details h5 {
+    font-size: var(--font-size-sm);
+  }
+  
+  .test-card h6 {
+    font-size: var(--font-size-xs);
+  }
+  
+  .card-details-grid {
+    gap: var(--spacing-xs);
+  }
+  
+  .testing-card-details .detail-label,
+  .testing-card-details .detail-value {
+    font-size: var(--font-size-xs);
   }
 }
 
+/* Tablet Styles (769px to 1023px) */
 @media (min-width: 769px) and (max-width: 1023px) {
   .test-cards-grid {
     grid-template-columns: 1fr;
@@ -89,25 +111,9 @@
   }
 }
 
-@media (max-width: 768px) {
+/* Desktop Styles (1024px and up) */
+@media (min-width: 1024px) {
   .test-cards-grid {
-    grid-template-columns: 1fr;
-  }
-  
-  .testing-card-details h5 {
-    font-size: var(--font-size-sm);
-  }
-  
-  .test-card h6 {
-    font-size: var(--font-size-xs);
-  }
-  
-  .card-details-grid {
-    gap: var(--spacing-xs);
-  }
-  
-  .testing-card-details .detail-label,
-  .testing-card-details .detail-value {
-    font-size: var(--font-size-xs);
+    grid-template-columns: repeat(3, 1fr);
   }
 } 

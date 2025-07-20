@@ -173,37 +173,11 @@
   box-shadow: 0 0 0 3px rgba(66, 165, 245, 0.2);
 }
 
-/* Responsive Design */
-@media (min-width: 1024px) {
-  .input-field {
-    font-size: var(--font-size-base);
-    padding: var(--spacing-md) var(--spacing-lg);
-    min-height: 48px;
-  }
-  
-  .input-field--sm {
-    padding: var(--spacing-sm) var(--spacing-md);
-    font-size: var(--font-size-sm);
-    min-height: 40px;
-  }
-  
-  .input-field--lg {
-    padding: var(--spacing-lg) var(--spacing-xl);
-    font-size: var(--font-size-lg);
-    min-height: 56px;
-  }
-  
-  .input-field-label {
-    font-size: var(--font-size-base);
-  }
-  
-  .input-field-error,
-  .input-field-help {
-    font-size: var(--font-size-sm);
-  }
-}
+/* ==========================================================================
+   RESPONSIVE DESIGN
+   ========================================================================== */
 
-/* Mobile-specific adjustments */
+/* Mobile Styles (max-width: 768px) */
 @media (max-width: 768px) {
   .input-field {
     font-size: var(--font-size-sm);
@@ -246,6 +220,36 @@
   
   .input-field--lg {
     min-height: 52px;
+  }
+}
+
+/* Desktop Styles (1024px and up) */
+@media (min-width: 1024px) {
+  .input-field {
+    font-size: var(--font-size-base);
+    padding: var(--spacing-md) var(--spacing-lg);
+    min-height: 48px;
+  }
+  
+  .input-field--sm {
+    padding: var(--spacing-sm) var(--spacing-md);
+    font-size: var(--font-size-sm);
+    min-height: 40px;
+  }
+  
+  .input-field--lg {
+    padding: var(--spacing-lg) var(--spacing-xl);
+    font-size: var(--font-size-lg);
+    min-height: 56px;
+  }
+  
+  .input-field-label {
+    font-size: var(--font-size-base);
+  }
+  
+  .input-field-error,
+  .input-field-help {
+    font-size: var(--font-size-sm);
   }
 }
 

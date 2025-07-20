@@ -25,13 +25,6 @@
   color: var(--neutral-900);
 }
 
-/* Desktop: Larger font size */
-@media (min-width: 1024px) {
-  .watchlist-widget-header h3 {
-    font-size: var(--font-size-xl);
-  }
-}
-
 .watchlist-widget-header .last-updated {
   font-size: var(--font-size-xs);
   color: var(--neutral-600);
@@ -75,7 +68,11 @@
   /* Remove this styling */
 }
 
-/* Responsive adjustments */
+/* ==========================================================================
+   RESPONSIVE DESIGN
+   ========================================================================== */
+
+/* Mobile Styles (max-width: 768px) */
 @media (max-width: 768px) {
   .watchlist-widget {
     padding: var(--spacing-xs);
@@ -89,5 +86,12 @@
   
   .watchlist-widget-header .last-updated {
     align-self: flex-end;
+  }
+}
+
+/* Desktop Styles (1024px and up) */
+@media (min-width: 1024px) {
+  .watchlist-widget-header h3 {
+    font-size: var(--font-size-xl);
   }
 } 

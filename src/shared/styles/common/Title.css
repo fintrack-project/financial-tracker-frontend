@@ -62,7 +62,28 @@
   width: 40px;
 }
 
-/* Responsive adjustments */
+/* ==========================================================================
+   RESPONSIVE DESIGN
+   ========================================================================== */
+
+/* Mobile Styles (max-width: 768px) */
+@media (max-width: 768px) {
+  .fintrack-section-title {
+    font-size: var(--page-title-font-size-mobile);
+    margin-bottom: var(--page-title-margin-bottom-mobile);
+  }
+  
+  .fintrack-title,
+  .fintrack-subsection-title {
+    font-size: var(--font-size-lg);
+  }
+
+  .fintrack-card-title {
+    font-size: var(--font-size-base);
+  }
+}
+
+/* Desktop Styles (1024px and up) */
 @media (min-width: 1024px) {
   .fintrack-section-title {
     font-size: var(--page-title-font-size-desktop);
@@ -78,22 +99,6 @@
   
   .fintrack-card-title {
     font-size: var(--font-size-xl);
-  }
-}
-
-@media (max-width: 768px) {
-  .fintrack-section-title {
-    font-size: var(--page-title-font-size-mobile);
-    margin-bottom: var(--page-title-margin-bottom-mobile);
-  }
-  
-  .fintrack-title,
-  .fintrack-subsection-title {
-    font-size: var(--font-size-lg);
-  }
-
-  .fintrack-card-title {
-    font-size: var(--font-size-base);
   }
 }
 

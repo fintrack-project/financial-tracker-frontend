@@ -65,7 +65,104 @@
   margin-bottom: 0;
 }
 
-/* Desktop Styles (1024px and up) - Merged responsive design */
+/* Responsive Design for Balance Page */
+.balance-page {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: var(--spacing-md);
+  background-color: var(--neutral-100);
+}
+
+.balance-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-family: var(--font-family-primary);
+  font-size: var(--table-font-size-normal);
+  background-color: var(--primary-100);
+  box-shadow: var(--shadow-md);
+  border-radius: var(--border-radius-md);
+  overflow: hidden;
+}
+
+/* ==========================================================================
+   RESPONSIVE DESIGN
+   ========================================================================== */
+
+/* Mobile Styles (max-width: 768px) */
+@media (max-width: 768px) {
+  .balance-container {
+    padding: var(--page-container-padding);
+  }
+  
+  .balance-container p {
+    font-size: var(--font-size-sm);
+  }
+  
+  .balance-header {
+    gap: var(--spacing-xs);
+    margin-bottom: var(--spacing-sm);
+  }
+  
+  .balance-content {
+    gap: var(--spacing-sm);
+  }
+  
+  .balance-overview,
+  .upload-balance {
+    gap: var(--spacing-sm);
+  }
+
+  /* Mobile component spacing - even smaller */
+  .balance-overview > *,
+  .upload-balance > * {
+    margin-top: var(--spacing-sm);
+    margin-bottom: var(--spacing-sm);
+  }
+
+  .balance-overview > *:first-child,
+  .upload-balance > *:first-child {
+    margin-top: 0;
+  }
+
+  .balance-overview > *:last-child,
+  .upload-balance > *:last-child {
+    margin-bottom: 0;
+  }
+
+  .balance-page {
+    padding: var(--spacing-sm);
+  }
+
+  .balance-table {
+    font-size: var(--font-size-xs);
+  }
+
+  .balance-table th,
+  .balance-table td {
+    padding: var(--spacing-xs) var(--spacing-sm);
+  }
+}
+
+/* Tablet Styles (769px to 1023px) */
+@media (min-width: 769px) and (max-width: 1023px) {
+  .balance-page {
+    padding: var(--spacing-md);
+  }
+
+  .balance-table {
+    width: 100%;
+    max-width: 100%; /* Ensure full width on tablet */
+    font-size: var(--table-font-size-normal);
+  }
+
+  .custom-range-input {
+    width: 100%;
+    max-width: 100%; /* Ensure full width on tablet */
+  }
+}
+
+/* Desktop Styles (1024px and up) */
 @media (min-width: 1024px) {
   .balance-header {
     flex-direction: row;
@@ -125,98 +222,6 @@
 
   .custom-range-input {
     width: 100%;
-  }
-}
-
-/* Responsive Design for Balance Page */
-.balance-page {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding: var(--spacing-md);
-  background-color: var(--neutral-100);
-}
-
-.balance-table {
-  width: 100%;
-  border-collapse: collapse;
-  font-family: var(--font-family-primary);
-  font-size: var(--table-font-size-normal);
-  background-color: var(--primary-100);
-  box-shadow: var(--shadow-md);
-  border-radius: var(--border-radius-md);
-  overflow: hidden;
-}
-
-/* Mobile Styles (max-width: 768px) - Merged responsive design */
-@media (max-width: 768px) {
-  .balance-container {
-    padding: var(--page-container-padding);
-  }
-  
-  .balance-container p {
-    font-size: var(--font-size-sm);
-  }
-  
-  .balance-header {
-    gap: var(--spacing-xs);
-    margin-bottom: var(--spacing-sm);
-  }
-  
-  .balance-content {
-    gap: var(--spacing-sm);
-  }
-  
-  .balance-overview,
-  .upload-balance {
-    gap: var(--spacing-sm);
-  }
-
-  /* Mobile component spacing - even smaller */
-  .balance-overview > *,
-  .upload-balance > * {
-    margin-top: var(--spacing-sm);
-    margin-bottom: var(--spacing-sm);
-  }
-
-  .balance-overview > *:first-child,
-  .upload-balance > *:first-child {
-    margin-top: 0;
-  }
-
-  .balance-overview > *:last-child,
-  .upload-balance > *:last-child {
-    margin-bottom: 0;
-  }
-
-  .balance-page {
-    padding: var(--spacing-sm);
-  }
-
-  .balance-table {
-    font-size: var(--font-size-xs);
-  }
-
-  .balance-table th,
-  .balance-table td {
-    padding: var(--spacing-xs) var(--spacing-sm);
-  }
-}
-
-@media (min-width: 769px) and (max-width: 1023px) {
-  .balance-page {
-    padding: var(--spacing-md);
-  }
-
-  .balance-table {
-    width: 100%;
-    max-width: 100%; /* Ensure full width on tablet */
-    font-size: var(--table-font-size-normal);
-  }
-
-  .custom-range-input {
-    width: 100%;
-    max-width: 100%; /* Ensure full width on tablet */
   }
 }
 

@@ -211,33 +211,7 @@
    RESPONSIVE DESIGN
    ========================================================================== */
 
-/* Desktop Styles */
-@media (min-width: 1024px) {
-  .transaction-table {
-    font-size: var(--table-font-size-normal);
-  }
-  
-  .transaction-table th,
-  .transaction-table td {
-    padding: var(--spacing-xs) var(--spacing-sm);
-    line-height: var(--table-line-height);
-    text-align: center;
-  }
-  
-  /* Maintain specific alignments on desktop */
-  .transaction-table td.debit-column,
-  .transaction-table th.debit-column,
-  .transaction-table td.credit-column,
-  .transaction-table th.credit-column {
-    text-align: right;
-  }
-  
-  .transaction-table td {
-    min-height: var(--table-cell-height-normal);
-  }
-}
-
-/* Mobile Styles */
+/* Mobile Styles (max-width: 768px) */
 @media (max-width: 768px) {
   .transaction-table {
     font-size: var(--font-size-xs);
@@ -264,5 +238,31 @@
   .transaction-table .action-button {
     padding: var(--spacing-xs);
     font-size: var(--font-size-xs);
+  }
+}
+
+/* Desktop Styles (1024px and up) */
+@media (min-width: 1024px) {
+  .transaction-table {
+    font-size: var(--table-font-size-normal);
+  }
+  
+  .transaction-table th,
+  .transaction-table td {
+    padding: var(--spacing-xs) var(--spacing-sm);
+    line-height: var(--table-line-height);
+    text-align: center;
+  }
+  
+  /* Maintain specific alignments on desktop */
+  .transaction-table td.debit-column,
+  .transaction-table th.debit-column,
+  .transaction-table td.credit-column,
+  .transaction-table th.credit-column {
+    text-align: right;
+  }
+  
+  .transaction-table td {
+    min-height: var(--table-cell-height-normal);
   }
 }

@@ -56,8 +56,12 @@
   justify-content: center;
 }
 
-/* Mobile and Tablet Layout: Two-line structure */
-@media (max-width: 1023px) {
+/* ==========================================================================
+   RESPONSIVE DESIGN
+   ========================================================================== */
+
+/* Mobile Styles (max-width: 768px) */
+@media (max-width: 768px) {
   .page-top-bar {
     flex-direction: column;
     align-items: stretch;
@@ -81,10 +85,7 @@
   .page-top-bar > .account-menu {
     display: none; /* Hidden on mobile and tablet - using mobile header instead */
   }
-}
 
-/* Mobile Styles (max-width: 768px) - Merged responsive design */
-@media (max-width: 768px) {
   .page-top-bar .fintrack-logo {
     height: var(--nav-height-compact);
   }
@@ -127,8 +128,32 @@
   }
 }
 
-/* Tablet: Navigation on separate line, centered */
+/* Tablet Styles (769px to 1023px) */
 @media (min-width: 769px) and (max-width: 1023px) {
+  .page-top-bar {
+    flex-direction: column;
+    align-items: stretch;
+    padding: var(--top-bar-padding-mobile);
+    min-height: auto;
+    gap: var(--spacing-xs);
+  }
+
+  .page-top-bar-mobile-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: var(--spacing-xs) 0;
+    min-height: var(--top-bar-height-mobile);
+  }
+
+  .page-top-bar > .logo-container {
+    display: none; /* Hidden on mobile and tablet - using mobile header instead */
+  }
+
+  .page-top-bar > .account-menu {
+    display: none; /* Hidden on mobile and tablet - using mobile header instead */
+  }
+
   .page-top-bar .fintrack-logo {
     height: var(--nav-height-normal);
   }
@@ -143,7 +168,7 @@
   }
 }
 
-/* Desktop Styles (1024px and up) - Merged responsive design */
+/* Desktop Styles (1024px and up) */
 @media (min-width: 1024px) {
   .page-top-bar {
     padding: var(--top-bar-padding);

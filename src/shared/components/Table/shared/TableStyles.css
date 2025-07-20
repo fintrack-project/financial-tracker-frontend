@@ -177,40 +177,11 @@
   opacity: 0.8;
 }
 
-/* Responsive font size and min-height for th/td */
-@media (max-width: 768px) {
-  .data-table th,
-  .data-table td {
-    font-size: var(--font-size-xs);
-  }
-}
+/* ==========================================================================
+   RESPONSIVE DESIGN
+   ========================================================================== */
 
-/* Tablet Styles (769px to 1023px) - Merged responsive design */
-@media (min-width: 769px) and (max-width: 1023px) {
-  .table-container {
-    min-width: 600px;
-    /* Enable horizontal scrolling */
-    overflow-x: auto;
-    -webkit-overflow-scrolling: touch;
-  }
-  
-  .data-table th,
-  .data-table td {
-    font-size: var(--font-size-sm);
-    min-height: var(--table-cell-height-normal);
-  }
-}
-
-/* Desktop Styles (1024px and up) */
-@media (min-width: 1024px) {
-  .data-table th,
-  .data-table td {
-    font-size: var(--font-size-sm);
-    min-height: var(--table-cell-height-normal);
-  }
-}
-
-/* Mobile Styles (768px and below) */
+/* Mobile Styles (max-width: 768px) */
 @media (max-width: 768px) {
   .table-container {
     min-width: 320px;
@@ -256,5 +227,30 @@
   .scrollable-content::-webkit-scrollbar {
     width: 12px;
     height: 12px;
+  }
+}
+
+/* Tablet Styles (769px to 1023px) */
+@media (min-width: 769px) and (max-width: 1023px) {
+  .table-container {
+    min-width: 600px;
+    /* Enable horizontal scrolling */
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+  
+  .data-table th,
+  .data-table td {
+    font-size: var(--font-size-sm);
+    min-height: var(--table-cell-height-normal);
+  }
+}
+
+/* Desktop Styles (1024px and up) */
+@media (min-width: 1024px) {
+  .data-table th,
+  .data-table td {
+    font-size: var(--font-size-sm);
+    min-height: var(--table-cell-height-normal);
   }
 } 

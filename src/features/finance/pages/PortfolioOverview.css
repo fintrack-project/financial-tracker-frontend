@@ -64,31 +64,11 @@
   width: 100%;
 }
 
-/* Desktop Styles (1024px and up) - Merged responsive design */
-@media (min-width: 1024px) {
-  .portfolio-overview-container {
-    padding: var(--page-container-padding-desktop);
-  }
-  
-  .charts-grid {
-    gap: var(--spacing-md);
-    margin: var(--spacing-md) auto;
-  }
+/* ==========================================================================
+   RESPONSIVE DESIGN
+   ========================================================================== */
 
-  .top-bar {
-    margin-top: var(--spacing-md);
-    margin-bottom: var(--spacing-md);
-    padding: var(--spacing-md) var(--spacing-xl);
-  }
-
-  .chart-container {
-    margin: var(--spacing-md) auto;
-    padding: var(--spacing-md);
-    max-width: var(--table-max-width-desktop);
-  }
-}
-
-/* Mobile Styles (max-width: 768px) - Merged responsive design */
+/* Mobile Styles (max-width: 768px) */
 @media (max-width: 768px) {
   .portfolio-overview-container {
     padding: var(--page-container-padding);
@@ -113,5 +93,29 @@
     padding: var(--spacing-xs);
     max-width: 100%;
     border-radius: var(--border-radius-sm);
+  }
+}
+
+/* Desktop Styles (1024px and up) */
+@media (min-width: 1024px) {
+  .portfolio-overview-container {
+    padding: var(--page-container-padding-desktop);
+  }
+  
+  .charts-grid {
+    gap: var(--spacing-md);
+    margin: var(--spacing-md) auto;
+  }
+
+  .top-bar {
+    margin-top: var(--spacing-md);
+    margin-bottom: var(--spacing-md);
+    padding: var(--spacing-md) var(--spacing-xl);
+  }
+
+  .chart-container {
+    margin: var(--spacing-md) auto;
+    padding: var(--spacing-md);
+    max-width: var(--table-max-width-desktop);
   }
 }
