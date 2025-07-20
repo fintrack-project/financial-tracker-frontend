@@ -69,7 +69,7 @@
 }
 
 /* Responsive adjustments */
-@media (max-width: 768px) {
+@media (max-width: var(--breakpoint-mobile-max)) {
   .watchlist-widget {
     padding: var(--spacing-xs);
   }

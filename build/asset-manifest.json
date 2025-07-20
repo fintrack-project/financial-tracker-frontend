@@ -1,7 +1,7 @@
 {
   "files": {
-    "main.css": "/static/css/main.178a8f2e.css",
-    "main.js": "/static/js/main.b5743c79.js",
+    "main.css": "/static/css/main.d0bd1355.css",
+    "main.js": "/static/js/main.001f7b87.js",
     "static/media/FinTrackGif.gif": "/static/media/FinTrackGif.9f0bb9107a601333b351.gif",
     "static/media/FinTrackLogo.png": "/static/media/FinTrackLogo.635d8dc859b7cd448c6a.png",
     "static/media/confirm.png": "/static/media/confirm.af2a744f043c0183e3bc.png",
@@ -9,11 +9,11 @@
     "static/media/add.png": "/static/media/add.94c8a526c03879287062.png",
     "static/media/remove.png": "/static/media/remove.583ed3cc773ab07981d6.png",
     "index.html": "/index.html",
-    "main.178a8f2e.css.map": "/static/css/main.178a8f2e.css.map",
-    "main.b5743c79.js.map": "/static/js/main.b5743c79.js.map"
+    "main.d0bd1355.css.map": "/static/css/main.d0bd1355.css.map",
+    "main.001f7b87.js.map": "/static/js/main.001f7b87.js.map"
   },
   "entrypoints": [
-    "static/css/main.178a8f2e.css",
-    "static/js/main.b5743c79.js"
+    "static/css/main.d0bd1355.css",
+    "static/js/main.001f7b87.js"
   ]
 }

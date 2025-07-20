@@ -223,7 +223,7 @@
    ======================================== */
 
 /* Mobile Styles (768px and below) */
-@media (max-width: 768px) {
+@media (max-width: var(--breakpoint-mobile-max)) {
   .holdings-table-container {
     min-width: 320px;
     overflow-x: auto;

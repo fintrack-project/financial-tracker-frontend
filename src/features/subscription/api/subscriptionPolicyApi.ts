@@ -2,14 +2,26 @@ import { apiClient } from '../../../shared/utils/apiClient';
 import {
   SubscriptionPolicy,
   PolicyAcceptance,
-  ProrationCalculation,
   SubscriptionChangeAudit,
-  PolicyAcceptanceRequest,
-  ProrationCalculationRequest,
-  BillingImpactResponse
+  PolicyAcceptanceRequest
 } from '../types';
 
 const BASE_URL = '/api/subscription-policies';
+
+// Proration calculation interface for display purposes
+export interface ProrationCalculation {
+  fromPlanId: string;
+  toPlanId: string;
+  daysRemaining: number;
+  currentAmount: number;
+  newAmount: number;
+  prorationAmount: number;
+  nextBillingAmount: number;
+  totalImpact: number;
+  savings: number;
+  calculationDate: string;
+  prorationType: 'charge' | 'credit';
+}
 
 export const subscriptionPolicyApi = {
   // Get current policy
@@ -49,49 +61,15 @@ export const subscriptionPolicyApi = {
     return response.data.data;
   },
 
-  // Calculate proration
+  // Calculate proration for display purposes
   calculateProration: async (
     fromPlanId: string,
     toPlanId: string,
-    daysRemaining: number,
-    prorationAmount: number,
-    nextBillingAmount: number
+    daysRemaining: number
   ): Promise<ProrationCalculation> => {
     const response = await apiClient.get(`${BASE_URL}/calculations/proration`, {
-      params: {
-        fromPlanId,
-        toPlanId,
-        daysRemaining,
-        prorationAmount,
-        nextBillingAmount
-      }
+      params: { fromPlanId, toPlanId, daysRemaining }
     });
-    return response.data.data;
-  },
-
-  // Get billing impact
-  getBillingImpact: async (
-    fromPlanId: string,
-    toPlanId: string,
-    daysRemaining: number,
-    currentAmount: number,
-    newAmount: number
-  ): Promise<BillingImpactResponse> => {
-    const response = await apiClient.get(`${BASE_URL}/calculations/billing-impact`, {
-      params: {
-        fromPlanId,
-        toPlanId,
-        daysRemaining,
-        currentAmount,
-        newAmount
-      }
-    });
-    return response.data.data;
-  },
-
-  // Get change history
-  getChangeHistory: async (accountId: string): Promise<SubscriptionChangeAudit[]> => {
-    const response = await apiClient.get(`${BASE_URL}/audit/${accountId}`);
     return response.data.data;
   },
 
@@ -106,18 +84,6 @@ export const subscriptionPolicyApi = {
     userAgent?: string;
   }): Promise<SubscriptionChangeAudit> => {
     const response = await apiClient.post(`${BASE_URL}/audit/record`, request);
-    return response.data.data;
-  },
-
-  // Get policy statistics
-  getPolicyStatistics: async (): Promise<Record<string, any>> => {
-    const response = await apiClient.get(`${BASE_URL}/stats`);
-    return response.data.data;
-  },
-
-  // Health check
-  healthCheck: async (): Promise<string> => {
-    const response = await apiClient.get(`${BASE_URL}/health`);
     return response.data.data;
   }
 }; 

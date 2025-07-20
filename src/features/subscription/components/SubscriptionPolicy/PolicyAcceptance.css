@@ -1,11 +1,15 @@
+/* ===== POLICY ACCEPTANCE COMPONENT ===== */
+
+/* Base Container */
 .policy-acceptance {
-  background: #ffffff;
-  border-radius: 8px;
-  padding: 20px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  background: var(--card-bg);
+  border-radius: var(--border-radius-md);
+  padding: var(--spacing-md);
+  box-shadow: var(--shadow-sm);
+  font-family: var(--font-family-primary);
 }
 
+/* Loading and Error States */
 .policy-acceptance.loading,
 .policy-acceptance.error,
 .policy-acceptance.accepted {
@@ -18,14 +22,14 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 12px;
+  gap: var(--spacing-md);
 }
 
 .loading-spinner {
   width: 32px;
   height: 32px;
-  border: 3px solid #f3f3f3;
-  border-top: 3px solid #007bff;
+  border: 3px solid var(--neutral-300);
+  border-top: 3px solid var(--accent-color);
   border-radius: 50%;
   animation: spin 1s linear infinite;
 }
@@ -38,72 +42,74 @@
 .error-icon,
 .accepted-icon {
   font-size: 32px;
-  margin-bottom: 8px;
+  margin-bottom: var(--spacing-sm);
 }
 
 .accepted-icon {
-  color: #28a745;
+  color: var(--success-color);
 }
 
 .retry-button {
-  background: #007bff;
+  background: var(--accent-color);
   color: white;
   border: none;
-  padding: 8px 16px;
-  border-radius: 6px;
+  padding: var(--spacing-sm) var(--spacing-md);
+  border-radius: var(--border-radius-md);
   cursor: pointer;
-  font-size: 14px;
-  transition: background-color 0.2s ease;
+  font-size: var(--font-size-sm);
+  transition: background-color var(--transition-normal);
 }
 
 .retry-button:hover {
-  background: #0056b3;
+  background: var(--primary-600);
 }
 
 .acceptance-date {
-  font-size: 14px;
-  color: #666;
+  font-size: var(--font-size-sm);
+  color: var(--text-secondary);
   font-style: italic;
 }
 
+/* Acceptance Prompt */
 .acceptance-prompt {
   text-align: center;
 }
 
 .prompt-title {
-  font-size: 18px;
+  font-size: var(--font-size-lg);
   font-weight: 600;
-  color: #333;
-  margin: 0 0 8px 0;
+  color: var(--text-dark);
+  margin: 0 0 var(--spacing-sm) 0;
 }
 
 .prompt-description {
-  color: #666;
-  margin: 0 0 20px 0;
+  color: var(--text-secondary);
+  margin: 0 0 var(--spacing-md) 0;
   line-height: 1.5;
 }
 
+/* Action Buttons */
 .acceptance-actions {
   display: flex;
-  gap: 12px;
+  gap: var(--spacing-md);
   justify-content: center;
-  margin-bottom: 16px;
+  margin-bottom: var(--spacing-md);
 }
 
 .accept-policy-button,
 .decline-policy-button {
-  padding: 10px 20px;
-  border-radius: 6px;
-  font-size: 14px;
+  padding: var(--spacing-sm) var(--spacing-md);
+  border-radius: var(--border-radius-md);
+  font-size: var(--font-size-sm);
   font-weight: 500;
   cursor: pointer;
   border: none;
-  transition: all 0.2s ease;
+  transition: all var(--transition-normal);
   min-width: 100px;
 }
 
 .accept-policy-button {
-  background: #28a745;
+  background: var(--success-color);
   color: white;
 }
 
@@ -113,13 +119,13 @@
 }
 
 .accept-policy-button:disabled {
-  background: #6c757d;
+  background: var(--neutral-500);
   cursor: not-allowed;
   transform: none;
 }
 
 .decline-policy-button {
-  background: #dc3545;
+  background: var(--error-color);
   color: white;
 }
 
@@ -129,26 +135,28 @@
 }
 
 .decline-policy-button:disabled {
-  background: #6c757d;
+  background: var(--neutral-500);
   cursor: not-allowed;
   transform: none;
 }
 
 .acceptance-note {
-  font-size: 12px;
-  color: #666;
+  font-size: var(--font-size-xs);
+  color: var(--text-secondary);
   margin: 0;
   font-style: italic;
 }
 
-/* Responsive Design */
-@media (max-width: 768px) {
+/* ===== RESPONSIVE DESIGN ===== */
+
+/* Mobile: 768px and below */
+@media (max-width: var(--breakpoint-mobile-max)) {
   .policy-acceptance {
-    padding: 16px;
+    padding: var(--spacing-md);
   }
 
   .prompt-title {
-    font-size: 16px;
+    font-size: var(--font-size-base);
   }
 
   .acceptance-actions {
@@ -158,19 +166,5 @@
   .accept-policy-button,
   .decline-policy-button {
     width: 100%;
-  }
-}
-
-@media (max-width: 480px) {
-  .policy-acceptance {
-    padding: 12px;
-  }
-
-  .prompt-title {
-    font-size: 14px;
-  }
-
-  .prompt-description {
-    font-size: 14px;
   }
 } 

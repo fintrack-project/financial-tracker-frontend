@@ -187,7 +187,7 @@ button:active,
 }
 
 /* Mobile-specific adjustments */
-@media (max-width: 768px) {
+@media (max-width: var(--breakpoint-mobile-max)) {
   button,
   .btn {
     font-size: var(--font-size-sm);

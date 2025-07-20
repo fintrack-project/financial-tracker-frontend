@@ -159,7 +159,7 @@
 }
 
 /* Responsive Styles */
-@media (max-width: 768px) {
+@media (max-width: var(--breakpoint-mobile-max)) {
   .categories-table-container {
     min-width: 320px;
     overflow-x: auto;

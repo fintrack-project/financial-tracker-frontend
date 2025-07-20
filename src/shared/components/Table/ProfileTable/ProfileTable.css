@@ -149,7 +149,7 @@
    ========================================================================== */
 
 /* Mobile Styles (≤768px) - Touch-First Design */
-@media (max-width: 768px) {
+@media (max-width: var(--breakpoint-mobile-max)) {
   .profile-table {
     padding: var(--spacing-sm);
     gap: var(--spacing-xs);

@@ -11,7 +11,7 @@
 }
 
 /* Mobile: Horizontal scrollable navigation */
-@media (max-width: 768px) {
+@media (max-width: var(--breakpoint-mobile-max)) {
   .navigation-bar {
     justify-content: flex-start; /* Allow items to flow naturally for scroll */
     gap: var(--spacing-xs); /* Smaller gap to fit more items */
@@ -77,7 +77,7 @@
 }
 
 /* Mobile: Compact nav links for scrolling */
-@media (max-width: 768px) {
+@media (max-width: var(--breakpoint-mobile-max)) {
   .nav-link {
     font-size: var(--font-size-xs); /* Use compact font size from theme */
     padding: var(--nav-padding-compact);

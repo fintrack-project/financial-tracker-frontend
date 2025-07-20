@@ -1,13 +1,17 @@
+/* ===== SUBSCRIPTION POLICY COMPONENT ===== */
+
+/* Base Container */
 .subscription-policy {
-  background: #ffffff;
-  border-radius: 12px;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  padding: 24px;
+  background: var(--card-bg);
+  border-radius: var(--border-radius-lg);
+  box-shadow: var(--shadow-md);
+  padding: var(--card-padding-desktop);
   max-width: 800px;
   margin: 0 auto;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  font-family: var(--font-family-primary);
 }
 
+/* Loading and Error States */
 .subscription-policy.loading,
 .subscription-policy.error,
 .subscription-policy.not-found {
@@ -21,17 +25,17 @@
 .policy-error,
 .policy-not-found {
   text-align: center;
-  color: #666;
+  color: var(--text-secondary);
 }
 
 .loading-spinner {
   width: 40px;
   height: 40px;
-  border: 4px solid #f3f3f3;
-  border-top: 4px solid #007bff;
+  border: 4px solid var(--neutral-300);
+  border-top: 4px solid var(--accent-color);
   border-radius: 50%;
   animation: spin 1s linear infinite;
-  margin: 0 auto 16px;
+  margin: 0 auto var(--spacing-md);
 }
 
 @keyframes spin {
@@ -42,107 +46,110 @@
 .error-icon,
 .not-found-icon {
   font-size: 48px;
-  margin-bottom: 16px;
+  margin-bottom: var(--spacing-md);
   display: block;
 }
 
 .retry-button {
-  background: #007bff;
+  background: var(--accent-color);
   color: white;
   border: none;
-  padding: 8px 16px;
-  border-radius: 6px;
+  padding: var(--spacing-sm) var(--spacing-md);
+  border-radius: var(--border-radius-md);
   cursor: pointer;
-  font-size: 14px;
-  margin-top: 12px;
+  font-size: var(--font-size-sm);
+  margin-top: var(--spacing-md);
 }
 
 .retry-button:hover {
-  background: #0056b3;
+  background: var(--primary-600);
 }
 
+/* Header Section */
 .policy-header {
-  border-bottom: 2px solid #f0f0f0;
-  padding-bottom: 16px;
-  margin-bottom: 24px;
+  border-bottom: 2px solid var(--border-lighter);
+  padding-bottom: var(--spacing-md);
+  margin-bottom: var(--spacing-lg);
 }
 
 .policy-title {
-  font-size: 28px;
+  font-size: var(--font-size-3xl);
   font-weight: 600;
-  color: #333;
-  margin: 0 0 12px 0;
+  color: var(--text-dark);
+  margin: 0 0 var(--spacing-md) 0;
 }
 
 .policy-meta {
   display: flex;
-  gap: 16px;
-  font-size: 14px;
-  color: #666;
+  gap: var(--spacing-md);
+  font-size: var(--font-size-sm);
+  color: var(--text-secondary);
 }
 
 .policy-version {
-  background: #e3f2fd;
-  color: #1976d2;
-  padding: 4px 8px;
-  border-radius: 4px;
+  background: var(--info-message-bg);
+  color: var(--info-message-text);
+  padding: 4px var(--spacing-sm);
+  border-radius: var(--border-radius-sm);
   font-weight: 500;
 }
 
 .policy-effective-date {
-  color: #666;
+  color: var(--text-secondary);
 }
 
+/* Content Section */
 .policy-content {
-  margin-bottom: 24px;
+  margin-bottom: var(--spacing-lg);
 }
 
 .policy-sections {
-  margin-bottom: 20px;
+  margin-bottom: var(--spacing-md);
 }
 
 .policy-section {
-  margin-bottom: 16px;
+  margin-bottom: var(--spacing-md);
 }
 
 .section-title {
-  font-size: 18px;
+  font-size: var(--font-size-lg);
   font-weight: 600;
-  color: #333;
-  margin: 0 0 8px 0;
+  color: var(--text-dark);
+  margin: 0 0 var(--spacing-sm) 0;
 }
 
 .policy-text {
   line-height: 1.6;
-  color: #444;
-  font-size: 16px;
+  color: var(--text-primary);
+  font-size: var(--font-size-base);
 }
 
 .policy-text p {
-  margin: 0 0 12px 0;
+  margin: 0 0 var(--spacing-md) 0;
 }
 
+/* Action Buttons */
 .policy-actions {
   display: flex;
-  gap: 12px;
+  gap: var(--spacing-md);
   justify-content: center;
-  margin-bottom: 20px;
+  margin-bottom: var(--spacing-md);
 }
 
 .accept-button,
 .decline-button {
-  padding: 12px 24px;
-  border-radius: 8px;
-  font-size: 16px;
+  padding: var(--spacing-md) var(--spacing-lg);
+  border-radius: var(--border-radius-md);
+  font-size: var(--font-size-base);
   font-weight: 500;
   cursor: pointer;
   border: none;
-  transition: all 0.2s ease;
+  transition: all var(--transition-normal);
   min-width: 120px;
 }
 
 .accept-button {
-  background: #28a745;
+  background: var(--success-color);
   color: white;
 }
 
@@ -152,13 +159,13 @@
 }
 
 .accept-button:disabled {
-  background: #6c757d;
+  background: var(--neutral-500);
   cursor: not-allowed;
   transform: none;
 }
 
 .decline-button {
-  background: #dc3545;
+  background: var(--error-color);
   color: white;
 }
 
@@ -168,38 +175,41 @@
 }
 
 .decline-button:disabled {
-  background: #6c757d;
+  background: var(--neutral-500);
   cursor: not-allowed;
   transform: none;
 }
 
+/* Footer Section */
 .policy-footer {
-  border-top: 1px solid #f0f0f0;
-  padding-top: 16px;
+  border-top: 1px solid var(--border-lighter);
+  padding-top: var(--spacing-md);
   text-align: center;
 }
 
 .policy-note {
-  font-size: 14px;
-  color: #666;
+  font-size: var(--font-size-sm);
+  color: var(--text-secondary);
   margin: 0;
   font-style: italic;
 }
 
-/* Responsive Design */
-@media (max-width: 768px) {
+/* ===== RESPONSIVE DESIGN ===== */
+
+/* Mobile: 768px and below */
+@media (max-width: var(--breakpoint-mobile-max)) {
   .subscription-policy {
-    padding: 16px;
-    margin: 0 8px;
+    padding: var(--card-padding-tablet);
+    margin: 0 var(--spacing-sm);
   }
 
   .policy-title {
-    font-size: 24px;
+    font-size: var(--font-size-2xl);
   }
 
   .policy-meta {
     flex-direction: column;
-    gap: 8px;
+    gap: var(--spacing-sm);
   }
 
   .policy-actions {
@@ -209,19 +219,5 @@
   .accept-button,
   .decline-button {
     width: 100%;
-  }
-}
-
-@media (max-width: 480px) {
-  .subscription-policy {
-    padding: 12px;
-  }
-
-  .policy-title {
-    font-size: 20px;
-  }
-
-  .policy-text {
-    font-size: 14px;
   }
 } 

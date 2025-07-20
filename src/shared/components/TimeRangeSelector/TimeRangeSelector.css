@@ -86,7 +86,7 @@
 }
 
 /* Mobile (768px and below) - Touch-friendly design */
-@media (max-width: 768px) {
+@media (max-width: var(--breakpoint-mobile-max)) {
   .time-range-selector {
     margin-bottom: var(--spacing-sm);
   }

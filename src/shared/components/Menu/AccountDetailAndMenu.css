@@ -159,7 +159,7 @@
    ========================================================================== */
 
 /* Mobile Styles */
-@media (max-width: 768px) {
+@media (max-width: var(--breakpoint-mobile-max)) {
   .account-detail-and-menu {
     padding: var(--spacing-md) var(--spacing-sm);
     margin-bottom: var(--spacing-sm);

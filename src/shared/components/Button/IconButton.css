@@ -29,7 +29,7 @@
 }
 
 /* Responsive Design */
-@media (max-width: 768px) {
+@media (max-width: var(--breakpoint-mobile-max)) {
   .icon-button,
   .icon-button-large {
     width: var(--button-size-small);

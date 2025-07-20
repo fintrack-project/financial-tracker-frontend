@@ -12,7 +12,7 @@
 }
 
 /* Mobile: Account for taller top bar */
-@media (max-width: 768px) {
+@media (max-width: var(--breakpoint-mobile-max)) {
   .base-page-content {
     padding: var(--page-container-padding-mobile);
   }
@@ -37,7 +37,7 @@
   width: 100%;
 }
 
-@media (max-width: 768px) {
+@media (max-width: var(--breakpoint-mobile-max)) {
   .welcome-grid {
     max-width: 100%;
     padding: 0 var(--spacing-md);
@@ -66,7 +66,7 @@
   padding: var(--spacing-md) var(--spacing-xl);
 }
 
-@media (max-width: 768px) {
+@media (max-width: var(--breakpoint-mobile-max)) {
   .welcome-content {
     padding: var(--spacing-sm) var(--spacing-md);
   }
@@ -107,7 +107,7 @@
   width: 90%;
 }
 
-@media (max-width: 768px) {
+@media (max-width: var(--breakpoint-mobile-max)) {
   .base-page-message {
     padding: var(--spacing-lg);
     max-width: 320px;
@@ -144,7 +144,7 @@
   margin-bottom: var(--spacing-md);
 }
 
-@media (max-width: 768px) {
+@media (max-width: var(--breakpoint-mobile-max)) {
   .base-page-message h2 {
     font-size: var(--font-size-xl);
     margin-bottom: var(--spacing-sm);
@@ -173,7 +173,7 @@
   margin: 0;
 }
 
-@media (max-width: 768px) {
+@media (max-width: var(--breakpoint-mobile-max)) {
   .base-page-message p {
     font-size: var(--font-size-sm);
   }

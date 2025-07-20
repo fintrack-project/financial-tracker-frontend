@@ -78,7 +78,7 @@ const NextBillingInfo: React.FC<NextBillingInfoProps> = ({
         <div className="note-content">
           <p>
             Your subscription will be updated immediately, and you'll be billed the new amount 
-            on your next billing date. Any proration adjustments will be applied to your account.
+            on your next billing date. Stripe will handle any proration adjustments automatically.
           </p>
         </div>
       </div>

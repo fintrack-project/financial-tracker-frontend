@@ -346,7 +346,7 @@
    ========================================================================== */
 
 /* Mobile Styles (≤768px) - Touch-First Design */
-@media (max-width: 768px) {
+@media (max-width: var(--breakpoint-mobile-max)) {
   .subscription-header h2 {
     font-size: var(--font-size-lg);
   }

@@ -14,7 +14,7 @@
    ========================================================================== */
 
 /* Mobile Styles (≤768px) - Touch-First Design */
-@media (max-width: 768px) {
+@media (max-width: var(--breakpoint-mobile-max)) {
   .profile-settings {
     padding: var(--spacing-sm);
   }

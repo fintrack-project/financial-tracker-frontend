@@ -58,7 +58,7 @@
 }
 
 /* Responsive Design */
-@media (max-width: 768px) {
+@media (max-width: var(--breakpoint-mobile-max)) {
   .preset-buttons {
     gap: 6px;
   }

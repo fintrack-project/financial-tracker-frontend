@@ -218,7 +218,7 @@
    RESPONSIVE DESIGN
    ========================================================================== */
 /* Mobile Styles (≤768px) - Touch-First Design */
-@media (max-width: 768px) {
+@media (max-width: var(--breakpoint-mobile-max)) {
   .register-container {
     gap: var(--spacing-xs); /* Match login: reduced from sm */
     padding: var(--spacing-sm); /* Match login: reduced from md */

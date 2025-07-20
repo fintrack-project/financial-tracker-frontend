@@ -94,7 +94,7 @@
 /* =============================
    Responsive Design
    ============================= */
-@media (max-width: 768px) {
+@media (max-width: var(--breakpoint-mobile-max)) {
   .reset-category-popup {
     width: 95vw;
     padding: var(--spacing-lg);
