@@ -150,7 +150,7 @@
 
 /* ===== RESPONSIVE ADJUSTMENTS ===== */
 /* Mobile styles */
-@media (max-width: var(--breakpoint-mobile-max)) {
+@media (max-width: 768px) {
   .verification-popup .popup-content {
     width: var(--popup-width-mobile);
     max-width: var(--popup-max-width-mobile);
@@ -180,7 +180,7 @@
 }
 
 /* Tablet styles */
-@media (min-width: var(--breakpoint-tablet-min)) and (max-width: var(--breakpoint-tablet-max)) {
+@media (min-width: 769px) and (max-width: 1023px) {
   .verification-popup .popup-content {
     width: var(--popup-width-tablet);
     max-width: var(--popup-max-width-tablet);
@@ -196,7 +196,7 @@
 }
 
 /* Desktop styles */
-@media (min-width: var(--breakpoint-desktop-min)) {
+@media (min-width: 1024px) {
   .verification-popup .popup-content h2 {
     font-size: var(--page-title-font-size-desktop);
   }

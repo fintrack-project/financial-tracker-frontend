@@ -11,4 +11,7 @@ export * from './Payment';
 export * from './Modals';
 
 // UI components
-export * from './UI'; 
+export * from './UI';
+
+// Subscription Policy components
+export * from './SubscriptionPolicy'; 

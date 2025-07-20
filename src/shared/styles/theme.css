@@ -95,7 +95,8 @@
   /* Tier System */
   --tier-border-radius: 20px;              /* Tier badge border radius */
   --tier-free-bg: #6c757d;                 /* Free tier background */
-  --tier-premium-bg: var(--primary-500);   /* Premium tier background */
+  --tier-basic-bg: #28a745;                /* Basic tier background - Green */
+  --tier-premium-bg: var(--primary-500);   /* Premium tier background - Blue */
   
   /* Layout */
   --sidebar-width: 340px;                  /* Left sidebar width */
