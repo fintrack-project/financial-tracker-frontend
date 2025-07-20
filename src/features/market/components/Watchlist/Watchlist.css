@@ -25,6 +25,13 @@
   color: var(--neutral-900);
 }
 
+/* Desktop: Larger font size */
+@media (min-width: 1024px) {
+  .watchlist-widget-header h3 {
+    font-size: var(--font-size-xl);
+  }
+}
+
 .watchlist-widget-header .last-updated {
   font-size: var(--font-size-xs);
   color: var(--neutral-600);

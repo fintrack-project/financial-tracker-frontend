@@ -35,6 +35,14 @@
   color: var(--neutral-900);
 }
 
+/* Desktop: Larger font size */
+@media (min-width: 1024px) {
+  .holdings-widget-header h3,
+  .categories-widget-header h3 {
+    font-size: var(--font-size-xl);
+  }
+}
+
 /* Consistent spacing for both sections - reduced for tighter layout */
 .holdings-container 
 .holdings-section,

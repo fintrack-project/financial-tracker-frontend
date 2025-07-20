@@ -41,7 +41,7 @@
 
 /* Subsection title - for components within sections */
 .fintrack-subsection-title {
-  font-size: var(--font-size-xl);
+  font-size: var(--font-size-lg);
   font-weight: 600;
   color: var(--page-title-color) !important;
   margin-bottom: var(--spacing-md);
@@ -73,7 +73,7 @@
   }
   
   .fintrack-subsection-title {
-    font-size: var(--font-size-2xl);
+    font-size: var(--font-size-xl);
   }
   
   .fintrack-card-title {

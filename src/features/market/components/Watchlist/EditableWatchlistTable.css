@@ -28,6 +28,13 @@
   color: var(--neutral-900);
 }
 
+/* Desktop: Larger font size */
+@media (min-width: 1024px) {
+  .watchlist-widget-header h3 {
+    font-size: var(--font-size-xl);
+  }
+}
+
 /* Loading state */
 .watchlist-widget-loading {
   display: flex;
