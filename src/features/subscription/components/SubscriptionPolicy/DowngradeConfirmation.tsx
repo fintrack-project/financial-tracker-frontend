@@ -63,13 +63,16 @@ const DowngradeConfirmation: React.FC<DowngradeConfirmationProps> = ({
 
       {showWarnings && (
         <div className="warnings-section">
-          <div className="warning-card">
-            <h3>⚠️ Important Changes</h3>
-            <ul>
-              <li>You'll lose access to premium features</li>
-              <li>Your data limits will be reduced</li>
-              <li>Changes take effect at the end of your current billing period</li>
-            </ul>
+          <div className="warning-card compact">
+            <div className="warning-header">
+              <span className="warning-icon">⚠️</span>
+              <span className="warning-text">Important Changes</span>
+            </div>
+            <div className="warning-items">
+              <span>• You'll lose access to premium features</span>
+              <span>• Your data limits will be reduced</span>
+              <span>• Changes take effect at the end of your current billing period</span>
+            </div>
             <button onClick={() => setShowWarnings(false)} className="acknowledge-button">
               I Understand
             </button>

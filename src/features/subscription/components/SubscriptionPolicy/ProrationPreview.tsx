@@ -112,9 +112,23 @@ const ProrationPreview: React.FC<ProrationPreviewProps> = ({
 
   // Removed unused variables for simplicity
 
+  // Determine if this is a credit or charge based on total impact
+  const isCredit = calculation.totalImpact < 0;
+  const hasCredit = calculation.totalImpact < calculation.newAmount;
+
   return (
     <div className={`proration-preview ${className}`}>
       <h3 className="preview-title">Proration Breakdown</h3>
+      
+      {/* Credit/Charge Summary */}
+      {isCredit && (
+        <div className="credit-summary">
+          <div className="credit-badge">
+            <span className="credit-icon">💰</span>
+            <span className="credit-text">You'll receive {formatCurrency(Math.abs(calculation.totalImpact))} credit!</span>
+          </div>
+        </div>
+      )}
       
       {/* Detailed breakdown */}
       <div className="amount-breakdown">
@@ -123,15 +137,37 @@ const ProrationPreview: React.FC<ProrationPreviewProps> = ({
           <span className="value">{formatCurrency(calculation.newAmount)}</span>
         </div>
         
-        <div className="breakdown-item credit">
-          <span className="label">Credit for Unused Time ({daysRemaining} days):</span>
-          <span className="value">-{formatCurrency(Math.abs(calculation.prorationAmount))}</span>
-        </div>
+        {calculation.prorationAmount < 0 && (
+          <div className="breakdown-item credit">
+            <span className="label">Credit for Unused Time ({daysRemaining} days):</span>
+            <span className="value credit-amount">-{formatCurrency(Math.abs(calculation.prorationAmount))}</span>
+          </div>
+        )}
+        
+        {calculation.prorationAmount > 0 && (
+          <div className="breakdown-item charge">
+            <span className="label">Additional Charge for Unused Time ({daysRemaining} days):</span>
+            <span className="value charge-amount">+{formatCurrency(calculation.prorationAmount)}</span>
+          </div>
+        )}
         
         <div className="breakdown-item total">
-          <span className="label">Total Amount Due Today:</span>
-          <span className="value total-amount">{formatCurrency(calculation.totalImpact)}</span>
+          <span className="label">
+            {hasCredit ? 'Amount Due Today:' : 'Total Amount Due Today:'}
+          </span>
+          <span className={`value total-amount ${hasCredit ? 'reduced' : ''}`}>
+            {hasCredit ? formatCurrency(calculation.totalImpact) : formatCurrency(calculation.totalImpact)}
+          </span>
         </div>
+        
+        {hasCredit && (
+          <div className="savings-note">
+            <span className="savings-icon">💡</span>
+            <span className="savings-text">
+              You're saving {formatCurrency(Math.abs(calculation.newAmount - calculation.totalImpact))} today!
+            </span>
+          </div>
+        )}
       </div>
     </div>
   );

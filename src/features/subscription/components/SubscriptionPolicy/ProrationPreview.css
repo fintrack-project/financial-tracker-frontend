@@ -185,6 +185,74 @@
   font-weight: 500;
 }
 
+.breakdown-item.charge .value {
+  color: var(--error-color);
+  font-weight: 500;
+}
+
+.breakdown-item .value.credit-amount {
+  color: var(--success-color);
+  font-weight: 600;
+}
+
+.breakdown-item .value.charge-amount {
+  color: var(--error-color);
+  font-weight: 600;
+}
+
+.breakdown-item .value.total-amount.reduced {
+  color: var(--success-color);
+}
+
+/* Credit Summary */
+.credit-summary {
+  margin-bottom: var(--spacing-md);
+}
+
+.credit-badge {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--spacing-sm);
+  background: var(--success-color);
+  color: white;
+  padding: var(--spacing-sm) var(--spacing-md);
+  border-radius: var(--border-radius-md);
+  font-weight: 600;
+  font-size: var(--font-size-sm);
+}
+
+.credit-badge .credit-icon {
+  font-size: var(--font-size-base);
+}
+
+.credit-badge .credit-text {
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+/* Savings Note */
+.savings-note {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+  background: var(--success-color);
+  color: white;
+  padding: var(--spacing-sm) var(--spacing-md);
+  border-radius: var(--border-radius-md);
+  margin-top: var(--spacing-sm);
+  font-size: var(--font-size-sm);
+  font-weight: 500;
+}
+
+.savings-note .savings-icon {
+  font-size: var(--font-size-base);
+}
+
+.savings-note .savings-text {
+  flex: 1;
+}
+
 .breakdown-item.total .value {
   color: var(--accent-color);
   font-size: var(--font-size-lg);
