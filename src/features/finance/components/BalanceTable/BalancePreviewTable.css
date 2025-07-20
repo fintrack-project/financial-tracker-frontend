@@ -154,17 +154,21 @@
   }
 }
 
-/* Tablet Styles (769px to 1023px) */
-@media (min-width: 769px) and (max-width: 1023px) {
-  .balance-preview-container h2 {
-    padding: var(--spacing-sm);
-    font-size: var(--font-size-lg);
-  }
+/* Tablet and Desktop Styles (769px and up) */
+@media (min-width: 769px) {
   .preview-table {
     font-size: var(--font-size-sm);
   }
   .preview-table th {
     font-size: var(--font-size-xs);
+  }
+}
+
+/* Tablet Styles (769px to 1023px) */
+@media (min-width: 769px) and (max-width: 1023px) {
+  .balance-preview-container h2 {
+    padding: var(--spacing-sm);
+    font-size: var(--font-size-lg);
   }
   .no-preview-data {
     font-size: var(--font-size-base);
@@ -176,12 +180,6 @@
   .balance-preview-container h2 {
     padding: var(--spacing-sm);
     font-size: var(--font-size-xl);
-  }
-  .preview-table {
-    font-size: var(--font-size-sm);
-  }
-  .preview-table th {
-    font-size: var(--font-size-xs);
   }
   .preview-table td {
     min-height: var(--table-cell-height-normal);

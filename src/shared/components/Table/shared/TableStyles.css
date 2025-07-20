@@ -230,8 +230,8 @@
   }
 }
 
-/* Tablet Styles (769px to 1023px) */
-@media (min-width: 769px) and (max-width: 1023px) {
+/* Tablet and Desktop Styles (769px and up) */
+@media (min-width: 769px) {
   .table-container {
     min-width: 600px;
     /* Enable horizontal scrolling */
@@ -239,15 +239,6 @@
     -webkit-overflow-scrolling: touch;
   }
   
-  .data-table th,
-  .data-table td {
-    font-size: var(--font-size-sm);
-    min-height: var(--table-cell-height-normal);
-  }
-}
-
-/* Desktop Styles (1024px and up) */
-@media (min-width: 1024px) {
   .data-table th,
   .data-table td {
     font-size: var(--font-size-sm);

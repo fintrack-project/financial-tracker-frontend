@@ -148,7 +148,7 @@
    RESPONSIVE DESIGN
    ========================================================================== */
 
-/* Mobile Styles (≤768px) - Touch-First Design */
+/* Mobile Styles (max-width: 768px) */
 @media (max-width: 768px) {
   .profile-table {
     padding: var(--spacing-sm);
@@ -209,22 +209,11 @@
   }
 }
 
-/* Tablet Styles (769px-1023px) - Balanced Hybrid */
-@media (min-width: 769px) and (max-width: 1023px) {
-  .profile-table {
-    padding: var(--spacing-md);
-  }
-  
+/* Tablet and Desktop Styles (769px and up) */
+@media (min-width: 769px) {
   .profile-table-row {
     grid-template-columns: 1fr 2fr 1fr 1fr;
-    padding: var(--spacing-sm);
     gap: var(--spacing-md);
-  }
-  
-  .profile-table-label,
-  .profile-table-value,
-  .profile-table-status {
-    font-size: var(--font-size-xs);
   }
   
   .action-button {
@@ -244,20 +233,38 @@
   
   .profile-table input {
     padding: var(--spacing-xs) var(--spacing-sm);
+  }
+}
+
+/* Tablet Styles (769px to 1023px) */
+@media (min-width: 769px) and (max-width: 1023px) {
+  .profile-table {
+    padding: var(--spacing-md);
+  }
+  
+  .profile-table-row {
+    padding: var(--spacing-sm);
+  }
+  
+  .profile-table-label,
+  .profile-table-value,
+  .profile-table-status {
+    font-size: var(--font-size-xs);
+  }
+  
+  .profile-table input {
     font-size: var(--font-size-xs);
   }
 }
 
-/* Desktop Styles (≥1024px) - Original Design */
+/* Desktop Styles (1024px and up) */
 @media (min-width: 1024px) {
   .profile-table {
     padding: var(--spacing-md) var(--spacing-sm);
   }
   
   .profile-table-row {
-    grid-template-columns: 1fr 2fr 1fr 1fr;
     padding: var(--spacing-sm) var(--spacing-md);
-    gap: var(--spacing-md);
   }
   
   .profile-table-label,
@@ -268,11 +275,9 @@
   
   .action-button {
     padding: var(--spacing-xs) var(--spacing-sm);
-    font-size: var(--font-size-xs);
   }
   
   .profile-table input {
-    padding: var(--spacing-xs) var(--spacing-sm);
     font-size: var(--font-size-sm);
   }
 }

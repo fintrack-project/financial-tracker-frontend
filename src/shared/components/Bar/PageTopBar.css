@@ -86,28 +86,23 @@
     display: none; /* Hidden on mobile and tablet - using mobile header instead */
   }
 
-  .page-top-bar .fintrack-logo {
-    height: var(--nav-height-compact);
-  }
-
   .page-top-bar > .navigation-bar {
     margin: 0;
     width: 100%;
+    justify-content: center;
+    display: flex;
+    align-items: center;
+    padding: var(--spacing-xs) 0;
     overflow-x: auto;
     overflow-y: hidden;
     -webkit-overflow-scrolling: touch;
     scrollbar-width: none; /* Firefox */
     -ms-overflow-style: none; /* IE and Edge */
-    /* Remove padding to prevent overflow */
-    padding: var(--spacing-xs) 0;
     /* Ensure the container doesn't exceed page width */
     max-width: 100%;
     box-sizing: border-box;
     /* Add position relative for fade effect */
     position: relative;
-    /* Ensure proper containment */
-    display: flex;
-    align-items: center;
   }
   
   .page-top-bar > .navigation-bar::-webkit-scrollbar {
@@ -125,6 +120,10 @@
     background: linear-gradient(to left, var(--nav-bg), transparent);
     pointer-events: none;
     z-index: 1;
+  }
+
+  .page-top-bar .fintrack-logo {
+    height: var(--nav-height-compact);
   }
 }
 
@@ -154,10 +153,6 @@
     display: none; /* Hidden on mobile and tablet - using mobile header instead */
   }
 
-  .page-top-bar .fintrack-logo {
-    height: var(--nav-height-normal);
-  }
-
   .page-top-bar > .navigation-bar {
     margin: 0;
     width: 100%;
@@ -165,6 +160,10 @@
     display: flex;
     align-items: center;
     padding: var(--spacing-xs) 0;
+  }
+
+  .page-top-bar .fintrack-logo {
+    height: var(--nav-height-normal);
   }
 }
 

@@ -175,7 +175,6 @@
     font-size: var(--font-size-xs);
   }
 }
-
 /* Desktop Styles (≥1024px) - Current Design */
 @media (min-width: 1024px) {
   .settings-section h3 {

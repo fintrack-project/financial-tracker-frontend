@@ -144,6 +144,44 @@
   }
 }
 
+/* Tablet and Desktop Styles (769px and up) */
+@media (min-width: 769px) {
+  .balance-table {
+    width: 100%;
+    font-size: var(--table-font-size-normal);
+  }
+  
+  .custom-range-input {
+    width: 100%;
+  }
+  
+  .balance-content {
+    gap: var(--spacing-sm);
+  }
+  
+  .balance-overview,
+  .upload-balance {
+    gap: var(--spacing-sm);
+  }
+
+  /* Component spacing for tablet and desktop */
+  .balance-overview > *,
+  .upload-balance > * {
+    margin-top: var(--spacing-sm);
+    margin-bottom: var(--spacing-sm);
+  }
+
+  .balance-overview > *:first-child,
+  .upload-balance > *:first-child {
+    margin-top: 0;
+  }
+
+  .balance-overview > *:last-child,
+  .upload-balance > *:last-child {
+    margin-bottom: 0;
+  }
+}
+
 /* Tablet Styles (769px to 1023px) */
 @media (min-width: 769px) and (max-width: 1023px) {
   .balance-page {
@@ -151,13 +189,10 @@
   }
 
   .balance-table {
-    width: 100%;
     max-width: 100%; /* Ensure full width on tablet */
-    font-size: var(--table-font-size-normal);
   }
 
   .custom-range-input {
-    width: 100%;
     max-width: 100%; /* Ensure full width on tablet */
   }
 }
@@ -184,44 +219,9 @@
   .balance-container p {
     font-size: var(--font-size-lg);
   }
-  
-  .balance-content {
-    gap: var(--spacing-sm);
-  }
-  
-  .balance-overview,
-  .upload-balance {
-    gap: var(--spacing-sm);
-  }
-
-  /* Desktop component spacing - even smaller for tighter layout */
-  .balance-overview > *,
-  .upload-balance > * {
-    margin-top: var(--spacing-sm);
-    margin-bottom: var(--spacing-sm);
-  }
-
-  .balance-overview > *:first-child,
-  .upload-balance > *:first-child {
-    margin-top: 0;
-  }
-
-  .balance-overview > *:last-child,
-  .upload-balance > *:last-child {
-    margin-bottom: 0;
-  }
 
   .balance-page {
     padding: var(--spacing-lg);
-  }
-
-  .balance-table {
-    width: 100%;
-    font-size: var(--table-font-size-normal);
-  }
-
-  .custom-range-input {
-    width: 100%;
   }
 }
 

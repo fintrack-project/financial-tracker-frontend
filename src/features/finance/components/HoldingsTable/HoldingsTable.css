@@ -245,14 +245,8 @@
   }
 }
 
-/* Tablet Styles (769px to 1023px) */
-@media (min-width: 769px) and (max-width: 1023px) {
-  .holdings-table-container {
-    min-width: 600px;
-    overflow-x: auto;
-    -webkit-overflow-scrolling: touch;
-  }
-
+/* Tablet and Desktop Styles (769px and up) */
+@media (min-width: 769px) {
   .holdings-table th,
   .holdings-table td {
     font-size: var(--font-size-sm);
@@ -260,7 +254,16 @@
   }
 }
 
-/* Desktop Styles (1024px and up) - Merged responsive design */
+/* Tablet Styles (769px to 1023px) */
+@media (min-width: 769px) and (max-width: 1023px) {
+  .holdings-table-container {
+    min-width: 600px;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+}
+
+/* Desktop Styles (1024px and up) */
 @media (min-width: 1024px) {
   .holdings-widget-header h3 {
     font-size: var(--font-size-xl);
@@ -274,11 +277,5 @@
 
   .holdings-table {
     font-size: var(--font-size-sm);
-  }
-
-  .holdings-table th,
-  .holdings-table td {
-    font-size: var(--font-size-sm);
-    min-height: var(--table-cell-height-normal);
   }
 }

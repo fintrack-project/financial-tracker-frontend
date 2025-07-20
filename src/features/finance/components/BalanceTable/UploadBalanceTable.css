@@ -766,7 +766,6 @@
     font-size: var(--font-size-xs);
     min-width: 600px;
   }
-  /* Table header styles use shared TableStyles.css */
   .upload-table td.debit-column,
   .upload-table th.debit-column,
   .upload-table td.credit-column,
@@ -804,7 +803,6 @@
     font-size: var(--font-size-sm);
     min-width: 700px;
   }
-  /* Table header styles use shared TableStyles.css */
   .upload-table td.debit-column,
   .upload-table th.debit-column,
   .upload-table td.credit-column,

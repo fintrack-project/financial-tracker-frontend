@@ -195,12 +195,8 @@
   }
 }
 
-/* Tablet Styles (769px to 1023px) */
-@media (min-width: 769px) and (max-width: 1023px) {
-  .balance-overview-container h2 {
-    padding: var(--spacing-sm);
-    font-size: var(--font-size-lg);
-  }
+/* Tablet and Desktop Styles (769px and up) */
+@media (min-width: 769px) {
   .table-footer {
     padding: var(--spacing-xs) var(--spacing-sm);
   }
@@ -213,20 +209,18 @@
   }
 }
 
+/* Tablet Styles (769px to 1023px) */
+@media (min-width: 769px) and (max-width: 1023px) {
+  .balance-overview-container h2 {
+    padding: var(--spacing-sm);
+    font-size: var(--font-size-lg);
+  }
+}
+
 /* Desktop Styles (1024px and up) */
 @media (min-width: 1024px) {
   .balance-overview-container h2 {
     padding: var(--spacing-sm);
     font-size: var(--font-size-xl);
-  }
-  .table-footer {
-    padding: var(--spacing-xs) var(--spacing-sm);
-  }
-  .actions-group {
-    gap: var(--spacing-xs);
-  }
-  .button,
-  .dropdown-button {
-    font-size: var(--font-size-sm);
   }
 }

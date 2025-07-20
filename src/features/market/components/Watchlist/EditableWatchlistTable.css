@@ -274,6 +274,15 @@
   }
 }
 
+/* Tablet and Desktop Styles (769px and up) */
+@media (min-width: 769px) {
+  .editable-watchlist-table th,
+  .editable-watchlist-table td {
+    font-size: var(--font-size-sm);
+    min-height: var(--table-cell-height-normal);
+  }
+}
+
 /* Tablet Styles (769px to 1023px) */
 @media (min-width: 769px) and (max-width: 1023px) {
   .watchlist-table-container,
@@ -290,8 +299,6 @@
   
   .editable-watchlist-table th,
   .editable-watchlist-table td {
-    font-size: var(--font-size-sm);
-    min-height: var(--table-cell-height-normal);
     white-space: nowrap; /* Prevent content wrapping */
   }
 }
@@ -308,12 +315,6 @@
     min-width: 100%;
     max-width: none;
     width: 100%;
-  }
-
-  .editable-watchlist-table th,
-  .editable-watchlist-table td {
-    font-size: var(--font-size-sm);
-    min-height: var(--table-cell-height-normal);
   }
   
   .editable-watchlist-table .price,
