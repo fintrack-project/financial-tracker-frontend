@@ -91,16 +91,16 @@ const UpgradeConfirmation: React.FC<UpgradeConfirmationProps> = ({
       {/* Policy section removed for simplicity */}
 
       <div className="confirmation-actions">
-            <button 
-              onClick={handleConfirm} 
-              className="confirm-button"
-            >
-              Confirm Upgrade
-            </button>
+        <button 
+          onClick={handleConfirm} 
+          className="confirm-button"
+        >
+          Confirm Upgrade
+        </button>
             <button onClick={onCancel} className="cancel-button">
               Cancel
             </button>
-          </div>
+      </div>
     </div>
   );
 };

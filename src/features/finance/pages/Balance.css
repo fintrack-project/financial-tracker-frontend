@@ -20,16 +20,6 @@
   margin-bottom: var(--spacing-sm);
 }
 
-@media (min-width: 1024px) {
-  .balance-header {
-    flex-direction: row;
-    justify-content: space-between;
-    align-items: flex-start;
-    gap: var(--spacing-sm);
-    margin-bottom: var(--spacing-sm);
-  }
-}
-
 .balance-container p {
   font-size: var(--font-size-base);
   color: var(--neutral-600);
@@ -39,14 +29,6 @@
 
 .balance-navigation-bar {
   width: 100%;
-}
-
-/* Desktop: Right-align and smaller navigation bar */
-@media (min-width: 1024px) {
-  .balance-navigation-bar {
-    width: auto;
-    flex-shrink: 0;
-  }
 }
 
 .balance-content {
@@ -83,8 +65,21 @@
   margin-bottom: 0;
 }
 
-/* Responsive Design */
+/* Desktop Styles (1024px and up) - Merged responsive design */
 @media (min-width: 1024px) {
+  .balance-header {
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: var(--spacing-sm);
+    margin-bottom: var(--spacing-sm);
+  }
+
+  .balance-navigation-bar {
+    width: auto;
+    flex-shrink: 0;
+  }
+
   .balance-container {
     padding: var(--page-container-padding-desktop);
   }
@@ -118,8 +113,42 @@
   .upload-balance > *:last-child {
     margin-bottom: 0;
   }
+
+  .balance-page {
+    padding: var(--spacing-lg);
+  }
+
+  .balance-table {
+    width: 100%;
+    font-size: var(--table-font-size-normal);
+  }
+
+  .custom-range-input {
+    width: 100%;
+  }
 }
 
+/* Responsive Design for Balance Page */
+.balance-page {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: var(--spacing-md);
+  background-color: var(--neutral-100);
+}
+
+.balance-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-family: var(--font-family-primary);
+  font-size: var(--table-font-size-normal);
+  background-color: var(--primary-100);
+  box-shadow: var(--shadow-md);
+  border-radius: var(--border-radius-md);
+  overflow: hidden;
+}
+
+/* Mobile Styles (max-width: 768px) - Merged responsive design */
 @media (max-width: 768px) {
   .balance-container {
     padding: var(--page-container-padding);
@@ -159,30 +188,7 @@
   .upload-balance > *:last-child {
     margin-bottom: 0;
   }
-}
 
-/* Responsive Design for Balance Page */
-.balance-page {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding: var(--spacing-md);
-  background-color: var(--neutral-100);
-}
-
-.balance-table {
-  width: 100%;
-  border-collapse: collapse;
-  font-family: var(--font-family-primary);
-  font-size: var(--table-font-size-normal);
-  background-color: var(--primary-100);
-  box-shadow: var(--shadow-md);
-  border-radius: var(--border-radius-md);
-  overflow: hidden;
-}
-
-/* Responsive Styles */
-@media (max-width: 768px) {
   .balance-page {
     padding: var(--spacing-sm);
   }
@@ -214,17 +220,3 @@
   }
 }
 
-@media (min-width: 1024px) {
-  .balance-page {
-    padding: var(--spacing-lg);
-  }
-
-  .balance-table {
-    width: 100%;
-    font-size: var(--table-font-size-normal);
-  }
-
-  .custom-range-input {
-    width: 100%;
-  }
-}

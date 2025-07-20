@@ -54,13 +54,6 @@
   color: var(--neutral-900);
 }
 
-/* Desktop: Larger font size */
-@media (min-width: 1024px) {
-  .holdings-widget-header h3 {
-    font-size: var(--font-size-xl);
-  }
-}
-
 /* ========================================
    3. TABLE STYLES
    ======================================== */
@@ -267,8 +260,12 @@
   }
 }
 
-/* Desktop Styles (1024px and up) */
+/* Desktop Styles (1024px and up) - Merged responsive design */
 @media (min-width: 1024px) {
+  .holdings-widget-header h3 {
+    font-size: var(--font-size-xl);
+  }
+
   .holdings-table-container {
     min-width: 100%;
     max-width: none;

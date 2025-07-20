@@ -53,51 +53,51 @@ const CancellationConfirmation: React.FC<CancellationConfirmationProps> = ({
     <div className={`cancellation-confirmation ${className}`}>
       <div className="confirmation-subtitle">
         We're sorry to see you go. Your {currentPlan.name} {currentPlan.interval === 'year' ? 'Annual' : 'Monthly'} plan will be cancelled.
-      </div>
+          </div>
 
-      <div className="billing-info-section">
-        <NextBillingInfo
-          currentPlan={currentPlan.name}
-          newPlan="No Plan"
+          <div className="billing-info-section">
+            <NextBillingInfo
+              currentPlan={currentPlan.name}
+              newPlan="No Plan"
           nextBillingDate={(() => {
             // Validate daysRemaining to prevent invalid date creation
             const validDaysRemaining = isNaN(daysRemaining) || daysRemaining < 0 ? 30 : Math.min(daysRemaining, 365);
             const futureDate = new Date(Date.now() + validDaysRemaining * 24 * 60 * 60 * 1000);
             return futureDate.toISOString();
           })()}
-          nextBillingAmount={0}
-        />
-      </div>
+              nextBillingAmount={0}
+            />
+          </div>
 
       <div className="confirmation-note">
         <p>
           <strong>Important:</strong> Your subscription will remain active until the end of your current billing period. 
           You can reactivate anytime before then.
         </p>
-      </div>
+          </div>
 
-      <div className="confirmation-actions">
-        <button
-          onClick={handleConfirm}
+          <div className="confirmation-actions">
+            <button
+              onClick={handleConfirm}
           disabled={confirming}
-          className="confirm-button"
-        >
-          {confirming ? 'Processing Cancellation...' : 'Confirm Cancellation'}
-        </button>
-        
-        <button
-          onClick={onCancel}
-          disabled={confirming}
-          className="cancel-button"
-        >
-          Keep Subscription
-        </button>
-      </div>
+              className="confirm-button"
+            >
+              {confirming ? 'Processing Cancellation...' : 'Confirm Cancellation'}
+            </button>
+            
+            <button
+              onClick={onCancel}
+              disabled={confirming}
+              className="cancel-button"
+            >
+              Keep Subscription
+            </button>
+          </div>
 
-      {error && (
-        <div className="confirmation-error-message">
-          <p>{error}</p>
-        </div>
+          {error && (
+            <div className="confirmation-error-message">
+              <p>{error}</p>
+            </div>
       )}
     </div>
   );

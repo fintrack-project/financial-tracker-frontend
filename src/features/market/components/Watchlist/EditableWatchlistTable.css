@@ -28,13 +28,6 @@
   color: var(--neutral-900);
 }
 
-/* Desktop: Larger font size */
-@media (min-width: 1024px) {
-  .watchlist-widget-header h3 {
-    font-size: var(--font-size-xl);
-  }
-}
-
 /* Loading state */
 .watchlist-widget-loading {
   display: flex;
@@ -75,39 +68,6 @@
   width: 100%;
 }
 
-/* Mobile: Enable horizontal scrolling and reduce font size */
-@media (max-width: 768px) {
-  .watchlist-table-container,
-  .editable-watchlist-table-container {
-    min-width: 320px;
-    /* Enable horizontal scrolling */
-    overflow-x: auto;
-    -webkit-overflow-scrolling: touch;
-  }
-}
-
-/* Tablet: Enable horizontal scrolling */
-@media (min-width: 769px) and (max-width: 1023px) {
-  .watchlist-table-container,
-  .editable-watchlist-table-container {
-    min-width: 600px;
-    /* Enable horizontal scrolling */
-    overflow-x: auto;
-    -webkit-overflow-scrolling: touch;
-  }
-}
-
-/* Desktop: Use full available width */
-@media (min-width: 1024px) {
-  .watchlist-table-container,
-  .editable-watchlist-table-container {
-    /* Remove width constraints to use full available space */
-    min-width: 100%;
-    max-width: none;
-    width: 100%;
-  }
-}
-
 /* Main table styles */
 .editable-watchlist-table {
   width: 100%;
@@ -118,22 +78,16 @@
   background-color: var(--primary-100);
 }
 
-/* Mobile: Smaller font sizes and minimum width for scrolling */
-@media (max-width: 768px) {
-  .editable-watchlist-table {
-    font-size: var(--font-size-xs);
-    min-width: 500px; /* Force horizontal scrolling if table is wider than container */
-  }
-  
-  .editable-watchlist-table th,
-  .editable-watchlist-table td {
-    font-size: var(--font-size-xs);
-    white-space: nowrap; /* Prevent content wrapping */
-  }
-}
-
-/* Tablet: Minimum width for scrolling if needed */
+/* Tablet Styles (769px to 1023px) - Merged responsive design */
 @media (min-width: 769px) and (max-width: 1023px) {
+  .watchlist-table-container,
+  .editable-watchlist-table-container {
+    min-width: 600px;
+    /* Enable horizontal scrolling */
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+
   .editable-watchlist-table {
     min-width: 700px; /* Force horizontal scrolling if table is wider than container */
   }
@@ -305,8 +259,20 @@
   min-height: var(--table-cell-height-normal);
 }
 
-/* Responsive Design */
+/* Desktop Styles (1024px and up) - Merged responsive design */
 @media (min-width: 1024px) {
+  .watchlist-widget-header h3 {
+    font-size: var(--font-size-xl);
+  }
+
+  .watchlist-table-container,
+  .editable-watchlist-table-container {
+    /* Remove width constraints to use full available space */
+    min-width: 100%;
+    max-width: none;
+    width: 100%;
+  }
+
   .editable-watchlist-table th,
   .editable-watchlist-table td {
     font-size: var(--font-size-sm);
@@ -320,8 +286,27 @@
   }
 }
 
-/* Mobile-specific adjustments */
+/* Mobile Styles (max-width: 768px) - Merged responsive design */
 @media (max-width: 768px) {
+  .watchlist-table-container,
+  .editable-watchlist-table-container {
+    min-width: 320px;
+    /* Enable horizontal scrolling */
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .editable-watchlist-table {
+    font-size: var(--font-size-xs);
+    min-width: 500px; /* Force horizontal scrolling if table is wider than container */
+  }
+  
+  .editable-watchlist-table th,
+  .editable-watchlist-table td {
+    font-size: var(--font-size-xs);
+    white-space: nowrap; /* Prevent content wrapping */
+  }
+
   .editable-watchlist-table .button-group {
     flex-direction: column;
     gap: 2px;

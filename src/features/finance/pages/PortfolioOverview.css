@@ -18,30 +18,6 @@
   width: 100%;
 }
 
-/* Responsive design */
-@media (min-width: 1024px) {
-  .portfolio-overview-container {
-    padding: var(--page-container-padding-desktop);
-  }
-  
-  .charts-grid {
-    gap: var(--spacing-md);
-    margin: var(--spacing-md) auto;
-  }
-}
-
-@media (max-width: 768px) {
-  .portfolio-overview-container {
-    padding: var(--page-container-padding);
-  }
-  
-  .charts-grid {
-    gap: var(--spacing-xs);
-    margin: var(--spacing-xs) auto;
-    max-width: 100%;
-  }
-}
-
 /* Loading state */
 .loading-container {
   display: flex;
@@ -77,24 +53,6 @@
   border-radius: var(--border-radius-md);
 }
 
-@media (min-width: 1024px) {
-  .top-bar {
-    margin-top: var(--spacing-md);
-    margin-bottom: var(--spacing-md);
-    padding: var(--spacing-md) var(--spacing-xl);
-  }
-}
-
-@media (max-width: 768px) {
-  .top-bar {
-    margin-top: var(--spacing-xs);
-    margin-bottom: var(--spacing-xs);
-    padding: var(--spacing-xs) var(--spacing-sm);
-    flex-direction: column;
-    gap: var(--spacing-xs);
-  }
-}
-
 /* Chart container styling with responsive spacing */
 .chart-container {
   margin: var(--spacing-sm) auto;
@@ -106,7 +64,23 @@
   width: 100%;
 }
 
+/* Desktop Styles (1024px and up) - Merged responsive design */
 @media (min-width: 1024px) {
+  .portfolio-overview-container {
+    padding: var(--page-container-padding-desktop);
+  }
+  
+  .charts-grid {
+    gap: var(--spacing-md);
+    margin: var(--spacing-md) auto;
+  }
+
+  .top-bar {
+    margin-top: var(--spacing-md);
+    margin-bottom: var(--spacing-md);
+    padding: var(--spacing-md) var(--spacing-xl);
+  }
+
   .chart-container {
     margin: var(--spacing-md) auto;
     padding: var(--spacing-md);
@@ -114,7 +88,26 @@
   }
 }
 
+/* Mobile Styles (max-width: 768px) - Merged responsive design */
 @media (max-width: 768px) {
+  .portfolio-overview-container {
+    padding: var(--page-container-padding);
+  }
+  
+  .charts-grid {
+    gap: var(--spacing-xs);
+    margin: var(--spacing-xs) auto;
+    max-width: 100%;
+  }
+
+  .top-bar {
+    margin-top: var(--spacing-xs);
+    margin-bottom: var(--spacing-xs);
+    padding: var(--spacing-xs) var(--spacing-sm);
+    flex-direction: column;
+    gap: var(--spacing-xs);
+  }
+
   .chart-container {
     margin: var(--spacing-xs) auto;
     padding: var(--spacing-xs);
