@@ -13,7 +13,7 @@
    ============================================================================= */
 
 /* Mobile (768px and below) - Touch-friendly design */
-@media (max-width: var(--breakpoint-mobile-max)) {
+@media (max-width: 768px) {
   .responsive-mobile-only {
     display: block;
   }
@@ -79,7 +79,7 @@
   font-size: var(--font-size-base);
 }
 
-@media (max-width: var(--breakpoint-mobile-max)) {
+@media (max-width: 768px) {
   .responsive-text-mobile {
     font-size: var(--font-size-lg);
   }
@@ -102,7 +102,7 @@
   padding: var(--spacing-md);
 }
 
-@media (max-width: var(--breakpoint-mobile-max)) {
+@media (max-width: 768px) {
   .responsive-padding {
     padding: var(--spacing-md);
   }
@@ -153,7 +153,7 @@
   padding: var(--spacing-sm);
 }
 
-@media (max-width: var(--breakpoint-mobile-max)) {
+@media (max-width: 768px) {
   .responsive-nav {
     flex-direction: column;
     gap: var(--spacing-sm);
@@ -236,7 +236,7 @@
   pointer-events: none;
 }
 
-@media (max-width: var(--breakpoint-mobile-max)) {
+@media (max-width: 768px) {
   .breakpoint-indicator::after {
     content: "MOBILE (≤768px)";
   }
@@ -295,7 +295,7 @@ USAGE EXAMPLES:
   }
 }
 
-@media (max-width: var(--breakpoint-mobile-max)) {
+@media (max-width: 768px) {
   .my-component {
     padding: var(--spacing-md);
     font-size: var(--font-size-lg);

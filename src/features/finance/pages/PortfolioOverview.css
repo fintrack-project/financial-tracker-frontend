@@ -30,7 +30,7 @@
   }
 }
 
-@media (max-width: var(--breakpoint-mobile-max)) {
+@media (max-width: 768px) {
   .portfolio-overview-container {
     padding: var(--page-container-padding);
   }
@@ -85,7 +85,7 @@
   }
 }
 
-@media (max-width: var(--breakpoint-mobile-max)) {
+@media (max-width: 768px) {
   .top-bar {
     margin-top: var(--spacing-xs);
     margin-bottom: var(--spacing-xs);
@@ -114,7 +114,7 @@
   }
 }
 
-@media (max-width: var(--breakpoint-mobile-max)) {
+@media (max-width: 768px) {
   .chart-container {
     margin: var(--spacing-xs) auto;
     padding: var(--spacing-xs);

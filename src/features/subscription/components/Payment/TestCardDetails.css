@@ -89,7 +89,7 @@
   }
 }
 
-@media (max-width: var(--breakpoint-mobile-max)) {
+@media (max-width: 768px) {
   .test-cards-grid {
     grid-template-columns: 1fr;
   }

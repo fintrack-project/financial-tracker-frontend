@@ -43,7 +43,7 @@
    ========================================================================== */
 
 /* Mobile Styles (≤768px) - Touch-First Design */
-@media (max-width: var(--breakpoint-mobile-max)) {
+@media (max-width: 768px) {
   .security {
     padding: var(--spacing-md);
   }

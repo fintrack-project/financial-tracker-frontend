@@ -104,13 +104,6 @@ const DowngradeConfirmation: React.FC<DowngradeConfirmationProps> = ({
 
           {/* Policy section removed for simplicity */}
 
-          <div className="confirmation-note">
-            <p>
-              <strong>Note:</strong> Your downgrade will take effect at the end of your current billing period. 
-              You'll continue to have access to your current plan features until then.
-            </p>
-          </div>
-
           <div className="confirmation-actions">
             <button 
               onClick={handleConfirm} 

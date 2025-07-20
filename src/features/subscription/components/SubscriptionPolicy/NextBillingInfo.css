@@ -152,7 +152,7 @@
 /* ===== RESPONSIVE DESIGN ===== */
 
 /* Mobile: 768px and below */
-@media (max-width: var(--breakpoint-mobile-max)) {
+@media (max-width: 768px) {
   .next-billing-info {
     padding: 0;
   }

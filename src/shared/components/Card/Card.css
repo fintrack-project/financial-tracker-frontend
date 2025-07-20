@@ -71,7 +71,7 @@
 }
 
 /* Mobile-specific adjustments */
-@media (max-width: var(--breakpoint-mobile-max)) {
+@media (max-width: 768px) {
   .card {
     border-radius: var(--border-radius-md);
   }

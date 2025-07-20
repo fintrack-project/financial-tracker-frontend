@@ -66,7 +66,7 @@
 }
 
 /* Mobile: Single column with smaller fonts */
-@media (max-width: var(--breakpoint-mobile-max)) {
+@media (max-width: 768px) {
   .market-index-list {
     grid-template-columns: 1fr;
     gap: var(--spacing-xs);
@@ -106,7 +106,7 @@
 }
 
 /* Mobile: Smaller fonts and tighter padding */
-@media (max-width: var(--breakpoint-mobile-max)) {
+@media (max-width: 768px) {
   .market-index-item {
     padding: var(--spacing-xs) var(--spacing-sm);
   }

@@ -217,7 +217,7 @@
   font-weight: 600;
 }
 
-.confirmation-actions {
+.payment-confirmation .confirmation-actions {
   display: flex;
   gap: var(--spacing-sm);
   justify-content: flex-end;

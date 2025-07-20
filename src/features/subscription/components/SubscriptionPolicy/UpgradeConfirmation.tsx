@@ -86,14 +86,7 @@ const UpgradeConfirmation: React.FC<UpgradeConfirmationProps> = ({
 
       {/* Policy section removed for simplicity */}
 
-      <div className="confirmation-note">
-        <p>
-          <strong>Note:</strong> Your upgrade will be processed immediately. 
-          Any proration adjustments will be applied to your next billing cycle.
-        </p>
-      </div>
-
-                <div className="confirmation-actions">
+      <div className="confirmation-actions">
             <button 
               onClick={handleConfirm} 
               className="confirm-button"

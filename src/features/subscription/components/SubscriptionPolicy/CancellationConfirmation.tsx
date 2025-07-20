@@ -69,6 +69,13 @@ const CancellationConfirmation: React.FC<CancellationConfirmationProps> = ({
         />
       </div>
 
+      <div className="confirmation-note">
+        <p>
+          <strong>Important:</strong> Your subscription will remain active until the end of your current billing period. 
+          You can reactivate anytime before then.
+        </p>
+      </div>
+
       <div className="confirmation-actions">
         <button
           onClick={handleConfirm}
@@ -92,13 +99,6 @@ const CancellationConfirmation: React.FC<CancellationConfirmationProps> = ({
           <p>{error}</p>
         </div>
       )}
-
-      <div className="confirmation-note">
-        <p>
-          <strong>Important:</strong> Your subscription will remain active until the end of your current billing period. 
-          You can reactivate anytime before then.
-        </p>
-      </div>
     </div>
   );
 };

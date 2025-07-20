@@ -81,7 +81,7 @@
   }
 }
 
-@media (max-width: var(--breakpoint-mobile-max)) {
+@media (max-width: 768px) {
   .fintrack-section-title {
     font-size: var(--page-title-font-size-mobile);
     margin-bottom: var(--page-title-margin-bottom-mobile);

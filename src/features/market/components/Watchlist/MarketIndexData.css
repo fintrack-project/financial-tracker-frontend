@@ -12,7 +12,7 @@
   align-items: center;
 }
 
-@media (max-width: var(--breakpoint-mobile-max)) {
+@media (max-width: 768px) {
   .dashboard-container .market-index-item {
     padding: var(--spacing-md) var(--spacing-sm);
     width: 100%;
@@ -35,7 +35,7 @@
   letter-spacing: 0.5px;
 }
 
-@media (max-width: var(--breakpoint-mobile-max)) {
+@media (max-width: 768px) {
   .dashboard-container .market-index-item h3 {
     font-size: 1.125rem;
     margin-bottom: var(--spacing-sm);
@@ -48,7 +48,7 @@
   color: #555;
 }
 
-@media (max-width: var(--breakpoint-mobile-max)) {
+@media (max-width: 768px) {
   .dashboard-container .market-index-item p {
     font-size: 0.9rem;
     margin: var(--spacing-xs) 0;

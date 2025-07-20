@@ -30,19 +30,19 @@
   font-family: var(--font-family-primary);
   padding: var(--popup-padding);
 }
-@media (max-width: var(--breakpoint-mobile-max)) {
+@media (max-width: 768px) {
   .subscription-popup-container {
     max-width: 95vw;
     padding: var(--container-padding-mobile);
   }
 }
-@media (min-width: var(--breakpoint-tablet-min)) and (max-width: var(--breakpoint-tablet-max)) {
+@media (min-width: 769px) and (max-width: 1023px) {
   .subscription-popup-container {
     max-width: 90vw;
     padding: var(--container-padding-tablet);
   }
 }
-@media (min-width: var(--breakpoint-desktop-min)) {
+@media (min-width: 1024px) {
   .subscription-popup-container {
     max-width: 520px;
     padding: var(--container-padding-desktop);
@@ -68,12 +68,12 @@
   font-weight: 600;
   font-family: var(--font-family-primary);
 }
-@media (min-width: var(--breakpoint-tablet-min)) and (max-width: var(--breakpoint-tablet-max)) {
+@media (min-width: 769px) and (max-width: 1023px) {
   .subscription-popup-header h3 {
     font-size: var(--page-title-font-size-tablet);
   }
 }
-@media (min-width: var(--breakpoint-desktop-min)) {
+@media (min-width: 1024px) {
   .subscription-popup-header h3 {
     font-size: var(--page-title-font-size-desktop);
   }

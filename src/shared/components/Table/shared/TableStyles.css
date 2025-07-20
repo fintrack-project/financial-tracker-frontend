@@ -178,7 +178,7 @@
 }
 
 /* Responsive font size and min-height for th/td */
-@media (max-width: var(--breakpoint-mobile-max)) {
+@media (max-width: 768px) {
   .data-table th,
   .data-table td {
     font-size: var(--font-size-xs);
@@ -209,7 +209,7 @@
 }
 
 /* Mobile Styles (768px and below) */
-@media (max-width: var(--breakpoint-mobile-max)) {
+@media (max-width: 768px) {
   .table-container {
     min-width: 320px;
     /* Enable horizontal scrolling */

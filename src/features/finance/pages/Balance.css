@@ -120,7 +120,7 @@
   }
 }
 
-@media (max-width: var(--breakpoint-mobile-max)) {
+@media (max-width: 768px) {
   .balance-container {
     padding: var(--page-container-padding);
   }
@@ -182,7 +182,7 @@
 }
 
 /* Responsive Styles */
-@media (max-width: var(--breakpoint-mobile-max)) {
+@media (max-width: 768px) {
   .balance-page {
     padding: var(--spacing-sm);
   }
@@ -197,7 +197,7 @@
   }
 }
 
-@media (min-width: var(--breakpoint-tablet-min)) and (max-width: var(--breakpoint-tablet-max)) {
+@media (min-width: 769px) and (max-width: 1023px) {
   .balance-page {
     padding: var(--spacing-md);
   }
@@ -214,7 +214,7 @@
   }
 }
 
-@media (min-width: var(--breakpoint-desktop-min)) {
+@media (min-width: 1024px) {
   .balance-page {
     padding: var(--spacing-lg);
   }

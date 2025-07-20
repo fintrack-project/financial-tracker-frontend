@@ -367,7 +367,7 @@
 /* ===== RESPONSIVE DESIGN ===== */
 
 /* Mobile: 768px and below */
-@media (max-width: var(--breakpoint-mobile-max)) {
+@media (max-width: 768px) {
   .proration-preview {
     padding: var(--spacing-md);
     margin: var(--spacing-md) 0;

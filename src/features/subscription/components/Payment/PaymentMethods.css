@@ -310,7 +310,7 @@
 }
 
 /* Mobile Styles (≤768px) */
-@media (max-width: var(--breakpoint-mobile-max)) {
+@media (max-width: 768px) {
   .payment-methods {
     padding: var(--spacing-sm);
   }

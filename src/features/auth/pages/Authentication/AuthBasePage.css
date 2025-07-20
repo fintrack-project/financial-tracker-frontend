@@ -186,7 +186,7 @@
    RESPONSIVE DESIGN
    ========================================================================== */
 /* Mobile Styles (≤768px) - Touch-First Design */
-@media (max-width: var(--breakpoint-mobile-max)) {
+@media (max-width: 768px) {
   .auth-base-container {
     flex-direction: column;
     min-height: 100vh;

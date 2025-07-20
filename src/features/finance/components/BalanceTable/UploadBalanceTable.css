@@ -751,7 +751,7 @@
 }
 
 /* Mobile (768px and below) - Touch-Friendly Design */
-@media (max-width: var(--breakpoint-mobile-max)) {
+@media (max-width: 768px) {
   .upload-balance-container h2 {
     padding: var(--spacing-sm);
     font-size: var(--font-size-lg);

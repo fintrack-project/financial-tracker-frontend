@@ -238,7 +238,7 @@
 }
 
 /* Mobile Styles */
-@media (max-width: var(--breakpoint-mobile-max)) {
+@media (max-width: 768px) {
   .transaction-table {
     font-size: var(--font-size-xs);
   }

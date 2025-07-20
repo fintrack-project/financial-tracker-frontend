@@ -69,7 +69,7 @@
 }
 
 /* Mobile: Enable horizontal scrolling and reduce font size */
-@media (max-width: var(--breakpoint-mobile-max)) {
+@media (max-width: 768px) {
   .watchlist-table-container,
   .editable-watchlist-table-container {
     min-width: 320px;
@@ -112,7 +112,7 @@
 }
 
 /* Mobile: Smaller font sizes and minimum width for scrolling */
-@media (max-width: var(--breakpoint-mobile-max)) {
+@media (max-width: 768px) {
   .editable-watchlist-table {
     font-size: var(--font-size-xs);
     min-width: 500px; /* Force horizontal scrolling if table is wider than container */
@@ -314,7 +314,7 @@
 }
 
 /* Mobile-specific adjustments */
-@media (max-width: var(--breakpoint-mobile-max)) {
+@media (max-width: 768px) {
   .editable-watchlist-table .button-group {
     flex-direction: column;
     gap: 2px;

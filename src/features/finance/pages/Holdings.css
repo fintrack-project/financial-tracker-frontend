@@ -44,7 +44,7 @@
   margin-bottom: 0;
 }
 
-@media (max-width: var(--breakpoint-mobile-max)) {
+@media (max-width: 768px) {
   .holdings-container {
     padding: var(--page-container-padding);
   }

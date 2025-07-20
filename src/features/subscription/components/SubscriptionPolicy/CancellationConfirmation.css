@@ -258,55 +258,17 @@
 /* Policy Section - REMOVED */
 
 /* Action Buttons */
-.confirmation-actions {
-  display: flex;
-  gap: var(--spacing-md);
-  justify-content: center;
+.cancellation-confirmation .confirmation-actions {
   margin-bottom: var(--spacing-md);
 }
 
-.confirm-button,
-.cancel-button {
-  padding: var(--spacing-md) var(--spacing-lg);
+.cancellation-confirmation .confirm-button,
+.cancellation-confirmation .cancel-button {
   border-radius: var(--border-radius-md);
-  font-size: var(--font-size-base);
   font-weight: 500;
   cursor: pointer;
   border: none;
   transition: all var(--transition-normal);
-  min-width: 140px;
-}
-
-.confirm-button {
-  background: var(--error-color);
-  color: white;
-}
-
-.confirm-button:hover:not(:disabled) {
-  background: #c82333;
-  transform: translateY(-1px);
-}
-
-.confirm-button:disabled {
-  background: var(--neutral-500);
-  cursor: not-allowed;
-  transform: none;
-}
-
-.cancel-button {
-  background: var(--success-color);
-  color: white;
-}
-
-.cancel-button:hover:not(:disabled) {
-  background: #218838;
-  transform: translateY(-1px);
-}
-
-.cancel-button:disabled {
-  background: var(--neutral-500);
-  cursor: not-allowed;
-  transform: none;
 }
 
 /* Proceed Cancellation Button */
@@ -364,8 +326,60 @@
 
 /* ===== RESPONSIVE DESIGN ===== */
 
+/* Tablet and Desktop: 769px and above */
+@media (min-width: 769px) {
+  .cancellation-confirmation .confirmation-actions {
+    display: flex;
+    flex-direction: row;
+    gap: var(--spacing-md);
+    justify-content: center;
+  }
+
+  .cancellation-confirmation .confirm-button,
+  .cancellation-confirmation .cancel-button {
+    padding: var(--spacing-sm) var(--spacing-md);
+    font-size: var(--font-size-sm);
+    min-width: 100px;
+  }
+
+  .cancellation-confirmation .confirm-button {
+    flex: 2;
+    min-width: 140px;
+    background: var(--error-color);
+    color: white;
+  }
+
+  .cancellation-confirmation .confirm-button:hover:not(:disabled) {
+    background: #c82333;
+    transform: translateY(-1px);
+  }
+
+  .cancellation-confirmation .confirm-button:disabled {
+    background: var(--neutral-500);
+    cursor: not-allowed;
+    transform: none;
+  }
+
+  .cancellation-confirmation .cancel-button {
+    flex: 1;
+    background: var(--neutral-500);
+    color: white;
+  }
+
+  .cancellation-confirmation .cancel-button:hover:not(:disabled) {
+    background: var(--neutral-600);
+    transform: translateY(-1px);
+  }
+
+  .cancellation-confirmation .cancel-button:disabled {
+    background: var(--neutral-500);
+    cursor: not-allowed;
+    transform: none;
+  }
+}
+
 /* Mobile: 768px and below */
-@media (max-width: var(--breakpoint-mobile-max)) {
+@media (max-width: 768px) {
   .cancellation-confirmation {
     padding: var(--spacing-sm);
   }
@@ -387,12 +401,51 @@
     text-align: center;
   }
 
-  .confirmation-actions {
+  .cancellation-confirmation .confirmation-actions {
+    display: flex;
     flex-direction: column;
+    gap: var(--spacing-sm);
+    align-items: stretch;
   }
 
-  .confirm-button,
-  .cancel-button {
+  .cancellation-confirmation .confirmation-actions .confirm-button,
+  .cancellation-confirmation .confirmation-actions .cancel-button {
     width: 100%;
+    min-width: auto;
+    flex: none;
+    padding: var(--spacing-sm) var(--spacing-md);
+    font-size: var(--font-size-sm);
+  }
+
+  .cancellation-confirmation .confirmation-actions .confirm-button {
+    background: var(--error-color);
+    color: white;
+  }
+
+  .cancellation-confirmation .confirmation-actions .confirm-button:hover:not(:disabled) {
+    background: #c82333;
+    transform: translateY(-1px);
+  }
+
+  .cancellation-confirmation .confirmation-actions .confirm-button:disabled {
+    background: var(--neutral-500);
+    cursor: not-allowed;
+    transform: none;
+  }
+
+  .cancellation-confirmation .confirmation-actions .cancel-button {
+    background: var(--neutral-500);
+    color: white;
+  }
+
+  .cancellation-confirmation .confirmation-actions .cancel-button:hover:not(:disabled) {
+    background: var(--neutral-600);
+    transform: translateY(-1px);
+  }
+
+  .cancellation-confirmation .confirmation-actions .cancel-button:disabled {
+    background: var(--neutral-500);
+    cursor: not-allowed;
+    transform: none;
   }
 } 

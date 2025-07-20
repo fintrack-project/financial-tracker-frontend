@@ -324,7 +324,7 @@
    RESPONSIVE DESIGN
    ========================================================================== */
 /* Mobile Styles (≤768px) - Touch-First Design */
-@media (max-width: var(--breakpoint-mobile-max)) {
+@media (max-width: 768px) {
   .login-container {
     gap: var(--spacing-xs); /* Reduced from sm to fit in one view */
     padding: var(--spacing-sm); /* Reduced from md to fit in one view */

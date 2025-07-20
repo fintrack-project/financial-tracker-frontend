@@ -50,7 +50,7 @@
    ========================================================================== */
 
 /* Mobile Styles (≤768px) - Compact Design */
-@media (max-width: var(--breakpoint-mobile-max)) {
+@media (max-width: 768px) {
   .toggle {
     gap: 8px;
     padding: 8px;

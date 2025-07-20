@@ -135,7 +135,7 @@
 }
 
 /* Mobile Styles (≤768px) - Compact Design */
-@media (max-width: var(--breakpoint-mobile-max)) {
+@media (max-width: 768px) {
   .plan-card {
     padding: var(--spacing-md);
     display: flex;
