@@ -53,7 +53,7 @@
 /* Mobile Styles (≤768px) - Compact Design */
 @media (max-width: 768px) {
   .toggle {
-    gap: 8px;
+    gap: var(--spacing-sm);
     padding: 8px;
     font-size: var(--font-size-sm);
   }
@@ -83,7 +83,7 @@
 /* Tablet Styles (769px-1023px) - Compact Design */
 @media (min-width: 769px) and (max-width: 1023px) {
   .toggle {
-    gap: 8px;
+    gap: var(--spacing-sm);
     padding: 8px;
     font-size: var(--font-size-sm);
   }

@@ -1,14 +1,14 @@
 .time-range-display {
   display: flex;
   align-items: center;
-  gap: 12px;
+  gap: var(--spacing-md);
   font-size: var(--font-size-sm);
 }
 
 .current-range {
   display: flex;
   flex-direction: column;
-  gap: 2px;
+  gap: var(--spacing-xs);
 }
 
 .range-label {
@@ -46,7 +46,7 @@
   .time-range-display {
     flex-direction: column;
     align-items: flex-start;
-    gap: 8px;
+    gap: var(--spacing-sm);
   }
   
   .current-range {

@@ -6,22 +6,22 @@
 }
 
 .subscription-header {
-  margin-bottom: 16px;
+  margin-bottom: var(--spacing-md);
 }
 
 .subscription-header h2 {
   font-size: var(--font-size-xl);
   font-weight: bold;
-  margin-top: 4px;
-  margin-bottom: 16px;
+  margin-top: var(--spacing-xs);
+  margin-bottom: var(--spacing-md);
 }
 
 .subscription-tabs {
   display: flex;
-  gap: 16px;
+  gap: var(--spacing-md);
   border-bottom: 1px solid var(--neutral-300);
   padding-bottom: 8px;
-  margin-bottom: 24px;
+  margin-bottom: var(--spacing-lg);
 }
 
 .subscription-tabs button {
@@ -57,9 +57,9 @@
 /* Overview Section */
 .subscription-overview {
   display: grid;
-  gap: 24px;
+  gap: var(--spacing-lg);
   grid-template-columns: 1fr 1fr;
-  margin-bottom: 32px;
+  margin-bottom: var(--spacing-xl);
 }
 
 .current-plan-card,
@@ -114,19 +114,19 @@
 
 .plan-dates strong {
   color: var(--text-primary);
-  margin-right: 8px;
+  margin-right: var(--spacing-sm);
 }
 
 .stats-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 20px;
+  gap: var(--spacing-lg);
 }
 
 .stat-item {
   display: flex;
   flex-direction: column;
-  gap: 4px;
+  gap: var(--spacing-xs);
   padding: 12px;
   background-color: var(--neutral-100);
   border-radius: 8px;
@@ -151,8 +151,8 @@
 .plans-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-  gap: 24px;
-  margin-top: 24px;
+  gap: var(--spacing-lg);
+  margin-top: var(--spacing-lg);
 }
 
 .plan-card {
@@ -246,12 +246,12 @@
 .saved-methods h3 {
   font-size: var(--font-size-base);
   font-weight: var(--font-weight-semibold);
-  margin-bottom: 16px;
+  margin-bottom: var(--spacing-md);
   color: var(--text-primary);
 }
 
 .methods-list {
-  margin: 24px 0;
+  margin: var(--spacing-lg) 0;
 }
 
 .method-card {
@@ -261,13 +261,13 @@
   padding: 16px;
   border: 1px solid var(--neutral-300);
   border-radius: 8px;
-  margin-bottom: 16px;
+  margin-bottom: var(--spacing-md);
 }
 
 .method-info {
   display: flex;
   flex-direction: column;
-  gap: 4px;
+  gap: var(--spacing-xs);
 }
 
 .card-brand {
@@ -282,7 +282,7 @@
 
 .method-actions {
   display: flex;
-  gap: 8px;
+  gap: var(--spacing-sm);
 }
 
 .set-default,
@@ -318,7 +318,7 @@
 
 .add-method {
   width: 100%;
-  padding: 12px;
+  padding: var(--spacing-lg) var(--spacing-xl);
   border: 2px dashed var(--neutral-300);
   border-radius: 4px;
   background: none;
@@ -334,7 +334,7 @@
 }
 
 .subscription-error {
-  margin-top: 8px;
+  margin-top: var(--spacing-sm);
   background-color: var(--error-message-bg);
   border-color: var(--error-message-border);
   color: var(--error-message-text);

@@ -117,17 +117,17 @@
   font-weight: var(--font-weight-bold);
   color: var(--text-primary);
   text-transform: capitalize;
-  font-size: var(--font-size-base);
+  font-size: var(--font-size-sm);
 }
 
 .card-last4 {
   color: var(--primary-500);
-  font-size: var(--font-size-base);
+  font-size: var(--font-size-sm);
 }
 
 .card-expiry {
   color: var(--text-secondary);
-  font-size: var(--font-size-base);
+  font-size: var(--font-size-sm);
 }
 
 .default-badge {
@@ -195,7 +195,7 @@
 }
 
 .add-payment-method {
-  margin-top: 24px;
+  margin-top: var(--spacing-lg);
   padding-top: 24px;
   border-top: 1px solid var(--neutral-300);
 }
@@ -228,8 +228,8 @@
 .add-payment-method .error-content {
   display: flex;
   align-items: center;
-  gap: 10px;
-  margin-bottom: 10px;
+  gap: var(--spacing-sm);
+  margin-bottom: var(--spacing-sm);
 }
 
 .add-payment-method .error-icon {
@@ -247,7 +247,7 @@
 .add-payment-method .error-code {
   color: var(--text-secondary);
   font-size: var(--font-size-xs);
-  margin-left: 4px;
+  margin-left: var(--spacing-xs);
 }
 
 .add-payment-method .retry-button {
@@ -260,7 +260,7 @@
   font-size: var(--font-size-sm);
   transition: background-color var(--transition-fast);
   display: block;
-  margin-top: 10px;
+  margin-top: var(--spacing-sm);
 }
 
 .add-payment-method .retry-button:hover {
@@ -282,42 +282,15 @@
   }
 }
 
-/* Tablet Styles (769px-1023px) */
-@media (min-width: 769px) and (max-width: 1023px) {
-  .payment-methods {
-    padding: var(--spacing-md);
-  }
-  
-  .payment-methods h3,
-  .payment-methods h4 {
-    font-size: var(--font-size-lg);
-  }
-  
-  .payment-method-info {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: var(--spacing-xs);
-  }
-  
-  .payment-method-actions {
-    gap: var(--spacing-xs);
-  }
-  
-  .action-button {
-    padding: var(--spacing-xs) var(--spacing-sm);
-    font-size: var(--font-size-xs);
-  }
-}
-
 /* Mobile Styles (≤768px) */
 @media (max-width: 768px) {
   .payment-methods {
-    padding: var(--spacing-sm);
+    padding: var(--spacing-xs);
   }
   
   .payment-methods h3,
   .payment-methods h4 {
-    font-size: var(--font-size-lg);
+    font-size: var(--font-size-md);
   }
   
   .payment-method-item {
@@ -350,3 +323,30 @@
     font-size: var(--font-size-sm);
   }
 } 
+
+/* Tablet Styles (769px-1023px) */
+@media (min-width: 769px) and (max-width: 1023px) {
+  .payment-methods {
+    padding: var(--spacing-sm);
+  }
+  
+  .payment-methods h3,
+  .payment-methods h4 {
+    font-size: var(--font-size-md);
+  }
+  
+  .payment-method-info {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--spacing-xs);
+  }
+  
+  .payment-method-actions {
+    gap: var(--spacing-xs);
+  }
+  
+  .action-button {
+    padding: var(--spacing-xs) var(--spacing-sm);
+    font-size: var(--font-size-xs);
+  }
+}

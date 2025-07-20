@@ -90,13 +90,13 @@
 .portfolio-bar-chart .custom-tooltip p:first-child {
   font-weight: var(--font-weight-semibold);
   font-size: var(--font-size-base);
-  margin-bottom: 6px;
+  margin-bottom: var(--spacing-xs);
 }
 
 .portfolio-bar-chart .custom-tooltip .label {
   color: var(--text-secondary);
   font-size: var(--font-size-xs);
-  margin-bottom: 8px;
+  margin-bottom: var(--spacing-sm);
   border-bottom: 1px solid var(--neutral-300);
   padding-bottom: 4px;
 }
@@ -108,7 +108,7 @@
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
-  gap: 16px;
+  gap: var(--spacing-md);
 }
 
 .recharts-legend-item {

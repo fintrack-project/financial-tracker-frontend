@@ -385,7 +385,7 @@
   .breakdown-item {
     flex-direction: column;
     align-items: flex-start;
-    gap: 4px;
+    gap: var(--spacing-xs);
   }
   
   .breakdown-item .value {
@@ -395,7 +395,7 @@
   .summary-item {
     flex-direction: column;
     align-items: flex-start;
-    gap: 4px;
+    gap: var(--spacing-xs);
   }
   
   .summary-item .value {
@@ -405,7 +405,7 @@
   .total-cost-item {
     flex-direction: column;
     align-items: flex-start;
-    gap: 4px;
+    gap: var(--spacing-xs);
   }
   
   .total-cost-item .value {

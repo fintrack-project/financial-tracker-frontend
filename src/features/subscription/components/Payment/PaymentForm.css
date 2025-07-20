@@ -1,7 +1,7 @@
 .payment-form {
   max-width: 500px;
   margin: 0 auto;
-  padding: 20px;
+  padding: var(--spacing-lg);
   display: flex;
   flex-direction: column;
   gap: 1.5rem;
@@ -52,7 +52,7 @@
 
   .payment-form-submit-btn {
     flex: 1;
-    padding: 12px 24px;
+    padding: var(--spacing-md) var(--spacing-lg);
     background: var(--primary-500);
     color: var(--neutral-100);
     border: none;
@@ -76,7 +76,7 @@
 
   .payment-form-cancel-btn {
     flex: 1;
-    padding: 12px 24px;
+    padding: var(--spacing-md) var(--spacing-lg);
     background: var(--neutral-400);
     color: var(--neutral-100);
     border: none;
@@ -101,12 +101,12 @@
 }
 
 .form-group {
-  margin-bottom: 20px;
+  margin-bottom: var(--spacing-lg);
 }
 
 .form-group label {
   display: block;
-  margin-bottom: 8px;
+  margin-bottom: var(--spacing-sm);
   font-weight: var(--font-weight-medium);
   color: var(--text-primary);
 }
@@ -127,7 +127,7 @@
 .field-error {
   color: var(--error-color);
   font-size: var(--font-size-xs);
-  margin-top: 4px;
+  margin-top: var(--spacing-xs);
 }
 
 .error-message.card_error {
@@ -161,7 +161,7 @@
 .error-content {
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: var(--spacing-sm);
 }
 
 .error-icon {
@@ -190,31 +190,32 @@
 }
 
 .test-instructions {
-  margin-top: 24px;
-  padding: 16px;
+  margin-top: var(--spacing-lg);
+  padding: var(--spacing-md);
   background-color: var(--neutral-100);
   border-radius: 4px;
   border: 1px solid var(--neutral-300);
 }
 
 .test-instructions h4 {
-  margin: 0 0 12px 0;
+  margin: 0 0 var(--spacing-md) 0;
   color: var(--text-primary);
+  font-size: var(--font-size-sm);
 }
 
 .test-instructions ul {
   margin: 0;
-  padding-left: 20px;
+  padding-left: var(--spacing-lg);
 }
 
 .test-instructions li {
-  margin-bottom: 8px;
-  font-size: var(--font-size-sm);
+  margin-bottom: var(--spacing-sm);
+  font-size: var(--font-size-xs);
   color: var(--text-secondary);
 }
 
 .test-instructions .note {
-  margin-top: 12px;
+  margin-top: var(--spacing-md);
   font-size: var(--font-size-xs);
   color: var(--text-muted);
   font-style: italic;
@@ -278,6 +279,27 @@
   .payment-form .StripeElement--focus,
   .payment-form .StripeElement--invalid {
     font-size: var(--payment-form-font-size-mobile);
+  }
+}
+
+/* Desktop Styles (≥1024px) */
+@media (min-width: 1024px) {
+  .payment-form {
+    min-width: 600px;
+  }
+  
+  .payment-form-submit-btn,
+  .payment-form-cancel-btn {
+    padding: var(--spacing-sm) var(--spacing-lg);
+    font-size: var(--font-size-sm);
+    min-width: 160px;
+  }
+  
+  /* Customize Stripe CardElement for desktop */
+  .payment-form .StripeElement,
+  .payment-form .StripeElement--focus,
+  .payment-form .StripeElement--invalid {
+    font-size: var(--payment-form-font-size-desktop);
   }
 }
 

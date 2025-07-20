@@ -264,7 +264,7 @@
 
   .editable-watchlist-table .button-group {
     flex-direction: column;
-    gap: 2px;
+    gap: var(--spacing-xs);
     justify-content: center;
   }
   

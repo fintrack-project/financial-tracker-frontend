@@ -59,7 +59,7 @@
 /* Responsive Design */
 @media (max-width: 768px) {
   .preset-buttons {
-    gap: 6px;
+    gap: var(--spacing-xs);
   }
   
   .preset-button {
