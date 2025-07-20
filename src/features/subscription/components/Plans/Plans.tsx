@@ -27,7 +27,7 @@ const PLANS: (SubscriptionPlan & { color: string })[] = [
     amount: 0,
     currency: 'USD',
     interval: 'month',
-    color: '#6c757d',
+    color: 'var(--tier-free-bg)',
     features: [
       '1 year transaction history',
       'Up to 2 custom categories',
@@ -46,7 +46,7 @@ const PLANS: (SubscriptionPlan & { color: string })[] = [
     amount: 4.99,
     currency: 'USD',
     interval: 'month',
-    color: '#28a745',
+    color: 'var(--tier-basic-bg)',
     features: [
       '5 years transaction history',
       'Unlimited custom categories',
@@ -66,7 +66,7 @@ const PLANS: (SubscriptionPlan & { color: string })[] = [
     amount: 9.99,
     currency: 'USD',
     interval: 'month',
-    color: '#007bff',
+    color: 'var(--tier-premium-bg)',
     features: [
       'Unlimited transaction history',
       'Unlimited custom categories',
@@ -512,8 +512,8 @@ const Plans: React.FC<PlansProps> = ({
       )}
 
       {showCancellationConfirmation && planToCancel && currentPlan && (
-        <div className="subscription-popup-overlay" style={{ zIndex: 9999 }}>
-          <div className="subscription-popup-container" style={{ maxWidth: '800px', maxHeight: '85vh' }}>
+        <div className="subscription-popup-overlay">
+          <div className="subscription-popup-container">
             <div className="subscription-popup-header">
               <h3>Cancel Subscription</h3>
               <button
@@ -526,7 +526,7 @@ const Plans: React.FC<PlansProps> = ({
                 ×
               </button>
             </div>
-            <div className="subscription-popup-content" style={{ width: '100%', padding: 'var(--spacing-md)' }}>
+            <div className="subscription-popup-content">
               <CancellationConfirmation
                 accountId={userDetails.accountId}
                 currentPlan={currentPlan}
@@ -568,8 +568,8 @@ const Plans: React.FC<PlansProps> = ({
 
       {/* Upgrade Confirmation Popup */}
       {showUpgradeConfirmation && planToUpgrade && currentPlan && (
-        <div className="subscription-popup-overlay" style={{ zIndex: 9999 }}>
-          <div className="subscription-popup-container" style={{ maxWidth: '800px', maxHeight: '85vh' }}>
+        <div className="subscription-popup-overlay">
+          <div className="subscription-popup-container">
             <div className="subscription-popup-header">
               <h3>Confirm Plan Upgrade</h3>
               <button
@@ -582,7 +582,7 @@ const Plans: React.FC<PlansProps> = ({
                 ×
               </button>
             </div>
-            <div className="subscription-popup-content" style={{ width: '100%', padding: 'var(--spacing-md)' }}>
+            <div className="subscription-popup-content">
               <UpgradeConfirmation
                 currentPlan={currentPlan}
                 newPlan={(() => {
@@ -638,8 +638,8 @@ const Plans: React.FC<PlansProps> = ({
 
       {/* Downgrade Confirmation Popup */}
       {showDowngradeConfirmation && planToDowngrade && currentPlan && (
-        <div className="subscription-popup-overlay" style={{ zIndex: 9999 }}>
-          <div className="subscription-popup-container" style={{ maxWidth: '800px', maxHeight: '85vh' }}>
+        <div className="subscription-popup-overlay">
+          <div className="subscription-popup-container">
             <div className="subscription-popup-header">
               <h3>Confirm Plan Downgrade</h3>
               <button
@@ -652,7 +652,7 @@ const Plans: React.FC<PlansProps> = ({
                 ×
               </button>
             </div>
-            <div className="subscription-popup-content" style={{ width: '100%', padding: 'var(--spacing-md)' }}>
+            <div className="subscription-popup-content">
               <DowngradeConfirmation
                 currentPlan={currentPlan}
                 newPlan={(() => {

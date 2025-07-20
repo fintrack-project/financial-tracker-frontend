@@ -2,20 +2,20 @@
 
 /* Base Container */
 .upgrade-confirmation {
-  background: var(--card-bg);
-  border-radius: var(--border-radius-lg);
-  padding: var(--card-padding-desktop);
-  box-shadow: var(--shadow-md);
+  background: transparent;
+  border-radius: 0;
+  padding: 0;
+  box-shadow: none;
   font-family: var(--font-family-primary);
-  max-width: 900px;
-  margin: 0 auto;
+  width: 100%;
+  margin: 0;
 }
 
 /* Loading and Error States */
 .upgrade-confirmation.loading,
 .upgrade-confirmation.error {
   text-align: center;
-  min-height: 300px;
+  min-height: 200px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -63,23 +63,16 @@
   background: var(--primary-600);
 }
 
-/* Header Section */
-.confirmation-header {
-  text-align: center;
-  margin-bottom: var(--spacing-lg);
-  padding-bottom: var(--spacing-md);
-  border-bottom: 2px solid var(--border-lighter);
-}
-
-.confirmation-title {
-  font-size: var(--font-size-3xl);
-  font-weight: 600;
-  color: var(--text-dark);
-  margin: 0 0 var(--spacing-sm) 0;
-}
-
+/* Subtitle Section */
 .confirmation-subtitle {
-  font-size: var(--font-size-base);
+  text-align: center;
+  margin-bottom: var(--spacing-sm);
+  padding-bottom: var(--spacing-xs);
+  border-bottom: 1px solid var(--border-lighter);
+}
+
+.confirmation-subtitle p {
+  font-size: var(--font-size-sm);
   color: var(--text-secondary);
   margin: 0;
 }
@@ -89,18 +82,18 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: var(--spacing-md);
-  margin-bottom: var(--spacing-xl);
+  gap: var(--spacing-sm);
+  margin-bottom: var(--spacing-sm);
   flex-wrap: wrap;
 }
 
 .upgrade-confirmation .plan-card {
   background: var(--section-bg);
-  border-radius: var(--border-radius-md);
-  padding: var(--spacing-md);
+  border-radius: var(--border-radius-sm);
+  padding: var(--spacing-sm);
   text-align: center;
-  min-width: 200px;
-  border: 2px solid transparent;
+  min-width: 120px;
+  border: 1px solid transparent;
   transition: border-color var(--transition-normal);
 }
 
@@ -114,44 +107,21 @@
 }
 
 .upgrade-confirmation .plan-name {
-  font-size: var(--font-size-lg);
+  font-size: var(--font-size-sm);
   font-weight: 600;
   color: var(--text-dark);
-  margin: 0 0 var(--spacing-sm) 0;
+  margin: 0 0 var(--spacing-xs) 0;
 }
 
 .upgrade-confirmation .plan-price {
-  font-size: var(--font-size-2xl);
+  font-size: var(--font-size-base);
   font-weight: 700;
   color: var(--accent-color);
-  margin-bottom: var(--spacing-md);
-}
-
-.upgrade-confirmation .plan-features {
-  list-style: none;
-  padding: 0;
-  margin: 0;
-  text-align: left;
-}
-
-.upgrade-confirmation .plan-features li {
-  padding: 4px 0;
-  font-size: var(--font-size-sm);
-  color: var(--text-secondary);
-  position: relative;
-  padding-left: var(--spacing-md);
-}
-
-.upgrade-confirmation .plan-features li::before {
-  content: "✓";
-  position: absolute;
-  left: 0;
-  color: var(--success-color);
-  font-weight: bold;
+  margin-bottom: 0;
 }
 
 .upgrade-arrow {
-  font-size: 24px;
+  font-size: 16px;
   color: var(--accent-color);
   font-weight: bold;
 }
@@ -160,46 +130,49 @@
 .billing-section,
 .calculation-section,
 .billing-info-section {
-  margin-bottom: var(--spacing-lg);
+  margin-bottom: var(--spacing-sm);
 }
 
-/* Policy Section */
-.policy-section {
-  margin-bottom: var(--spacing-lg);
-  padding: var(--spacing-md);
-  background: var(--warning-message-bg);
-  border: 1px solid var(--warning-color);
-  border-radius: var(--border-radius-md);
-}
+/* Policy Section - REMOVED */
 
 /* Action Buttons */
 .confirmation-actions {
   display: flex;
-  gap: var(--spacing-md);
+  gap: var(--spacing-sm);
   justify-content: center;
-  margin-bottom: var(--spacing-md);
+  margin-bottom: var(--spacing-sm);
 }
 
 .confirm-button,
 .cancel-button {
-  padding: var(--spacing-md) var(--spacing-lg);
+  padding: var(--spacing-sm) var(--spacing-md);
   border-radius: var(--border-radius-md);
-  font-size: var(--font-size-base);
+  font-size: var(--font-size-sm);
   font-weight: 500;
   cursor: pointer;
   border: none;
   transition: all var(--transition-normal);
-  min-width: 140px;
+  min-width: 100px;
 }
 
 .confirm-button {
-  background: var(--success-color);
+  min-width: 140px;
+  flex: 2;
+}
+
+.cancel-button {
+  flex: 1;
+}
+
+.confirm-button {
+  background: var(--popup-button-primary-bg);
   color: white;
 }
 
 .confirm-button:hover:not(:disabled) {
-  background: #218838;
+  background: var(--popup-button-primary-hover);
   transform: translateY(-1px);
+  box-shadow: var(--popup-button-hover-shadow);
 }
 
 .confirm-button:disabled {
@@ -243,16 +216,17 @@
 .confirmation-note {
   background: var(--info-message-bg);
   border: 1px solid var(--info-message-border);
-  border-radius: var(--border-radius-md);
-  padding: var(--spacing-md);
+  border-radius: var(--border-radius-sm);
+  padding: var(--spacing-xs);
   text-align: center;
+  margin-bottom: var(--spacing-sm);
 }
 
 .confirmation-note p {
   margin: 0;
-  font-size: var(--font-size-sm);
+  font-size: var(--font-size-xs);
   color: var(--info-message-text);
-  line-height: 1.4;
+  line-height: 1.3;
 }
 
 /* ===== RESPONSIVE DESIGN ===== */
@@ -263,8 +237,8 @@
     padding: var(--card-padding-tablet);
   }
 
-  .confirmation-title {
-    font-size: var(--font-size-2xl);
+  .confirmation-subtitle p {
+    font-size: var(--font-size-sm);
   }
 
   .plan-comparison {

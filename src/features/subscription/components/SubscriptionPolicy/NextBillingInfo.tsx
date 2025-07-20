@@ -1,6 +1,18 @@
 import React from 'react';
 import { NextBillingInfoProps } from '../../types';
 import './NextBillingInfo.css';
+import '../../../profile/components/Profile/AccountTier.css';
+
+// Utility function to map plan names to tier classes
+const getTierClass = (planName: string): string => {
+  // Remove "Annual" suffix and convert to lowercase for comparison
+  const cleanPlanName = planName.replace(/\s*annual\s*/i, '').toLowerCase();
+  
+  if (cleanPlanName === 'free') return 'free';
+  if (cleanPlanName === 'basic') return 'basic';
+  if (cleanPlanName === 'premium') return 'premium';
+  return 'free'; // Default to free tier styling
+};
 
 const NextBillingInfo: React.FC<NextBillingInfoProps> = ({
   currentPlan,
@@ -41,13 +53,10 @@ const NextBillingInfo: React.FC<NextBillingInfoProps> = ({
       
       <div className="billing-summary">
         <div className="plan-change">
-          <div className="plan-row">
-            <span className="plan-label">From:</span>
-            <span className="plan-name">{currentPlan}</span>
-          </div>
-          <div className="plan-row">
-            <span className="plan-label">To:</span>
-            <span className="plan-name new-plan">{newPlan}</span>
+          <div className="plan-badges">
+            <span className={`account-tier ${getTierClass(currentPlan)}`}>{currentPlan}</span>
+            <span className="plan-arrow">→</span>
+            <span className={`account-tier ${getTierClass(newPlan)}`}>{newPlan}</span>
           </div>
         </div>
       </div>

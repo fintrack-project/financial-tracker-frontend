@@ -5,8 +5,8 @@
   background: var(--section-bg);
   border: 1px solid var(--border-lighter);
   border-radius: var(--border-radius-md);
-  padding: var(--spacing-md);
-  margin: var(--spacing-md) 0;
+  padding: var(--spacing-sm);
+  margin: var(--spacing-sm) 0;
   font-family: var(--font-family-primary);
 }
 
@@ -72,10 +72,10 @@
 
 /* Title */
 .preview-title {
-  font-size: var(--font-size-lg);
+  font-size: var(--font-size-base);
   font-weight: 600;
   color: var(--text-dark);
-  margin: 0 0 var(--spacing-md) 0;
+  margin: 0 0 var(--spacing-sm) 0;
   text-align: center;
 }
 
@@ -146,8 +146,8 @@
   background: var(--card-bg);
   border: 1px solid var(--border-light);
   border-radius: var(--border-radius-md);
-  padding: var(--spacing-md);
-  margin-bottom: var(--spacing-md);
+  padding: var(--spacing-sm);
+  margin-bottom: var(--spacing-sm);
 }
 
 .breakdown-title {
@@ -162,7 +162,7 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: var(--spacing-sm) 0;
+  padding: var(--spacing-xs) 0;
   border-bottom: 1px solid var(--border-lighter);
 }
 
@@ -174,8 +174,8 @@
 .breakdown-item.total {
   border-top: 2px solid var(--border-light);
   border-bottom: none;
-  padding-top: var(--spacing-md);
-  margin-top: var(--spacing-sm);
+  padding-top: var(--spacing-sm);
+  margin-top: var(--spacing-xs);
   font-weight: 600;
   font-size: var(--font-size-base);
 }
@@ -192,7 +192,7 @@
 
 .breakdown-item .label {
   color: var(--text-secondary);
-  font-size: var(--font-size-sm);
+  font-size: var(--font-size-xs);
 }
 
 .breakdown-item .value {

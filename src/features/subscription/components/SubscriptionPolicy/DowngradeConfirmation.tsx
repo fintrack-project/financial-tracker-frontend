@@ -1,6 +1,4 @@
-import React, { useState, useEffect, useCallback } from 'react';
-import { SubscriptionPolicy, PolicyAcceptanceRequest } from '../../types';
-import { subscriptionPolicyApi } from '../../api/subscriptionPolicyApi';
+import React, { useState } from 'react';
 import NextBillingInfo from './NextBillingInfo';
 import ProrationPreview from './ProrationPreview';
 import './DowngradeConfirmation.css';
@@ -10,13 +8,11 @@ interface DowngradeConfirmationProps {
     id: string;
     name: string;
     amount: number;
-    features: string[];
   };
   newPlan: {
     id: string;
     name: string;
     amount: number;
-    features: string[];
   };
   daysRemaining: number;
   accountId: string;
@@ -34,99 +30,13 @@ const DowngradeConfirmation: React.FC<DowngradeConfirmationProps> = ({
   onCancel,
   className = ''
 }) => {
-  const [policy, setPolicy] = useState<SubscriptionPolicy | null>(null);
-  const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-  const [hasAcceptedPolicy, setHasAcceptedPolicy] = useState(false);
   const [showWarnings, setShowWarnings] = useState(true);
 
-  const loadPolicy = useCallback(async () => {
-    try {
-      setLoading(true);
-      setError(null);
-
-      // Load downgrade policy
-      const downgradePolicy = await subscriptionPolicyApi.getCurrentPolicy('downgrade');
-      setPolicy(downgradePolicy);
-
-      // Check if user has already accepted this policy version
-      const accepted = await subscriptionPolicyApi.checkPolicyAcceptance(
-        accountId,
-        'downgrade',
-        downgradePolicy.version
-      );
-      setHasAcceptedPolicy(accepted);
-    } catch (err) {
-      console.error('Error loading policy:', err);
-      setError('Failed to load downgrade policy');
-    } finally {
-      setLoading(false);
-    }
-  }, [accountId]);
-
-  useEffect(() => {
-    loadPolicy();
-  }, [loadPolicy]);
-
-  const handleAcceptPolicy = async () => {
-    if (!policy) return;
-
-    try {
-      const request: PolicyAcceptanceRequest = {
-        accountId,
-        policyVersion: policy.version,
-        policyType: 'downgrade',
-        ipAddress: window.location.hostname,
-        userAgent: navigator.userAgent
-      };
-
-      await subscriptionPolicyApi.acceptPolicy(request);
-      setHasAcceptedPolicy(true);
-
-      // Record the subscription change
-      await subscriptionPolicyApi.recordSubscriptionChange({
-        accountId,
-        changeType: 'downgrade',
-        fromPlanId: currentPlan.id,
-        toPlanId: newPlan.id,
-        policyVersion: policy.version,
-        ipAddress: window.location.hostname,
-        userAgent: navigator.userAgent
-      });
-
-      await onConfirm();
-    } catch (err) {
-      console.error('Error accepting policy:', err);
-      setError('Failed to accept policy');
-    }
-  };
+  // Policy loading removed for simplicity
 
   const handleConfirm = async () => {
-    if (!policy) return;
-
     try {
-      const request: PolicyAcceptanceRequest = {
-        accountId,
-        policyVersion: policy.version,
-        policyType: 'downgrade',
-        ipAddress: window.location.hostname,
-        userAgent: navigator.userAgent
-      };
-
-      await subscriptionPolicyApi.acceptPolicy(request);
-      setHasAcceptedPolicy(true);
-
-      // Record the subscription change
-      await subscriptionPolicyApi.recordSubscriptionChange({
-        accountId,
-        changeType: 'downgrade',
-        fromPlanId: currentPlan.id,
-        toPlanId: newPlan.id,
-        policyVersion: policy.version,
-        ipAddress: window.location.hostname,
-        userAgent: navigator.userAgent
-      });
-
       await onConfirm();
     } catch (err) {
       console.error('Error confirming downgrade:', err);
@@ -134,31 +44,12 @@ const DowngradeConfirmation: React.FC<DowngradeConfirmationProps> = ({
     }
   };
 
-  const formatCurrency = (amount: number): string => {
-    return new Intl.NumberFormat('en-US', {
-      style: 'currency',
-      currency: 'USD'
-    }).format(amount);
-  };
-
-  if (loading) {
-    return (
-      <div className={`downgrade-confirmation loading ${className}`}>
-        <div className="loading-spinner"></div>
-        <p>Loading downgrade confirmation...</p>
-      </div>
-    );
-  }
-
   if (error) {
     return (
       <div className={`downgrade-confirmation error ${className}`}>
         <div className="error-message">
           <i className="error-icon">⚠️</i>
           <p>{error}</p>
-          <button onClick={loadPolicy} className="retry-button">
-            Retry
-          </button>
         </div>
       </div>
     );
@@ -166,8 +57,7 @@ const DowngradeConfirmation: React.FC<DowngradeConfirmationProps> = ({
 
   return (
     <div className={`downgrade-confirmation ${className}`}>
-      <div className="confirmation-header">
-        <h2>Confirm Plan Downgrade</h2>
+      <div className="confirmation-subtitle">
         <p>You're about to downgrade from {currentPlan.name} to {newPlan.name}</p>
       </div>
 
@@ -189,29 +79,6 @@ const DowngradeConfirmation: React.FC<DowngradeConfirmationProps> = ({
 
       {!showWarnings && (
         <>
-          <div className="plan-comparison">
-            <div className="plan-card current">
-              <h3 className="plan-name">{currentPlan.name}</h3>
-              <div className="plan-price">{formatCurrency(currentPlan.amount)}/month</div>
-              <ul className="plan-features">
-                {currentPlan.features.slice(0, 3).map((feature, index) => (
-                  <li key={index}>{feature}</li>
-                ))}
-              </ul>
-            </div>
-
-            <div className="downgrade-arrow">→</div>
-
-            <div className="plan-card new">
-              <h3 className="plan-name">{newPlan.name}</h3>
-              <div className="plan-price">{formatCurrency(newPlan.amount)}/month</div>
-              <ul className="plan-features">
-                {newPlan.features.slice(0, 3).map((feature, index) => (
-                  <li key={index}>{feature}</li>
-                ))}
-              </ul>
-            </div>
-          </div>
 
           <div className="billing-info-section">
             <NextBillingInfo
@@ -232,17 +99,7 @@ const DowngradeConfirmation: React.FC<DowngradeConfirmationProps> = ({
             />
           </div>
 
-          {policy && !hasAcceptedPolicy && (
-            <div className="policy-section">
-              <div className="policy-content">
-                <h3>Downgrade Policy</h3>
-                <div className="policy-text" dangerouslySetInnerHTML={{ __html: policy.content }} />
-              </div>
-              <button onClick={handleAcceptPolicy} className="accept-policy-button">
-                I Accept the Downgrade Policy
-              </button>
-            </div>
-          )}
+          {/* Policy section removed for simplicity */}
 
           <div className="confirmation-note">
             <p>
@@ -252,15 +109,14 @@ const DowngradeConfirmation: React.FC<DowngradeConfirmationProps> = ({
           </div>
 
           <div className="confirmation-actions">
-            <button onClick={onCancel} className="cancel-button">
-              Cancel
-            </button>
             <button 
               onClick={handleConfirm} 
               className="confirm-button"
-              disabled={!!(policy && !hasAcceptedPolicy)}
             >
               Confirm Downgrade
+            </button>
+            <button onClick={onCancel} className="cancel-button">
+              Cancel
             </button>
           </div>
         </>

@@ -1,9 +1,6 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState } from 'react';
 import { SubscriptionPlan } from '../../types/SubscriptionPlan';
-import { SubscriptionPolicy } from '../../types/SubscriptionPolicy';
-import { subscriptionPolicyApi } from '../../api/subscriptionPolicyApi';
 import NextBillingInfo from './NextBillingInfo';
-import PolicyAcceptance from './PolicyAcceptance';
 import './CancellationConfirmation.css';
 
 interface CancellationConfirmationProps {
@@ -25,9 +22,6 @@ const CancellationConfirmation: React.FC<CancellationConfirmationProps> = ({
   onPause,
   className = ''
 }) => {
-  const [policy, setPolicy] = useState<SubscriptionPolicy | null>(null);
-  const [policyAccepted, setPolicyAccepted] = useState(false);
-  const [loading, setLoading] = useState(true);
   const [confirming, setConfirming] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [selectedReason, setSelectedReason] = useState<string>('');
@@ -63,45 +57,9 @@ const CancellationConfirmation: React.FC<CancellationConfirmationProps> = ({
     }
   ];
 
-    const loadCancellationData = useCallback(async () => {
-    try {
-      setLoading(true);
-      setError(null);
-
-      // Load cancellation policy
-      const cancellationPolicy = await subscriptionPolicyApi.getCurrentPolicy('cancellation');
-      setPolicy(cancellationPolicy);
-
-      // Check if user has already accepted the policy
-      const hasAccepted = await subscriptionPolicyApi.checkPolicyAcceptance(
-        accountId,
-        cancellationPolicy.version,
-        'cancellation'
-      );
-      setPolicyAccepted(hasAccepted);
-
-    } catch (err) {
-      console.error('Error loading cancellation data:', err);
-      setError('Failed to load cancellation information');
-    } finally {
-      setLoading(false);
-    }
-  }, [accountId]);
-
-  useEffect(() => {
-    loadCancellationData();
-  }, [loadCancellationData]);
-
-  const handlePolicyAccept = () => {
-    setPolicyAccepted(true);
-  };
+  // Policy loading removed for simplicity
 
   const handleConfirm = async () => {
-    if (!policyAccepted) {
-      setError('Please accept the cancellation policy to continue');
-      return;
-    }
-
     if (!selectedReason) {
       setError('Please select a reason for cancellation');
       return;
@@ -111,15 +69,7 @@ const CancellationConfirmation: React.FC<CancellationConfirmationProps> = ({
       setConfirming(true);
       setError(null);
 
-      // Record the subscription change
-      await subscriptionPolicyApi.recordSubscriptionChange({
-        accountId,
-        changeType: 'cancellation',
-        fromPlanId: currentPlan.id,
-        policyVersion: policy?.version,
-        ipAddress: window.location.hostname,
-        userAgent: navigator.userAgent
-      });
+
 
       await onConfirm(selectedReason);
     } catch (err) {
@@ -137,26 +87,12 @@ const CancellationConfirmation: React.FC<CancellationConfirmationProps> = ({
     }).format(amount);
   };
 
-  if (loading) {
-    return (
-      <div className={`cancellation-confirmation loading ${className}`}>
-        <div className="confirmation-loading">
-          <div className="loading-spinner"></div>
-          <p>Loading cancellation information...</p>
-        </div>
-      </div>
-    );
-  }
-
   if (error && !confirming) {
     return (
       <div className={`cancellation-confirmation error ${className}`}>
         <div className="confirmation-error">
           <i className="error-icon">⚠️</i>
           <p>{error}</p>
-          <button onClick={loadCancellationData} className="retry-button">
-            Try Again
-          </button>
         </div>
       </div>
     );
@@ -243,22 +179,10 @@ const CancellationConfirmation: React.FC<CancellationConfirmationProps> = ({
             </div>
           </div>
 
-          {policy && !policyAccepted && (
-            <div className="policy-section">
-              <PolicyAcceptance
-                accountId={accountId}
-                policyType="cancellation"
-                policyVersion={policy.version}
-                onAccept={handlePolicyAccept}
-                onDecline={onCancel}
-              />
-            </div>
-          )}
-
           <div className="confirmation-actions">
             <button
               onClick={handleConfirm}
-              disabled={!policyAccepted || !selectedReason || confirming}
+              disabled={!selectedReason || confirming}
               className="confirm-button"
             >
               {confirming ? 'Processing Cancellation...' : 'Confirm Cancellation'}

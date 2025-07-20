@@ -255,14 +255,7 @@
   cursor: pointer;
 }
 
-/* Policy Section */
-.policy-section {
-  margin-bottom: var(--spacing-lg);
-  padding: var(--spacing-md);
-  background: var(--warning-message-bg);
-  border: 1px solid var(--warning-color);
-  border-radius: var(--border-radius-md);
-}
+/* Policy Section - REMOVED */
 
 /* Action Buttons */
 .confirmation-actions {

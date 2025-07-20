@@ -36,28 +36,28 @@ const AccountTier: React.FC<AccountTierProps> = ({ accountId }) => {
   }, [accountId]);
 
   const getPlanColor = () => {
-    if (!planDetails) return '#6c757d'; // Default gray for no plan
+    if (!planDetails) return 'var(--tier-free-bg)'; // Default gray for no plan
 
     switch (planDetails.id) {
       case 'plan_free':
-        return '#6c757d'; // Gray
+        return 'var(--tier-free-bg)'; // Gray
       case 'plan_basic':
       case 'plan_basic_annual':
-        return '#28a745'; // Green
+        return 'var(--tier-basic-bg)'; // Green
       case 'plan_premium':
       case 'plan_premium_annual':
-        return '#007bff'; // Blue
+        return 'var(--tier-premium-bg)'; // Blue (consistent with theme)
       default:
-        return '#6c757d';
+        return 'var(--tier-free-bg)';
     }
   };
 
   if (loading) {
-    return <span className="account-tier" style={{ backgroundColor: '#6c757d' }}>Loading...</span>;
+    return <span className="account-tier" style={{ backgroundColor: 'var(--tier-free-bg)' }}>Loading...</span>;
   }
 
   if (error) {
-    return <span className="account-tier" style={{ backgroundColor: '#dc3545' }}>Error</span>;
+    return <span className="account-tier" style={{ backgroundColor: 'var(--error-color)' }}>Error</span>;
   }
 
   return (
