@@ -41,7 +41,7 @@
 }
 
 .error-icon {
-  font-size: 48px;
+  font-size: var(--font-size-4xl);
   margin-bottom: var(--spacing-sm);
 }
 

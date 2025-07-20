@@ -172,7 +172,7 @@
   }
   
   .index-symbol {
-    font-size: calc(var(--font-size-xs) - 2px); /* Even smaller for symbol */
+    font-size: var(--font-size-xs); /* Even smaller for symbol */
   }
   
   .index-price {
@@ -180,7 +180,7 @@
   }
   
   .index-change {
-    font-size: calc(var(--font-size-xs) - 2px); /* Even smaller for change */
+    font-size: var(--font-size-xs); /* Even smaller for change */
   }
 }
 

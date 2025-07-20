@@ -19,7 +19,7 @@
   border-radius: 25px;
   position: relative;
   cursor: pointer;
-  transition: background-color 0.3s ease;
+  transition: background-color var(--transition-normal);
 }
 
 .toggle-switch.enabled {
@@ -38,7 +38,7 @@
   position: absolute;
   top: 1px;
   left: 1px;
-  transition: transform 0.3s ease;
+  transition: transform var(--transition-normal);
 }
 
 .toggle-switch.enabled .toggle-knob {

@@ -32,7 +32,7 @@ body {
 
 /* Base responsive typography */
 html {
-  font-size: 16px; /* Base font size */
+  font-size: var(--font-size-base); /* Base font size */
 }
 
 /* Responsive visibility utilities */
@@ -256,7 +256,7 @@ textarea:focus {
   }
 
   html {
-    font-size: 15px; /* Slightly smaller for mobile */
+    font-size: var(--font-size-sm); /* Slightly smaller for mobile */
   }
 
   .hidden-mobile { display: none; }
@@ -301,7 +301,7 @@ textarea:focus {
   }
 
   html {
-    font-size: 16px; /* Standard for desktop */
+    font-size: var(--font-size-base); /* Standard for desktop */
   }
 
   .hidden-desktop { display: none; }

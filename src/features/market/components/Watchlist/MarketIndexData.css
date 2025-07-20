@@ -14,7 +14,7 @@
 
 .dashboard-container .market-index-item h3 {
   margin: 0 0 var(--spacing-md) 0;
-  font-size: 1.25rem;
+  font-size: var(--font-size-xl);
   color: #2c3e50;
   font-weight: 700;
   letter-spacing: 0.5px;
@@ -22,7 +22,7 @@
 
 .dashboard-container .market-index-item p {
   margin: var(--spacing-xs) 0;
-  font-size: 1rem;
+  font-size: var(--font-size-base);
   color: #555;
 }
 
@@ -52,12 +52,12 @@
   }
 
   .dashboard-container .market-index-item h3 {
-    font-size: 1.125rem;
+    font-size: var(--font-size-lg);
     margin-bottom: var(--spacing-sm);
   }
 
   .dashboard-container .market-index-item p {
-    font-size: 0.9rem;
+    font-size: var(--font-size-sm);
     margin: var(--spacing-xs) 0;
   }
 }

@@ -62,7 +62,7 @@
 }
 
 .detail-icon {
-  font-size: 16px;
+  font-size: var(--font-size-base);
   margin-top: 2px;
   flex-shrink: 0;
 }

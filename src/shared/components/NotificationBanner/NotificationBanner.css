@@ -98,6 +98,5 @@
 @media (min-width: 1024px) {
   .notification-banner {
     padding: var(--spacing-xs) var(--spacing-md);
-    font-size: var(--font-size-base);
   }
 } 

@@ -101,7 +101,7 @@
   width: 100%;
   gap: var(--spacing-xs);
   line-height: 1.4; /* Keep increased line height */
-  transition: all 0.3s ease-in-out;
+  transition: var(--transition-normal);
   word-break: break-word;
 }
 
@@ -123,7 +123,7 @@
   width: 100%;
   gap: var(--spacing-xs);
   line-height: 1.4; /* Keep increased line height */
-  transition: all 0.3s ease-in-out;
+  transition: var(--transition-normal);
   word-break: break-word;
 }
 

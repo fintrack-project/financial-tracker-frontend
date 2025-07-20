@@ -29,10 +29,10 @@
   border: none;
   background: none;
   cursor: pointer;
-  font-size: 16px;
+  font-size: var(--font-size-base);
   color: #666;
   position: relative;
-  transition: color 0.3s ease;
+  transition: color var(--transition-normal);
 }
 
 .subscription-tabs button:hover {
@@ -93,7 +93,7 @@
   display: inline-block;
   padding: 4px 8px;
   border-radius: 20px;
-  font-size: var(--font-size-xs);
+  font-size: var(--font-size-sm);
   font-weight: 500;
   background-color: #e6f3ff;
   color: #007bff;
@@ -134,11 +134,11 @@
 
 .stat-item span:first-child {
   color: #666;
-  font-size: 14px;
+  font-size: var(--font-size-sm);
 }
 
 .stat-item span:last-child {
-  font-size: 16px;
+  font-size: var(--font-size-base);
   font-weight: 500;
   color: #2c3e50;
 }
@@ -160,7 +160,7 @@
   border-radius: 8px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   text-align: center;
-  transition: transform 0.3s ease;
+  transition: transform var(--transition-normal);
 }
 
 .plan-card:hover {
@@ -173,14 +173,14 @@
 }
 
 .plan-card h3 {
-  font-size: 24px;
+  font-size: var(--font-size-2xl);
   font-weight: 600;
   margin-bottom: 16px;
   color: #1a1a1a;
 }
 
 .price {
-  font-size: 32px;
+  font-size: var(--font-size-3xl);
   font-weight: 700;
   color: #007bff;
   margin-bottom: 24px;
@@ -214,10 +214,10 @@
   border-radius: 4px;
   background-color: #007bff;
   color: white;
-  font-size: 16px;
+  font-size: var(--font-size-base);
   font-weight: 500;
   cursor: pointer;
-  transition: background-color 0.3s ease;
+  transition: background-color var(--transition-normal);
 }
 
 .select-plan:hover:not(:disabled) {
@@ -244,7 +244,7 @@
 }
 
 .saved-methods h3 {
-  font-size: 18px;
+  font-size: var(--font-size-base);
   font-weight: 600;
   margin-bottom: 16px;
   color: #1a1a1a;
@@ -277,7 +277,7 @@
 
 .card-last4 {
   color: #666;
-  font-size: 14px;
+  font-size: var(--font-size-sm);
 }
 
 .method-actions {
@@ -289,9 +289,9 @@
 .remove {
   padding: 8px 16px;
   border-radius: 4px;
-  font-size: 14px;
+  font-size: var(--font-size-sm);
   cursor: pointer;
-  transition: background-color 0.3s ease;
+  transition: background-color var(--transition-normal);
 }
 
 .set-default {
@@ -323,9 +323,9 @@
   border-radius: 4px;
   background: none;
   color: #666;
-  font-size: 16px;
+  font-size: var(--font-size-base);
   cursor: pointer;
-  transition: all 0.3s ease;
+  transition: all var(--transition-normal);
 }
 
 .add-method:hover {

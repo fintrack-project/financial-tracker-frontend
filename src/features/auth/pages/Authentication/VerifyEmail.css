@@ -24,13 +24,13 @@
 }
 
 .verify-email-card h1 {
-  font-size: 1.8rem;
+  font-size: var(--font-size-2xl);
   color: #333;
   margin-bottom: 20px;
 }
 
 .status-message {
-  font-size: 1rem;
+  font-size: var(--font-size-base);
   margin-bottom: 20px;
 }
 
@@ -51,9 +51,9 @@
   border: none;
   padding: 10px 20px;
   border-radius: 5px;
-  font-size: 1rem;
+  font-size: var(--font-size-base);
   cursor: pointer;
-  transition: background-color 0.3s ease;
+  transition: background-color var(--transition-normal);
 }
 
 .retry-button:hover {

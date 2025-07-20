@@ -97,7 +97,7 @@ const FileActionsDropdown: React.FC<FileActionsDropdownProps> = ({
             <Icon 
               icon={FaChevronDown}
               style={{
-                transition: 'transform 0.18s',
+                transition: 'transform var(--transition-fast)',
                 transform: dropdownOpen ? 'rotate(180deg)' : 'rotate(0deg)'
               }}
               aria-hidden={true}

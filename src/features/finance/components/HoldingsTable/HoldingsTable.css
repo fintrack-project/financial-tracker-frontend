@@ -241,7 +241,7 @@
 
   .holdings-table .action-button {
     padding: var(--spacing-xs);
-    font-size: 0.7rem;
+    font-size: var(--font-size-xs);
   }
 }
 

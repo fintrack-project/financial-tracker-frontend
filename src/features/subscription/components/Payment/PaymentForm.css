@@ -24,7 +24,7 @@
 
 .payment-form-error-message span {
   color: var(--error-message-text);
-  font-size: 0.95rem;
+  font-size: var(--font-size-sm);
 }
 
 .payment-form-retry-btn {
@@ -34,9 +34,9 @@
   color: #dc3545;
   border-radius: 4px;
   cursor: pointer;
-  font-size: 0.9rem;
+  font-size: var(--font-size-sm);
   font-weight: 500;
-  transition: all 0.2s ease;
+  transition: all var(--transition-fast);
 }
 
 .payment-form-retry-btn:hover {
@@ -57,10 +57,10 @@
   color: white;
   border: none;
   border-radius: 6px;
-  font-size: 1.08rem;
+  font-size: var(--font-size-base);
   font-weight: 600;
   cursor: pointer;
-  transition: background 0.15s, color 0.15s, box-shadow 0.15s;
+  transition: background var(--transition-fast), color var(--transition-fast), box-shadow var(--transition-fast);
   box-shadow: 0 2px 8px rgba(52, 98, 219, 0.08);
 }
 
@@ -81,10 +81,10 @@
   color: #334155;
   border: none;
   border-radius: 6px;
-  font-size: 1.08rem;
+  font-size: var(--font-size-base);
   font-weight: 600;
   cursor: pointer;
-  transition: background 0.15s, color 0.15s, box-shadow 0.15s;
+  transition: background var(--transition-fast), color var(--transition-fast), box-shadow var(--transition-fast);
   box-shadow: 0 2px 8px rgba(52, 98, 219, 0.08);
 }
 
@@ -116,7 +116,7 @@
   border: 1px solid var(--neutral-300);
   border-radius: var(--border-radius-sm);
   background: var(--card-bg);
-  transition: all 0.2s ease;
+  transition: all var(--transition-fast);
 }
 
 .card-element-container.error {
@@ -126,7 +126,7 @@
 
 .field-error {
   color: var(--error-message-text);
-  font-size: 12px;
+  font-size: var(--font-size-xs);
   margin-top: 4px;
 }
 
@@ -165,12 +165,12 @@
 }
 
 .error-icon {
-  font-size: 16px;
+  font-size: var(--font-size-base);
 }
 
 .error-text {
   color: var(--error-message-text);
-  font-size: 14px;
+  font-size: var(--font-size-base);
 }
 
 .retry-button {
@@ -180,8 +180,8 @@
   color: #dc3545;
   border-radius: 4px;
   cursor: pointer;
-  font-size: 14px;
-  transition: all 0.2s ease;
+  font-size: var(--font-size-base);
+  transition: all var(--transition-fast);
 }
 
 .retry-button:hover {
@@ -209,13 +209,13 @@
 
 .test-instructions li {
   margin-bottom: 8px;
-  font-size: 14px;
+  font-size: var(--font-size-sm);
   color: #6b7c93;
 }
 
 .test-instructions .note {
   margin-top: 12px;
-  font-size: 12px;
+  font-size: var(--font-size-xs);
   color: #87909c;
   font-style: italic;
 } 

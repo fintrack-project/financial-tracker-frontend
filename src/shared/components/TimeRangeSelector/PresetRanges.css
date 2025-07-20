@@ -14,10 +14,10 @@
   background: #ffffff;
   color: #495057;
   border-radius: 6px;
-  font-size: 14px;
+  font-size: var(--font-size-sm);
   font-weight: 500;
   cursor: pointer;
-  transition: all 0.2s ease;
+  transition: all var(--transition-fast);
   min-width: 60px;
   text-align: center;
 }
@@ -65,7 +65,7 @@
   
   .preset-button {
     padding: 6px 12px;
-    font-size: 13px;
+    font-size: var(--font-size-xs);
     min-width: 50px;
   }
 } 

@@ -44,7 +44,7 @@
 }
 
 .error-icon {
-  font-size: 48px;
+  font-size: var(--font-size-4xl);
   margin-bottom: var(--spacing-sm);
 }
 
@@ -185,7 +185,7 @@
 }
 
 .warning-icon {
-  font-size: 24px;
+  font-size: var(--font-size-2xl);
   color: var(--warning-message-text);
 }
 
@@ -304,7 +304,7 @@
 }
 
 .downgrade-arrow {
-  font-size: 16px;
+  font-size: var(--font-size-base);
   color: var(--error-color);
   font-weight: bold;
 }

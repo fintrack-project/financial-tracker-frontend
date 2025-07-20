@@ -44,7 +44,7 @@
   background: var(--neutral-100);
   color: var(--text-secondary);
   cursor: pointer;
-  transition: all 0.2s;
+  transition: all var(--transition-fast);
   font-size: var(--font-size-sm);
   font-weight: 600;
 }
@@ -59,7 +59,7 @@
   border-radius: var(--border-radius-md);
   color: var(--neutral-100);
   cursor: pointer;
-  transition: all 0.2s;
+  transition: all var(--transition-fast);
   font-size: var(--font-size-sm);
   font-weight: 600;
 }

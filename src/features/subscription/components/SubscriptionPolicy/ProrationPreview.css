@@ -52,7 +52,7 @@
 }
 
 .proration-preview.error .error-icon {
-  font-size: 24px;
+  font-size: var(--font-size-2xl);
   color: var(--error-color);
 }
 

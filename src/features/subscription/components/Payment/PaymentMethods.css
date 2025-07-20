@@ -75,7 +75,7 @@
   border-radius: var(--border-radius-sm);
   cursor: pointer;
   font-size: var(--font-size-sm);
-  transition: background-color 0.2s;
+  transition: background-color var(--transition-fast);
   display: block;
   margin-top: var(--spacing-sm);
 }
@@ -95,7 +95,7 @@
   padding: var(--spacing-md) var(--spacing-md);
   border-radius: var(--border-radius-md);
   background-color: var(--neutral-200);
-  transition: all 0.3s cubic-bezier(.4,1.3,.6,1);
+  transition: all var(--transition-normal);
   box-shadow: 0 1px 4px rgba(52, 98, 219, 0.04);
   border: none;
   margin-bottom: var(--spacing-sm);
@@ -151,7 +151,7 @@
   font-size: var(--font-size-sm);
   font-weight: 600;
   cursor: pointer;
-  transition: all 0.2s cubic-bezier(.4,1.3,.6,1);
+  transition: all var(--transition-fast);
   border: 1px solid transparent;
   background: var(--primary-200);
   color: var(--primary-500);
@@ -233,20 +233,20 @@
 }
 
 .add-payment-method .error-icon {
-  font-size: 20px;
+  font-size: var(--font-size-lg);
   flex-shrink: 0;
 }
 
 .add-payment-method .error-text {
   color: #d32f2f;
-  font-size: 14px;
+  font-size: var(--font-size-sm);
   line-height: var(--table-line-height);
   flex-grow: 1;
 }
 
 .add-payment-method .error-code {
   color: #666;
-  font-size: 12px;
+  font-size: var(--font-size-xs);
   margin-left: 4px;
 }
 
@@ -257,8 +257,8 @@
   padding: 8px 16px;
   border-radius: 4px;
   cursor: pointer;
-  font-size: 14px;
-  transition: background-color 0.2s;
+  font-size: var(--font-size-sm);
+  transition: background-color var(--transition-fast);
   display: block;
   margin-top: 10px;
 }

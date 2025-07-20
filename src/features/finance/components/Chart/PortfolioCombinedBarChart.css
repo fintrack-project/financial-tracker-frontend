@@ -8,7 +8,7 @@
   background-color: #ffffff;
   border-radius: var(--border-radius-lg);
   box-shadow: var(--shadow-md);
-  transition: box-shadow 0.3s ease;
+  transition: box-shadow var(--transition-normal);
   display: flex;
   flex-direction: column;
 }
@@ -68,7 +68,7 @@
 .recharts-xAxis .recharts-cartesian-axis-tick-value,
 .recharts-yAxis .recharts-cartesian-axis-tick-value {
   fill: #64748b !important;
-  font-size: 0.85rem !important;
+  font-size: var(--font-size-xs) !important;
 }
 
 /* Custom tooltip styling */
@@ -82,20 +82,20 @@
 
 .portfolio-bar-chart .custom-tooltip p {
   margin: 4px 0;
-  font-size: 0.9rem;
+  font-size: var(--font-size-sm);
   color: #2c3e50;
   white-space: nowrap;
 }
 
 .portfolio-bar-chart .custom-tooltip p:first-child {
   font-weight: 600;
-  font-size: 1rem;
+  font-size: var(--font-size-base);
   margin-bottom: 6px;
 }
 
 .portfolio-bar-chart .custom-tooltip .label {
   color: #64748b;
-  font-size: 0.85rem;
+  font-size: var(--font-size-xs);
   margin-bottom: 8px;
   border-bottom: 1px solid #e2e8f0;
   padding-bottom: 4px;
@@ -119,7 +119,7 @@
 
 .recharts-legend-item-text {
   color: #2c3e50 !important;
-  font-size: 0.9rem !important;
+  font-size: var(--font-size-sm) !important;
   margin-left: 8px !important;
 }
 
@@ -142,7 +142,7 @@
   align-items: center;
   height: 300px;
   color: #3498db;
-  font-size: 1.1rem;
+  font-size: var(--font-size-base);
 }
 
 /* Error message styling */
