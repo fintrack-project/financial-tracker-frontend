@@ -103,7 +103,7 @@
 .input-field-label {
   font-family: var(--font-family-primary);
   font-size: var(--font-size-sm);
-  font-weight: 500;
+  font-weight: var(--font-weight-medium);
   color: var(--neutral-700);
   margin-bottom: var(--spacing-xs);
 }

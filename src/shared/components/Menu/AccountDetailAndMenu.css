@@ -41,7 +41,7 @@
 
 .account-detail-and-menu-title {
   font-size: var(--font-size-xl);
-  font-weight: 700;
+  font-weight: var(--font-weight-bold);
   color: var(--account-detail-title-color);
   margin-bottom: var(--spacing-sm);
   letter-spacing: 0.5px;
@@ -91,7 +91,7 @@
   border: none;
   border-radius: var(--border-radius-sm);
   cursor: pointer;
-  font-weight: 600;
+  font-weight: var(--font-weight-semibold);
   box-shadow: var(--shadow-sm);
   transition: var(--transition-normal);
   width: 100%;
@@ -118,7 +118,7 @@
 .account-detail-and-menu-currency label {
   display: block;
   margin-bottom: var(--spacing-sm);
-  font-weight: 500;
+  font-weight: var(--font-weight-medium);
   color: var(--currency-label-color);
 }
 

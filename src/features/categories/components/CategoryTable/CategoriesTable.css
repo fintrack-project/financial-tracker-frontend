@@ -28,7 +28,7 @@
 .categories-table th {
   background: var(--table-header-bg);
   font-family: var(--font-family-primary);
-  font-weight: 600;
+  font-weight: var(--font-weight-semibold);
   color: var(--primary-800);
   text-transform: uppercase;
   font-size: var(--table-font-size-header);

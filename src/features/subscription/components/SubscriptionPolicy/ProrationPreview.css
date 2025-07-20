@@ -73,7 +73,7 @@
 /* Title */
 .preview-title {
   font-size: var(--font-size-base);
-  font-weight: 600;
+  font-weight: var(--font-weight-semibold);
   color: var(--text-dark);
   margin: 0 0 var(--spacing-sm) 0;
   text-align: center;
@@ -96,7 +96,7 @@
 
 .section-title {
   font-size: var(--font-size-base);
-  font-weight: 600;
+  font-weight: var(--font-weight-semibold);
   color: var(--text-dark);
   margin: 0 0 var(--spacing-md) 0;
   text-align: center;
@@ -115,7 +115,7 @@
 }
 
 .summary-item .value {
-  font-weight: 600;
+  font-weight: var(--font-weight-semibold);
   font-size: var(--font-size-base);
 }
 
@@ -152,7 +152,7 @@
 
 .breakdown-title {
   font-size: var(--font-size-base);
-  font-weight: 600;
+  font-weight: var(--font-weight-semibold);
   color: var(--text-dark);
   margin: 0 0 var(--spacing-md) 0;
   text-align: center;
@@ -176,28 +176,28 @@
   border-bottom: none;
   padding-top: var(--spacing-sm);
   margin-top: var(--spacing-xs);
-  font-weight: 600;
+  font-weight: var(--font-weight-semibold);
   font-size: var(--font-size-base);
 }
 
 .breakdown-item.credit .value {
   color: var(--success-color);
-  font-weight: 500;
+  font-weight: var(--font-weight-medium);
 }
 
 .breakdown-item.charge .value {
   color: var(--error-color);
-  font-weight: 500;
+  font-weight: var(--font-weight-medium);
 }
 
 .breakdown-item .value.credit-amount {
   color: var(--success-color);
-  font-weight: 600;
+  font-weight: var(--font-weight-semibold);
 }
 
 .breakdown-item .value.charge-amount {
   color: var(--error-color);
-  font-weight: 600;
+  font-weight: var(--font-weight-semibold);
 }
 
 .breakdown-item .value.total-amount.reduced {
@@ -218,7 +218,7 @@
   color: white;
   padding: var(--spacing-sm) var(--spacing-md);
   border-radius: var(--border-radius-md);
-  font-weight: 600;
+  font-weight: var(--font-weight-semibold);
   font-size: var(--font-size-sm);
 }
 
@@ -242,7 +242,7 @@
   border-radius: var(--border-radius-md);
   margin-top: var(--spacing-sm);
   font-size: var(--font-size-sm);
-  font-weight: 500;
+  font-weight: var(--font-weight-medium);
 }
 
 .savings-note .savings-icon {
@@ -265,7 +265,7 @@
 
 .breakdown-item .value {
   color: var(--text-dark);
-  font-weight: 500;
+  font-weight: var(--font-weight-medium);
 }
 
 /* Total Cost Summary */
@@ -295,7 +295,7 @@
   border-bottom: none;
   padding-top: var(--spacing-md);
   margin-top: var(--spacing-sm);
-  font-weight: 600;
+  font-weight: var(--font-weight-semibold);
   font-size: var(--font-size-base);
 }
 
@@ -306,7 +306,7 @@
 
 .total-cost-item .value {
   color: var(--text-dark);
-  font-weight: 500;
+  font-weight: var(--font-weight-medium);
 }
 
 .total-cost-item.total .value {

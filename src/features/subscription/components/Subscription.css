@@ -1,7 +1,7 @@
 .subscription-container {
   padding: var(--spacing-md);
-  background-color: #f9f9f9;
-  border: 1px solid #ddd;
+  background-color: var(--neutral-200);
+  border: 1px solid var(--neutral-300);
   border-radius: 8px;
 }
 
@@ -19,7 +19,7 @@
 .subscription-tabs {
   display: flex;
   gap: 16px;
-  border-bottom: 1px solid #ddd;
+  border-bottom: 1px solid var(--neutral-300);
   padding-bottom: 8px;
   margin-bottom: 24px;
 }
@@ -30,18 +30,18 @@
   background: none;
   cursor: pointer;
   font-size: var(--font-size-base);
-  color: #666;
+  color: var(--text-secondary);
   position: relative;
   transition: color var(--transition-normal);
 }
 
 .subscription-tabs button:hover {
-  color: #007bff;
+  color: var(--primary-500);
 }
 
 .subscription-tabs button.active {
-  color: #007bff;
-  font-weight: 500;
+  color: var(--primary-500);
+  font-weight: var(--font-weight-medium);
 }
 
 .subscription-tabs button.active::after {
@@ -51,7 +51,7 @@
   left: 0;
   width: 100%;
   height: 2px;
-  background-color: #007bff;
+  background-color: var(--primary-500);
 }
 
 /* Overview Section */
@@ -64,7 +64,7 @@
 
 .current-plan-card,
 .usage-stats {
-  background: white;
+  background: var(--neutral-100);
   border-radius: 12px;
   padding: 24px;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
@@ -73,9 +73,9 @@
 .current-plan-card h3,
 .usage-stats h3 {
   font-size: var(--font-size-lg);
-  font-weight: 600;
+  font-weight: var(--font-weight-semibold);
   margin-bottom: var(--spacing-sm);
-  color: #2c3e50;
+  color: var(--text-primary);
 }
 
 .plan-details {
@@ -86,7 +86,7 @@
 
 .plan-name {
   font-size: var(--font-size-xl);
-  font-weight: 600;
+  font-weight: var(--font-weight-semibold);
 }
 
 .plan-status {
@@ -94,26 +94,26 @@
   padding: 4px 8px;
   border-radius: 20px;
   font-size: var(--font-size-sm);
-  font-weight: 500;
-  background-color: #e6f3ff;
-  color: #007bff;
+  font-weight: var(--font-weight-medium);
+  background-color: var(--primary-100);
+  color: var(--primary-500);
 }
 
 .plan-status.inactive {
-  background-color: #f8d7da;
-  color: #dc3545;
+  background-color: var(--error-light);
+  color: var(--error-color);
 }
 
 .plan-dates {
   display: flex;
   flex-direction: column;
   gap: var(--spacing-xs);
-  color: #666;
+  color: var(--text-secondary);
   font-size: var(--font-size-sm);
 }
 
 .plan-dates strong {
-  color: #2c3e50;
+  color: var(--text-primary);
   margin-right: 8px;
 }
 
@@ -128,19 +128,19 @@
   flex-direction: column;
   gap: 4px;
   padding: 12px;
-  background-color: #f8f9fa;
+  background-color: var(--neutral-100);
   border-radius: 8px;
 }
 
 .stat-item span:first-child {
-  color: #666;
+  color: var(--text-secondary);
   font-size: var(--font-size-sm);
 }
 
 .stat-item span:last-child {
   font-size: var(--font-size-base);
-  font-weight: 500;
-  color: #2c3e50;
+  font-weight: var(--font-weight-medium);
+  color: var(--text-primary);
 }
 
 /* Plans Section */
@@ -156,7 +156,7 @@
 }
 
 .plan-card {
-  background: white;
+  background: var(--neutral-100);
   border-radius: 8px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   text-align: center;
@@ -168,21 +168,21 @@
 }
 
 .plan-card.featured {
-  border: 2px solid #007bff;
+  border: 2px solid var(--primary-500);
   position: relative;
 }
 
 .plan-card h3 {
   font-size: var(--font-size-2xl);
-  font-weight: 600;
+  font-weight: var(--font-weight-semibold);
   margin-bottom: 16px;
-  color: #1a1a1a;
+  color: var(--text-primary);
 }
 
 .price {
   font-size: var(--font-size-3xl);
-  font-weight: 700;
-  color: #007bff;
+  font-weight: var(--font-weight-bold);
+  color: var(--primary-500);
   margin-bottom: 24px;
 }
 
@@ -195,7 +195,7 @@
 
 .features li {
   padding: 8px 0;
-  color: #666;
+  color: var(--text-secondary);
   position: relative;
   padding-left: 24px;
 }
@@ -204,7 +204,7 @@
   content: '✓';
   position: absolute;
   left: 0;
-  color: #007bff;
+  color: var(--primary-500);
 }
 
 .select-plan {
@@ -212,20 +212,20 @@
   padding: 12px;
   border: none;
   border-radius: 4px;
-  background-color: #007bff;
-  color: white;
+  background-color: var(--primary-500);
+  color: var(--neutral-100);
   font-size: var(--font-size-base);
-  font-weight: 500;
+  font-weight: var(--font-weight-medium);
   cursor: pointer;
   transition: background-color var(--transition-normal);
 }
 
 .select-plan:hover:not(:disabled) {
-  background-color: #0056b3;
+  background-color: var(--primary-600);
 }
 
 .select-plan:disabled {
-  background-color: #6c757d;
+  background-color: var(--neutral-500);
   cursor: not-allowed;
   opacity: 0.7;
 }
@@ -237,7 +237,7 @@
 }
 
 .saved-methods {
-  background: white;
+  background: var(--neutral-100);
   border-radius: 8px;
   padding: 24px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
@@ -245,9 +245,9 @@
 
 .saved-methods h3 {
   font-size: var(--font-size-base);
-  font-weight: 600;
+  font-weight: var(--font-weight-semibold);
   margin-bottom: 16px;
-  color: #1a1a1a;
+  color: var(--text-primary);
 }
 
 .methods-list {
@@ -259,7 +259,7 @@
   justify-content: space-between;
   align-items: center;
   padding: 16px;
-  border: 1px solid #ddd;
+  border: 1px solid var(--neutral-300);
   border-radius: 8px;
   margin-bottom: 16px;
 }
@@ -271,12 +271,12 @@
 }
 
 .card-brand {
-  font-weight: 500;
-  color: #1a1a1a;
+  font-weight: var(--font-weight-medium);
+  color: var(--text-primary);
 }
 
 .card-last4 {
-  color: #666;
+  color: var(--text-secondary);
   font-size: var(--font-size-sm);
 }
 
@@ -295,42 +295,42 @@
 }
 
 .set-default {
-  background-color: #e6f3ff;
-  color: #007bff;
-  border: 1px solid #007bff;
+  background-color: var(--primary-100);
+  color: var(--primary-500);
+  border: 1px solid var(--primary-500);
 }
 
 .remove {
-  background-color: #fff;
-  color: #dc3545;
-  border: 1px solid #dc3545;
+  background-color: var(--neutral-100);
+  color: var(--error-color);
+  border: 1px solid var(--error-color);
 }
 
 .set-default:hover {
-  background-color: #007bff;
-  color: white;
+  background-color: var(--primary-500);
+  color: var(--neutral-100);
 }
 
 .remove:hover {
-  background-color: #dc3545;
-  color: white;
+  background-color: var(--error-color);
+  color: var(--neutral-100);
 }
 
 .add-method {
   width: 100%;
   padding: 12px;
-  border: 2px dashed #ddd;
+  border: 2px dashed var(--neutral-300);
   border-radius: 4px;
   background: none;
-  color: #666;
+  color: var(--text-secondary);
   font-size: var(--font-size-base);
   cursor: pointer;
   transition: all var(--transition-normal);
 }
 
 .add-method:hover {
-  border-color: #007bff;
-  color: #007bff;
+  border-color: var(--primary-500);
+  color: var(--primary-500);
 }
 
 .subscription-error {
@@ -339,7 +339,7 @@
   border-color: var(--error-message-border);
   color: var(--error-message-text);
   box-shadow: var(--error-message-shadow);
-} 
+}
 
 /* ==========================================================================
    RESPONSIVE DESIGN

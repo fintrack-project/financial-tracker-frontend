@@ -16,7 +16,7 @@
   margin: 0 0 var(--spacing-md) 0;
   font-size: var(--font-size-xl);
   color: #2c3e50;
-  font-weight: 700;
+  font-weight: var(--font-weight-bold);
   letter-spacing: 0.5px;
 }
 

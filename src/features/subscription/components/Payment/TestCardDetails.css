@@ -10,7 +10,7 @@
   color: var(--text-primary);
   margin: 0 0 var(--spacing-md) 0;
   font-size: var(--font-size-base);
-  font-weight: 600;
+  font-weight: var(--font-weight-semibold);
 }
 
 .test-cards-grid {
@@ -30,7 +30,7 @@
   color: var(--text-primary);
   margin: 0 0 var(--spacing-sm) 0;
   font-size: var(--font-size-sm);
-  font-weight: 600;
+  font-weight: var(--font-weight-semibold);
 }
 
 .card-details-grid {
@@ -47,7 +47,7 @@
 .testing-card-details .detail-label {
   font-size: var(--font-size-xs);
   color: var(--text-secondary);
-  font-weight: 500;
+  font-weight: var(--font-weight-medium);
 }
 
 .testing-card-details .detail-value {

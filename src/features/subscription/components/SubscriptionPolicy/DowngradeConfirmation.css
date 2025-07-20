@@ -119,7 +119,7 @@
 
 .warning-card.compact .warning-text {
   font-size: var(--font-size-sm);
-  font-weight: 600;
+  font-weight: var(--font-weight-semibold);
   color: var(--text-primary);
 }
 
@@ -134,7 +134,7 @@
   font-size: var(--font-size-xs);
   color: var(--error-color);
   line-height: 1.3;
-  font-weight: 500;
+  font-weight: var(--font-weight-medium);
 }
 
 .warning-card.compact .acknowledge-button {
@@ -148,7 +148,7 @@
   margin: 0;
   color: var(--warning-message-text);
   font-size: var(--font-size-lg);
-  font-weight: 600;
+  font-weight: var(--font-weight-semibold);
 }
 
 .warning-card ul {
@@ -193,7 +193,7 @@
   margin: 0;
   color: var(--warning-message-text);
   font-size: var(--font-size-lg);
-  font-weight: 600;
+  font-weight: var(--font-weight-semibold);
 }
 
 .lost-features {
@@ -233,7 +233,7 @@
   padding: var(--spacing-sm) var(--spacing-md);
   border-radius: var(--border-radius-md);
   font-size: var(--font-size-sm);
-  font-weight: 500;
+  font-weight: var(--font-weight-medium);
   cursor: pointer;
   border: none;
   transition: all var(--transition-normal);
@@ -291,14 +291,14 @@
 
 .downgrade-confirmation .plan-name {
   font-size: var(--font-size-sm);
-  font-weight: 600;
+  font-weight: var(--font-weight-semibold);
   color: var(--text-dark);
   margin: 0 0 var(--spacing-xs) 0;
 }
 
 .downgrade-confirmation .plan-price {
   font-size: var(--font-size-base);
-  font-weight: 700;
+  font-weight: var(--font-weight-bold);
   color: var(--accent-color);
   margin-bottom: 0;
 }
@@ -326,7 +326,7 @@
 .downgrade-confirmation .confirm-button,
 .downgrade-confirmation .cancel-button {
   border-radius: var(--border-radius-md);
-  font-weight: 500;
+  font-weight: var(--font-weight-medium);
   cursor: pointer;
   border: none;
   transition: all var(--transition-normal);

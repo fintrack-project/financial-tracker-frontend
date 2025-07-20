@@ -8,14 +8,14 @@
   margin: 0 0 var(--spacing-md) 0;
   color: var(--text-primary);
   font-size: var(--font-size-xl);
-  font-weight: 700;
+  font-weight: var(--font-weight-bold);
 }
 
 .payment-methods h4 {
   margin: 0 0 var(--spacing-md) 0;
   color: var(--text-primary);
   font-size: var(--font-size-xl);
-  font-weight: 700;
+  font-weight: var(--font-weight-bold);
 }
 
 .payment-methods .error-message {
@@ -114,7 +114,7 @@
 }
 
 .card-brand {
-  font-weight: 700;
+  font-weight: var(--font-weight-bold);
   color: var(--text-primary);
   text-transform: capitalize;
   font-size: var(--font-size-base);
@@ -136,7 +136,7 @@
   padding: var(--spacing-xs) var(--spacing-sm);
   border-radius: var(--border-radius-full);
   font-size: var(--font-size-xs);
-  font-weight: 500;
+  font-weight: var(--font-weight-medium);
   margin-left: var(--spacing-sm);
 }
 
@@ -149,7 +149,7 @@
   padding: var(--spacing-xs) var(--spacing-sm);
   border-radius: var(--border-radius-md);
   font-size: var(--font-size-sm);
-  font-weight: 600;
+  font-weight: var(--font-weight-semibold);
   cursor: pointer;
   transition: all var(--transition-fast);
   border: 1px solid transparent;
@@ -197,7 +197,7 @@
 .add-payment-method {
   margin-top: 24px;
   padding-top: 24px;
-  border-top: 1px solid #e0e0e0;
+  border-top: 1px solid var(--neutral-300);
 }
 
 /* Make error message styles more specific */
@@ -238,20 +238,20 @@
 }
 
 .add-payment-method .error-text {
-  color: #d32f2f;
+  color: var(--error-color);
   font-size: var(--font-size-sm);
   line-height: var(--table-line-height);
   flex-grow: 1;
 }
 
 .add-payment-method .error-code {
-  color: #666;
+  color: var(--text-secondary);
   font-size: var(--font-size-xs);
   margin-left: 4px;
 }
 
 .add-payment-method .retry-button {
-  background-color: #f44336;
+  background-color: var(--error-color);
   color: white;
   border: none;
   padding: 8px 16px;
@@ -264,7 +264,7 @@
 }
 
 .add-payment-method .retry-button:hover {
-  background-color: #d32f2f;
+  background-color: var(--error-dark);
 }
 
 .payment-methods-content {

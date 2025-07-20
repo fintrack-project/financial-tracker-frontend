@@ -45,7 +45,7 @@
 
 .transaction-table th {
   background: var(--table-header-bg);
-  font-weight: 600;
+  font-weight: var(--font-weight-semibold);
   color: var(--primary-800);
   text-transform: uppercase;
   font-family: var(--font-family-primary);
@@ -79,7 +79,7 @@
 .transaction-table td.debit-column,
 .transaction-table th.debit-column {
   color: var(--error-color);
-  font-weight: 500;
+  font-weight: var(--font-weight-medium);
   font-family: 'Monaco', 'Courier New', monospace;
   font-size: var(--table-font-size-numeric);
   text-align: right;
@@ -88,7 +88,7 @@
 .transaction-table td.credit-column,
 .transaction-table th.credit-column {
   color: var(--success-color);
-  font-weight: 500;
+  font-weight: var(--font-weight-medium);
   font-family: 'Monaco', 'Courier New', monospace;
   font-size: var(--table-font-size-numeric);
   text-align: right;
@@ -155,7 +155,7 @@
 }
 
 .transaction-table .delete-button:hover {
-  background-color: #d32f2f;
+  background-color: var(--error-color);
 }
 
 /* ==========================================================================
@@ -176,13 +176,13 @@
    ========================================================================== */
 
 .highlight-row {
-  background-color: #fff7ed !important;
+  background-color: var(--warning-light) !important;
 }
 
 .marked-for-deletion {
   text-decoration: line-through;
   opacity: 0.6;
-  background-color: #fef2f2 !important;
+  background-color: var(--error-light) !important;
 }
 
 /* ==========================================================================

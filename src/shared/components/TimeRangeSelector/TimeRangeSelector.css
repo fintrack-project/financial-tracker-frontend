@@ -20,7 +20,7 @@
   align-items: center;
   font-family: var(--font-family-primary);
   font-size: var(--table-font-size-header);
-  font-weight: 600;
+  font-weight: var(--font-weight-semibold);
   color: var(--primary-800);
 }
 
@@ -28,7 +28,7 @@
   margin: 0;
   color: var(--text-dark);
   font-size: var(--font-size-lg);
-  font-weight: 600;
+  font-weight: var(--font-weight-semibold);
   font-family: var(--font-family-primary);
 }
 

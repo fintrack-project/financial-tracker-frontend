@@ -39,7 +39,7 @@
 }
 
 .subscription-card-brand {
-  font-weight: 600;
+  font-weight: var(--font-weight-semibold);
   color: var(--text-primary);
   text-transform: capitalize;
 }
@@ -60,7 +60,7 @@
   padding: var(--spacing-xs) var(--spacing-sm);
   border-radius: var(--border-radius-sm);
   font-size: var(--font-size-xs);
-  font-weight: 500;
+  font-weight: var(--font-weight-medium);
 }
 
 .subscription-input-radio {
@@ -78,7 +78,7 @@
   border: 1px dashed var(--border-light);
   border-radius: var(--border-radius-md);
   color: var(--text-secondary);
-  font-weight: 500;
+  font-weight: var(--font-weight-medium);
   cursor: pointer;
   transition: all var(--transition-fast);
   display: flex;
@@ -123,7 +123,7 @@
   border: none;
   border-radius: var(--border-radius-md);
   font-size: var(--font-size-sm);
-  font-weight: 600;
+  font-weight: var(--font-weight-semibold);
   cursor: pointer;
   transition: background var(--transition-fast), color var(--transition-fast), box-shadow var(--transition-fast);
   box-shadow: var(--popup-button-shadow);
@@ -147,7 +147,7 @@
   border: none;
   border-radius: var(--border-radius-md);
   font-size: var(--font-size-sm);
-  font-weight: 600;
+  font-weight: var(--font-weight-semibold);
   cursor: pointer;
   transition: background var(--transition-fast), color var(--transition-fast), box-shadow var(--transition-fast);
   box-shadow: var(--popup-button-shadow);
@@ -214,7 +214,7 @@
 
 .confirmation-details strong {
   color: var(--text-primary);
-  font-weight: 600;
+  font-weight: var(--font-weight-semibold);
 }
 
 .payment-confirmation .confirmation-actions {
@@ -289,7 +289,7 @@
   padding: var(--spacing-xs) var(--spacing-sm);
   border-radius: var(--border-radius-full);
   font-size: var(--font-size-xs);
-  font-weight: 500;
+  font-weight: var(--font-weight-medium);
 }
 .add-payment-method-section {
   margin-bottom: var(--spacing-md);

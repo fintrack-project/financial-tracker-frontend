@@ -96,7 +96,7 @@
 }
 
 .portfolio-pie-chart .custom-tooltip p:first-child {
-  font-weight: 600;
+  font-weight: var(--font-weight-semibold);
   font-size: var(--font-size-base);
   margin-bottom: var(--spacing-xs);
 }

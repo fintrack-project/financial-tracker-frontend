@@ -20,7 +20,7 @@
   text-decoration: none;
   color: var(--primary-500);
   font-size: var(--font-size-base);
-  font-weight: 600;
+  font-weight: var(--font-weight-semibold);
   padding: var(--nav-padding-normal);
   border-radius: var(--border-radius-md);
   transition: var(--transition-normal);

@@ -30,7 +30,7 @@
 }
 
 .profile-table-label {
-  font-weight: 600;
+  font-weight: var(--font-weight-semibold);
   color: var(--text-primary);
   font-size: var(--font-size-sm);
   font-family: var(--font-family-primary);
@@ -67,7 +67,7 @@
   padding: var(--spacing-xs) var(--spacing-sm);
   border-radius: var(--border-radius-full);
   font-size: var(--font-size-xs);
-  font-weight: 500;
+  font-weight: var(--font-weight-medium);
   font-family: var(--font-family-primary);
 }
 
@@ -86,7 +86,7 @@
   padding: var(--spacing-xs) var(--spacing-sm);
   border-radius: var(--border-radius-md);
   font-size: var(--font-size-xs);
-  font-weight: 500;
+  font-weight: var(--font-weight-medium);
   cursor: pointer;
   transition: var(--transition-fast);
   border: 1px solid transparent;
@@ -164,7 +164,7 @@
   
   .profile-table-label {
     font-size: var(--font-size-sm);
-    font-weight: 600;
+    font-weight: var(--font-weight-semibold);
     color: var(--text-primary);
     border-bottom: 1px solid var(--border-light);
     padding-bottom: var(--spacing-xs);

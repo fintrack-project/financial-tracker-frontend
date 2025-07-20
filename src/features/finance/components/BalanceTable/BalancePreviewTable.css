@@ -20,7 +20,7 @@
   border-bottom: 1px solid var(--table-header-border);
   color: var(--text-dark);
   font-size: var(--font-size-xl);
-  font-weight: 600;
+  font-weight: var(--font-weight-semibold);
   font-family: var(--font-family-primary);
 }
 
@@ -53,7 +53,7 @@
 .balance-preview-table th {
   background: var(--table-header-bg);
   font-family: var(--font-family-primary);
-  font-weight: 600;
+  font-weight: var(--font-weight-semibold);
   color: var(--primary-800);
   text-transform: uppercase;
   font-size: var(--table-font-size-header);
@@ -86,7 +86,7 @@
 .preview-table td.debit-column,
 .preview-table th.debit-column {
   color: var(--error-color);
-  font-weight: 500;
+  font-weight: var(--font-weight-medium);
   font-family: 'Monaco', 'Courier New', monospace;
   text-align: right;
 }
@@ -94,7 +94,7 @@
 .preview-table td.credit-column,
 .preview-table th.credit-column {
   color: var(--success-color);
-  font-weight: 500;
+  font-weight: var(--font-weight-medium);
   font-family: 'Monaco', 'Courier New', monospace;
   text-align: right;
 }

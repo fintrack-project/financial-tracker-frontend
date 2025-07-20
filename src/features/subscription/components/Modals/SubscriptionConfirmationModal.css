@@ -11,7 +11,7 @@
 
 /* Header title override */
 .modal-header h2 {
-  font-weight: 600;
+  font-weight: var(--font-weight-semibold);
   font-size: var(--page-title-font-size-mobile);
   color: var(--page-title-color);
 }
@@ -46,7 +46,7 @@
   cursor: pointer;
   transition: all var(--transition-fast);
   font-size: var(--font-size-sm);
-  font-weight: 600;
+  font-weight: var(--font-weight-semibold);
 }
 .cancel-button:hover {
   background: var(--neutral-200);
@@ -61,7 +61,7 @@
   cursor: pointer;
   transition: all var(--transition-fast);
   font-size: var(--font-size-sm);
-  font-weight: 600;
+  font-weight: var(--font-weight-semibold);
 }
 
 /* Button variants */

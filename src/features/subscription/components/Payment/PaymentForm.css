@@ -16,31 +16,31 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background-color: var(--error-message-bg);
-  border-color: var(--error-message-border);
-  color: var(--error-message-text);
+  background-color: var(--neutral-100);
+  border-color: var(--error-color);
+  color: var(--error-color);
   box-shadow: var(--error-message-shadow);
 }
 
 .payment-form-error-message span {
-  color: var(--error-message-text);
+  color: var(--error-color);
   font-size: var(--font-size-sm);
 }
 
 .payment-form-retry-btn {
   padding: 6px 12px;
   background-color: #fff;
-  border: 1px solid #dc3545;
-  color: #dc3545;
+  border: 1px solid var(--error-color);
+  color: var(--error-color);
   border-radius: 4px;
   cursor: pointer;
   font-size: var(--font-size-sm);
-  font-weight: 500;
+  font-weight: var(--font-weight-medium);
   transition: all var(--transition-fast);
 }
 
 .payment-form-retry-btn:hover {
-  background-color: #dc3545;
+  background-color: var(--error-color);
   color: #fff;
 }
 
@@ -50,53 +50,53 @@
   margin-top: 1rem;
 }
 
-.payment-form-submit-btn {
-  flex: 1;
-  padding: 12px 24px;
-  background: #4d7df2;
-  color: white;
-  border: none;
-  border-radius: 6px;
+  .payment-form-submit-btn {
+    flex: 1;
+    padding: 12px 24px;
+    background: var(--primary-500);
+    color: var(--neutral-100);
+    border: none;
+    border-radius: 6px;
   font-size: var(--font-size-base);
-  font-weight: 600;
+  font-weight: var(--font-weight-semibold);
   cursor: pointer;
   transition: background var(--transition-fast), color var(--transition-fast), box-shadow var(--transition-fast);
   box-shadow: 0 2px 8px rgba(52, 98, 219, 0.08);
 }
 
 .payment-form-submit-btn:hover {
-  background: #3462db;
+  background: var(--primary-600);
   box-shadow: 0 4px 16px rgba(52, 98, 219, 0.12);
 }
 
 .payment-form-submit-btn:disabled {
-  background: #cbd5e1;
+  background: var(--neutral-400);
   cursor: not-allowed;
 }
 
-.payment-form-cancel-btn {
-  flex: 1;
-  padding: 12px 24px;
-  background: #cbd5e1;
-  color: #334155;
-  border: none;
-  border-radius: 6px;
+  .payment-form-cancel-btn {
+    flex: 1;
+    padding: 12px 24px;
+    background: var(--neutral-400);
+    color: var(--neutral-100);
+    border: none;
+    border-radius: 6px;
   font-size: var(--font-size-base);
-  font-weight: 600;
+  font-weight: var(--font-weight-semibold);
   cursor: pointer;
   transition: background var(--transition-fast), color var(--transition-fast), box-shadow var(--transition-fast);
   box-shadow: 0 2px 8px rgba(52, 98, 219, 0.08);
 }
 
-.payment-form-cancel-btn:hover {
-  background: #94a3b8;
-  color: #1e293b;
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
-}
+  .payment-form-cancel-btn:hover {
+    background: var(--neutral-500);
+    color: var(--neutral-100);
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+  }
 
 .payment-form-cancel-btn:disabled {
-  background: #f8f9fa;
-  color: #aab7c4;
+  background: var(--neutral-100);
+  color: var(--text-secondary);
   cursor: not-allowed;
 }
 
@@ -107,8 +107,8 @@
 .form-group label {
   display: block;
   margin-bottom: 8px;
-  font-weight: 500;
-  color: #32325d;
+  font-weight: var(--font-weight-medium);
+  color: var(--text-primary);
 }
 
 .card-element-container {
@@ -120,34 +120,34 @@
 }
 
 .card-element-container.error {
-  border-color: #dc3545;
-  background-color: #fff8f8;
+  border-color: var(--error-color);
+  background-color: var(--error-light);
 }
 
 .field-error {
-  color: var(--error-message-text);
+  color: var(--error-color);
   font-size: var(--font-size-xs);
   margin-top: 4px;
 }
 
 .error-message.card_error {
-  background-color: var(--error-message-bg);
-  border-color: var(--error-message-border);
-  color: var(--error-message-text);
+  background-color: var(--error-color);
+  border-color: var(--error-color);
+  color: var(--neutral-100);
   box-shadow: var(--error-message-shadow);
 }
 
 .error-message.validation_error {
-  background-color: var(--error-message-bg);
-  border-color: var(--error-message-border);
-  color: var(--error-message-text);
+  background-color: var(--error-color);
+  border-color: var(--error-color);
+  color: var(--neutral-100);
   box-shadow: var(--error-message-shadow);
 }
 
 .error-message.payment_error {
-  background-color: var(--error-message-bg);
-  border-color: var(--error-message-border);
-  color: var(--error-message-text);
+  background-color: var(--error-color);
+  border-color: var(--error-color);
+  color: var(--neutral-100);
   box-shadow: var(--error-message-shadow);
 }
 
@@ -169,15 +169,15 @@
 }
 
 .error-text {
-  color: var(--error-message-text);
+  color: var(--error-color);
   font-size: var(--font-size-base);
 }
 
 .retry-button {
   padding: 6px 12px;
   background-color: #fff;
-  border: 1px solid #dc3545;
-  color: #dc3545;
+  border: 1px solid var(--error-color);
+  color: var(--error-color);
   border-radius: 4px;
   cursor: pointer;
   font-size: var(--font-size-base);
@@ -185,21 +185,21 @@
 }
 
 .retry-button:hover {
-  background-color: #dc3545;
+  background-color: var(--error-color);
   color: #fff;
 }
 
 .test-instructions {
   margin-top: 24px;
   padding: 16px;
-  background-color: #f8f9fa;
+  background-color: var(--neutral-100);
   border-radius: 4px;
-  border: 1px solid #e0e0e0;
+  border: 1px solid var(--neutral-300);
 }
 
 .test-instructions h4 {
   margin: 0 0 12px 0;
-  color: #32325d;
+  color: var(--text-primary);
 }
 
 .test-instructions ul {
@@ -210,13 +210,13 @@
 .test-instructions li {
   margin-bottom: 8px;
   font-size: var(--font-size-sm);
-  color: #6b7c93;
+  color: var(--text-secondary);
 }
 
 .test-instructions .note {
   margin-top: 12px;
   font-size: var(--font-size-xs);
-  color: #87909c;
+  color: var(--text-muted);
   font-style: italic;
 } 
 

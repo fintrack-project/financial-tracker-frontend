@@ -19,7 +19,7 @@
   font-size: var(--font-size-2xl);
   color: var(--text-primary);
   margin-bottom: var(--spacing-md);
-  font-weight: 600;
+  font-weight: var(--font-weight-semibold);
 }
 
 .support-section > p {
@@ -59,7 +59,7 @@
   font-size: var(--font-size-lg);
   color: var(--text-primary);
   margin-bottom: var(--spacing-sm);
-  font-weight: 600;
+  font-weight: var(--font-weight-semibold);
 }
 
 .support-option p {
@@ -78,7 +78,7 @@
 .support-email a {
   color: var(--primary-500);
   text-decoration: none;
-  font-weight: 500;
+  font-weight: var(--font-weight-medium);
   transition: var(--transition-normal);
 }
 
@@ -93,7 +93,7 @@
   border: none;
   padding: var(--spacing-xs) var(--spacing-md);
   font-size: var(--font-size-sm);
-  font-weight: 500;
+  font-weight: var(--font-weight-medium);
   border-radius: var(--border-radius-sm);
   cursor: pointer;
   transition: var(--transition-normal);

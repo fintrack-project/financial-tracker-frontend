@@ -50,7 +50,7 @@
 
 .category-cell-view span {
   font-size: var(--font-size-sm);
-  font-weight: 600;
+  font-weight: var(--font-weight-semibold);
   color: var(--neutral-100);
   letter-spacing: 0.01em;
   text-shadow: 0 1px 1px rgba(0, 0, 0, 0.1);
@@ -62,7 +62,7 @@
 .category-cell .category-cell-edit select {
   padding: var(--spacing-xs) var(--spacing-sm);
   font-size: var(--font-size-sm);
-  font-weight: 600;
+  font-weight: var(--font-weight-semibold);
   border: 1px solid rgba(255, 255, 255, 0.2);
   border-radius: var(--border-radius-sm);
   background-color: rgba(255, 255, 255, 0.9) !important;
@@ -97,7 +97,7 @@
 }
 
 .category-name {
-  font-weight: 500;
+  font-weight: var(--font-weight-medium);
   color: var(--primary-600);
   font-family: var(--font-family-primary);
   font-size: var(--font-size-sm);

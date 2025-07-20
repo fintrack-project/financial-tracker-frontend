@@ -5,7 +5,7 @@
   width: 100%;
   margin: var(--spacing-md) auto;
   padding: var(--spacing-md);
-  background-color: #ffffff;
+  background-color: var(--neutral-100);
   border-radius: var(--border-radius-lg);
   box-shadow: var(--shadow-md);
   transition: box-shadow var(--transition-normal);
@@ -32,7 +32,7 @@
   justify-content: space-between;
   align-items: center;
   padding: var(--spacing-md) var(--spacing-md);
-  border-bottom: 1px solid var(--table-border);
+  border-bottom: 1px solid var(--neutral-300);
   margin-bottom: var(--spacing-md);
 }
 
@@ -56,24 +56,24 @@
 /* Chart grid styling */
 .recharts-cartesian-grid-horizontal line,
 .recharts-cartesian-grid-vertical line {
-  stroke: #e2e8f0 !important;
+  stroke: var(--neutral-300) !important;
 }
 
 /* Axis styling */
 .recharts-xAxis .recharts-cartesian-axis-line,
 .recharts-yAxis .recharts-cartesian-axis-line {
-  stroke: #bdc3c7;
+  stroke: var(--neutral-400);
 }
 
 .recharts-xAxis .recharts-cartesian-axis-tick-value,
 .recharts-yAxis .recharts-cartesian-axis-tick-value {
-  fill: #64748b !important;
+  fill: var(--text-secondary) !important;
   font-size: var(--font-size-xs) !important;
 }
 
 /* Custom tooltip styling */
 .portfolio-bar-chart .custom-tooltip {
-  background-color: #fff;
+  background-color: var(--neutral-100);
   border-radius: 6px;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
   padding: 8px 12px;
@@ -83,21 +83,21 @@
 .portfolio-bar-chart .custom-tooltip p {
   margin: 4px 0;
   font-size: var(--font-size-sm);
-  color: #2c3e50;
+  color: var(--text-primary);
   white-space: nowrap;
 }
 
 .portfolio-bar-chart .custom-tooltip p:first-child {
-  font-weight: 600;
+  font-weight: var(--font-weight-semibold);
   font-size: var(--font-size-base);
   margin-bottom: 6px;
 }
 
 .portfolio-bar-chart .custom-tooltip .label {
-  color: #64748b;
+  color: var(--text-secondary);
   font-size: var(--font-size-xs);
   margin-bottom: 8px;
-  border-bottom: 1px solid #e2e8f0;
+  border-bottom: 1px solid var(--neutral-300);
   padding-bottom: 4px;
 }
 
@@ -118,7 +118,7 @@
 }
 
 .recharts-legend-item-text {
-  color: #2c3e50 !important;
+  color: var(--text-primary) !important;
   font-size: var(--font-size-sm) !important;
   margin-left: 8px !important;
 }
@@ -141,7 +141,7 @@
   justify-content: center;
   align-items: center;
   height: 300px;
-  color: #3498db;
+  color: var(--info-color);
   font-size: var(--font-size-base);
 }
 

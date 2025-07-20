@@ -1,7 +1,7 @@
 /* Common title styles for all sections */
 .fintrack-title {
   font-size: var(--font-size-2xl);
-  font-weight: 600;
+  font-weight: var(--font-weight-semibold);
   color: var(--page-title-color) !important;
   margin-bottom: var(--spacing-lg);
   padding-bottom: var(--spacing-sm);
@@ -42,7 +42,7 @@
 /* Subsection title - for components within sections */
 .fintrack-subsection-title {
   font-size: var(--font-size-lg);
-  font-weight: 600;
+  font-weight: var(--font-weight-semibold);
   color: var(--page-title-color) !important;
   margin-bottom: var(--spacing-md);
   text-align: left;
@@ -51,7 +51,7 @@
 /* Card title - for individual cards/widgets */
 .fintrack-card-title {
   font-size: var(--font-size-lg);
-  font-weight: 600;
+  font-weight: var(--font-weight-semibold);
   color: var(--page-title-color) !important;
   margin-bottom: var(--spacing-sm);
   padding-bottom: var(--spacing-xs);

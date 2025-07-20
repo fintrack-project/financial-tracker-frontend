@@ -21,7 +21,7 @@
 .market-widget-header h3 {
   margin: 0;
   font-size: var(--font-size-lg);
-  font-weight: 600;
+  font-weight: var(--font-weight-semibold);
   color: var(--neutral-900);
 }
 
@@ -86,7 +86,7 @@
 }
 
 .index-name {
-  font-weight: 600;
+  font-weight: var(--font-weight-semibold);
   font-size: var(--font-size-sm);
   color: var(--neutral-900);
 }
@@ -103,7 +103,7 @@
 }
 
 .index-price {
-  font-weight: 600;
+  font-weight: var(--font-weight-semibold);
   font-size: var(--font-size-sm);
   color: var(--neutral-900);
 }

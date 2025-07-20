@@ -3,12 +3,12 @@
   justify-content: center;
   align-items: center;
   height: 100vh;
-  background-color: #f9f9f9;
+  background-color: var(--neutral-200);
   padding: 20px;
 }
 
 .verify-email-card {
-  background-color: #ffffff;
+  background-color: var(--neutral-100);
   padding: 40px 30px;
   border-radius: 10px;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
@@ -25,7 +25,7 @@
 
 .verify-email-card h1 {
   font-size: var(--font-size-2xl);
-  color: #333;
+  color: var(--text-primary);
   margin-bottom: 20px;
 }
 
@@ -35,7 +35,7 @@
 }
 
 .status-message.success {
-  color: #28a745; /* Green for success */
+  color: var(--success-color); /* Green for success */
 }
 
 .status-message.error {
@@ -46,8 +46,8 @@
 }
 
 .retry-button {
-  background-color: #007bff;
-  color: #ffffff;
+  background-color: var(--primary-500);
+  color: var(--neutral-100);
   border: none;
   padding: 10px 20px;
   border-radius: 5px;
@@ -57,5 +57,5 @@
 }
 
 .retry-button:hover {
-  background-color: #0056b3;
+  background-color: var(--primary-600);
 }
