@@ -397,7 +397,7 @@
 
 /* ===== RESPONSIVE ADJUSTMENTS ===== */
 /* Mobile styles */
-@media (max-width: var(--breakpoint-mobile-max)) {
+@media (max-width: 768px) {
   .popup-container {
     max-width: 95vw;
     margin: var(--spacing-sm);
@@ -426,7 +426,7 @@
 }
 
 /* Tablet styles */
-@media (min-width: var(--breakpoint-tablet-min)) and (max-width: var(--breakpoint-tablet-max)) {
+@media (min-width: 769px) and (max-width: 1023px) {
   .popup-container {
     max-width: 90vw;
   }
@@ -437,7 +437,7 @@
 }
 
 /* Desktop styles */
-@media (min-width: var(--breakpoint-desktop-min)) {
+@media (min-width: 1024px) {
   .popup-header h3 {
     font-size: var(--page-title-font-size-desktop);
   }

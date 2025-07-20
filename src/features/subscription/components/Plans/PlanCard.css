@@ -172,7 +172,7 @@
   }
   
   .plan-card .select-plan-button {
-    padding: var(--spacing-xs) var(--spacing-sm);
+    padding: var(--spacing-sm) var(--spacing-md);
     font-size: var(--font-size-sm);
   }
   
@@ -221,7 +221,7 @@
   }
   
   .plan-card .select-plan-button {
-    padding: var(--spacing-xs) var(--spacing-sm);
+    padding: var(--spacing-sm) var(--spacing-md);
     font-size: var(--font-size-sm);
   }
   

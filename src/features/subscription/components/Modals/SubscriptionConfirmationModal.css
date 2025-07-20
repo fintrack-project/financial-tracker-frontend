@@ -83,21 +83,21 @@
 
 /* ===== RESPONSIVE ADJUSTMENTS ===== */
 /* Tablet styles */
-@media (min-width: var(--breakpoint-tablet-min)) and (max-width: var(--breakpoint-tablet-max)) {
+@media (min-width: 769px) and (max-width: 1023px) {
   .modal-header h2 {
     font-size: var(--page-title-font-size-tablet);
   }
 }
 
 /* Desktop styles */
-@media (min-width: var(--breakpoint-desktop-min)) {
+@media (min-width: 1024px) {
   .modal-header h2 {
     font-size: var(--page-title-font-size-desktop);
   }
 }
 
 /* Mobile styles */
-@media (max-width: var(--breakpoint-mobile-max)) {
+@media (max-width: 768px) {
   .modal-footer {
     flex-direction: column;
     gap: var(--spacing-sm);

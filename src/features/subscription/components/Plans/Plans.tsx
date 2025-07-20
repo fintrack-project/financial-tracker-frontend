@@ -3,6 +3,9 @@ import { Elements } from '@stripe/react-stripe-js';
 import PaymentForm from '../Payment/PaymentForm';
 import SubscriptionPaymentMethodSelectionPopup from '../Modals/SubscriptionPaymentMethodSelectionPopup';
 import SubscriptionNoPaymentMethodPopup from '../Modals/SubscriptionNoPaymentMethodPopup';
+import CancellationConfirmation from '../SubscriptionPolicy/CancellationConfirmation';
+import UpgradeConfirmation from '../SubscriptionPolicy/UpgradeConfirmation';
+import DowngradeConfirmation from '../SubscriptionPolicy/DowngradeConfirmation';
 import { PaymentMethod } from '../../../../shared/types/PaymentMethods';
 import { UserDetails } from '../../../../shared/types/UserDetails';
 import { UserSubscription } from '../../types/UserSubscription';
@@ -24,7 +27,7 @@ const PLANS: (SubscriptionPlan & { color: string })[] = [
     amount: 0,
     currency: 'USD',
     interval: 'month',
-    color: '#6c757d',
+    color: 'var(--tier-free-bg)',
     features: [
       '1 year transaction history',
       'Up to 2 custom categories',
@@ -43,7 +46,7 @@ const PLANS: (SubscriptionPlan & { color: string })[] = [
     amount: 4.99,
     currency: 'USD',
     interval: 'month',
-    color: '#28a745',
+    color: 'var(--tier-basic-bg)',
     features: [
       '5 years transaction history',
       'Unlimited custom categories',
@@ -63,7 +66,7 @@ const PLANS: (SubscriptionPlan & { color: string })[] = [
     amount: 9.99,
     currency: 'USD',
     interval: 'month',
-    color: '#007bff',
+    color: 'var(--tier-premium-bg)',
     features: [
       'Unlimited transaction history',
       'Unlimited custom categories',
@@ -109,6 +112,12 @@ const Plans: React.FC<PlansProps> = ({
   const [isCancelling, setIsCancelling] = useState(false);
   const [loading, setLoading] = useState(true);
   const [billingCycle, setBillingCycle] = useState<'monthly' | 'annual'>('monthly');
+  const [showCancellationConfirmation, setShowCancellationConfirmation] = useState(false);
+  const [planToCancel, setPlanToCancel] = useState<string | null>(null);
+  const [showUpgradeConfirmation, setShowUpgradeConfirmation] = useState(false);
+  const [planToUpgrade, setPlanToUpgrade] = useState<string | null>(null);
+  const [showDowngradeConfirmation, setShowDowngradeConfirmation] = useState(false);
+  const [planToDowngrade, setPlanToDowngrade] = useState<string | null>(null);
 
   const handleCancelPlan = async (planId: string) => {
     const basePlanId = planId.replace('_annual', '');
@@ -121,6 +130,25 @@ const Plans: React.FC<PlansProps> = ({
 
     if (!subscription?.stripeSubscriptionId) {
       setError('No active subscription found');
+      return;
+    }
+
+    // Show cancellation confirmation popup instead of cancelling immediately
+    setPlanToCancel(planId);
+    setShowCancellationConfirmation(true);
+  };
+
+  const handleConfirmCancellation = async () => {
+    if (!planToCancel || !subscription?.stripeSubscriptionId) {
+      setError('No plan selected for cancellation');
+      return;
+    }
+
+    const basePlanId = planToCancel.replace('_annual', '');
+    const selectedPlan = PLANS.find(p => p.id === basePlanId);
+
+    if (!selectedPlan) {
+      setError('Invalid plan selected');
       return;
     }
 
@@ -138,6 +166,8 @@ const Plans: React.FC<PlansProps> = ({
 
       // Refresh subscription details
       await onSubscriptionComplete(subscription.stripeSubscriptionId);
+      setShowCancellationConfirmation(false);
+      setPlanToCancel(null);
     } catch (error) {
       console.error('Error cancelling subscription:', error);
       setError(error instanceof Error ? error.message : 'Failed to cancel subscription');
@@ -195,6 +225,25 @@ const Plans: React.FC<PlansProps> = ({
     
     console.log('Upgrading plan:', selectedPlan);
 
+    // Show upgrade confirmation popup instead of proceeding directly
+    setPlanToUpgrade(planId);
+    setShowUpgradeConfirmation(true);
+  };
+
+  const handleConfirmUpgrade = async () => {
+    if (!planToUpgrade || !currentPlan) {
+      setError('No plan selected for upgrade');
+      return;
+    }
+
+    const basePlanId = planToUpgrade.replace('_annual', '');
+    const selectedPlan = PLANS.find(p => p.id === basePlanId);
+
+    if (!selectedPlan) {
+      setError('Invalid plan selected');
+      return;
+    }
+
     // Get the correct plan ID based on billing cycle
     const finalPlanId = getPlanId(basePlanId, billingCycle === 'annual');
     console.log('Selected plan ID:', finalPlanId, 'Billing cycle:', billingCycle);
@@ -207,14 +256,20 @@ const Plans: React.FC<PlansProps> = ({
 
     if (basePlanId === 'plan_free') {
       await onPlanSelect(selectedPlan.name);
+      setShowUpgradeConfirmation(false);
+      setPlanToUpgrade(null);
       return;
     }
 
     if (paymentMethods.length === 0) {
+      setShowUpgradeConfirmation(false);
+      setPlanToUpgrade(null);
       setShowNoPaymentMethodPopup(true);
       return;
     }
 
+    setShowUpgradeConfirmation(false);
+    setPlanToUpgrade(null);
     setShowPaymentMethodPopup(true);
   };
 
@@ -234,9 +289,31 @@ const Plans: React.FC<PlansProps> = ({
 
     console.log('Downgrading plan:', selectedPlan);
 
-    // Get the correct plan ID based on billing cycle
-    const finalPlanId = getPlanId(basePlanId, billingCycle === 'annual');
-    console.log('Selected plan ID:', finalPlanId, 'Billing cycle:', billingCycle);
+    // Show downgrade confirmation popup instead of proceeding directly
+    setPlanToDowngrade(planId);
+    setShowDowngradeConfirmation(true);
+  };
+
+  const handleConfirmDowngrade = async () => {
+    if (!planToDowngrade || !userDetails?.accountId) {
+      setError('No plan selected for downgrade');
+      return;
+    }
+
+    const basePlanId = planToDowngrade.replace('_annual', '');
+    const selectedPlan = PLANS.find(p => p.id === basePlanId);
+
+    if (!selectedPlan) {
+      setError('Invalid plan selected');
+      return;
+    }
+
+    console.log('Confirming downgrade to plan:', selectedPlan);
+
+    // FIXED: Use current plan's billing cycle, not UI toggle
+    const isCurrentPlanAnnual = currentPlan?.interval === 'year';
+    const finalPlanId = getPlanId(basePlanId, isCurrentPlanAnnual);
+    console.log('Selected plan ID:', finalPlanId, 'Current plan interval:', currentPlan?.interval);
 
     try {
       setLoading(true);
@@ -253,6 +330,8 @@ const Plans: React.FC<PlansProps> = ({
 
       // Refresh subscription details
       await onSubscriptionComplete(subscription.stripeSubscriptionId);
+      setShowDowngradeConfirmation(false);
+      setPlanToDowngrade(null);
     } catch (error) {
       console.error('Error downgrading subscription:', error);
       setError(error instanceof Error ? error.message : 'Failed to downgrade subscription');
@@ -370,7 +449,7 @@ const Plans: React.FC<PlansProps> = ({
             <PlanCard
               key={plan.id}
               plan={{
-                id: plan.id,
+                id: getPlanId(plan.id, billingCycle === 'annual'),
                 plan_group_id: plan.plan_group_id,
                 name: plan.name,
                 color: plan.color,
@@ -429,6 +508,203 @@ const Plans: React.FC<PlansProps> = ({
               onError={handlePaymentError}
             />
           </Elements>
+        </div>
+      )}
+
+      {showCancellationConfirmation && planToCancel && currentPlan && (
+        <div className="subscription-popup-overlay">
+          <div className="subscription-popup-container">
+            <div className="subscription-popup-header">
+              <h3>Cancel Subscription</h3>
+              <button
+                className="subscription-close-button"
+                onClick={() => {
+                  setShowCancellationConfirmation(false);
+                  setPlanToCancel(null);
+                }}
+              >
+                ×
+              </button>
+            </div>
+            <div className="subscription-popup-content">
+              <CancellationConfirmation
+                accountId={userDetails.accountId}
+                currentPlan={currentPlan}
+                daysRemaining={(() => {
+                  if (!subscription?.nextBillingDate) return 30;
+                  
+                  try {
+                    const nextBillingDate = new Date(subscription.nextBillingDate);
+                    const now = new Date();
+                    
+                    // Check if the date is valid
+                    if (isNaN(nextBillingDate.getTime())) return 30;
+                    
+                    const diffInMs = nextBillingDate.getTime() - now.getTime();
+                    const diffInDays = Math.ceil(diffInMs / (1000 * 60 * 60 * 24));
+                    
+                    // Ensure we return a reasonable value
+                    return diffInDays > 0 ? Math.min(diffInDays, 365) : 30;
+                  } catch (error) {
+                    console.error('Error calculating days remaining:', error);
+                    return 30;
+                  }
+                })()}
+                onConfirm={handleConfirmCancellation}
+                onCancel={() => {
+                  setShowCancellationConfirmation(false);
+                  setPlanToCancel(null);
+                }}
+              />
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Upgrade Confirmation Popup */}
+      {showUpgradeConfirmation && planToUpgrade && currentPlan && (
+        <div className="subscription-popup-overlay">
+          <div className="subscription-popup-container">
+            <div className="subscription-popup-header">
+              <h3>Confirm Plan Upgrade</h3>
+              <button
+                className="subscription-close-button"
+                onClick={() => {
+                  setShowUpgradeConfirmation(false);
+                  setPlanToUpgrade(null);
+                }}
+              >
+                ×
+              </button>
+            </div>
+            <div className="subscription-popup-content">
+              <UpgradeConfirmation
+                currentPlan={currentPlan}
+                newPlan={(() => {
+                  const basePlanId = planToUpgrade.replace('_annual', '');
+                  const selectedPlan = PLANS.find(p => p.id === basePlanId);
+                  if (!selectedPlan) {
+                    throw new Error('Selected plan not found');
+                  }
+                  
+                  return {
+                    id: planToUpgrade,
+                    name: selectedPlan.name,
+                    amount: billingCycle === 'annual' ? selectedPlan.amount * 12 * (1 - ANNUAL_DISCOUNT_RATE) : selectedPlan.amount,
+                    interval: billingCycle === 'annual' ? 'year' : 'month',
+                    features: selectedPlan.features || []
+                  };
+                })()}
+                daysRemaining={(() => {
+                  if (!subscription?.nextBillingDate) {
+                    // Default based on current plan's billing cycle
+                    return currentPlan?.interval === 'year' ? 365 : 30;
+                  }
+                  
+                  try {
+                    const nextBillingDate = new Date(subscription.nextBillingDate);
+                    const now = new Date();
+                    
+                    if (isNaN(nextBillingDate.getTime())) {
+                      return currentPlan?.interval === 'year' ? 365 : 30;
+                    }
+                    
+                    const diffInMs = nextBillingDate.getTime() - now.getTime();
+                    const diffInDays = Math.ceil(diffInMs / (1000 * 60 * 60 * 24));
+                    
+                    // Use current plan's billing cycle to determine max days
+                    const maxDays = currentPlan?.interval === 'year' ? 365 : 30;
+                    return diffInDays > 0 ? Math.min(diffInDays, maxDays) : maxDays;
+                  } catch (error) {
+                    console.error('Error calculating days remaining:', error);
+                    return currentPlan?.interval === 'year' ? 365 : 30;
+                  }
+                })()}
+                accountId={userDetails.accountId}
+                onConfirm={handleConfirmUpgrade}
+                onCancel={() => {
+                  setShowUpgradeConfirmation(false);
+                  setPlanToUpgrade(null);
+                }}
+              />
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Downgrade Confirmation Popup */}
+      {showDowngradeConfirmation && planToDowngrade && currentPlan && (
+        <div className="subscription-popup-overlay">
+          <div className="subscription-popup-container">
+            <div className="subscription-popup-header">
+              <h3>Confirm Plan Downgrade</h3>
+              <button
+                className="subscription-close-button"
+                onClick={() => {
+                  setShowDowngradeConfirmation(false);
+                  setPlanToDowngrade(null);
+                }}
+              >
+                ×
+              </button>
+            </div>
+            <div className="subscription-popup-content">
+              <DowngradeConfirmation
+                currentPlan={currentPlan}
+                newPlan={(() => {
+                  const basePlanId = planToDowngrade.replace('_annual', '');
+                  const selectedPlan = PLANS.find(p => p.id === basePlanId);
+                  if (!selectedPlan) {
+                    throw new Error('Selected plan not found');
+                  }
+                  
+                  // FIXED: For downgrades, respect the user's choice of billing cycle
+                  // The planToDowngrade already contains the correct billing cycle (_annual suffix or not)
+                  const isAnnualPlan = planToDowngrade.includes('_annual');
+                  const finalPlanId = planToDowngrade; // Use the exact plan ID that was selected
+                  
+                  return {
+                    id: finalPlanId,
+                    name: selectedPlan.name,
+                    amount: isAnnualPlan ? selectedPlan.amount * 12 * (1 - ANNUAL_DISCOUNT_RATE) : selectedPlan.amount,
+                    interval: isAnnualPlan ? 'year' : 'month',
+                    features: selectedPlan.features || []
+                  };
+                })()}
+                daysRemaining={(() => {
+                  if (!subscription?.nextBillingDate) {
+                    // Default based on current plan's billing cycle
+                    return currentPlan?.interval === 'year' ? 365 : 30;
+                  }
+                  
+                  try {
+                    const nextBillingDate = new Date(subscription.nextBillingDate);
+                    const now = new Date();
+                    
+                    if (isNaN(nextBillingDate.getTime())) {
+                      return currentPlan?.interval === 'year' ? 365 : 30;
+                    }
+                    
+                    const diffInMs = nextBillingDate.getTime() - now.getTime();
+                    const diffInDays = Math.ceil(diffInMs / (1000 * 60 * 60 * 24));
+                    
+                    // Use current plan's billing cycle to determine max days
+                    const maxDays = currentPlan?.interval === 'year' ? 365 : 30;
+                    return diffInDays > 0 ? Math.min(diffInDays, maxDays) : maxDays;
+                  } catch (error) {
+                    console.error('Error calculating days remaining:', error);
+                    return currentPlan?.interval === 'year' ? 365 : 30;
+                  }
+                })()}
+                accountId={userDetails.accountId}
+                onConfirm={handleConfirmDowngrade}
+                onCancel={() => {
+                  setShowDowngradeConfirmation(false);
+                  setPlanToDowngrade(null);
+                }}
+              />
+            </div>
+          </div>
         </div>
       )}
     </div>
