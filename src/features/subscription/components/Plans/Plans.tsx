@@ -310,9 +310,10 @@ const Plans: React.FC<PlansProps> = ({
 
     console.log('Confirming downgrade to plan:', selectedPlan);
 
-    // Get the correct plan ID based on billing cycle
-    const finalPlanId = getPlanId(basePlanId, billingCycle === 'annual');
-    console.log('Selected plan ID:', finalPlanId, 'Billing cycle:', billingCycle);
+    // FIXED: Use current plan's billing cycle, not UI toggle
+    const isCurrentPlanAnnual = currentPlan?.interval === 'year';
+    const finalPlanId = getPlanId(basePlanId, isCurrentPlanAnnual);
+    console.log('Selected plan ID:', finalPlanId, 'Current plan interval:', currentPlan?.interval);
 
     try {
       setLoading(true);
@@ -448,7 +449,7 @@ const Plans: React.FC<PlansProps> = ({
             <PlanCard
               key={plan.id}
               plan={{
-                id: plan.id,
+                id: getPlanId(plan.id, billingCycle === 'annual'),
                 plan_group_id: plan.plan_group_id,
                 name: plan.name,
                 color: plan.color,
@@ -599,21 +600,28 @@ const Plans: React.FC<PlansProps> = ({
                   };
                 })()}
                 daysRemaining={(() => {
-                  if (!subscription?.nextBillingDate) return 30;
+                  if (!subscription?.nextBillingDate) {
+                    // Default based on current plan's billing cycle
+                    return currentPlan?.interval === 'year' ? 365 : 30;
+                  }
                   
                   try {
                     const nextBillingDate = new Date(subscription.nextBillingDate);
                     const now = new Date();
                     
-                    if (isNaN(nextBillingDate.getTime())) return 30;
+                    if (isNaN(nextBillingDate.getTime())) {
+                      return currentPlan?.interval === 'year' ? 365 : 30;
+                    }
                     
                     const diffInMs = nextBillingDate.getTime() - now.getTime();
                     const diffInDays = Math.ceil(diffInMs / (1000 * 60 * 60 * 24));
                     
-                    return diffInDays > 0 ? Math.min(diffInDays, 365) : 30;
+                    // Use current plan's billing cycle to determine max days
+                    const maxDays = currentPlan?.interval === 'year' ? 365 : 30;
+                    return diffInDays > 0 ? Math.min(diffInDays, maxDays) : maxDays;
                   } catch (error) {
                     console.error('Error calculating days remaining:', error);
-                    return 30;
+                    return currentPlan?.interval === 'year' ? 365 : 30;
                   }
                 })()}
                 accountId={userDetails.accountId}
@@ -654,29 +662,41 @@ const Plans: React.FC<PlansProps> = ({
                     throw new Error('Selected plan not found');
                   }
                   
+                  // FIXED: For downgrades, respect the user's choice of billing cycle
+                  // The planToDowngrade already contains the correct billing cycle (_annual suffix or not)
+                  const isAnnualPlan = planToDowngrade.includes('_annual');
+                  const finalPlanId = planToDowngrade; // Use the exact plan ID that was selected
+                  
                   return {
-                    id: planToDowngrade,
+                    id: finalPlanId,
                     name: selectedPlan.name,
-                    amount: billingCycle === 'annual' ? selectedPlan.amount * 12 * (1 - ANNUAL_DISCOUNT_RATE) : selectedPlan.amount,
+                    amount: isAnnualPlan ? selectedPlan.amount * 12 * (1 - ANNUAL_DISCOUNT_RATE) : selectedPlan.amount,
                     features: selectedPlan.features || []
                   };
                 })()}
                 daysRemaining={(() => {
-                  if (!subscription?.nextBillingDate) return 30;
+                  if (!subscription?.nextBillingDate) {
+                    // Default based on current plan's billing cycle
+                    return currentPlan?.interval === 'year' ? 365 : 30;
+                  }
                   
                   try {
                     const nextBillingDate = new Date(subscription.nextBillingDate);
                     const now = new Date();
                     
-                    if (isNaN(nextBillingDate.getTime())) return 30;
+                    if (isNaN(nextBillingDate.getTime())) {
+                      return currentPlan?.interval === 'year' ? 365 : 30;
+                    }
                     
                     const diffInMs = nextBillingDate.getTime() - now.getTime();
                     const diffInDays = Math.ceil(diffInMs / (1000 * 60 * 60 * 24));
                     
-                    return diffInDays > 0 ? Math.min(diffInDays, 365) : 30;
+                    // Use current plan's billing cycle to determine max days
+                    const maxDays = currentPlan?.interval === 'year' ? 365 : 30;
+                    return diffInDays > 0 ? Math.min(diffInDays, maxDays) : maxDays;
                   } catch (error) {
                     console.error('Error calculating days remaining:', error);
-                    return 30;
+                    return currentPlan?.interval === 'year' ? 365 : 30;
                   }
                 })()}
                 accountId={userDetails.accountId}
