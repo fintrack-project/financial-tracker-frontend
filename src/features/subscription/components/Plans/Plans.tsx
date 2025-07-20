@@ -591,6 +591,7 @@ const Plans: React.FC<PlansProps> = ({
                     id: planToUpgrade,
                     name: selectedPlan.name,
                     amount: billingCycle === 'annual' ? selectedPlan.amount * 12 * (1 - ANNUAL_DISCOUNT_RATE) : selectedPlan.amount,
+                    interval: billingCycle === 'annual' ? 'year' : 'month',
                     features: selectedPlan.features || []
                   };
                 })()}
@@ -666,6 +667,7 @@ const Plans: React.FC<PlansProps> = ({
                     id: finalPlanId,
                     name: selectedPlan.name,
                     amount: isAnnualPlan ? selectedPlan.amount * 12 * (1 - ANNUAL_DISCOUNT_RATE) : selectedPlan.amount,
+                    interval: isAnnualPlan ? 'year' : 'month',
                     features: selectedPlan.features || []
                   };
                 })()}

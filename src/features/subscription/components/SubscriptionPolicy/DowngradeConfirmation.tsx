@@ -8,11 +8,13 @@ interface DowngradeConfirmationProps {
     id: string;
     name: string;
     amount: number;
+    interval?: 'month' | 'year';
   };
   newPlan: {
     id: string;
     name: string;
     amount: number;
+    interval?: 'month' | 'year';
   };
   daysRemaining: number;
   accountId: string;
@@ -58,7 +60,7 @@ const DowngradeConfirmation: React.FC<DowngradeConfirmationProps> = ({
   return (
     <div className={`downgrade-confirmation ${className}`}>
       <div className="confirmation-subtitle">
-        <p>You're about to downgrade from {currentPlan.name} to {newPlan.name}</p>
+        <p>You're about to downgrade from {currentPlan.name} {currentPlan.interval === 'year' ? 'Annual' : 'Monthly'} to {newPlan.name} {newPlan.interval === 'year' ? 'Annual' : 'Monthly'}</p>
       </div>
 
       {showWarnings && (
@@ -87,6 +89,8 @@ const DowngradeConfirmation: React.FC<DowngradeConfirmationProps> = ({
             <NextBillingInfo
               currentPlan={currentPlan.name}
               newPlan={newPlan.name}
+              currentPlanInterval={currentPlan.interval}
+              newPlanInterval={newPlan.interval}
               nextBillingDate={new Date(Date.now() + daysRemaining * 24 * 60 * 60 * 1000).toISOString()}
               nextBillingAmount={newPlan.amount}
             />

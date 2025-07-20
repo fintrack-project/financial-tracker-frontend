@@ -131,7 +131,7 @@
   }
   
   .toggle-button {
-    padding: var(--spacing-xs) var(--spacing-sm);
+    padding: var(--spacing-sm) var(--spacing-md);
     font-size: var(--font-size-sm);
   }
   
@@ -142,7 +142,7 @@
   }
   
   .plans-container .cancel-button {
-    padding: var(--spacing-xs) var(--spacing-sm);
+    padding: var(--spacing-sm) var(--spacing-md);
     font-size: var(--font-size-sm);
   }
 }
@@ -159,7 +159,7 @@
   }
   
   .toggle-button {
-    padding: var(--spacing-xs) var(--spacing-sm);
+    padding: var(--spacing-sm) var(--spacing-md);
     font-size: var(--font-size-sm);
   }
   
@@ -169,7 +169,7 @@
   }
   
   .plans-container .cancel-button {
-    padding: var(--spacing-xs) var(--spacing-sm);
+    padding: var(--spacing-sm) var(--spacing-md);
     font-size: var(--font-size-sm);
   }
 }

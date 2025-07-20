@@ -60,12 +60,21 @@ const AccountTier: React.FC<AccountTierProps> = ({ accountId }) => {
     return <span className="account-tier" style={{ backgroundColor: 'var(--error-color)' }}>Error</span>;
   }
 
+  const formatPlanName = (plan: SubscriptionPlan) => {
+    if (plan.id === 'plan_free') {
+      return 'Free';
+    }
+    
+    const billingCycle = plan.interval === 'year' ? 'Annual' : 'Monthly';
+    return `${plan.name} ${billingCycle}`;
+  };
+
   return (
     <span 
       className="account-tier"
       style={{ backgroundColor: getPlanColor() }}
     >
-      {planDetails ? planDetails.name : 'Free'}
+      {planDetails ? formatPlanName(planDetails) : 'Free'}
     </span>
   );
 };

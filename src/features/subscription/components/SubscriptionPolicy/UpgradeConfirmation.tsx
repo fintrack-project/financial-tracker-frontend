@@ -8,11 +8,13 @@ interface UpgradeConfirmationProps {
     id: string;
     name: string;
     amount: number;
+    interval?: 'month' | 'year';
   };
   newPlan: {
     id: string;
     name: string;
     amount: number;
+    interval?: 'month' | 'year';
   };
   daysRemaining: number;
   accountId: string;
@@ -57,13 +59,15 @@ const UpgradeConfirmation: React.FC<UpgradeConfirmationProps> = ({
   return (
     <div className={`upgrade-confirmation ${className}`}>
       <div className="confirmation-subtitle">
-        <p>You're about to upgrade from {currentPlan.name} to {newPlan.name}</p>
+        <p>You're about to upgrade from {currentPlan.name} {currentPlan.interval === 'year' ? 'Annual' : 'Monthly'} to {newPlan.name} {newPlan.interval === 'year' ? 'Annual' : 'Monthly'}</p>
       </div>
 
       <div className="billing-info-section">
         <NextBillingInfo
           currentPlan={currentPlan.name}
           newPlan={newPlan.name}
+          currentPlanInterval={currentPlan.interval}
+          newPlanInterval={newPlan.interval}
           nextBillingDate={(() => {
             // Validate daysRemaining to prevent invalid date creation
             const validDaysRemaining = isNaN(daysRemaining) || daysRemaining < 0 ? 30 : Math.min(daysRemaining, 365);

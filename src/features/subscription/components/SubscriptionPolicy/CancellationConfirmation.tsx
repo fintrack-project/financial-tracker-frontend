@@ -52,7 +52,7 @@ const CancellationConfirmation: React.FC<CancellationConfirmationProps> = ({
   return (
     <div className={`cancellation-confirmation ${className}`}>
       <div className="confirmation-subtitle">
-        We're sorry to see you go. Your {currentPlan.name} plan will be cancelled.
+        We're sorry to see you go. Your {currentPlan.name} {currentPlan.interval === 'year' ? 'Annual' : 'Monthly'} plan will be cancelled.
       </div>
 
       <div className="billing-info-section">
