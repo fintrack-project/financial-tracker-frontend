@@ -272,9 +272,13 @@
   --table-line-height: 1.3;                                                /* Consistent line height for all tables */
 
   /* Border Radius */
-  --border-radius-sm: 0.25rem;  /* 4px */
-  --border-radius-md: 0.5rem;   /* 8px */
-  --border-radius-lg: 1rem;     /* 16px */
+  --border-radius-xs: 0.125rem;  /* 2px */
+  --border-radius-sm: 0.25rem;   /* 4px */
+  --border-radius-md: 0.5rem;    /* 8px */
+  --border-radius-lg: 0.75rem;   /* 12px */
+  --border-radius-xl: 1rem;      /* 16px */
+  --border-radius-2xl: 1.25rem;  /* 20px */
+  --border-radius-3xl: 1.5rem;   /* 24px */
   --border-radius-full: 9999px;
 
   /* Shadows */

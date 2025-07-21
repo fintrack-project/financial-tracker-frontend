@@ -28,11 +28,11 @@
 }
 
 .payment-form-retry-btn {
-  padding: 6px 12px;
+  padding: var(--spacing-xs) var(--spacing-sm);
   background-color: #fff;
   border: 1px solid var(--error-color);
   color: var(--error-color);
-  border-radius: 4px;
+  border-radius: var(--border-radius-sm);
   cursor: pointer;
   font-size: var(--font-size-sm);
   font-weight: var(--font-weight-medium);
@@ -56,7 +56,7 @@
     background: var(--primary-500);
     color: var(--neutral-100);
     border: none;
-    border-radius: 6px;
+    border-radius: var(--border-radius-md);
   font-size: var(--font-size-base);
   font-weight: var(--font-weight-semibold);
   cursor: pointer;
@@ -80,7 +80,7 @@
     background: var(--neutral-400);
     color: var(--neutral-100);
     border: none;
-    border-radius: 6px;
+    border-radius: var(--border-radius-md);
   font-size: var(--font-size-base);
   font-weight: var(--font-weight-semibold);
   cursor: pointer;
@@ -174,11 +174,11 @@
 }
 
 .retry-button {
-  padding: 6px 12px;
+  padding: var(--spacing-xs) var(--spacing-sm);
   background-color: #fff;
   border: 1px solid var(--error-color);
   color: var(--error-color);
-  border-radius: 4px;
+  border-radius: var(--border-radius-sm);
   cursor: pointer;
   font-size: var(--font-size-base);
   transition: all var(--transition-fast);
@@ -193,7 +193,7 @@
   margin-top: var(--spacing-lg);
   padding: var(--spacing-md);
   background-color: var(--neutral-100);
-  border-radius: 4px;
+  border-radius: var(--border-radius-sm);
   border: 1px solid var(--neutral-300);
 }
 

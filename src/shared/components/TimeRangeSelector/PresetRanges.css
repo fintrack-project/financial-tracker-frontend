@@ -63,7 +63,7 @@
   }
   
   .preset-button {
-    padding: 6px 12px;
+    padding: var(--spacing-xs) var(--spacing-sm);
     font-size: var(--font-size-xs);
     min-width: 50px;
   }

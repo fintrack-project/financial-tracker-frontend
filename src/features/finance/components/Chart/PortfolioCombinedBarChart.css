@@ -74,14 +74,14 @@
 /* Custom tooltip styling */
 .portfolio-bar-chart .custom-tooltip {
   background-color: var(--neutral-100);
-  border-radius: 6px;
+  border-radius: var(--border-radius-sm);
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
-  padding: 8px 12px;
+  padding: var(--spacing-sm) var(--spacing-md);
   border: none;
 }
 
 .portfolio-bar-chart .custom-tooltip p {
-  margin: 4px 0;
+  margin: var(--spacing-xs) 0;
   font-size: var(--font-size-sm);
   color: var(--text-primary);
   white-space: nowrap;
@@ -98,13 +98,13 @@
   font-size: var(--font-size-xs);
   margin-bottom: var(--spacing-sm);
   border-bottom: 1px solid var(--neutral-300);
-  padding-bottom: 4px;
+  padding-bottom: var(--spacing-xs);
 }
 
 /* Legend styling */
 .recharts-default-legend {
-  margin: 16px 0 !important;
-  padding: 0 16px;
+  margin: var(--spacing-md) 0 !important;
+  padding: 0 var(--spacing-md);
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
@@ -120,7 +120,7 @@
 .recharts-legend-item-text {
   color: var(--text-primary) !important;
   font-size: var(--font-size-sm) !important;
-  margin-left: 8px !important;
+  margin-left: var(--spacing-sm) !important;
 }
 
 /* Chart empty state styling */
@@ -148,7 +148,7 @@
 /* Error message styling */
 .error-message {
   text-align: center;
-  margin: 16px 0;
+  margin: var(--spacing-md) 0;
   background-color: var(--error-message-bg);
   border-color: var(--error-message-border);
   color: var(--error-message-text);

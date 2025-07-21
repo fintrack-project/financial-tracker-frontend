@@ -40,8 +40,8 @@
 }
 
 .watchlist-widget-loading .loading-spinner {
-  border: 3px solid var(--neutral-300);
-  border-top: 3px solid var(--primary-600);
+  border: var(--spacing-xs) solid var(--neutral-300);
+  border-top: var(--spacing-xs) solid var(--primary-600);
   border-radius: 50%;
   width: 24px;
   height: 24px;
@@ -269,7 +269,7 @@
   }
   
   .editable-watchlist-table .button-group .btn {
-    padding: 2px 6px;
+    padding: var(--spacing-xs) var(--spacing-xs);
     font-size: var(--font-size-xs);
   }
 }

@@ -33,8 +33,8 @@
 .preset-badge {
   background: #007bff;
   color: #ffffff;
-  padding: 4px 8px;
-  border-radius: 12px;
+  padding: var(--spacing-xs) var(--spacing-sm);
+  border-radius: var(--border-radius-lg);
   font-size: var(--font-size-xs);
   font-weight: var(--font-weight-semibold);
   text-transform: uppercase;
@@ -59,6 +59,6 @@
   
   .preset-badge {
     font-size: var(--font-size-xs);
-    padding: 3px 6px;
+    padding: var(--spacing-xs) var(--spacing-xs);
   }
 } 
