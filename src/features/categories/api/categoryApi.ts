@@ -29,11 +29,16 @@ export const fetchCategoriesAndSubcategoriesNamesMapApi = async (accountId: stri
 };
 
 // Add a new category
-export const addCategoryApi = async (accountId: string, categoryName: string): Promise<ApiResponse<Category>> => {
+export const addCategoryApi = async (
+  accountId: string,
+  categoryName: string,
+  color?: CategoryColor
+): Promise<ApiResponse<Category>> => {
   try {
     const response = await apiClient.post<ApiResponse<Category>>('/api/categories/add', {
       accountId,
       category_name: categoryName,
+      color: color,
     });
     return response.data;
   } catch (error) {
@@ -89,6 +94,38 @@ export const updateCategoryColorApi = async (
     return response.data;
   } catch (error) {
     console.error('Error updating category color:', error);
+    throw error;
+  }
+};
+
+// Cleanup orphaned holdings categories
+export const cleanupOrphanedHoldingsCategoriesApi = async (
+  accountId: string
+): Promise<ApiResponse<void>> => {
+  try {
+    const response = await apiClient.post<ApiResponse<void>>('/api/categories/cleanup/orphaned', {
+      accountId,
+    });
+    return response.data;
+  } catch (error) {
+    console.error('Error cleaning up orphaned holdings categories:', error);
+    throw error;
+  }
+};
+
+// Cleanup orphaned holdings categories for specific assets
+export const cleanupOrphanedHoldingsCategoriesForAssetsApi = async (
+  accountId: string,
+  assetNames: string[]
+): Promise<ApiResponse<void>> => {
+  try {
+    const response = await apiClient.post<ApiResponse<void>>('/api/categories/cleanup/orphaned/assets', {
+      accountId,
+      assetNames,
+    });
+    return response.data;
+  } catch (error) {
+    console.error('Error cleaning up orphaned holdings categories for assets:', error);
     throw error;
   }
 };

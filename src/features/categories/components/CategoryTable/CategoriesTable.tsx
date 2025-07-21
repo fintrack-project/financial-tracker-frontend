@@ -173,6 +173,8 @@ const CategoriesTable: React.FC<CategoriesTableProps> = ({
                   placeholder="Enter category name"
                   accountId={accountId}
                   color={categoryColors[category]}
+                  selectedColor={categoryService.selectedColors[index]}
+                  onSelectedColorChange={(color) => categoryService.setSelectedColor(index, color)}
                   resetHasFetched={resetHasFetched}
                 />
               </td>

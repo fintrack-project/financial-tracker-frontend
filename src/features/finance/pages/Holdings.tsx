@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import _ from 'lodash';
 import EditableHoldingsTable from '../components/HoldingsTable/EditableHoldingsTable';
 import CategoriesTable from '../../categories/components/CategoryTable/CategoriesTable';
-import { createCategoryService, fetchCategoriesAndSubcategoriesNamesMap, fetchCategoryColorMap } from '../../categories/services/categoryService';
+import { createCategoryService, fetchCategoriesAndSubcategoriesNamesMap, fetchCategoryColorMap, cleanupOrphanedHoldingsCategories } from '../../categories/services/categoryService';
 import { createSubcategoryService, fetchSubcategoryColorMap } from '../../categories/services/subCategoryService';
 import { createHoldingsCategoriesService, fetchHoldingsCategories } from '../services/holdingsCategoriesService';
 import { CategoryColor } from '../../categories/types/CategoryTypes';
@@ -27,8 +27,15 @@ const Holdings: React.FC<HoldingsProps> = ({ accountId }) => {
       [assetName: string]: string | null;
     };
   }>({});
+  const [selectedColors, setSelectedColors] = useState<{ [index: number]: CategoryColor }>({});
 
-  const categoryService = createCategoryService(categories, setCategories, confirmedCategories);
+  const categoryService = createCategoryService(
+    categories, 
+    setCategories, 
+    confirmedCategories, 
+    selectedColors, 
+    setSelectedColors
+  );
   const subcategoryService = createSubcategoryService(subcategories, setSubcategories, confirmedSubcategories);
   const holdingsCategoriesService = createHoldingsCategoriesService(
   );
@@ -43,6 +50,15 @@ const Holdings: React.FC<HoldingsProps> = ({ accountId }) => {
       }
 
       try {
+        // Clean up orphaned holdings categories first
+        try {
+          await cleanupOrphanedHoldingsCategories(accountId);
+          console.log('Orphaned holdings categories cleaned up successfully');
+        } catch (cleanupError) {
+          console.warn('Failed to cleanup orphaned holdings categories:', cleanupError);
+          // Don't fail the entire fetch if cleanup fails
+        }
+
         // Fetch categories and subcategories from the API
         const { categories: fetchedCategories, subcategories: fetchedSubcategories } =
           await fetchCategoriesAndSubcategoriesNamesMap(accountId);

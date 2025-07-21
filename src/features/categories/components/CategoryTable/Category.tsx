@@ -21,19 +21,31 @@ const Category: React.FC<CategoryProps> = ({
   accountId,
   categoryName,
   resetHasFetched,
+  selectedColor,
+  onSelectedColorChange,
 }) => {
-  const [currentColor, setCurrentColor] = useState(color || CategoryColor.BLUE);
+  const [currentColor, setCurrentColor] = useState(color || selectedColor || CategoryColor.BLUE);
   const { showNotification } = useNotification();
 
-  // Update currentColor when color prop changes
+  // Update currentColor when color prop or selected color changes
   React.useEffect(() => {
-    if (color) {
+    if (selectedColor) {
+      setCurrentColor(selectedColor);
+    } else if (color) {
       setCurrentColor(color);
     }
-  }, [color]);
+  }, [color, selectedColor]);
 
   const handleColorSelect = async (newColor: CategoryColor) => {
     try {
+      // If we have a selected color change handler, use it (for new categories)
+      if (onSelectedColorChange) {
+        onSelectedColorChange(newColor);
+        setCurrentColor(newColor);
+        return;
+      }
+
+      // Otherwise, update the color in the backend (for existing categories)
       if (accountId && value) {
         if (isSubcategory && categoryName) {
           // Update subcategory color
@@ -56,7 +68,7 @@ const Category: React.FC<CategoryProps> = ({
       }
     } catch (error) {
       console.error('Error updating color:', error);
-              showNotification('error', 'Failed to update color. Please try again.', 5000);
+      showNotification('error', 'Failed to update color. Please try again.', 5000);
     }
   };
 
@@ -88,6 +100,10 @@ const Category: React.FC<CategoryProps> = ({
           {showActions && (
             <div className="actions">
               <IconButton type="edit" onClick={onEdit} label="Edit" size="small" />
+              <CategoryColorDropdown
+                selectedColor={currentColor}
+                onColorSelect={handleColorSelect}
+              />
               <IconButton type="delete" onClick={onRemove} label="Remove" size="small" />
             </div>
           )}
