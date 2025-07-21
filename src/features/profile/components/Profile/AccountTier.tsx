@@ -65,6 +65,13 @@ const AccountTier: React.FC<AccountTierProps> = ({ accountId }) => {
       return 'Free';
     }
     
+    // Check if the plan name already contains 'Annual' or 'Monthly'
+    const nameLower = plan.name.toLowerCase();
+    if (nameLower.includes('annual') || nameLower.includes('monthly')) {
+      return plan.name; // Return the name as-is if it already contains billing cycle
+    }
+    
+    // Only add billing cycle if it's not already in the name
     const billingCycle = plan.interval === 'year' ? 'Annual' : 'Monthly';
     return `${plan.name} ${billingCycle}`;
   };
