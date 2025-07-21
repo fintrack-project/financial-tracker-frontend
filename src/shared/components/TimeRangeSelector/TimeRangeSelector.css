@@ -20,7 +20,7 @@
   align-items: center;
   font-family: var(--font-family-primary);
   font-size: var(--table-font-size-header);
-  font-weight: 600;
+  font-weight: var(--font-weight-semibold);
   color: var(--primary-800);
 }
 
@@ -28,7 +28,7 @@
   margin: 0;
   color: var(--text-dark);
   font-size: var(--font-size-lg);
-  font-weight: 600;
+  font-weight: var(--font-weight-semibold);
   font-family: var(--font-family-primary);
 }
 
@@ -67,25 +67,11 @@
   100% { transform: rotate(360deg); }
 }
 
-/* Desktop (1024px+) - Compact design */
-@media (min-width: 1024px) {
-  .time-range-selector {
-  }
-  
-  .time-range-header {
-    padding: var(--spacing-sm);
-  }
-  
-  .time-range-title {
-    font-size: var(--font-size-xl);
-  }
-  
-  .time-range-content {
-    padding: var(--spacing-sm);
-  }
-}
+/* ==========================================================================
+   RESPONSIVE DESIGN
+   ========================================================================== */
 
-/* Mobile (768px and below) - Touch-friendly design */
+/* Mobile Styles (max-width: 768px) */
 @media (max-width: 768px) {
   .time-range-selector {
     margin-bottom: var(--spacing-sm);
@@ -108,5 +94,23 @@
   
   .time-range-loading {
     font-size: var(--font-size-sm);
+  }
+}
+
+/* Desktop Styles (1024px and up) */
+@media (min-width: 1024px) {
+  .time-range-selector {
+  }
+  
+  .time-range-header {
+    padding: var(--spacing-sm);
+  }
+  
+  .time-range-title {
+    font-size: var(--font-size-xl);
+  }
+  
+  .time-range-content {
+    padding: var(--spacing-sm);
   }
 } 

@@ -12,47 +12,18 @@
   align-items: center;
 }
 
-@media (max-width: 768px) {
-  .dashboard-container .market-index-item {
-    padding: var(--spacing-md) var(--spacing-sm);
-    width: 100%;
-    max-width: 300px;
-    margin-bottom: var(--spacing-md);
-  }
-}
-
-@media (min-width: 1024px) {
-  .dashboard-container .market-index-item {
-    width: 260px;
-  }
-}
-
 .dashboard-container .market-index-item h3 {
   margin: 0 0 var(--spacing-md) 0;
-  font-size: 1.25rem;
+  font-size: var(--font-size-xl);
   color: #2c3e50;
-  font-weight: 700;
+  font-weight: var(--font-weight-bold);
   letter-spacing: 0.5px;
-}
-
-@media (max-width: 768px) {
-  .dashboard-container .market-index-item h3 {
-    font-size: 1.125rem;
-    margin-bottom: var(--spacing-sm);
-  }
 }
 
 .dashboard-container .market-index-item p {
   margin: var(--spacing-xs) 0;
-  font-size: 1rem;
+  font-size: var(--font-size-base);
   color: #555;
-}
-
-@media (max-width: 768px) {
-  .dashboard-container .market-index-item p {
-    font-size: 0.9rem;
-    margin: var(--spacing-xs) 0;
-  }
 }
 
 .change {
@@ -65,4 +36,35 @@
 
 .change.negative {
   color: var(--error-color);
+}
+
+/* ==========================================================================
+   RESPONSIVE DESIGN
+   ========================================================================== */
+
+/* Mobile Styles (max-width: 768px) */
+@media (max-width: 768px) {
+  .dashboard-container .market-index-item {
+    padding: var(--spacing-md) var(--spacing-sm);
+    width: 100%;
+    max-width: 300px;
+    margin-bottom: var(--spacing-md);
+  }
+
+  .dashboard-container .market-index-item h3 {
+    font-size: var(--font-size-lg);
+    margin-bottom: var(--spacing-sm);
+  }
+
+  .dashboard-container .market-index-item p {
+    font-size: var(--font-size-sm);
+    margin: var(--spacing-xs) 0;
+  }
+}
+
+/* Desktop Styles (1024px and up) */
+@media (min-width: 1024px) {
+  .dashboard-container .market-index-item {
+    width: 260px;
+  }
 }

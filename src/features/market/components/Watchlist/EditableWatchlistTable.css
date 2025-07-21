@@ -24,7 +24,7 @@
   margin: 0;
   font-family: var(--font-family-primary);
   font-size: var(--font-size-lg);
-  font-weight: 600;
+  font-weight: var(--font-weight-semibold);
   color: var(--neutral-900);
 }
 
@@ -40,8 +40,8 @@
 }
 
 .watchlist-widget-loading .loading-spinner {
-  border: 3px solid var(--neutral-300);
-  border-top: 3px solid var(--primary-600);
+  border: var(--spacing-xs) solid var(--neutral-300);
+  border-top: var(--spacing-xs) solid var(--primary-600);
   border-radius: 50%;
   width: 24px;
   height: 24px;
@@ -68,39 +68,6 @@
   width: 100%;
 }
 
-/* Mobile: Enable horizontal scrolling and reduce font size */
-@media (max-width: 768px) {
-  .watchlist-table-container,
-  .editable-watchlist-table-container {
-    min-width: 320px;
-    /* Enable horizontal scrolling */
-    overflow-x: auto;
-    -webkit-overflow-scrolling: touch;
-  }
-}
-
-/* Tablet: Enable horizontal scrolling */
-@media (min-width: 769px) and (max-width: 1023px) {
-  .watchlist-table-container,
-  .editable-watchlist-table-container {
-    min-width: 600px;
-    /* Enable horizontal scrolling */
-    overflow-x: auto;
-    -webkit-overflow-scrolling: touch;
-  }
-}
-
-/* Desktop: Use full available width */
-@media (min-width: 1024px) {
-  .watchlist-table-container,
-  .editable-watchlist-table-container {
-    /* Remove width constraints to use full available space */
-    min-width: 100%;
-    max-width: none;
-    width: 100%;
-  }
-}
-
 /* Main table styles */
 .editable-watchlist-table {
   width: 100%;
@@ -109,34 +76,6 @@
   font-family: var(--font-family-primary);
   font-size: var(--table-font-size-normal);
   background-color: var(--primary-100);
-}
-
-/* Mobile: Smaller font sizes and minimum width for scrolling */
-@media (max-width: 768px) {
-  .editable-watchlist-table {
-    font-size: var(--font-size-xs);
-    min-width: 500px; /* Force horizontal scrolling if table is wider than container */
-  }
-  
-  .editable-watchlist-table th,
-  .editable-watchlist-table td {
-    font-size: var(--font-size-xs);
-    white-space: nowrap; /* Prevent content wrapping */
-  }
-}
-
-/* Tablet: Minimum width for scrolling if needed */
-@media (min-width: 769px) and (max-width: 1023px) {
-  .editable-watchlist-table {
-    min-width: 700px; /* Force horizontal scrolling if table is wider than container */
-  }
-  
-  .editable-watchlist-table th,
-  .editable-watchlist-table td {
-    font-size: var(--font-size-sm);
-    min-height: var(--table-cell-height-normal);
-    white-space: nowrap; /* Prevent content wrapping */
-  }
 }
 
 .editable-watchlist-table th,
@@ -150,7 +89,7 @@
 
 .editable-watchlist-table th {
   background: var(--table-header-bg);
-  font-weight: 600;
+  font-weight: var(--font-weight-semibold);
   color: var(--primary-800);
   text-transform: uppercase;
   font-family: var(--font-family-primary);
@@ -174,7 +113,7 @@
 
 /* Symbol column */
 .editable-watchlist-table .symbol {
-  font-weight: 600;
+  font-weight: var(--font-weight-semibold);
   color: var(--primary-500);
   text-align: center;
 }
@@ -191,12 +130,12 @@
 /* Change colors */
 .editable-watchlist-table .positive {
   color: var(--success-color);
-  font-weight: 500;
+  font-weight: var(--font-weight-medium);
 }
 
 .editable-watchlist-table .negative {
   color: var(--error-color);
-  font-weight: 500;
+  font-weight: var(--font-weight-medium);
 }
 
 .editable-watchlist-table .neutral {
@@ -237,7 +176,7 @@
 }
 
 .editable-watchlist-table .button-group .btn-danger:hover {
-  background-color: #d32f2f;
+  background-color: var(--error-dark);
 }
 
 .editable-watchlist-table .button-group .btn-success {
@@ -246,7 +185,7 @@
 }
 
 .editable-watchlist-table .button-group .btn-success:hover {
-  background-color: #43a047;
+  background-color: var(--success-dark);
 }
 
 .editable-watchlist-table .button-group .btn-secondary {
@@ -298,31 +237,89 @@
   min-height: var(--table-cell-height-normal);
 }
 
-/* Responsive Design */
-@media (min-width: 1024px) {
+/* ==========================================================================
+   RESPONSIVE DESIGN
+   ========================================================================== */
+
+/* Mobile Styles (max-width: 768px) */
+@media (max-width: 768px) {
+  .watchlist-table-container,
+  .editable-watchlist-table-container {
+    min-width: 320px;
+    /* Enable horizontal scrolling */
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .editable-watchlist-table {
+    font-size: var(--font-size-xs);
+    min-width: 500px; /* Force horizontal scrolling if table is wider than container */
+  }
+  
+  .editable-watchlist-table th,
+  .editable-watchlist-table td {
+    font-size: var(--font-size-xs);
+    white-space: nowrap; /* Prevent content wrapping */
+  }
+
+  .editable-watchlist-table .button-group {
+    flex-direction: column;
+    gap: var(--spacing-xs);
+    justify-content: center;
+  }
+  
+  .editable-watchlist-table .button-group .btn {
+    padding: var(--spacing-xs) var(--spacing-xs);
+    font-size: var(--font-size-xs);
+  }
+}
+
+/* Tablet and Desktop Styles (769px and up) */
+@media (min-width: 769px) {
   .editable-watchlist-table th,
   .editable-watchlist-table td {
     font-size: var(--font-size-sm);
     min-height: var(--table-cell-height-normal);
+  }
+}
+
+/* Tablet Styles (769px to 1023px) */
+@media (min-width: 769px) and (max-width: 1023px) {
+  .watchlist-table-container,
+  .editable-watchlist-table-container {
+    min-width: 600px;
+    /* Enable horizontal scrolling */
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .editable-watchlist-table {
+    min-width: 700px; /* Force horizontal scrolling if table is wider than container */
+  }
+  
+  .editable-watchlist-table th,
+  .editable-watchlist-table td {
+    white-space: nowrap; /* Prevent content wrapping */
+  }
+}
+
+/* Desktop Styles (1024px and up) */
+@media (min-width: 1024px) {
+  .watchlist-widget-header h3 {
+    font-size: var(--font-size-xl);
+  }
+
+  .watchlist-table-container,
+  .editable-watchlist-table-container {
+    /* Remove width constraints to use full available space */
+    min-width: 100%;
+    max-width: none;
+    width: 100%;
   }
   
   .editable-watchlist-table .price,
   .editable-watchlist-table .change,
   .editable-watchlist-table .percentage {
     text-align: center;
-  }
-}
-
-/* Mobile-specific adjustments */
-@media (max-width: 768px) {
-  .editable-watchlist-table .button-group {
-    flex-direction: column;
-    gap: 2px;
-    justify-content: center;
-  }
-  
-  .editable-watchlist-table .button-group .btn {
-    padding: 2px 6px;
-    font-size: 0.7rem;
   }
 }

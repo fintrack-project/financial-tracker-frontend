@@ -1,7 +1,7 @@
 .payment-form {
   max-width: 500px;
   margin: 0 auto;
-  padding: 20px;
+  padding: var(--spacing-lg);
   display: flex;
   flex-direction: column;
   gap: 1.5rem;
@@ -16,31 +16,31 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background-color: var(--error-message-bg);
-  border-color: var(--error-message-border);
-  color: var(--error-message-text);
+  background-color: var(--neutral-100);
+  border-color: var(--error-color);
+  color: var(--error-color);
   box-shadow: var(--error-message-shadow);
 }
 
 .payment-form-error-message span {
-  color: var(--error-message-text);
-  font-size: 0.95rem;
+  color: var(--error-color);
+  font-size: var(--font-size-sm);
 }
 
 .payment-form-retry-btn {
-  padding: 6px 12px;
+  padding: var(--spacing-xs) var(--spacing-sm);
   background-color: #fff;
-  border: 1px solid #dc3545;
-  color: #dc3545;
-  border-radius: 4px;
+  border: 1px solid var(--error-color);
+  color: var(--error-color);
+  border-radius: var(--border-radius-sm);
   cursor: pointer;
-  font-size: 0.9rem;
-  font-weight: 500;
-  transition: all 0.2s ease;
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-medium);
+  transition: all var(--transition-fast);
 }
 
 .payment-form-retry-btn:hover {
-  background-color: #dc3545;
+  background-color: var(--error-color);
   color: #fff;
 }
 
@@ -50,65 +50,65 @@
   margin-top: 1rem;
 }
 
-.payment-form-submit-btn {
-  flex: 1;
-  padding: 12px 24px;
-  background: #4d7df2;
-  color: white;
-  border: none;
-  border-radius: 6px;
-  font-size: 1.08rem;
-  font-weight: 600;
+  .payment-form-submit-btn {
+    flex: 1;
+    padding: var(--spacing-md) var(--spacing-lg);
+    background: var(--primary-500);
+    color: var(--neutral-100);
+    border: none;
+    border-radius: var(--border-radius-md);
+  font-size: var(--font-size-base);
+  font-weight: var(--font-weight-semibold);
   cursor: pointer;
-  transition: background 0.15s, color 0.15s, box-shadow 0.15s;
+  transition: background var(--transition-fast), color var(--transition-fast), box-shadow var(--transition-fast);
   box-shadow: 0 2px 8px rgba(52, 98, 219, 0.08);
 }
 
 .payment-form-submit-btn:hover {
-  background: #3462db;
+  background: var(--primary-600);
   box-shadow: 0 4px 16px rgba(52, 98, 219, 0.12);
 }
 
 .payment-form-submit-btn:disabled {
-  background: #cbd5e1;
+  background: var(--neutral-400);
   cursor: not-allowed;
 }
 
-.payment-form-cancel-btn {
-  flex: 1;
-  padding: 12px 24px;
-  background: #cbd5e1;
-  color: #334155;
-  border: none;
-  border-radius: 6px;
-  font-size: 1.08rem;
-  font-weight: 600;
+  .payment-form-cancel-btn {
+    flex: 1;
+    padding: var(--spacing-md) var(--spacing-lg);
+    background: var(--neutral-400);
+    color: var(--neutral-100);
+    border: none;
+    border-radius: var(--border-radius-md);
+  font-size: var(--font-size-base);
+  font-weight: var(--font-weight-semibold);
   cursor: pointer;
-  transition: background 0.15s, color 0.15s, box-shadow 0.15s;
+  transition: background var(--transition-fast), color var(--transition-fast), box-shadow var(--transition-fast);
   box-shadow: 0 2px 8px rgba(52, 98, 219, 0.08);
 }
 
-.payment-form-cancel-btn:hover {
-  background: #94a3b8;
-  color: #1e293b;
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
-}
+  .payment-form-cancel-btn:hover {
+    background: var(--neutral-500);
+    color: var(--neutral-100);
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+  }
 
 .payment-form-cancel-btn:disabled {
-  background: #f8f9fa;
-  color: #aab7c4;
+  background: var(--neutral-100);
+  color: var(--text-secondary);
   cursor: not-allowed;
 }
 
 .form-group {
-  margin-bottom: 20px;
+  margin-bottom: var(--spacing-lg);
 }
 
 .form-group label {
   display: block;
-  margin-bottom: 8px;
-  font-weight: 500;
-  color: #32325d;
+  margin-bottom: var(--spacing-sm);
+  font-weight: var(--font-weight-medium);
+  color: var(--text-primary);
 }
 
 .card-element-container {
@@ -116,38 +116,38 @@
   border: 1px solid var(--neutral-300);
   border-radius: var(--border-radius-sm);
   background: var(--card-bg);
-  transition: all 0.2s ease;
+  transition: all var(--transition-fast);
 }
 
 .card-element-container.error {
-  border-color: #dc3545;
-  background-color: #fff8f8;
+  border-color: var(--error-color);
+  background-color: var(--error-light);
 }
 
 .field-error {
-  color: var(--error-message-text);
-  font-size: 12px;
-  margin-top: 4px;
+  color: var(--error-color);
+  font-size: var(--font-size-xs);
+  margin-top: var(--spacing-xs);
 }
 
 .error-message.card_error {
-  background-color: var(--error-message-bg);
-  border-color: var(--error-message-border);
-  color: var(--error-message-text);
+  background-color: var(--error-color);
+  border-color: var(--error-color);
+  color: var(--neutral-100);
   box-shadow: var(--error-message-shadow);
 }
 
 .error-message.validation_error {
-  background-color: var(--error-message-bg);
-  border-color: var(--error-message-border);
-  color: var(--error-message-text);
+  background-color: var(--error-color);
+  border-color: var(--error-color);
+  color: var(--neutral-100);
   box-shadow: var(--error-message-shadow);
 }
 
 .error-message.payment_error {
-  background-color: var(--error-message-bg);
-  border-color: var(--error-message-border);
-  color: var(--error-message-text);
+  background-color: var(--error-color);
+  border-color: var(--error-color);
+  color: var(--neutral-100);
   box-shadow: var(--error-message-shadow);
 }
 
@@ -161,62 +161,63 @@
 .error-content {
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: var(--spacing-sm);
 }
 
 .error-icon {
-  font-size: 16px;
+  font-size: var(--font-size-base);
 }
 
 .error-text {
-  color: var(--error-message-text);
-  font-size: 14px;
+  color: var(--error-color);
+  font-size: var(--font-size-base);
 }
 
 .retry-button {
-  padding: 6px 12px;
+  padding: var(--spacing-xs) var(--spacing-sm);
   background-color: #fff;
-  border: 1px solid #dc3545;
-  color: #dc3545;
-  border-radius: 4px;
+  border: 1px solid var(--error-color);
+  color: var(--error-color);
+  border-radius: var(--border-radius-sm);
   cursor: pointer;
-  font-size: 14px;
-  transition: all 0.2s ease;
+  font-size: var(--font-size-base);
+  transition: all var(--transition-fast);
 }
 
 .retry-button:hover {
-  background-color: #dc3545;
+  background-color: var(--error-color);
   color: #fff;
 }
 
 .test-instructions {
-  margin-top: 24px;
-  padding: 16px;
-  background-color: #f8f9fa;
-  border-radius: 4px;
-  border: 1px solid #e0e0e0;
+  margin-top: var(--spacing-lg);
+  padding: var(--spacing-md);
+  background-color: var(--neutral-100);
+  border-radius: var(--border-radius-sm);
+  border: 1px solid var(--neutral-300);
 }
 
 .test-instructions h4 {
-  margin: 0 0 12px 0;
-  color: #32325d;
+  margin: 0 0 var(--spacing-md) 0;
+  color: var(--text-primary);
+  font-size: var(--font-size-sm);
 }
 
 .test-instructions ul {
   margin: 0;
-  padding-left: 20px;
+  padding-left: var(--spacing-lg);
 }
 
 .test-instructions li {
-  margin-bottom: 8px;
-  font-size: 14px;
-  color: #6b7c93;
+  margin-bottom: var(--spacing-sm);
+  font-size: var(--font-size-xs);
+  color: var(--text-secondary);
 }
 
 .test-instructions .note {
-  margin-top: 12px;
-  font-size: 12px;
-  color: #87909c;
+  margin-top: var(--spacing-md);
+  font-size: var(--font-size-xs);
+  color: var(--text-muted);
   font-style: italic;
 } 
 
@@ -278,6 +279,27 @@
   .payment-form .StripeElement--focus,
   .payment-form .StripeElement--invalid {
     font-size: var(--payment-form-font-size-mobile);
+  }
+}
+
+/* Desktop Styles (≥1024px) */
+@media (min-width: 1024px) {
+  .payment-form {
+    min-width: 600px;
+  }
+  
+  .payment-form-submit-btn,
+  .payment-form-cancel-btn {
+    padding: var(--spacing-sm) var(--spacing-lg);
+    font-size: var(--font-size-sm);
+    min-width: 160px;
+  }
+  
+  /* Customize Stripe CardElement for desktop */
+  .payment-form .StripeElement,
+  .payment-form .StripeElement--focus,
+  .payment-form .StripeElement--invalid {
+    font-size: var(--payment-form-font-size-desktop);
   }
 }
 

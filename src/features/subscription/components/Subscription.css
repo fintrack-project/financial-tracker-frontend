@@ -1,47 +1,47 @@
 .subscription-container {
   padding: var(--spacing-md);
-  background-color: #f9f9f9;
-  border: 1px solid #ddd;
-  border-radius: 8px;
+  background-color: var(--neutral-200);
+  border: 1px solid var(--neutral-300);
+  border-radius: var(--border-radius-md);
 }
 
 .subscription-header {
-  margin-bottom: 16px;
+  margin-bottom: var(--spacing-md);
 }
 
 .subscription-header h2 {
   font-size: var(--font-size-xl);
   font-weight: bold;
-  margin-top: 4px;
-  margin-bottom: 16px;
+  margin-top: var(--spacing-xs);
+  margin-bottom: var(--spacing-md);
 }
 
 .subscription-tabs {
   display: flex;
-  gap: 16px;
-  border-bottom: 1px solid #ddd;
-  padding-bottom: 8px;
-  margin-bottom: 24px;
+  gap: var(--spacing-md);
+  border-bottom: 1px solid var(--neutral-300);
+  padding-bottom: var(--spacing-sm);
+  margin-bottom: var(--spacing-lg);
 }
 
 .subscription-tabs button {
-  padding: 8px 16px;
+  padding: var(--spacing-sm) var(--spacing-md);
   border: none;
   background: none;
   cursor: pointer;
-  font-size: 16px;
-  color: #666;
+  font-size: var(--font-size-base);
+  color: var(--text-secondary);
   position: relative;
-  transition: color 0.3s ease;
+  transition: color var(--transition-normal);
 }
 
 .subscription-tabs button:hover {
-  color: #007bff;
+  color: var(--primary-500);
 }
 
 .subscription-tabs button.active {
-  color: #007bff;
-  font-weight: 500;
+  color: var(--primary-500);
+  font-weight: var(--font-weight-medium);
 }
 
 .subscription-tabs button.active::after {
@@ -51,31 +51,31 @@
   left: 0;
   width: 100%;
   height: 2px;
-  background-color: #007bff;
+  background-color: var(--primary-500);
 }
 
 /* Overview Section */
 .subscription-overview {
   display: grid;
-  gap: 24px;
+  gap: var(--spacing-lg);
   grid-template-columns: 1fr 1fr;
-  margin-bottom: 32px;
+  margin-bottom: var(--spacing-xl);
 }
 
 .current-plan-card,
 .usage-stats {
-  background: white;
-  border-radius: 12px;
-  padding: 24px;
+  background: var(--neutral-100);
+  border-radius: var(--border-radius-lg);
+  padding: var(--spacing-lg);
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
 
 .current-plan-card h3,
 .usage-stats h3 {
   font-size: var(--font-size-lg);
-  font-weight: 600;
+  font-weight: var(--font-weight-semibold);
   margin-bottom: var(--spacing-sm);
-  color: #2c3e50;
+  color: var(--text-primary);
 }
 
 .plan-details {
@@ -86,81 +86,81 @@
 
 .plan-name {
   font-size: var(--font-size-xl);
-  font-weight: 600;
+  font-weight: var(--font-weight-semibold);
 }
 
 .plan-status {
   display: inline-block;
-  padding: 4px 8px;
-  border-radius: 20px;
-  font-size: var(--font-size-xs);
-  font-weight: 500;
-  background-color: #e6f3ff;
-  color: #007bff;
+  padding: var(--spacing-xs) var(--spacing-sm);
+  border-radius: var(--border-radius-2xl);
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-medium);
+  background-color: var(--primary-100);
+  color: var(--primary-500);
 }
 
 .plan-status.inactive {
-  background-color: #f8d7da;
-  color: #dc3545;
+  background-color: var(--error-light);
+  color: var(--error-color);
 }
 
 .plan-dates {
   display: flex;
   flex-direction: column;
   gap: var(--spacing-xs);
-  color: #666;
+  color: var(--text-secondary);
   font-size: var(--font-size-sm);
 }
 
 .plan-dates strong {
-  color: #2c3e50;
-  margin-right: 8px;
+  color: var(--text-primary);
+  margin-right: var(--spacing-sm);
 }
 
 .stats-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 20px;
+  gap: var(--spacing-lg);
 }
 
 .stat-item {
   display: flex;
   flex-direction: column;
-  gap: 4px;
-  padding: 12px;
-  background-color: #f8f9fa;
-  border-radius: 8px;
+  gap: var(--spacing-xs);
+  padding: var(--spacing-md);
+  background-color: var(--neutral-100);
+  border-radius: var(--border-radius-md);
 }
 
 .stat-item span:first-child {
-  color: #666;
-  font-size: 14px;
+  color: var(--text-secondary);
+  font-size: var(--font-size-sm);
 }
 
 .stat-item span:last-child {
-  font-size: 16px;
-  font-weight: 500;
-  color: #2c3e50;
+  font-size: var(--font-size-base);
+  font-weight: var(--font-weight-medium);
+  color: var(--text-primary);
 }
 
 /* Plans Section */
 .subscription-plans {
-  padding: 24px 0;
+  padding: var(--spacing-lg) 0;
 }
 
 .plans-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-  gap: 24px;
-  margin-top: 24px;
+  gap: var(--spacing-lg);
+  margin-top: var(--spacing-lg);
 }
 
 .plan-card {
-  background: white;
-  border-radius: 8px;
+  background: var(--neutral-100);
+  border-radius: var(--border-radius-md);
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   text-align: center;
-  transition: transform 0.3s ease;
+  transition: transform var(--transition-normal);
 }
 
 .plan-card:hover {
@@ -168,64 +168,64 @@
 }
 
 .plan-card.featured {
-  border: 2px solid #007bff;
+  border: 2px solid var(--primary-500);
   position: relative;
 }
 
 .plan-card h3 {
-  font-size: 24px;
-  font-weight: 600;
-  margin-bottom: 16px;
-  color: #1a1a1a;
+  font-size: var(--font-size-2xl);
+  font-weight: var(--font-weight-semibold);
+  margin-bottom: var(--spacing-md);
+  color: var(--text-primary);
 }
 
 .price {
-  font-size: 32px;
-  font-weight: 700;
-  color: #007bff;
-  margin-bottom: 24px;
+  font-size: var(--font-size-3xl);
+  font-weight: var(--font-weight-bold);
+  color: var(--primary-500);
+  margin-bottom: var(--spacing-lg);
 }
 
 .features {
   list-style: none;
   padding: 0;
-  margin: 0 0 24px 0;
+  margin: 0 0 var(--spacing-lg) 0;
   text-align: left;
 }
 
 .features li {
-  padding: 8px 0;
-  color: #666;
+  padding: var(--spacing-sm) 0;
+  color: var(--text-secondary);
   position: relative;
-  padding-left: 24px;
+  padding-left: var(--spacing-lg);
 }
 
 .features li::before {
   content: '✓';
   position: absolute;
   left: 0;
-  color: #007bff;
+  color: var(--primary-500);
 }
 
 .select-plan {
   width: 100%;
-  padding: 12px;
+  padding: var(--spacing-md);
   border: none;
-  border-radius: 4px;
-  background-color: #007bff;
-  color: white;
-  font-size: 16px;
-  font-weight: 500;
+  border-radius: var(--border-radius-sm);
+  background-color: var(--primary-500);
+  color: var(--neutral-100);
+  font-size: var(--font-size-base);
+  font-weight: var(--font-weight-medium);
   cursor: pointer;
-  transition: background-color 0.3s ease;
+  transition: background-color var(--transition-normal);
 }
 
 .select-plan:hover:not(:disabled) {
-  background-color: #0056b3;
+  background-color: var(--primary-600);
 }
 
 .select-plan:disabled {
-  background-color: #6c757d;
+  background-color: var(--neutral-500);
   cursor: not-allowed;
   opacity: 0.7;
 }
@@ -237,109 +237,109 @@
 }
 
 .saved-methods {
-  background: white;
-  border-radius: 8px;
-  padding: 24px;
+  background: var(--neutral-100);
+  border-radius: var(--border-radius-md);
+  padding: var(--spacing-lg);
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 .saved-methods h3 {
-  font-size: 18px;
-  font-weight: 600;
-  margin-bottom: 16px;
-  color: #1a1a1a;
+  font-size: var(--font-size-base);
+  font-weight: var(--font-weight-semibold);
+  margin-bottom: var(--spacing-md);
+  color: var(--text-primary);
 }
 
 .methods-list {
-  margin: 24px 0;
+  margin: var(--spacing-lg) 0;
 }
 
 .method-card {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 16px;
-  border: 1px solid #ddd;
-  border-radius: 8px;
-  margin-bottom: 16px;
+  padding: var(--spacing-md);
+  border: 1px solid var(--neutral-300);
+  border-radius: var(--border-radius-md);
+  margin-bottom: var(--spacing-md);
 }
 
 .method-info {
   display: flex;
   flex-direction: column;
-  gap: 4px;
+  gap: var(--spacing-xs);
 }
 
 .card-brand {
-  font-weight: 500;
-  color: #1a1a1a;
+  font-weight: var(--font-weight-medium);
+  color: var(--text-primary);
 }
 
 .card-last4 {
-  color: #666;
-  font-size: 14px;
+  color: var(--text-secondary);
+  font-size: var(--font-size-sm);
 }
 
 .method-actions {
   display: flex;
-  gap: 8px;
+  gap: var(--spacing-sm);
 }
 
 .set-default,
 .remove {
-  padding: 8px 16px;
-  border-radius: 4px;
-  font-size: 14px;
+  padding: var(--spacing-sm) var(--spacing-md);
+  border-radius: var(--border-radius-sm);
+  font-size: var(--font-size-sm);
   cursor: pointer;
-  transition: background-color 0.3s ease;
+  transition: background-color var(--transition-normal);
 }
 
 .set-default {
-  background-color: #e6f3ff;
-  color: #007bff;
-  border: 1px solid #007bff;
+  background-color: var(--primary-100);
+  color: var(--primary-500);
+  border: 1px solid var(--primary-500);
 }
 
 .remove {
-  background-color: #fff;
-  color: #dc3545;
-  border: 1px solid #dc3545;
+  background-color: var(--neutral-100);
+  color: var(--error-color);
+  border: 1px solid var(--error-color);
 }
 
 .set-default:hover {
-  background-color: #007bff;
-  color: white;
+  background-color: var(--primary-500);
+  color: var(--neutral-100);
 }
 
 .remove:hover {
-  background-color: #dc3545;
-  color: white;
+  background-color: var(--error-color);
+  color: var(--neutral-100);
 }
 
 .add-method {
   width: 100%;
-  padding: 12px;
-  border: 2px dashed #ddd;
-  border-radius: 4px;
+  padding: var(--spacing-lg) var(--spacing-xl);
+  border: 2px dashed var(--neutral-300);
+  border-radius: var(--border-radius-sm);
   background: none;
-  color: #666;
-  font-size: 16px;
+  color: var(--text-secondary);
+  font-size: var(--font-size-base);
   cursor: pointer;
-  transition: all 0.3s ease;
+  transition: all var(--transition-normal);
 }
 
 .add-method:hover {
-  border-color: #007bff;
-  color: #007bff;
+  border-color: var(--primary-500);
+  color: var(--primary-500);
 }
 
 .subscription-error {
-  margin-top: 8px;
+  margin-top: var(--spacing-sm);
   background-color: var(--error-message-bg);
   border-color: var(--error-message-border);
   color: var(--error-message-text);
   box-shadow: var(--error-message-shadow);
-} 
+}
 
 /* ==========================================================================
    RESPONSIVE DESIGN

@@ -30,66 +30,15 @@ body {
   margin: 0 auto;
 }
 
-/* Desktop (1024px and above) - Compact professional design */
-@media (min-width: 1024px) {
-  .main-content {
-    padding: var(--spacing-sm);
-    max-width: var(--table-max-width-desktop);
-  }
-}
-
-/* Tablet (769px to 1023px) - Medium balanced design */
-@media (min-width: 769px) and (max-width: 1023px) {
-  .main-content {
-    padding: var(--spacing-md);
-    max-width: 95%;
-  }
-}
-
-/* Mobile (768px and below) - Touch-friendly design */
-@media (max-width: 768px) {
-  .main-content {
-    padding: var(--spacing-md);
-  }
-}
-
 /* Base responsive typography */
 html {
-  font-size: 16px; /* Base font size */
-}
-
-/* Responsive typography adjustments */
-@media (max-width: 768px) {
-  html {
-    font-size: 15px; /* Slightly smaller for mobile */
-  }
-}
-
-@media (min-width: 1024px) {
-  html {
-    font-size: 16px; /* Standard for desktop */
-  }
+  font-size: var(--font-size-base); /* Base font size */
 }
 
 /* Responsive visibility utilities */
 .hidden-mobile { display: block; }
 .hidden-tablet { display: block; }
 .hidden-desktop { display: block; }
-
-@media (max-width: 768px) {
-  .hidden-mobile { display: none; }
-  .show-mobile-only { display: block; }
-}
-
-@media (min-width: 769px) and (max-width: 1023px) {
-  .hidden-tablet { display: none; }
-  .show-tablet-only { display: block; }
-}
-
-@media (min-width: 1024px) {
-  .hidden-desktop { display: none; }
-  .show-desktop-only { display: block; }
-}
 
 /* Hide responsive-only classes by default */
 .show-mobile-only,
@@ -103,27 +52,6 @@ html {
   display: grid;
   gap: var(--spacing-md);
   grid-template-columns: 1fr;
-}
-
-@media (min-width: 769px) and (max-width: 1023px) {
-  .responsive-grid {
-    gap: var(--spacing-md);
-    grid-template-columns: 1fr 1fr;
-  }
-}
-
-@media (min-width: 1024px) {
-  .responsive-grid {
-    gap: var(--spacing-sm);
-    grid-template-columns: repeat(3, 1fr);
-  }
-}
-
-@media (max-width: 768px) {
-  .responsive-grid {
-    gap: var(--spacing-md);
-    grid-template-columns: 1fr;
-  }
 }
 
 /* Text selection */
@@ -317,8 +245,28 @@ textarea:focus {
   }
 }
 
-/* Responsive error messages */
+/* ==========================================================================
+   RESPONSIVE DESIGN
+   ========================================================================== */
+
+/* Mobile Styles (max-width: 768px) */
 @media (max-width: 768px) {
+  .main-content {
+    padding: var(--spacing-md);
+  }
+
+  html {
+    font-size: var(--font-size-sm); /* Slightly smaller for mobile */
+  }
+
+  .hidden-mobile { display: none; }
+  .show-mobile-only { display: block; }
+
+  .responsive-grid {
+    gap: var(--spacing-md);
+    grid-template-columns: 1fr;
+  }
+
   .error-message,
   .warning-message,
   .info-message,
@@ -329,7 +277,41 @@ textarea:focus {
   }
 }
 
+/* Tablet Styles (769px to 1023px) */
+@media (min-width: 769px) and (max-width: 1023px) {
+  .main-content {
+    padding: var(--spacing-md);
+    max-width: 95%;
+  }
+
+  .hidden-tablet { display: none; }
+  .show-tablet-only { display: block; }
+
+  .responsive-grid {
+    gap: var(--spacing-md);
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+/* Desktop Styles (1024px and up) */
 @media (min-width: 1024px) {
+  .main-content {
+    padding: var(--spacing-sm);
+    max-width: var(--table-max-width-desktop);
+  }
+
+  html {
+    font-size: var(--font-size-base); /* Standard for desktop */
+  }
+
+  .hidden-desktop { display: none; }
+  .show-desktop-only { display: block; }
+
+  .responsive-grid {
+    gap: var(--spacing-sm);
+    grid-template-columns: repeat(3, 1fr);
+  }
+
   .error-message,
   .warning-message,
   .info-message,

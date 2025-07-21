@@ -28,7 +28,7 @@
 .categories-table th {
   background: var(--table-header-bg);
   font-family: var(--font-family-primary);
-  font-weight: 600;
+  font-weight: var(--font-weight-semibold);
   color: var(--primary-800);
   text-transform: uppercase;
   font-size: var(--table-font-size-header);
@@ -210,6 +210,15 @@
   }
 }
 
+/* Tablet and Desktop Styles (769px and up) */
+@media (min-width: 769px) {
+  .categories-table th,
+  .categories-table td {
+    min-height: var(--table-cell-height-normal);
+  }
+}
+
+/* Tablet Styles (769px to 1023px) */
 @media (min-width: 769px) and (max-width: 1023px) {
   .categories-table-container {
     min-width: 600px;
@@ -227,7 +236,6 @@
     white-space: nowrap;
     padding: var(--table-cell-padding-tablet);
     font-size: var(--font-size-sm);
-    min-height: var(--table-cell-height-normal);
   }
 
   .categories-table th {
@@ -236,6 +244,7 @@
   }
 }
 
+/* Desktop Styles (1024px and up) */
 @media (min-width: 1024px) {
   .categories-table-container {
     min-width: var(--table-min-width-desktop);
@@ -251,12 +260,7 @@
   .categories-table td {
     padding: var(--spacing-sm) var(--spacing-md);
     font-size: var(--font-size-base);
-    min-height: var(--table-cell-height-normal);
     line-height: var(--table-line-height);
-  }
-  
-  .categories-table td {
-    min-height: var(--table-cell-height-normal);
   }
 
   .categories-table th {

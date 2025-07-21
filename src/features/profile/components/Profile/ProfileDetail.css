@@ -83,12 +83,15 @@
   }
 }
 
-/* Tablet Styles (769px-1023px) - Balanced Hybrid */
-@media (min-width: 769px) and (max-width: 1023px) {
+/* Tablet and Desktop Styles (769px and up) */
+@media (min-width: 769px) {
   .profile-detail {
     padding: var(--spacing-md);
   }
-  
+}
+
+/* Tablet Styles (769px-1023px) - Balanced Hybrid */
+@media (min-width: 769px) and (max-width: 1023px) {
   .phone-input-container {
     gap: var(--spacing-md);
   }
@@ -101,10 +104,6 @@
 
 /* Desktop Styles (≥1024px) - Current Design */
 @media (min-width: 1024px) {
-  .profile-detail {
-    padding: var(--spacing-md);
-  }
-  
   .phone-input-container {
     gap: var(--spacing-sm);
   }

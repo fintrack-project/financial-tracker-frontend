@@ -35,7 +35,7 @@
 .reset-category-popup h3 {
   color: var(--popup-title-color, var(--text-primary));
   font-size: var(--font-size-xl);
-  font-weight: 600;
+  font-weight: var(--font-weight-semibold);
   margin-bottom: var(--spacing-md);
 }
 
@@ -65,7 +65,7 @@
   border-radius: var(--popup-button-radius, var(--border-radius-md));
   cursor: pointer;
   font-size: var(--font-size-base);
-  font-weight: 600;
+  font-weight: var(--font-weight-semibold);
   transition: background var(--transition-fast), color var(--transition-fast), box-shadow var(--transition-fast);
   box-shadow: var(--popup-button-shadow, var(--shadow-sm));
 }

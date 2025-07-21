@@ -30,24 +30,6 @@
   font-family: var(--font-family-primary);
   padding: var(--popup-padding);
 }
-@media (max-width: 768px) {
-  .subscription-popup-container {
-    max-width: 95vw;
-    padding: var(--container-padding-mobile);
-  }
-}
-@media (min-width: 769px) and (max-width: 1023px) {
-  .subscription-popup-container {
-    max-width: 90vw;
-    padding: var(--container-padding-tablet);
-  }
-}
-@media (min-width: 1024px) {
-  .subscription-popup-container {
-    max-width: 520px;
-    padding: var(--container-padding-desktop);
-  }
-}
 
 /* Header */
 .subscription-popup-header {
@@ -61,22 +43,13 @@
   border-top-right-radius: var(--popup-border-radius);
   position: relative;
 }
+
 .subscription-popup-header h3 {
   margin: 0;
   font-size: var(--page-title-font-size-mobile);
   color: var(--page-title-color);
-  font-weight: 600;
+  font-weight: var(--font-weight-semibold);
   font-family: var(--font-family-primary);
-}
-@media (min-width: 769px) and (max-width: 1023px) {
-  .subscription-popup-header h3 {
-    font-size: var(--page-title-font-size-tablet);
-  }
-}
-@media (min-width: 1024px) {
-  .subscription-popup-header h3 {
-    font-size: var(--page-title-font-size-desktop);
-  }
 }
 
 /* Close Button */
@@ -93,12 +66,13 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: all 0.2s ease;
+  transition: all var(--transition-fast);
   position: absolute;
-  right: 12px;
+  right: var(--spacing-sm);
   top: 50%;
   transform: translateY(-50%);
 }
+
 .subscription-close-button:hover {
   background-color: rgba(0, 0, 0, 0.07);
   color: var(--text-primary);
@@ -127,6 +101,7 @@
   align-items: center;
   margin-top: var(--spacing-xl);
 }
+
 .subscription-primary-button {
   background: var(--popup-button-primary-bg);
   color: var(--neutral-100);
@@ -134,25 +109,28 @@
   border-radius: var(--border-radius-md);
   flex: 1.5;
   cursor: pointer;
-  font-weight: 600;
-  transition: background 0.15s, color 0.15s, box-shadow 0.15s;
+  font-weight: var(--font-weight-semibold);
+  transition: background var(--transition-fast), color var(--transition-fast), box-shadow var(--transition-fast);
   white-space: nowrap;
   height: 48px;
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 0 16px;
+  padding: 0 var(--spacing-md);
   font-size: var(--font-size-sm);
   box-shadow: var(--popup-button-shadow);
 }
+
 .subscription-primary-button:hover {
   background: var(--popup-button-primary-hover);
   box-shadow: var(--popup-button-hover-shadow);
 }
+
 .subscription-primary-button:disabled {
   background: var(--popup-button-secondary-bg);
   cursor: not-allowed;
 }
+
 .subscription-secondary-button {
   background: var(--popup-button-secondary-bg);
   color: var(--popup-button-secondary-text);
@@ -160,16 +138,17 @@
   border-radius: var(--border-radius-md);
   flex: 1;
   cursor: pointer;
-  font-weight: 600;
-  transition: background 0.15s, color 0.15s, box-shadow 0.15s;
+  font-weight: var(--font-weight-semibold);
+  transition: background var(--transition-fast), color var(--transition-fast), box-shadow var(--transition-fast);
   height: 48px;
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 0 16px;
+  padding: 0 var(--spacing-md);
   font-size: var(--font-size-sm);
   box-shadow: var(--popup-button-shadow);
 }
+
 .subscription-secondary-button:hover {
   background: var(--popup-button-secondary-hover);
   color: var(--popup-button-secondary-hover-text);
@@ -181,42 +160,47 @@
   display: inline-block;
   width: 16px;
   height: 16px;
-  margin-right: 8px;
+  margin-right: var(--spacing-sm);
   position: relative;
 }
+
 .subscription-plus-icon:before,
 .subscription-plus-icon:after {
   content: '';
   position: absolute;
   background-color: currentColor;
 }
+
 .subscription-plus-icon:before {
   width: 2px;
   height: 16px;
   left: 7px;
   top: 0;
 }
+
 .subscription-plus-icon:after {
   width: 16px;
   height: 2px;
   left: 0;
   top: 7px;
 }
+
 .subscription-alert-icon {
   display: inline-block;
   width: 24px;
   height: 24px;
-  margin-bottom: 12px;
+  margin-bottom: var(--spacing-sm);
   position: relative;
   border: 2px solid #dc3545;
   border-radius: 50%;
 }
+
 .subscription-alert-icon:before {
   content: '!';
   position: absolute;
   color: #dc3545;
   font-weight: bold;
-  font-size: 16px;
+  font-size: var(--font-size-base);
   left: 50%;
   top: 50%;
   transform: translate(-50%, -50%);
@@ -227,7 +211,44 @@
   from { opacity: 0; }
   to { opacity: 1; }
 }
+
 @keyframes subscriptionScaleIn {
   from { transform: scale(0.95); opacity: 0; }
   to { transform: scale(1); opacity: 1; }
+}
+
+/* ==========================================================================
+   RESPONSIVE DESIGN
+   ========================================================================== */
+
+/* Mobile Styles (max-width: 768px) */
+@media (max-width: 768px) {
+  .subscription-popup-container {
+    max-width: 95vw;
+    padding: var(--container-padding-mobile);
+  }
+}
+
+/* Tablet Styles (769px to 1023px) */
+@media (min-width: 769px) and (max-width: 1023px) {
+  .subscription-popup-container {
+    max-width: 90vw;
+    padding: var(--container-padding-tablet);
+  }
+
+  .subscription-popup-header h3 {
+    font-size: var(--page-title-font-size-tablet);
+  }
+}
+
+/* Desktop Styles (1024px and up) */
+@media (min-width: 1024px) {
+  .subscription-popup-container {
+    max-width: 520px;
+    padding: var(--container-padding-desktop);
+  }
+
+  .subscription-popup-header h3 {
+    font-size: var(--page-title-font-size-desktop);
+  }
 } 

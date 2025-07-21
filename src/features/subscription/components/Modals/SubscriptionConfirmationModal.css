@@ -11,7 +11,7 @@
 
 /* Header title override */
 .modal-header h2 {
-  font-weight: 600;
+  font-weight: var(--font-weight-semibold);
   font-size: var(--page-title-font-size-mobile);
   color: var(--page-title-color);
 }
@@ -44,9 +44,9 @@
   background: var(--neutral-100);
   color: var(--text-secondary);
   cursor: pointer;
-  transition: all 0.2s;
+  transition: all var(--transition-fast);
   font-size: var(--font-size-sm);
-  font-weight: 600;
+  font-weight: var(--font-weight-semibold);
 }
 .cancel-button:hover {
   background: var(--neutral-200);
@@ -59,9 +59,9 @@
   border-radius: var(--border-radius-md);
   color: var(--neutral-100);
   cursor: pointer;
-  transition: all 0.2s;
+  transition: all var(--transition-fast);
   font-size: var(--font-size-sm);
-  font-weight: 600;
+  font-weight: var(--font-weight-semibold);
 }
 
 /* Button variants */
@@ -81,22 +81,11 @@
   color: var(--error-dark);
 }
 
-/* ===== RESPONSIVE ADJUSTMENTS ===== */
-/* Tablet styles */
-@media (min-width: 769px) and (max-width: 1023px) {
-  .modal-header h2 {
-    font-size: var(--page-title-font-size-tablet);
-  }
-}
+/* ==========================================================================
+   RESPONSIVE DESIGN
+   ========================================================================== */
 
-/* Desktop styles */
-@media (min-width: 1024px) {
-  .modal-header h2 {
-    font-size: var(--page-title-font-size-desktop);
-  }
-}
-
-/* Mobile styles */
+/* Mobile Styles (max-width: 768px) */
 @media (max-width: 768px) {
   .modal-footer {
     flex-direction: column;
@@ -108,5 +97,19 @@
     width: 100%;
     padding: var(--spacing-sm) var(--spacing-md);
     font-size: var(--font-size-base);
+  }
+}
+
+/* Tablet Styles (769px to 1023px) */
+@media (min-width: 769px) and (max-width: 1023px) {
+  .modal-header h2 {
+    font-size: var(--page-title-font-size-tablet);
+  }
+}
+
+/* Desktop Styles (1024px and up) */
+@media (min-width: 1024px) {
+  .modal-header h2 {
+    font-size: var(--page-title-font-size-desktop);
   }
 } 

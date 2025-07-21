@@ -87,14 +87,7 @@ const PaymentMethods: React.FC<PaymentMethodsProps> = ({
                           : 'No expiry date'}
                       </span>
                       {method.default && (
-                        <span className="default-badge" style={{ 
-                          backgroundColor: '#4CAF50', 
-                          color: 'white',
-                          padding: '4px 8px',
-                          borderRadius: '4px',
-                          fontSize: '12px',
-                          marginLeft: '8px'
-                        }}>
+                        <span className="default-badge">
                           Default
                         </span>
                       )}

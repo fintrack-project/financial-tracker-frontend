@@ -229,8 +229,8 @@
   background: var(--error-color);
   color: white;
   padding: 4px 8px;
-  border-radius: 4px;
-  font-size: 12px;
+  border-radius: var(--border-radius-sm);
+  font-size: var(--font-size-xs);
   font-weight: bold;
   z-index: 9999;
   pointer-events: none;

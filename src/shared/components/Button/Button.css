@@ -10,7 +10,7 @@ button,
   border-radius: var(--border-radius-md);
   font-family: var(--font-family-primary);
   font-size: var(--font-size-sm);
-  font-weight: 500;
+  font-weight: var(--font-weight-medium);
   line-height: var(--table-line-height);
   text-decoration: none;
   cursor: pointer;
@@ -108,7 +108,7 @@ button:active,
 }
 
 .btn-danger:hover:not(:disabled) {
-  background-color: #d32f2f;
+  background-color: var(--error-color);
 }
 
 .btn-success {
@@ -117,7 +117,7 @@ button:active,
 }
 
 .btn-success:hover:not(:disabled) {
-  background-color: #388e3c;
+  background-color: var(--success-color);
 }
 
 .btn-warning {
@@ -126,7 +126,7 @@ button:active,
 }
 
 .btn-warning:hover:not(:disabled) {
-  background-color: #ffa000;
+  background-color: var(--warning-color);
 }
 
 /* Full width button */
@@ -154,7 +154,42 @@ button:active,
   padding: var(--spacing-md);
 }
 
-/* Responsive Design */
+/* ==========================================================================
+   RESPONSIVE DESIGN
+   ========================================================================== */
+
+/* Mobile Styles (max-width: 768px) */
+@media (max-width: 768px) {
+  button,
+  .btn {
+    font-size: var(--font-size-sm);
+    padding: var(--spacing-sm) var(--spacing-md);
+    border-radius: var(--border-radius-md);
+  }
+  
+  .btn-sm {
+    padding: var(--spacing-xs) var(--spacing-sm);
+    font-size: var(--font-size-xs);
+  }
+  
+  .btn-lg {
+    padding: var(--spacing-md) var(--spacing-lg);
+    font-size: var(--font-size-base);
+  }
+  
+  .btn-xl {
+    padding: var(--spacing-lg) var(--spacing-xl);
+    font-size: var(--font-size-lg);
+  }
+  
+  /* Make buttons more touch-friendly on mobile */
+  .btn-full {
+    width: 100%;
+    min-height: 44px; /* Larger touch target */
+  }
+}
+
+/* Desktop Styles (1024px and up) */
 @media (min-width: 1024px) {
   button,
   .btn {
@@ -183,37 +218,6 @@ button:active,
     font-size: var(--font-size-xl);
     min-height: var(--button-size-xlarge);
     min-width: var(--button-size-xlarge);
-  }
-}
-
-/* Mobile-specific adjustments */
-@media (max-width: 768px) {
-  button,
-  .btn {
-    font-size: var(--font-size-sm);
-    padding: var(--spacing-sm) var(--spacing-md);
-    border-radius: var(--border-radius-md);
-  }
-  
-  .btn-sm {
-    padding: var(--spacing-xs) var(--spacing-sm);
-    font-size: var(--font-size-xs);
-  }
-  
-  .btn-lg {
-    padding: var(--spacing-md) var(--spacing-lg);
-    font-size: var(--font-size-base);
-  }
-  
-  .btn-xl {
-    padding: var(--spacing-lg) var(--spacing-xl);
-    font-size: var(--font-size-lg);
-  }
-  
-  /* Make buttons more touch-friendly on mobile */
-  .btn-full {
-    width: 100%;
-    min-height: 44px; /* Larger touch target */
   }
 }
 

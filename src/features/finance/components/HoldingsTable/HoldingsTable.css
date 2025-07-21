@@ -50,7 +50,7 @@
   margin: 0;
   font-family: var(--font-family-primary);
   font-size: var(--font-size-lg);
-  font-weight: 600;
+  font-weight: var(--font-weight-semibold);
   color: var(--neutral-900);
 }
 
@@ -69,7 +69,7 @@
 .holdings-table th {
   background: var(--table-header-bg);
   font-family: var(--font-family-primary);
-  font-weight: 600;
+  font-weight: var(--font-weight-semibold);
   color: var(--primary-800);
   text-transform: uppercase;
   font-size: var(--font-size-sm);
@@ -96,7 +96,7 @@
    ======================================== */
 
 .holdings-table .symbol-cell {
-  font-weight: 500;
+  font-weight: var(--font-weight-medium);
   color: var(--primary-500);
   text-align: center;
 }
@@ -109,12 +109,12 @@
 
 .holdings-table .positive-change {
   color: var(--success-color);
-  font-weight: 500;
+  font-weight: var(--font-weight-medium);
 }
 
 .holdings-table .negative-change {
   color: var(--error-color);
-  font-weight: 500;
+  font-weight: var(--font-weight-medium);
 }
 
 .holdings-table .neutral-change {
@@ -241,7 +241,16 @@
 
   .holdings-table .action-button {
     padding: var(--spacing-xs);
-    font-size: 0.7rem;
+    font-size: var(--font-size-xs);
+  }
+}
+
+/* Tablet and Desktop Styles (769px and up) */
+@media (min-width: 769px) {
+  .holdings-table th,
+  .holdings-table td {
+    font-size: var(--font-size-sm);
+    min-height: var(--table-cell-height-normal);
   }
 }
 
@@ -252,16 +261,14 @@
     overflow-x: auto;
     -webkit-overflow-scrolling: touch;
   }
-
-  .holdings-table th,
-  .holdings-table td {
-    font-size: var(--font-size-sm);
-    min-height: var(--table-cell-height-normal);
-  }
 }
 
 /* Desktop Styles (1024px and up) */
 @media (min-width: 1024px) {
+  .holdings-widget-header h3 {
+    font-size: var(--font-size-xl);
+  }
+
   .holdings-table-container {
     min-width: 100%;
     max-width: none;
@@ -270,11 +277,5 @@
 
   .holdings-table {
     font-size: var(--font-size-sm);
-  }
-
-  .holdings-table th,
-  .holdings-table td {
-    font-size: var(--font-size-sm);
-    min-height: var(--table-cell-height-normal);
   }
 }

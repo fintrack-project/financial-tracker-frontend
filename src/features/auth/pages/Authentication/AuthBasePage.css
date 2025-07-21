@@ -54,7 +54,7 @@
 
 .auth-header h1 {
   font-size: var(--font-size-2xl);
-  font-weight: 700;
+  font-weight: var(--font-weight-bold);
   color: var(--text-primary);
   margin: 0;
 }
@@ -95,7 +95,7 @@
 
 .auth-base-page-title {
   font-size: var(--font-size-2xl);
-  font-weight: 700;
+  font-weight: var(--font-weight-bold);
   margin: 0 0 var(--spacing-sm) 0;
 }
 
@@ -135,7 +135,7 @@
   border: none;
   border-radius: var(--border-radius-sm);
   font-size: var(--font-size-base);
-  font-weight: 600;
+  font-weight: var(--font-weight-semibold);
   cursor: pointer;
   transition: var(--transition-normal);
 }

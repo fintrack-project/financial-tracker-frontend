@@ -1,24 +1,29 @@
 .six-digit-input {
   display: flex;
+  gap: var(--spacing-xs);
   justify-content: center;
   align-items: center;
-  gap: 8px;
 }
 
 .six-digit-input input {
   width: 40px;
   height: 40px;
   text-align: center;
-  font-size: 18px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
+  font-size: var(--font-size-lg);
+  font-weight: var(--font-weight-semibold);
+  border: 1px solid var(--neutral-400);
+  border-radius: var(--border-radius-sm);
+  background-color: var(--neutral-100);
 }
 
 .six-digit-input input:focus {
-  border-color: #007bff;
+  outline: none;
+  border-color: var(--primary-500);
+  box-shadow: 0 0 0 2px rgba(52, 98, 219, 0.2);
 }
 
 .six-digit-input .divider {
-  font-size: 18px;
-  margin: 0 4px;
+  font-size: var(--font-size-lg);
+  font-weight: var(--font-weight-semibold);
+  color: var(--text-secondary);
 }

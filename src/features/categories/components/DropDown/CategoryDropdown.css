@@ -27,7 +27,7 @@
   border: none;
   border-radius: var(--border-radius-md);
   box-shadow: var(--shadow-sm);
-  font-weight: 500;
+  font-weight: var(--font-weight-medium);
   transition: background var(--transition-normal), color var(--transition-normal), box-shadow var(--transition-normal);
   appearance: none;
   cursor: pointer;
