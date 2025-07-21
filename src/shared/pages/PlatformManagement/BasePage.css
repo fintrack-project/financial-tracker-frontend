@@ -11,51 +11,9 @@
   margin-top: 0;
 }
 
-/* Mobile: Account for taller top bar */
-@media (max-width: 768px) {
-  .base-page-content {
-    padding: var(--page-container-padding-mobile);
-  }
-}
-
-/* Tablet: Balanced spacing */
-@media (min-width: 769px) and (max-width: 1023px) {
-  .base-page-content {
-    padding: var(--page-container-padding);
-  }
-}
-
-/* Desktop: Optimal spacing */
-@media (min-width: 1024px) {
-  .base-page-content {
-    padding: var(--page-container-padding-desktop);
-  }
-}
-
 .welcome-grid {
   max-width: 600px;
   width: 100%;
-}
-
-@media (max-width: 768px) {
-  .welcome-grid {
-    max-width: 100%;
-    padding: 0 var(--spacing-md);
-  }
-}
-
-@media (min-width: 769px) and (max-width: 1023px) {
-  .welcome-grid {
-    max-width: 500px;
-    padding: 0 var(--spacing-lg);
-  }
-}
-
-@media (min-width: 1024px) {
-  .welcome-grid {
-    max-width: 600px;
-    padding: 0 var(--spacing-xl);
-  }
 }
 
 .welcome-card {
@@ -64,24 +22,6 @@
 
 .welcome-content {
   padding: var(--spacing-md) var(--spacing-xl);
-}
-
-@media (max-width: 768px) {
-  .welcome-content {
-    padding: var(--spacing-sm) var(--spacing-md);
-  }
-}
-
-@media (min-width: 769px) and (max-width: 1023px) {
-  .welcome-content {
-    padding: var(--spacing-md) var(--spacing-lg);
-  }
-}
-
-@media (min-width: 1024px) {
-  .welcome-content {
-    padding: var(--spacing-lg) var(--spacing-xl);
-  }
 }
 
 .welcome-content p {
@@ -107,30 +47,6 @@
   width: 90%;
 }
 
-@media (max-width: 768px) {
-  .base-page-message {
-    padding: var(--spacing-lg);
-    max-width: 320px;
-    width: 95%;
-  }
-}
-
-@media (min-width: 769px) and (max-width: 1023px) {
-  .base-page-message {
-    padding: var(--spacing-xl);
-    max-width: 380px;
-    width: 85%;
-  }
-}
-
-@media (min-width: 1024px) {
-  .base-page-message {
-    padding: var(--spacing-2xl);
-    max-width: 450px;
-    width: 80%;
-  }
-}
-
 .base-page-message:hover {
   transform: translate(-50%, -52%);
   box-shadow: var(--shadow-lg);
@@ -140,29 +56,8 @@
   color: var(--neutral-900);
   font-family: var(--font-family-primary);
   font-size: var(--font-size-2xl);
-  font-weight: 600;
+  font-weight: var(--font-weight-semibold);
   margin-bottom: var(--spacing-md);
-}
-
-@media (max-width: 768px) {
-  .base-page-message h2 {
-    font-size: var(--font-size-xl);
-    margin-bottom: var(--spacing-sm);
-  }
-}
-
-@media (min-width: 769px) and (max-width: 1023px) {
-  .base-page-message h2 {
-    font-size: var(--font-size-2xl);
-    margin-bottom: var(--spacing-md);
-  }
-}
-
-@media (min-width: 1024px) {
-  .base-page-message h2 {
-    font-size: var(--font-size-3xl);
-    margin-bottom: var(--spacing-lg);
-  }
 }
 
 .base-page-message p {
@@ -173,19 +68,98 @@
   margin: 0;
 }
 
+/* ==========================================================================
+   RESPONSIVE DESIGN
+   ========================================================================== */
+
+/* Mobile Styles (max-width: 768px) */
 @media (max-width: 768px) {
+  .base-page-content {
+    padding: var(--page-container-padding-mobile);
+  }
+
+  .welcome-grid {
+    max-width: 100%;
+    padding: 0 var(--spacing-md);
+  }
+
+  .welcome-content {
+    padding: var(--spacing-sm) var(--spacing-md);
+  }
+
+  .base-page-message {
+    padding: var(--spacing-lg);
+    max-width: 320px;
+    width: 95%;
+  }
+
+  .base-page-message h2 {
+    font-size: var(--font-size-xl);
+    margin-bottom: var(--spacing-sm);
+  }
+
   .base-page-message p {
     font-size: var(--font-size-sm);
   }
 }
 
+/* Tablet Styles (769px to 1023px) */
 @media (min-width: 769px) and (max-width: 1023px) {
+  .base-page-content {
+    padding: var(--page-container-padding);
+  }
+
+  .welcome-grid {
+    max-width: 500px;
+    padding: 0 var(--spacing-lg);
+  }
+
+  .welcome-content {
+    padding: var(--spacing-md) var(--spacing-lg);
+  }
+
+  .base-page-message {
+    padding: var(--spacing-xl);
+    max-width: 380px;
+    width: 85%;
+  }
+
+  .base-page-message h2 {
+    font-size: var(--font-size-2xl);
+    margin-bottom: var(--spacing-md);
+  }
+
   .base-page-message p {
     font-size: var(--font-size-base);
   }
 }
 
+/* Desktop Styles (1024px and up) */
 @media (min-width: 1024px) {
+  .base-page-content {
+    padding: var(--page-container-padding-desktop);
+  }
+
+  .welcome-grid {
+    max-width: 600px;
+    padding: 0 var(--spacing-xl);
+  }
+
+  .welcome-content {
+    padding: var(--spacing-lg) var(--spacing-xl);
+  }
+
+  .base-page-message {
+    padding: var(--spacing-2xl);
+    max-width: 450px;
+    width: 80%;
+  }
+
+  .base-page-message h2 {
+    font-size: var(--font-size-3xl);
+    margin-bottom: var(--spacing-lg);
+  }
+
   .base-page-message p {
     font-size: var(--font-size-lg);
   }

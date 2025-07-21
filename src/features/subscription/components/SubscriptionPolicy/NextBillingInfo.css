@@ -12,7 +12,7 @@
 /* Title */
 .billing-title {
   font-size: var(--font-size-base);
-  font-weight: 600;
+  font-weight: var(--font-weight-semibold);
   color: var(--text-dark);
   margin: 0 0 var(--spacing-sm) 0;
   text-align: center;
@@ -62,7 +62,7 @@
 }
 
 .detail-icon {
-  font-size: 16px;
+  font-size: var(--font-size-base);
   margin-top: 2px;
   flex-shrink: 0;
 }
@@ -71,24 +71,24 @@
   flex: 1;
   display: flex;
   flex-direction: column;
-  gap: 2px;
+  gap: var(--spacing-xs);
 }
 
 .detail-label {
-  font-weight: 500;
+  font-weight: var(--font-weight-medium);
   color: var(--text-primary);
   font-size: var(--font-size-xs);
 }
 
 .detail-value {
-  font-weight: 600;
+  font-weight: var(--font-weight-semibold);
   color: var(--text-dark);
   font-size: var(--font-size-sm);
 }
 
 .billing-amount {
   color: var(--accent-color);
-  font-weight: 700;
+  font-weight: var(--font-weight-bold);
 }
 
 .days-remaining {

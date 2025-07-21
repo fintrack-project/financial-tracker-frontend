@@ -9,7 +9,7 @@
   color: var(--neutral-100);
   border: none;
   font-size: var(--font-size-sm);
-  font-weight: 500;
+  font-weight: var(--font-weight-medium);
   transition: var(--transition-fast);
 }
 
@@ -31,7 +31,7 @@
   background: var(--table-header-bg);
   color: var(--primary-500);
   font-size: var(--font-size-sm);
-  font-weight: 500;
+  font-weight: var(--font-weight-medium);
   box-shadow: var(--shadow-sm);
   display: flex;
   align-items: center;

@@ -10,7 +10,7 @@
   color: var(--text-primary);
   margin: 0 0 var(--spacing-md) 0;
   font-size: var(--font-size-base);
-  font-weight: 600;
+  font-weight: var(--font-weight-semibold);
 }
 
 .test-cards-grid {
@@ -30,7 +30,7 @@
   color: var(--text-primary);
   margin: 0 0 var(--spacing-sm) 0;
   font-size: var(--font-size-sm);
-  font-weight: 600;
+  font-weight: var(--font-weight-semibold);
 }
 
 .card-details-grid {
@@ -47,7 +47,7 @@
 .testing-card-details .detail-label {
   font-size: var(--font-size-xs);
   color: var(--text-secondary);
-  font-weight: 500;
+  font-weight: var(--font-weight-medium);
 }
 
 .testing-card-details .detail-value {
@@ -59,55 +59,37 @@
   border-radius: var(--border-radius-sm);
 }
 
-/* Responsive adjustments */
+/* ==========================================================================
+   RESPONSIVE DESIGN
+   ========================================================================== */
+
+/* Mobile and Tablet Styles (max-width: 1023px) */
+@media (max-width: 1023px) {
+  .test-cards-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .testing-card-details h5 {
+    font-size: var(--font-size-sm);
+  }
+  
+  .test-card h6 {
+    font-size: var(--font-size-xs);
+  }
+  
+  .card-details-grid {
+    gap: var(--spacing-xs);
+  }
+  
+  .testing-card-details .detail-label,
+  .testing-card-details .detail-value {
+    font-size: var(--font-size-xs);
+  }
+}
+
+/* Desktop Styles (1024px and up) */
 @media (min-width: 1024px) {
   .test-cards-grid {
     grid-template-columns: repeat(3, 1fr);
-  }
-}
-
-@media (min-width: 769px) and (max-width: 1023px) {
-  .test-cards-grid {
-    grid-template-columns: 1fr;
-  }
-  
-  .testing-card-details h5 {
-    font-size: var(--font-size-sm);
-  }
-  
-  .test-card h6 {
-    font-size: var(--font-size-xs);
-  }
-  
-  .card-details-grid {
-    gap: var(--spacing-xs);
-  }
-  
-  .testing-card-details .detail-label,
-  .testing-card-details .detail-value {
-    font-size: var(--font-size-xs);
-  }
-}
-
-@media (max-width: 768px) {
-  .test-cards-grid {
-    grid-template-columns: 1fr;
-  }
-  
-  .testing-card-details h5 {
-    font-size: var(--font-size-sm);
-  }
-  
-  .test-card h6 {
-    font-size: var(--font-size-xs);
-  }
-  
-  .card-details-grid {
-    gap: var(--spacing-xs);
-  }
-  
-  .testing-card-details .detail-label,
-  .testing-card-details .detail-value {
-    font-size: var(--font-size-xs);
   }
 } 

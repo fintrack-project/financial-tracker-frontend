@@ -5,10 +5,10 @@
   width: 100%;
   margin: var(--spacing-md) auto;
   padding: var(--spacing-md);
-  background-color: #ffffff;
+  background-color: var(--neutral-100);
   border-radius: var(--border-radius-lg);
   box-shadow: var(--shadow-md);
-  transition: box-shadow 0.3s ease;
+  transition: box-shadow var(--transition-normal);
   display: flex;
   flex-direction: column;
 }
@@ -32,7 +32,7 @@
   justify-content: space-between;
   align-items: center;
   padding: var(--spacing-md) var(--spacing-md);
-  border-bottom: 1px solid var(--table-border);
+  border-bottom: 1px solid var(--neutral-300);
   margin-bottom: var(--spacing-md);
 }
 
@@ -56,59 +56,59 @@
 /* Chart grid styling */
 .recharts-cartesian-grid-horizontal line,
 .recharts-cartesian-grid-vertical line {
-  stroke: #e2e8f0 !important;
+  stroke: var(--neutral-300) !important;
 }
 
 /* Axis styling */
 .recharts-xAxis .recharts-cartesian-axis-line,
 .recharts-yAxis .recharts-cartesian-axis-line {
-  stroke: #bdc3c7;
+  stroke: var(--neutral-400);
 }
 
 .recharts-xAxis .recharts-cartesian-axis-tick-value,
 .recharts-yAxis .recharts-cartesian-axis-tick-value {
-  fill: #64748b !important;
-  font-size: 0.85rem !important;
+  fill: var(--text-secondary) !important;
+  font-size: var(--font-size-xs) !important;
 }
 
 /* Custom tooltip styling */
 .portfolio-bar-chart .custom-tooltip {
-  background-color: #fff;
-  border-radius: 6px;
+  background-color: var(--neutral-100);
+  border-radius: var(--border-radius-sm);
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
-  padding: 8px 12px;
+  padding: var(--spacing-sm) var(--spacing-md);
   border: none;
 }
 
 .portfolio-bar-chart .custom-tooltip p {
-  margin: 4px 0;
-  font-size: 0.9rem;
-  color: #2c3e50;
+  margin: var(--spacing-xs) 0;
+  font-size: var(--font-size-sm);
+  color: var(--text-primary);
   white-space: nowrap;
 }
 
 .portfolio-bar-chart .custom-tooltip p:first-child {
-  font-weight: 600;
-  font-size: 1rem;
-  margin-bottom: 6px;
+  font-weight: var(--font-weight-semibold);
+  font-size: var(--font-size-base);
+  margin-bottom: var(--spacing-xs);
 }
 
 .portfolio-bar-chart .custom-tooltip .label {
-  color: #64748b;
-  font-size: 0.85rem;
-  margin-bottom: 8px;
-  border-bottom: 1px solid #e2e8f0;
-  padding-bottom: 4px;
+  color: var(--text-secondary);
+  font-size: var(--font-size-xs);
+  margin-bottom: var(--spacing-sm);
+  border-bottom: 1px solid var(--neutral-300);
+  padding-bottom: var(--spacing-xs);
 }
 
 /* Legend styling */
 .recharts-default-legend {
-  margin: 16px 0 !important;
-  padding: 0 16px;
+  margin: var(--spacing-md) 0 !important;
+  padding: 0 var(--spacing-md);
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
-  gap: 16px;
+  gap: var(--spacing-md);
 }
 
 .recharts-legend-item {
@@ -118,9 +118,9 @@
 }
 
 .recharts-legend-item-text {
-  color: #2c3e50 !important;
-  font-size: 0.9rem !important;
-  margin-left: 8px !important;
+  color: var(--text-primary) !important;
+  font-size: var(--font-size-sm) !important;
+  margin-left: var(--spacing-sm) !important;
 }
 
 /* Chart empty state styling */
@@ -141,14 +141,14 @@
   justify-content: center;
   align-items: center;
   height: 300px;
-  color: #3498db;
-  font-size: 1.1rem;
+  color: var(--info-color);
+  font-size: var(--font-size-base);
 }
 
 /* Error message styling */
 .error-message {
   text-align: center;
-  margin: 16px 0;
+  margin: var(--spacing-md) 0;
   background-color: var(--error-message-bg);
   border-color: var(--error-message-border);
   color: var(--error-message-text);

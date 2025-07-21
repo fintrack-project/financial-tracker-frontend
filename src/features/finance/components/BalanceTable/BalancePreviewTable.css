@@ -20,7 +20,7 @@
   border-bottom: 1px solid var(--table-header-border);
   color: var(--text-dark);
   font-size: var(--font-size-xl);
-  font-weight: 600;
+  font-weight: var(--font-weight-semibold);
   font-family: var(--font-family-primary);
 }
 
@@ -53,7 +53,7 @@
 .balance-preview-table th {
   background: var(--table-header-bg);
   font-family: var(--font-family-primary);
-  font-weight: 600;
+  font-weight: var(--font-weight-semibold);
   color: var(--primary-800);
   text-transform: uppercase;
   font-size: var(--table-font-size-header);
@@ -86,7 +86,7 @@
 .preview-table td.debit-column,
 .preview-table th.debit-column {
   color: var(--error-color);
-  font-weight: 500;
+  font-weight: var(--font-weight-medium);
   font-family: 'Monaco', 'Courier New', monospace;
   text-align: right;
 }
@@ -94,7 +94,7 @@
 .preview-table td.credit-column,
 .preview-table th.credit-column {
   color: var(--success-color);
-  font-weight: 500;
+  font-weight: var(--font-weight-medium);
   font-family: 'Monaco', 'Courier New', monospace;
   text-align: right;
 }
@@ -120,43 +120,11 @@
   font-family: var(--font-family-primary);
 }
 
-/* Media Queries */
+/* ==========================================================================
+   RESPONSIVE DESIGN
+   ========================================================================== */
 
-/* Desktop (1024px+) - Compact Design */
-@media (min-width: 1024px) {
-  .balance-preview-container h2 {
-    padding: var(--spacing-sm);
-    font-size: var(--font-size-xl);
-  }
-  .preview-table {
-    font-size: var(--font-size-sm);
-  }
-  .preview-table th {
-    font-size: var(--font-size-xs);
-  }
-  .preview-table td {
-    min-height: var(--table-cell-height-normal);
-  }
-}
-
-/* Tablet (769px-1023px) - Medium Design */
-@media (min-width: 769px) and (max-width: 1023px) {
-  .balance-preview-container h2 {
-    padding: var(--spacing-sm);
-    font-size: var(--font-size-lg);
-  }
-  .preview-table {
-    font-size: var(--font-size-sm);
-  }
-  .preview-table th {
-    font-size: var(--font-size-xs);
-  }
-  .no-preview-data {
-    font-size: var(--font-size-base);
-  }
-}
-
-/* Mobile (768px and below) - Touch-Friendly Design */
+/* Mobile Styles (max-width: 768px) */
 @media (max-width: 768px) {
   .balance-preview-container h2 {
     padding: var(--spacing-sm);
@@ -183,5 +151,37 @@
   .no-preview-data {
     padding: var(--spacing-lg) 0;
     font-size: var(--font-size-base);
+  }
+}
+
+/* Tablet and Desktop Styles (769px and up) */
+@media (min-width: 769px) {
+  .preview-table {
+    font-size: var(--font-size-sm);
+  }
+  .preview-table th {
+    font-size: var(--font-size-xs);
+  }
+}
+
+/* Tablet Styles (769px to 1023px) */
+@media (min-width: 769px) and (max-width: 1023px) {
+  .balance-preview-container h2 {
+    padding: var(--spacing-sm);
+    font-size: var(--font-size-lg);
+  }
+  .no-preview-data {
+    font-size: var(--font-size-base);
+  }
+}
+
+/* Desktop Styles (1024px and up) */
+@media (min-width: 1024px) {
+  .balance-preview-container h2 {
+    padding: var(--spacing-sm);
+    font-size: var(--font-size-xl);
+  }
+  .preview-table td {
+    min-height: var(--table-cell-height-normal);
   }
 }

@@ -31,7 +31,7 @@
   font-size: var(--font-size-xl);
   color: var(--text-primary);
   margin-bottom: var(--spacing-sm);
-  font-weight: 600;
+  font-weight: var(--font-weight-semibold);
 }
 
 .settings-section p {
@@ -57,7 +57,7 @@
 }
 
 .currency-selector label {
-  font-weight: 500;
+  font-weight: var(--font-weight-medium);
   color: var(--text-primary);
 }
 
@@ -104,7 +104,7 @@
   color: var(--text-primary);
   font-size: var(--font-size-lg);
   margin-bottom: var(--spacing-sm);
-  font-weight: 600;
+  font-weight: var(--font-weight-semibold);
 }
 
 .currency-info ul {
@@ -175,7 +175,6 @@
     font-size: var(--font-size-xs);
   }
 }
-
 /* Desktop Styles (≥1024px) - Current Design */
 @media (min-width: 1024px) {
   .settings-section h3 {

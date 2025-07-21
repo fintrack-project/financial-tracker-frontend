@@ -1,28 +1,28 @@
 .time-range-display {
   display: flex;
   align-items: center;
-  gap: 12px;
-  font-size: 14px;
+  gap: var(--spacing-md);
+  font-size: var(--font-size-sm);
 }
 
 .current-range {
   display: flex;
   flex-direction: column;
-  gap: 2px;
+  gap: var(--spacing-xs);
 }
 
 .range-label {
   color: #6c757d;
-  font-size: 12px;
-  font-weight: 500;
+  font-size: var(--font-size-xs);
+  font-weight: var(--font-weight-medium);
   text-transform: uppercase;
   letter-spacing: 0.5px;
 }
 
 .range-value {
   color: #2c3e50;
-  font-weight: 600;
-  font-size: 14px;
+  font-weight: var(--font-weight-semibold);
+  font-size: var(--font-size-sm);
 }
 
 .preset-indicator {
@@ -33,10 +33,10 @@
 .preset-badge {
   background: #007bff;
   color: #ffffff;
-  padding: 4px 8px;
-  border-radius: 12px;
-  font-size: 11px;
-  font-weight: 600;
+  padding: var(--spacing-xs) var(--spacing-sm);
+  border-radius: var(--border-radius-lg);
+  font-size: var(--font-size-xs);
+  font-weight: var(--font-weight-semibold);
   text-transform: uppercase;
   letter-spacing: 0.5px;
 }
@@ -46,7 +46,7 @@
   .time-range-display {
     flex-direction: column;
     align-items: flex-start;
-    gap: 8px;
+    gap: var(--spacing-sm);
   }
   
   .current-range {
@@ -54,11 +54,11 @@
   }
   
   .range-value {
-    font-size: 13px;
+    font-size: var(--font-size-sm);
   }
   
   .preset-badge {
-    font-size: 10px;
-    padding: 3px 6px;
+    font-size: var(--font-size-xs);
+    padding: var(--spacing-xs) var(--spacing-xs);
   }
 } 

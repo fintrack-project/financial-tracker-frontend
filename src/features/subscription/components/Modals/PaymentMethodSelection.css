@@ -15,7 +15,7 @@
   border-radius: var(--border-radius-md);
   margin-bottom: var(--spacing-sm);
   cursor: pointer;
-  transition: all 0.2s ease;
+  transition: all var(--transition-fast);
   background-color: var(--neutral-100);
   position: relative;
   width: 100%;
@@ -39,7 +39,7 @@
 }
 
 .subscription-card-brand {
-  font-weight: 600;
+  font-weight: var(--font-weight-semibold);
   color: var(--text-primary);
   text-transform: capitalize;
 }
@@ -60,7 +60,7 @@
   padding: var(--spacing-xs) var(--spacing-sm);
   border-radius: var(--border-radius-sm);
   font-size: var(--font-size-xs);
-  font-weight: 500;
+  font-weight: var(--font-weight-medium);
 }
 
 .subscription-input-radio {
@@ -78,9 +78,9 @@
   border: 1px dashed var(--border-light);
   border-radius: var(--border-radius-md);
   color: var(--text-secondary);
-  font-weight: 500;
+  font-weight: var(--font-weight-medium);
   cursor: pointer;
-  transition: all 0.2s ease;
+  transition: all var(--transition-fast);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -123,9 +123,9 @@
   border: none;
   border-radius: var(--border-radius-md);
   font-size: var(--font-size-sm);
-  font-weight: 600;
+  font-weight: var(--font-weight-semibold);
   cursor: pointer;
-  transition: background 0.15s, color 0.15s, box-shadow 0.15s;
+  transition: background var(--transition-fast), color var(--transition-fast), box-shadow var(--transition-fast);
   box-shadow: var(--popup-button-shadow);
   min-width: 120px;
 }
@@ -147,9 +147,9 @@
   border: none;
   border-radius: var(--border-radius-md);
   font-size: var(--font-size-sm);
-  font-weight: 600;
+  font-weight: var(--font-weight-semibold);
   cursor: pointer;
-  transition: background 0.15s, color 0.15s, box-shadow 0.15s;
+  transition: background var(--transition-fast), color var(--transition-fast), box-shadow var(--transition-fast);
   box-shadow: var(--popup-button-shadow);
   min-width: 100px;
 }
@@ -214,7 +214,7 @@
 
 .confirmation-details strong {
   color: var(--text-primary);
-  font-weight: 600;
+  font-weight: var(--font-weight-semibold);
 }
 
 .payment-confirmation .confirmation-actions {
@@ -237,7 +237,7 @@
 }
 
 .subscription-alert-icon {
-  font-size: 2.5rem;
+  font-size: var(--font-size-2xl);
   color: var(--error-dark);
   margin-bottom: var(--spacing-md);
 }
@@ -256,7 +256,7 @@
   border-radius: var(--border-radius-md);
   margin-bottom: var(--spacing-xs);
   cursor: pointer;
-  transition: all 0.2s ease;
+  transition: all var(--transition-fast);
   background-color: var(--neutral-100);
   width: 100%;
 }
@@ -289,7 +289,7 @@
   padding: var(--spacing-xs) var(--spacing-sm);
   border-radius: var(--border-radius-full);
   font-size: var(--font-size-xs);
-  font-weight: 500;
+  font-weight: var(--font-weight-medium);
 }
 .add-payment-method-section {
   margin-bottom: var(--spacing-md);
@@ -302,7 +302,7 @@
   border: none;
   border-radius: var(--border-radius-md);
   cursor: pointer;
-  transition: background 0.15s, color 0.15s;
+  transition: background var(--transition-fast), color var(--transition-fast);
 }
 .add-payment-method-button:hover {
   background-color: var(--warning-dark);

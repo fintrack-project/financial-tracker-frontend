@@ -18,7 +18,7 @@
   padding: var(--spacing-sm) var(--spacing-md);
   color: var(--neutral-700);
   text-decoration: none;
-  font-weight: 500;
+  font-weight: var(--font-weight-medium);
   border-radius: var(--border-radius-md);
   transition: all var(--transition-normal);
   white-space: nowrap;
@@ -121,7 +121,7 @@
   text-decoration: none;
   color: var(--neutral-700);
   font-size: var(--font-size-lg);
-  font-weight: 500;
+  font-weight: var(--font-weight-medium);
   border-radius: var(--border-radius-md);
   transition: all var(--transition-normal);
 }
@@ -136,7 +136,35 @@
   color: var(--primary-700);
 }
 
-/* Responsive Design */
+/* ==========================================================================
+   RESPONSIVE DESIGN
+   ========================================================================== */
+
+/* Mobile Styles (max-width: 768px) */
+@media (max-width: 768px) {
+  .top-bar {
+    padding: var(--spacing-sm) var(--spacing-md);
+  }
+  
+  .mobile-menu-toggle {
+    display: flex;
+  }
+  
+  .top-bar .navigation-bar {
+    display: none; /* Hide desktop navigation on mobile */
+  }
+  
+  .mobile-nav {
+    display: block;
+  }
+  
+  /* Ensure account menu is visible on mobile */
+  .top-bar .account-menu {
+    gap: var(--spacing-xs);
+  }
+}
+
+/* Desktop Styles (1024px and up) */
 @media (min-width: 1024px) {
   .top-bar {
     padding: var(--spacing-lg) var(--spacing-xl);
@@ -160,29 +188,5 @@
   
   .top-bar .navigation-bar {
     display: flex;
-  }
-}
-
-/* Mobile-specific adjustments */
-@media (max-width: 768px) {
-  .top-bar {
-    padding: var(--spacing-sm) var(--spacing-md);
-  }
-  
-  .mobile-menu-toggle {
-    display: flex;
-  }
-  
-  .top-bar .navigation-bar {
-    display: none; /* Hide desktop navigation on mobile */
-  }
-  
-  .mobile-nav {
-    display: block;
-  }
-  
-  /* Ensure account menu is visible on mobile */
-  .top-bar .account-menu {
-    gap: var(--spacing-xs);
   }
 }

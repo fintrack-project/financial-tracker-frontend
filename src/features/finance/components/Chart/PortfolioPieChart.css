@@ -96,7 +96,7 @@
 }
 
 .portfolio-pie-chart .custom-tooltip p:first-child {
-  font-weight: 600;
+  font-weight: var(--font-weight-semibold);
   font-size: var(--font-size-base);
   margin-bottom: var(--spacing-xs);
 }
@@ -175,7 +175,7 @@
 }
 
 /* Tablet Styles (769px to 1023px) */
-@media (min-width: 768px) {
+@media (min-width: 769px) and (max-width: 1023px) {
   .portfolio-pie-chart {
     margin: var(--spacing-md) auto;
     padding: var(--spacing-md);
