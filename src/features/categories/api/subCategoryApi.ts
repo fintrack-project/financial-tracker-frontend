@@ -6,13 +6,15 @@ import { CategoryColor } from '../types/CategoryTypes';
 export const addSubcategoryApi = async (
   accountId: string,
   categoryName: string,
-  subcategoryName: string
+  subcategoryName: string,
+  color?: CategoryColor
 ): Promise<ApiResponse<void>> => {
   try {
     const response = await apiClient.post<ApiResponse<void>>('/api/categories/subcategories/add', {
       accountId,
       category_name: categoryName,
       subcategory_name: subcategoryName,
+      color: color,
     });
     return response.data;
   } catch (error) {

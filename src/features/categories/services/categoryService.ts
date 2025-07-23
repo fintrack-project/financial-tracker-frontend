@@ -1,3 +1,4 @@
+import React from 'react';
 // import axios from 'axios';
 import {
   fetchCategoryNamesApi,
@@ -7,15 +8,19 @@ import {
   removeCategoryApi,
   updateCategoryColorApi,
   fetchCategoryColorMapApi,
+  cleanupOrphanedHoldingsCategoriesApi,
+  cleanupOrphanedHoldingsCategoriesForAssetsApi,
 } from '../api/categoryApi';
 import { Category, CategoryAndSubcategoriesNamesMap, CategoryColor } from '../types/CategoryTypes';
 
 export interface CategoryService {
   categories: string[];
   confirmedCategories: string[];
+  selectedColors: { [index: number]: CategoryColor };
   addCategory: () => void;
   removeCategory: (accountId: string, category: string) => Promise<void>;
   editCategory: (index: number, newName: string) => void;
+  setSelectedColor: (index: number, color: CategoryColor) => void;
   confirmCategory: (accountId: string, index: number) => void;
 }
 
@@ -23,9 +28,10 @@ export const createCategoryService = (
   categories: string[],
   setCategories: React.Dispatch<React.SetStateAction<string[]>>,
   confirmedCategories: string[],
+  selectedColors: { [index: number]: CategoryColor },
+  setSelectedColors: React.Dispatch<React.SetStateAction<{ [index: number]: CategoryColor }>>,
   showNotification?: (type: 'success' | 'error' | 'warning' | 'info', message: string) => void
 ): CategoryService => {
-
   const addCategory = () => {
     if (categories.length < 3) {
       setCategories([...categories, '']); // Add an empty category for inline editing
@@ -36,6 +42,13 @@ export const createCategoryService = (
     const updatedCategories = [...categories];
     updatedCategories[index] = newName;
     setCategories(updatedCategories);
+  };
+
+  const setSelectedColor = (index: number, color: CategoryColor) => {
+    setSelectedColors(prev => ({
+      ...prev,
+      [index]: color
+    }));
   };
 
   const confirmCategory = async (accountId: string, index: number) => {
@@ -51,9 +64,21 @@ export const createCategoryService = (
       const isNewCategory = index + 1 > confirmedCategories.length;
   
       if (isNewCategory) {
-          // Send the new category with priority to the backend
-          console.log(`Adding new category "${categoryName}".`);
-          await addCategoryApi(accountId, categoryName);
+          // Get the selected color if it exists
+          const selectedColor = selectedColors[index];
+          
+          // Send the new category with color to the backend
+          console.log(`Adding new category "${categoryName}" with color ${selectedColor || 'default'}.`);
+          await addCategoryApi(accountId, categoryName, selectedColor);
+          
+          // Clear the selected color
+          if (selectedColor) {
+            setSelectedColors(prev => {
+              const newColors = { ...prev };
+              delete newColors[index];
+              return newColors;
+            });
+          }
       } else {
           // Check if the name has changed
           const oldCategoryName = confirmedCategories[index]; // Use the confirmed index
@@ -91,9 +116,11 @@ export const createCategoryService = (
   return {
     categories,
     confirmedCategories,
+    selectedColors,
     addCategory,
     removeCategory,
     editCategory,
+    setSelectedColor,
     confirmCategory,
   };
 };
@@ -126,9 +153,9 @@ export const fetchCategoriesAndSubcategoriesNamesMap = async (accountId: string)
   }
 };
 
-export const addCategory = async (accountId: string, categoryName: string): Promise<Category> => {
+export const addCategory = async (accountId: string, categoryName: string, color?: CategoryColor): Promise<Category> => {
   try {
-    const response = await addCategoryApi(accountId, categoryName);
+    const response = await addCategoryApi(accountId, categoryName, color);
     if (!response.success || !response.data) {
       throw new Error(response.message || 'Failed to add category');
     }
@@ -182,6 +209,35 @@ export const updateCategoryColor = async (
     return response.data || { id: '', name: categoryName, subcategories: [] };
   } catch (error) {
     console.error('Error updating category color:', error);
+    throw error;
+  }
+};
+
+export const cleanupOrphanedHoldingsCategories = async (
+  accountId: string
+): Promise<void> => {
+  try {
+    const response = await cleanupOrphanedHoldingsCategoriesApi(accountId);
+    if (!response.success) {
+      throw new Error(response.message || 'Failed to cleanup orphaned holdings categories');
+    }
+  } catch (error) {
+    console.error('Error cleaning up orphaned holdings categories:', error);
+    throw error;
+  }
+};
+
+export const cleanupOrphanedHoldingsCategoriesForAssets = async (
+  accountId: string,
+  assetNames: string[]
+): Promise<void> => {
+  try {
+    const response = await cleanupOrphanedHoldingsCategoriesForAssetsApi(accountId, assetNames);
+    if (!response.success) {
+      throw new Error(response.message || 'Failed to cleanup orphaned holdings categories for assets');
+    }
+  } catch (error) {
+    console.error('Error cleaning up orphaned holdings categories for assets:', error);
     throw error;
   }
 };
