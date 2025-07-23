@@ -330,6 +330,12 @@
   --table-max-width-tablet: 100%;
   --table-max-width-desktop: 1400px;
 
+  /* Mobile Table Column Sizing - Standardized */
+  --table-col-width-mobile: 50px;
+  --table-col-min-width-mobile: 30px;
+  --table-col-max-width-mobile: 60px;
+  --table-col-padding-mobile: var(--spacing-xs);
+
   --page-container-padding: 20px;
   --page-container-padding-mobile: 16px;
   --page-container-padding-desktop: 32px;
@@ -362,6 +368,7 @@
   --button-size-medium: 24px; /* Medium button size */
   --button-size-large: 32px; /* Large button size */
   --button-size-xlarge: 56px; /* Extra Large button size */
+  --button-size-xs: 12px; /* Extra small button size for mobile icons/circles */
   
   /* Plan Card Badge Variables */
   --plan-badge-font-size-mobile: var(--font-size-xs);     /* Small badge on mobile */

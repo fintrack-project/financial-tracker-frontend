@@ -21,19 +21,32 @@ const Category: React.FC<CategoryProps> = ({
   accountId,
   categoryName,
   resetHasFetched,
+  selectedColor,
+  onSelectedColorChange,
 }) => {
-  const [currentColor, setCurrentColor] = useState(color || CategoryColor.BLUE);
+  const [currentColor, setCurrentColor] = useState(color || selectedColor || CategoryColor.BLUE);
+  const [isMobileExpanded, setIsMobileExpanded] = useState(false);
   const { showNotification } = useNotification();
 
-  // Update currentColor when color prop changes
+  // Update currentColor when color prop or selected color changes
   React.useEffect(() => {
-    if (color) {
+    if (selectedColor) {
+      setCurrentColor(selectedColor);
+    } else if (color) {
       setCurrentColor(color);
     }
-  }, [color]);
+  }, [color, selectedColor]);
 
   const handleColorSelect = async (newColor: CategoryColor) => {
     try {
+      // If we have a selected color change handler, use it (for new categories)
+      if (onSelectedColorChange) {
+        onSelectedColorChange(newColor);
+        setCurrentColor(newColor);
+        return;
+      }
+
+      // Otherwise, update the color in the backend (for existing categories)
       if (accountId && value) {
         if (isSubcategory && categoryName) {
           // Update subcategory color
@@ -56,8 +69,14 @@ const Category: React.FC<CategoryProps> = ({
       }
     } catch (error) {
       console.error('Error updating color:', error);
-              showNotification('error', 'Failed to update color. Please try again.', 5000);
+      showNotification('error', 'Failed to update color. Please try again.', 5000);
     }
+  };
+
+  const handleMobileToggle = (e: React.MouseEvent) => {
+    // Prevent triggering other click handlers
+    e.stopPropagation();
+    setIsMobileExpanded(!isMobileExpanded);
   };
 
   return (
@@ -81,13 +100,18 @@ const Category: React.FC<CategoryProps> = ({
         </div>
       ) : (
         <div 
-          className="category-cell-view"
+          className={`category-cell-view ${isMobileExpanded ? 'mobile-expanded' : 'mobile-collapsed'}`}
           style={{ backgroundColor: currentColor }}
+          onClick={handleMobileToggle}
         >
           <span>{value || 'Unnamed'}</span>
           {showActions && (
-            <div className="actions">
+            <div className={`actions ${isMobileExpanded ? 'mobile-expanded' : 'mobile-collapsed'}`}>
               <IconButton type="edit" onClick={onEdit} label="Edit" size="small" />
+              <CategoryColorDropdown
+                selectedColor={currentColor}
+                onColorSelect={handleColorSelect}
+              />
               <IconButton type="delete" onClick={onRemove} label="Remove" size="small" />
             </div>
           )}

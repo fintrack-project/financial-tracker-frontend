@@ -7,10 +7,18 @@ const CategoryInputCell: React.FC<CategoryInputCellProps> = ({
   onChange,
   placeholder = 'Enter value',
   color,
+  selectedColor,
+  onSelectedColorChange,
   ...props
 }) => {
   return (
-    <Category value={value} color={color} {...props}>
+    <Category 
+      value={value} 
+      color={color} 
+      selectedColor={selectedColor}
+      onSelectedColorChange={onSelectedColorChange}
+      {...props}
+    >
       <input
         type="text"
         value={value}

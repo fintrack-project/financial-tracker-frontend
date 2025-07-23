@@ -57,6 +57,8 @@ export interface CategoryProps {
   accountId?: string | null;
   categoryName?: string;
   resetHasFetched?: () => void;
+  selectedColor?: CategoryColor;
+  onSelectedColorChange?: (color: CategoryColor) => void;
 }
 
 export interface CategoryDisplayCellProps extends CategoryProps {}
@@ -69,4 +71,6 @@ export interface CategoryDropdownCellProps extends Omit<CategoryProps, 'onChange
 export interface CategoryInputCellProps extends Omit<CategoryProps, 'onChange'> {
   placeholder?: string;
   onChange: (newValue: string) => void;
+  selectedColor?: CategoryColor;
+  onSelectedColorChange?: (color: CategoryColor) => void;
 }
