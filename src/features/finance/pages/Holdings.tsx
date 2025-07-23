@@ -28,6 +28,9 @@ const Holdings: React.FC<HoldingsProps> = ({ accountId }) => {
     };
   }>({});
   const [selectedColors, setSelectedColors] = useState<{ [index: number]: CategoryColor }>({});
+  const [selectedSubcategoryColors, setSelectedSubcategoryColors] = useState<{ [category: string]: { [index: number]: CategoryColor } }>({});
+
+  const { showNotification } = useNotification();
 
   const categoryService = createCategoryService(
     categories, 
@@ -36,10 +39,16 @@ const Holdings: React.FC<HoldingsProps> = ({ accountId }) => {
     selectedColors, 
     setSelectedColors
   );
-  const subcategoryService = createSubcategoryService(subcategories, setSubcategories, confirmedSubcategories);
+  const subcategoryService = createSubcategoryService(
+    subcategories, 
+    setSubcategories, 
+    confirmedSubcategories,
+    selectedSubcategoryColors,
+    setSelectedSubcategoryColors,
+    showNotification
+  );
   const holdingsCategoriesService = createHoldingsCategoriesService(
   );
-  const { showNotification } = useNotification();
     
   // Fetch categories and subcategories when the component mounts
   useEffect(() => {

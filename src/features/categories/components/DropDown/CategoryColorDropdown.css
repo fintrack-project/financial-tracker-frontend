@@ -1,9 +1,18 @@
-/* Responsive and Consistent Design for CategoryColorDropdown */
+/* ========================================
+   CategoryColorDropdown Component Styles
+   ======================================== */
+
+/* ========================================
+   1. Container & Layout
+   ======================================== */
 .category-cell .actions .category-color-dropdown {
   position: relative;
   display: inline-block;
 }
 
+/* ========================================
+   2. Color Selector Button
+   ======================================== */
 .category-cell .actions .category-color-dropdown .color-selector {
   background: var(--neutral-100);
   border: none;
@@ -13,9 +22,9 @@
   align-items: center;
   justify-content: center;
   transition: all var(--transition-normal);
-  width: var(--button-size-small);
-  height: var(--button-size-small);
-  padding: var(--spacing-xs);
+  width: 100%;
+  height: 100%;
+  padding: 0;
 }
 
 .category-cell .actions .category-color-dropdown .color-selector:hover {
@@ -23,12 +32,15 @@
   box-shadow: var(--shadow-sm);
 }
 
+/* ========================================
+   3. Selected Color Display
+   ======================================== */
 .category-cell .actions .category-color-dropdown .selected-color {
   display: flex;
   align-items: center;
   justify-content: center;
-  width: var(--button-size-small);
-  height: var(--button-size-small);
+  width: 100%;
+  height: 100%;
 }
 
 .category-cell .actions .category-color-dropdown .color-circle {
@@ -37,8 +49,15 @@
   transition: transform var(--transition-normal);
   width: var(--button-size-small);
   height: var(--button-size-small);
+  min-width: var(--button-size-small);
+  min-height: var(--button-size-small);
+  max-width: var(--button-size-small);
+  max-height: var(--button-size-small);
 }
 
+/* ========================================
+   4. Dropdown Options Container
+   ======================================== */
 .category-cell .actions .category-color-dropdown .color-options {
   position: absolute;
   top: calc(100% + var(--spacing-xs));
@@ -49,14 +68,17 @@
   padding: var(--spacing-xs);
   display: grid;
   grid-template-columns: repeat(5, 1fr);
-  z-index: var(--z-index-popover);
+  z-index: 9999;
   box-shadow: var(--shadow-md);
   width: max-content;
 }
 
+/* ========================================
+   5. Individual Color Options
+   ======================================== */
 .category-cell .actions .category-color-dropdown .color-option {
   background: var(--neutral-100);
-  border: 1px solid var(--neutral-300);
+  border: 1px solid transparent;
   border-radius: var(--border-radius-sm);
   padding: var(--spacing-xs);
   cursor: pointer;
@@ -67,6 +89,8 @@
 }
 
 .category-cell .actions .category-color-dropdown .color-option:hover {
+  background: var(--neutral-100);
+  border: 1px solid var(--neutral-300);
   transform: translateY(-1px);
   box-shadow: var(--shadow-sm);
 }
@@ -75,7 +99,9 @@
   transform: scale(1.1);
 }
 
-/* Responsive Styles */
+/* ========================================
+   6. Responsive Design
+   ======================================== */
 @media (max-width: 768px) {
   .category-cell .actions .category-color-dropdown {
     width: 100%;

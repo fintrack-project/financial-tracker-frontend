@@ -25,6 +25,7 @@ const Category: React.FC<CategoryProps> = ({
   onSelectedColorChange,
 }) => {
   const [currentColor, setCurrentColor] = useState(color || selectedColor || CategoryColor.BLUE);
+  const [isMobileExpanded, setIsMobileExpanded] = useState(false);
   const { showNotification } = useNotification();
 
   // Update currentColor when color prop or selected color changes
@@ -72,6 +73,12 @@ const Category: React.FC<CategoryProps> = ({
     }
   };
 
+  const handleMobileToggle = (e: React.MouseEvent) => {
+    // Prevent triggering other click handlers
+    e.stopPropagation();
+    setIsMobileExpanded(!isMobileExpanded);
+  };
+
   return (
     <div className={`category-cell ${isSubcategory ? 'subcategory' : ''}`}>
       {isEditing ? (
@@ -93,12 +100,13 @@ const Category: React.FC<CategoryProps> = ({
         </div>
       ) : (
         <div 
-          className="category-cell-view"
+          className={`category-cell-view ${isMobileExpanded ? 'mobile-expanded' : 'mobile-collapsed'}`}
           style={{ backgroundColor: currentColor }}
+          onClick={handleMobileToggle}
         >
           <span>{value || 'Unnamed'}</span>
           {showActions && (
-            <div className="actions">
+            <div className={`actions ${isMobileExpanded ? 'mobile-expanded' : 'mobile-collapsed'}`}>
               <IconButton type="edit" onClick={onEdit} label="Edit" size="small" />
               <CategoryColorDropdown
                 selectedColor={currentColor}

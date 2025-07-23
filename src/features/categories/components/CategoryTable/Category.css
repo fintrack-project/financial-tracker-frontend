@@ -72,13 +72,14 @@
   padding: var(--spacing-xs) var(--spacing-sm);
   font-size: var(--font-size-sm);
   font-weight: var(--font-weight-semibold);
-  border: 1px solid rgba(255, 255, 255, 0.2);
+  border: 1px solid var(--neutral-300);
   border-radius: var(--border-radius-sm);
-  background-color: rgba(255, 255, 255, 0.9) !important;
-  color: var(--neutral-800) !important;
+  background-color: var(--neutral-100);
+  color: var(--text-primary);
   transition: all var(--transition-normal);
-  min-width: 120px;
+  min-width: 50px;
   width: 100%;
+  box-shadow: var(--shadow-sm);
 }
 
 .category-cell .actions .icon-button,
@@ -90,8 +91,8 @@
   display: inline-flex;
   align-items: center;
   gap: var(--spacing-xs);
-  background-color: var(--neutral-100) !important;
-  color: var(--neutral-600) !important;
+  background-color: var(--neutral-100);
+  color: var(--neutral-600);
   font-size: var(--font-size-xs);
   box-shadow: none;
 }
@@ -126,6 +127,28 @@
   flex-direction: row;
   align-items: center;
   gap: var(--spacing-xs);
+}
+
+/* Ensure text remains white in edit mode for proper contrast */
+.category-cell-edit span {
+  color: var(--neutral-100);
+  font-weight: var(--font-weight-semibold);
+  letter-spacing: 0.01em;
+  text-shadow: 0 1px 1px rgba(0, 0, 0, 0.1);
+  white-space: nowrap;
+  text-align: center;
+}
+
+/* More specific selector to override table header color inheritance */
+.holdings-table th .category-cell-edit span {
+  color: var(--neutral-100);
+}
+
+/* Override global focus outline for category select elements */
+.category-cell select:focus {
+  outline: none;
+  border-color: var(--select-focus-border);
+  box-shadow: var(--select-focus-shadow);
 }
 
 .category-action-buttons {
@@ -194,7 +217,9 @@
 
 .category-cell-view:hover,
 .category-cell-edit:hover {
-  filter: brightness(0.9);
+  filter: brightness(1.1);
+  box-shadow: 0 0 8px rgba(255, 255, 255, 0.3);
+  transform: translateY(-1px);
 }
 
 .category-cell-content:hover .category-action-buttons {
@@ -204,9 +229,9 @@
 .category-cell .actions .icon-button:hover,
 .category-cell .actions .category-color-dropdown:hover {
   transform: translateY(-1px);
-  color: var(--primary-600) !important;
+  color: var(--primary-600);
   box-shadow: none;
-  background-color: var(--neutral-200) !important;
+  background-color: var(--neutral-200);
 }
 
 .category-action-button:hover {
@@ -241,13 +266,6 @@
   opacity: 1;
 }
 
-.category-cell .actions .category-color-dropdown .color-selector,
-.category-cell .actions .category-color-dropdown .selected-color,
-.category-cell .actions .category-color-dropdown .color-circle {
-  width: var(--button-size-small);
-  height: var(--button-size-small);
-}
-
 .category-cell .category-cell-edit input::placeholder {
   color: var(--neutral-500) !important;
 }
@@ -263,33 +281,213 @@
   transition: border-color var(--transition-fast);
 }
 
-/* Responsive Styles */
+/* Category icon button styles */
+.category-cell .actions .icon-button {
+  background: var(--neutral-100);
+  border: 1px solid var(--neutral-300);
+  border-radius: var(--border-radius-sm);
+  box-shadow: var(--shadow-sm);
+  padding: var(--spacing-xs);
+  margin: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: all var(--transition-normal);
+}
+
+.category-cell .actions .icon-button:hover {
+  background: var(--neutral-200);
+  border-color: var(--neutral-400);
+  box-shadow: var(--shadow-md);
+  transform: translateY(-1px);
+}
+
+.category-cell .actions .icon-button:focus,
+.category-cell .actions .icon-button:focus-visible {
+  outline: none;
+  background: var(--neutral-100);
+  border-color: var(--primary-500);
+  box-shadow: 0 0 0 2px rgba(52, 98, 219, 0.25);
+}
+
+.category-cell .actions .icon-button:active {
+  background: var(--neutral-300);
+  transform: translateY(0);
+}
+
+/* Responsive Styles - Mobile First Approach */
+
+/* Mobile Styles (768px and below) */
 @media (max-width: 768px) {
   .category-cell {
     width: 100%;
     min-width: 100%;
     max-width: 100%;
   }
+  
   .category-cell-content {
     flex-direction: column;
     align-items: flex-start;
+    gap: var(--spacing-xs);
   }
-}
-
-/* Tablet and Desktop Styles (769px and up) */
-@media (min-width: 769px) {
-  .category-cell-content {
-    flex-direction: row;
+  
+  /* Override category-cell-edit to stack vertically in mobile */
+  .category-cell-edit {
+    flex-direction: column;
     align-items: center;
+    gap: var(--spacing-xs);
+    min-width: 100%;
+  }
+  
+  /* Mobile toggle functionality for category-cell-view */
+  .category-cell-view {
+    cursor: pointer;
+    transition: all var(--transition-normal);
+  }
+  
+  .category-cell-view.mobile-collapsed .actions {
+    display: none;
+  }
+  
+  .category-cell-view.mobile-expanded {
+    flex-direction: column;
+    align-items: center;
+    gap: var(--spacing-xs);
+    min-width: 100%;
+  }
+  
+  .category-cell-view.mobile-expanded .actions {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    gap: var(--spacing-xs);
+    width: auto;
+    min-width: auto;
+    max-width: none;
+    margin-left: 0;
+    opacity: 1;
+  }
+  
+  /* Ensure actions are arranged horizontally in mobile */
+  .category-cell .actions {
+    flex-direction: row;
+    justify-content: center;
+    gap: var(--spacing-xs);
+    width: auto;
+    min-width: auto;
+    max-width: none;
+    margin-left: 0;
+  }
+  
+  /* Mobile button sizing - larger for better touch targets */
+  .category-cell .actions .icon-button {
+    width: var(--button-size-medium);
+    height: var(--button-size-medium);
+    padding: var(--spacing-sm);
+    background: var(--neutral-100);
+    border: 1px solid var(--neutral-300);
+    border-radius: var(--border-radius-sm);
+    box-shadow: var(--shadow-sm);
+  }
+  
+  /* Make color dropdown container larger for mobile */
+  .category-cell .actions .category-color-dropdown {
+    width: var(--button-size-medium);
+    height: var(--button-size-medium);
+    padding: var(--spacing-sm);
+  }
+  
+  .category-cell .actions .icon-button img {
+    width: var(--button-size-small);
+    height: var(--button-size-small);
+  }
+
+  /* Make color circle larger for mobile */
+  .category-cell .actions .category-color-dropdown .color-circle {
+    width: var(--button-size-small);
+    height: var(--button-size-small);
+    min-width: var(--button-size-small);
+    min-height: var(--button-size-small);
+    max-width: var(--button-size-small);
+    max-height: var(--button-size-small);
+  }
+
+  /* Compact category and subcategory cell backgrounds for mobile */
+  .category-cell-edit,
+  .category-cell-view,
+  .category-cell-edit.subcategory,
+  .category-cell-view.subcategory {
+    width: auto;
+    min-width: 0;
+    max-width: 110px;
+    margin-left: auto;
+    margin-right: auto;
+    padding-left: var(--spacing-xs);
+    padding-right: var(--spacing-xs);
+  }
+
+  /* Reduce both category and subcategory table column widths for mobile - using standardized values */
+  .categories-table td:first-child,
+  .categories-table td:nth-child(2) {
+    width: var(--table-col-width-mobile);
+    max-width: var(--table-col-max-width-mobile);
+    min-width: var(--table-col-min-width-mobile);
+    padding-left: var(--table-col-padding-mobile);
+    padding-right: var(--table-col-padding-mobile);
+  }
+
+  /* Also reduce input width for mobile */
+  .category-cell .category-cell-edit input {
+    width: 90px;
+    min-width: 40px;
+    max-width: 120px;
+  }
+
+  /* Ensure expanded/collapsed view states match edit mode width for category and subcategory */
+  .category-cell-view.mobile-expanded,
+  .category-cell-view.mobile-collapsed,
+  .category-cell-view.mobile-expanded.subcategory,
+  .category-cell-view.mobile-collapsed.subcategory {
+    width: auto;
+    min-width: 0;
+    max-width: 110px;
+    margin-left: auto;
+    margin-right: auto;
+    padding-left: var(--spacing-xs);
+    padding-right: var(--spacing-xs);
   }
 }
 
 /* Tablet Styles (769px to 1023px) */
 @media (min-width: 769px) and (max-width: 1023px) {
   .category-cell {
-    width: 100%;
-    min-width: 100%;
-    max-width: 100%;
+    width: fit-content;
+    min-width: fit-content;
+    max-width: fit-content;
+  }
+  
+  .category-cell-content {
+    flex-direction: row;
+    align-items: center;
+  }
+  
+  /* Tablet button sizing - using theme variables */
+  .category-cell .actions .icon-button {
+    width: var(--button-size-medium);
+    height: var(--button-size-medium);
+    padding: var(--spacing-xs);
+  }
+  
+  /* Make color dropdown container square for tablet */
+  .category-cell .actions .category-color-dropdown {
+    width: var(--button-size-medium);
+    height: var(--button-size-medium);
+    padding: var(--spacing-xs);
+  }
+  
+  .category-cell .actions .icon-button img {
+    width: var(--button-size-small);
+    height: var(--button-size-small);
   }
 }
 
@@ -299,5 +497,29 @@
     width: fit-content;
     min-width: fit-content;
     max-width: fit-content;
+  }
+  
+  .category-cell-content {
+    flex-direction: row;
+    align-items: center;
+  }
+  
+  /* Desktop button sizing - using theme variables */
+  .category-cell .actions .icon-button {
+    width: var(--button-size-medium);
+    height: var(--button-size-medium);
+    padding: var(--spacing-xs);
+  }
+  
+  /* Make color dropdown container square for desktop */
+  .category-cell .actions .category-color-dropdown {
+    width: var(--button-size-lg);
+    height: var(--button-size-lg);
+    padding: var(--spacing-xs);
+  }
+  
+  .category-cell .actions .icon-button img {
+    width: var(--button-size-small);
+    height: var(--button-size-small);
   }
 }

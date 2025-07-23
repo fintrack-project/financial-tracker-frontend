@@ -10,6 +10,7 @@ import { CategoryColor } from '../types/CategoryTypes';
 export interface subCategoryService {
   subcategories: { [category: string]: string[] }; // Holds the subcategories for each category
   confirmedSubcategories: { [category: string]: string[] }; // Holds confirmed subcategories for each category
+  selectedColors: { [category: string]: { [index: number]: CategoryColor } }; // Holds selected colors for new subcategories
   addSubcategory: (category: string) => void; // Adds a new subcategory to a category
   editSubcategory: (category: string, subIndex: number, newValue: string) => void; // Edits an existing subcategory
   confirmSubcategory: (
@@ -22,12 +23,15 @@ export interface subCategoryService {
     category: string,
     subcategory: string
   ) => Promise<void>; // Removes a subcategory from a category
+  setSelectedColor: (category: string, subIndex: number, color: CategoryColor) => void; // Sets selected color for a subcategory
 }
 
 export const createSubcategoryService = (
   subcategories: { [category: string]: string[] },
   setSubcategories: React.Dispatch<React.SetStateAction<{ [category: string]: string[] }>>,
   confirmedSubcategories: { [category: string]: string[] }, // Holds confirmed subcategories for each category
+  selectedColors: { [category: string]: { [index: number]: CategoryColor } },
+  setSelectedColors: React.Dispatch<React.SetStateAction<{ [category: string]: { [index: number]: CategoryColor } }>>,
   showNotification?: (type: 'success' | 'error' | 'warning' | 'info', message: string) => void
 ) : subCategoryService => {
 
@@ -38,6 +42,16 @@ export const createSubcategoryService = (
     }
     updatedSubcategories[category].push(''); // Add an empty subcategory
     setSubcategories(updatedSubcategories);
+  };
+
+  const setSelectedColor = (category: string, subIndex: number, color: CategoryColor) => {
+    setSelectedColors(prev => ({
+      ...prev,
+      [category]: {
+        ...(prev[category] || {}),
+        [subIndex]: color
+      }
+    }));
   };
 
   const removeSubcategory = async (accountId: string, category: string, subcategory: string) => {
@@ -80,9 +94,26 @@ export const createSubcategoryService = (
       const isNewSubcategory = subIndex + 1 > confirmedSubcategories[category].length;
 
       if (isNewSubcategory) {
-        // Add the new subcategory to the backend
-        console.log(`Adding new subcategory "${subcategoryName}" to category "${category}".`);
-        await addSubcategoryApi(accountId, category, subcategoryName);
+        // Get the selected color if it exists
+        const selectedColor = selectedColors[category]?.[subIndex];
+        
+        // Add the new subcategory to the backend with color
+        console.log(`Adding new subcategory "${subcategoryName}" to category "${category}" with color ${selectedColor || 'default'}.`);
+        await addSubcategoryApi(accountId, category, subcategoryName, selectedColor);
+        
+        // Clear the selected color
+        if (selectedColor) {
+          setSelectedColors(prev => {
+            const newColors = { ...prev };
+            if (newColors[category]) {
+              delete newColors[category][subIndex];
+              if (Object.keys(newColors[category]).length === 0) {
+                delete newColors[category];
+              }
+            }
+            return newColors;
+          });
+        }
       } else {
         // Check if the name has changed
         const oldSubcategoryName = confirmedSubcategories[category][subIndex];
@@ -104,10 +135,12 @@ export const createSubcategoryService = (
   return {
     subcategories,
     confirmedSubcategories,
+    selectedColors,
     addSubcategory, 
     editSubcategory, 
     removeSubcategory,
     confirmSubcategory,
+    setSelectedColor,
   };
 };
 
