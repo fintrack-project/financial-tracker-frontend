@@ -1,4 +1,4 @@
-import { loginApi, registerApi, requestPasswordResetApi, validateResetTokenApi, resetPasswordApi } from '../api/authApi';
+import { loginApi, registerApi, requestPasswordResetApi, validateResetTokenApi, resetPasswordApi, refreshTokenApi } from '../api/authApi';
 import { sendEmailVerificationApi, verifyEmailApi, checkEmailVerifiedApi } from '../api/emailApi';
 import { sendPhoneVerifiedApi } from '../api/phoneApi';
 import { LoginRequest, RegisterRequest } from '../../../shared/types/Requests';
@@ -21,23 +21,73 @@ export const loginUser = async (loginData: LoginRequest): Promise<void> => {
   }
 
   const token = authData.token;
+  const refreshToken = authData.refreshToken;
+  
   if (!token) {
     throw new Error('Login failed: No token received.');
   }
 
-  // Store the token in sessionStorage
+  if (!refreshToken) {
+    throw new Error('Login failed: No refresh token received.');
+  }
+
+  // Store the tokens in sessionStorage
   sessionStorage.setItem('authToken', token);
-  console.log('Login successful! Token stored in sessionStorage.');
+  sessionStorage.setItem('refreshToken', refreshToken);
+  console.log('Login successful! Tokens stored in sessionStorage.');
 };
 
 export const logoutUser = (): void => {
   sessionStorage.removeItem('authToken');
-  console.log('User logged out. Token removed from sessionStorage.');
+  sessionStorage.removeItem('refreshToken');
+  console.log('User logged out. Tokens removed from sessionStorage.');
 
   // Clear the UserSession singleton
   const session = UserSession.getInstance();
   session.logout();
   console.log('User session cleared.');
+};
+
+export const refreshToken = async (): Promise<boolean> => {
+  try {
+    const refreshToken = sessionStorage.getItem('refreshToken');
+    if (!refreshToken) {
+      console.log('No refresh token found');
+      return false;
+    }
+
+    const response = await refreshTokenApi(refreshToken);
+    if (!response.success) {
+      throw new Error(response.message || 'Token refresh failed.');
+    }
+
+    const authData = response.data;
+    if (!authData) {
+      throw new Error('Token refresh failed: No data received.');
+    }
+
+    const newToken = authData.token;
+    const newRefreshToken = authData.refreshToken;
+    
+    if (!newToken) {
+      throw new Error('Token refresh failed: No new token received.');
+    }
+
+    // Update tokens in sessionStorage
+    sessionStorage.setItem('authToken', newToken);
+    if (newRefreshToken) {
+      sessionStorage.setItem('refreshToken', newRefreshToken);
+    }
+    
+    console.log('Token refreshed successfully');
+    return true;
+  } catch (error) {
+    console.error('Token refresh error:', error);
+    // Clear tokens on refresh failure
+    sessionStorage.removeItem('authToken');
+    sessionStorage.removeItem('refreshToken');
+    return false;
+  }
 };
 
 export const registerUser = async (registerData: RegisterRequest): Promise<void> => {

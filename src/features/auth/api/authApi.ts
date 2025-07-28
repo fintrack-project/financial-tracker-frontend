@@ -70,3 +70,16 @@ export const resetPasswordApi = async (token: string, newPassword: string): Prom
     throw error;
   }
 };
+
+// Refresh token API function
+export const refreshTokenApi = async (refreshToken: string): Promise<ApiResponse<AuthResponse>> => {
+  try {
+    const response = await apiClient.post<ApiResponse<AuthResponse>>('/api/user/refresh', {
+      refreshToken
+    });
+    return response.data;
+  } catch (error) {
+    console.error('Token refresh error:', error);
+    throw error;
+  }
+};

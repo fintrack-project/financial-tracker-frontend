@@ -1,8 +1,9 @@
 import axios, { AxiosError } from 'axios';
+import { refreshToken } from '../../features/auth/services/authService';
 
 interface ErrorResponse {
   message?: string;
-  [key: string]: any;
+  error?: string;
 }
 
 // Create an axios instance with default config
@@ -40,7 +41,7 @@ apiClient.interceptors.response.use(
     });
     return response;
   },
-  (error: AxiosError<ErrorResponse>) => {
+  async (error: AxiosError<ErrorResponse>) => {
     // Enhanced error logging
     console.error('API Error:', {
       url: error.config?.url,
@@ -54,8 +55,21 @@ apiClient.interceptors.response.use(
     });
 
     if (error.response?.status === 401) {
-      // Handle unauthorized access
+      // Try to refresh the token
+      const refreshSuccess = await refreshToken();
+      
+      if (refreshSuccess && error.config) {
+        // Retry the original request with the new token
+        const newToken = sessionStorage.getItem('authToken');
+        if (newToken) {
+          error.config.headers.Authorization = `Bearer ${newToken}`;
+          return apiClient.request(error.config);
+        }
+      }
+      
+      // If refresh failed or no new token, redirect to login
       sessionStorage.removeItem('authToken');
+      sessionStorage.removeItem('refreshToken');
       window.location.href = '/login';
     }
 

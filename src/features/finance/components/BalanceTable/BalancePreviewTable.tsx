@@ -91,11 +91,12 @@ const BalancePreviewTable: React.FC<BalancePreviewTableProps> = ({
 
   // Toggle the markDelete field for a transaction
   const toggleMarkDelete = (index: number) => {
-    setPreviewTransactions((prev) =>
-      prev.map((transaction, i) =>
+    setPreviewTransactions((prev) => {
+      const updated = prev.map((transaction, i) =>
         i === index ? { ...transaction, markDelete: !transaction.markDelete } : transaction
-      )
-    );
+      );
+      return updated;
+    });
   };
 
   const handleConfirm = async () => {
