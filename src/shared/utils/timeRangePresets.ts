@@ -73,12 +73,12 @@ export const getTimeRangePresets = (): TimeRangePresetOption[] => [
 ];
 
 export const getDefaultTimeRange = (): TimeRange => {
-  const preset = getTimeRangePresets().find(p => p.value === '3M');
+  const preset = getTimeRangePresets().find(p => p.value === 'ALL');
   const { startDate, endDate } = preset!.getDateRange();
   return {
     startDate,
     endDate,
-    preset: '3M'
+    preset: 'ALL'
   };
 };
 
