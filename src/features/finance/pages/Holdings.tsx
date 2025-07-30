@@ -113,9 +113,34 @@ const Holdings: React.FC<HoldingsProps> = ({ accountId }) => {
     }
   }, [accountId, categoryService, subcategoryService, hasFetched, showNotification]);
 
-  // Callback to reset hasFetched state
-  const resetHasFetched = () => {
+  // Callback to reset hasFetched state and refresh data
+  const resetHasFetched = async () => {
     setHasFetched(false);
+    
+    // Also refresh color data immediately
+    if (accountId) {
+      try {
+        // Fetch updated color maps
+        const categoryColorMap = await fetchCategoryColorMap(accountId);
+        const subcategoryColorMapPromises = categories.map(async (category) => {
+          const colors = await fetchSubcategoryColorMap(accountId, category);
+          return { category, colors };
+        });
+        const subcategoryColorMapResults = await Promise.all(subcategoryColorMapPromises);
+        const subcategoryColorMap = subcategoryColorMapResults.reduce((acc, { category, colors }) => {
+          acc[category] = colors;
+          return acc;
+        }, {} as { [category: string]: { [subcategory: string]: CategoryColor } });
+
+        // Update color states
+        setCategoryColors(categoryColorMap);
+        setSubcategoryColors(subcategoryColorMap);
+        
+        console.log('Color data refreshed after color update');
+      } catch (error) {
+        console.error('Error refreshing color data:', error);
+      }
+    }
   };
 
   const handleUpdateCategories = (updatedCategories: string[]) => {

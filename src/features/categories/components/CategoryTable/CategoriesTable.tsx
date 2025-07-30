@@ -174,7 +174,9 @@ const CategoriesTable: React.FC<CategoriesTableProps> = ({
                   accountId={accountId}
                   color={categoryColors[category]}
                   selectedColor={categoryService.selectedColors[index]}
-                  onSelectedColorChange={(color) => categoryService.setSelectedColor(index, color)}
+                  onSelectedColorChange={editCategoryIndex === index ? 
+                    (color) => categoryService.setSelectedColor(index, color) : 
+                    undefined}
                   resetHasFetched={resetHasFetched}
                 />
               </td>
@@ -197,7 +199,9 @@ const CategoriesTable: React.FC<CategoriesTableProps> = ({
                         categoryName={category}
                         color={subcategoryColors[category]?.[subcategory]}
                         selectedColor={subcategoryService.selectedColors[category]?.[subIndex]}
-                        onSelectedColorChange={(color) => subcategoryService.setSelectedColor(category, subIndex, color)}
+                        onSelectedColorChange={isSubcategoryEditing(category, subIndex) ? 
+                          (color) => subcategoryService.setSelectedColor(category, subIndex, color) : 
+                          undefined}
                         resetHasFetched={resetHasFetched}
                       />
                     </li>
