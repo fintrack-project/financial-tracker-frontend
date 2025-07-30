@@ -22,7 +22,7 @@
   margin: var(--spacing-lg) 0;
   display: block !important;
   position: relative;
-  z-index: 1000;
+  z-index: var(--z-index-dropdown);
   text-align: left;
   height: auto;
   visibility: visible;
@@ -205,7 +205,7 @@
   margin: 16px 0 0 0;
   display: block !important;
   position: relative;
-  z-index: 1000;
+  z-index: var(--z-index-dropdown);
   text-align: left;
   height: auto;
   visibility: visible;

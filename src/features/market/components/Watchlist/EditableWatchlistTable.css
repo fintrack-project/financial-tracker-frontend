@@ -89,14 +89,18 @@
 
 .editable-watchlist-table th {
   background: var(--table-header-bg);
+  font-family: var(--font-family-primary);
   font-weight: var(--font-weight-semibold);
   color: var(--primary-800);
   text-transform: uppercase;
-  font-family: var(--font-family-primary);
+  font-size: var(--table-font-size-header);
   letter-spacing: 0.5px;
+  padding: var(--table-cell-padding-desktop);
+  text-align: center;
+  border-bottom: 1px solid var(--table-border);
   position: sticky;
   top: 0;
-  z-index: 1;
+  z-index: var(--z-index-sticky);
 }
 
 .editable-watchlist-table tbody tr {

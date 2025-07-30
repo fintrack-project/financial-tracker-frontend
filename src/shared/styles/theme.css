@@ -293,6 +293,9 @@
   --transition-slow: 350ms ease-in-out;
 
   /* Z-index */
+  --z-index-base: 1;
+  --z-index-table: 10;
+  --z-index-table-item: 500;
   --z-index-dropdown: 1000;
   --z-index-sticky: 1020;
   --z-index-fixed: 1030;
@@ -300,6 +303,8 @@
   --z-index-modal: 1050;
   --z-index-popover: 1060;
   --z-index-tooltip: 1070;
+  --z-index-dropdown-above-sticky: 1080;
+  --z-index-notification: 9999;
 
   /* Responsive Layout */
   --container-padding-mobile: 0.25rem;      /* Further reduced mobile popup padding */

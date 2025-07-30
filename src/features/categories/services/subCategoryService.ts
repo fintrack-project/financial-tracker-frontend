@@ -89,7 +89,6 @@ export const createSubcategoryService = (
     }
   
     try {
-  
       // Check if the subcategory is newly added
       const isNewSubcategory = subIndex + 1 > confirmedSubcategories[category].length;
 
@@ -117,14 +116,40 @@ export const createSubcategoryService = (
       } else {
         // Check if the name has changed
         const oldSubcategoryName = confirmedSubcategories[category][subIndex];
-        if (oldSubcategoryName === subcategoryName) {
+        const nameChanged = oldSubcategoryName !== subcategoryName;
+        
+        // Check if the color has changed
+        const selectedColor = selectedColors[category]?.[subIndex];
+        const colorChanged = selectedColor !== undefined;
+        
+        if (!nameChanged && !colorChanged) {
           console.log(`Subcategory "${subcategoryName}" is unchanged. No request sent.`);
           return;
         }
 
-        // Update the subcategory name in the backend
-        console.log(`Renaming subcategory "${oldSubcategoryName}" in category "${category}".`);
-        await updateSubcategoryNameApi(accountId, category, oldSubcategoryName, subcategoryName);
+        // Update the subcategory name if it changed
+        if (nameChanged) {
+          console.log(`Renaming subcategory "${oldSubcategoryName}" in category "${category}".`);
+          await updateSubcategoryNameApi(accountId, category, oldSubcategoryName, subcategoryName);
+        }
+        
+        // Update the subcategory color if it changed
+        if (colorChanged) {
+          console.log(`Updating subcategory "${subcategoryName}" color in category "${category}".`);
+          await updateSubcategoryColorApi(accountId, category, subcategoryName, selectedColor);
+          
+          // Clear the selected color
+          setSelectedColors(prev => {
+            const newColors = { ...prev };
+            if (newColors[category]) {
+              delete newColors[category][subIndex];
+              if (Object.keys(newColors[category]).length === 0) {
+                delete newColors[category];
+              }
+            }
+            return newColors;
+          });
+        }
       }
     } catch (error) {
       console.error(`Error confirming subcategory "${subcategoryName}" in category "${category}":`, error);

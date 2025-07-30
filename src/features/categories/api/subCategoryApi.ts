@@ -69,12 +69,14 @@ export const updateSubcategoryColorApi = async (
   color: CategoryColor
 ): Promise<ApiResponse<void>> => {
   try {
+    console.log('Calling updateSubcategoryColorApi with:', { accountId, categoryName, subcategoryName, color });
     const response = await apiClient.post<ApiResponse<void>>('/api/categories/subcategories/color/update', {
       accountId,
       category_name: categoryName,
       subcategory_name: subcategoryName,
       color: color,
     });
+    console.log('updateSubcategoryColorApi response:', response.data);
     return response.data;
   } catch (error) {
     console.error('Error updating subcategory color:', error);

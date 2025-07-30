@@ -38,38 +38,43 @@ const Category: React.FC<CategoryProps> = ({
   }, [color, selectedColor]);
 
   const handleColorSelect = async (newColor: CategoryColor) => {
-    try {
-      // If we have a selected color change handler, use it (for new categories)
-      if (onSelectedColorChange) {
-        onSelectedColorChange(newColor);
-        setCurrentColor(newColor);
-        return;
-      }
+    console.log('handleColorSelect called with:', { newColor, isSubcategory, categoryName, value, accountId, isEditing });
+    
+    // Always update the local color state for immediate visual feedback
+    setCurrentColor(newColor);
+    
+    // If we have a selected color change handler, use it (for temporary changes in edit mode)
+    if (onSelectedColorChange) {
+      console.log('Using onSelectedColorChange for temporary color change');
+      onSelectedColorChange(newColor);
+      return;
+    }
 
-      // Otherwise, update the color in the backend (for existing categories)
-      if (accountId && value) {
+    // For non-edit mode, update the color in the backend immediately
+    if (accountId && value) {
+      try {
         if (isSubcategory && categoryName) {
+          console.log('Updating subcategory color in backend (non-edit mode)');
           // Update subcategory color
           await updateSubcategoryColor(accountId, categoryName, value, newColor);
         } else {
+          console.log('Updating category color in backend (non-edit mode)');
           // Update category color
           await updateCategoryColor(accountId, value, newColor);
         }
-        setCurrentColor(newColor);
         
         // Call resetHasFetched to trigger a refresh of the data
         if (resetHasFetched) {
           resetHasFetched();
         }
-
-        // Call onChange with the current value to trigger a re-render
-        if (onChange) {
-          onChange(value);
-        }
+      } catch (error) {
+        console.error('Error updating color:', error);
+        showNotification('error', 'Failed to update color. Please try again.', 5000);
+        // Revert the color change on error
+        setCurrentColor(color || selectedColor || CategoryColor.BLUE);
       }
-    } catch (error) {
-      console.error('Error updating color:', error);
-      showNotification('error', 'Failed to update color. Please try again.', 5000);
+    } else {
+      console.log('Missing required data for color update:', { accountId, value });
     }
   };
 

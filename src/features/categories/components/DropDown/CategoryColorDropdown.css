@@ -8,6 +8,7 @@
 .category-cell .actions .category-color-dropdown {
   position: relative;
   display: inline-block;
+  z-index: var(--z-index-dropdown);
 }
 
 /* ========================================
@@ -59,18 +60,15 @@
    4. Dropdown Options Container
    ======================================== */
 .category-cell .actions .category-color-dropdown .color-options {
-  position: absolute;
-  top: calc(100% + var(--spacing-xs));
-  left: 0;
   background: var(--neutral-100);
   border: 1px solid var(--neutral-300);
   border-radius: var(--border-radius-md);
   padding: var(--spacing-xs);
   display: grid;
   grid-template-columns: repeat(5, 1fr);
-  z-index: 9999;
   box-shadow: var(--shadow-md);
   width: max-content;
+  max-width: 200px;
 }
 
 /* ========================================
