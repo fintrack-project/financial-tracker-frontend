@@ -206,25 +206,27 @@ const CategoriesTable: React.FC<CategoriesTableProps> = ({
                       />
                     </li>
                   ))}
-                  <li className="add-subcategory-container">
-                    <IconButton
-                      type="add"
-                      onClick={() => subcategoryService.addSubcategory(category)}
-                      label="Add Subcategory"
-                    />
-                  </li>
                 </ul>
+                <div className="add-subcategory-container">
+                  <IconButton
+                    type="add"
+                    onClick={() => subcategoryService.addSubcategory(category)}
+                    label="Add Subcategory"
+                  />
+                </div>
               </td>
             </tr>
           ))}
           {categories.length < 3 && (
             <tr>
               <td colSpan={2}>
-                <IconButton
-                  type="add"
-                  onClick={() => categoryService.addCategory()}
-                  label="Add Category"
-                />
+                <div className="add-category-container">
+                  <IconButton
+                    type="add"
+                    onClick={() => categoryService.addCategory()}
+                    label="Add Category"
+                  />
+                </div>
               </td>
             </tr>
           )}

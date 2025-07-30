@@ -156,6 +156,57 @@
   display: flex;
   justify-content: center;
   margin-top: var(--spacing-xs);
+  pointer-events: auto;
+  isolation: isolate;
+}
+
+/* Prevent add button from triggering hover effects on other elements */
+.add-subcategory-container:hover {
+  z-index: 1;
+}
+
+.add-subcategory-container .icon-button {
+  pointer-events: auto;
+}
+
+/* Add category button container */
+.add-category-container {
+  display: flex;
+  justify-content: center;
+  margin-top: var(--spacing-xs);
+}
+
+/* Mobile Styles for add buttons */
+@media (max-width: 768px) {
+  .add-subcategory-container {
+    margin-top: var(--spacing-sm);
+    margin-bottom: var(--spacing-xs);
+  }
+  
+  .add-subcategory-container .icon-button {
+    width: var(--button-size-small);
+    height: var(--button-size-small);
+  }
+  
+  .add-subcategory-container .icon-button img {
+    width: var(--button-size-small);
+    height: var(--button-size-small);
+  }
+  
+  .add-category-container {
+    margin-top: var(--spacing-sm);
+    margin-bottom: var(--spacing-xs);
+  }
+  
+  .add-category-container .icon-button {
+    width: var(--button-size-small);
+    height: var(--button-size-small);
+  }
+  
+  .add-category-container .icon-button img {
+    width: var(--button-size-small);
+    height: var(--button-size-small);
+  }
 }
 
 /* Responsive Styles */

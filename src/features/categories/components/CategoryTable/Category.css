@@ -208,13 +208,26 @@
   font-style: italic;
 }
 
-/* State Styles */
+/* State Styles - Only apply to direct category cells, not add button containers */
 .category-cell:hover .actions {
   opacity: 1;
   width: auto;
   min-width: auto;
   max-width: none;
   margin-left: var(--spacing-xs);
+}
+
+/* Ensure add button container doesn't trigger category cell hover effects */
+.add-subcategory-container {
+  pointer-events: auto;
+}
+
+.add-subcategory-container:hover .category-cell,
+.add-subcategory-container:hover .category-cell-view,
+.add-subcategory-container:hover .category-cell-edit {
+  filter: none !important;
+  box-shadow: none !important;
+  transform: none !important;
 }
 
 /* Hide color dropdown on hover when not in edit mode */
@@ -226,7 +239,17 @@
 .category-cell-edit:hover {
   filter: brightness(1.1);
   box-shadow: 0 0 8px rgba(255, 255, 255, 0.3);
-  transform: translateY(-1px);
+}
+
+/* Prevent hover effects from cascading to sibling elements */
+.add-subcategory-container {
+  pointer-events: auto;
+}
+
+.add-subcategory-container:hover ~ li .category-cell-view,
+.add-subcategory-container:hover ~ li .category-cell-edit {
+  filter: none;
+  box-shadow: none;
 }
 
 .category-cell-content:hover .category-action-buttons {
@@ -235,7 +258,6 @@
 
 .category-cell .actions .icon-button:hover,
 .category-cell .actions .category-color-dropdown:hover {
-  transform: translateY(-1px);
   color: var(--primary-600);
   box-shadow: none;
   background-color: var(--neutral-200);
@@ -250,7 +272,6 @@
 }
 
 .category-confirm-button:hover {
-  transform: translateY(-1px);
   box-shadow: var(--shadow-sm);
 }
 
@@ -306,7 +327,6 @@
   background: var(--neutral-200);
   border-color: var(--neutral-400);
   box-shadow: var(--shadow-md);
-  transform: translateY(-1px);
 }
 
 .category-cell .actions .icon-button:focus,
