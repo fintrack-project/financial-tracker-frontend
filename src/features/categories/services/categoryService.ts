@@ -82,14 +82,35 @@ export const createCategoryService = (
       } else {
           // Check if the name has changed
           const oldCategoryName = confirmedCategories[index]; // Use the confirmed index
-          if (oldCategoryName === categoryName) {
+          const nameChanged = oldCategoryName !== categoryName;
+          
+          // Check if the color has changed
+          const selectedColor = selectedColors[index];
+          const colorChanged = selectedColor !== undefined;
+          
+          if (!nameChanged && !colorChanged) {
             console.log(`Category "${categoryName}" is unchanged. No request sent.`);
             return;
           }
 
-          // Update the category name while keeping its priority and subcategories
-          console.log(`Renaming category "${oldCategoryName}" to "${categoryName}".`);
-          await updateCategoryNameApi(accountId, oldCategoryName, categoryName);
+          // Update the category name if it changed
+          if (nameChanged) {
+            console.log(`Renaming category "${oldCategoryName}" to "${categoryName}".`);
+            await updateCategoryNameApi(accountId, oldCategoryName, categoryName);
+          }
+          
+          // Update the category color if it changed
+          if (colorChanged) {
+            console.log(`Updating category "${categoryName}" color.`);
+            await updateCategoryColorApi(accountId, categoryName, selectedColor);
+            
+            // Clear the selected color
+            setSelectedColors(prev => {
+              const newColors = { ...prev };
+              delete newColors[index];
+              return newColors;
+            });
+          }
       }
       
       console.log(`Confirmed Categories after marking:"${Array.from(categories)}"`);

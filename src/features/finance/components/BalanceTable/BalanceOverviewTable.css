@@ -126,7 +126,7 @@
   border: 1px solid var(--table-header-border);
   border-radius: var(--border-radius-md);
   box-shadow: var(--shadow-sm);
-  z-index: 1000;
+  z-index: var(--z-index-dropdown);
   min-width: 160px;
 }
 
