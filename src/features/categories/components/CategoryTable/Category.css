@@ -217,6 +217,11 @@
   margin-left: var(--spacing-xs);
 }
 
+/* Hide color dropdown on hover when not in edit mode */
+.category-cell-view:hover .actions .category-color-dropdown {
+  display: none;
+}
+
 .category-cell-view:hover,
 .category-cell-edit:hover {
   filter: brightness(1.1);
