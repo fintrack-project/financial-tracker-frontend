@@ -1,7 +1,7 @@
 import React from 'react';
 import { screen, fireEvent } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { render } from '../../../../shared/test-utils';
+import { render } from '../../../../../shared/utils/test-utils';
 import TransactionTable from '../../../../../features/finance/components/BalanceTable/TransactionTable';
 
 // Mock the shared components

@@ -1,6 +1,6 @@
 import React from 'react';
 import { screen } from '@testing-library/react';
-import { render } from './shared/test-utils';
+import { render } from '../shared/utils/test-utils';
 
 // Mock the entire App component to avoid axios ES modules issue
 jest.mock('../App', () => {

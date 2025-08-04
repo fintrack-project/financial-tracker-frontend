@@ -1,6 +1,6 @@
 import React from 'react';
 import { screen } from '@testing-library/react';
-import { render } from '../../../../shared/test-utils';
+import { render } from '../../../../../shared/utils/test-utils';
 import { CategoryColor } from '../../../../../features/categories/types/CategoryTypes';
 
 // Mock the entire CategoriesTable component to avoid axios import issues
@@ -17,13 +17,12 @@ jest.mock('../../../../../features/categories/components/CategoryTable/Categorie
     subcategoryColors: { [category: string]: { [subcategory: string]: CategoryColor } }; 
   }) {
     return (
-      <div data-testid="categories-table">
-        <table>
+      <div data-testid="categories-table" className="categories-table-container">
+        <table className="categories-table">
           <thead>
             <tr>
-              <th>Categories</th>
+              <th>Category Name</th>
               <th>Subcategories</th>
-              <th>Actions</th>
             </tr>
           </thead>
           <tbody>
@@ -31,21 +30,30 @@ jest.mock('../../../../../features/categories/components/CategoryTable/Categorie
               <tr key={index} data-testid={`category-row-${index}`}>
                 <td data-testid={`category-name-${index}`}>{category}</td>
                 <td>
-                  {subcategories[category]?.map((subcategory, subIndex) => (
-                    <div key={subIndex} data-testid={`subcategory-${index}-${subIndex}`}>
-                      {subcategory}
-                    </div>
-                  ))}
-                </td>
-                <td>
-                  <button data-testid={`edit-category-${index}`}>Edit</button>
-                  <button data-testid={`delete-category-${index}`}>Delete</button>
+                  <ul>
+                    {subcategories[category]?.map((subcategory, subIndex) => (
+                      <li key={subIndex} data-testid={`subcategory-${index}-${subIndex}`}>
+                        {subcategory}
+                      </li>
+                    ))}
+                  </ul>
+                  <div className="add-subcategory-container">
+                    <button data-testid={`add-subcategory-${index}`}>Add Subcategory</button>
+                  </div>
                 </td>
               </tr>
             ))}
+            {categories.length < 3 && (
+              <tr>
+                <td colSpan={2}>
+                  <div className="add-category-container">
+                    <button data-testid="add-category">Add Category</button>
+                  </div>
+                </td>
+              </tr>
+            )}
           </tbody>
         </table>
-        <button data-testid="add-category">Add Category</button>
       </div>
     );
   };
@@ -114,19 +122,46 @@ describe('CategoriesTable Component', () => {
       expect(screen.getByText('Movies')).toBeInTheDocument();
     });
 
-    test('should render edit and delete buttons for categories', () => {
-      render(<CategoriesTable {...defaultProps} />);
+    test('should render add category button when less than 3 categories', () => {
+      const fewerCategories = ['Food', 'Transportation'];
+      const fewerSubcategories = {
+        'Food': ['Groceries', 'Restaurants'],
+        'Transportation': ['Gas', 'Public Transit'],
+      };
+      const fewerCategoryColors = {
+        'Food': CategoryColor.RED,
+        'Transportation': CategoryColor.GREEN,
+      };
+      const fewerSubcategoryColors = {
+        'Food': {
+          'Groceries': CategoryColor.RED,
+          'Restaurants': CategoryColor.ORANGE,
+        },
+        'Transportation': {
+          'Gas': CategoryColor.GREEN,
+          'Public Transit': CategoryColor.CYAN,
+        },
+      };
 
-      expect(screen.getByTestId('edit-category-0')).toBeInTheDocument();
-      expect(screen.getByTestId('delete-category-0')).toBeInTheDocument();
-      expect(screen.getByTestId('edit-category-1')).toBeInTheDocument();
-      expect(screen.getByTestId('delete-category-1')).toBeInTheDocument();
-    });
-
-    test('should render add category button', () => {
-      render(<CategoriesTable {...defaultProps} />);
+      render(
+        <CategoriesTable 
+          {...defaultProps} 
+          categories={fewerCategories} 
+          subcategories={fewerSubcategories} 
+          categoryColors={fewerCategoryColors}
+          subcategoryColors={fewerSubcategoryColors}
+        />
+      );
 
       expect(screen.getByTestId('add-category')).toBeInTheDocument();
+    });
+
+    test('should render add subcategory buttons for each category', () => {
+      render(<CategoriesTable {...defaultProps} />);
+
+      expect(screen.getByTestId('add-subcategory-0')).toBeInTheDocument();
+      expect(screen.getByTestId('add-subcategory-1')).toBeInTheDocument();
+      expect(screen.getByTestId('add-subcategory-2')).toBeInTheDocument();
     });
   });
 
@@ -136,6 +171,8 @@ describe('CategoriesTable Component', () => {
 
       expect(screen.getByTestId('categories-table')).toBeInTheDocument();
       // Should still render the table structure even with no categories
+      // Since there are 0 categories (less than 3), the add category button should be present
+      expect(screen.getByTestId('add-category')).toBeInTheDocument();
     });
 
     test('should handle categories with no subcategories', () => {
@@ -166,6 +203,40 @@ describe('CategoriesTable Component', () => {
       expect(screen.getByText('Food')).toBeInTheDocument();
       expect(screen.getByText('Transportation')).toBeInTheDocument();
     });
+
+    test('should not show add category button when 3 or more categories', () => {
+      const manyCategories = ['Food', 'Transportation', 'Entertainment', 'Shopping'];
+      const manySubcategories = {
+        'Food': ['Groceries'],
+        'Transportation': ['Gas'],
+        'Entertainment': ['Movies'],
+        'Shopping': ['Clothes'],
+      };
+      const manyCategoryColors = {
+        'Food': CategoryColor.RED,
+        'Transportation': CategoryColor.GREEN,
+        'Entertainment': CategoryColor.BLUE,
+        'Shopping': CategoryColor.PURPLE,
+      };
+      const manySubcategoryColors = {
+        'Food': { 'Groceries': CategoryColor.RED },
+        'Transportation': { 'Gas': CategoryColor.GREEN },
+        'Entertainment': { 'Movies': CategoryColor.BLUE },
+        'Shopping': { 'Clothes': CategoryColor.PURPLE },
+      };
+
+      render(
+        <CategoriesTable 
+          {...defaultProps} 
+          categories={manyCategories} 
+          subcategories={manySubcategories} 
+          categoryColors={manyCategoryColors}
+          subcategoryColors={manySubcategoryColors}
+        />
+      );
+
+      expect(screen.queryByTestId('add-category')).not.toBeInTheDocument();
+    });
   });
 
   describe('Accessibility', () => {
@@ -176,21 +247,16 @@ describe('CategoriesTable Component', () => {
       expect(table).toBeInTheDocument();
 
       const headers = screen.getAllByRole('columnheader');
-      expect(headers.length).toBeGreaterThan(0);
+      expect(headers).toHaveLength(2);
+      expect(headers[0]).toHaveTextContent('Category Name');
+      expect(headers[1]).toHaveTextContent('Subcategories');
     });
 
-    test('should have proper button structure', () => {
+    test('should have proper list structure for subcategories', () => {
       render(<CategoriesTable {...defaultProps} />);
 
-      const editButtons = screen.getAllByTestId(/edit-category-/);
-      editButtons.forEach(button => {
-        expect(button).toBeInTheDocument();
-      });
-
-      const deleteButtons = screen.getAllByTestId(/delete-category-/);
-      deleteButtons.forEach(button => {
-        expect(button).toBeInTheDocument();
-      });
+      const lists = screen.getAllByRole('list');
+      expect(lists.length).toBeGreaterThan(0);
     });
   });
 }); 

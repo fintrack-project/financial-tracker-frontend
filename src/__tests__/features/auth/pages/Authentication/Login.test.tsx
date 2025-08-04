@@ -1,6 +1,6 @@
 import React from 'react';
 import { screen } from '@testing-library/react';
-import { render } from '../../../../shared/test-utils';
+import { render } from '../../../../../shared/utils/test-utils';
 
 // Mock the Login component as a static element
 jest.mock('../../../../../features/auth/pages/Authentication/Login', () => ({
