@@ -36,7 +36,7 @@ jest.mock('../../../../../shared/components/Card/Icon', () => {
   }: { 
     icon: React.ReactNode; 
   }) {
-    return <div data-testid="icon">{icon}</div>;
+    return <div data-testid="icon">📊</div>;
   };
 });
 

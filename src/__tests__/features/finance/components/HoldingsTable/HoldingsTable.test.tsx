@@ -33,7 +33,7 @@ jest.mock('../../../../../shared/components/Card/Icon', () => {
     className?: string; 
     'aria-hidden'?: boolean; 
   }) {
-    return <div data-testid="icon" className={className} aria-hidden={ariaHidden}>{icon}</div>;
+    return <div data-testid="icon" className={className} aria-hidden={ariaHidden}>📊</div>;
   };
 });
 
