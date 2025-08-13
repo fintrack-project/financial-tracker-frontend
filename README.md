@@ -436,7 +436,7 @@ class ErrorBoundary extends React.Component {
 
 ### **Planned Features**
 - **Progressive Web App**: Offline capabilities and app installation
-- **Real-time Updates**: API polling for live data (WebSocket planned)
+- **Real-time Updates**: API polling for live data
 - **Advanced Charts**: More sophisticated data visualization
 - **Mobile App**: React Native cross-platform application
 - **AI Integration**: Machine learning-powered insights
